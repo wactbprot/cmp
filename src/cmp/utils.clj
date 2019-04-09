@@ -11,9 +11,8 @@
 (defn gen-st-key [path-vec]
   (string/join sep path-vec))
 
-(defn gen-st-value [val-m]
-  (print "-----")
-  (print val-m)
-  (print "-----")
-  ;; (json/write-str   val-m)
-  )
+(defn gen-st-value [val-map]
+  (json/write-str val-map))
+
+(defn get-key-and-map [v]
+  {:path (key v) :value (v 1)})

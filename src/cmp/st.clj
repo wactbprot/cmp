@@ -7,13 +7,12 @@
 (defmacro wcar* [& body] `(car/wcar conn ~@body))
 
 (defn distrib-exchange [main-path {exchange :Exchange}]
+  (def struct-path "exchange")
   (map (fn [v]
-         (def struct-path "exchange")
-         (def elem-path (name (key v)))
-         (def st-key (utils/gen-st-key [main-path struct-path elem-path]))
-         (def st-val (utils/gen-st-value  v))
-         (print st-val)) exchange)
-  )
+         (let [{elem-path :path value :value} (utils/get-key-and-map v)]
+           (def st-key (utils/gen-st-key [main-path struct-path elem-path]))
+           (def st-value (utils/gen-st-value value))
+           (wcar* (car/set st-key st-value)))) exchange))
 ;; (wcar* (car/ping))
 
 (defn distrib [{id :_id rev :_rev mp :Mp}]
