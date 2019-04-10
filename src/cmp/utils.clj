@@ -15,4 +15,4 @@
   (json/write-str val-map))
 
 (defn get-key-and-map [v]
-  {:path (key v) :value (v 1)})
+  {:path (name (key v)) :value (v 1)})
