@@ -7,15 +7,33 @@
 (defmacro wcar* [& body] `(car/wcar conn ~@body))
 
 (defn distrib-exchange [main-path {exchange :Exchange}]
-  (def struct-path "exchange")
-  (map (fn [v]
-         (let [{elem-path :path value :value} (utils/get-key-and-map v)]
-           (def st-key (utils/gen-st-key [main-path struct-path elem-path]))
-           (def st-value (utils/gen-st-value value))
-           (wcar* (car/set st-key st-value)))) exchange))
-;; (wcar* (car/ping))
+  (map (fn [e]
+         (let [{elem-path :path value :value} (utils/get-key-and-map e)]
+           (def k (utils/gen-st-key [main-path "exchange" elem-path]))
+           (def v (utils/gen-st-value value))
+           (wcar* (car/set k v))))
+       exchange))
+
+(defn get-keys [path]
+  (def k (utils/gen-st-key [path "*"]))
+  (wcar* (car/keys k)))
 
 (defn distrib [{id :_id rev :_rev mp :Mp}]
-  (def main-path (utils/extr-main-path id))
-  (distrib-exchange main-path mp))
+  (def p (utils/extr-main-path id))
+  (clear-exchange p)
+  (distrib-exchange p mp))
 
+(defn del-keys [ks]
+  (map (fn [k]
+         (wcar* (car/del k)))
+         ks))
+
+(defn clear [id]
+  (def p (utils/extr-main-path id))
+  (def k (get-keys p))
+  (del-keys k))
+
+(defn clear-exchange [main-path]
+  (def p (utils/gen-st-key [main-path "exchange"]))
+  (def k (get-keys p))
+  (del-keys k))
