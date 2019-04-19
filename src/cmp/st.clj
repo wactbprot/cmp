@@ -16,24 +16,45 @@
          ks))
 
 (defn clear [id]
-  (def p (utils/extr-main-path id))
-  (def k (get-keys p))
-  (del-keys k))
+  (del-keys
+   (get-keys
+    (utils/extr-main-path id))))
 
 (defn clear-exchange [main-path]
-  (def p (utils/gen-st-key [main-path "exchange"]))
-  (def k (get-keys p))
-  (del-keys k))
+  (del-keys
+   (get-keys
+    (utils/gen-st-key [main-path "exchange"])))
+  (println "cl done")
+  )
 
 (defn distrib-exchange [main-path {exchange :Exchange}]
-  (map (fn [e]
-         (let [{elem-path :path value :value} (utils/get-key-and-map e)]
-           (def k (utils/gen-st-key [main-path "exchange" elem-path]))
-           (def v (utils/gen-st-value value))
-           (wcar* (car/set k v))))
-       exchange))
+  (doseq [[k v] exchange]
+    (wcar* (car/set
+            (utils/gen-st-key [main-path "exchange" (name k)])
+            (utils/gen-st-value v)))))
+
+(defn distrib-containers [main-path {container :Container}]
+  (map-indexed (fn [i c]
+         (let [{description :Description
+                title :Title
+                ctrl :Ctrl
+                elem :Element} c]
+           (wcar* (car/set
+                   (utils/gen-st-key [main-path "container" i "title"])
+                   (str title)))
+           (wcar* (car/set
+                   (utils/gen-st-key [main-path "container" i "description"])
+                   (str description)))
+           (wcar* (car/set
+                   (utils/gen-st-key [main-path "container" i "ctrl"])
+                   (utils/gen-st-value ctrl)))
+           (wcar* (car/set (utils/gen-st-key [main-path "container" i "elem"])
+                           (utils/gen-st-value elem)))))
+       container))
+
 
 (defn distrib [{id :_id rev :_rev mp :Mp}]
-  (def p (utils/extr-main-path id))
+  (let [p (utils/extr-main-path id)]
   (clear-exchange p)
-  (distrib-exchange p mp))
+  (distrib-exchange p mp)
+  (distrib-containers p mp)))

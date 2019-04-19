@@ -14,5 +14,3 @@
 (defn gen-st-value [val-map]
   (json/write-str val-map))
 
-(defn get-key-and-map [v]
-  {:path (name (key v)) :value (v 1)})
