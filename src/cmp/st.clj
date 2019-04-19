@@ -7,8 +7,7 @@
 (defmacro wcar* [& body] `(car/wcar conn ~@body))
 
 (defn get-keys [path]
-  (def k (utils/gen-st-key [path "*"]))
-  (wcar* (car/keys k)))
+  (wcar* (car/keys (utils/gen-st-key [path "*"]))))
 
 (defn del-keys [ks]
   (map (fn [k]
@@ -20,41 +19,42 @@
    (get-keys
     (utils/extr-main-path id))))
 
-(defn clear-exchange [main-path]
+(defn clear-sub [main-path sup-path]
   (del-keys
    (get-keys
-    (utils/gen-st-key [main-path "exchange"])))
-  (println "cl done")
-  )
+    (utils/gen-st-key [main-path sup-path]))))
 
-(defn distrib-exchange [main-path {exchange :Exchange}]
+(defn distrib-exchange [m-path {exchange :Exchange}]
+  (def e-path "exchange")
   (doseq [[k v] exchange]
     (wcar* (car/set
-            (utils/gen-st-key [main-path "exchange" (name k)])
+            (utils/gen-st-key [m-path e-path (name k)])
             (utils/gen-st-value v)))))
 
-(defn distrib-containers [main-path {container :Container}]
+(defn distrib-containers [m-path {container :Container}]
+  (def e-path "container")
   (map-indexed (fn [i c]
          (let [{description :Description
                 title :Title
                 ctrl :Ctrl
                 elem :Element} c]
            (wcar* (car/set
-                   (utils/gen-st-key [main-path "container" i "title"])
+                   (utils/gen-st-key [m-path e-path i "title"])
                    (str title)))
            (wcar* (car/set
-                   (utils/gen-st-key [main-path "container" i "description"])
+                   (utils/gen-st-key [m-path e-path i "description"])
                    (str description)))
            (wcar* (car/set
-                   (utils/gen-st-key [main-path "container" i "ctrl"])
+                   (utils/gen-st-key [m-path e-path i "ctrl"])
                    (utils/gen-st-value ctrl)))
-           (wcar* (car/set (utils/gen-st-key [main-path "container" i "elem"])
+           (wcar* (car/set (utils/gen-st-key [m-path e-path i "elem"])
                            (utils/gen-st-value elem)))))
        container))
 
 
-(defn distrib [{id :_id rev :_rev mp :Mp}]
-  (let [p (utils/extr-main-path id)]
-  (clear-exchange p)
-  (distrib-exchange p mp)
-  (distrib-containers p mp)))
+(defn distrib [{id :_id rev :_rev mp-def :Mp}]
+  (let [m-path (utils/extr-main-path id)]
+  (clear-sub m-path "exchange")
+  (distrib-exchange m-path mp-def)
+  (clear-sub m-path "container")
+  (distrib-containers m-path mp-def)))
