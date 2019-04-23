@@ -18,6 +18,9 @@
 (defn set-val  [k v]
   (wcar* (car/set k v)))
 
+(defn get-val  [k]
+  (wcar* (car/get k)))
+
 (defmulti clear class)
 (defmethod clear String [k]
   (->> k

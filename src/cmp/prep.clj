@@ -5,11 +5,11 @@
   (:gen-class))
 
 (defn container [path i]
-  (let [def-keys (st/get-keys
+  (let [definition-keys (st/get-keys
                   (u/gen-key [path "container" i "definition"]))]
     (map (fn [k]
            (let [state-key (u/replace-key-level 3 k "state")]
              (st/set-val state-key "start-prep")
-         
+             (print (st/get-val k))
          ))    
-       def-keys)))
+       definition-keys)))
