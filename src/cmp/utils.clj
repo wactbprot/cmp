@@ -14,6 +14,9 @@
 (defn gen-value [val-map]
   (json/write-str val-map))
 
+(defn gen-map [val-json]
+  (json/read-str val-json :key-fn keyword))
+
 (defn replace-key-level [level key replacement]
   (gen-key
    (assoc (string/split  key (re-pattern sep)) level replacement)))
