@@ -7,11 +7,13 @@
 
 (defn container [path i]
   (let [definition-keys (st/get-keys
-                  (u/gen-key [path "container" i "definition"]))]
-    (map (fn [k]
-           (let [state-key (u/replace-key-level 3 k "state")]
-             (st/set-val state-key "start-prep")
-             (println (t/compl (u/gen-map (st/get-val k))))
+                         (u/gen-key [path "container" i "definition"]))]
+    (map
+     (fn [k]
+       (let [state-key (u/replace-key-level 3 k "state")
+             proto-task (u/gen-map (st/get-val k))]
+         (st/set-val state-key "start-prep")
+         
          ))
-         definition-keys)))
+     definition-keys)))
 

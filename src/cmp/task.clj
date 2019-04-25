@@ -7,11 +7,10 @@
   (:gen-class))
 
 (s/def ::TaskName string?)
-(s/def ::proto-task (s/keys :req-un [::TaskName]))
+(s/def ::Replace map?)
+(s/def ::Use map?)
+(s/def ::proto-task (s/keys :req-un [::TaskName]
+                            :opt-un [::Replace ::Use]))
 
-
-(defn compl [proto-task]
-  (println proto-task)
-  (assert (s/valid? ::proto-task proto-task))
-  (println "....")
-  )
+(defn proto-task? [x]
+  (assert (s/valid? ::proto-task x)))
