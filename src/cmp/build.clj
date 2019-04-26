@@ -4,12 +4,11 @@
   (:require [cmp.utils :as utils]
             [cmp.task :as t]
             [cmp.st :as st]
-            [taoensso.timbre :as timbre])
+            [taoensso.timbre :as log])
   (:use [clojure.repl]);; enables e.g. (doc .)
-  (:gen-class)
-  )
+  (:gen-class))
 
-(timbre/set-level! :info)
+(log/set-level! :info)
 
 (defn distrib-exchange [path {exchange :Exchange}]
   (doseq [[k v] exchange]
@@ -19,14 +18,14 @@
 (defn distrib-definition [path {definition :Definition}]
   (doall
    (map-indexed
-    (fn [j s]
+    (fn [i-seq s]
       (doall
        (map-indexed
-        (fn [k p]
-          (let [st-path (utils/gen-key [path "definition" j k])
+        (fn [i-par p]
+          (let [st-path (utils/gen-key [path "definition" i-seq i-par])
                 st-value (utils/gen-value p)]
-            (info "try to write proto task to path: " st-path)
-            (debug "proto task is:" p)
+            (log/info "try to write proto task to path: " st-path)
+            (log/debug "proto task is:" p)
             (t/proto-task? p)
             (st/set-val st-path st-value)))
         s)))
