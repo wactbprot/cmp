@@ -8,7 +8,7 @@
   (:gen-class))
 
 
-(log/set-level! :debug)
+(log/set-level! :error)
 
 (defn container [path i]
   (let [definition-keys (st/get-keys
@@ -17,13 +17,12 @@
      (fn [k]
        (let [state-key (u/replace-key-level 3 k "state")
              proto-task (u/gen-map (st/get-val k))
-             {task :value} (lt/get-task-view proto-task)
-             ]
-
+             {id :id key :key db-task :value} (lt/get-task-view proto-task)]
          (log/info "try to prepair task for key: " k)
-         (log/debug "task is:" task)
-         (t/task? task)
+         (log/debug "task is:" db-task)
+         (t/task? db-task) 
          (st/set-val state-key "start-prep")
+         (t/assemble proto-task db-task)
          ))
-     definition-keys)))
+     definition-keys))) 
 
