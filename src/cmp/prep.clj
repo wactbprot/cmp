@@ -7,7 +7,6 @@
   (:use [clojure.repl]);; enables e.g. (doc .)
   (:gen-class))
 
-
 (log/set-level! :info)
 
 (defn container [path i]
@@ -21,11 +20,8 @@
               {id :id key :key db-task :value} (lt/get-task-view proto-task)]
           (log/info "try to prepair task for key: " k)
           (log/debug "task is:" db-task)
-          (t/task? db-task) 
-          (st/set-val! state-key "start-prep")
-          (t/assemble db-task proto-task)
-          )
-        )
-      definition-keys))
-    ))
+          (assert (t/task? db-task))
+          (st/set-val! state-key "prepairing")
+          (t/assemble db-task proto-task)))
+      definition-keys))))
 

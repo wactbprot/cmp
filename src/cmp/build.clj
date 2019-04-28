@@ -26,7 +26,7 @@
                 st-value (utils/gen-value p)]
             (log/info "try to write proto task to path: " st-path)
             (log/debug "proto task is:" p)
-            (t/proto-task? p)
+            (assert (t/proto-task? p))
             (st/set-val! st-path st-value)))
         s)))
    definition)))

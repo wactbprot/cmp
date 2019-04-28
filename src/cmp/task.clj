@@ -19,27 +19,23 @@
 (s/def ::task (s/keys :req-un [::TaskName ::Action]))
 
 (defn proto-task? [x]
-  (assert (s/valid? ::proto-task x)))
+  (s/valid? ::proto-task x))
 
 (defn task? [x] ;; how to dispatch on :Action
-  (assert (s/valid? ::task x)))
+  (s/valid? ::task x))
 
-(defn gen-re-from-map-keys [m]
-  (let [ks (keys m)
-        sep "|"]
-    (re-pattern (string/join sep ks))))
-
-(defn replace-map-in-task [task m]
+(defn replace-map-in-task
   "Replaces tokens (given in the m) in the task"
+  [task m]
   (let [str-task (json/write-str task)
-        re-keys (gen-re-from-map-keys m)]
+        re-keys (u/gen-re-from-map-keys m)]
     (string/replace str-task re-keys m)))
 
-(defn assemble [db-task proto-task]
+(defn assemble
+  "Assembles the task from different sources in a certain order."
+  [db-task proto-task]
   (let [{replace :Replace use :Use} proto-task
-        {symb-defaults :Defaults} db-task
+        {defaults :Defaults} db-task
         task (dissoc db-task :Defaults)
-        defaults (walk/stringify-keys symb-defaults)]
-    (replace-map-in-task task defaults)
-    )
-  )
+        repl-map- (walk/stringify-keys defaults)]
+    (replace-map-in-task task defaults)))

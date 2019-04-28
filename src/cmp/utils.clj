@@ -23,5 +23,9 @@
 
 (defn replace-key-at-level [level key replacement]
   (gen-key
-   (assoc (string/split  key (re-pattern sep)) level replacement)))
+   (assoc (string/split key (re-pattern sep)) level replacement)))
+
+(defn gen-re-from-map-keys [m]
+  (let [ks (keys m)]
+    (re-pattern (string/join "|" ks))))
 
