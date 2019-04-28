@@ -4,12 +4,13 @@
             [cmp.utils :as u]
             [cmp.build :as b]
             [cmp.prep :as p])
-  (:gen-class))
+  (:gen-class)
+  (:use [clojure.repl]))
 
 (defn main
   "Loads document from long term memory and fetches it to short term memory"
   [id]
-    (b/distrib (lt/get-document id)))
+  (b/distrib (lt/get-document id)))
 
 (defn clear
   [id]

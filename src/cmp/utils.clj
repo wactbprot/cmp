@@ -1,9 +1,13 @@
 (ns cmp.utils
   (:require [clojure.string :as string]
             [clojure.data.json :as json])
+  (:use [clojure.repl])
   (:gen-class))
 
-(def sep "@")
+(def sep
+  "Short-term-database (st) path seperator.
+  Must not be a regex operator"
+  "@")
 
 (defn extr-main-path [id]
   (second (re-matches  #"^mpd-([a-z0-3\-_]*)$" id)))
@@ -17,7 +21,7 @@
 (defn gen-map [val-json]
   (json/read-str val-json :key-fn keyword))
 
-(defn replace-key-level [level key replacement]
+(defn replace-key-at-level [level key replacement]
   (gen-key
    (assoc (string/split  key (re-pattern sep)) level replacement)))
 

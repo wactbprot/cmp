@@ -5,14 +5,14 @@
             [cmp.task :as t]
             [cmp.st :as st]
             [taoensso.timbre :as log])
-  (:use [clojure.repl]);; enables e.g. (doc .)
+  (:use [clojure.repl])
   (:gen-class))
 
 (log/set-level! :info)
 
 (defn distrib-exchange [path {exchange :Exchange}]
   (doseq [[k v] exchange]
-    (st/set-val (utils/gen-key [path "exchange" (name k)])
+    (st/set-val! (utils/gen-key [path "exchange" (name k)])
             (utils/gen-value v))))
 
 (defn distrib-definition [path {definition :Definition}]
@@ -27,7 +27,7 @@
             (log/info "try to write proto task to path: " st-path)
             (log/debug "proto task is:" p)
             (t/proto-task? p)
-            (st/set-val st-path st-value)))
+            (st/set-val! st-path st-value)))
         s)))
    definition)))
 
@@ -41,13 +41,13 @@
              elem :Element
              definition :Definition} c
             e-path "container"]           
-        (st/set-val (utils/gen-key [path e-path i "title"])
+        (st/set-val! (utils/gen-key [path e-path i "title"])
                     (str title))
-        (st/set-val (utils/gen-key [path e-path i "description"])
+        (st/set-val! (utils/gen-key [path e-path i "description"])
                     (str description))
-        (st/set-val (utils/gen-key [path e-path i "ctrl"])
+        (st/set-val! (utils/gen-key [path e-path i "ctrl"])
                     (utils/gen-value ctrl))
-        (st/set-val (utils/gen-key [path e-path i "elem"])
+        (st/set-val! (utils/gen-key [path e-path i "elem"])
                     (utils/gen-value elem))
         (distrib-definition (utils/gen-key [path e-path i]) c)
        ))

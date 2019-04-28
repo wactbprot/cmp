@@ -8,21 +8,24 @@
   (:gen-class))
 
 
-(log/set-level! :error)
+(log/set-level! :info)
 
 (defn container [path i]
   (let [definition-keys (st/get-keys
                          (u/gen-key [path "container" i "definition"]))]
-    (map
-     (fn [k]
-       (let [state-key (u/replace-key-level 3 k "state")
-             proto-task (u/gen-map (st/get-val k))
-             {id :id key :key db-task :value} (lt/get-task-view proto-task)]
-         (log/info "try to prepair task for key: " k)
-         (log/debug "task is:" db-task)
-         (t/task? db-task) 
-         (st/set-val state-key "start-prep")
-         (t/assemble proto-task db-task)
-         ))
-     definition-keys))) 
+    (doall 
+     (map
+      (fn [k]
+        (let [state-key (u/replace-key-at-level 3 k "state")
+              proto-task (u/gen-map (st/get-val k))
+              {id :id key :key db-task :value} (lt/get-task-view proto-task)]
+          (log/info "try to prepair task for key: " k)
+          (log/debug "task is:" db-task)
+          (t/task? db-task) 
+          (st/set-val! state-key "start-prep")
+          (t/assemble db-task proto-task)
+          )
+        )
+      definition-keys))
+    ))
 

@@ -1,7 +1,7 @@
 (ns cmp.lt
   (:require [com.ashafa.clutch :as couch]
             [taoensso.timbre :as log])
-  (:use [clojure.repl]);; enables e.g. (doc .)
+  (:use [clojure.repl])
   (:gen-class))
 
 (log/set-level! :debug)
