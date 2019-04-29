@@ -7,7 +7,7 @@
   (:gen-class)
   (:use [clojure.repl]))
 
-(defn main
+(defn load
   "Loads document from long term memory and fetches it to short term memory"
   [id]
   (b/distrib (lt/get-document id)))
@@ -19,5 +19,5 @@
 
 (defn prep
   [id i]
-  "Loads the ith container"
+  "Prepairs the ith container"
   (p/container (u/extr-main-path id) i))
