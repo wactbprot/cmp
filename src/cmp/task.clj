@@ -3,6 +3,7 @@
     :doc "Builds up the short term memory with given the mp-definition."}
   (:require [cmp.utils :as u]
             [clojure.spec.alpha :as s]
+            [taoensso.timbre :as log]
             [clojure.data.json :as json]
             [clojure.string :as string]
             [clojure.walk :as walk]
@@ -37,5 +38,6 @@
   (let [{replace :Replace use :Use} proto-task
         {defaults :Defaults} db-task
         task (dissoc db-task :Defaults)
-        repl-map- (walk/stringify-keys defaults)]
-    (replace-map-in-task task defaults)))
+        repl-map (walk/stringify-keys defaults)]
+    (log/debug repl-map)
+    (replace-map-in-task task repl-map)))
