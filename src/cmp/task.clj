@@ -3,6 +3,7 @@
     :doc "Builds up the short term memory with given the mp-definition."}
   (:require [cmp.utils :as u]
             [clojure.spec.alpha :as s]
+            [taoensso.timbre :as log]
             [clojure.data.json :as json]
             [clojure.string :as string]
             [clojure.walk :as walk]
@@ -13,19 +14,13 @@
 (s/def ::Action string?)
 (s/def ::Replace map?)
 (s/def ::Use map?)
-
 (s/def ::Host string?)
 (s/def ::Port string?)
-
 (s/def ::Value string?)
 (s/def ::DocPath string?)
-
 (s/def ::proto-task (s/keys :req-un [::TaskName]
                             :opt-un [::Replace ::Use]))
-
 (s/def ::task (s/keys :req-un [::TaskName ::Action]))
-
-
 (s/def ::tcp-task (s/keys :req-un [::TaskName ::Host ::Port]
                             :opt-un [::DocPath]))
 
