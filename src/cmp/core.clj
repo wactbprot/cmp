@@ -7,17 +7,17 @@
   (:gen-class)
   (:use [clojure.repl]))
 
-(defn load
+(defn load-mp
   "Loads document from long term memory and fetches it to short term memory"
   [id]
   (b/distrib (lt/get-document id)))
 
-(defn clear
-  [id]
+(defn clear-mp
   "Clears all short term memory for the given id"
+  [id]
   (st/clear (u/extr-main-path id)))
 
-(defn prep
-  [id i]
+(defn prep-mp-cont
   "Prepairs the ith container"
+  [id i]
   (p/container (u/extr-main-path id) i))

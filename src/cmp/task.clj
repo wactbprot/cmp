@@ -13,23 +13,41 @@
 (s/def ::Action string?)
 (s/def ::Replace map?)
 (s/def ::Use map?)
+
+(s/def ::Host string?)
+(s/def ::Port string?)
+
+(s/def ::Value string?)
+(s/def ::DocPath string?)
+
 (s/def ::proto-task (s/keys :req-un [::TaskName]
                             :opt-un [::Replace ::Use]))
 
 (s/def ::task (s/keys :req-un [::TaskName ::Action]))
 
+
+(s/def ::tcp-task (s/keys :req-un [::TaskName ::Host ::Port]
+                            :opt-un [::DocPath]))
+
 (defn proto-task? [x]
   (s/valid? ::proto-task x))
 
-(defn task? [x] ;; how to dispatch on :Action
-  (s/valid? ::task x))
+(defmulti task?
+  (fn [m] (m :Action)))
+
+(defmethod task? "TCP" [m]
+  (s/valid? ::tcp-task m))
+
+(defmethod task? :default [m]
+  (s/valid? ::task m))
 
 (defn replace-map-in-task
   "Replaces tokens (given in the m) in the task"
-  [task m]
-  (let [str-task (json/write-str task)
-        re-keys (u/gen-re-from-map-keys m)]
-    (string/replace str-task re-keys m)))
+  ([task m]
+   (let [str-task (json/write-str task)
+         re-keys (u/gen-re-from-map-keys m)]
+     (string/replace str-task re-keys m))))
+
 
 (defn assemble
   "Assembles the task from different sources in a certain order."
