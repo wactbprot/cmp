@@ -5,6 +5,7 @@
             [clojure.spec.alpha :as s]
             [taoensso.timbre :as log]
             [clojure.data.json :as json]
+            [clojure.walk :as walk]
             [clojure.string :as string]
             [cmp.st :as st])
   (:gen-class))
@@ -35,6 +36,22 @@
 (defmethod task? :default [m]
   (s/valid? ::task m))
 
+(defn global-defaults [path]
+    ;;; def["@standard"]   = std;
+    ;;; def["@mpname"]     = mp;
+    ;;; def["@devicename"] = dn;
+    ;;; def["@time"]       = d.getTime();
+    ;;; def["@cdids"]      = idArr;
+  (let [d (u/get-date-object)
+        g {"@hour" (u/get-hour d)
+           "@minute" (u/get-min d)
+           "@second" (u/get-sec d)
+           "@year" (u/get-year d)
+           "@month" (u/get-month d)
+           "@day" (u/get-day d)
+           }]
+    g))
+
 (defn replace-map-in-task
   "Replaces tokens (given in the m) in the task"
   [task m]
@@ -48,7 +65,7 @@
 
 (defn assemble
   "Assembles the task from different sources in a certain order."
-  [db-task proto-task]
+  [db-task proto-task globals]
   (let [{replace :Replace use :Use} proto-task
         {defaults :Defaults} db-task
         task (dissoc db-task :Defaults)]

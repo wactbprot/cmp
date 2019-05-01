@@ -17,11 +17,12 @@
       (fn [k]
         (let [state-key (u/replace-key-at-level 3 k "state")
               proto-task (u/gen-map (st/get-val k))
-              {id :id key :key db-task :value} (lt/get-task-view proto-task)]
+              {id :id key :key db-task :value} (lt/get-task-view proto-task)
+              globals (t/global-defaults path)]
           (log/info "try to prepair task for key: " k)
           (log/debug "task is:" db-task)
           (assert (t/task? db-task))
           (st/set-val! state-key "prepairing")
-          (t/assemble db-task proto-task)))
+          (t/assemble db-task proto-task globals)))
       definition-keys))))
 
