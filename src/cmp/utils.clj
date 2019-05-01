@@ -1,5 +1,6 @@
 (ns cmp.utils
   (:require [clojure.string :as string]
+            [clojure.walk :as walk]
             [clojure.data.json :as json])
   (:use [clojure.repl])
   (:gen-class))
@@ -29,3 +30,5 @@
   (let [ks (keys m)]
     (re-pattern (string/join "|" ks))))
 
+(defn apply-to-map-values [f m]
+  (into {} (map (fn [[k v]] [k (f v)]) m)))

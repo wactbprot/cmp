@@ -6,7 +6,6 @@
             [taoensso.timbre :as log]
             [clojure.data.json :as json]
             [clojure.string :as string]
-            [clojure.walk :as walk]
             [cmp.st :as st])
   (:gen-class))
 
@@ -38,17 +37,19 @@
 
 (defn replace-map-in-task
   "Replaces tokens (given in the m) in the task"
-  ([task m]
-   (let [str-task (json/write-str task)
-         re-keys (u/gen-re-from-map-keys m)]
-     (string/replace str-task re-keys m))))
-
+  [task m]
+  (if m
+    (let [task-s (u/gen-value task)
+          m-k (walk/stringify-keys m)
+          m-v (u/apply-to-map-values str m-k)
+          re-k (u/gen-re-from-map-keys m-k)]
+      (u/gen-map (string/replace task-s re-k  m-v)))
+    task))
 
 (defn assemble
   "Assembles the task from different sources in a certain order."
   [db-task proto-task]
   (let [{replace :Replace use :Use} proto-task
         {defaults :Defaults} db-task
-        task (dissoc db-task :Defaults)
-        repl-map- (walk/stringify-keys defaults)]
+        task (dissoc db-task :Defaults)]
     (replace-map-in-task task defaults)))
