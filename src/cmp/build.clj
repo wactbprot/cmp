@@ -10,12 +10,16 @@
 
 (log/set-level! :info)
 
-(defn distrib-exchange [path {exchange :Exchange}]
+(defn store-exchange
+  "Stores the exchange data."
+  [path {exchange :Exchange}]
   (doseq [[k v] exchange]
     (st/set-val! (utils/gen-key [path "exchange" (name k)])
             (utils/gen-value v))))
 
-(defn distrib-definition [path {definition :Definition}]
+(defn store-definition
+  "Stores the definition section."
+  [path {definition :Definition}]
   (doall
    (map-indexed
     (fn [i-seq s]
@@ -31,7 +35,9 @@
         s)))
    definition)))
 
-(defn distrib-containers [path {container :Container}]
+(defn store-containers
+  "Stores the containers"
+  [path {container :Container}]
   (doall
    (map-indexed
     (fn [i c]
@@ -42,20 +48,33 @@
              definition :Definition} c
             e-path "container"]           
         (st/set-val! (utils/gen-key [path e-path i "title"])
-                    (str title))
+                     title)
         (st/set-val! (utils/gen-key [path e-path i "description"])
-                    (str description))
+                     description)
         (st/set-val! (utils/gen-key [path e-path i "ctrl"])
-                    (utils/gen-value ctrl))
+                     (utils/gen-value ctrl))
         (st/set-val! (utils/gen-key [path e-path i "elem"])
-                    (utils/gen-value elem))
-        (distrib-definition (utils/gen-key [path e-path i]) c)
-       ))
+                     (utils/gen-value elem))
+        (store-definition (utils/gen-key [path e-path i]) c)
+        ))
     container)))
 
-(defn distrib [{id :_id rev :_rev mp-def :Mp}]
+(defn store-meta
+  "Stores the mp meta data."
+  [path {standard :Standard name :Name descr :Describtion}]
+  (let [e-path "meta"]
+    (st/set-val! (utils/gen-key [path e-path "standard"])
+                 standard)
+    (st/set-val! (utils/gen-key [path e-path "name"])
+                 name)
+    (st/set-val! (utils/gen-key [path e-path "description"])
+                 descr)))
+
+(defn store [{id :_id rev :_rev mp-def :Mp}]
   (let [path (utils/extr-main-path id)]
+    (st/clear [path "meta"])
+    (store-meta path mp-def)
     (st/clear [path "exchange"])
-    (distrib-exchange path mp-def)
+    (store-exchange path mp-def)
     (st/clear [path "container"])
-    (distrib-containers path mp-def)))
+    (store-containers path mp-def)))

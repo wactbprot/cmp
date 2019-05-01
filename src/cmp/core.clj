@@ -10,7 +10,7 @@
 (defn load-mp
   "Loads document from long term memory and fetches it to short term memory"
   [id]
-  (b/distrib (lt/get-document id)))
+  (b/store (lt/get-document id)))
 
 (defn clear-mp
   "Clears all short term memory for the given id"
