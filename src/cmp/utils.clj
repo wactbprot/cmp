@@ -3,6 +3,7 @@
             [clojure.walk :as walk]
             [clj-time.core :as tm]
             [clj-time.format :as tm-f]
+            [clj-time.coerce :as tm-c]
             [clojure.data.json :as json])
   (:use [clojure.repl])
   (:gen-class))
@@ -43,6 +44,12 @@
 
 (defn get-year [d]
   (tm-f/unparse year-f d))
+
+(defn get-time
+  ([]
+   (str (tm-c/to-long (get-date-object))))
+  ([d]
+   (str (tm-c/to-long d))))
 
 (defn extr-main-path [id]
   (second (re-matches  #"^mpd-([a-z0-3\-_]*)$" id)))
