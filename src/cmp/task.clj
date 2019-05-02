@@ -52,7 +52,7 @@
            }]
     g))
 
-(defn replace-map-in-task
+(defn replace-map
   "Replaces tokens (given in the m) in the task"
   [task m]
   (if m
@@ -64,9 +64,12 @@
     task))
 
 (defn assemble
-  "Assembles the task from different sources in a certain order."
+  "Assembles the task from different sources in a certain order.
+  Reminder: customer tasks; e.g. the @devicename key belongs
+  to Customer=true"
   [db-task proto-task globals]
   (let [{replace :Replace use :Use} proto-task
         {defaults :Defaults} db-task
         task (dissoc db-task :Defaults)]
-    (replace-map-in-task task defaults)))
+    ;; assoc globals to defaults
+    (replace-map task defaults)))
