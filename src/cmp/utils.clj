@@ -67,7 +67,8 @@
   (gen-key
    (assoc (string/split key (re-pattern sep)) level replacement)))
 
-(defn gen-re-from-map-keys [m]
+(defn gen-re-from-map-keys
+  [m]
   (let [ks (keys m)]
     (re-pattern (string/join "|" ks))))
 

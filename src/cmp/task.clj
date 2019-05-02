@@ -37,23 +37,23 @@
   (s/valid? ::task m))
 
 (defn global-defaults [path]
-    ;;; def["@standard"]   = std;
-    ;;; def["@mpname"]     = mp;
     ;;; def["@devicename"] = dn;
-    ;;; def["@time"]       = d.getTime();
     ;;; def["@cdids"]      = idArr;
   (let [d (u/get-date-object)
-        g {"@hour" (u/get-hour d)
+        g {"@standard" (st/get-val (u/gen-key [path "meta" "standard"]))
+           "@mpname" (st/get-val (u/gen-key [path "meta" "name"]))
+           "@hour" (u/get-hour d)
            "@minute" (u/get-min d)
            "@second" (u/get-sec d)
            "@year" (u/get-year d)
            "@month" (u/get-month d)
            "@day" (u/get-day d)
+           "@time" (u/get-time d)
            }]
     g))
 
 (defn replace-map
-  "Replaces tokens (given in the m) in the task"
+  "Replaces tokens (given in the m) in the task."
   [task m]
   (if m
     (let [task-s (u/gen-value task)
