@@ -74,3 +74,11 @@
 
 (defn apply-to-map-values [f m]
   (into {} (map (fn [[k v]] [k (f v)]) m)))
+
+(defn make-map-regexable
+  [m]
+  (->> m
+       (apply-to-map-values str)
+       (walk/stringify-keys)))
+ 
+

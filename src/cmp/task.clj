@@ -36,13 +36,11 @@
 (defmethod task? :default [m]
   (s/valid? ::task m))
 
-(defn global-defaults [path]
+(defn global-defaults []
     ;;; def["@devicename"] = dn;
     ;;; def["@cdids"]      = idArr;
   (let [d (u/get-date-object)
-        g {"@standard" (st/get-val (u/gen-key [path "meta" "standard"]))
-           "@mpname" (st/get-val (u/gen-key [path "meta" "name"]))
-           "@hour" (u/get-hour d)
+        g {"@hour" (u/get-hour d)
            "@minute" (u/get-min d)
            "@second" (u/get-sec d)
            "@year" (u/get-year d)
@@ -57,19 +55,15 @@
   [task m]
   (if m
     (let [task-s (u/gen-value task)
-          m-k (walk/stringify-keys m)
-          m-v (u/apply-to-map-values str m-k)
-          re-k (u/gen-re-from-map-keys m-k)]
+          re-k (u/gen-re-from-map-keys m)]
       (u/gen-map (string/replace task-s re-k  m-v)))
     task))
 
-(defn assemble
-  "Assembles the task from different sources in a certain order.
-  Reminder: customer tasks; e.g. the @devicename key belongs
-  to Customer=true"
-  [db-task proto-task globals]
-  (let [{replace :Replace use :Use} proto-task
-        {defaults :Defaults} db-task
-        task (dissoc db-task :Defaults)]
-    ;; assoc globals to defaults
-    (replace-map task defaults)))
+;; (defn assemble
+;;   "Assembles the task from different sources in a certain order.
+;;   Reminder: customer tasks; e.g. the @devicename key belongs
+;;   to Customer=true"
+;;   [meta-task]
+;;   (let []
+;;     ;; assoc globals to defaults
+;;     (replace-map task defaults)))
