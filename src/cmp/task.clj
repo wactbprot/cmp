@@ -14,12 +14,13 @@
 (s/def ::Action string?)
 (s/def ::Replace map?)
 (s/def ::Use map?)
+(s/def ::Customer boolean?))
 (s/def ::Host string?)
 (s/def ::Port string?)
 (s/def ::Value string?)
 (s/def ::DocPath string?)
 (s/def ::proto-task (s/keys :req-un [::TaskName]
-                            :opt-un [::Replace ::Use]))
+                            :opt-un [::Replace ::Use ::Customer]))
 (s/def ::task (s/keys :req-un [::TaskName ::Action]))
 (s/def ::tcp-task (s/keys :req-un [::TaskName ::Host ::Port]
                             :opt-un [::DocPath]))
@@ -37,8 +38,6 @@
   (s/valid? ::task m))
 
 (defn global-defaults []
-    ;;; def["@devicename"] = dn;
-    ;;; def["@cdids"]      = idArr;
   (let [d (u/get-date-object)
         g {"@hour" (u/get-hour d)
            "@minute" (u/get-min d)
@@ -56,7 +55,7 @@
   (if m
     (let [task-s (u/gen-value task)
           re-k (u/gen-re-from-map-keys m)]
-      (u/gen-map (string/replace task-s re-k  m-v)))
+      (u/gen-map (string/replace task-s re-k m)))
     task))
 
 ;; (defn assemble

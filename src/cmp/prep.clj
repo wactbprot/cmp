@@ -23,33 +23,36 @@
 
 (defmethod gen-meta-task clojure.lang.PersistentArrayMap
   [proto-task]
-  (let [{replace :Replace use :Use} proto-task
+  (let [{replace :Replace use :Use cust :Customer} proto-task
         {db-task :value} (lt/get-task-view proto-task)
         {defaults :Defaults} db-task
         task (dissoc db-task :Defaults)
         globals (tsk/global-defaults)]
     {:Task task
+     :Use use
+     :Customer (not (nil? cust))
      :Defaults (u/make-map-regexable  defaults)
      :Globals (u/make-map-regexable globals)
      :Replace (u/make-map-regexable replace)
-     :Use use}))
+     }))
 
-(defn temps
+(defn get-temps
   "Temps contain values related to the current mpd."
   [p]
+    ;;; def["@devicename"] = dn;
+    ;;; def["@cdids"]      = idArr;
   {"@standard" (st/get-val (u/gen-key [p "meta" "standard"]))
    "@mpname" (st/get-val (u/gen-key [p "meta" "name"]))})        
 
 (defn container [p i]
   (let [path [p "container" i "definition"]
-        ks (st/get-keys
-            (u/gen-key path ))]
+        ks (st/get-keys (u/gen-key path ))]
     (doall 
      (map
       (fn [k]
         (let [state-key (u/replace-key-at-level 3 k "state")
               proto-task (u/gen-map (st/get-val k))
-              meta-task (gen-meta-task proto-task)]
+              meta-task (assoc (gen-meta-task proto-task) :Temps (get-temps p))]
           (assert (tsk/task? meta-task))
           (st/set-val! state-key "prepairing")
          ))
