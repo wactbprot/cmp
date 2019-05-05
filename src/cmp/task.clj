@@ -14,13 +14,13 @@
 (s/def ::Action string?)
 (s/def ::Replace map?)
 (s/def ::Use map?)
-(s/def ::Customer boolean?))
+;(s/def ::Customer boolean?))
 (s/def ::Host string?)
 (s/def ::Port string?)
 (s/def ::Value string?)
 (s/def ::DocPath string?)
 (s/def ::proto-task (s/keys :req-un [::TaskName]
-                            :opt-un [::Replace ::Use ::Customer]))
+                            :opt-un [::Replace ::Use]))
 (s/def ::task (s/keys :req-un [::TaskName ::Action]))
 (s/def ::tcp-task (s/keys :req-un [::TaskName ::Host ::Port]
                             :opt-un [::DocPath]))

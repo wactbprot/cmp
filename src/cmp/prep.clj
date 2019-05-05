@@ -53,7 +53,7 @@
         (let [state-key (u/replace-key-at-level 3 k "state")
               proto-task (u/gen-map (st/get-val k))
               meta-task (assoc (gen-meta-task proto-task) :Temps (get-temps p))]
-          (assert (tsk/task? meta-task))
+          (assert (tsk/task? (:Task meta-task)))
           (st/set-val! state-key "prepairing")
          ))
       ks))))
