@@ -10,7 +10,7 @@
 
 (def sep
   "Short-term-database (st) path seperator.
-  Must not be a regex operator"
+  Must not be a regex operator (like . or |)"
   "@")
 
 (def date-f (tm-f/formatters :date))
@@ -54,18 +54,18 @@
 (defn extr-main-path [id]
   (second (re-matches  #"^mpd-([a-z0-3\-_]*)$" id)))
 
-(defn gen-key [path-vec]
-  (string/join sep path-vec))
+(defn gen-key [p]
+  (string/join sep p))
 
-(defn gen-value [val-map]
-  (json/write-str val-map))
+(defn gen-value [m]
+  (json/write-str m))
 
-(defn gen-map [val-json]
-  (json/read-str val-json :key-fn keyword))
+(defn gen-map [j]
+  (json/read-str j :key-fn keyword))
 
-(defn replace-key-at-level [level key replacement]
+(defn replace-key-at-level [l k r]
   (gen-key
-   (assoc (string/split key (re-pattern sep)) level replacement)))
+   (assoc (string/split k (re-pattern sep)) l r)))
 
 (defn gen-re-from-map-keys
   [m]
@@ -80,6 +80,3 @@
   (->> m
        (apply-to-map-values str)
        (walk/stringify-keys)))
-
-
-
