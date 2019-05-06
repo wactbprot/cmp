@@ -1,5 +1,5 @@
 (defproject cmp "0.1.1"
-  :description "A study of an interpreter for measurement programm definitions (mpd) written in clojure."
+  :description "A study of an interpreter for measurement program definitions (mpd) written in clojure."
   :url "https://github.com/wactbprot/cmp"
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [com.taoensso/carmine "2.19.1"]
