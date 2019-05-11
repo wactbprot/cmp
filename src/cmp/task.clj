@@ -10,6 +10,8 @@
             [cmp.st :as st])
   (:gen-class))
 
+(log/set-level! :debug)
+
 (s/def ::TaskName string?)
 (s/def ::Action string?)
 (s/def ::Replace map?)
@@ -51,18 +53,42 @@
 
 (defn replace-map
   "Replaces tokens (given in the m) in the task."
-  [task m]
+  [m task]
+  (log/debug "task is" task)
+  (log/debug "map is" m)
   (if m
     (let [task-s (u/gen-value task)
           re-k (u/gen-re-from-map-keys m)]
       (u/gen-map (string/replace task-s re-k m)))
     task))
 
-;; (defn assemble
-;;   "Assembles the task from different sources in a certain order.
-;;   Reminder: customer tasks; e.g. the @devicename key belongs
-;;   to Customer=true"
-;;   [meta-task]
-;;   (let []
-;;     ;; assoc globals to defaults
-;;     (replace-map task defaults)))
+(defmulti replace-use
+  "The use keyword enables a replace mechanism. It works like this:
+  proto-task: Use: {Values: med_range}
+  -->
+  task: Value: rangeX.1"
+  (fn [m task] (nil? m)))
+
+(defmethod replace-use true
+  [m task]
+  (println "no m")
+  task)
+
+(defmethod replace-use false
+  [m task]
+  (println "...............")
+  )
+
+(defn assemble
+  "Assembles the task from the given meta-task."
+  [meta-task]
+  (let [{task :Task 
+         use :Use 
+         temps :Temps
+         defaults :Defaults 
+         globals :Globals
+         replace :Replace
+         cust? :Customer} meta-task]
+    (replace-use use task)
+    ;(replace-map  temps task)
+    ))

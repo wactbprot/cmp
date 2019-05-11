@@ -7,9 +7,6 @@
   (:use [clojure.repl])
   (:gen-class))
 
-(log/set-level! :debug)
-
-
 (defmulti gen-meta-task
   "Gathers all information for the given proto-task (map).
   The proto-task should be a map containing the TaskName
@@ -37,7 +34,9 @@
      }))
 
 (defn get-temps
-  "Temps contain values related to the current mpd."
+  "Temps contain values related to the current mpd.
+   Reminder: customer tasks; e.g. the @devicename key belongs
+   to Customer=true"
   [p]
     ;;; def["@devicename"] = dn;
     ;;; def["@cdids"]      = idArr;
@@ -55,5 +54,5 @@
               meta-task (assoc (gen-meta-task proto-task) :Temps (get-temps p))]
           (assert (tsk/task? (:Task meta-task)))
           (st/set-val! state-key "prepairing")
-         ))
+          (tsk/assemble meta-task)))
       ks))))
