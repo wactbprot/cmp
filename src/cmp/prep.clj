@@ -28,7 +28,7 @@
     {:Task task
      :Use use
      :Customer (not (nil? cust))
-     :Defaults (u/make-map-regexable  defaults)
+     :Defaults (u/make-map-regexable defaults)
      :Globals (u/make-map-regexable globals)
      :Replace (u/make-map-regexable replace)
      }))
@@ -50,12 +50,12 @@
      (map
       (fn [k]
         (let [state-key (u/replace-key-at-level 3 k "state")
+              recipe-key (u/replace-key-at-level 3 k "recipe")
               proto-task (u/gen-map (st/get-val k))
               meta-task (assoc (gen-meta-task proto-task) :Temps (get-temps p))]
           (assert (tsk/task? (:Task meta-task)))
           (st/set-val! state-key "prepairing")
-          (println "...")
-          (println (tsk/assemble meta-task))
-          (println "...--")
+          (st/set-val! recipe-key (u/gen-value (tsk/assemble meta-task)))
+          (st/set-val! state-key "ready")
           ))
       ks))))
