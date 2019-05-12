@@ -54,5 +54,8 @@
               meta-task (assoc (gen-meta-task proto-task) :Temps (get-temps p))]
           (assert (tsk/task? (:Task meta-task)))
           (st/set-val! state-key "prepairing")
-          (tsk/assemble meta-task)))
+          (println "...")
+          (println (tsk/assemble meta-task))
+          (println "...--")
+          ))
       ks))))

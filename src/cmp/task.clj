@@ -51,44 +51,69 @@
            }]
     g))
 
-(defn replace-map
+(defmulti replace-map
   "Replaces tokens (given in the m) in the task."
-  [m task]
-  (log/debug "task is" task)
-  (log/debug "map is" m)
-  (if m
-    (let [task-s (u/gen-value task)
-          re-k (u/gen-re-from-map-keys m)]
-      (u/gen-map (string/replace task-s re-k m)))
-    task))
+  (fn [m task] (map? m)))
 
-(defmulti replace-use
+
+(defmethod replace-map false
+  [m task]
+  task)
+
+(defmethod replace-map true 
+  [m task]
+  (let [task-s (u/gen-value task)
+        re-k (u/gen-re-from-map-keys m)]
+    (u/gen-map (string/replace task-s re-k m))))
+
+(defn extract-use-value
+  [task m k]
+  ((task k) (keyword (m k))))
+
+(defn make-singular-kw
+  [k]
+  (->> k
+       (name)
+       (re-matches #"^(\w*)(s)$")
+       (second)
+       (keyword)))
+
+(defmulti merge-use-map
   "The use keyword enables a replace mechanism. It works like this:
   proto-task: Use: {Values: med_range}
   -->
   task: Value: rangeX.1"
-  (fn [m task] (nil? m)))
+  (fn [m task] (map? m)))
 
-(defmethod replace-use true
+(defmethod merge-use-map false
   [m task]
-  (println "no m")
   task)
 
-(defmethod replace-use false
+(defmethod merge-use-map true
   [m task]
-  (println "...............")
-  )
+  (merge
+   task
+   (into {}
+         (map
+          (fn [k]
+            (hash-map (make-singular-kw k) (extract-use-value task m k)))
+          (keys m))
+         )))
 
 (defn assemble
-  "Assembles the task from the given meta-task."
+  "Assembles the task from the given meta-task in a special order."
   [meta-task]
   (let [{task :Task 
-         use :Use 
+         use-map :Use 
          temps :Temps
          defaults :Defaults 
          globals :Globals
          replace :Replace
          cust? :Customer} meta-task]
-    (replace-use use task)
-    ;(replace-map  temps task)
-    ))
+    (->> task
+         (merge-use-map use-map)
+         (replace-map replace)
+         (replace-map defaults)
+         (replace-map temps)
+         (replace-map defaults)
+         (replace-map globals))))

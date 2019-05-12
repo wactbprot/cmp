@@ -75,8 +75,17 @@
 (defn apply-to-map-values [f m]
   (into {} (map (fn [[k v]] [k (f v)]) m)))
 
-(defn make-map-regexable
+(defmulti make-map-regexable
+  (fn [m] (and (map? m)
+               (not (empty? m)))))
+
+(defmethod make-map-regexable false
+  [m]
+  nil)
+
+(defmethod make-map-regexable true
   [m]
   (->> m
        (apply-to-map-values str)
        (walk/stringify-keys)))
+
