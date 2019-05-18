@@ -7,6 +7,7 @@
             [clojure.data.json :as json]
             [clojure.walk :as walk]
             [clojure.string :as string]
+            [cmp.lt :as lt]
             [cmp.st :as st])
   (:gen-class))
 
@@ -51,10 +52,19 @@
            }]
     g))
 
+(defn get-temps
+  "Temps contain values related to the current mpd.
+   Reminder: customer tasks; e.g. the @devicename key belongs
+   to Customer=true"
+  [p]
+    ;;; def["@devicename"] = dn;
+    ;;; def["@cdids"]      = idArr;
+  {"@standard" (st/get-val (u/gen-key [p "meta" "standard"]))
+   "@mpname" (st/get-val (u/gen-key [p "meta" "name"]))})        
+
 (defmulti replace-map
   "Replaces tokens (given in the m) in the task."
   (fn [m task] (map? m)))
-
 
 (defmethod replace-map false
   [m task]
@@ -99,6 +109,32 @@
             (hash-map (make-singular-kw k) (extract-use-value task m k)))
           (keys m))
          )))
+
+(defmulti gen-meta-task
+  "Gathers all information for the given proto-task (map).
+  The proto-task should be a map containing the TaskName
+  keyword at least. Strin version makes a map out of s and
+  calls related method (intendet for repl use)."
+  class)
+
+(defmethod gen-meta-task String
+  [s]
+  (gen-meta-task {:TaskName s}))
+
+(defmethod gen-meta-task clojure.lang.PersistentArrayMap
+  [proto-task]
+  (let [{replace :Replace use :Use cust :Customer} proto-task
+        {db-task :value} (lt/get-task-view proto-task)
+        {defaults :Defaults} db-task
+        task (dissoc db-task :Defaults)
+        globals (global-defaults)]
+    {:Task task
+     :Use use
+     :Customer (not (nil? cust))
+     :Defaults (u/make-map-regexable defaults)
+     :Globals (u/make-map-regexable globals)
+     :Replace (u/make-map-regexable replace)
+     }))
 
 (defn assemble
   "Assembles the task from the given meta-task in a special order."

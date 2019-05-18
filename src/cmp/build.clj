@@ -22,11 +22,11 @@
   [path {definition :Definition}]
   (doall
    (map-indexed
-    (fn [i-seq s]
+    (fn [idx s]
       (doall
        (map-indexed
-        (fn [i-par p]
-          (let [st-path (utils/gen-key [path "definition" i-seq i-par])
+        (fn [jdx p]
+          (let [st-path (utils/gen-key [path "definition" idx jdx])
                 st-value (utils/gen-value p)]
             (log/info "try to write proto task to path: " st-path)
             (log/debug "proto task is:" p)
@@ -70,7 +70,10 @@
     (st/set-val! (utils/gen-key [path e-path "description"])
                  descr)))
 
-(defn store [{id :_id rev :_rev mp-def :Mp}]
+(defn store
+  "Triggers the storing of meta. exchange etc. to
+  the short term memory"
+  [{id :_id rev :_rev mp-def :Mp}]
   (let [path (utils/extr-main-path id)]
     (st/clear [path "meta"])
     (store-meta path mp-def)
