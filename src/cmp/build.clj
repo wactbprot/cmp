@@ -1,6 +1,6 @@
-(ns ^{:author "wactbprot"
-      :doc "Builds up the short term memory with given the mp-definition."}
-    cmp.build
+(ns cmp.build
+  ^{:author "wactbprot"
+    :doc "Builds up the short term memory with given the mp-definition."}
   (:require [cmp.utils :as utils]
             [cmp.task :as t]
             [cmp.st :as st]
