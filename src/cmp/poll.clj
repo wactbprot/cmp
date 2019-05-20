@@ -21,10 +21,15 @@
           (Thread/sleep heartbeat)
           (println (st/get-val ctrl-path)))))))
 
-(defn register [p f]
+(defn register
+  [p f]
   (swap!
    future-calls
    assoc p f))
+
+(defn registered?
+  [p]
+  (contains? @future-calls p))
 
 
 (defn stop-cont-mon
