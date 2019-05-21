@@ -19,7 +19,7 @@
       (while true
         (do
           (Thread/sleep heartbeat)
-          (println (st/get-val ctrl-path)))))))
+          (extract-cmds (st/get-val ctrl-path) ctrl-path))))))
 
 (defn register
   [p f]
@@ -35,3 +35,11 @@
 (defn stop-cont-mon
   [p]
   (future-cancel (@future-calls p)))
+
+(defn extract-cmds
+  "Extracts commands.
+  Enables kind of programming like provided in ssmp:
+  load;run;stop --> [load, run, stop]
+  load;2:run,stop -->  [load, run, stop, run, stop]"
+  [cmds]
+  (println cmds) 
