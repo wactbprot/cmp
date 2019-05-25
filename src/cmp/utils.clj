@@ -57,8 +57,6 @@
 (defn gen-key [p]
   (string/join sep p))
 
-(defn gen-value [m]
-  (json/write-str m))
 
 (defn gen-map [j]
   (json/read-str j :key-fn keyword))
@@ -89,3 +87,28 @@
        (apply-to-map-values str)
        (walk/stringify-keys)))
 
+(defmulti gen-value
+  class)
+
+(defmethod gen-value clojure.lang.PersistentArrayMap
+  [m]
+  (json/write-str m))
+
+(defmethod gen-value clojure.lang.PersistentVector
+  [m]
+  (json/write-str m))
+
+(defmethod gen-value clojure.lang.PersistentHashMap
+  [m]
+  (json/write-str m))
+
+(defmethod gen-value java.lang.String
+  [s]
+  s)
+
+(defn next-ctrl
+  [s]
+  (println "......v")
+  (println (type s))
+  (print (first (string/split s #"\,")))
+  (println "......^"))
