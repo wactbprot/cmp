@@ -12,14 +12,17 @@
 (def future-calls
   (atom {}))
 
-(defn start-cont-mon
+(defn get-ctrl-path
   [p i]
-  (let [ctrl-path (u/gen-key [p "container" i "ctrl"])]
-    (future
+  (u/gen-key [p "container" i "ctrl"]))
+
+(defn mon
+  [p]
+  (future
       (while true
         (do
           (Thread/sleep heartbeat)
-          (println (st/get-val ctrl-path)))))))
+          (println (st/get-val p))))))
 
 (defn register
   [p f]
@@ -31,7 +34,26 @@
   [p]
   (contains? @future-calls p))
 
+(defmulti start
+  (fn [p i] (registered? (get-ctrl-path p i))))
 
-(defn stop-cont-mon
-  [p]
-  (future-cancel (@future-calls p)))
+(defmethod start true
+  [p i]
+  nil)
+
+(defmethod start false
+  [p i]
+  (let [ctrl-path (get-ctrl-path p i)]
+    (register ctrl-path (mon ctrl-path))))
+
+(defmulti stop 
+  (fn [p i] (registered? (get-ctrl-path p i))))
+
+(defmethod stop true
+  [p i]
+  (future-cancel (@future-calls (get-ctrl-path p i))))
+
+(defmethod stop false
+  [p i]
+  nil)
+
