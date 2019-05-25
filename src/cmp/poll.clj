@@ -32,6 +32,10 @@
   [s p i]
   (println "run"))
 
+(defmethod disp "void"
+  [s p i]
+  (println "void"))
+
 (defmethod disp :default
   [s p i]
   (println "default"))
@@ -45,9 +49,7 @@
           (let [ctrl-path (get-ctrl-path p i)
                 ctrl-str (st/get-val ctrl-path)
                 ctrl-val (u/next-ctrl ctrl-str)]
-                                        ;(disp "run" p i)
-            )
-          ))))
+            (disp ctrl-val p i))))))
 
 (defmulti start
   (fn [p i] (registered? (get-ctrl-path p i))))

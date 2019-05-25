@@ -87,28 +87,37 @@
        (apply-to-map-values str)
        (walk/stringify-keys)))
 
+(defn next-ctrl
+  [s]
+  (first (string/split s #",")))
+
 (defmulti gen-value
   class)
 
 (defmethod gen-value clojure.lang.PersistentArrayMap
-  [m]
-  (json/write-str m))
+  [x]
+  (json/write-str x))
 
 (defmethod gen-value clojure.lang.PersistentVector
-  [m]
-  (json/write-str m))
+  [x]
+  (json/write-str x))
 
 (defmethod gen-value clojure.lang.PersistentHashMap
-  [m]
-  (json/write-str m))
+  [x]
+  (json/write-str x))
 
 (defmethod gen-value java.lang.String
-  [s]
-  s)
+  [x]
+  x)
 
-(defn next-ctrl
-  [s]
-  (println "......v")
-  (println (type s))
-  (print (first (string/split s #"\,")))
-  (println "......^"))
+(defmethod gen-value java.lang.Long
+  [x]
+  x)
+
+(defmethod gen-value clojure.lang.BigInt
+  [x]
+  x)
+
+(defmethod gen-value java.lang.Double
+  [x]
+  x)
