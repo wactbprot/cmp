@@ -57,13 +57,16 @@
 (defn gen-key [p]
   (string/join sep p))
 
-
 (defn gen-map [j]
   (json/read-str j :key-fn keyword))
 
 (defn replace-key-at-level [l k r]
   (gen-key
    (assoc (string/split k (re-pattern sep)) l r)))
+
+(defn get-ctrl-path
+  [p i]
+  (gen-key [p "container" i "ctrl"]))
 
 (defn gen-re-from-map-keys
   [m]
@@ -87,9 +90,20 @@
        (apply-to-map-values str)
        (walk/stringify-keys)))
 
-(defn next-ctrl
+(defn get-next-ctrl
   [s]
   (first (string/split s #",")))
+
+(defn set-next-ctrl
+  [s r]
+  (string/join "," (assoc (string/split s #",") 0 r)))
+
+(defn rm-next-ctrl
+  [s]
+  (string/join ","
+               (or
+                (not-empty (rest (string/split s #",")))
+                ["ready"])))
 
 (defmulti gen-value
   class)
