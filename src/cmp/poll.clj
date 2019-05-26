@@ -34,12 +34,9 @@
   (let [ctrl-path (u/get-ctrl-path p i)
         ctrl-str-before (u/set-next-ctrl s "loading")
         ctrl-str-after (u/rm-next-ctrl s)]
-    (println ctrl-str-before)
     (dosync
-
      (st/set-val! ctrl-path ctrl-str-before)
-     (println (p/container p i))
-     (println ctrl-str-after)
+     (p/container p i)
      (st/set-val! ctrl-path ctrl-str-after))))
 
 (defmethod dispatch :default
@@ -59,8 +56,7 @@
   (fn [p i] (registered? (u/get-ctrl-path p i))))
 
 (defmethod start true
-  [p i]
-  nil)
+  [p i])
 
 (defmethod start false
   [p i]
@@ -72,13 +68,12 @@
 (defmulti stop 
   (fn [p i] (registered? (u/get-ctrl-path p i))))
 
+(defmethod stop false
+  [p i])
+
 (defmethod stop true
   [p i]
   (dosync
    (let [ctrl-path (u/get-ctrl-path p i)]     
      (future-cancel (@future-calls ctrl-path))
      (swap! future-calls dissoc ctrl-path))))
-
-(defmethod stop false
-  [p i]
-  nil)
