@@ -10,4 +10,4 @@
   [p i]
   (let [path [p "container" i "state"]
         ks  (st/get-keys (u/gen-key path))]
-    (println ks)))
+    (println (sort ks))))
