@@ -3,6 +3,7 @@
     :doc "Polls short term memory endponts and reacts on result."}
   (:require [taoensso.timbre :as log]
             [cmp.st :as st]
+            [cmp.prep :as p]
             [cmp.utils :as u])
   (:gen-class))
 
@@ -12,34 +13,67 @@
 (def future-calls
   (atom {}))
 
-(defn start-cont-mon
-  [p i]
-  (let [ctrl-path (u/gen-key [p "container" i "ctrl"])]
-    (future
-      (while true
-        (do
-          (Thread/sleep heartbeat)
-          (extract-cmds (st/get-val ctrl-path) ctrl-path))))))
-
 (defn register
   [p f]
-  (swap!
-   future-calls
-   assoc p f))
+  (swap! future-calls assoc p f))
 
 (defn registered?
   [p]
   (contains? @future-calls p))
 
+(defmulti dispatch
+  (fn [s p i]
+    (keyword (u/get-next-ctrl s))))
 
-(defn stop-cont-mon
-  [p]
-  (future-cancel (@future-calls p)))
+(defmethod dispatch :run
+  [s p i]
+  (println "run"))
 
-(defn extract-cmds
-  "Extracts commands.
-  Enables kind of programming like provided in ssmp:
-  load;run;stop --> [load, run, stop]
-  load;2:run,stop -->  [load, run, stop, run, stop]"
-  [cmds]
-  (println cmds) 
+(defmethod dispatch :load
+  [s p i]
+  (let [ctrl-path (u/get-ctrl-path p i)
+        ctrl-str-before (u/set-next-ctrl s "loading")
+        ctrl-str-after (u/rm-next-ctrl s)]
+    (dosync
+     (st/set-val! ctrl-path ctrl-str-before)
+     (p/container p i)
+     (st/set-val! ctrl-path ctrl-str-after))))
+
+(defmethod dispatch :default
+  [s p i]
+  (println s))
+
+(defn monitor
+  [p i]
+  (future
+      (while true
+        (do
+          (Thread/sleep heartbeat)
+          (let [ctrl-str (st/get-val (u/get-ctrl-path p i))]
+            (dispatch ctrl-str p i))))))
+
+(defmulti start
+  (fn [p i] (registered? (u/get-ctrl-path p i))))
+
+(defmethod start true
+  [p i])
+
+(defmethod start false
+  [p i]
+  (dosync 
+   (let [ctrl-path (u/get-ctrl-path p i)
+         f (monitor p i)]
+     (register ctrl-path f))))
+
+(defmulti stop 
+  (fn [p i] (registered? (u/get-ctrl-path p i))))
+
+(defmethod stop false
+  [p i])
+
+(defmethod stop true
+  [p i]
+  (dosync
+   (let [ctrl-path (u/get-ctrl-path p i)]     
+     (future-cancel (@future-calls ctrl-path))
+     (swap! future-calls dissoc ctrl-path))))

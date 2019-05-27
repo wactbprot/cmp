@@ -57,15 +57,16 @@
 (defn gen-key [p]
   (string/join sep p))
 
-(defn gen-value [m]
-  (json/write-str m))
-
 (defn gen-map [j]
   (json/read-str j :key-fn keyword))
 
 (defn replace-key-at-level [l k r]
   (gen-key
    (assoc (string/split k (re-pattern sep)) l r)))
+
+(defn get-ctrl-path
+  [p i]
+  (gen-key [p "container" i "ctrl"]))
 
 (defn gen-re-from-map-keys
   [m]
@@ -80,8 +81,7 @@
                (not (empty? m)))))
 
 (defmethod make-map-regexable false
-  [m]
-  nil)
+  [m])
 
 (defmethod make-map-regexable true
   [m]
@@ -89,3 +89,53 @@
        (apply-to-map-values str)
        (walk/stringify-keys)))
 
+(defn get-next-ctrl
+  "Extracts next command.
+  ToDo:
+  Enable kind of programming like provided in ssmp:
+  load;run;stop --> [load, run, stop]
+  load;2:run,stop -->  [load, run, stop, run, stop]"
+  [s]
+  (first (string/split s #",")))
+
+(defn set-next-ctrl
+  [s r]
+  (string/join "," (assoc (string/split s #",") 0 r)))
+
+(defn rm-next-ctrl
+  [s]
+  (string/join ","
+               (or
+                (not-empty (rest (string/split s #",")))
+                ["ready"])))
+
+(defmulti gen-value
+  class)
+
+(defmethod gen-value clojure.lang.PersistentArrayMap
+  [x]
+  (json/write-str x))
+
+(defmethod gen-value clojure.lang.PersistentVector
+  [x]
+  (json/write-str x))
+
+(defmethod gen-value clojure.lang.PersistentHashMap
+  [x]
+  (json/write-str x))
+
+(defmethod gen-value java.lang.String
+  [x]
+  x)
+
+(defmethod gen-value java.lang.Long
+  [x]
+  x)
+
+(defmethod gen-value clojure.lang.BigInt
+  [x]
+  x)
+
+(defmethod gen-value java.lang.Double
+  [x]
+  x)
