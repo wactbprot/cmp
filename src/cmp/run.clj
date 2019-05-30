@@ -1,22 +1,23 @@
 (ns cmp.run
   ^{:author "wactbprot"
-    :doc "Runs the tasks of a certain container."}
+    :doc "Runs the upcomming tasks of a certain container."}
   (:require [taoensso.timbre :as log]
             [cmp.st :as st]
             [cmp.utils :as u])
   (:gen-class))
 
-(defn run
+(defn find-next
+  "Finds the next tasks to run."
   [p i]
   (let [ks  (sort (st/get-keys (u/get-state-path p i)))
-        state-ready (filter
-                     (fn [k]
-                       (= (st/get-val k) "ready"))
-                     ks)
-        next-idx (u/extr-seq-idx (first state-ready))
+        ready-ks (filter
+                  (fn [k]
+                    (= (st/get-val k) "ready"))
+                  ks)
+        next-idx (u/extr-seq-idx (first ready-ks))
         next-ks (filter
                  (fn [k]
                    (= (u/extr-seq-idx k) next-idx))
-                 ks)]
+                 ready-ks)]
     next-ks
     ))
