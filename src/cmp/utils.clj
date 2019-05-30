@@ -60,13 +60,13 @@
 (defn gen-map [j]
   (json/read-str j :key-fn keyword))
 
-(defn replace-key-at-level [l k r]
-  (gen-key
-   (assoc (string/split k (re-pattern sep)) l r)))
-
 (defn get-ctrl-path
   [p i]
   (gen-key [p "container" i "ctrl"]))
+
+(defn get-state-path
+  [p i]
+  (gen-key [p "container" i "state"]))
 
 (defn gen-re-from-map-keys
   [m]
@@ -135,3 +135,16 @@
 (defmethod gen-value java.lang.Double
   [x]
   x)
+
+(defmethod gen-value java.lang.Boolean
+  [x]
+  x)
+
+(defn extr-seq-idx
+  "The index of the sequential step is given at position 4."
+  [s]
+  ((string/split s (re-pattern sep)) 4))
+
+(defn replace-key-at-level [l k r]
+  (gen-key
+   (assoc (string/split k (re-pattern sep)) l r)))

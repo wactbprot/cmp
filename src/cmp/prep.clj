@@ -2,7 +2,6 @@
   (:require [cmp.utils :as u]
             [cmp.st :as st]
             [cmp.task :as tsk]
-            [cmp.lt :as lt]
             [taoensso.timbre :as log])
   (:use [clojure.repl])
   (:gen-class))
