@@ -81,8 +81,7 @@
                (not (empty? m)))))
 
 (defmethod make-map-regexable false
-  [m]
-  nil)
+  [m])
 
 (defmethod make-map-regexable true
   [m]
@@ -91,6 +90,11 @@
        (walk/stringify-keys)))
 
 (defn get-next-ctrl
+  "Extracts next command.
+  ToDo:
+  Enable kind of programming like provided in ssmp:
+  load;run;stop --> [load, run, stop]
+  load;2:run,stop -->  [load, run, stop, run, stop]"
   [s]
   (first (string/split s #",")))
 

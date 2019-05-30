@@ -1,6 +1,7 @@
 (ns cmp.poll
   ^{:author "wactbprot"
-    :doc "Polls short term memory endponts and reacts on result."}
+    :doc "Polls short term memory endpoints 
+          and reacts on result (:load, :run, :stop etc)."}
   (:require [taoensso.timbre :as log]
             [cmp.st :as st]
             [cmp.prep :as p]
