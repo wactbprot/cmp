@@ -19,6 +19,11 @@
           (wcar* (car/del k)))
         ks)))
 
+(defn del-key!
+  [k]
+  (wcar* (car/del k)))
+  
+
 (defn set-val!
   [k v]
   (wcar* (car/set k v)))

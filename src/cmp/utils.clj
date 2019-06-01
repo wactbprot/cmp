@@ -68,6 +68,10 @@
   [p i]
   (gen-key [p "container" i "state"]))
 
+(defn get-id-path
+  [p i]
+  (gen-key [p "id" i]))
+
 (defn gen-re-from-map-keys
   [m]
   (let [ks (keys m)]

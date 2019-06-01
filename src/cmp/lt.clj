@@ -1,5 +1,6 @@
 (ns cmp.lt
-  (:require [com.ashafa.clutch :as couch]
+  (:require [clojure.string :as string]
+            [com.ashafa.clutch :as couch]
             [taoensso.timbre :as log])
   (:use [clojure.repl])
   (:gen-class))
@@ -18,3 +19,39 @@
   (log/debug "task name is: " task-name)
   (first
    (couch/get-view conn "dbmp" "tasks" {:key task-name})))
+
+(defn get-doc-version
+  [{rev :_rev}]
+  (first (string/split rev  #"-")))
+
+(defn extr-doc-type [doc]
+  (first
+   (filter
+    (fn [kw]  (not
+               (or
+                (= :_id kw)
+                (= :_rev kw))))
+    (keys doc))))
+
+(defmulti extr-info
+  extr-doc-type)
+
+(defmethod extr-info :Calibration
+  [doc]
+  {:doc-version (get-doc-version doc)
+   :doc-type "Calibration"})
+
+(defmethod extr-info :Measurement
+  [doc]
+{:doc-version (get-doc-version doc)
+   :doc-type "Measurement"})
+
+(defmethod extr-info :State
+  [doc]
+  {:doc-version (get-doc-version doc)
+   :doc-type "State"})
+
+(defmethod extr-info :default
+  [doc]
+  {:doc-version (get-doc-version doc)
+   :doc-type "default"})

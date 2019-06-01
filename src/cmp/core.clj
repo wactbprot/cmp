@@ -26,9 +26,9 @@
 (defn add-doc
   "Adds a doc to the api to store the resuls in."
   [mp-id doc-id]
-  (d/add mp-id doc))
+  (d/add (u/extr-main-path mp-id) doc-id))
 
-(defn rm-doc
+(defn del-doc
   "Removes a doc to the api to store the resuls in."
   [mp-id doc-id]
-  (d/rm mp-id doc))
+  (d/del (u/extr-main-path mp-id) doc-id))
