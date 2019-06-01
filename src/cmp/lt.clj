@@ -8,10 +8,13 @@
 
 (def conn "http://localhost:5984/vl_db")
 
-(defn get-document [id]
-  (log/debug "document id is: " id)
+(defn get-doc
+  [id]
+  (log/debug "document id to get is: " id)
   (couch/get-document conn id))
 
-(defn get-task-view [{task-name :TaskName}]
+(defn get-task-view
+  [{task-name :TaskName}]
   (log/debug "task name is: " task-name)
-  (first (couch/get-view conn "dbmp" "tasks" {:key task-name})))
+  (first
+   (couch/get-view conn "dbmp" "tasks" {:key task-name})))

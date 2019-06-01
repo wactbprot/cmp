@@ -26,8 +26,8 @@
              temps (tsk/get-temps p)
              meta-task (assoc (tsk/gen-meta-task proto-task) :Temps temps)]
          (assert (tsk/task? (:Task meta-task)))
-         (st/set-val! state-key "prepairing")
-         (st/set-val! recipe-key (u/gen-value (tsk/assemble meta-task)))
-         (st/set-val! state-key "ready")
-         ))
+         (dosync
+          (st/set-val! state-key "prepairing")
+          (st/set-val! recipe-key (u/gen-value (tsk/assemble meta-task)))
+          (st/set-val! state-key "ready"))))
      ks)))
