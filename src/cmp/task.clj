@@ -59,8 +59,8 @@
   [p]
     ;;; def["@devicename"] = dn;
     ;;; def["@cdids"]      = idArr;
-  {"@standard" (st/get-val (u/gen-key [p "meta" "standard"]))
-   "@mpname" (st/get-val (u/gen-key [p "meta" "name"]))})        
+  {"@standard" (st/get-val (u/vec->key [p "meta" "standard"]))
+   "@mpname" (st/get-val (u/vec->key [p "meta" "name"]))})        
 
 (defmulti replace-map
   "Replaces tokens (given in the m) in the task."

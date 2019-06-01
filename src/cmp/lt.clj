@@ -24,13 +24,21 @@
   [{rev :_rev}]
   (first (string/split rev  #"-")))
 
-(defn extr-doc-type [doc]
+(defn get-doc-id
+  [{id :_id}]
+  id)
+
+(defn extr-doc-type
+  "Extracts the document type.
+  Assumes the type of the document to be the
+  first key hierarchy beside _id and :rev"
+  [doc]
   (first
    (filter
-    (fn [kw]  (not
-               (or
-                (= :_id kw)
-                (= :_rev kw))))
+    (fn [kw] (not
+              (or
+               (= :_id kw)
+               (= :_rev kw))))
     (keys doc))))
 
 (defmulti extr-info
@@ -39,19 +47,23 @@
 (defmethod extr-info :Calibration
   [doc]
   {:doc-version (get-doc-version doc)
+   :doc-id (get-doc-id doc)
    :doc-type "Calibration"})
 
 (defmethod extr-info :Measurement
   [doc]
-{:doc-version (get-doc-version doc)
+  {:doc-version (get-doc-version doc)
+   :doc-id (get-doc-id doc)
    :doc-type "Measurement"})
 
 (defmethod extr-info :State
   [doc]
   {:doc-version (get-doc-version doc)
+   :doc-id (get-doc-id doc)
    :doc-type "State"})
 
 (defmethod extr-info :default
   [doc]
   {:doc-version (get-doc-version doc)
+   :doc-id (get-doc-id doc)
    :doc-type "default"})

@@ -16,8 +16,7 @@
   6) the runnable task is stored in the short term memory
   7) the state is set to 'ready'"   
   [p i]
-  (let [path [p "container" i "definition"]
-        ks (st/get-keys (u/gen-key path))]
+  (let [ks (st/get-keys (u/vec->key [p "container" i "definition"]))]
     (mapv
      (fn [k]
        (let [state-key (u/replace-key-at-level 3 k "state")

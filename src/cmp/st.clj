@@ -10,7 +10,7 @@
 (defn get-keys
   [p]
   (wcar* (car/keys
-          (u/gen-key [p "*"]))))
+          (u/vec->key [p "*"]))))
 
 (defn del-keys!
   [ks]
@@ -44,6 +44,6 @@
 (defmethod clear clojure.lang.PersistentVector
   [k]
   (->> k
-       (u/gen-key)
+       (u/vec->key)
        (get-keys)
        (del-keys!)))

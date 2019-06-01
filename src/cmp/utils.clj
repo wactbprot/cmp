@@ -13,6 +13,10 @@
   Must not be a regex operator (like . or |)"
   "@")
 
+(def re-sep
+  "The regex version of the seperator."
+  (re-pattern sep))
+
 (def date-f (tm-f/formatters :date))
 (def hour-f (tm-f/formatter "HH"))
 (def min-f (tm-f/formatter "mm"))
@@ -51,10 +55,20 @@
   ([d]
    (str (tm-c/to-long d))))
 
-(defn extr-main-path [id]
-  (second (re-matches  #"^mpd-([a-z0-3\-_]*)$" id)))
+(defmulti extr-main-path
+  "Should work on mpd-aaa-bbb as well as on aaa-bbb"
+  (fn [s] (string/starts-with? s "mpd-")))
 
-(defn gen-key [p]
+(defmethod extr-main-path true
+  [s]
+  (second
+   (re-matches  #"^mpd-([a-z0-3\-_]*)$" s)))
+
+(defmethod extr-main-path false
+  [s]
+  s)
+
+(defn vec->key [p]
   (string/join sep p))
 
 (defn gen-map [j]
@@ -62,20 +76,19 @@
 
 (defn get-ctrl-path
   [p i]
-  (gen-key [p "container" i "ctrl"]))
+  (vec->key [p "container" i "ctrl"]))
 
 (defn get-state-path
   [p i]
-  (gen-key [p "container" i "state"]))
+  (vec->key [p "container" i "state"]))
 
 (defn get-id-path
   [p i]
-  (gen-key [p "id" i]))
+  (vec->key [p "id" i]))
 
 (defn gen-re-from-map-keys
   [m]
-  (let [ks (keys m)]
-    (re-pattern (string/join "|" ks))))
+  (re-pattern (string/join "|" (keys m))))
 
 (defn apply-to-map-values [f m]
   (into {} (map (fn [[k v]] [k (f v)]) m)))
@@ -151,8 +164,11 @@
 (defn extr-seq-idx
   "The index of the sequential step is given at position 4."
   [s]
-  ((string/split s (re-pattern sep)) 4))
+  ((string/split s re-sep) 4))
 
-(defn replace-key-at-level [l k r]
-  (gen-key
-   (assoc (string/split k (re-pattern sep)) l r)))
+(defn replace-key-at-level
+  "Generates a new key by replacing an old one at a certain position"
+  [l k r]
+  (vec->key
+   (assoc
+    (string/split k re-sep) l r)))
