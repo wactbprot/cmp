@@ -8,11 +8,52 @@
             [cmp.utils :as u])
   (:gen-class))
 
+(defn base-info
+  [doc]
+  {:doc-version (lt/get-doc-version doc)
+   :doc-id (lt/get-doc-id doc)})
+
+(defn extr-doc-type
+  "Extracts the document type.
+  Assumes the type of the document to be the
+  first key hierarchy beside _id and :rev"
+  [doc m]
+  (first
+   (filter
+    (fn [kw] (not
+              (or
+               (= :_id kw)
+               (= :_rev kw))))
+    (keys doc))))
+
+(defmulti extr-info
+  extr-doc-type)
+
+(defmethod extr-info :Calibration
+  [doc m]
+  (assoc m
+         :doc-type "Calibration"))
+
+(defmethod extr-info :Measurement
+  [doc m]
+  (assoc m
+         :doc-type "Measurement"))
+
+(defmethod extr-info :State
+  [doc m]
+  (assoc m
+         :doc-type "State"))
+
+(defmethod extr-info :default
+  [doc m]
+  (assoc m
+         :doc-type "default"))
+
 (defn add
   [p doc-id]
   (let [path (u/get-id-path p doc-id)
         doc (lt/get-doc doc-id)
-        info (lt/extr-info doc)]
+        info (extr-info doc (base-info doc))]
     (st/set-val! path (u/gen-value info))))
 
 (defn del

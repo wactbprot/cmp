@@ -17,6 +17,29 @@
   "The regex version of the seperator."
   (re-pattern sep))
 
+    
+(defn vec->key [p]
+  "Joins the vec to a key."
+  (string/join sep p))
+
+(defn replace-key-at-level
+  "Generates a new key by replacing an old one at a certain position"
+  [l k r]
+  (vec->key
+   (assoc
+    (string/split k re-sep) l r)))
+
+(defn key->seq-idx
+  "The index of the sequential step is given at position 4."
+  [s]
+  ((string/split s re-sep) 4))
+
+(defn id-key->id
+  "Returns position 2 of the id key which should be the document id.
+  No checks so far."
+  [k]
+  ((string/split k re-sep) 2))
+
 (def date-f (tm-f/formatters :date))
 (def hour-f (tm-f/formatter "HH"))
 (def min-f (tm-f/formatter "mm"))
@@ -158,25 +181,3 @@
   [x]
   x)
 
-(defn replace-key-at-level
-  "Generates a new key by replacing an old one at a certain position"
-  [l k r]
-  (vec->key
-   (assoc
-    (string/split k re-sep) l r)))
-
-
-(defn key->seq-idx
-  "The index of the sequential step is given at position 4."
-  [s]
-  ((string/split s re-sep) 4))
-
-(defn id-key->id
-  "Returns position 2 of the id key which should be the document id.
-  No checks so far."
-  [k]
-  ((string/split k re-sep) 2))
-  
-  
-(defn vec->key [p]
-  (string/join sep p))
