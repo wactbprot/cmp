@@ -12,12 +12,14 @@
   (let [ks  (sort (st/get-keys (u/get-state-path p i)))
         ready-ks (filter
                   (fn [k]
-                    (= (st/get-val k) "ready"))
+                    (= (st/get-val k)
+                       "ready"))
                   ks)
-        next-idx (u/extr-seq-idx (first ready-ks))
+        next-idx (u/key->seq-idx (first ready-ks))
         next-ks (filter
                  (fn [k]
-                   (= (u/extr-seq-idx k) next-idx))
+                   (= (u/key->seq-idx k)
+                      next-idx))
                  ready-ks)]
     next-ks
     ))

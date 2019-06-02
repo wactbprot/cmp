@@ -68,9 +68,6 @@
   [s]
   s)
 
-(defn vec->key [p]
-  (string/join sep p))
-
 (defn gen-map [j]
   (json/read-str j :key-fn keyword))
 
@@ -161,14 +158,25 @@
   [x]
   x)
 
-(defn extr-seq-idx
-  "The index of the sequential step is given at position 4."
-  [s]
-  ((string/split s re-sep) 4))
-
 (defn replace-key-at-level
   "Generates a new key by replacing an old one at a certain position"
   [l k r]
   (vec->key
    (assoc
     (string/split k re-sep) l r)))
+
+
+(defn key->seq-idx
+  "The index of the sequential step is given at position 4."
+  [s]
+  ((string/split s re-sep) 4))
+
+(defn id-key->id
+  "Returns position 2 of the id key which should be the document id.
+  No checks so far."
+  [k]
+  ((string/split k re-sep) 2))
+  
+  
+(defn vec->key [p]
+  (string/join sep p))

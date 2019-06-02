@@ -17,4 +17,11 @@
 
 (defn del
   [p doc-id]
-   (st/del-key! (u/get-id-path p doc-id)))
+  (st/del-key! (u/get-id-path p doc-id)))
+
+(defn get-ids
+  [p]
+  (let [ks (st/get-keys (u/vec->key [p "id"]))]
+    (mapv
+     (fn [k] (u/id-key->id k))
+     ks)))
