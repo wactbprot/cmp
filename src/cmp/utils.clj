@@ -29,10 +29,17 @@
    (assoc
     (string/split k re-sep) l r)))
 
-(defn key->seq-idx
-  "The index of the sequential step is given at position 4."
-  [s]
-  ((string/split s re-sep) 4))
+(defmulti key->seq-idx
+  class)
+
+(defmethod key->seq-idx java.lang.String
+  [k]
+  (Integer/parseInt  ((string/split k re-sep) 4)))
+
+(defmethod key->seq-idx :default
+  [k]
+  0)
+
 
 (defn id-key->id
   "Returns position 2 of the id key which should be the document id.

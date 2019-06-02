@@ -6,20 +6,32 @@
             [cmp.utils :as u])
   (:gen-class))
 
-(defn find-next
-  "Finds the next tasks to run."
+(defn executed?
+  [k]
+  (= (st/get-val k)
+     "executed"))
+
+(defn ready?
+  [k]
+  (= (st/get-val k)
+     "ready"))
+
+(defn same-idx-fn
+  [idx]
+  (fn [k]
+    (= (u/key->seq-idx k)
+       idx)))
+
+(defn extr-next
+  "Finds the next tasks to run.
+  Todo: needs to check if all tasks before next ready are executed"
   [p i]
   (let [ks  (sort (st/get-keys (u/get-state-path p i)))
-        ready-ks (filter
-                  (fn [k]
-                    (= (st/get-val k)
-                       "ready"))
-                  ks)
-        next-idx (u/key->seq-idx (first ready-ks))
-        next-ks (filter
-                 (fn [k]
-                   (= (u/key->seq-idx k)
-                      next-idx))
-                 ready-ks)]
+        exec-ks (filter executed? ks)
+        ready-ks (filter ready? ks)
+        last-exec-idx (u/key->seq-idx (last exec-ks))
+        next-ready-idx (u/key->seq-idx (first ready-ks))
+        same-idx? (same-idx-fn next-ready-idx)
+        next-ks (filter same-idx? ready-ks)]
     next-ks
     ))
