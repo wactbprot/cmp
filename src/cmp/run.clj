@@ -22,8 +22,14 @@
     (= (u/key->seq-idx k)
        idx)))
 
+(defn successor-idx-fn
+  [idx]
+  (fn [k]
+    (= (u/key->seq-idx k)
+       idx + 1)))
+
 (defn extr-next
-  "Finds the next tasks to run.
+  "Extracts the next tasks to run.
   Todo: needs to check if all tasks before next ready are executed"
   [p i]
   (let [ks  (sort (st/get-keys (u/get-state-path p i)))
