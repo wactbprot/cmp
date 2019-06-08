@@ -21,3 +21,17 @@ runing
 ...
 cmp.poll> (stop "se3-calib" 5)
 ```
+
+## idea:
+
+- skip load step (always on build) attache the
+cdid just before send task to worker
+
+## redis gui
+
+### redis-commander
+
+$ npm install -g redis-commander
+
+https://github.com/joeferner/redis-commander
+http://localhost:8081/
