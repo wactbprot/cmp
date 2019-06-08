@@ -16,28 +16,43 @@
   (= (st/get-val k)
      "ready"))
 
-(defn same-idx-fn
+(defn par-idx-fn
   [idx]
   (fn [k]
     (= (u/key->seq-idx k)
        idx)))
 
-(defn successor-idx-fn
+(defn first-or-successor-idx-fn
   [idx]
   (fn [k]
-    (= (u/key->seq-idx k)
-       idx + 1)))
+    (or
+     (= (u/key->seq-idx k)
+        0)
+     (= (u/key->seq-idx k)
+        (+ idx 1)))))
 
-(defn extr-next
+(defn trigger-next
   "Extracts the next tasks to run.
-  Todo: needs to check if all tasks before next ready are executed"
+  1) get all state keys of the container
+  2) sort
+  3) filter out all executed ones
+  4) filter out all ready ones
+  5) get the last executed idx
+  6) get the next ready idx
+  7) generate filter fns:
+  7a) par-idx? with the idx of the next-ready-idx and
+  7b) first-or-successor-idx? with the idx of the last-exec-idx
+  8) filter on 7a&b fns"
   [p i]
   (let [ks  (sort (st/get-keys (u/get-state-path p i)))
         exec-ks (filter executed? ks)
         ready-ks (filter ready? ks)
         last-exec-idx (u/key->seq-idx (last exec-ks))
         next-ready-idx (u/key->seq-idx (first ready-ks))
-        same-idx? (same-idx-fn next-ready-idx)
-        next-ks (filter same-idx? ready-ks)]
-    next-ks
+        par-idx? (par-idx-fn next-ready-idx)
+        first-or-successor-idx? (first-or-successor-idx-fn last-exec-idx)
+        par-ks (filter par-idx? ready-ks)
+        next-ks (filter first-or-successor-idx? par-ks)
+        ]
+    (println next-ks)
     ))

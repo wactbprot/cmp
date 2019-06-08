@@ -5,6 +5,7 @@
   (:require [taoensso.timbre :as log]
             [cmp.st :as st]
             [cmp.prep :as p]
+            [cmp.run :as r]
             [cmp.utils :as u])
   (:gen-class))
 
@@ -28,7 +29,11 @@
 
 (defmethod dispatch :run
   [s p i]
-  (println "run"))
+ (let [ctrl-path (u/get-ctrl-path p i)
+        ctrl-str-before (u/set-next-ctrl s "runing")]
+    (dosync
+     (st/set-val! ctrl-path ctrl-str-before)
+     (r/trigger-next p i))))
 
 (defmethod dispatch :load
   [s p i]

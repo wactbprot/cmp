@@ -40,7 +40,6 @@
   [k]
   0)
 
-
 (defn id-key->id
   "Returns position 2 of the id key which should be the document id.
   No checks so far."
