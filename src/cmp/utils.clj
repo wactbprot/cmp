@@ -40,6 +40,40 @@
   [k]
   0)
 
+(defmulti key->par-idx
+  class)
+
+(defmethod key->par-idx java.lang.String
+  [k]
+  (Integer/parseInt  ((string/split k re-sep) 5)))
+
+(defmethod key->par-idx :default
+  [k]
+  0)
+
+(defmulti key->cont-idx
+  class)
+
+(defmethod key->cont-idx java.lang.String
+  [k]
+  (Integer/parseInt  ((string/split k re-sep) 2)))
+
+(defmethod key->cont-idx :default
+  [k]
+  0)
+
+(defmulti key->mp-name
+  class)
+
+(defmethod key->mp-name java.lang.String
+  [k]
+  ((string/split k re-sep) 0))
+
+(defmethod key->mp-name :default
+  [k]
+  "")
+
+
 (defn id-key->id
   "Returns position 2 of the id key which should be the document id.
   No checks so far."

@@ -1,12 +1,13 @@
 (ns cmp.task
   ^{:author "wactbprot"
     :doc "Builds up the short term memory with given the mp-definition."}
-  (:require [cmp.utils :as u]
-            [clojure.spec.alpha :as s]
+  (:require [clojure.spec.alpha :as s]
             [taoensso.timbre :as log]
             [clojure.data.json :as json]
             [clojure.walk :as walk]
             [clojure.string :as string]
+            [cmp.utils :as u]
+            [cmp.doc :as d]
             [cmp.lt :as lt]
             [cmp.st :as st])
   (:gen-class))
@@ -17,7 +18,6 @@
 (s/def ::Action string?)
 (s/def ::Replace map?)
 (s/def ::Use map?)
-;(s/def ::Customer boolean?))
 (s/def ::Host string?)
 (s/def ::Port string?)
 (s/def ::Value string?)
@@ -41,24 +41,19 @@
   (s/valid? ::task m))
 
 (defn global-defaults []
-  (let [d (u/get-date-object)
-        g {"@hour" (u/get-hour d)
-           "@minute" (u/get-min d)
-           "@second" (u/get-sec d)
-           "@year" (u/get-year d)
-           "@month" (u/get-month d)
-           "@day" (u/get-day d)
-           "@time" (u/get-time d)
-           }]
-    g))
+  (let [d (u/get-date-object)]
+    {"@hour" (u/get-hour d)
+     "@minute" (u/get-min d)
+     "@second" (u/get-sec d)
+     "@year" (u/get-year d)
+     "@month" (u/get-month d)
+     "@day" (u/get-day d)
+     "@time" (u/get-time d)
+     }))
 
 (defn get-temps
-  "Temps contain values related to the current mpd.
-   Reminder: customer tasks; e.g. the @devicename key belongs
-   to Customer=true"
+  "Temps contain values related to the current mpd."
   [p]
-    ;;; def["@devicename"] = dn;
-    ;;; def["@cdids"]      = idArr;
   {"@standard" (st/get-val (u/vec->key [p "meta" "standard"]))
    "@mpname" (st/get-val (u/vec->key [p "meta" "name"]))})        
 
@@ -123,33 +118,31 @@
 
 (defmethod gen-meta-task clojure.lang.PersistentArrayMap
   [proto-task]
-  (let [{replace :Replace use :Use cust :Customer} proto-task
+  (let [{replace :Replace use :Use} proto-task
         {db-task :value} (lt/get-task-view proto-task)
         {defaults :Defaults} db-task
         task (dissoc db-task :Defaults)
         globals (global-defaults)]
     {:Task task
      :Use use
-     :Customer (not (nil? cust))
      :Defaults (u/make-map-regexable defaults)
      :Globals (u/make-map-regexable globals)
-     :Replace (u/make-map-regexable replace)
-     }))
+     :Replace (u/make-map-regexable replace)}))
 
-(defn assemble
+(defn static-assemble
   "Assembles the task from the given meta-task in a special order."
   [meta-task]
   (let [{task :Task 
          use-map :Use 
-         temps :Temps
-         defaults :Defaults 
-         globals :Globals
          replace :Replace
-         cust? :Customer} meta-task]
+         defaults :Defaults 
+         globals :Globals} meta-task]
     (->> task
          (merge-use-map use-map)
          (replace-map replace)
          (replace-map defaults)
-         (replace-map temps)
-         (replace-map defaults)
          (replace-map globals))))
+
+(defn dyn-assemble
+  [task]
+  (assoc task :Id (d/get-ids (:Mp task))))  

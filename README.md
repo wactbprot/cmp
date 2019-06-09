@@ -22,10 +22,20 @@ runing
 cmp.poll> (stop "se3-calib" 5)
 ```
 
-## idea:
+## arch:
+### idea:
 
-- skip load step (always on build) attache the
-cdid just before send task to worker
+- skip load step (load always on build)
+- attache the cd-id right before send task to worker
+
+## consequence is:
+
+### pro:
+- the cust: true tasks vanish
+- no additional tasks have to be generated at runtime
+
+### con:
+- additional cust proxy server (like anselm) becomes mandatory
 
 ## redis gui
 

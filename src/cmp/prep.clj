@@ -22,11 +22,10 @@
        (let [state-key (u/replace-key-at-level 3 k "state")
              recipe-key (u/replace-key-at-level 3 k "recipe")
              proto-task (u/gen-map (st/get-val k))
-             temps (tsk/get-temps p)
-             meta-task (assoc (tsk/gen-meta-task proto-task) :Temps temps)]
+             meta-task (tsk/gen-meta-task proto-task)]
          (assert (tsk/task? (:Task meta-task)))
          (dosync
           (st/set-val! state-key "prepairing")
-          (st/set-val! recipe-key (u/gen-value (tsk/assemble meta-task)))
+          (st/set-val! recipe-key (u/gen-value (tsk/static-assemble meta-task)))
           (st/set-val! state-key "ready"))))
      ks)))

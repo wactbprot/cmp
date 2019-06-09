@@ -35,11 +35,17 @@
      (st/set-val! ctrl-path ctrl-str-before)
      (r/trigger-next p i))))
 
+(defmethod dispatch :runing
+  [s p i]
+  (log/info "r" p i )
+  (r/trigger-next p i))
+
 (defmethod dispatch :load
   [s p i]
   (let [ctrl-path (u/get-ctrl-path p i)
         ctrl-str-before (u/set-next-ctrl s "loading")
         ctrl-str-after (u/rm-next-ctrl s)]
+    (log/info "start prepait/load container" p i )
     (dosync
      (st/set-val! ctrl-path ctrl-str-before)
      (p/container p i)
@@ -47,7 +53,7 @@
 
 (defmethod dispatch :default
   [s p i]
-  (println s))
+  (log/debug "dispatch  default is: " s))
 
 (defn monitor
   [p i]

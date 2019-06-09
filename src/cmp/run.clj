@@ -3,8 +3,23 @@
     :doc "Runs the upcomming tasks of a certain container."}
   (:require [taoensso.timbre :as log]
             [cmp.st :as st]
+            [cmp.task :as tsk]
             [cmp.utils :as u])
   (:gen-class))
+
+
+(defn par-start
+  [ks]
+  (mapv
+   (fn [k]
+     (let [recipe-key (u/replace-key-at-level 3 k "recipe")
+           task (u/gen-map (st/get-val recipe-key))]
+       (assoc task
+              :Mp (u/key->mp-name k)
+              :Cont (u/key->cont-idx k)
+              :Seq (u/key->seq-idx k)
+              :Par (u/key->par-idx k))))
+     ks))
 
 (defn executed?
   [k]
@@ -51,8 +66,6 @@
         next-ready-idx (u/key->seq-idx (first ready-ks))
         par-idx? (par-idx-fn next-ready-idx)
         first-or-successor-idx? (first-or-successor-idx-fn last-exec-idx)
-        par-ks (filter par-idx? ready-ks)
-        next-ks (filter first-or-successor-idx? par-ks)
-        ]
-    (println next-ks)
-    ))
+        next-par-ks (filter first-or-successor-idx?
+                            (filter par-idx? ready-ks))]
+    (par-start next-par-ks)))
