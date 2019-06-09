@@ -23,19 +23,31 @@ cmp.poll> (stop "se3-calib" 5)
 ```
 
 ## arch:
-### idea:
+### idea --> cd-id:
 
 - skip load step (load always on build)
 - attache the cd-id right before send task to worker
 
-## consequence is:
+### consequence is:
 
-### pro:
+#### pro:
 - the cust: true tasks vanish
 - no additional tasks have to be generated at runtime
 
-### con:
+#### con:
 - additional cust proxy server (like anselm) becomes mandatory
+
+### idea --> skip recipe concept
+
+- assemble complete task at runtime (possible since the
+struct of the definition don't change since
+customer forking is no longer the way to go) 
+- prep-step --> check-step
+
+### idea --> run definition_s_ in place
+
+- further idea which reduces state
+- makes the "reset-bla-task"s no longer necessary 
 
 ## redis gui
 
