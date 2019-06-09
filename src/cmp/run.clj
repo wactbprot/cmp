@@ -14,12 +14,13 @@
    (fn [k]
      (let [recipe-key (u/replace-key-at-level 3 k "recipe")
            task (u/gen-map (st/get-val recipe-key))]
-       (assoc task
-              :Mp (u/key->mp-name k)
-              :Cont (u/key->cont-idx k)
-              :Seq (u/key->seq-idx k)
-              :Par (u/key->par-idx k))))
-     ks))
+       (tsk/dyn-assemble
+        (assoc task
+               :Mp (u/key->mp-name k)
+               :Cont (u/key->cont-idx k)
+               :Seq (u/key->seq-idx k)
+               :Par (u/key->par-idx k)))))
+       ks))
 
 (defn executed?
   [k]
