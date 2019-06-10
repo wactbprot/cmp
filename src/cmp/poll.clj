@@ -4,7 +4,7 @@
           and reacts on result (:load, :run, :stop etc)."}
   (:require [taoensso.timbre :as log]
             [cmp.st :as st]
-            [cmp.prep :as p]
+            [cmp.check :as chk]
             [cmp.run :as r]
             [cmp.utils :as u])
   (:gen-class))
@@ -24,6 +24,8 @@
   (contains? @future-calls p))
 
 (defmulti dispatch
+  "The load cmd now leads to a check since 
+   the recipe concept is droped"
   (fn [s p i]
     (keyword (u/get-next-ctrl s))))
 
@@ -43,12 +45,12 @@
 (defmethod dispatch :load
   [s p i]
   (let [ctrl-path (u/get-ctrl-path p i)
-        ctrl-str-before (u/set-next-ctrl s "loading")
+        ctrl-str-before (u/set-next-ctrl s "checking")
         ctrl-str-after (u/rm-next-ctrl s)]
-    (log/info "start prepait/load container" p i )
+    (log/info "checking the tasks of the container" p i )
     (dosync
      (st/set-val! ctrl-path ctrl-str-before)
-     (p/container p i)
+     (chk/container p i)
      (st/set-val! ctrl-path ctrl-str-after))))
 
 (defmethod dispatch :default

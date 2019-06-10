@@ -31,6 +31,9 @@
 (defn proto-task? [x]
   (s/valid? ::proto-task x))
 
+(defn meta-task? [x]
+  (task? (:Task x)))
+
 (defmulti task?
   (fn [m] (m :Action)))
 
@@ -129,7 +132,7 @@
      :Globals (u/make-map-regexable globals)
      :Replace (u/make-map-regexable replace)}))
 
-(defn static-assemble
+(defn assemble
   "Assembles the task from the given meta-task in a special order."
   [meta-task]
   (let [{task :Task 
@@ -142,7 +145,3 @@
          (replace-map replace)
          (replace-map defaults)
          (replace-map globals))))
-
-(defn dyn-assemble
-  [task]
-  (assoc task :Id (d/get-ids (:Mp task))))  

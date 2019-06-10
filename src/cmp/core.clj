@@ -4,7 +4,7 @@
             [cmp.utils :as u]
             [cmp.doc :as d]
             [cmp.build :as b]
-            [cmp.prep :as p])
+            [cmp.check :as chk])
   (:gen-class)
   (:use [clojure.repl]))
 
@@ -18,10 +18,10 @@
   [id]
   (st/clear (u/extr-main-path id)))
 
-(defn prep-cont
-  "Prepairs the ith container"
+(defn check-cont
+  "Checks the tasks of the ith container"
   [id i]
-  (p/container (u/extr-main-path id) i))
+  (chk/container (u/extr-main-path id) i))
 
 (defn add-doc
   "Adds a doc to the api to store the resuls in."
