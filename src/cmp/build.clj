@@ -12,63 +12,53 @@
 
 (defn store-exchange
   "Stores the exchange data."
-  [path {exchange :Exchange}]
+  [p {exchange :Exchange}]
   (doseq [[k v] exchange]
-    (st/set-val! (u/vec->key [path "exchange" (name k)])
+    (st/set-val! (u/vec->key [p "exchange" (name k)])
             (u/gen-value v))))
 
 (defn store-definition
   "Stores the definition section."
-  [path {definition :Definition}]
+  [p i defin]
   (doall
    (map-indexed
     (fn [idx s]
       (doall
        (map-indexed
-        (fn [jdx p]
-          (let [st-path (u/vec->key [path "definition" idx jdx])
-                st-value (u/gen-value p)]
-            (log/info "try to write proto task to path: " st-path)
-            (log/debug "proto task is:" p)
-            (assert (tsk/proto-task? p))
-            (st/set-val! st-path st-value)))
+        (fn [jdx ptsk]
+          (st/set-val! (u/get-defin-path p i idx jdx) (u/gen-value ptsk)))
         s)))
-   definition)))
+    defin)))
+
+(defn store-container
+  [p i cont]
+  (let [{descr :Description
+         title :Title
+         ctrl :Ctrl
+         elem :Element
+         defin :Definition} cont
+        ep "container"]           
+    (st/set-val! (u/vec->key [p ep i "title"]) title)
+    (st/set-val! (u/vec->key [p ep i "description"]) descr)
+    (st/set-val! (u/vec->key [p ep i "ctrl"]) (u/gen-value ctrl))
+    (st/set-val! (u/vec->key [p ep i "elem"]) (u/gen-value elem))
+    (store-definition p i defin)))
 
 (defn store-containers
   "Stores the containers"
-  [path {container :Container}]
+  [p {conts :Container}]
   (doall
    (map-indexed
-    (fn [i c]
-      (let [{description :Description
-             title :Title
-             ctrl :Ctrl
-             elem :Element
-             definition :Definition} c
-            e-path "container"]           
-        (st/set-val! (u/vec->key [path e-path i "title"])
-                     title)
-        (st/set-val! (u/vec->key [path e-path i "description"])
-                     description)
-        (st/set-val! (u/vec->key [path e-path i "ctrl"])
-                     (u/gen-value ctrl))
-        (st/set-val! (u/vec->key [path e-path i "elem"])
-                     (u/gen-value elem))
-        (store-definition (u/vec->key [path e-path i]) c)
-        ))
-    container)))
+    (fn [i cont] (store-container p i cont))
+    conts)))
 
 (defn store-meta
   "Stores the mp meta data."
-  [path {standard :Standard name :Name descr :Describtion}]
-  (let [e-path "meta"]
-    (st/set-val! (u/vec->key [path e-path "standard"])
-                 standard)
-    (st/set-val! (u/vec->key [path e-path "name"])
-                 name)
-    (st/set-val! (u/vec->key [path e-path "description"])
-                 descr)))
+  [p {standard :Standard name :Name descr :Describtion}]
+  (let [ep "meta"]
+    (st/set-val! (u/vec->key [p ep "standard"])  standard)
+    (st/set-val! (u/vec->key [p ep "name"]) name)
+    (st/set-val! (u/vec->key [p ep "description"]) descr)))
 
 (defn store
   "Triggers the storing of meta. exchange etc. to

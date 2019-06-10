@@ -138,13 +138,17 @@
   [p i]
   (vec->key [p "container" i "ctrl"]))
 
+(defn get-defin-path
+  [p c i j]
+  (vec->key [p "container" c "definition" i j]))
+
 (defn get-state-path
   [p i]
   (vec->key [p "container" i "state"]))
 
 (defn get-id-path
-  [p i]
-  (vec->key [p "id" i]))
+  [p id]
+  (vec->key [p "id" id]))
 
 (defn gen-re-from-map-keys
   [m]

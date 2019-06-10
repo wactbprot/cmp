@@ -29,6 +29,6 @@
   (d/add (u/extr-main-path mp-id) doc-id))
 
 (defn del-doc
-  "Removes a doc to the api to store the resuls in."
+  "Removes a doc from the api."
   [mp-id doc-id]
   (d/del (u/extr-main-path mp-id) doc-id))

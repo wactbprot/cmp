@@ -26,24 +26,29 @@
                             :opt-un [::Replace ::Use]))
 (s/def ::task (s/keys :req-un [::TaskName ::Action]))
 (s/def ::tcp-task (s/keys :req-un [::TaskName ::Host ::Port]
-                            :opt-un [::DocPath]))
+                          :opt-un [::DocPath]))
 
-(defn proto-task? [x]
+(defn proto-task?
+  [x]
   (s/valid? ::proto-task x))
 
-(defn meta-task? [x]
+(defn meta-task?
+  [x]
   (task? (:Task x)))
 
 (defmulti task?
   (fn [m] (m :Action)))
 
-(defmethod task? "TCP" [m]
+(defmethod task? "TCP"
+  [m]
   (s/valid? ::tcp-task m))
 
-(defmethod task? :default [m]
+(defmethod task? :default
+  [m]
   (s/valid? ::task m))
 
-(defn global-defaults []
+(defn global-defaults
+  []
   (let [d (u/get-date-object)]
     {"@hour" (u/get-hour d)
      "@minute" (u/get-min d)
@@ -87,7 +92,8 @@
        (keyword)))
 
 (defmulti merge-use-map
-  "The use keyword enables a replace mechanism. It works like this:
+  "The use keyword enables a replace mechanism.
+  It works like this:
   proto-task: Use: {Values: med_range}
   -->
   task: Value: rangeX.1"
