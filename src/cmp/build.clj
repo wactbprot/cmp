@@ -52,6 +52,16 @@
     (fn [i cont] (store-container p i cont))
     conts)))
 
+; --next-->
+;(defn store-definitions
+;  "Stores the definition section which includes
+;  definitionclass and conditions"
+;  [p {devins :Definitions}]
+;  (doall
+;   (map-indexed
+;    (fn [i cont] (store-container p i cont))
+;    defins)))
+
 (defn store-meta
   "Stores the mp meta data."
   [p {standard :Standard name :Name descr :Describtion}]
@@ -63,11 +73,14 @@
 (defn store
   "Triggers the storing of meta. exchange etc. to
   the short term memory"
-  [{id :_id rev :_rev mp-def :Mp}]
-  (let [path (u/extr-main-path id)]
-    (st/clear [path "meta"])
-    (store-meta path mp-def)
-    (st/clear [path "exchange"])
-    (store-exchange path mp-def)
-    (st/clear [path "container"])
-    (store-containers path mp-def)))
+  [{id :_id rev :_rev mp :Mp}]
+  (let [p (u/extr-main-path id)]
+    (st/clear [p "meta"])
+    (store-meta p mp)
+    (st/clear [p "exchange"])
+    (store-exchange p mp)
+    (st/clear [p "container"])
+    (store-containers p mp)
+    ;(st/clear [p "definitions"])
+    ;(store-definitions p mp)
+    ))
