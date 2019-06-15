@@ -142,6 +142,14 @@
   [p c i j]
   (vec->key [p "container" c "definition" i j]))
 
+(defn get-defins-path
+  [p i cls j k]
+  (vec->key [p "definitions" i "definition" cls j k]))
+
+(defn get-conditions-path
+  [p i cls j]
+  (vec->key [p "definitions" i "conditions" cls j]))
+
 (defn get-state-path
   [p i]
   (vec->key [p "container" i "state"]))
@@ -154,7 +162,8 @@
   [m]
   (re-pattern (string/join "|" (keys m))))
 
-(defn apply-to-map-values [f m]
+(defn apply-to-map-values
+  [f m]
   (into {} (map (fn [[k v]] [k (f v)]) m)))
 
 (defmulti make-map-regexable

@@ -8,7 +8,7 @@
   (:gen-class)
   (:use [clojure.repl]))
 
-(defn load-mp
+(defn build-mp
   "Loads document from long term memory and fetches it to short term memory"
   [id]
   (b/store (lt/get-doc id)))

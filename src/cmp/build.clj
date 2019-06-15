@@ -17,50 +17,84 @@
     (st/set-val! (u/vec->key [p "exchange" (name k)])
             (u/gen-value v))))
 
-(defn store-definition
+(defn store-defin
   "Stores the definition section."
-  [p i defin]
+  [p idx defin]
   (doall
    (map-indexed
-    (fn [idx s]
+    (fn [jdx s]
       (doall
        (map-indexed
-        (fn [jdx ptsk]
-          (st/set-val! (u/get-defin-path p i idx jdx) (u/gen-value ptsk)))
+        (fn [kdx ptsk]
+          (st/set-val! (u/get-defin-path p idx jdx kdx) (u/gen-value ptsk)))
         s)))
     defin)))
 
+(defn store-defins
+  "Stores the definition_s_ section."
+  [p idx cls defin]
+  (doall
+   (map-indexed
+    (fn [jdx s]
+      (doall
+       (map-indexed
+        (fn [kdx ptsk]
+          (st/set-val! (u/get-defins-path p idx cls jdx kdx) (u/gen-value ptsk)))
+        s)))
+    defin)))
+
+(defn store-conds
+  "Stores the definitions conditions."
+  [p idx cls conds]
+  (doall
+   (map-indexed
+    (fn [jdx c]
+          (st/set-val! (u/get-conditions-path p idx cls jdx) (u/gen-value c)))
+        conds)))
+
 (defn store-container
-  [p i cont]
+  [p idx cont]
   (let [{descr :Description
          title :Title
          ctrl :Ctrl
          elem :Element
          defin :Definition} cont
         ep "container"]           
-    (st/set-val! (u/vec->key [p ep i "title"]) title)
-    (st/set-val! (u/vec->key [p ep i "description"]) descr)
-    (st/set-val! (u/vec->key [p ep i "ctrl"]) (u/gen-value ctrl))
-    (st/set-val! (u/vec->key [p ep i "elem"]) (u/gen-value elem))
-    (store-definition p i defin)))
+    (st/set-val! (u/vec->key [p ep idx "title"]) title)
+    (st/set-val! (u/vec->key [p ep idx "description"]) descr)
+    (st/set-val! (u/vec->key [p ep idx "ctrl"]) (u/gen-value ctrl))
+    (st/set-val! (u/vec->key [p ep idx "elem"]) (u/gen-value elem))
+    (store-defin p idx defin)))
 
-(defn store-containers
+(defn store-all-container
   "Stores the containers"
   [p {conts :Container}]
   (doall
    (map-indexed
-    (fn [i cont] (store-container p i cont))
+    (fn [idx cont] (store-container p idx cont))
     conts)))
 
-; --next-->
-;(defn store-definitions
-;  "Stores the definition section which includes
-;  definitionclass and conditions"
-;  [p {devins :Definitions}]
-;  (doall
-;   (map-indexed
-;    (fn [i cont] (store-container p i cont))
-;    defins)))
+(defn store-definitions
+  "Stores a definition given in the definition section
+  (second way beside container to provide definitions). This includes
+  definitionclass and conditions"
+  [p idx ds]
+  (let [{cls :DefinitionClass
+         descr :ShortDescr
+         conds :Condition
+         defin :Definition} ds
+        ep "definitions"]
+    (st/set-val! (u/vec->key [p "definitions" idx "description" cls]) descr)
+    (store-conds p idx cls conds)
+    (store-defins p idx cls defin)))
+
+(defn store-all-definitions
+  "Triggers the storing of the definition section."
+  [p {defins :Definitions}]
+  (doall
+   (map-indexed
+    (fn [idx ds] (store-definitions p idx ds))
+    defins)))
 
 (defn store-meta
   "Stores the mp meta data."
@@ -80,7 +114,7 @@
     (st/clear [p "exchange"])
     (store-exchange p mp)
     (st/clear [p "container"])
-    (store-containers p mp)
-    ;(st/clear [p "definitions"])
-    ;(store-definitions p mp)
+    (store-all-container p mp)
+    (st/clear [p "definitions"])
+    (store-all-definitions p mp)
     ))

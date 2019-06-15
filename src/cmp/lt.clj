@@ -11,8 +11,12 @@
 
 (defn get-doc
   [id]
-  (log/debug "document id to get is: " id)
-  (couch/get-document conn id))
+  (log/info "try to get document with id: " id)
+  (try
+    (couch/get-document conn id)
+    (catch Exception ex
+      (log/error (.getMessage ex))
+      nil)))
 
 (defn get-task-view
   [{task-name :TaskName}]
