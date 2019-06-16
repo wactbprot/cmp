@@ -14,14 +14,13 @@
   4) the meta-task is checked against the spec
   5) the state is set to 'ready'"   
   [p i]
-  (let [ks (st/get-keys (u/vec->key [p "container" i "definition"]))]
+  (let [ks (st/get-keys (u/get-defin-path p i))]
     (mapv
      (fn [k]
        (let [state-key (u/replace-key-at-level 3 k "state")
              proto-task (u/gen-map (st/get-val k))
              meta-task (tsk/gen-meta-task proto-task)]
-         (dosync
-          (st/set-val! state-key "checking")
-          (assert (tsk/meta-task? meta-task))
-          (st/set-val! state-key "ready"))))
+         (st/set-val! state-key "checking")
+         (assert (tsk/meta-task? meta-task))
+         (st/set-val! state-key "ready")))
      ks)))

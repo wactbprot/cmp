@@ -10,12 +10,18 @@
 
 (log/set-level! :info)
 
+;;------------------------------
+;; exchange
+;;------------------------------
 (defn store-exchange
   "Stores the exchange data."
   [p {exchange :Exchange}]
   (doseq [[k v] exchange]
     (st/set-val! (u/get-exch-path p (name k)) (u/gen-value v))))
 
+;;------------------------------
+;; container
+;;------------------------------
 (defn store-defin
   "Stores the definition section."
   [p idx defin]
@@ -25,11 +31,13 @@
       (doall
        (map-indexed
         (fn [kdx ptsk]
-          (st/set-val! (u/get-defin-path p idx jdx kdx) (u/gen-value ptsk)))
+          (st/set-val! (u/get-defin-path p idx jdx kdx) (u/gen-value ptsk))
+          (st/set-val! (u/get-state-path p idx jdx kdx) "build"))
         s)))
     defin)))
 
 (defn store-container
+  "Stores a single container"
   [p idx {descr :Description
           title :Title
           ctrl :Ctrl
@@ -42,13 +50,16 @@
   (store-defin p idx defin))
 
 (defn store-all-container
-  "Stores the containers"
+  "Triggers the storing of the singel containers"
   [p {conts :Container}]
   (doall
    (map-indexed
     (fn [idx cont] (store-container p idx cont))
     conts)))
 
+;;------------------------------
+;; definitions
+;;------------------------------
 (defn store-defins
   "Stores the definitions section."
   [p cls idx defin]
@@ -58,7 +69,12 @@
       (doall
        (map-indexed
         (fn [kdx ptsk]
-          (st/set-val! (u/get-defins-defin-path p cls idx jdx kdx) (u/gen-value ptsk)))
+          (st/set-val!
+           (u/get-defins-defin-path p cls idx jdx kdx)
+           (u/gen-value ptsk))
+          (st/set-val!
+           (u/get-defins-state-path p cls jdx kdx)
+           "build"))
         s)))
     defin)))
 
@@ -82,7 +98,8 @@
          defin :Definition} ds]
     (st/set-val! (u/get-defins-descr-path p cls idx) descr)
     (store-conds p cls idx conds)
-    (store-defins p cls idx defin)))
+    (store-defins p cls idx defin)
+    (st/set-val! (u/get-defins-ctrl-path p cls idx) "ready")))
 
 (defn store-all-definitions
   "Triggers the storing of the definition section."
@@ -92,15 +109,21 @@
     (fn [idx ds] (store-definitions p idx ds))
     defins)))
 
+;;------------------------------
+;; meta
+;;------------------------------
 (defn store-meta
   "Stores the mp meta data."
   [p {standard :Standard
       name :Name
       descr :Describtion}]
-  (st/set-val! (u/get-meta-std-path p)  standard)
+  (st/set-val! (u/get-meta-std-path p) standard)
   (st/set-val! (u/get-meta-name-path p) name)
   (st/set-val! (u/get-meta-descr-path p) descr))
 
+;;------------------------------
+;; all
+;;------------------------------
 (defn store
   "Triggers the storing of meta. exchange etc. to
   the short term memory. Clears up the field before"
@@ -109,10 +132,10 @@
     mp :Mp}]
   (let [p (u/extr-main-path id)]
     (st/clear (u/get-meta-prefix p))
-    (store-meta p mp)
     (st/clear (u/get-exch-prefix p))
-    (store-exchange p mp)
     (st/clear (u/get-cont-prefix p))
-    (store-all-container p mp)
     (st/clear (u/get-defins-prefix p))
+    (store-meta p mp)
+    (store-exchange p mp)
+    (store-all-container p mp)
     (store-all-definitions p mp)))

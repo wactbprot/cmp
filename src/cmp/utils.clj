@@ -180,12 +180,16 @@
   (vec->key [(get-cont-prefix p) i  "elem"]))
 
 (defn get-defin-path
-  [p i j k]
-  (vec->key [(get-cont-prefix p) i "definition" j k]))
+  ([p i]
+   (vec->key [(get-cont-prefix p) i "definition"]))
+  ([p i j k]
+   (vec->key [(get-cont-prefix p) i "definition" j k])))
 
 (defn get-state-path
-  [p i]
-  (vec->key [(get-cont-prefix p) i  "state"]))
+  ([p i]
+   (vec->key [(get-cont-prefix p) i  "state"]))
+  ([p i j k]
+   (vec->key [(get-cont-prefix p) i  "state" j k])))
 
 ;;------------------------------
 ;; definitions path
@@ -198,9 +202,19 @@
   [p cls i j k]
   (vec->key [(get-defins-prefix p) cls "definition" i j k]))
 
+(defn get-defins-state-path
+  ([p cls]
+   (vec->key [(get-defins-prefix p) cls  "state"]))
+  ([p cls j k]
+   (vec->key [(get-defins-prefix p) cls  "state" j k])))
+
 (defn get-defins-cond-path
   [p cls i j]
   (vec->key [(get-defins-prefix p) cls "cond" i j]))
+
+(defn get-defins-ctrl-path
+  [p cls i]
+  (vec->key [(get-defins-prefix p) cls "ctrl" i]))
 
 (defn get-defins-descr-path
   [p cls i]
