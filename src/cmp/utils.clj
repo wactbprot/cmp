@@ -80,6 +80,9 @@
   [k]
   ((string/split k re-sep) 2))
 
+;;------------------------------
+;; date time
+;;------------------------------
 (def date-f (tm-f/formatters :date))
 (def hour-f (tm-f/formatter "HH"))
 (def min-f (tm-f/formatter "mm"))
@@ -118,6 +121,13 @@
   ([d]
    (str (tm-c/to-long d))))
 
+
+(defn gen-map [j]
+  (json/read-str j :key-fn keyword))
+
+;;------------------------------
+;; path
+;;------------------------------
 (defmulti extr-main-path
   "Should work on mpd-aaa-bbb as well as on aaa-bbb"
   (fn [s] (string/starts-with? s "mpd-")))
@@ -131,32 +141,97 @@
   [s]
   s)
 
-(defn gen-map [j]
-  (json/read-str j :key-fn keyword))
+;;------------------------------
+;; exchange
+;;------------------------------
+(defn get-exch-prefix
+  [p]
+  (vec->key [p "exchange"]))
 
+(defn get-exch-path
+  [p name]
+  (vec->key [(get-exch-prefix p) name]))
+
+;;------------------------------
+;; container path
+;;------------------------------
+(defn get-cont-prefix
+  [p]
+  (vec->key [p "container"]))
+  
 (defn get-ctrl-path
   [p i]
-  (vec->key [p "container" i "ctrl"]))
+  (vec->key [(get-cont-prefix p) i  "ctrl"]))
+
+(defn get-cont-title-path
+  [p i]
+  (vec->key [(get-cont-prefix p) i  "title"]))
+
+(defn get-cont-descr-path
+  [p i]
+  (vec->key [(get-cont-prefix p) i  "descr"]))
+
+(defn get-cont-ctrl-path
+  [p i]
+  (vec->key [(get-cont-prefix p) i  "ctrl"]))
+
+(defn get-cont-elem-path
+  [p i]
+  (vec->key [(get-cont-prefix p) i  "elem"]))
 
 (defn get-defin-path
-  [p c i j]
-  (vec->key [p "container" c "definition" i j]))
-
-(defn get-defins-path
-  [p i cls j k]
-  (vec->key [p "definitions" i "definition" cls j k]))
-
-(defn get-conditions-path
-  [p i cls j]
-  (vec->key [p "definitions" i "conditions" cls j]))
+  [p i j k]
+  (vec->key [(get-cont-prefix p) i "definition" j k]))
 
 (defn get-state-path
   [p i]
-  (vec->key [p "container" i "state"]))
+  (vec->key [(get-cont-prefix p) i  "state"]))
 
+;;------------------------------
+;; definitions path
+;;------------------------------
+(defn get-defins-prefix
+  [p]
+  (vec->key [p "definitions"]))
+
+(defn get-defins-defin-path
+  [p cls i j k]
+  (vec->key [(get-defins-prefix p) cls "definition" i j k]))
+
+(defn get-defins-cond-path
+  [p cls i j]
+  (vec->key [(get-defins-prefix p) cls "cond" i j]))
+
+(defn get-defins-descr-path
+  [p cls i]
+  (vec->key [(get-defins-prefix p) cls "descr" i]))
+
+;;------------------------------
+;; id path
+;;------------------------------
 (defn get-id-path
   [p id]
   (vec->key [p "id" id]))
+
+;;------------------------------
+;; meta path
+;;------------------------------
+(defn get-meta-prefix
+  [p]
+  (vec->key [p "meta"]))
+
+(defn get-meta-std-path
+  [p]
+  (vec->key [(get-meta-prefix p) "std"]))
+
+(defn get-meta-name-path
+  [p]
+  (vec->key [(get-meta-prefix p) "name"]))
+
+(defn get-meta-descr-path
+  [p]
+  (vec->key [(get-meta-prefix p) "descr"]))
+;;------------------------------
 
 (defn gen-re-from-map-keys
   [m]
