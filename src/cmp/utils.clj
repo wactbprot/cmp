@@ -245,6 +245,15 @@
 (defn get-meta-descr-path
   [p]
   (vec->key [(get-meta-prefix p) "descr"]))
+
+(defn get-meta-ncont-path
+  [p]
+  (vec->key [(get-meta-prefix p) "ncont"]))
+
+(defn get-meta-ndefins-path
+  [p]
+  (vec->key [(get-meta-prefix p) "ndefins"]))
+
 ;;------------------------------
 
 (defn gen-re-from-map-keys

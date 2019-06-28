@@ -116,10 +116,14 @@
   "Stores the mp meta data."
   [p {standard :Standard
       name :Name
-      descr :Describtion}]
+      descr :Description
+      cont :Container
+      defins :Definitions}]
   (st/set-val! (u/get-meta-std-path p) standard)
   (st/set-val! (u/get-meta-name-path p) name)
-  (st/set-val! (u/get-meta-descr-path p) descr))
+  (st/set-val! (u/get-meta-descr-path p) descr)
+  (st/set-val! (u/get-meta-ndefins-path p) (count defins))
+  (st/set-val! (u/get-meta-ncont-path p) (count cont)))
 
 ;;------------------------------
 ;; all

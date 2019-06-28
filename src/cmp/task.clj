@@ -28,14 +28,6 @@
 (s/def ::tcp-task (s/keys :req-un [::TaskName ::Host ::Port]
                           :opt-un [::DocPath]))
 
-(defn proto-task?
-  [x]
-  (s/valid? ::proto-task x))
-
-(defn meta-task?
-  [x]
-  (task? (:Task x)))
-
 (defmulti task?
   (fn [m] (m :Action)))
 
@@ -46,6 +38,14 @@
 (defmethod task? :default
   [m]
   (s/valid? ::task m))
+
+(defn proto-task?
+  [x]
+  (s/valid? ::proto-task x))
+
+(defn meta-task?
+  [x]
+  (task? (:Task x)))
 
 (defn global-defaults
   []
