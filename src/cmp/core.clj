@@ -4,9 +4,12 @@
             [cmp.utils :as u]
             [cmp.doc :as d]
             [cmp.build :as b]
-            [cmp.check :as chk])
+            [cmp.check :as chk]
+            [taoensso.timbre :as log])
   (:gen-class)
   (:use [clojure.repl]))
+
+(log/set-level! :debug)
 
 (defn build-mp
   "Loads document from long term memory and fetches it to short term memory"
@@ -18,10 +21,20 @@
   [id]
   (st/clear (u/extr-main-path id)))
 
-(defn check-cont
-  "Checks the tasks of the ith container"
-  [id i]
-  (chk/container (u/extr-main-path id) i))
+(defn check-and-run
+  "Check and runs the tasks of the container and definitions"
+  [id]
+  (let [p (u/extr-main-path id)
+        n-cont (st/get-val-int (u/get-meta-ncont-path p))
+        n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
+    (run!
+     (fn [i]
+       (chk/container p i))
+     (range n-cont))
+    (run!
+     (fn [i]
+       (chk/definitions p i))
+     (range n-defins))))
 
 (defn add-doc
   "Adds a doc to the api to store the resuls in."

@@ -20,7 +20,7 @@
 
 (defn get-task-view
   [{task-name :TaskName}]
-  (log/debug "task name is: " task-name)
+  (log/info "get task: " task-name " from ltm")
   (first
    (couch/get-view conn "dbmp" "tasks" {:key task-name})))
 

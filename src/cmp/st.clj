@@ -32,6 +32,10 @@
   [k]
   (wcar* (car/get k)))
 
+(defn get-val-int
+  [k]
+  (Integer/parseInt (get-val k)))
+ 
 (defmulti clear
   class)
 

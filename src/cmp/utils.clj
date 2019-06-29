@@ -73,7 +73,6 @@
   [k]
   "")
 
-
 (defn id-key->id
   "Returns position 2 of the id key which should be the document id.
   No checks so far."
@@ -120,7 +119,6 @@
    (str (tm-c/to-long (get-date-object))))
   ([d]
    (str (tm-c/to-long d))))
-
 
 (defn gen-map [j]
   (json/read-str j :key-fn keyword))
@@ -199,26 +197,32 @@
   (vec->key [p "definitions"]))
 
 (defn get-defins-defin-path
-  [p cls i j k]
-  (vec->key [(get-defins-prefix p) cls "definition" i j k]))
+  ([p i]
+   (vec->key [(get-defins-prefix p) i "definition"]))
+  ([p i j k]
+  (vec->key [(get-defins-prefix p) i "definition" j k])))
 
 (defn get-defins-state-path
-  ([p cls]
-   (vec->key [(get-defins-prefix p) cls  "state"]))
-  ([p cls j k]
-   (vec->key [(get-defins-prefix p) cls  "state" j k])))
+  ([p i]
+   (vec->key [(get-defins-prefix p) i "state"]))
+  ([p i j k]
+   (vec->key [(get-defins-prefix p) i "state" j k])))
 
 (defn get-defins-cond-path
-  [p cls i j]
-  (vec->key [(get-defins-prefix p) cls "cond" i j]))
+  [p i j]
+  (vec->key [(get-defins-prefix p) i "cond" j]))
 
 (defn get-defins-ctrl-path
-  [p cls i]
-  (vec->key [(get-defins-prefix p) cls "ctrl" i]))
+  [p i]
+  (vec->key [(get-defins-prefix p) i "ctrl"]))
 
 (defn get-defins-descr-path
-  [p cls i]
-  (vec->key [(get-defins-prefix p) cls "descr" i]))
+  [p i]
+  (vec->key [(get-defins-prefix p) i "descr"]))
+
+(defn get-defins-class-path
+  [p i]
+  (vec->key [(get-defins-prefix p) i "class"]))
 
 ;;------------------------------
 ;; id path

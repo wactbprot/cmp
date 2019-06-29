@@ -7,7 +7,7 @@
   (:gen-class))
 
 (defn container
-  "checks the tasks of the i-th container which means:
+  "Checks the tasks of the i-th container which means:
   1) the proto task is taken from the definition section of the (build mp)
   2) the meta task is gathered from different sources
   3) the state at the path is set to 'checking'
@@ -15,7 +15,24 @@
   5) the state is set to 'ready'"   
   [p i]
   (let [ks (st/get-keys (u/get-defin-path p i))]
-    (mapv
+    (log/debug "start checking container mp/cont: " p "/" i)
+    (run!
+     (fn [k]
+       (let [state-key (u/replace-key-at-level 3 k "state")
+             proto-task (u/gen-map (st/get-val k))
+             meta-task (tsk/gen-meta-task proto-task)]
+         (st/set-val! state-key "checking")
+         (assert (tsk/meta-task? meta-task))
+         (st/set-val! state-key "ready")))
+     ks)))
+
+
+(defn definitions
+  "Checks the tasks of the i-th definitions section."
+  [p i]
+  (let [ks (st/get-keys (u/get-defins-defin-path p i))]
+    (log/debug "start checking definitions mp/defin: " p "/" i)
+    (run!
      (fn [k]
        (let [state-key (u/replace-key-at-level 3 k "state")
              proto-task (u/gen-map (st/get-val k))

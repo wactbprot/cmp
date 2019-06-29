@@ -8,8 +8,6 @@
   (:use [clojure.repl])
   (:gen-class))
 
-(log/set-level! :info)
-
 ;;------------------------------
 ;; exchange
 ;;------------------------------
@@ -62,29 +60,25 @@
 ;;------------------------------
 (defn store-defins
   "Stores the definitions section."
-  [p cls idx defin]
+  [p idx defin]
   (doall
    (map-indexed
     (fn [jdx s]
       (doall
        (map-indexed
         (fn [kdx ptsk]
-          (st/set-val!
-           (u/get-defins-defin-path p cls idx jdx kdx)
-           (u/gen-value ptsk))
-          (st/set-val!
-           (u/get-defins-state-path p cls jdx kdx)
-           "build"))
+          (st/set-val! (u/get-defins-defin-path p idx jdx kdx) (u/gen-value ptsk))
+          (st/set-val! (u/get-defins-state-path p idx jdx kdx) "build"))
         s)))
     defin)))
 
 (defn store-conds
   "Stores the definitions conditions."
-  [p idx cls conds]
+  [p idx conds]
   (doall
    (map-indexed
     (fn [jdx c]
-      (st/set-val! (u/get-defins-cond-path p cls idx jdx) (u/gen-value c)))
+      (st/set-val! (u/get-defins-cond-path p idx jdx) (u/gen-value c)))
         conds)))
 
 (defn store-definitions
@@ -96,10 +90,11 @@
          descr :ShortDescr
          conds :Condition
          defin :Definition} ds]
-    (st/set-val! (u/get-defins-descr-path p cls idx) descr)
-    (store-conds p cls idx conds)
-    (store-defins p cls idx defin)
-    (st/set-val! (u/get-defins-ctrl-path p cls idx) "ready")))
+    (st/set-val! (u/get-defins-descr-path p idx) descr)
+    (st/set-val! (u/get-defins-class-path p idx) cls)
+    (store-conds p idx conds)
+    (store-defins p idx defin)
+    (st/set-val! (u/get-defins-ctrl-path p idx) "ready")))
 
 (defn store-all-definitions
   "Triggers the storing of the definition section."
