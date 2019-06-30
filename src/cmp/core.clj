@@ -5,6 +5,7 @@
             [cmp.doc :as d]
             [cmp.build :as b]
             [cmp.check :as chk]
+            [cmp.poll :as poll]
             [taoensso.timbre :as log])
   (:gen-class)
   (:use [clojure.repl]))
@@ -21,7 +22,11 @@
   [id]
   (st/clear (u/extr-main-path id)))
 
-(defn check-and-run
+(defn status
+  []
+  (poll/status))
+
+(defn check-and-run-mp
   "Check and runs the tasks of the container and definitions"
   [id]
   (let [p (u/extr-main-path id)
@@ -29,12 +34,31 @@
         n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
     (run!
      (fn [i]
-       (chk/container p i))
+       (chk/container p i)
+       (poll/start p i)
+       )
      (range n-cont))
     (run!
      (fn [i]
        (chk/definitions p i))
      (range n-defins))))
+
+(defn stop-mp
+  "Stops the container and definitions."
+  [id]
+  (let [p (u/extr-main-path id)
+        n-cont (st/get-val-int (u/get-meta-ncont-path p))
+        n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
+    (run!
+     (fn [i]
+       (poll/stop p i)
+       )
+     (range n-cont))
+    ;(run!
+    ; (fn [i]
+    ;   (chk/definitions p i))
+    ; (range n-defins))
+    ))
 
 (defn add-doc
   "Adds a doc to the api to store the resuls in."

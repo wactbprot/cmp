@@ -15,6 +15,9 @@
 (def future-calls
   (atom {}))
 
+;;------------------------------
+;; register
+;;------------------------------
 (defn register
   [p f]
   (swap! future-calls assoc p f))
@@ -23,6 +26,9 @@
   [p]
   (contains? @future-calls p))
 
+;;------------------------------
+;; dispatch
+;;------------------------------
 (defmulti dispatch
   "The load cmd now leads to a check since 
    the recipe concept is droped"
@@ -39,7 +45,6 @@
 
 (defmethod dispatch :runing
   [s p i]
-  (log/info "r" p i )
   (r/trigger-next p i))
 
 (defmethod dispatch :load
@@ -47,16 +52,17 @@
   (let [ctrl-path (u/get-ctrl-path p i)
         ctrl-str-before (u/set-next-ctrl s "checking")
         ctrl-str-after (u/rm-next-ctrl s)]
-    (log/info "checking the tasks of the container" p i )
     (dosync
      (st/set-val! ctrl-path ctrl-str-before)
      (chk/container p i)
      (st/set-val! ctrl-path ctrl-str-after))))
 
 (defmethod dispatch :default
-  [s p i]
-  (log/debug "dispatch  default is: " s))
+  [s p i])
 
+;;------------------------------
+;; monitor
+;;------------------------------
 (defn monitor
   [p i]
   (future
@@ -66,6 +72,9 @@
           (let [ctrl-str (st/get-val (u/get-ctrl-path p i))]
             (dispatch ctrl-str p i))))))
 
+;;------------------------------
+;; start
+;;------------------------------
 (defmulti start
   (fn [p i] (registered? (u/get-ctrl-path p i))))
 
@@ -78,7 +87,9 @@
    (let [ctrl-path (u/get-ctrl-path p i)
          f (monitor p i)]
      (register ctrl-path f))))
-
+;;------------------------------
+;; stop
+;;------------------------------
 (defmulti stop 
   (fn [p i] (registered? (u/get-ctrl-path p i))))
 
@@ -91,3 +102,10 @@
    (let [ctrl-path (u/get-ctrl-path p i)]     
      (future-cancel (@future-calls ctrl-path))
      (swap! future-calls dissoc ctrl-path))))
+
+;;------------------------------
+;; status
+;;------------------------------
+(defn status
+  []
+  (println @future-calls))
