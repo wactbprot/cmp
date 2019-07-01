@@ -22,10 +22,6 @@
   [id]
   (st/clear (u/extr-main-path id)))
 
-(defn status
-  []
-  (poll/status))
-
 (defn check-and-run-mp
   "Check and runs the tasks of the container and definitions"
   [id]
@@ -69,3 +65,9 @@
   "Removes a doc from the api."
   [mp-id doc-id]
   (d/del (u/extr-main-path mp-id) doc-id))
+
+(defn poll-status
+  []
+  (doseq
+      [[k v] (poll/f-calls)]
+    (println k "\t-->\t" v)))

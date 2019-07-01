@@ -9,8 +9,6 @@
             [cmp.utils :as u])
   (:gen-class))
 
-(log/set-level! :debug)
-
 (def heartbeat 500)
 (def future-calls
   (atom {}))
@@ -106,6 +104,6 @@
 ;;------------------------------
 ;; status
 ;;------------------------------
-(defn status
+(defn f-calls
   []
-  (println @future-calls))
+  @future-calls)
