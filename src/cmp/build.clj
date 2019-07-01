@@ -29,8 +29,8 @@
       (doall
        (map-indexed
         (fn [kdx ptsk]
-          (st/set-val! (u/get-defin-path p idx jdx kdx) (u/gen-value ptsk))
-          (st/set-val! (u/get-state-path p idx jdx kdx) "build"))
+          (st/set-val! (u/get-cont-defin-path p idx jdx kdx) (u/gen-value ptsk))
+          (st/set-val! (u/get-cont-state-path p idx jdx kdx) "build"))
         s)))
     defin)))
 

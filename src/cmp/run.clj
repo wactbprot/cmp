@@ -18,7 +18,7 @@
        ;; (tsk/dyn-assemble
       ;;  (assoc task
       ;;         :Mp (u/key->mp-name k)
-      ;;         :Cont (u/key->cont-idx k)
+      ;;         :No (u/key->no-idx k)
       ;;         :Seq (u/key->seq-idx k)
       ;;         :Par (u/key->par-idx k)))))
        ks))))
@@ -61,7 +61,7 @@
   7b) first-or-successor-idx? with the idx of the last-exec-idx
   8) filter on 7a&b fns"
   [p i]
-  (let [ks  (sort (st/get-keys (u/get-state-path p i)))
+  (let [ks  (sort (st/get-keys (u/get-cont-state-path p i)))
         exec-ks (filter executed? ks)
         ready-ks (filter ready? ks)
         last-exec-idx (u/key->seq-idx (last exec-ks))

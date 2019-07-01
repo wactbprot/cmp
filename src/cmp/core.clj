@@ -31,7 +31,7 @@
     (run!
      (fn [i]
        (chk/container p i)
-       (poll/start p i)
+       (poll/start (u/get-cont-ctrl-path p i))
        )
      (range n-cont))
     (run!

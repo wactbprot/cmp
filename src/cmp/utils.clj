@@ -51,14 +51,14 @@
   [k]
   0)
 
-(defmulti key->cont-idx
+(defmulti key->no-idx
   class)
 
-(defmethod key->cont-idx java.lang.String
+(defmethod key->no-idx java.lang.String
   [k]
   (Integer/parseInt  ((string/split k re-sep) 2)))
 
-(defmethod key->cont-idx :default
+(defmethod key->no-idx :default
   [k]
   0)
 
@@ -156,10 +156,6 @@
 (defn get-cont-prefix
   [p]
   (vec->key [p "container"]))
-  
-(defn get-ctrl-path
-  [p i]
-  (vec->key [(get-cont-prefix p) i  "ctrl"]))
 
 (defn get-cont-title-path
   [p i]
@@ -177,13 +173,13 @@
   [p i]
   (vec->key [(get-cont-prefix p) i  "elem"]))
 
-(defn get-defin-path
+(defn get-cont-defin-path
   ([p i]
    (vec->key [(get-cont-prefix p) i "definition"]))
   ([p i j k]
    (vec->key [(get-cont-prefix p) i "definition" j k])))
 
-(defn get-state-path
+(defn get-cont-state-path
   ([p i]
    (vec->key [(get-cont-prefix p) i  "state"]))
   ([p i j k]

@@ -17,12 +17,12 @@
 ;; register
 ;;------------------------------
 (defn register
-  [p f]
-  (swap! future-calls assoc p f))
+  [ctrl-path f]
+  (swap! future-calls assoc ctrl-path f))
 
 (defn registered?
-  [p]
-  (contains? @future-calls p))
+  [ctrl-path]
+  (contains? @future-calls ctrl-path))
 
 ;;------------------------------
 ;; dispatch
@@ -30,76 +30,71 @@
 (defmulti dispatch
   "The load cmd now leads to a check since 
    the recipe concept is droped"
-  (fn [s p i]
-    (keyword (u/get-next-ctrl s))))
+  (fn [ctrl-str ctrl-path]
+    (keyword (u/get-next-ctrl ctrl-str))))
 
 (defmethod dispatch :run
-  [s p i]
- (let [ctrl-path (u/get-ctrl-path p i)
-        ctrl-str-before (u/set-next-ctrl s "runing")]
+  [ctrl-str ctrl-path]
+ (let [ctrl-str-before (u/set-next-ctrl ctrl-str "runing")]
     (dosync
      (st/set-val! ctrl-path ctrl-str-before)
-     (r/trigger-next p i))))
+     (r/trigger-next ctrl-path))))
 
 (defmethod dispatch :runing
-  [s p i]
-  (r/trigger-next p i))
+  [ctrl-str ctrl-path]
+  (r/trigger-next ctrl-path))
 
 (defmethod dispatch :load
-  [s p i]
-  (let [ctrl-path (u/get-ctrl-path p i)
-        ctrl-str-before (u/set-next-ctrl s "checking")
-        ctrl-str-after (u/rm-next-ctrl s)]
+  [ctrl-str ctrl-path]
+  (let [ctrl-str-before (u/set-next-ctrl ctrl-str "checking")
+        ctrl-str-after (u/rm-next-ctrl ctrl-str)]
     (dosync
      (st/set-val! ctrl-path ctrl-str-before)
-     (chk/container p i)
+     (chk/container (u/key->mp-name ctrl-path) (u/key->no-idx ctrl-path))
      (st/set-val! ctrl-path ctrl-str-after))))
 
 (defmethod dispatch :default
-  [s p i])
+  [ctrl-str ctrl-path])
 
 ;;------------------------------
 ;; monitor
 ;;------------------------------
 (defn monitor
-  [p i]
+  [ctrl-path]
   (future
       (while true
         (do
           (Thread/sleep heartbeat)
-          (let [ctrl-str (st/get-val (u/get-ctrl-path p i))]
-            (dispatch ctrl-str p i))))))
+          (let [ctrl-str (st/get-val ctrl-path)]
+            (dispatch ctrl-str ctrl-path))))))
 
 ;;------------------------------
 ;; start
 ;;------------------------------
 (defmulti start
-  (fn [p i] (registered? (u/get-ctrl-path p i))))
+  (fn [ctrl-path] (registered? ctrl-path)))
 
 (defmethod start true
-  [p i])
+  [ctrl-path])
 
 (defmethod start false
-  [p i]
-  (dosync 
-   (let [ctrl-path (u/get-ctrl-path p i)
-         f (monitor p i)]
-     (register ctrl-path f))))
+  [ctrl-path]
+  (register ctrl-path (monitor ctrl-path)))
+
 ;;------------------------------
 ;; stop
 ;;------------------------------
 (defmulti stop 
-  (fn [p i] (registered? (u/get-ctrl-path p i))))
+  (fn [ctrl-path](registered? ctrl-path)))
 
 (defmethod stop false
-  [p i])
+  [ctrl-path])
 
 (defmethod stop true
-  [p i]
+  [ctrl-path]
   (dosync
-   (let [ctrl-path (u/get-ctrl-path p i)]     
-     (future-cancel (@future-calls ctrl-path))
-     (swap! future-calls dissoc ctrl-path))))
+   (future-cancel (@future-calls ctrl-path))
+     (swap! future-calls dissoc ctrl-path)))
 
 ;;------------------------------
 ;; status

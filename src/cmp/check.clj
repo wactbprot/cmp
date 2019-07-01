@@ -14,7 +14,7 @@
   4) the meta-task is checked against the spec
   5) the state is set to 'ready'"   
   [p i]
-  (let [ks (st/get-keys (u/get-defin-path p i))]
+  (let [ks (st/get-keys (u/get-cont-defin-path p i))]
     (log/debug "start checking container mp/cont: " p "/" i)
     (run!
      (fn [k]
