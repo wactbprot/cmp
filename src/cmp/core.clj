@@ -30,13 +30,13 @@
         n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
     (run!
      (fn [i]
-       (chk/container p i)
-       (poll/start (u/get-cont-ctrl-path p i))
-       )
+       (chk/struct (u/get-cont-defin-path p i))
+       (poll/start (u/get-cont-ctrl-path p i)))
      (range n-cont))
     (run!
      (fn [i]
-       (chk/definitions p i))
+       (chk/struct (u/get-defins-defin-path p i))
+       (poll/start (u/get-defins-ctrl-path p i)))
      (range n-defins))))
 
 (defn stop-mp
@@ -47,13 +47,12 @@
         n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
     (run!
      (fn [i]
-       (poll/stop p i)
-       )
+       (poll/stop (u/get-cont-ctrl-path p i)))
      (range n-cont))
-    ;(run!
-    ; (fn [i]
-    ;   (chk/definitions p i))
-    ; (range n-defins))
+    (run!
+     (fn [i]
+       (poll/stop (u/get-defins-ctrl-path p i)))
+     (range n-defins))
     ))
 
 (defn add-doc
