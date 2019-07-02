@@ -69,7 +69,7 @@
   []
   (doseq
       [[k v] (poll/f-calls)]
-    (println k "\t-->\t" v)))
+    (u/print-kv k v)))
 
 (defn ctrl-status
   [mp-id]
@@ -79,12 +79,12 @@
     (run!
      (fn [i]
        (let [c-p (u/get-cont-ctrl-path p i)]
-         (println c-p "\t-->\t" (st/get-val c-p))))
+         (u/print-kv c-p (st/get-val c-p))))
      (range n-cont))
     (run!
      (fn [i]
        (let [d-p (u/get-defins-ctrl-path p i)]
-         (println d-p "\t-->\t" (st/get-val d-p))))
+         (u/print-kv d-p (st/get-val d-p))))
      (range n-defins))))
 
 (defn push-defins-ctrl-cmd
