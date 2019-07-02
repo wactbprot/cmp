@@ -73,5 +73,26 @@
 
 (defn ctrl-status
   [mp-id]
+  (let [p (u/extr-main-path mp-id)
+        n-cont (st/get-val-int (u/get-meta-ncont-path p))
+        n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
+    (run!
+     (fn [i]
+       (let [c-p (u/get-cont-ctrl-path p i)]
+         (println c-p "\t-->\t" (st/get-val c-p))))
+     (range n-cont))
+    (run!
+     (fn [i]
+       (let [d-p (u/get-defins-ctrl-path p i)]
+         (println d-p "\t-->\t" (st/get-val d-p))))
+     (range n-defins))))
 
-  )
+(defn push-defins-ctrl-cmd
+  [mp-id i cmd]
+  (let [p (u/get-defins-ctrl-path (u/extr-main-path mp-id) i)]
+    (st/set-val! p  cmd)))
+
+(defn push-cont-ctrl-cmd
+  [mp-id i cmd]
+  (let [p (u/get-cont-ctrl-path (u/extr-main-path mp-id) i)]
+    (st/set-val! p cmd)))
