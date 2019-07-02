@@ -14,18 +14,18 @@
 
 (defn build-mp
   "Loads document from long term memory and fetches it to short term memory"
-  [id]
-  (b/store (lt/get-doc id)))
+  [mp-id]
+  (b/store (lt/get-doc mp-id)))
 
 (defn clear-mp
   "Clears all short term memory for the given id"
-  [id]
-  (st/clear (u/extr-main-path id)))
+  [mp-id]
+  (st/clear (u/extr-main-path mp-id)))
 
 (defn check-and-run-mp
   "Check and runs the tasks of the container and definitions"
-  [id]
-  (let [p (u/extr-main-path id)
+  [mp-id]
+  (let [p (u/extr-main-path mp-id)
         n-cont (st/get-val-int (u/get-meta-ncont-path p))
         n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
     (run!
@@ -41,8 +41,8 @@
 
 (defn stop-mp
   "Stops the container and definitions."
-  [id]
-  (let [p (u/extr-main-path id)
+  [mp-id]
+  (let [p (u/extr-main-path mp-id)
         n-cont (st/get-val-int (u/get-meta-ncont-path p))
         n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
     (run!
@@ -70,3 +70,8 @@
   (doseq
       [[k v] (poll/f-calls)]
     (println k "\t-->\t" v)))
+
+(defn ctrl-status
+  [mp-id]
+
+  )
