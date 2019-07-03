@@ -37,7 +37,8 @@
   (let [ctrl-str-before (u/set-next-ctrl ctrl-str "runing")]
     (dosync
      (st/set-val! ctrl-path ctrl-str-before)
-     (r/trigger-next ctrl-path))))
+     (r/trigger-next ctrl-path)
+     )))
 
 (defmethod dispatch "runing"
   [ctrl-str ctrl-path]

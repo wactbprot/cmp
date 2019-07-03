@@ -12,17 +12,16 @@
   [ks]
   (run!
    (fn [k]
-     (let [recipe-key (u/replace-key-at-level 3 k "recipe")
-           task (u/gen-map (st/get-val recipe-key))]
-       (println task)
-       (println "------------------")
-       ;; (tsk/dyn-assemble
-      ;;  (assoc task
-      ;;         :Mp (u/key->mp-name k)
-      ;;         :No (u/key->no-idx k)
-      ;;         :Seq (u/key->seq-idx k)
-      ;;         :Par (u/key->par-idx k)))))
-       ks))))
+     (let [recipe-path (u/replace-key-at-level 3 k "definition")
+           proto-task (u/gen-map (st/get-val recipe-path))
+           meta-task (tsk/gen-meta-task proto-task)
+           task (tsk/assemble meta-task)]
+         (println (assoc task
+                :Mp (u/key->mp-name k)
+                :No (u/key->no-idx k)
+                :Seq (u/key->seq-idx k)
+                :Par (u/key->par-idx k)))))
+     ks))
 
 (defn executed?
   [k]
@@ -61,8 +60,9 @@
   7a) par-idx? with the idx of the next-ready-idx and
   7b) first-or-successor-idx? with the idx of the last-exec-idx
   8) filter on 7a&b fns"
-  [p i]
-  (let [ks  (sort (st/get-keys (u/get-cont-state-path p i)))
+  [ctrl-path]
+  (let [state-path (u/replace-key-at-level 3 ctrl-path "state")
+        ks  (sort (st/get-keys state-path))
         exec-ks (filter executed? ks)
         ready-ks (filter ready? ks)
         last-exec-idx (u/key->seq-idx (last exec-ks))
