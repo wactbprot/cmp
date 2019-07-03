@@ -23,7 +23,8 @@
   (string/join sep p))
 
 (defn replace-key-at-level
-  "Generates a new key by replacing an old one at a certain position"
+  "Generates a new key by replacing an old one at a certain position.
+  ToDo: the key levels should have a name or keyword."
   [l k r]
   (vec->key
    (assoc
@@ -138,6 +139,17 @@
 (defmethod extr-main-path false
   [s]
   s)
+
+(defmulti compl-main-path
+  "Should work on mpd-aaa-bbb as well as on aaa-bbb"
+  (fn [s] (string/starts-with? s "mpd-")))
+
+(defmethod compl-main-path true
+  [s])
+
+(defmethod compl-main-path false
+  [s]
+  (str "mpd-" s))
 
 ;;------------------------------
 ;; exchange
@@ -337,4 +349,4 @@
 ;;------------------------------
 (defn print-kv
   [k v]
-  (println k "\t-->\t" v))
+  (println "\t" (string/replace k re-sep "\t") "\t-->\t" v "\t"))

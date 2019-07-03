@@ -28,30 +28,20 @@
 ;; dispatch
 ;;------------------------------
 (defmulti dispatch
-  "The load cmd now leads to a check since 
-   the recipe concept is droped"
   (fn [ctrl-str ctrl-path]
-    (keyword (u/get-next-ctrl ctrl-str))))
+    (u/get-next-ctrl ctrl-str)))
 
-(defmethod dispatch :run
+(defmethod dispatch "run"
   [ctrl-str ctrl-path]
- (let [ctrl-str-before (u/set-next-ctrl ctrl-str "runing")]
+  (log/info "start running: " ctrl-path)
+  (let [ctrl-str-before (u/set-next-ctrl ctrl-str "runing")]
     (dosync
      (st/set-val! ctrl-path ctrl-str-before)
      (r/trigger-next ctrl-path))))
 
-(defmethod dispatch :runing
+(defmethod dispatch "runing"
   [ctrl-str ctrl-path]
   (r/trigger-next ctrl-path))
-
-(defmethod dispatch :load
-  [ctrl-str ctrl-path]
-  (let [ctrl-str-before (u/set-next-ctrl ctrl-str "checking")
-        ctrl-str-after (u/rm-next-ctrl ctrl-str)]
-    (dosync
-     (st/set-val! ctrl-path ctrl-str-before)
-     (chk/container (u/key->mp-name ctrl-path) (u/key->no-idx ctrl-path))
-     (st/set-val! ctrl-path ctrl-str-after))))
 
 (defmethod dispatch :default
   [ctrl-str ctrl-path])

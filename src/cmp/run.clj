@@ -15,6 +15,7 @@
      (let [recipe-key (u/replace-key-at-level 3 k "recipe")
            task (u/gen-map (st/get-val recipe-key))]
        (println task)
+       (println "------------------")
        ;; (tsk/dyn-assemble
       ;;  (assoc task
       ;;         :Mp (u/key->mp-name k)

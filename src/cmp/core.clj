@@ -15,7 +15,7 @@
 (defn build-mp
   "Loads document from long term memory and fetches it to short term memory"
   [mp-id]
-  (b/store (lt/get-doc mp-id)))
+  (b/store (lt/get-doc (u/compl-main-path mp-id))))
 
 (defn clear-mp
   "Clears all short term memory for the given id"
