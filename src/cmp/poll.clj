@@ -29,7 +29,7 @@
 ;;------------------------------
 (defmulti dispatch
   (fn [ctrl-str ctrl-path]
-    (keyword (u/get-next-ctrl ctrl-str)))
+    (keyword (u/get-next-ctrl ctrl-str))))
 
 (defmethod dispatch :run
   [ctrl-str ctrl-path]

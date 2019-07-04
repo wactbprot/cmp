@@ -4,6 +4,7 @@
             [clj-time.core :as tm]
             [clj-time.format :as tm-f]
             [clj-time.coerce :as tm-c]
+            [io.aviso.ansi :as pretty]
             [clojure.data.json :as json])
   (:use [clojure.repl])
   (:gen-class))
@@ -349,4 +350,4 @@
 ;;------------------------------
 (defn print-kv
   [k v]
-  (println "\t" (string/replace k re-sep "\t") "\t-->\t" v "\t"))
+  (println "\t" (pretty/magenta (string/replace k re-sep "\t")) "\t-->\t" (pretty/cyan v) "\t"))
