@@ -8,7 +8,7 @@
   (:gen-class))
 
 
-(defn par-start
+(defn par-run
   [ks]
   (run!
    (fn [k]
@@ -71,4 +71,15 @@
         first-or-successor-idx? (first-or-successor-idx-fn last-exec-idx)
         next-par-ks (filter first-or-successor-idx?
                             (filter par-idx? ready-ks))]
-    (par-start next-par-ks)))
+    (par-run next-par-ks)))
+
+(defmulti worker
+  (fn [task] (task :Action)))
+
+(defmethod worker :Wait
+  [task]
+  (println "wait"))
+
+(defmethod worker :default
+  [task]
+  (println (task :Action))

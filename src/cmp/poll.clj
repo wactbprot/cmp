@@ -29,18 +29,17 @@
 ;;------------------------------
 (defmulti dispatch
   (fn [ctrl-str ctrl-path]
-    (u/get-next-ctrl ctrl-str)))
+    (keyword (u/get-next-ctrl ctrl-str)))
 
-(defmethod dispatch "run"
+(defmethod dispatch :run
   [ctrl-str ctrl-path]
   (log/info "start running: " ctrl-path)
-  (let [ctrl-str-before (u/set-next-ctrl ctrl-str "runing")]
+  (let [ctrl-str-before (u/set-next-ctrl ctrl-str "running")]
     (dosync
      (st/set-val! ctrl-path ctrl-str-before)
-     (r/trigger-next ctrl-path)
-     )))
+     (r/trigger-next ctrl-path))))
 
-(defmethod dispatch "runing"
+(defmethod dispatch :running
   [ctrl-str ctrl-path]
   (r/trigger-next ctrl-path))
 
@@ -79,13 +78,15 @@
   (fn [ctrl-path](registered? ctrl-path)))
 
 (defmethod stop false
-  [ctrl-path])
+  [ctrl-path]
+  (log/info "no future registered for path: " ctrl-path))
 
 (defmethod stop true
   [ctrl-path]
   (dosync
    (future-cancel (@future-calls ctrl-path))
-     (swap! future-calls dissoc ctrl-path)))
+   (swap! future-calls dissoc ctrl-path)
+   (log/info "cancel future registered for path: " ctrl-path)))
 
 ;;------------------------------
 ;; status
