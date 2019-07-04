@@ -16,12 +16,13 @@
            proto-task (u/gen-map (st/get-val recipe-path))
            meta-task (tsk/gen-meta-task proto-task)
            task (tsk/assemble meta-task)]
-         (println (assoc task
-                :Mp (u/key->mp-name k)
-                :No (u/key->no-idx k)
-                :Seq (u/key->seq-idx k)
-                :Par (u/key->par-idx k)))))
-     ks))
+       (println (assoc task
+                       :Mp (u/key->mp-name k)
+                       :Struct (u/key->struct k)
+                       :No (u/key->no-idx k)
+                       :Seq (u/key->seq-idx k)
+                       :Par (u/key->par-idx k)))))
+   ks))
 
 (defn executed?
   [k]

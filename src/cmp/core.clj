@@ -31,12 +31,12 @@
 ;;------------------------------
 ;; documents
 ;;------------------------------
-(defn add-doc
+(defn doc-add
   "Adds a doc to the api to store the resuls in."
   [mp-id doc-id]
   (d/add (u/extr-main-path mp-id) doc-id))
 
-(defn del-doc
+(defn doc-del
   "Removes a doc from the api."
   [mp-id doc-id]
   (d/del (u/extr-main-path mp-id) doc-id))
@@ -44,7 +44,7 @@
 ;;------------------------------
 ;; check and start polling
 ;;------------------------------
-(defn check-and-run-mp
+(defn poll-start-mp
   "Check and runs the tasks of the container and definitions"
   [mp-id]
   (let [p (u/extr-main-path mp-id)
@@ -64,7 +64,7 @@
 ;;------------------------------
 ;; stop polling
 ;;------------------------------
-(defn stop-poll-mp
+(defn poll-stop-mp
   "Stops the container and definitions."
   [mp-id]
   (let [p (u/extr-main-path mp-id)
@@ -77,20 +77,19 @@
     (run!
      (fn [i]
        (poll/stop (u/get-defins-ctrl-path p i)))
-     (range n-defins))
-    ))
+     (range n-defins))))
 
 ;;------------------------------
 ;; info/status
 ;;------------------------------
-(defn poll-status
+(defn status-poll-all
   "Lists the poll status by derefing the future call atom."  
   []
   (doseq
       [[k v] (poll/f-calls)]
     (u/print-kv k v)))
 
-(defn cont-poll-status
+(defn status-poll-cont
   "Lists the poll status by derefing the future call atom."  
   [mp-id]
   (let [prefix (u/get-cont-prefix (u/extr-main-path mp-id))
@@ -99,7 +98,7 @@
      (fn [vl] (u/print-kv (first vl) (second vl)))
      vec-list)))
 
-(defn cont-ctrl-status
+(defn status-ctrl-cont
   "Lists the ctrl status of the containers of the
   given mp-definition."
   [mp-id]
@@ -111,7 +110,7 @@
          (u/print-kv c-p (st/get-val c-p))))
      (range n-cont))))
 
-(defn defins-ctrl-status
+(defn status-ctrl-cont-defins
   "Lists the ctrl status of the definitions section of
   the given mp-definition."
   [mp-id]
@@ -126,13 +125,13 @@
 ;;------------------------------
 ;; push ctrl commands
 ;;------------------------------
-(defn push-defins-ctrl-cmd
+(defn push-ctrl-defins-cmd
   "Pushes the command to the ith definition."
   [mp-id i cmd]
   (let [p (u/get-defins-ctrl-path (u/extr-main-path mp-id) i)]
     (st/set-val! p  cmd)))
 
-(defn push-cont-ctrl-cmd
+(defn push-ctrl-cont-cmd
   "Pushes the command to the ith container."
   [mp-id i cmd]
   (let [p (u/get-cont-ctrl-path (u/extr-main-path mp-id) i)]

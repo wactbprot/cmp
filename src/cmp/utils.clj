@@ -75,6 +75,17 @@
   [k]
   "")
 
+(defmulti key->struct
+  class)
+
+(defmethod key->struct java.lang.String
+  [k]
+  ((string/split k re-sep) 1))
+
+(defmethod key->struct :default
+  [k]
+  "")
+
 (defn id-key->id
   "Returns position 2 of the id key which should be the document id.
   No checks so far."
