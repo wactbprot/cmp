@@ -90,6 +90,15 @@
       [[k v] (poll/f-calls)]
     (u/print-kv k v)))
 
+(defn cont-poll-status
+  "Lists the poll status by derefing the future call atom."  
+  [mp-id]
+  (let [prefix (u/get-cont-prefix (u/extr-main-path mp-id))
+        vec-list (poll/get-by-prefix prefix)]
+    (run!
+     (fn [vl] (u/print-kv (first vl) (second vl)))
+     vec-list)))
+
 (defn cont-ctrl-status
   "Lists the ctrl status of the containers of the
   given mp-definition."

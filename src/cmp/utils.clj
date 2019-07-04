@@ -350,4 +350,7 @@
 ;;------------------------------
 (defn print-kv
   [k v]
-  (println "\t" (pretty/magenta (string/replace k re-sep "\t")) "\t-->\t" (pretty/cyan v) "\t"))
+  (println "\t"
+           (pretty/bold-yellow (string/replace k re-sep "\t"))
+           (pretty/bold-blue "\t|==>\t")
+           (pretty/bold-yellow v)))

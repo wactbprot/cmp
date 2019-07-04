@@ -2,7 +2,8 @@
   ^{:author "wactbprot"
     :doc "Polls short term memory endpoints 
           and reacts on result (:load, :run, :stop etc)."}
-  (:require [taoensso.timbre :as log]
+  (:require [clojure.string :as string]
+            [taoensso.timbre :as log]
             [cmp.st :as st]
             [cmp.check :as chk]
             [cmp.run :as r]
@@ -94,3 +95,13 @@
 (defn f-calls
   []
   @future-calls)
+
+;;------------------------------
+;; info
+;;------------------------------
+(defn get-by-prefix
+  [prefix]
+  (filter
+   (fn [kv]
+     (string/starts-with? (first kv) prefix))
+   (f-calls)))
