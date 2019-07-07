@@ -4,26 +4,27 @@
           and reacts on result (:load, :run, :stop etc)."}
   (:require [clojure.string :as string]
             [taoensso.timbre :as log]
+            [clojure.core.async :as a]
             [cmp.st :as st]
             [cmp.check :as chk]
             [cmp.run :as r]
             [cmp.utils :as u])
   (:gen-class))
 
-(def heartbeat 500)
-(def future-calls
-  (atom {}))
+(def heartbeat 1000)
+(def poll-condition (atom true))
+(def exception-chan (a/chan))
+(defn disable-monitor
+  []
+  (reset! poll-condition false ))
 
-;;------------------------------
-;; register
-;;------------------------------
-(defn register
-  [ctrl-path f]
-  (swap! future-calls assoc ctrl-path f))
+(defn enable-monitor
+  []
+  (reset! poll-condition true ))
 
-(defn registered?
-  [ctrl-path]
-  (contains? @future-calls ctrl-path))
+(defn evaluate-condition
+  []
+  @poll-condition)
 
 ;;------------------------------
 ;; dispatch
@@ -47,61 +48,26 @@
 (defmethod dispatch :default
   [ctrl-str ctrl-path])
 
+
+;;------------------------------
+;; exception 
+;;------------------------------
+(a/go
+  (let [e (a/<! exception-chan)] 
+    (log/error (.getMessage e)))
+
 ;;------------------------------
 ;; monitor
 ;;------------------------------
 (defn monitor
   [ctrl-path]
-  (future
-      (while true
-        (do
-          (Thread/sleep heartbeat)
-          (let [ctrl-str (st/get-val ctrl-path)]
-            (dispatch ctrl-str ctrl-path))))))
+  (a/go
+    (while (evaluate-condition)
+      (a/<! (a/timeout heartbeat))
+      (try 
+        (log/info ctrl-path)
+        (dispatch (st/get-val ctrl-path) ctrl-path)
+        (catch Exception e
+          (a/>! exception-chan e))))))
 
-;;------------------------------
-;; start
-;;------------------------------
-(defmulti start
-  (fn [ctrl-path] (registered? ctrl-path)))
 
-(defmethod start true
-  [ctrl-path])
-
-(defmethod start false
-  [ctrl-path]
-  (register ctrl-path (monitor ctrl-path)))
-
-;;------------------------------
-;; stop
-;;------------------------------
-(defmulti stop 
-  (fn [ctrl-path](registered? ctrl-path)))
-
-(defmethod stop false
-  [ctrl-path]
-  (log/info "no future registered for path: " ctrl-path))
-
-(defmethod stop true
-  [ctrl-path]
-  (dosync
-   (future-cancel (@future-calls ctrl-path))
-   (swap! future-calls dissoc ctrl-path)
-   (log/info "cancel future registered for path: " ctrl-path)))
-
-;;------------------------------
-;; status
-;;------------------------------
-(defn f-calls
-  []
-  @future-calls)
-
-;;------------------------------
-;; info
-;;------------------------------
-(defn get-by-prefix
-  [prefix]
-  (filter
-   (fn [kv]
-     (string/starts-with? (first kv) prefix))
-   (f-calls)))
