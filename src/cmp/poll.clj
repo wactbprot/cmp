@@ -54,18 +54,18 @@
 ;;------------------------------
 (a/go
   (let [e (a/<! exception-chan)] 
-    (log/error (.getMessage e)))
+    (log/error (.getMessage e))))
 
 ;;------------------------------
 ;; monitor
 ;;------------------------------
 (defn monitor
   [ctrl-path]
+  (log/info "start go block for observing ctrl path: " ctrl-path)
   (a/go
     (while (evaluate-condition)
       (a/<! (a/timeout heartbeat))
       (try 
-        (log/info ctrl-path)
         (dispatch (st/get-val ctrl-path) ctrl-path)
         (catch Exception e
           (a/>! exception-chan e))))))

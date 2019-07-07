@@ -44,7 +44,7 @@
 ;;------------------------------
 ;; check and start polling
 ;;------------------------------
-(defn poll-start-mp
+(defn check-start-mp
   "Check and runs the tasks of the container and definitions"
   [mp-id]
   (let [p (u/extr-main-path mp-id)
@@ -53,73 +53,12 @@
     (run!
      (fn [i]
        (check/struct (u/get-cont-defin-path p i))
-       (poll/start (u/get-cont-ctrl-path p i)))
+       (poll/monitor (u/get-cont-ctrl-path p i)))
      (range n-cont))
     (run!
      (fn [i]
        (check/struct (u/get-defins-defin-path p i))
-       (poll/start (u/get-defins-ctrl-path p i)))
-     (range n-defins))))
-
-;;------------------------------
-;; stop polling
-;;------------------------------
-(defn poll-stop-mp
-  "Stops the container and definitions."
-  [mp-id]
-  (let [p (u/extr-main-path mp-id)
-        n-cont (st/get-val-int (u/get-meta-ncont-path p))
-        n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
-    (run!
-     (fn [i]
-       (poll/stop (u/get-cont-ctrl-path p i)))
-     (range n-cont))
-    (run!
-     (fn [i]
-       (poll/stop (u/get-defins-ctrl-path p i)))
-     (range n-defins))))
-
-;;------------------------------
-;; info/status
-;;------------------------------
-(defn status-poll-all
-  "Lists the poll status by derefing the future call atom."  
-  []
-  (doseq
-      [[k v] (poll/f-calls)]
-    (u/print-kv k v)))
-
-(defn status-poll-cont
-  "Lists the poll status by derefing the future call atom."  
-  [mp-id]
-  (let [prefix (u/get-cont-prefix (u/extr-main-path mp-id))
-        vec-list (poll/get-by-prefix prefix)]
-    (run!
-     (fn [vl] (u/print-kv (first vl) (second vl)))
-     vec-list)))
-
-(defn status-ctrl-cont
-  "Lists the ctrl status of the containers of the
-  given mp-definition."
-  [mp-id]
-  (let [p (u/extr-main-path mp-id)
-        n-cont (st/get-val-int (u/get-meta-ncont-path p))]
-    (run!
-     (fn [i]
-       (let [c-p (u/get-cont-ctrl-path p i)]
-         (u/print-kv c-p (st/get-val c-p))))
-     (range n-cont))))
-
-(defn status-ctrl-cont-defins
-  "Lists the ctrl status of the definitions section of
-  the given mp-definition."
-  [mp-id]
-  (let [p (u/extr-main-path mp-id)
-        n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
-    (run!
-     (fn [i]
-       (let [d-p (u/get-defins-ctrl-path p i)]
-         (u/print-kv d-p (st/get-val d-p))))
+       (poll/monitor (u/get-defins-ctrl-path p i)))
      (range n-defins))))
 
 ;;------------------------------
