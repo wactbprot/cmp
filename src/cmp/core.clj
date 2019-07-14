@@ -16,9 +16,10 @@
 ;; build
 ;;------------------------------
 (defn build-mp
-  "Loads document from long term memory and fetches it to short term memory"
+  "Loads document from long term memory and
+  fetches it to short term memory"
   [mp-id]
-  (b/store (lt/get-doc (u/compl-main-path mp-id))))*
+  (b/store (lt/get-doc (u/compl-main-path mp-id))))
 
 ;;------------------------------
 ;; clear
@@ -53,12 +54,12 @@
     (run!
      (fn [i]
        (check/struct (u/get-cont-defin-path p i))
-       (poll/monitor (u/get-cont-ctrl-path p i)))
+       (poll/start (u/get-cont-ctrl-path p i)))
      (range n-cont))
     (run!
      (fn [i]
        (check/struct (u/get-defins-defin-path p i))
-       (poll/monitor (u/get-defins-ctrl-path p i)))
+       (poll/start (u/get-defins-ctrl-path p i)))
      (range n-defins))))
 
 ;;------------------------------
