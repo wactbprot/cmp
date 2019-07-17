@@ -61,6 +61,23 @@
        (check/struct (u/get-defins-defin-path p i))
        (poll/start (u/get-defins-ctrl-path p i)))
      (range n-defins))))
+;;------------------------------
+;; stop all polling
+;;------------------------------
+(defn stop-mp
+  "Check and runs the tasks of the container and definitions"
+  [mp-id]
+  (let [p (u/extr-main-path mp-id)
+        n-cont (st/get-val-int (u/get-meta-ncont-path p))
+        n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
+    (run!
+     (fn [i]
+       (poll/stop (u/get-cont-ctrl-path p i)))
+     (range n-cont))
+    (run!
+     (fn [i]
+       (poll/stop (u/get-defins-ctrl-path p i)))
+     (range n-defins))))
 
 ;;------------------------------
 ;; push ctrl commands
@@ -76,3 +93,12 @@
   [mp-id i cmd]
   (let [p (u/get-cont-ctrl-path (u/extr-main-path mp-id) i)]
     (st/set-val! p cmd)))
+
+;;------------------------------
+;; poll status
+;;------------------------------
+(defn poll-status
+  []
+  (doseq [[k v] (poll/get-mon-chans)]
+  (u/print-kv k v)))
+ 

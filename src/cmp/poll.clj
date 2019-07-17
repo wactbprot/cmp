@@ -16,6 +16,10 @@
 (def poll-condition (atom true))
 (def mon-chans (atom {}))
 
+(defn get-mon-chans
+  []
+  @mon-chans)
+
 (def exception-chan (a/chan))
 
 (defn disable-monitor
@@ -35,6 +39,7 @@
 ;;------------------------------
 (defn register
   [p c]
+  (log/info "register channel for path: " p)
   (swap! mon-chans assoc p c))
 
 (defn registered?
