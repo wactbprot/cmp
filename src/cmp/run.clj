@@ -2,10 +2,38 @@
   ^{:author "wactbprot"
     :doc "Runs the upcomming tasks of a certain container."}
   (:require [taoensso.timbre :as log]
+            [clojure.core.async :as a]
             [cmp.st :as st]
             [cmp.task :as tsk]
             [cmp.utils :as u])
   (:gen-class))
+
+
+;;------------------------------
+;; run condition
+;;------------------------------
+(def run-condition (atom true))
+(defn disable-run
+  []
+  (reset! run-condition false ))
+
+(defn enable-run
+  []
+  (reset! run-condition true ))
+
+(defn evaluate-condition
+  []
+  @run-condition)
+
+;;------------------------------
+;; trigger channel 
+;;------------------------------
+(def trigger-chan (a/chan))
+
+(a/go
+  (while (evaluate-condition)  
+    (let [p (a/<! trigger-chan)] 
+        (trigger-next p))))
 
 
 (defn par-run

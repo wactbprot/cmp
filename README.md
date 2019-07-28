@@ -6,6 +6,28 @@ A study of an interpreter for measurement program definitions (mpd) written in c
 
 repl only (so far)
 
+```clojure
+
+    (clear-mp mp-id)
+    +
+    :
+    :
+    v
+    (build-mp mp-id)+--+
+    +                  :
+    |                  v
+    |                  (check-mp mp-id)
+    |                  +
+    v                  :
+    (start-mp mp-id)<--+
+    +
+    |
+    +-->(push-ctrl-defins-cmd mp-id i cmd)
+    |
+    +-->(push-ctrl-cont-cmd mp-id i cmd)
+```
+
+
 ## poll
 
 ```clojure
@@ -50,10 +72,11 @@ customer forking is no longer the way to go)
 - makes the "reset-bla-task"s no longer necessary 
 
 ## redis gui
-
 ### redis-commander
 
+```shell
 $ npm install -g redis-commander
+```
 
 https://github.com/joeferner/redis-commander
 http://localhost:8081/

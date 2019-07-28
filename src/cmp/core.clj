@@ -25,7 +25,7 @@
 ;; clear
 ;;------------------------------
 (defn clear-mp
-  "Clears all short term memory for the given id"
+  "Clears all short term memory for the given mp-id"
   [mp-id]
   (st/clear (u/extr-main-path mp-id)))
 
@@ -43,9 +43,9 @@
   (d/del (u/extr-main-path mp-id) doc-id))
 
 ;;------------------------------
-;; check and start polling
+;; check mp tasks
 ;;------------------------------
-(defn check-start-mp
+(defn check-mp
   "Check and runs the tasks of the container and definitions"
   [mp-id]
   (let [p (u/extr-main-path mp-id)
@@ -53,14 +53,31 @@
         n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
     (run!
      (fn [i]
-       (check/struct (u/get-cont-defin-path p i))
+       (check/struct (u/get-cont-defin-path p i)))
+     (range n-cont))
+    (run!
+     (fn [i]
+       (check/struct (u/get-defins-defin-path p i)))
+     (range n-defins))))
+
+;;------------------------------
+;; start polling
+;;------------------------------
+(defn start-mp
+  "Check and runs the tasks of the container and definitions"
+  [mp-id]
+  (let [p (u/extr-main-path mp-id)
+        n-cont (st/get-val-int (u/get-meta-ncont-path p))
+        n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
+    (run!
+     (fn [i]
        (poll/start (u/get-cont-ctrl-path p i)))
      (range n-cont))
     (run!
      (fn [i]
-       (check/struct (u/get-defins-defin-path p i))
        (poll/start (u/get-defins-ctrl-path p i)))
      (range n-defins))))
+
 ;;------------------------------
 ;; stop all polling
 ;;------------------------------

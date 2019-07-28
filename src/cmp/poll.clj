@@ -8,12 +8,13 @@
             [clojure.core.async :as a]
             [cmp.st :as st]
             [cmp.check :as chk]
-            [cmp.run :as r]
+            [cmp.run :as run]
             [cmp.utils :as u])
   (:gen-class))
+;; todo: separate run with channel
+;; implement proper start/stop mechanics
 
 (def heartbeat 1000)
-(def poll-condition (atom true))
 (def mon-chans (atom {}))
 
 (defn get-mon-chans
@@ -22,6 +23,10 @@
 
 (def exception-chan (a/chan))
 
+;;------------------------------
+;; poll condition
+;;------------------------------
+(def poll-condition (atom true))
 (defn disable-monitor
   []
   (reset! poll-condition false ))
@@ -64,14 +69,13 @@
 (defmethod dispatch :run
   [ctrl-str ctrl-path]
   (log/info "start running: " ctrl-path)
-  (let [ctrl-str-before (u/set-next-ctrl ctrl-str "running")]
     (dosync
-     (st/set-val! ctrl-path ctrl-str-before)
-     (r/trigger-next ctrl-path))))
+     (st/set-val! ctrl-path "running")
+     (a/>!! run/trigger-chan ctrl-path))) 
 
 (defmethod dispatch :running
   [ctrl-str ctrl-path]
-  (r/trigger-next ctrl-path))
+  (a/>!! run/trigger-chan ctrl-path))
 
 (defmethod dispatch :default
   [ctrl-str ctrl-path])
