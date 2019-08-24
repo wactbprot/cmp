@@ -110,12 +110,4 @@
   [mp-id i cmd]
   (let [p (u/get-cont-ctrl-path (u/extr-main-path mp-id) i)]
     (st/set-val! p cmd)))
-
-;;------------------------------
-;; poll status
-;;------------------------------
-(defn poll-status
-  []
-  (doseq [[k v] (poll/get-mon-chans)]
-  (u/print-kv k v)))
  

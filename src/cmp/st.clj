@@ -32,6 +32,13 @@
   [k]
   (wcar* (car/get k)))
 
+(defn get-vals
+  [ks]
+  (doall
+   (mapv
+    (fn [k] (get-val k))
+    ks)))
+
 (defn get-val-int
   [k]
   (Integer/parseInt (get-val k)))

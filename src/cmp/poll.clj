@@ -11,52 +11,29 @@
             [cmp.run :as run]
             [cmp.utils :as u])
   (:gen-class))
-;; todo: separate run with channel
-;; implement proper start/stop mechanics
 
 (def heartbeat 1000)
-(def mon-chans (atom {}))
-
-(defn get-mon-chans
-  []
-  @mon-chans)
-
-(def exception-chan (a/chan))
-
-;;------------------------------
-;; poll condition
-;;------------------------------
-(def poll-condition (atom true))
-(defn disable-monitor
-  []
-  (reset! poll-condition false ))
-
-(defn enable-monitor
-  []
-  (reset! poll-condition true ))
-
-(defn evaluate-condition
-  []
-  @poll-condition)
+(def mon (atom {}))
+(def excep-chan (a/chan))
 
 ;;------------------------------
 ;; register
 ;;------------------------------
 (defn register
-  [p c]
+  [p]
   (log/info "register channel for path: " p)
-  (swap! mon-chans assoc p c))
+  (swap! mon assoc p true))
 
 (defn registered?
   [p]
-  (contains? @mon-chans p))
+  (contains? @mon p))
 
 ;;------------------------------
 ;; exception channel 
 ;;------------------------------
 (a/go
-  (while (evaluate-condition)  
-    (let [e (a/<! exception-chan)] 
+  (while true
+    (let [e (a/<! excep-chan)] 
       (log/error (.getMessage e)))))
 
 ;;------------------------------
@@ -69,12 +46,12 @@
 (defmethod dispatch :run
   [ctrl-str ctrl-path]
   (log/info "start running: " ctrl-path)
-    (dosync
-     (st/set-val! ctrl-path "running")
-     (a/>!! run/trigger-chan ctrl-path))) 
+  (st/set-val! ctrl-path "running")
+  (a/>!! run/trigger-chan ctrl-path))
 
 (defmethod dispatch :running
   [ctrl-str ctrl-path]
+  (log/info ".")
   (a/>!! run/trigger-chan ctrl-path))
 
 (defmethod dispatch :default
@@ -87,13 +64,14 @@
   [p]
   (log/info "start go block for observing ctrl path: " p)
   (a/go
-    (while (evaluate-condition)
+    (while ((deref mon) p)
       (a/<! (a/timeout heartbeat))
-      (try 
+      (try
+        (println ".")
         (dispatch (st/get-val p) p)
         (catch Exception e
           (log/error "catch error at channel " p)
-          (a/>! exception-chan e))))))
+          (a/>! excep-chan e))))))
 
 ;;------------------------------
 ;; start
@@ -107,7 +85,8 @@
 
 (defmethod start false
   [p]
-  (register p (monitor p))
+  (register p)
+  (monitor p)
   (log/info "start and register monitor channel for path: " p))
 
 ;;------------------------------
@@ -122,7 +101,5 @@
 
 (defmethod stop true
   [p]
-  (dosync
-   (a/close! (@mon-chans p))
-   (swap! mon-chans dissoc p)
-   (log/info "close monitor channel registered for path: " p)))
+   (swap! mon assoc p false)
+   (log/info "close monitor channel registered for path: " p))

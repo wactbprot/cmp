@@ -25,17 +25,6 @@
   []
   @run-condition)
 
-;;------------------------------
-;; trigger channel 
-;;------------------------------
-(def trigger-chan (a/chan))
-
-(a/go
-  (while (evaluate-condition)  
-    (let [p (a/<! trigger-chan)] 
-        (trigger-next p))))
-
-
 (defn par-run
   [ks]
   (run!
@@ -52,56 +41,32 @@
                        :Par (u/key->par-idx k)))))
    ks))
 
-(defn executed?
-  [k]
-  (= (st/get-val k)
-     "executed"))
-
-(defn ready?
-  [k]
-  (= (st/get-val k)
-     "ready"))
-
-(defn par-idx-fn
-  [idx]
-  (fn [k]
-    (= (u/key->seq-idx k)
-       idx)))
-
-(defn first-or-successor-idx-fn
-  [idx]
-  (fn [k]
-    (or
-     (= (u/key->seq-idx k)
-        0)
-     (= (u/key->seq-idx k)
-        (+ idx 1)))))
+(defn ks->state-map
+  [ks]
+  (mapv
+   (fn [k]
+     {:seq-idx (u/key->seq-idx k)
+      :par-idx (u/key->par-idx k)
+      :state (st/get-val k)})
+   ks))
 
 (defn trigger-next
-  "Extracts the next tasks to run.
-  1) get all state keys of the container
-  2) sort
-  3) filter out all executed ones
-  4) filter out all ready ones
-  5) get the last executed idx
-  6) get the next ready idx
-  7) generate filter fns:
-  7a) par-idx? with the idx of the next-ready-idx and
-  7b) first-or-successor-idx? with the idx of the last-exec-idx
-  8) filter on 7a&b fns"
   [ctrl-path]
-  (let [state-path (u/replace-key-at-level 3 ctrl-path "state")
-        ks  (sort (st/get-keys state-path))
-        exec-ks (filter executed? ks)
-        ready-ks (filter ready? ks)
-        last-exec-idx (u/key->seq-idx (last exec-ks))
-        next-ready-idx (u/key->seq-idx (first ready-ks))
-        par-idx? (par-idx-fn next-ready-idx)
-        first-or-successor-idx? (first-or-successor-idx-fn last-exec-idx)
-        next-par-ks (filter first-or-successor-idx?
-                            (filter par-idx? ready-ks))]
-    (par-run next-par-ks)))
+  (println ctrl-path)
+  (let [ctrl-val (st/get-val ctrl-path)]
+    (st/set-val! ctrl-path "checking")
+    (println ctrl-path)    
+    (let [state-path (u/replace-key-at-level 3 ctrl-path "state")
+          ks (sort (st/get-keys state-path))
+          state-map (ks->state-map ks)]
+      (println state-map))
+    (st/set-val! ctrl-path ctrl-val) 
+    )
+  )
 
+;;------------------------------
+;; worker 
+;;------------------------------
 (defmulti worker
   (fn [task] (task :Action)))
 
@@ -112,3 +77,15 @@
 (defmethod worker :default
   [task]
   (println (task :Action)))
+
+
+;;------------------------------
+;; trigger channel 
+;;------------------------------
+(def trigger-chan (a/chan))
+
+(a/go
+  (while (evaluate-condition)  
+    (let [p (a/<! trigger-chan)] 
+      (log/info "got trigger for " p)
+      (trigger-next p))))
