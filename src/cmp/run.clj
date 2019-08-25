@@ -41,6 +41,10 @@
 (defn filter-state
   [v s]
   (filter (fn [m] (= s (m :state))) v))
+
+(defn filter-par
+  [v n]
+  (filter (fn [m] (= n (m :par-idx))) v))
   
 (defn all-error
   [v]
@@ -58,6 +62,12 @@
   [v]
   (filter-state v "executed"))
 
+(defn some-executed?
+  [v]
+  (<
+   0
+   (count (all-executed v))))
+
 (defn no-error?
   [v]
   (empty? (all-error v)))
@@ -68,6 +78,12 @@
    (count v)
    (count (all-ready v))))
 
+(defn par-step-complete?
+  [v n]
+  (=
+   (count (filter-par v n))
+   (count (filter-par (all-executed v) n))))
+          
 (defn next-ready
   [v]
   (first all-ready))
