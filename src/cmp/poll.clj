@@ -24,10 +24,6 @@
   (log/info "register channel for path: " p)
   (swap! mon assoc p true))
 
-(defn registered?
-  [p]
-  (contains? @mon p))
-
 ;;------------------------------
 ;; exception channel 
 ;;------------------------------
@@ -47,12 +43,12 @@
   [ctrl-str ctrl-path]
   (log/info "start running: " ctrl-path)
   (st/set-val! ctrl-path "running")
-  (a/>!! run/trigger-chan ctrl-path))
+  (a/>!! run/ctrl-chan ctrl-path))
 
 (defmethod dispatch :running
   [ctrl-str ctrl-path]
   (log/info ".")
-  (a/>!! run/trigger-chan ctrl-path))
+  (a/>!! run/ctrl-chan ctrl-path))
 
 (defmethod dispatch :default
   [ctrl-str ctrl-path])
@@ -62,12 +58,10 @@
 ;;------------------------------
 (defn monitor
   [p]
-  (log/info "start go block for observing ctrl path: " p)
   (a/go
     (while ((deref mon) p)
       (a/<! (a/timeout heartbeat))
       (try
-        (println ".")
         (dispatch (st/get-val p) p)
         (catch Exception e
           (log/error "catch error at channel " p)
@@ -76,14 +70,7 @@
 ;;------------------------------
 ;; start
 ;;------------------------------
-(defmulti start
-  (fn [p] (registered? p)))
-
-(defmethod start true
-  [p]
-  (log/info "monitor channel for path: " p " already registered"))
-
-(defmethod start false
+(defn start
   [p]
   (register p)
   (monitor p)
@@ -92,14 +79,7 @@
 ;;------------------------------
 ;; stop
 ;;------------------------------
-(defmulti stop 
-  (fn [p](registered? p)))
-
-(defmethod stop false
-  [p]
-  (log/info "no monitor channel registered for path: " p))
-
-(defmethod stop true
+(defn stop
   [p]
    (swap! mon assoc p false)
    (log/info "close monitor channel registered for path: " p))

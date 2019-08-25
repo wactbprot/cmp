@@ -8,22 +8,10 @@
             [cmp.utils :as u])
   (:gen-class))
 
-
 ;;------------------------------
-;; run condition
+;; ctrl channel invoked by poll 
 ;;------------------------------
-(def run-condition (atom true))
-(defn disable-run
-  []
-  (reset! run-condition false ))
-
-(defn enable-run
-  []
-  (reset! run-condition true ))
-
-(defn evaluate-condition
-  []
-  @run-condition)
+(def ctrl-chan (a/chan))
 
 (defn par-run
   [ks]
@@ -50,19 +38,49 @@
       :state (st/get-val k)})
    ks))
 
+(defn filter-state
+  [v s]
+  (filter (fn [m] (= s (m :state))) v))
+  
+(defn all-error
+  [v]
+  (filter-state v "error"))
+
+(defn all-ready
+  [v]
+  (filter-state v "ready"))
+
+(defn all-working
+  [v]
+  (filter-state v "working"))
+
+(defn all-executed
+  [v]
+  (filter-state v "executed"))
+
+(defn no-error?
+  [v]
+  (empty? (all-error v)))
+
+(defn all-ready?
+  [v]
+  (=
+   (count v)
+   (count (all-ready v))))
+
+(defn next-ready
+  [v]
+  (first all-ready))
+
 (defn trigger-next
-  [ctrl-path]
-  (println ctrl-path)
-  (let [ctrl-val (st/get-val ctrl-path)]
-    (st/set-val! ctrl-path "checking")
-    (println ctrl-path)    
-    (let [state-path (u/replace-key-at-level 3 ctrl-path "state")
+  [p]
+  (let [v (st/get-val p)]
+    (st/set-val! p "checking")
+    (let [state-path (u/replace-key-at-level 3 p "state")
           ks (sort (st/get-keys state-path))
           state-map (ks->state-map ks)]
       (println state-map))
-    (st/set-val! ctrl-path ctrl-val) 
-    )
-  )
+    (st/set-val! p v)))
 
 ;;------------------------------
 ;; worker 
@@ -80,12 +98,10 @@
 
 
 ;;------------------------------
-;; trigger channel 
+;; ctrl go block 
 ;;------------------------------
-(def trigger-chan (a/chan))
-
 (a/go
-  (while (evaluate-condition)  
+  (while true  
     (let [p (a/<! trigger-chan)] 
       (log/info "got trigger for " p)
       (trigger-next p))))
