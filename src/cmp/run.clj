@@ -68,9 +68,9 @@
    0
    (count (all-executed v))))
 
-(defn no-error?
+(defn errors?
   [v]
-  (empty? (all-error v)))
+  (not (empty? (all-error v))))
 
 (defn all-ready?
   [v]
@@ -80,23 +80,23 @@
 
 (defn par-step-complete?
   [v n]
-  (=
-   (count (filter-par v n))
-   (count (filter-par (all-executed v) n))))
+  (let [n-all (count (filter-par v n))
+        n-exec (count (filter-par (all-executed v) n))]
+    (and
+     (= n-all n-exec)
+     (> n-exec 0))))
           
 (defn next-ready
   [v]
   (first all-ready))
 
-(defn trigger-next
+(defn choose
   [p]
-  (let [v (st/get-val p)]
-    (st/set-val! p "checking")
-    (let [state-path (u/replace-key-at-level 3 p "state")
-          ks (sort (st/get-keys state-path))
-          state-map (ks->state-map ks)]
-      (println state-map))
-    (st/set-val! p v)))
+  (let [state-path (u/replace-key-at-level 3 p "state")
+        ks (sort (st/get-keys state-path))
+        state-map (ks->state-map ks)]
+    (cond
+      (errors? state-map) (println "errors"))))
 
 ;;------------------------------
 ;; worker 
@@ -120,4 +120,4 @@
   (while true  
     (let [p (a/<! trigger-chan)] 
       (log/info "got trigger for " p)
-      (trigger-next p))))
+      (choose p))))
