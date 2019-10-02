@@ -83,3 +83,10 @@
   [p]
    (swap! mon assoc p false)
    (log/info "close monitor channel registered for path: " p))
+
+;;------------------------------
+;; status
+;;------------------------------
+(defn status
+  []
+   (deref mon))

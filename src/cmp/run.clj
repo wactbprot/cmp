@@ -62,10 +62,10 @@
   [v]
   (filter-state v "executed"))
 
-(defn some-executed?
+(defn all-executed?
   [v]
-  (<
-   0
+  (=
+   (count v)
    (count (all-executed v))))
 
 (defn errors?
@@ -96,8 +96,10 @@
         ks (sort (st/get-keys state-path))
         state-map (ks->state-map ks)]
     (cond
-      (errors? state-map) (println "errors"))))
-
+      (errors?  state-map) (println "got errors")
+      (all-ready? state-map) (println "all ready")
+      (all-executed? state-map) (println "all executed"))))
+    
 ;;------------------------------
 ;; worker 
 ;;------------------------------
@@ -112,12 +114,11 @@
   [task]
   (println (task :Action)))
 
-
 ;;------------------------------
 ;; ctrl go block 
 ;;------------------------------
 (a/go
   (while true  
-    (let [p (a/<! trigger-chan)] 
+    (let [p (a/<! ctrl-chan)] 
       (log/info "got trigger for " p)
       (choose p))))
