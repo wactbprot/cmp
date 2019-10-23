@@ -6,16 +6,24 @@
             [cmp.build :as b]
             [cmp.check :as check]
             [cmp.poll :as poll]
-            [taoensso.timbre :as log])
+            [taoensso.timbre :as timbre]
+            [taoensso.timbre.appenders.3rd-party.gelf :as gelf])
   (:gen-class)
   (:use [clojure.repl]))
 
-(log/set-level! :debug)
+(defn init
+  []
+  (timbre/with-config
+    (timbre/merge-config!
+     {:level :info
+      :ns-whitelist [] #_["cmp.*"]
+      :appenders {:println {:enabled? false}
+                  :gelf (gelf/gelf-appender "127.0.0.1" 12201 :udp)}})))
 
 ;;------------------------------
 ;; build
 ;;------------------------------
-(defn build-mp
+(defn build
   "Loads document from long term memory and
   fetches it to short term memory"
   [mp-id]
@@ -24,7 +32,7 @@
 ;;------------------------------
 ;; clear
 ;;------------------------------
-(defn clear-mp
+(defn clear
   "Clears all short term memory for the given mp-id"
   [mp-id]
   (st/clear (u/extr-main-path mp-id)))
@@ -45,9 +53,10 @@
 ;;------------------------------
 ;; check mp tasks
 ;;------------------------------
-(defn check-mp
+(defn check
   "Check and runs the tasks of the container and definitions"
   [mp-id]
+  (timbre/info "check " mp-id)
   (let [p (u/extr-main-path mp-id)
         n-cont (st/get-val-int (u/get-meta-ncont-path p))
         n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
@@ -63,7 +72,7 @@
 ;;------------------------------
 ;; start polling
 ;;------------------------------
-(defn start-mp
+(defn start
   "Check and runs the tasks of the container and definitions"
   [mp-id]
   (let [p (u/extr-main-path mp-id)
@@ -81,7 +90,7 @@
 ;;------------------------------
 ;; stop all polling
 ;;------------------------------
-(defn stop-mp
+(defn stop
   "Check and runs the tasks of the container and definitions"
   [mp-id]
   (let [p (u/extr-main-path mp-id)
