@@ -6,11 +6,16 @@
             [cmp.build :as b]
             [cmp.check :as check]
             [cmp.poll :as poll]
-            [cmp.log :as log]
-            [taoensso.timbre :as timbre])
+            [cmp.log :as log])
   (:gen-class)
   (:use [clojure.repl]))
 
+;;------------------------------
+;; log
+;;------------------------------
+;; (log/init)
+;; (log/stop-repl-out)
+;; (log/start-repl-out)
 
 ;;------------------------------
 ;; build
@@ -48,7 +53,6 @@
 (defn check
   "Check and runs the tasks of the container and definitions"
   [mp-id]
-  (timbre/info "check " mp-id)
   (let [p (u/extr-main-path mp-id)
         n-cont (st/get-val-int (u/get-meta-ncont-path p))
         n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
