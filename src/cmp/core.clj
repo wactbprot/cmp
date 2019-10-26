@@ -15,9 +15,8 @@
   []
   (timbre/with-config
     (timbre/merge-config!
-     {:level :info
-      :ns-whitelist [] #_["cmp.*"]
-      :appenders {:println {:enabled? false}
+     {:level :debug
+      :appenders {;;:println {:enabled? false}
                   :gelf (gelf/gelf-appender "127.0.0.1" 12201 :udp)}})))
 
 ;;------------------------------
