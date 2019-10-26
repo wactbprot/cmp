@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+  <!--
+      configuration avoids the logging 
+      from imported libs
+  -->
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <!-- encoders are assigned the type
-         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
     <encoder>
-      <pattern>%d{ISO8601,Europe/London} [%thread] %-5level %logger{36} - %msg%n</pattern>
+      <pattern>%d{ISO8601,Europe/Berlin} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
-
-  <!-- Show debug logs that originate from our namespace -->
   <property name="level" value="DEBUG"/>
   <logger name="cmp" level="${level}"/>
-
-  <root level="INFO">
+  <root level="ERROR">
     <appender-ref ref="STDOUT"/>
   </root>
 </configuration>

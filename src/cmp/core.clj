@@ -6,18 +6,11 @@
             [cmp.build :as b]
             [cmp.check :as check]
             [cmp.poll :as poll]
-            [taoensso.timbre :as timbre]
-            [taoensso.timbre.appenders.3rd-party.gelf :as gelf])
+            [cmp.log :as log]
+            [taoensso.timbre :as timbre])
   (:gen-class)
   (:use [clojure.repl]))
 
-(defn init
-  []
-  (timbre/with-config
-    (timbre/merge-config!
-     {:level :debug
-      :appenders {;;:println {:enabled? false}
-                  :gelf (gelf/gelf-appender "127.0.0.1" 12201 :udp)}})))
 
 ;;------------------------------
 ;; build
