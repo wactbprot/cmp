@@ -41,17 +41,18 @@
 
 (defmethod dispatch :run
   [ctrl-str ctrl-path]
-  (log/info "start running: " ctrl-path)
+  (log/debug "dispatch run branch for key: " ctrl-path)
   (st/set-val! ctrl-path "running")
   (a/>!! run/ctrl-chan ctrl-path))
 
 (defmethod dispatch :running
   [ctrl-str ctrl-path]
-  (log/info ".")
+  (log/debug "dispatch running branch for key: " ctrl-path)
   (a/>!! run/ctrl-chan ctrl-path))
 
 (defmethod dispatch :default
-  [ctrl-str ctrl-path])
+  [ctrl-str ctrl-path]
+  (log/debug "dispatch default branch for key: " ctrl-path))
 
 ;;------------------------------
 ;; monitor
@@ -89,4 +90,4 @@
 ;;------------------------------
 (defn status
   []
-   (deref mon))
+  (deref mon))

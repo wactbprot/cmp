@@ -39,9 +39,9 @@
     (fn [k] (get-val k))
     ks)))
 
-(defn get-val-int
-  [k]
-  (Integer/parseInt (get-val k)))
+(defn val->int
+  [x]
+  (Integer/parseInt x))
  
 (defmulti clear
   class)

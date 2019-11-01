@@ -54,8 +54,8 @@
   "Check and runs the tasks of the container and definitions"
   [mp-id]
   (let [p (u/extr-main-path mp-id)
-        n-cont (st/get-val-int (u/get-meta-ncont-path p))
-        n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
+        n-cont (st/val->int (st/get-val (u/get-meta-ncont-path p)))
+        n-defins (st/val->int (st/get-val (u/get-meta-ndefins-path p)))]
     (run!
      (fn [i]
        (check/struct (u/get-cont-defin-path p i)))
@@ -69,11 +69,11 @@
 ;; start polling
 ;;------------------------------
 (defn start
-  "Check and runs the tasks of the container and definitions"
+  "Check and runs the tasks of the containers and definitions."
   [mp-id]
   (let [p (u/extr-main-path mp-id)
-        n-cont (st/get-val-int (u/get-meta-ncont-path p))
-        n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
+        n-cont (st/val->int (st/get-val (u/get-meta-ncont-path p)))
+        n-defins (st/val->int (st/get-val (u/get-meta-ndefins-path p)))]
     (run!
      (fn [i]
        (poll/start (u/get-cont-ctrl-path p i)))
@@ -87,11 +87,11 @@
 ;; stop all polling
 ;;------------------------------
 (defn stop
-  "Check and runs the tasks of the container and definitions"
+  "Check and runs the tasks of the containers and definitions."
   [mp-id]
   (let [p (u/extr-main-path mp-id)
-        n-cont (st/get-val-int (u/get-meta-ncont-path p))
-        n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
+        n-cont (st/val->int (st/get-val (u/get-meta-ncont-path p)))
+        n-defins (st/val->int (st/get-val (u/get-meta-ndefins-path p)))]
     (run!
      (fn [i]
        (poll/stop (u/get-cont-ctrl-path p i)))
