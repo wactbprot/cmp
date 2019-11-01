@@ -6,19 +6,17 @@
             [cmp.build :as b]
             [cmp.check :as check]
             [cmp.poll :as poll]
-            [taoensso.timbre :as timbre]
-            [taoensso.timbre.appenders.3rd-party.gelf :as gelf])
+            ;;[cmp.log :as log]
+            )
   (:gen-class)
   (:use [clojure.repl]))
 
-(defn init
-  []
-  (timbre/with-config
-    (timbre/merge-config!
-     {:level :info
-      :ns-whitelist [] #_["cmp.*"]
-      :appenders {:println {:enabled? false}
-                  :gelf (gelf/gelf-appender "172.30.56.135" 12203 :udp)}})))
+;;------------------------------
+;; log
+;;------------------------------
+;; (log/init)
+;; (log/stop-repl-out)
+;; (log/start-repl-out)
 
 ;;------------------------------
 ;; build
@@ -56,7 +54,6 @@
 (defn check
   "Check and runs the tasks of the container and definitions"
   [mp-id]
-  (timbre/info "check " mp-id)
   (let [p (u/extr-main-path mp-id)
         n-cont (st/get-val-int (u/get-meta-ncont-path p))
         n-defins (st/get-val-int (u/get-meta-ndefins-path p))]
@@ -108,15 +105,18 @@
 ;;------------------------------
 ;; push ctrl commands
 ;;------------------------------
-(defn push-ctrl-defins-cmd
-  "Pushes the command to the ith definition."
-  [mp-id i cmd]
-  (let [p (u/get-defins-ctrl-path (u/extr-main-path mp-id) i)]
-    (st/set-val! p  cmd)))
 
-(defn push-ctrl-cont-cmd
-  "Pushes the command to the ith container."
-  [mp-id i cmd]
+(defmulti cmd
+  ;; https://stackoverflow.com/questions/44775570/wrong-number-of-args-when-working-with-multimethods-and-meta-data
+  (fn [mp-id i c to] to))
+  
+(defmethod cmd :defin
+  [to mp-id i c]
+  (let [p (u/get-defins-ctrl-path (u/extr-main-path mp-id) i)]
+    (st/set-val! p c)))
+
+(defmethod cmd :cont
+  [to mp-id i c]
   (let [p (u/get-cont-ctrl-path (u/extr-main-path mp-id) i)]
-    (st/set-val! p cmd)))
+    (st/set-val! p c)))
  
