@@ -18,7 +18,7 @@
      {:level :info
       :ns-whitelist [] #_["cmp.*"]
       :appenders {:println {:enabled? false}
-                  :gelf (gelf/gelf-appender "127.0.0.1" 12201 :udp)}})))
+                  :gelf (gelf/gelf-appender "172.30.56.135" 12203 :udp)}})))
 
 ;;------------------------------
 ;; build
