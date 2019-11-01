@@ -6,7 +6,8 @@
             [cmp.build :as b]
             [cmp.check :as check]
             [cmp.poll :as poll]
-            [cmp.log :as log])
+            ;;[cmp.log :as log]
+            )
   (:gen-class)
   (:use [clojure.repl]))
 
@@ -104,15 +105,18 @@
 ;;------------------------------
 ;; push ctrl commands
 ;;------------------------------
-(defn push-ctrl-defins-cmd
-  "Pushes the command to the ith definition."
-  [mp-id i cmd]
-  (let [p (u/get-defins-ctrl-path (u/extr-main-path mp-id) i)]
-    (st/set-val! p  cmd)))
 
-(defn push-ctrl-cont-cmd
-  "Pushes the command to the ith container."
-  [mp-id i cmd]
+(defmulti cmd
+  ;; https://stackoverflow.com/questions/44775570/wrong-number-of-args-when-working-with-multimethods-and-meta-data
+  (fn [mp-id i c to] to))
+  
+(defmethod cmd :defin
+  [to mp-id i c]
+  (let [p (u/get-defins-ctrl-path (u/extr-main-path mp-id) i)]
+    (st/set-val! p c)))
+
+(defmethod cmd :cont
+  [to mp-id i c]
   (let [p (u/get-cont-ctrl-path (u/extr-main-path mp-id) i)]
-    (st/set-val! p cmd)))
+    (st/set-val! p c)))
  

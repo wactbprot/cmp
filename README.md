@@ -8,23 +8,23 @@ repl only (so far)
 
 ```clojure
 
-    (clear-mp mp-id)
+    (clear mp-id)
     +
     :
     :
     v
-    (build-mp mp-id)+--+
+    (build mp-id)+--+
     +                  :
     |                  v
     |                  (check-mp mp-id)
     |                  +
     v                  :
-    (start-mp mp-id)<--+
+    (start mp-id)<--+
     +
     |
-    +-->(push-ctrl-defins-cmd mp-id i cmd)
+    +-->(cmd :defin mp-id i cmd)
     |
-    +-->(push-ctrl-cont-cmd mp-id i cmd)
+    +-->(cmd :cont mp-id i cmd)
 ```
 
 
