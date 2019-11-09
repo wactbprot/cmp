@@ -1,22 +1,24 @@
 (ns cmp.st
   (:require [taoensso.carmine :as car :refer (wcar)]
-            [cmp.utils :as u])
+            [cmp.utils :as u]
+            [cmp.config :as cfg])
   (:use [clojure.repl])
   (:gen-class))
 
-(def conn {:pool {} :spec {:host "127.0.0.1" :port 6379}})
-(defmacro wcar* [& body] `(car/wcar conn ~@body))
+(def conn (cfg/st-conn (cfg/config)))
+
+(defmacro wcar*
+  [& body]
+  `(car/wcar conn ~@body))
 
 (defn get-keys
   [p]
-  (wcar* (car/keys
-          (u/vec->key [p "*"]))))
+  (wcar* (car/keys (u/vec->key [p "*"]))))
 
 (defn del-keys!
   [ks]
   (doall
-   (map (fn [k]
-          (wcar* (car/del k)))
+   (map (fn [k] (wcar* (car/del k)))
         ks)))
 
 (defn del-key!

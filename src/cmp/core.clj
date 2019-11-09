@@ -7,6 +7,7 @@
             [cmp.check :as check]
             [cmp.poll :as poll]
             [cmp.log :as log]
+            [cmp.config :as cfg]
             )
   (:gen-class)
   (:use [clojure.repl]))

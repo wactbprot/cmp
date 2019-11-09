@@ -1,11 +1,13 @@
 (ns cmp.lt
   (:require [clojure.string :as string]
             [com.ashafa.clutch :as couch]
-            [taoensso.timbre :as timbre])
+            [taoensso.timbre :as timbre]
+            [cmp.config :as cfg])
   (:use [clojure.repl])
   (:gen-class))
 
-(def conn "http://localhost:5984/vl_db")
+
+(def conn (cfg/lt-conn (cfg/config)))
 
 (defn get-doc
   [id]

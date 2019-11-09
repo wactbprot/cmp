@@ -1,0 +1,3 @@
+{:lt-uri "http://localhost:5984/vl_db"
+ :st-conn {:pool {}
+           :spec {:host "127.0.0.1" :port 6379}}}
