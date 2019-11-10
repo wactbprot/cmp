@@ -7,24 +7,28 @@ A study of an interpreter for measurement program definitions (mpd) written in c
 repl only (so far)
 
 ```clojure
-
-    (clear mp-id)
+    (workon mp-id)
     +
     :
     :
     v
-    (build mp-id)+--+
+    (clear)
+    +
+    :
+    :
+    v
+    (build)+-----------+
     +                  :
     |                  v
-    |                  (check-mp mp-id)
+    |                  (check-mp)
     |                  +
     v                  :
-    (start mp-id)<--+
+    (start)<-----------+
     +
     |
-    +-->(cmd :defin mp-id i cmd)
+    +-->(push i "run")
     |
-    +-->(cmd :cont mp-id i cmd)
+    +-->(status)
 ```
 
 
