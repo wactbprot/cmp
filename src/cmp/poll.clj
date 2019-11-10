@@ -14,7 +14,15 @@
 
 (def heartbeat 1000)
 (def mon (atom {}))
+
+;;------------------------------
+;; exception channel 
+;;------------------------------
 (def excep-chan (a/chan))
+(a/go
+  (while true
+    (let [e (a/<! excep-chan)] 
+      (timbre/error (.getMessage e)))))
 
 ;;------------------------------
 ;; register
@@ -24,13 +32,6 @@
   (timbre/debug "register channel for path: " p)
   (swap! mon assoc p true))
 
-;;------------------------------
-;; exception channel 
-;;------------------------------
-(a/go
-  (while true
-    (let [e (a/<! excep-chan)] 
-      (log/error (.getMessage e)))))
 
 ;;------------------------------
 ;; dispatch
@@ -82,13 +83,5 @@
 ;;------------------------------
 (defn stop
   [p]
-   (swap! mon assoc p false)
+  (swap! mon assoc p false)
   (timbre/debug "close monitor channel registered for path: " p))
-
-;;------------------------------
-;; status
-;;------------------------------
-(defn status
-  []
-  (doseq [[k v] (deref mon)]
-    (u/print-kv k v)))

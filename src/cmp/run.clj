@@ -1,12 +1,21 @@
 (ns cmp.run
   ^{:author "wactbprot"
     :doc "Runs the upcomming tasks of a certain container."}
-  (:require [taoensso.timbre :as log]
+  (:require [taoensso.timbre :as timbre]
             [clojure.core.async :as a]
             [cmp.st :as st]
             [cmp.task :as tsk]
             [cmp.utils :as u])
   (:gen-class))
+
+;;------------------------------
+;; exception channel 
+;;------------------------------
+(def excep-chan (a/chan))
+(a/go
+  (while true
+    (let [e (a/<! excep-chan)] 
+      (timbre/error (.getMessage e)))))
 
 ;;------------------------------
 ;; ctrl channel invoked by poll 
@@ -37,6 +46,16 @@
       :par-idx (u/key->par-idx k)
       :state (st/get-val k)})
    ks))
+
+(defn p->state-ks
+  [p]
+  (sort (st/get-keys
+         (u/replace-key-at-level 3 p "state"))))
+
+(defn p->state-map
+  [p]
+  (let [ks (p->state-ks p)]
+    (ks->state-map ks)))
 
 (defn filter-state
   [v s]
@@ -92,9 +111,7 @@
 
 (defn choose
   [p]
-  (let [state-path (u/replace-key-at-level 3 p "state")
-        ks (sort (st/get-keys state-path))
-        state-map (ks->state-map ks)]
+  (let [state-map (p->state-map p)]
     (cond
       (errors?  state-map) (println "got errors")
       (all-ready? state-map) (println "all ready")
@@ -115,9 +132,20 @@
   (println (task :Action)))
 
 ;;------------------------------
+;; status 
+;;------------------------------
+(defn status
+  [p]
+  (p->state-map p))
+
+;;------------------------------
 ;; ctrl go block 
 ;;------------------------------
 (a/go
   (while true  
     (let [p (a/<! ctrl-chan)] 
-      (choose p))))
+      (try
+        (choose p)
+        (catch Exception e
+          (timbre/error "catch error at channel " p)
+          (a/>! excep-chan e))))))

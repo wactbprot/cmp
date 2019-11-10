@@ -25,7 +25,6 @@
   [k]
   (wcar* (car/del k)))
   
-
 (defn set-val!
   [k v]
   (wcar* (car/set k v)))
@@ -40,10 +39,6 @@
    (mapv
     (fn [k] (get-val k))
     ks)))
-
-(defn val->int
-  [x]
-  (Integer/parseInt x))
  
 (defmulti clear
   class)

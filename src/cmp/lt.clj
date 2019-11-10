@@ -11,7 +11,7 @@
 
 (defn get-doc
   [id]
-  (timbre/info "try to get document with id: " id)
+  (timbre/debug "try to get document with id: " id)
   (try
     (couch/get-document conn id)
     (catch Exception ex
@@ -20,7 +20,7 @@
 
 (defn get-task-view
   [{task-name :TaskName}]
-  (timbre/info "get task: " task-name " from ltm")
+  (timbre/debug "get task: " task-name " from ltm")
   (first
    (couch/get-view conn "dbmp" "tasks" {:key task-name})))
 

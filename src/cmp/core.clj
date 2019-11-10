@@ -6,6 +6,7 @@
             [cmp.build :as b]
             [cmp.check :as check]
             [cmp.poll :as poll]
+            [cmp.run :as run]
             [cmp.log :as log]
             [taoensso.timbre :as timbre]
             [cmp.config :as cfg]
@@ -72,10 +73,10 @@
 (defn check
   "Check and runs the tasks of the container and definitions"
   []
-  (timbre/info "check : " (->mp-id))
+  (timbre/info "check: " (->mp-id))
   (let [p (u/extr-main-path (->mp-id))
-        n-cont (st/val->int (st/get-val (u/get-meta-ncont-path p)))
-        n-defins (st/val->int (st/get-val (u/get-meta-ndefins-path p)))]
+        n-cont (u/val->int (st/get-val (u/get-meta-ncont-path p)))
+        n-defins (u/val->int (st/get-val (u/get-meta-ndefins-path p)))]
     (run!
      (fn [i]
        (check/struct (u/get-cont-defin-path p i)))
@@ -94,8 +95,8 @@
   []
   (timbre/info "start polling for: " (->mp-id))
   (let [p (u/extr-main-path (->mp-id))
-        n-cont (st/val->int (st/get-val (u/get-meta-ncont-path p)))
-        n-defins (st/val->int (st/get-val (u/get-meta-ndefins-path p)))]
+        n-cont (u/val->int (st/get-val (u/get-meta-ncont-path p)))
+        n-defins (u/val->int (st/get-val (u/get-meta-ndefins-path p)))]
     (run!
      (fn [i]
        (poll/start (u/get-cont-ctrl-path p i)))
@@ -114,8 +115,8 @@
   []
   (timbre/info "stop polling of " (->mp-id))  
   (let [p (u/extr-main-path (->mp-id))
-        n-cont (st/val->int (st/get-val (u/get-meta-ncont-path p)))
-        n-defins (st/val->int (st/get-val (u/get-meta-ndefins-path p)))]
+        n-cont (u/val->int (st/get-val (u/get-meta-ncont-path p)))
+        n-defins (u/val->int (st/get-val (u/get-meta-ndefins-path p)))]
     (run!
      (fn [i]
        (poll/stop (u/get-cont-ctrl-path p i)))
@@ -132,11 +133,28 @@
   
 (defn push
   "push a cmd string to the control interface of a mp.
-  The mp-id is received over (->mp-id). Defins should not be
-  started by user"
+  The mp-id is received over (->mp-id). The defins
+  struct should not be started by user."
   [i cmd]
   (timbre/info "push cmd to:" (->mp-id))
   (let [p (u/get-cont-ctrl-path (u/extr-main-path (->mp-id)) i)]
     (st/set-val! p cmd))
   (timbre/info "done  [" (->mp-id) "]" ))
- 
+
+;;------------------------------
+;; poll status
+;;------------------------------
+(defn poll-status
+  []
+  (doseq [[k v] (deref poll/mon)]
+    (u/print-kv k v)))
+
+
+;;------------------------------
+;; cont status
+;;------------------------------
+(defn cont-status
+  [i]
+  (run/status
+   (u/get-cont-ctrl-path
+    (u/extr-main-path (->mp-id)) i)))

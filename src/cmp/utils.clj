@@ -23,6 +23,11 @@
   "Joins the vec to a key."
   (string/join sep p))
 
+(defn val->int
+  "Converts val to integer"
+  [x]
+  (Integer/parseInt x))
+
 (defn replace-key-at-level
   "Generates a new key by replacing an old one at a certain position.
   ToDo: the key levels should have a name or keyword."
