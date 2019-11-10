@@ -4,7 +4,7 @@
           and dispatchs depending on the result 
           (:load, :run, :stop etc)."}
   (:require [clojure.string :as string]
-            [taoensso.timbre :as log]
+            [taoensso.timbre :as timbre]
             [clojure.core.async :as a]
             [cmp.st :as st]
             [cmp.check :as chk]
@@ -21,7 +21,7 @@
 ;;------------------------------
 (defn register
   [p]
-  (log/info "register channel for path: " p)
+  (timbre/debug "register channel for path: " p)
   (swap! mon assoc p true))
 
 ;;------------------------------
@@ -41,18 +41,18 @@
 
 (defmethod dispatch :run
   [ctrl-str ctrl-path]
-  (log/debug "dispatch run branch for key: " ctrl-path)
+  (timbre/debug "dispatch run branch for key: " ctrl-path)
   (st/set-val! ctrl-path "running")
   (a/>!! run/ctrl-chan ctrl-path))
 
 (defmethod dispatch :running
   [ctrl-str ctrl-path]
-  (log/debug "dispatch running branch for key: " ctrl-path)
+  (timbre/debug "dispatch running branch for key: " ctrl-path)
   (a/>!! run/ctrl-chan ctrl-path))
 
 (defmethod dispatch :default
   [ctrl-str ctrl-path]
-  (log/debug "dispatch default branch for key: " ctrl-path))
+  (timbre/debug "dispatch default branch for key: " ctrl-path))
 
 ;;------------------------------
 ;; monitor
@@ -65,7 +65,7 @@
       (try
         (dispatch (st/get-val p) p)
         (catch Exception e
-          (log/error "catch error at channel " p)
+          (timbre/error "catch error at channel " p)
           (a/>! excep-chan e))))))
 
 ;;------------------------------
@@ -75,7 +75,7 @@
   [p]
   (register p)
   (monitor p)
-  (log/info "start and register monitor channel for path: " p))
+  (timbre/debug "start and register monitor channel for path: " p))
 
 ;;------------------------------
 ;; stop
@@ -83,11 +83,12 @@
 (defn stop
   [p]
    (swap! mon assoc p false)
-   (log/info "close monitor channel registered for path: " p))
+  (timbre/debug "close monitor channel registered for path: " p))
 
 ;;------------------------------
 ;; status
 ;;------------------------------
 (defn status
   []
-  (deref mon))
+  (doseq [[k v] (deref mon)]
+    (u/print-kv k v)))

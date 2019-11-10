@@ -120,5 +120,4 @@
 (a/go
   (while true  
     (let [p (a/<! ctrl-chan)] 
-      (log/info "got trigger for key: " p)
       (choose p))))
