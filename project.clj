@@ -15,4 +15,7 @@
                  [org.graylog2/gelfclient "1.4.1"]]
   :main ^:skip-aot cmp.core
   :target-path "target/%s"
+  :repl-options {
+                 :prompt (fn [ns] (str "You are hacking in " ns "=> " ))
+                 :welcome (println "Its  REPL time!")}
   :profiles {:uberjar {:aot :all}})

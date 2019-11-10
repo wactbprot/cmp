@@ -19,43 +19,55 @@
 ;; (log/stop-repl-out)
 ;; (log/start-repl-out)
 
+(def current-mp-id (atom nil))
+
+(defn workon
+  [mp-id]
+  (reset! current-mp-id mp-id))
+
+(defn ->mp-id
+  []
+  (if-let [mp-id (deref current-mp-id)]
+    mp-id
+    (throw (Exception. "No mp-id set.\n\n\nUse function (workon <mp-id>)"))))
+
 ;;------------------------------
 ;; build
 ;;------------------------------
 (defn build
   "Loads document from long term memory and
   fetches it to short term memory"
-  [mp-id]
-  (b/store (lt/get-doc (u/compl-main-path mp-id))))
+  []
+  (b/store (lt/get-doc (u/compl-main-path (->mp-id)))))
 
 ;;------------------------------
 ;; clear
 ;;------------------------------
 (defn clear
   "Clears all short term memory for the given mp-id"
-  [mp-id]
-  (st/clear (u/extr-main-path mp-id)))
+  []
+  (st/clear (u/extr-main-path (->mp-id))))
 
 ;;------------------------------
 ;; documents
 ;;------------------------------
 (defn doc-add
   "Adds a doc to the api to store the resuls in."
-  [mp-id doc-id]
-  (d/add (u/extr-main-path mp-id) doc-id))
+  [doc-id]
+  (d/add (u/extr-main-path (->mp-id)) doc-id))
 
 (defn doc-del
   "Removes a doc from the api."
-  [mp-id doc-id]
-  (d/del (u/extr-main-path mp-id) doc-id))
+  [doc-id]
+  (d/del (u/extr-main-path (->mp-id)) doc-id))
 
 ;;------------------------------
 ;; check mp tasks
 ;;------------------------------
 (defn check
   "Check and runs the tasks of the container and definitions"
-  [mp-id]
-  (let [p (u/extr-main-path mp-id)
+  []
+  (let [p (u/extr-main-path (->mp-id))
         n-cont (st/val->int (st/get-val (u/get-meta-ncont-path p)))
         n-defins (st/val->int (st/get-val (u/get-meta-ndefins-path p)))]
     (run!
@@ -72,8 +84,8 @@
 ;;------------------------------
 (defn start
   "Check and runs the tasks of the containers and definitions."
-  [mp-id]
-  (let [p (u/extr-main-path mp-id)
+  []
+  (let [p (u/extr-main-path (->mp-id))
         n-cont (st/val->int (st/get-val (u/get-meta-ncont-path p)))
         n-defins (st/val->int (st/get-val (u/get-meta-ndefins-path p)))]
     (run!
@@ -90,8 +102,8 @@
 ;;------------------------------
 (defn stop
   "Check and runs the tasks of the containers and definitions."
-  [mp-id]
-  (let [p (u/extr-main-path mp-id)
+  []
+  (let [p (u/extr-main-path (->mp-id))
         n-cont (st/val->int (st/get-val (u/get-meta-ncont-path p)))
         n-defins (st/val->int (st/get-val (u/get-meta-ndefins-path p)))]
     (run!
@@ -106,18 +118,12 @@
 ;;------------------------------
 ;; push ctrl commands
 ;;------------------------------
-
-(defmulti cmd
-  ;; https://stackoverflow.com/questions/44775570/wrong-number-of-args-when-working-with-multimethods-and-meta-data
-  (fn [to mp-id i c] to))
   
-(defmethod cmd :defin
-  [to mp-id i c]
-  (let [p (u/get-defins-ctrl-path (u/extr-main-path mp-id) i)]
-    (st/set-val! p c)))
-
-(defmethod cmd :cont
-  [to mp-id i c]
-  (let [p (u/get-cont-ctrl-path (u/extr-main-path mp-id) i)]
-    (st/set-val! p c)))
+(defn push
+  "push a cmd string to the control interface of a mp.
+  The mp-id is received over (->mp-id). Defins should not be
+  started by user"
+  [i cmd]
+  (let [p (u/get-cont-ctrl-path (u/extr-main-path (->mp-id)) i)]
+    (st/set-val! p cmd)))
  
