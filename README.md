@@ -1,6 +1,26 @@
+![cmp](./Clojure_logo.svg.png)
+
 # cmp
 
 A study of an interpreter for measurement program definitions (mpd) written in clojure.
+
+## (re)generate documentation
+
+```shell
+$ cd path/to/cmp
+$ lein codox
+```
+
+## view  documentation
+
+[api](./docs/index.html)
+
+```shell
+$ cd path/to/cmp
+$ firefox docs/index.html
+```
+
+
 
 ## Usage
 

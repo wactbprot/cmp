@@ -12,10 +12,14 @@
                  [aero "1.1.3"]
                  [biz.paluch.logging/logstash-gelf "1.12.0"]
                  [ch.qos.logback/logback-classic "1.0.1"]
-                 [org.graylog2/gelfclient "1.4.1"]]
+                 [org.graylog2/gelfclient "1.4.1"]
+                 [codox-theme-rdash "0.1.2"]]
   :main ^:skip-aot cmp.core
   :target-path "target/%s"
-  :repl-options {
-                 :prompt (fn [ns] (str "You are hacking in " ns "=> " ))
+  :plugins [[lein-codox "0.10.7"]]
+  :codox {:output-path "./docs"
+          :themes [:rdash]
+          :metadata {:doc/format :markdown}}
+  :repl-options {:prompt (fn [ns] (str "You are hacking in " ns "=> " ))
                  :welcome (println "Its  REPL time!")}
   :profiles {:uberjar {:aot :all}})
