@@ -24,10 +24,28 @@
 (def current-mp-id (atom nil))
 
 (defn workon
+  "Sets the mpd to workon.
+
+  Usage:
+  
+  ```clojure
+  (workon 'se3-calib')
+  (->mp-id)
+  ```
+  "
   [mp-id]
   (reset! current-mp-id mp-id))
 
 (defn ->mp-id
+   "Returns the mpd-id set with workon.
+
+  Usage:
+  
+  ```clojure
+  (workon 'se3-calib')
+  (->mp-id)
+  ```
+  "
   []
   (if-let [mp-id (deref current-mp-id)]
     mp-id
@@ -37,8 +55,15 @@
 ;; build
 ;;------------------------------
 (defn build
-  "Loads document from long term memory and
-  fetches it to short term memory"
+  "Loads mpd from long term memory and
+  builds the short term memory
+  
+  Usage:
+  
+  ```clojure
+  (build)
+  ```
+  "
   []
   (timbre/info "build " (->mp-id) )
   (b/store (lt/get-doc (u/compl-main-path (->mp-id))))
