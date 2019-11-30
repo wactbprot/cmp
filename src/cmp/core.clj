@@ -17,10 +17,22 @@
 ;;------------------------------
 ;; log
 ;;------------------------------
-;; (log/init)
-;; (log/stop-repl-out)
-;; (log/start-repl-out)
+(defn log-init!
+  []
+  log/init)
 
+(defn log-stop-repl-out!
+  []
+  (log/stop-repl-out))
+
+(defn log-start-repl-out!
+  []
+  (log/start-repl-out))
+
+
+;;------------------------------
+;; current-mp-id atom and workon
+;;------------------------------
 (def current-mp-id (atom nil))
 
 (defn workon
@@ -37,7 +49,7 @@
   (reset! current-mp-id mp-id))
 
 (defn ->mp-id
-   "Returns the mpd-id set with workon.
+  "Returns the mpd-id set with workon.
 
   Usage:
   
@@ -62,8 +74,7 @@
   
   ```clojure
   (build)
-  ```
-  "
+  ```"
   []
   (timbre/info "build " (->mp-id) )
   (b/store (lt/get-doc (u/compl-main-path (->mp-id))))
@@ -83,12 +94,14 @@
 ;; documents
 ;;------------------------------
 (defn doc-add
-  "Adds a doc to the api to store the resuls in."
+  "Adds a doc to the api to store the resuls in.
+  Only works in combination with [[workon]]."
   [doc-id]
   (d/add (u/extr-main-path (->mp-id)) doc-id))
 
 (defn doc-del
-  "Removes a doc from the api."
+  "Removes a doc from the api.
+  Only works in combination with [[workon]]."
   [doc-id]
   (d/del (u/extr-main-path (->mp-id)) doc-id))
 
@@ -96,7 +109,8 @@
 ;; check mp tasks
 ;;------------------------------
 (defn check
-  "Check and runs the tasks of the container and definitions"
+  "Check the tasks of the container and definitions.
+  Only works in combination with [[workon]]."
   []
   (timbre/info "check: " (->mp-id))
   (let [p (u/extr-main-path (->mp-id))
@@ -116,7 +130,8 @@
 ;; start polling
 ;;------------------------------
 (defn start
-  "Check and runs the tasks of the containers and definitions."
+  "Check and runs the tasks of the containers and definitions.
+  Only works in combination with [[workon]]."
   []
   (timbre/info "start polling for: " (->mp-id))
   (let [p (u/extr-main-path (->mp-id))
@@ -136,7 +151,8 @@
 ;; stop all polling
 ;;------------------------------
 (defn stop
-  "Check and runs the tasks of the containers and definitions."
+  "Check and runs the tasks of the containers and definitions.
+  Only works in combination with [[workon]]."
   []
   (timbre/info "stop polling of " (->mp-id))  
   (let [p (u/extr-main-path (->mp-id))
@@ -159,7 +175,8 @@
 (defn push
   "push a cmd string to the control interface of a mp.
   The mp-id is received over (->mp-id). The defins
-  struct should not be started by user."
+  struct should not be started by user.
+  Only works in combination with [[workon]]."
   [i cmd]
   (timbre/info "push cmd to:" (->mp-id))
   (let [p (u/get-cont-ctrl-path (u/extr-main-path (->mp-id)) i)]

@@ -22,29 +22,29 @@
 ;;------------------------------
 (def ctrl-chan (a/chan))
 
-(defn par-run
-  [ks]
-  (run!
-   (fn [k]
-     (let [recipe-path (u/replace-key-at-level 3 k "definition")
-           proto-task (u/gen-map (st/get-val recipe-path))
-           meta-task (tsk/gen-meta-task proto-task)
-           task (tsk/assemble meta-task)]
-       (println (assoc task
-                       :Mp (u/key->mp-name k)
-                       :Struct (u/key->struct k)
-                       :No (u/key->no-idx k)
-                       :Seq (u/key->seq-idx k)
-                       :Par (u/key->par-idx k)))))
-   ks))
+(defn k->task
+  [k]
+  (let [recipe-path (u/replace-key-at-level 3 k "definition")
+        proto-task (u/gen-map (st/get-val recipe-path))
+        meta-task (tsk/gen-meta-task proto-task)]
+        (tsk/assemble meta-task)))
 
-(defn ks->state-map
+(defn assoc-dyn-info
+  [task k]
+  (assoc task
+         :Mp (u/key->mp-name k)
+         :Struct (u/key->struct k)
+         :No (u/key->no-idx k)
+         :Seq (u/key->seq-idx k)
+         :Par (u/key->par-idx k)))
+
+  (defn ks->state-map
   [ks]
   (mapv
    (fn [k]
      {:seq-idx (u/key->seq-idx k)
       :par-idx (u/key->par-idx k)
-      :state (st/get-val k)})
+      :state (keyword (st/get-val k))})
    ks))
 
 (defn p->state-ks
@@ -53,72 +53,88 @@
          (u/replace-key-at-level 3 p "state"))))
 
 (defn p->state-map
+  "Returns the state-map for a given path.
+
+  Example (see also [[pick-next]]):
+  ```clojure
+  (p->state-map se3-calib@container@0@ctrl)
+  ```"
   [p]
   (let [ks (p->state-ks p)]
     (ks->state-map ks)))
 
 (defn filter-state
-  [v s]
-  (filter (fn [m] (= s (m :state))) v))
+  [m s]
+  (filter (fn [x] (= s (x :state))) m))
 
 (defn filter-par
-  [v n]
-  (filter (fn [m] (= n (m :par-idx))) v))
+  [m i]
+  (filter (fn [x] (= i (x :par-idx))) m))
   
 (defn all-error
   [v]
-  (filter-state v "error"))
+  (filter-state v :error))
 
 (defn all-ready
-  [v]
-  (filter-state v "ready"))
+  [m]
+  (filter-state m :ready))
 
 (defn all-working
-  [v]
-  (filter-state v "working"))
+  [m]
+  (filter-state m :working))
 
 (defn all-executed
-  [v]
-  (filter-state v "executed"))
+  "Returns all-executed entrys of the given state-map.
+  ```clojure
+  (def m
+  [{:seq-idx 0, :par-idx 0, :state :ready}
+   {:seq-idx 1, :par-idx 0, :state :ready}
+   {:seq-idx 2, :par-idx 0, :state :ready}
+   {:seq-idx 3, :par-idx 0, :state :ready}
+   {:seq-idx 4, :par-idx 0, :state :ready}
+   {:seq-idx 5, :par-idx 0, :state :ready}])
+
+  (all-executed m)
+  ```"
+  [m]
+  (filter-state m :executed))
 
 (defn all-executed?
-  [v]
+  [m]
   (=
-   (count v)
-   (count (all-executed v))))
+   (count m)
+   (count (all-executed m))))
 
 (defn errors?
-  [v]
-  (not (empty? (all-error v))))
-
-(defn all-ready?
-  [v]
-  (=
-   (count v)
-   (count (all-ready v))))
+  [m]
+  (not (empty? (all-error m))))
 
 (defn par-step-complete?
-  [v n]
-  (let [n-all (count (filter-par v n))
-        n-exec (count (filter-par (all-executed v) n))]
+  [m i]
+  (let [n-all (count (filter-par m i))
+        n-exec (count (filter-par (all-executed m) i))]
     (and
      (= n-all n-exec)
      (> n-exec 0))))
           
 (defn next-ready
-  [v]
-  (first all-ready))
+  [m]
+  (first (all-ready m)))
 
-(defn choose
+(defn pick-next
+  "Receives the path p and picks the next thing to do.
+  p looks like this (must be a string):
+  ```
+  se3-calib@container@0@ctrl
+  ```"
   [p]
   (let [state-map (p->state-map p)]
     (cond
       (errors?  state-map) (println "got errors")
-      (all-ready? state-map) (println "all ready")
       (all-executed? state-map) (println "all executed"))))
     
 ;;------------------------------
-;; worker 
+;; demo worker 
 ;;------------------------------
 (defmulti worker
   (fn [task] (task :Action)))
@@ -145,7 +161,7 @@
   (while true  
     (let [p (a/<! ctrl-chan)] 
       (try
-        (choose p)
+        (pick-next p)
         (catch Exception e
           (timbre/error "catch error at channel " p)
           (a/>! excep-chan e))))))
