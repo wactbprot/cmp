@@ -19,7 +19,8 @@
   :plugins [[lein-codox "0.10.7"]]
   :codox {:output-path "./docs"
           :themes [:rdash]
-          :metadata {:doc/format :markdown}}
+          :metadata {:doc/format :markdown}
+          :source-uri "https://github.com/wactbprot/cmp/blob/master/{filepath}#L{line}"}
   :repl-options {:prompt (fn [ns] (str "You are hacking in " ns "=> " ))
                  :welcome (println "Its  REPL time!")}
   :profiles {:uberjar {:aot :all}})
