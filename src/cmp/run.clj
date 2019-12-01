@@ -53,7 +53,8 @@
          (u/replace-key-at-level 3 p "state"))))
 
 (defn p->state-map
-  "Returns the state-map for a given path.
+  "Returns the state-map for a given path
+  (path must be string).
 
   Example (see also [[pick-next]]):
   ```clojure
@@ -67,19 +68,54 @@
   [m s]
   (filter (fn [x] (= s (x :state))) m))
 
-(defn filter-par
+(defn seq-idx->all-par-idx
+  "Returns all `par` steps for a given
+  state map `m` and `seq-idx`
+
+  ```clojure
+  (def m
+  [{:seq-idx 0, :par-idx 0, :state :executed}
+   {:seq-idx 1, :par-idx 0, :state :ready}
+   {:seq-idx 2, :par-idx 0, :state :executed}
+   {:seq-idx 4, :par-idx 0, :state :ready}
+   {:seq-idx 4, :par-idx 1, :state :executed}
+   {:seq-idx 4, :par-idx 2, :state :ready}])
+  
+  (seq-idx->all-par-idx m 4)
+  ({:seq-idx 4, :par-idx 0, :state :ready}
+  {:seq-idx 4, :par-idx 1, :state :executed}
+  {:seq-idx 4, :par-idx 2, :state :ready})
+  ```"
   [m i]
-  (filter (fn [x] (= i (x :par-idx))) m))
+  (filter (fn [x] (= i (x :seq-idx))) m))
   
 (defn all-error
-  [v]
-  (filter-state v :error))
+  "Returns all  steps with the state
+  `:error` for a given state map `m`"
+  [m]
+  (filter-state m :error))
 
 (defn all-ready
+  "Returns all  steps with the state
+  `:ready` for a given state map `m`"
   [m]
   (filter-state m :ready))
 
 (defn all-working
+  "Returns all  steps with the state
+  `:working` for a given state map `m`.
+  
+  ```clojure
+  (def m
+  [{:seq-idx 0, :par-idx 0, :state :working}
+   {:seq-idx 1, :par-idx 0, :state :working}
+   {:seq-idx 2, :par-idx 0, :state :executed}
+   {:seq-idx 3, :par-idx 0, :state :ready}
+   {:seq-idx 4, :par-idx 0, :state :executed}
+   {:seq-idx 5, :par-idx 0, :state :ready}])
+
+  (all-working m)
+  ```"
   [m]
   (filter-state m :working))
 
@@ -89,12 +125,15 @@
   (def m
   [{:seq-idx 0, :par-idx 0, :state :ready}
    {:seq-idx 1, :par-idx 0, :state :ready}
-   {:seq-idx 2, :par-idx 0, :state :ready}
+   {:seq-idx 2, :par-idx 0, :state :executed}
    {:seq-idx 3, :par-idx 0, :state :ready}
-   {:seq-idx 4, :par-idx 0, :state :ready}
-   {:seq-idx 5, :par-idx 0, :state :ready}])
+   {:seq-idx 4, :par-idx 0, :state :executed}
+   {:seq-idx 4, :par-idx 0, :state :ready}])
 
-  (all-executed m)
+  (all-executed (seq-idx->all-par-idx m 4))
+  ;; gives
+  ;; ({:seq-idx 4, :par-idx 0, :state :executed})
+
   ```"
   [m]
   (filter-state m :executed))
@@ -108,18 +147,27 @@
 (defn errors?
   [m]
   (not (empty? (all-error m))))
-
-(defn par-step-complete?
-  [m i]
-  (let [n-all (count (filter-par m i))
-        n-exec (count (filter-par (all-executed m) i))]
-    (and
-     (= n-all n-exec)
-     (> n-exec 0))))
           
 (defn next-ready
+  "Returns a map with the next
+  step with state `:ready`."
   [m]
   (first (all-ready m)))
+
+(defn predecessor-executed?
+  [m i]
+  (let [j (- i 1)]
+    (all-executed?
+     (seq-idx->all-par-idx m j))))
+
+(defn find-next
+  [m]
+  (let [next-m (next-ready m)
+        seq-idx (next-m :seq-idx)]
+    (cond
+      (= seq-idx 0) next-m
+      (predecessor-executed? m seq-idx) next-m
+      :else nil)))
 
 (defn pick-next
   "Receives the path p and picks the next thing to do.
@@ -128,11 +176,13 @@
   se3-calib@container@0@ctrl
   ```"
   [p]
-  (let [state-map (p->state-map p)]
+  (let [state-map (p->state-map p)
+        next-to-start (find-next state-map)]
     (cond
       (errors?  state-map) (println "got errors")
-      (all-executed? state-map) (println "all executed"))))
-    
+      (all-executed? state-map) (println "all executed")
+      :else next-to-start)))
+
 ;;------------------------------
 ;; demo worker 
 ;;------------------------------
