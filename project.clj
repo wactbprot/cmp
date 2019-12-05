@@ -13,14 +13,18 @@
                  [biz.paluch.logging/logstash-gelf "1.12.0"]
                  [ch.qos.logback/logback-classic "1.0.1"]
                  [org.graylog2/gelfclient "1.4.1"]
-                 [codox-theme-rdash "0.1.2"]]
+                 [codox-theme-rdash "0.1.2"]
+                 ;[codox-md "0.2.0"]
+                 ]
   :main ^:skip-aot cmp.core
   :target-path "target/%s"
   :plugins [[lein-codox "0.10.7"]]
   :codox {:output-path "./docs"
+          ;:writer codox-md.writer/write-docs
           :themes [:rdash]
           :metadata {:doc/format :markdown}
           :source-uri "https://github.com/wactbprot/cmp/blob/master/{filepath}#L{line}"}
   :repl-options {:prompt (fn [ns] (str "You are hacking in " ns "=> " ))
                  :welcome (println "Its  REPL time!")}
   :profiles {:uberjar {:aot :all}})
+

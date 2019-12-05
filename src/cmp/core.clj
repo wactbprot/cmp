@@ -19,7 +19,7 @@
 ;;------------------------------
 (defn log-init!
   []
-  log/init)
+  (log/init))
 
 (defn log-stop-repl-out!
   []
@@ -138,11 +138,11 @@
          n-defins (u/val->int (st/get-val (u/get-meta-ndefins-path p)))]
      (run!
       (fn [i]
-        (check/struct (u/get-cont-defin-path p i)))
+        (check/struct-tasks (u/get-cont-defin-path p i)))
       (range n-cont))
      (run!
       (fn [i]
-        (check/struct (u/get-defins-defin-path p i)))
+        (check/struct-tasks (u/get-defins-defin-path p i)))
       (range n-defins)))
    (timbre/info "done  [" mp-id "]" )))
 
