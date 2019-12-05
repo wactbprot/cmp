@@ -30,6 +30,7 @@
         (tsk/assemble meta-task)))
 
 (defn assoc-dyn-info
+  "Enriches the task with runtime infos"
   [task k]
   (assoc task
          :Mp (u/key->mp-name k)
@@ -38,7 +39,9 @@
          :Seq (u/key->seq-idx k)
          :Par (u/key->par-idx k)))
 
-  (defn ks->state-map
+(defn ks->state-map
+  "Builds the state map `m` belonging to a key set `ks`.
+  `m` is introduced in order to keep the functions testable." 
   [ks]
   (mapv
    (fn [k]
@@ -48,6 +51,7 @@
    ks))
 
 (defn p->state-ks
+  "Returns the state keys for a given path"
   [p]
   (sort (st/get-keys
          (u/replace-key-at-level 3 p "state"))))
@@ -161,6 +165,54 @@
      (seq-idx->all-par-idx m j))))
 
 (defn find-next
+  "The `find-next` function should work as follows:
+
+  ```clojure
+  cmp.run>   (def m
+  [{:seq-idx 0, :par-idx 0, :state :ready}
+   {:seq-idx 0, :par-idx 1, :state :ready}
+   {:seq-idx 1, :par-idx 0, :state :ready}
+   {:seq-idx 2, :par-idx 0, :state :ready}
+   {:seq-idx 3, :par-idx 0, :state :ready}
+   {:seq-idx 3, :par-idx 0, :state :ready}])
+  
+  ;;  #'cmp.run/m
+  cmp.run> (find-next m)
+  ;;  {:seq-idx 0, :par-idx 0, :state :ready}
+  cmp.run>   (def m
+  [{:seq-idx 0, :par-idx 0, :state :working}
+   {:seq-idx 0, :par-idx 1, :state :ready}
+   {:seq-idx 1, :par-idx 0, :state :ready}
+   {:seq-idx 2, :par-idx 0, :state :ready}
+   {:seq-idx 3, :par-idx 0, :state :ready}
+   {:seq-idx 3, :par-idx 0, :state :ready}])
+  
+  ;;  #'cmp.run/m
+  cmp.run> (find-next m)
+  ;;  {:seq-idx 0, :par-idx 1, :state :ready}
+  cmp.run>   (def m
+  [{:seq-idx 0, :par-idx 0, :state :working}
+   {:seq-idx 0, :par-idx 1, :state :working}
+   {:seq-idx 1, :par-idx 0, :state :ready}
+   {:seq-idx 2, :par-idx 0, :state :ready}
+   {:seq-idx 3, :par-idx 0, :state :ready}
+   {:seq-idx 3, :par-idx 0, :state :ready}])
+  
+  ;;  #'cmp.run/m
+  cmp.run> (find-next m)
+  ;;  nil
+  cmp.run>   (def m
+  [{:seq-idx 0, :par-idx 0, :state :executed}
+   {:seq-idx 0, :par-idx 1, :state :executed}
+   {:seq-idx 1, :par-idx 0, :state :ready}
+   {:seq-idx 2, :par-idx 0, :state :ready}
+   {:seq-idx 3, :par-idx 0, :state :ready}
+   {:seq-idx 3, :par-idx 0, :state :ready}])
+  
+  ;;  #'cmp.run/m
+  cmp.run> (find-next m)
+  ;;  {:seq-idx 1, :par-idx 0, :state :ready}
+  ```"
   [m]
   (let [next-m (next-ready m)
         seq-idx (next-m :seq-idx)]
