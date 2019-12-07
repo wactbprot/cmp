@@ -168,8 +168,10 @@
   ([mp-id]
    (timbre/info "start polling for: " mp-id)
    (let [p (utils/extr-main-path mp-id)
-         n-cont (utils/val->int (st/key->val (utils/get-meta-ncont-path p)))
-         n-defins (utils/val->int (st/key->val (utils/get-meta-ndefins-path p)))]
+         p-cont (utils/get-meta-ncont-path p)
+         n-cont (utils/val->int (st/key->val p-cont))
+         p-defins (utils/get-meta-ndefins-path p)
+         n-defins (utils/val->int (st/key->val p-defins))]
      (run!
       (fn [i]
         (poll/start (utils/get-cont-ctrl-path p i)))
