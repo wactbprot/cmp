@@ -172,9 +172,14 @@
           
 (defn next-ready
   "Returns a map with the next
-  step with state `:ready`."
+  step with state `:ready`. Returns an
+  empty map if nothing next"
   [m]
-  (first (all-ready m)))
+  (let [am (all-ready m)
+        n (count am)]
+    (cond
+      (= n 0) {}
+      (> n 0) (first am))))
 
 (defn predecessor-executed?
   [m i]
@@ -267,7 +272,7 @@
 ;;------------------------------
 (a/go
   (while true  
-    (let [p (a/<! ctrl-chan)] 
+    (let [p (a/<! ctrl-chan)]
       (try
         (pick-next p)
         (catch Exception e
