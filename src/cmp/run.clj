@@ -182,6 +182,8 @@
       (> n 0) (first am))))
 
 (defn predecessor-executed?
+  "Checks if `all-executed?` in the
+  step `i-1` of `m`."
   [m i]
   (let [j (- i 1)]
     (all-executed?
@@ -235,14 +237,31 @@
   ;;  #'cmp.run/m
   cmp.run> (find-next m)
   ;;  {:seq-idx 1, :par-idx 0, :state :ready}
-  ```"
+  ```
+  It should not crash on:
+
+  ```clojure
+  cmp.run> (count (next-ready m))
+  ;; 0
+  cmp.run> (find-next m)
+  ;; nil
+  cmp.run> (find-next {})
+  ;; nil
+  cmp.run> (find-next nil)
+  ;; nil
+  ```
+  "
   [m]
   (let [next-m (next-ready m)
-        seq-idx (next-m :seq-idx)]
+        n (count next-m)]
     (cond
-      (= seq-idx 0) next-m
-      (predecessor-executed? m seq-idx) next-m
-      :else nil)))
+      (= n 0) nil
+      (> n 0) (let [seq-idx (next-m :seq-idx)]
+                (cond
+                  (nil? seq-idx) nil
+                  (= seq-idx 0) next-m
+                  (predecessor-executed? m seq-idx) next-m
+                  :else nil)))))
 
 (defn pick-next
   "Receives the path p and picks the next thing to do.
