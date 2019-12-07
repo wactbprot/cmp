@@ -28,10 +28,18 @@
 ;; register
 ;;------------------------------
 (defn register
+  "Sets the `mon` atom `true` for the path `p`
+  so that the [[monitor]]s `while` continues."
   [p]
   (timbre/debug "register channel for path: " p)
   (swap! mon assoc p true))
 
+(defn de-register
+"Sets the `mon` atom `false` for the path `p`
+  so that the [[monitor]]s `while` stops."
+  [p]
+  (timbre/debug "de-register channel for path: " p)
+  (swap! mon assoc p false))
 
 ;;------------------------------
 ;; dispatch
@@ -83,5 +91,5 @@
 ;;------------------------------
 (defn stop
   [p]
-  (swap! mon assoc p false)
+  (de-register p)
   (timbre/debug "close monitor channel registered for path: " p))

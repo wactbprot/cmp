@@ -1,9 +1,10 @@
 (ns cmp.run
   ^{:author "wactbprot"
-    :doc "Runs the upcomming tasks of a certain container."}
+    :doc "Finds and starts the upcomming tasks of a certain container."}
   (:require [taoensso.timbre :as timbre]
             [clojure.core.async :as a]
             [cmp.st :as st]
+            [cmp.work :as work]            
             [cmp.task :as tsk]
             [cmp.utils :as u])
   (:gen-class))
@@ -22,22 +23,25 @@
 ;;------------------------------
 (def ctrl-chan (a/chan))
 
-(defn k->task
-  [k]
-  (let [recipe-path (u/replace-key-at-level 3 k "definition")
-        proto-task (u/gen-map (st/get-val recipe-path))
-        meta-task (tsk/gen-meta-task proto-task)]
-        (tsk/assemble meta-task)))
+(defn state-map->k
+  "Converts a state-map into a key."
+  [m]
+  (u/vec->key [(m :mp-name)
+               (m :struct)
+               (m :no-idx)
+               "definition"
+               (m :seq-idx)
+               (m :par-idx)]))
 
-(defn assoc-dyn-info
-  "Enriches the task with runtime infos"
-  [task k]
-  (assoc task
-         :Mp (u/key->mp-name k)
-         :Struct (u/key->struct k)
-         :No (u/key->no-idx k)
-         :Seq (u/key->seq-idx k)
-         :Par (u/key->par-idx k)))
+(defn k->state-map
+  "Converts a key in a state-map."
+  [k]
+  {:mp-name (u/key->mp-name k)
+   :struct (u/key->struct k)
+   :no-idx (u/key->no-idx k)
+   :seq-idx (u/key->seq-idx k)
+   :par-idx (u/key->par-idx k)
+   :state (keyword (st/get-val k))})
 
 (defn ks->state-map
   "Builds the state map `m` belonging to a key set `ks`.
@@ -45,9 +49,7 @@
   [ks]
   (mapv
    (fn [k]
-     {:seq-idx (u/key->seq-idx k)
-      :par-idx (u/key->par-idx k)
-      :state (keyword (st/get-val k))})
+     (k->state-map k))
    ks))
 
 (defn p->state-ks
@@ -63,10 +65,26 @@
   Example (see also [[pick-next]]):
   ```clojure
   (p->state-map se3-calib@container@0@ctrl)
-  ```"
+
+  ;; gives:
+  [{:mp-name se3-calib,
+  :struct container,
+  :seq-idx 0,
+  :par-idx 0,
+  :state :ready}
+ {:mp-name se3-calib,
+  :struct container,
+  :seq-idx 1,
+  :par-idx 0,
+  :state :ready}]
+
+  ```
+  The `mp-name` and `struct` key is needed for reconstructing
+  the path only.
+  "
   [p]
-  (let [ks (p->state-ks p)]
-    (ks->state-map ks)))
+  (ks->state-map
+   (p->state-ks p)))
 
 (defn filter-state
   [m s]
@@ -231,23 +249,11 @@
   (let [state-map (p->state-map p)
         next-to-start (find-next state-map)]
     (cond
-      (errors?  state-map) (println "got errors")
+      (errors? state-map) (println "got errors")
       (all-executed? state-map) (println "all executed")
-      :else next-to-start)))
-
-;;------------------------------
-;; demo worker 
-;;------------------------------
-(defmulti worker
-  (fn [task] (task :Action)))
-
-(defmethod worker :Wait
-  [task]
-  (println "wait"))
-
-(defmethod worker :default
-  [task]
-  (println (task :Action)))
+      (nil? next-to-start) (println "nothing todo")
+      :else (let [k (state-map->k next-to-start)]
+              (a/>!! work/ctrl-chan k)))))
 
 ;;------------------------------
 ;; status 

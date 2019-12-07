@@ -17,7 +17,6 @@
 (def re-sep
   "The regex version of the seperator."
   (re-pattern sep))
-
     
 (defn vec->key [p]
   "Joins the vec to a key."
