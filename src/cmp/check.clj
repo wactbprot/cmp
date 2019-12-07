@@ -18,7 +18,7 @@
     (run!
      (fn [k]
        (let [state-key (u/replace-key-at-level 3 k "state")
-             proto-task (u/gen-map (st/get-val k))
+             proto-task (u/gen-map (st/key->val k))
              meta-task (tsk/gen-meta-task proto-task)]
          (st/set-val! state-key "checking")
          (assert (tsk/meta-task? meta-task))

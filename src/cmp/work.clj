@@ -26,7 +26,7 @@
 
 (defn k->task
   [k]
-  (let [proto-task (u/gen-map (st/get-val k))
+  (let [proto-task (u/gen-map (st/key->val k))
         meta-task (tsk/gen-meta-task proto-task)]
         (tsk/assemble meta-task)))
 

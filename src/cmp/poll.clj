@@ -61,7 +61,7 @@
 
 (defmethod dispatch :default
   [ctrl-str ctrl-path]
-  (timbre/debug "dispatch default branch for key: " ctrl-path))
+  (timbre/warn "dispatch default branch for key: " ctrl-path))
 
 ;;------------------------------
 ;; monitor
@@ -72,7 +72,7 @@
     (while ((deref mon) p)
       (a/<! (a/timeout heartbeat))
       (try
-        (dispatch (st/get-val p) p)
+        (dispatch (st/key->val p) p)
         (catch Exception e
           (timbre/error "catch error at channel " p)
           (a/>! excep-chan e))))))

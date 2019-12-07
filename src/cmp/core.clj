@@ -1,16 +1,16 @@
 (ns cmp.core
+  ^{:author "wactbprot"
+    :doc "Provides the api of cmp."}
   (:require [cmp.lt :as lt]
             [cmp.st :as st]
-            [cmp.utils :as u]
-            [cmp.doc :as d]
-            [cmp.build :as b]
+            [cmp.utils :as utils]
+            [cmp.doc :as doc]
+            [cmp.build :as build]
             [cmp.check :as check]
             [cmp.poll :as poll]
             [cmp.run :as run]
             [cmp.log :as log]
-            [taoensso.timbre :as timbre]
-            [cmp.config :as cfg]
-            )
+            [taoensso.timbre :as timbre])
   (:gen-class)
   (:use [clojure.repl]))
 
@@ -18,14 +18,18 @@
 ;; log
 ;;------------------------------
 (defn log-init!
+  "Initializes a `std-out` on `info` level and a
+  `gelf` appender on `debug` level."
   []
   (log/init))
 
 (defn log-stop-repl-out!
+  "Stops the println appender."
   []
   (log/stop-repl-out))
 
 (defn log-start-repl-out!
+  "Starts the println appender."
   []
   (log/start-repl-out))
 
@@ -33,10 +37,14 @@
 ;;------------------------------
 ;; current-mp-id atom and workon
 ;;------------------------------
-(def current-mp-id (atom nil))
+(def current-mp-id
+  "Provides a storing place for the current mp-id
+  for convenience. Due to this atom the `(build)`,
+  `(check)` or `(start)` function needs no argument." 
+  (atom nil))
 
 (defn workon
-  "Sets the mpd to workon.
+  "Sets the mpd to work on (see [[current-mp-id]]).
 
   Usage:
   
@@ -68,7 +76,7 @@
 ;;------------------------------
 (defn build
   "Loads mpd from long term memory and
-  builds the short term memory. The mp-id
+  builds the short term memory. The `mp-id`
   must be set with [[workon]].  
   
   Usage:
@@ -86,14 +94,14 @@
    (build (->mp-id)))
   ([mp-id]
    (timbre/info "build " mp-id)
-   (b/store (lt/get-doc (u/compl-main-path mp-id)))
+   (build/store (lt/get-doc (utils/compl-main-path mp-id)))
    (timbre/info "done  [" mp-id "]" )))
 
 ;;------------------------------
 ;; clear
 ;;------------------------------
 (defn clear
-  "Clears all short term memory for the given mp-id
+  "Clears all short term memory for the given `mp-id`
   (see [[workon]]).
    Usage:
   
@@ -108,41 +116,44 @@
    (clear (->mp-id)))
   ([mp-id]
    (timbre/info "clear " mp-id )
-   (st/clear (u/extr-main-path mp-id))
+   (st/clear (utils/extr-main-path mp-id))
    (timbre/info "done  [" mp-id "]" )))
 
 ;;------------------------------
 ;; documents
 ;;------------------------------
 (defn doc-add
-  "Adds a doc to the api to store the resuls in."
+  "Adds a doc to the api to store the resuls in. (untested)"
   [doc-id]
-  (d/add (u/extr-main-path (->mp-id)) doc-id))
+  (doc/add (utils/extr-main-path (->mp-id)) doc-id))
 
 (defn doc-del
-  "Removes a doc from the api."
+  "Removes a doc from the api. (untested)"
   [doc-id]
-  (d/del (u/extr-main-path (->mp-id)) doc-id))
+  (doc/del (utils/extr-main-path (->mp-id)) doc-id))
 
 ;;------------------------------
 ;; check mp tasks
 ;;------------------------------
 (defn check
-  "Check the tasks of the container and definitions."
+  "Check the tasks of the `container` and
+  `definitions` structure. "
   ([]
    (check (->mp-id)))
   ([mp-id]
    (timbre/info "check: " mp-id)
-   (let [p (u/extr-main-path mp-id)
-         n-cont (u/val->int (st/get-val (u/get-meta-ncont-path p)))
-         n-defins (u/val->int (st/get-val (u/get-meta-ndefins-path p)))]
+   (let [p (utils/extr-main-path mp-id)
+         k-ncont (utils/get-meta-ncont-path p)
+         n-cont (utils/val->int (st/key->val k-ncont))
+         k-ndefins (utils/get-meta-ndefins-path p)
+         n-defins (utils/val->int (st/key->val k-ndefins))]
      (run!
       (fn [i]
-        (check/struct-tasks (u/get-cont-defin-path p i)))
+        (check/struct-tasks (utils/get-cont-defin-path p i)))
       (range n-cont))
      (run!
       (fn [i]
-        (check/struct-tasks (u/get-defins-defin-path p i)))
+        (check/struct-tasks (utils/get-defins-defin-path p i)))
       (range n-defins)))
    (timbre/info "done  [" mp-id "]" )))
 
@@ -156,16 +167,16 @@
    (start (->mp-id)))
   ([mp-id]
    (timbre/info "start polling for: " mp-id)
-   (let [p (u/extr-main-path mp-id)
-         n-cont (u/val->int (st/get-val (u/get-meta-ncont-path p)))
-         n-defins (u/val->int (st/get-val (u/get-meta-ndefins-path p)))]
+   (let [p (utils/extr-main-path mp-id)
+         n-cont (utils/val->int (st/key->val (utils/get-meta-ncont-path p)))
+         n-defins (utils/val->int (st/key->val (utils/get-meta-ndefins-path p)))]
      (run!
       (fn [i]
-        (poll/start (u/get-cont-ctrl-path p i)))
+        (poll/start (utils/get-cont-ctrl-path p i)))
       (range n-cont))
      (run!
       (fn [i]
-        (poll/start (u/get-defins-ctrl-path p i)))
+        (poll/start (utils/get-defins-ctrl-path p i)))
      (range n-defins)))
    (timbre/info "done  [" mp-id "]" )))
   
@@ -179,16 +190,16 @@
    (stop (->mp-id)))
   ([mp-id]
   (timbre/info "stop polling of " mp-id)  
-  (let [p (u/extr-main-path mp-id)
-        n-cont (u/val->int (st/get-val (u/get-meta-ncont-path p)))
-        n-defins (u/val->int (st/get-val (u/get-meta-ndefins-path p)))]
+  (let [p (utils/extr-main-path mp-id)
+        n-cont (utils/val->int (st/key->val (utils/get-meta-ncont-path p)))
+        n-defins (utils/val->int (st/key->val (utils/get-meta-ndefins-path p)))]
     (run!
      (fn [i]
-       (poll/stop (u/get-cont-ctrl-path p i)))
+       (poll/stop (utils/get-cont-ctrl-path p i)))
      (range n-cont))
     (run!
      (fn [i]
-       (poll/stop (u/get-defins-ctrl-path p i)))
+       (poll/stop (utils/get-defins-ctrl-path p i)))
      (range n-defins)))
   (timbre/info "done  [" mp-id "]" )))
 
@@ -205,7 +216,7 @@
    (push (->mp-id) i cmd))
   ([mp-id i cmd]
   (timbre/info "push cmd to:" mp-id)
-  (let [p (u/get-cont-ctrl-path (u/extr-main-path mp-id) i)]
+  (let [p (utils/get-cont-ctrl-path (utils/extr-main-path mp-id) i)]
     (st/set-val! p cmd))
   (timbre/info "done  [" mp-id "]" )))
 
@@ -215,7 +226,7 @@
 (defn poll-status
   []
   (doseq [[k v] (deref poll/mon)]
-    (u/print-kv k v)))
+    (utils/print-kv k v)))
 
 ;;------------------------------
 ;; cont status
@@ -225,5 +236,5 @@
    (cont-status (->mp-id) i))
   ([mp-id i]
    (run/status
-    (u/get-cont-ctrl-path
-     (u/extr-main-path mp-id) i))))
+    (utils/get-cont-ctrl-path
+     (utils/extr-main-path mp-id) i))))

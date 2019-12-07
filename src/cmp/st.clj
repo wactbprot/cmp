@@ -29,16 +29,9 @@
   [k v]
   (wcar* (car/set k v)))
 
-(defn get-val
+(defn key->val
   [k]
   (wcar* (car/get k)))
-
-(defn get-vals
-  [ks]
-  (doall
-   (mapv
-    (fn [k] (get-val k))
-    ks)))
  
 (defmulti clear
   class)

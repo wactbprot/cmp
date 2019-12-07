@@ -41,7 +41,7 @@
    :no-idx (u/key->no-idx k)
    :seq-idx (u/key->seq-idx k)
    :par-idx (u/key->par-idx k)
-   :state (keyword (st/get-val k))})
+   :state (keyword (st/key->val k))})
 
 (defn ks->state-map
   "Builds the state map `m` belonging to a key set `ks`.

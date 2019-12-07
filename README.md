@@ -1,8 +1,10 @@
-![cmp](./Clojure_logo.svg.png)
+![cmp](./Clojure_logo.png)
 
 # cmp
 
-A study of an interpreter for measurement program definitions (mpd) written in clojure.
+A study of an interpreter handling
+measurement-program-definitions (mpd)
+written in clojure.
 
 ## (re)generate documentation
 
@@ -11,7 +13,7 @@ $ cd path/to/cmp
 $ lein codox
 ```
 
-## view  documentation
+## view documentation
 
 [api](./docs/index.html)
 
@@ -20,37 +22,32 @@ $ cd path/to/cmp
 $ firefox docs/index.html
 ```
 
-
-
 ## Usage
 
-repl only (so far)
+REPL only
 
-```clojure
-    (workon mp-id)
+```
+ (workon mp-id)
     +
     :
-    :
     v
-    (clear)
+  (clear)
     +
     :
-    :
     v
-    (build)+-----------+
-    +                  :
-    |                  v
-    |                  (check-mp)
-    |                  +
-    v                  :
-    (start)<-----------+
+  (build)+---+
+    +        :
+    |        v
+    =     (check-mp)
+    |        +
+    v        :
+  (start)<---+
     +
     |
     +-->(push i "run")
     |
     +-->(status)
 ```
-
 
 # notes:
 ## arch:
@@ -72,13 +69,13 @@ repl only (so far)
 
 - assemble complete task at runtime (possible since the
 struct of the definition don't change since
-customer forking is no longer the way to go) 
+customer forking is no longer the way to go)
 - prep-step --> check-step
 
 ### idea --> run definition_s_ in place
 
 - further idea which reduces state
-- makes the "reset-bla-task"s no longer necessary 
+- makes the "reset-bla-task"s no longer necessary
 
 ## redis gui
 ### redis-commander
