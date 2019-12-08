@@ -161,7 +161,8 @@
 ;; start polling
 ;;------------------------------
 (defn start
-  "Check and runs the tasks of the containers and definitions.
+  "Check and runs the tasks of the
+  containers and definitions.
   (see [[workon]])."
   ([]
    (start (->mp-id)))
@@ -211,7 +212,7 @@
   
 (defn push
   "push a cmd string to the control interface of a mp.
-  The mp-id is received over (->mp-id). The defins
+  The mp-id is received over `(->mp-id)`. The defins
   struct should not be started by user
   (see [[workon]])."
   ([i cmd]
