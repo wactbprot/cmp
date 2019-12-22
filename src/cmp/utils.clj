@@ -340,23 +340,7 @@
   [x]
   (json/write-str x))
 
-(defmethod gen-value java.lang.String
-  [x]
-  x)
-
-(defmethod gen-value java.lang.Long
-  [x]
-  x)
-
-(defmethod gen-value clojure.lang.BigInt
-  [x]
-  x)
-
-(defmethod gen-value java.lang.Double
-  [x]
-  x)
-
-(defmethod gen-value java.lang.Boolean
+(defmethod gen-value :default
   [x]
   x)
 

@@ -27,7 +27,7 @@ $ firefox docs/index.html
 REPL only
 
 ```
- (workon mp-id)
+ (workon! mp-id)
     +
     :
     v
@@ -48,42 +48,3 @@ REPL only
     |
     +-->(status)
 ```
-
-# notes:
-## arch:
-### idea --> cd-id:
-
-- skip load step (load always on build)
-- attache the cd-id right before send task to worker
-
-### consequence is:
-
-#### pro:
-- the cust: true tasks vanish
-- no additional tasks have to be generated at runtime
-
-#### con:
-- additional cust proxy server (like anselm) becomes mandatory
-
-### idea --> skip recipe concept
-
-- assemble complete task at runtime (possible since the
-struct of the definition don't change since
-customer forking is no longer the way to go)
-- prep-step --> check-step
-
-### idea --> run definition_s_ in place
-
-- further idea which reduces state
-- makes the "reset-bla-task"s no longer necessary
-
-## redis gui
-### redis-commander
-
-```shell
-$ npm install -g redis-commander
-```
-
-https://github.com/joeferner/redis-commander
-http://localhost:8081/
-

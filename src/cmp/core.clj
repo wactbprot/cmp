@@ -43,13 +43,13 @@
   `(check)` or `(start)` function needs no argument." 
   (atom nil))
 
-(defn workon
+(defn workon!
   "Sets the mpd to work on (see [[current-mp-id]]).
 
   Usage:
   
   ```clojure
-  (workon 'se3-calib')
+  (workon! 'se3-calib')
   (->mp-id)
   ```
   "
@@ -57,19 +57,19 @@
   (reset! current-mp-id mp-id))
 
 (defn ->mp-id
-  "Returns the mpd-id set with workon.
+  "Returns the mpd-id set with workon!.
 
   Usage:
   
   ```clojure
-  (workon 'se3-calib')
+  (workon! 'se3-calib')
   (->mp-id)
   ```
   "
   []
   (if-let [mp-id (deref current-mp-id)]
     mp-id
-    (throw (Exception. "No mp-id set.\n\n\nUse function (workon <mp-id>)"))))
+    (throw (Exception. "No mp-id set.\n\n\nUse function (workon! <mp-id>)"))))
 
 ;;------------------------------
 ;; build
@@ -77,14 +77,14 @@
 (defn build
   "Loads mpd from long term memory and
   builds the short term memory. The `mp-id`
-  must be set with [[workon]].  
+  must be set with [[workon!]].  
   
   Usage:
   
   ```clojure
   (build mpid)
   ;; or
-  (workon mpid)
+  (workon! mpid)
   ;; followed by
   (build)
   (check)
@@ -94,6 +94,7 @@
    (build (->mp-id)))
   ([mp-id]
    (timbre/info "build " mp-id)
+   (println (lt/get-doc (utils/compl-main-path mp-id)))
    (build/store (lt/get-doc (utils/compl-main-path mp-id)))
    (timbre/info "done  [" mp-id "]" )))
 
@@ -102,13 +103,13 @@
 ;;------------------------------
 (defn clear
   "Clears all short term memory for the given `mp-id`
-  (see [[workon]]).
+  (see [[workon!]]).
    Usage:
   
   ```clojure
   (clear mpid)
   ;; or
-  (workon mpid)
+  (workon! mpid)
   (clear)
   
   ```"
@@ -163,7 +164,7 @@
 (defn start
   "Check and runs the tasks of the
   containers and definitions.
-  (see [[workon]])."
+  (see [[workon!]])."
   ([]
    (start (->mp-id)))
   ([mp-id]
@@ -188,7 +189,7 @@
 ;;------------------------------
 (defn stop
   "Check and runs the tasks of the containers and definitions
-  (see [[workon]])."
+  (see [[workon!]])."
   ([]
    (stop (->mp-id)))
   ([mp-id]
@@ -214,7 +215,7 @@
   "push a cmd string to the control interface of a mp.
   The mp-id is received over `(->mp-id)`. The defins
   struct should not be started by user
-  (see [[workon]])."
+  (see [[workon!]])."
   ([i cmd]
    (push (->mp-id) i cmd))
   ([mp-id i cmd]
@@ -227,6 +228,7 @@
 ;; poll status
 ;;------------------------------
 (defn poll-status
+  "todo: poll status looks messy"
   []
   (doseq [[k v] (deref poll/mon)]
     (utils/print-kv k v)))
@@ -235,6 +237,7 @@
 ;; cont status
 ;;------------------------------
 (defn cont-status
+  "todo: cont status looks messy"
   ([i]
    (cont-status (->mp-id) i))
   ([mp-id i]
