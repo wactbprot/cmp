@@ -360,7 +360,7 @@
 
 (defn doc->safe-doc
   "Replaces all of the `@`-signs by a `%`-sign
-  since `:§kw` is a valid keyword, `:@kw` is not valid
+  since `:%kw` is a valid keyword, `:@kw` is not valid
   or at least problematic"  
   [doc]
   (gen-map (string/replace (json/write-str doc) (re-pattern "@") "%")))
