@@ -129,28 +129,6 @@
   ```clojure
   (with-meta todo)
   ```"
-  {:example-mp {
-  :_id "mpd-wait",
-  :_rev "1-7c9116bcfc604970614881843700e3ce",
-  :Mp {
-    :Container [
-      {:Description "Just waits",
-       :Ctrl "void",
-       :Title "Simple wait", :Element ["*"],
-       :Definition [
-                    [
-                     {:TaskName "Common-wait",
-                      :Replace {:#waittime "CDG_Modbus"}
-                     }
-                    ]
-                   ]
-      }],
-    :Date [{:Type "created",
-            :Value "2018-05-31"}],
-    :Name "wait",
-    :Description "Simplest possible measurement programm definition.",
-    :Standard "NN"}}
-   }
   [{id :_id
     rev :_rev
     mp :Mp}]

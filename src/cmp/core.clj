@@ -94,8 +94,11 @@
    (build (->mp-id)))
   ([mp-id]
    (timbre/info "build " mp-id)
-   (println (lt/get-doc (utils/compl-main-path mp-id)))
-   (build/store (lt/get-doc (utils/compl-main-path mp-id)))
+   (->> mp-id
+        (utils/compl-main-path)
+        (lt/get-doc)
+        (utils/doc->safe-doc)
+        (build/store))
    (timbre/info "done  [" mp-id "]" )))
 
 ;;------------------------------

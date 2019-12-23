@@ -12,8 +12,6 @@
             [cmp.st :as st])
   (:gen-class))
 
-(log/set-level! :debug)
-
 (s/def ::TaskName string?)
 (s/def ::Action string?)
 (s/def ::Replace map?)
@@ -50,20 +48,19 @@
 (defn global-defaults
   []
   (let [d (u/get-date-object)]
-    {"@hour" (u/get-hour d)
-     "@minute" (u/get-min d)
-     "@second" (u/get-sec d)
-     "@year" (u/get-year d)
-     "@month" (u/get-month d)
-     "@day" (u/get-day d)
-     "@time" (u/get-time d)
-     }))
+    {"%hour" (u/get-hour d)
+     "%minute" (u/get-min d)
+     "%second" (u/get-sec d)
+     "%year" (u/get-year d)
+     "%month" (u/get-month d)
+     "%day" (u/get-day d)
+     "%time" (u/get-time d)}))
 
 (defn get-temps
   "Temps contain values related to the current mpd."
   [p]
-  {"@standard" (st/key->val (u/vec->key [p "meta" "standard"]))
-   "@mpname" (st/key->val (u/vec->key [p "meta" "name"]))})        
+  {"%standard" (st/key->val (u/vec->key [p "meta" "standard"]))
+   "%mpname" (st/key->val (u/vec->key [p "meta" "name"]))})
 
 (defmulti replace-map
   "Replaces tokens (given in the m) in the task."
@@ -94,9 +91,12 @@
 (defmulti merge-use-map
   "The use keyword enables a replace mechanism.
   It works like this:
-  proto-task: Use: {Values: med_range}
-  -->
-  task: Value: rangeX.1"
+  proto-task:
+  ```clojure
+  Use: {Values: med_range}
+  ;; should lead to:
+  task: { Value: rangeX.1}
+  ```"
   (fn [m task] (map? m)))
 
 (defmethod merge-use-map false
@@ -105,14 +105,11 @@
 
 (defmethod merge-use-map true
   [m task]
-  (merge
-   task
-   (into {}
-         (map
-          (fn [k]
-            (hash-map (make-singular-kw k) (extract-use-value task m k)))
-          (keys m))
-         )))
+  (merge task (into {}
+                   (map
+                    (fn [k]
+                      (hash-map (make-singular-kw k) (extract-use-value task m k)))
+                    (keys m)))))
 
 (defmulti gen-meta-task
   "Gathers all information for the given proto-task (map).
@@ -128,7 +125,7 @@
 (defmethod gen-meta-task clojure.lang.PersistentArrayMap
   [proto-task]
   (let [{replace :Replace use :Use} proto-task
-        {db-task :value} (lt/get-task-view proto-task)
+        {db-task :value} (u/doc->safe-doc (lt/get-task-view proto-task))
         {defaults :Defaults} db-task
         task (dissoc db-task :Defaults)
         globals (global-defaults)]
@@ -139,7 +136,8 @@
      :Replace (u/make-map-regexable replace)}))
 
 (defn assemble
-  "Assembles the task from the given meta-task in a special order."
+  "Assembles the `task` from the given
+  `meta-task` in a special order."
   [meta-task]
   (let [{task :Task 
          use-map :Use 
