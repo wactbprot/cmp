@@ -1,11 +1,9 @@
-(ns cmp.lt
+(ns cmp.lt-mem
   (:require [clojure.string :as string]
             [com.ashafa.clutch :as couch]
             [taoensso.timbre :as timbre]
             [cmp.config :as cfg])
-  (:use [clojure.repl])
-  (:gen-class))
-
+  (:use [clojure.repl]))
 
 (def conn (cfg/lt-conn (cfg/config)))
 

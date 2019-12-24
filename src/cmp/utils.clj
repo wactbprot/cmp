@@ -6,12 +6,11 @@
             [clj-time.coerce :as tm-c]
             [io.aviso.ansi :as pretty]
             [clojure.data.json :as json])
-  (:use [clojure.repl])
-  (:gen-class))
+  (:use [clojure.repl]))
 
 (def sep
   "Short-term-database (st) path seperator.
-  Must not be a regex operator (like . or |)"
+  Must not be a regex operator (like `.` or `|`)"
   "@")
 
 (def re-sep
@@ -23,12 +22,13 @@
   (string/join sep p))
 
 (defn val->int
-  "Converts val to integer"
+  "Converts val to an integer."
   [x]
   (Integer/parseInt x))
 
 (defn replace-key-at-level
-  "Generates a new key by replacing an old one at a certain position.
+  "Generates a new key by replacing an old one
+  at the given position.
   ToDo: the key levels should have a name or keyword."
   [l k r]
   (vec->key
@@ -141,7 +141,8 @@
 ;; path
 ;;------------------------------
 (defmulti extr-main-path
-  "Should work on mpd-aaa-bbb as well as on aaa-bbb"
+  "Should work on `mpd-aaa-bbb`
+  as well as on `aaa-bbb`"
   (fn [s] (string/starts-with? s "mpd-")))
 
 (defmethod extr-main-path true

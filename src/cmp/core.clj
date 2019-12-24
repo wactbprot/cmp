@@ -1,8 +1,8 @@
 (ns cmp.core
   ^{:author "wactbprot"
     :doc "Provides the api of cmp."}
-  (:require [cmp.lt :as lt]
-            [cmp.st :as st]
+  (:require [cmp.lt-mem :as lt]
+            [cmp.st-mem :as st]
             [cmp.utils :as utils]
             [cmp.doc :as doc]
             [cmp.build :as build]
@@ -11,7 +11,6 @@
             [cmp.run :as run]
             [cmp.log :as log]
             [taoensso.timbre :as timbre])
-  (:gen-class)
   (:use [clojure.repl]))
 
 ;;------------------------------

@@ -2,15 +2,14 @@
   ^{:author "wactbprot"
     :doc "Polls the short term memory endpoint `ctrl` 
           and dispatchs depending on the result 
-          (:load, :run, :stop etc)."}
+          (`:load`, `:run`, `:stop` etc)."}
   (:require [clojure.string :as string]
             [taoensso.timbre :as timbre]
             [clojure.core.async :as a]
-            [cmp.st :as st]
+            [cmp.st-mem :as st]
             [cmp.check :as chk]
             [cmp.run :as run]
-            [cmp.utils :as u])
-  (:gen-class))
+            [cmp.utils :as u]))
 
 (def heartbeat 1000)
 (def mon (atom {}))
@@ -35,7 +34,7 @@
   (swap! mon assoc p true))
 
 (defn de-register
-"Sets the `mon` atom `false` for the path `p`
+  "Sets the `mon` atom `false` for the path `p`
   so that the [[monitor]]s `while` stops."
   [p]
   (timbre/debug "de-register channel for path: " p)

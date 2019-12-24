@@ -1,9 +1,8 @@
-(ns cmp.st
+(ns cmp.st-mem
   (:require [taoensso.carmine :as car :refer (wcar)]
             [cmp.utils :as u]
             [cmp.config :as cfg])
-  (:use [clojure.repl])
-  (:gen-class))
+  (:use [clojure.repl]))
 
 (def conn (cfg/st-conn (cfg/config)))
 

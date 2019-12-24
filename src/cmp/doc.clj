@@ -1,12 +1,13 @@
 (ns cmp.doc
   ^{:author "wactbprot"
-    :doc "Handles the documents in which the produced data is stored in.
-         This may be calibration documents but also measurement docs."}
+    :doc "Handles the documents in which the 
+          produced data is stored in.
+          This may be calibration documents but 
+          also measurement docs."}
   (:require [taoensso.timbre :as log]
-            [cmp.lt :as lt]
-            [cmp.st :as st]
-            [cmp.utils :as u])
-  (:gen-class))
+            [cmp.lt-mem :as lt]
+            [cmp.st-mem :as st]
+            [cmp.utils :as u]))
 
 (defn base-info
   [doc]
@@ -14,9 +15,9 @@
    :doc-id (lt/get-doc-id doc)})
 
 (defn extr-doc-type
-  "Extracts the document type.
-  Assumes the type of the document to be the
-  first key hierarchy beside _id and :rev"
+  "Extracts the document type. Assumes the
+  type of the document to be the
+  first key hierarchy beside `:_id` and `:_rev`."
   [doc m]
   (first
    (filter

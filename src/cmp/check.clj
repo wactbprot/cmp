@@ -1,10 +1,9 @@
 (ns cmp.check
   (:require [cmp.utils :as u]
-            [cmp.st :as st]
+            [cmp.st-mem :as st]
             [cmp.task :as tsk]
             [taoensso.timbre :as log])
-  (:use [clojure.repl])
-  (:gen-class))
+  (:use [clojure.repl]))
 
 (defn struct-tasks
   "Checks the tasks of the structure (container or definitions):

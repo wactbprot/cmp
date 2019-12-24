@@ -1,6 +1,7 @@
 (ns cmp.task
   ^{:author "wactbprot"
-    :doc "Builds up the short term memory with given the mp-definition."}
+    :doc "Builds up the short term 
+          memory with given the mp-definition."}
   (:require [clojure.spec.alpha :as s]
             [taoensso.timbre :as log]
             [clojure.data.json :as json]
@@ -8,9 +9,8 @@
             [clojure.string :as string]
             [cmp.utils :as u]
             [cmp.doc :as d]
-            [cmp.lt :as lt]
-            [cmp.st :as st])
-  (:gen-class))
+            [cmp.lt-mem :as lt]
+            [cmp.st-mem :as st]))
 
 (s/def ::TaskName string?)
 (s/def ::Action string?)

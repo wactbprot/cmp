@@ -1,13 +1,13 @@
 (ns cmp.run
   ^{:author "wactbprot"
-    :doc "Finds and starts the upcomming tasks of a certain container."}
+    :doc "Finds and starts the up comming 
+          tasks of a certain container."}
   (:require [taoensso.timbre :as timbre]
             [clojure.core.async :as a]
-            [cmp.st :as st]
+            [cmp.st-mem :as st]
             [cmp.work :as work]            
             [cmp.task :as tsk]
-            [cmp.utils :as u])
-  (:gen-class))
+            [cmp.utils :as u]))
 
 ;;------------------------------
 ;; exception channel 
