@@ -6,21 +6,8 @@ A study of an interpreter handling
 measurement-program-definitions (mpd)
 written in clojure.
 
-## (re)generate documentation
+See the [documentation on github pages.](https://wactbprot.github.io/cmp/)
 
-```shell
-$ cd path/to/cmp
-$ lein codox
-```
-
-## view documentation
-
-[api](./docs/index.html)
-
-```shell
-$ cd path/to/cmp
-$ firefox docs/index.html
-```
 
 ## Usage
 
@@ -29,22 +16,29 @@ REPL only
 ```
  (workon! mp-id)
     +
-    :
+    |
     v
   (clear)
     +
-    :
+    |
     v
-  (build)+---+
-    +        :
-    |        v
-    =     (check-mp)
-    |        +
-    v        :
-  (start)<---+
+  (build)
     +
     |
-    +-->(push i "run")
+  (check-mp)
+    |
+    v
+  (start)
+    +
+    |
+    +-->(push 0 "run")
     |
     +-->(status)
+```
+
+## (re)generate documentation
+
+```shell
+$ cd path/to/cmp
+$ lein codox
 ```
