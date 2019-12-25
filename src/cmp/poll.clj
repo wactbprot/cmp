@@ -40,6 +40,13 @@
   (timbre/debug "de-register channel for path: " p)
   (swap! mon assoc p false))
 
+(defn registered?
+  "Returns the state of the atom `mon`
+  for the given path `p`."
+  [p]
+  (timbre/debug "registered path: " p)
+  ((deref mon) p))
+
 ;;------------------------------
 ;; dispatch
 ;;------------------------------
@@ -80,15 +87,28 @@
 ;; start
 ;;------------------------------
 (defn start
+  "Registers and monitors the the struct
+  (`container` or `definitions`) belonging to path `p`.
+  `p` is a string of the form `se3-calib@container@1@ctrl`.
+  The `registered?` predicate function avoids starting more
+  than one `go-loop` for one path `p`."
   [p]
-  (register p)
-  (monitor p)
-  (timbre/debug "start and register monitor channel for path: " p))
+  (let [reg (registered? p)]
+    (cond
+      (true? reg) (timbre/warn "already monitoring" p)
+      (or
+       (nil? reg)
+       (false? reg)) (do
+                       (timbre/debug "register and start monitoring" p)
+                       (register p)
+                       (monitor p)))))
 
 ;;------------------------------
 ;; stop
 ;;------------------------------
 (defn stop
+  "Stop the monitoring of the struct
+  (`container` or `definitions`)  by de-registering it." 
   [p]
   (de-register p)
   (timbre/debug "close monitor channel registered for path: " p))

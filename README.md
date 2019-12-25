@@ -6,7 +6,7 @@ A study of an interpreter handling
 measurement-program-definitions (mpd)
 written in clojure.
 
-See the [documentation on github pages.](https://wactbprot.github.io/cmp/)
+See the [documentation on github.io pages.](https://wactbprot.github.io/cmp/)
 
 
 ## Usage
