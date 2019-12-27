@@ -125,37 +125,39 @@
 (defn store
   "Triggers the storing of `meta`, `exchange`,
   `container`s etc. to the short term memory.
-  Clears up the fields before.
+  Clears up the fields before. 
   ```clojure
   ;; use metadata example input
-  (store ((meta #'store) :example-input))
+  (store ((meta (var store)) :example-input))
   ```"
   {:example-input {:_id "mpd-wait",
-                    :_rev "1-7c9116bcfc604970614881843700e3ce",
-                    :Mp
-                    {:Container
-                     [{:Description "Just waits",
-                       :Ctrl "void",
-                       :Title "Simple wait",
-                       :Element ["*"],
-                       :Definition
-                       [[{:TaskName "Common-wait",
-                          :Replace {:%waittime 3000}}],
-                        [{:TaskName "Common-wait",
-                          :Replace {:%waittime 2000}}],
-                        [{:TaskName "Common-wait",
-                          :Replace {:%waittime 1000}}]]}],
+                   :_rev "1-7c9116bcfc604970614881843700e3ce",
+                   :Mp
+                   {:Container
+                    [{:Description "Just waits three times.",
+                      :Ctrl "void",
+                      :Title "Simple wait",
+                      :Element ["*"],
+                      :Definition
+                      [[{:TaskName "Common-wait",
+                         :Replace {:%waittime 3000}}],
+                       [{:TaskName "Common-wait",
+                         :Replace {:%waittime 2000}}],
+                       [{:TaskName "Common-wait",
+                         :Replace {:%waittime 1000}}]]}],
                      :Date [{:Type "created", :Value "2019-12-25"}],
-                     :Name "wait",
-                     :Description "Simplest possible measurement programm definition.",
-                     :Standard "NN"}}}
-    [{id :_id rev :_rev mp :Mp}]
-    (let [p (u/extr-main-path id)]
-      (st/clear (u/get-meta-prefix p))
-      (st/clear (u/get-exch-prefix p))
-      (st/clear (u/get-cont-prefix p))
-      (st/clear (u/get-defins-prefix p))
-      (store-meta p mp)
-      (store-exchange p mp)
-      (store-all-container p mp)
-      (store-all-definitions p mp)))
+                    :Name "wait",
+                    :Description "Simplest possible measurement 
+                                   programm definition. 
+                                   Todo: add definitions struct.",
+                    :Standard "NN"}}}
+  [{id :_id rev :_rev mp :Mp}]
+  (let [p (u/extr-main-path id)]
+    (st/clear (u/get-meta-prefix p))
+    (st/clear (u/get-exch-prefix p))
+    (st/clear (u/get-cont-prefix p))
+    (st/clear (u/get-defins-prefix p))
+    (store-meta p mp)
+    (store-exchange p mp)
+    (store-all-container p mp)
+    (store-all-definitions p mp)))

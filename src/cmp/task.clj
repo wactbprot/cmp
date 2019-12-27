@@ -112,17 +112,52 @@
                     (keys m)))))
 
 (defmulti gen-meta-task
-  "Gathers all information for the given proto-task (map).
-  The proto-task should be a map containing the TaskName
-  keyword at least. Strin version makes a map out of s and
-  calls related method (intendet for repl use)."
+  "Gathers all information for the given `proto-task` (map).
+  The `proto-task` should be a map containing the `:TaskName`
+  `keyword` at least. String version makes a `map` out of `s`
+  and calls related method.
+  ```clojure
+  (gen-meta-task \"Common-wait\")
+  ;; 19-12-27 11:14:48 hiob DEBUG [cmp.lt-mem:21] - get task:  Common-wait  from ltm
+  ;; {:Task
+  ;; {:Action \"wait\",
+  ;; :Comment \"%waitfor  %waittime ms\",
+  ;; :TaskName \"Common-wait\",
+  ;; :WaitTime \"%waittime\"},
+  ;; :Use nil,
+  ;; :Defaults
+  ;; {\"%unit\" \"mbar\",
+  ;; \"%targetdb\" \"vl_db\",
+  ;; \"%relayinfo\" \"relay_info\",
+  ;; \"%docpath\" \"\",
+  ;; \"%sourcedb\" \"vl_db_work\",
+  ;; \"%timepath\" \"Time\",
+  ;; \"%waitunit\" \"ms\",
+  ;; \"%break\" \"no\",
+  ;; \"%waitfor\" \"Ready in\",
+  ;; \"%waittime\" \"1000\",
+  ;; \"%dbinfo\" \"db_info\"},
+  ;; :Globals
+  ;; {\"%hour\" \"11\",
+  ;; \"%minute\" \"14\",
+  ;; \"%second\" \"48\",
+  ;; \"%year\" \"2019\",
+  ;; \"%month\" \"12\",
+  ;; \"%day\" \"27\",
+  ;; \"%time\" \"1577445288247\"},
+  ;; :Replace nil}
+  ;;
+  ;; call the map vesion as follows:
+  
+  (gen-meta-task {:TaskName \"Common-wait\" :Replace {\"%waittime\" 10}})
+  ```"
   class)
 
 (defmethod gen-meta-task String
-  [s]
-  (gen-meta-task {:TaskName s}))
+  [task-name]
+  (gen-meta-task {:TaskName task-name}))
 
-(defmethod gen-meta-task clojure.lang.PersistentArrayMap
+(defmethod gen-meta-task :default
   [proto-task]
   (let [{replace :Replace use :Use} proto-task
         {db-task :value} (u/doc->safe-doc (lt/get-task-view proto-task))
@@ -137,15 +172,21 @@
 
 (defn assemble
   "Assembles the `task` from the given
-  `meta-task` in a special order."
+  `meta-task` in a special order.
+  `assoc`s the structs afterwards."
   [meta-task]
   (let [{task :Task 
          use-map :Use 
          replace :Replace
          defaults :Defaults 
          globals :Globals} meta-task]
-    (->> task
-         (merge-use-map use-map)
-         (replace-map replace)
-         (replace-map defaults)
-         (replace-map globals))))
+    (assoc
+     (->> task
+          (merge-use-map use-map)
+          (replace-map replace)
+          (replace-map defaults)
+          (replace-map globals))
+     :Defaults defaults
+     :Globals globals
+     :Use use-map
+     :Replace replace)))

@@ -1,4 +1,4 @@
-(defproject cmp "0.1.1"
+(defproject cmp "0.2.0"
   :description "A study of an interpreter for measurement program definitions (mpd) written in clojure."
   :url "https://github.com/wactbprot/cmp"
   :dependencies [[org.clojure/clojure "1.10.0"]
@@ -13,18 +13,13 @@
                  [biz.paluch.logging/logstash-gelf "1.12.0"]
                  [ch.qos.logback/logback-classic "1.0.1"]
                  [org.graylog2/gelfclient "1.4.1"]
-                 [codox-theme-rdash "0.1.2"]
-                 ;[codox-md "0.2.0"]
-                 ]
+                 [codox-theme-rdash "0.1.2"]]
   :main ^:skip-aot cmp.core
   :target-path "target/%s"
   :plugins [[lein-codox "0.10.7"]]
   :codox {:output-path "./docs"
-          ;:writer codox-md.writer/write-docs
           :themes [:rdash]
           :metadata {:doc/format :markdown}
           :source-uri "https://github.com/wactbprot/cmp/blob/master/{filepath}#L{line}"}
-  :repl-options {:prompt (fn [ns] (str "You are hacking in " ns "=> " ))
-                 :welcome (println "Its  REPL time!")}
   :profiles {:uberjar {:aot :all}})
 

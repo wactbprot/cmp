@@ -263,20 +263,26 @@
                   (predecessor-executed? m seq-idx) next-m
                   :else nil)))))
 
-(defn pick-next
+(defn pick-next!
   "Receives the path p and picks the next thing to do.
   p looks like this (must be a string):
-  ```
-  se3-calib@container@0@ctrl
+  ```clojure
+  
+  (pick-next \"se3-calib@container@0@ctrl\")
   ```"
   [p]
   (let [state-map (p->state-map p)
         next-to-start (find-next state-map)]
     (cond
-      (errors? state-map) (println "got errors")
-      (all-executed? state-map) (println "all executed")
-      (nil? next-to-start) (println "nothing todo")
+      (errors? state-map) (do
+                            (timbre/error "got errors under path: " p " Will set value for ctrl path to error")
+                            (st/set-val! p "error"))
+      (all-executed? state-map) (do
+                                  (timbre/info "all done, will set value for ctrl path to ready")
+                                  (st/set-val! p "ready"))
+      (nil? next-to-start) (timbre/debug "no new task to start at path: " p)
       :else (let [k (state-map->k next-to-start)]
+              (timbre/debug "send key: " k "to work/ctrl-chan")
               (a/>!! work/ctrl-chan k)))))
 
 ;;------------------------------
@@ -293,7 +299,7 @@
   (while true  
     (let [p (a/<! ctrl-chan)]
       (try
-        (pick-next p)
+        (pick-next! p)
         (catch Exception e
           (timbre/error "catch error at channel " p)
           (a/>! excep-chan e))))))

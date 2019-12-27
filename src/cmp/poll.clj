@@ -26,14 +26,14 @@
 ;;------------------------------
 ;; register
 ;;------------------------------
-(defn register
+(defn register!
   "Sets the `mon` atom `true` for the path `p`
   so that the [[monitor]]s `while` continues."
   [p]
   (timbre/debug "register channel for path: " p)
   (swap! mon assoc p true))
 
-(defn de-register
+(defn de-register!
   "Sets the `mon` atom `false` for the path `p`
   so that the [[monitor]]s `while` stops."
   [p]
@@ -72,7 +72,7 @@
 ;;------------------------------
 ;; monitor
 ;;------------------------------
-(defn monitor
+(defn monitor!
   [p]
   (a/go
     (while ((deref mon) p)
@@ -100,8 +100,8 @@
        (nil? reg)
        (false? reg)) (do
                        (timbre/debug "register and start monitoring" p)
-                       (register p)
-                       (monitor p)))))
+                       (register! p)
+                       (monitor! p)))))
 
 ;;------------------------------
 ;; stop
@@ -110,5 +110,5 @@
   "Stop the monitoring of the struct
   (`container` or `definitions`)  by de-registering it." 
   [p]
-  (de-register p)
+  (de-register! p)
   (timbre/debug "close monitor channel registered for path: " p))

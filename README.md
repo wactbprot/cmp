@@ -15,23 +15,26 @@ REPL only
 
 ```
  (workon! mp-id)
-    +
+    _
     |
     v
   (clear)
-    +
+    _
     |
     v
   (build)
-    +
+    _
     |
-  (check-mp)
+    v
+  (check)
+    _
     |
     v
   (start)
-    +
+    _
     |
     +-->(push 0 "run")
+    |
     |
     +-->(status)
 ```

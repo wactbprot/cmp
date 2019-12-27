@@ -22,48 +22,56 @@
 ;;------------------------------
 (def ctrl-chan (a/chan))
 
-
 (defn k->task
+  "Returns the assembled task for the given key" 
   [k]
-  (let [proto-task (u/gen-map (st/key->val k))
-        meta-task (tsk/gen-meta-task proto-task)]
-        (tsk/assemble meta-task)))
+  (assoc 
+   (->> k
+        (st/key->val)
+        (u/gen-map)
+        (tsk/gen-meta-task)
+        (tsk/assemble))
+   :StructKey k
+   :StateKey (u/replace-key-at-level 3 k "state")))
 
-(defn assoc-dyn-info
-  "Enriches the task with runtime infos"
-  [task k]
-  (assoc task
-         :mp-id (u/key->mp-name k)
-         :struct (u/key->struct k)
-         :no-idx (u/key->no-idx k)
-         :seq-idx (u/key->seq-idx k)
-         :par-idx (u/key->par-idx k)))
+(defn wait!
+  "Delays the `mp` for the time given with `:WaitTime`.
+  
+  ```clojure
+  (wait! {:WaitTime 1000} \"testpath\")
+  ```"
+  [task state-key]
+  (st/set-val! state-key "working")
+  (a/go
+    (a/<! (a/timeout (u/val->int (task :WaitTime))))
+    (timbre/debug "wait time over for " state-key)
+    (st/set-val! state-key "executed")))
 
 ;;------------------------------
-;; demo worker 
+;; dispatch 
 ;;------------------------------
-(defmulti worker
-  (fn [task] (task :Action)))
-
-(defmethod worker :Wait
+(defn dispatch!
+  "Dispatches to the workers depending on `:Action`.
+  Since every worker have to set their state, `state-key`
+  is the second parameter"  
   [task]
-  (println "wait"))
-
-(defmethod worker :default
-  [task]
-  (println (task :Action)))
+  (let [state-key (task :StateKey)
+        action (task :Action)]
+    (cond
+      (= action "wait") (wait! task state-key)
+      :default (do
+                 (timbre/error "unknown action: " action)
+                 (st/set-val! state-key "error")))))
 
 ;;------------------------------
 ;; ctrl go block 
 ;;------------------------------
 (a/go
-  (while true  
-    (let [k (a/<! ctrl-chan)]
-      (println ".....................")
-      (println k)
-      (println ".....................")
-      (try
-        (println (k->task k) )
+(while true  
+  (let [k (a/<! ctrl-chan)]
+    (try
+      (timbre/debug "receive key" k "try to get task and call worker")            
+        (dispatch! (k->task k))
         (catch Exception e
           (timbre/error "catch error at channel " k)
           (a/>! excep-chan e))))))
