@@ -67,7 +67,7 @@
 
 (defmethod dispatch :default
   [ctrl-str ctrl-path]
-  (timbre/warn "dispatch default branch for key: " ctrl-path))
+  (timbre/debug "dispatch default branch for key: " ctrl-path))
 
 ;;------------------------------
 ;; monitor

@@ -22,10 +22,28 @@
   (string/join sep p))
 
 (defn val->int
-  "Converts val to an integer."
+  "Converts `val` to an integer. Leaves
+  `float`s as `float`s. Returns `nil` on
+  other stuff like `{}`. There are some
+  tests are available:
+  ```clojure
+  (test (var val->int))
+  ```"
+  {:test #(do
+            (assert (= (val->int 12.3) 12.3))
+            (assert (= (val->int "12a") 12))
+            (assert (nil?  (val->int {})))
+            (assert (= (val->int "11") 11)))
+   }
   [x]
-  (Integer/parseInt x))
-
+  (let [t (class x)]
+    (cond
+      (= t Long) x
+      (= t clojure.lang.BigInt) x
+      (= t Double) x
+      (= t String) (when-let [d (re-find #"-?\d+" x)]
+                     (Integer. d)))))
+  
 (defn replace-key-at-level
   "Generates a new key by replacing an old one
   at the given position.
