@@ -15,10 +15,11 @@
   (wcar* (car/keys (u/vec->key [p "*"]))))
 
 (defn del-keys!
+  "Deletes all given keys (`ks`)."
   [ks]
-  (doall
-   (map (fn [k] (wcar* (car/del k)))
-        ks)))
+  (run!
+   (fn [k] (wcar* (car/del k)))
+   ks))
 
 (defn del-key!
   [k]
@@ -28,7 +29,15 @@
   [k v]
   (wcar* (car/set k v)))
 
+(defn set-same-val!
+  "Sets the given values (`val`) for all keys (`ks`)."
+  [ks v]
+  (run!
+   (fn [k] (wcar* (car/set k v)))
+   ks))
+
 (defn key->val
+  "Returns the value for the given key (`k`)."
   [k]
   (wcar* (car/get k)))
  

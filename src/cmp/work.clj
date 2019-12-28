@@ -43,7 +43,7 @@
   (st/set-val! state-key "working")
   (a/go
     (a/<! (a/timeout (u/val->int (task :WaitTime))))
-    (timbre/debug "wait time over for " state-key)
+    (timbre/info "wait time over for " state-key)
     (st/set-val! state-key "executed")))
 
 ;;------------------------------

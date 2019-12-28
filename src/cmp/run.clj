@@ -23,17 +23,13 @@
 ;;------------------------------
 (def ctrl-chan (a/chan))
 
-(defn state-map->k
+(defn state-map->definition-key
   "Converts a state-map into a key."
   [m]
-  (u/vec->key [(m :mp-name)
-               (m :struct)
-               (m :no-idx)
-               "definition"
-               (m :seq-idx)
-               (m :par-idx)]))
+  (u/vec->key [(m :mp-name) (m :struct) (m :no-idx)
+               "definition" (m :seq-idx) (m :par-idx)]))
 
-(defn k->state-map
+(defn state-key->state-map
   "Converts a key in a state-map."
   [k]
   {:mp-name (u/key->mp-name k)
@@ -49,7 +45,7 @@
   [ks]
   (mapv
    (fn [k]
-     (k->state-map k))
+     (state-key->state-map k))
    ks))
 
 (defn p->state-ks
@@ -57,34 +53,6 @@
   [p]
   (sort (st/get-keys
          (u/replace-key-at-level 3 p "state"))))
-
-(defn p->state-map
-  "Returns the state-map for a given path
-  (path must be string).
-
-  Example (see also [[pick-next]]):
-  ```clojure
-  (p->state-map se3-calib@container@0@ctrl)
-
-  ;; gives:
-  [{:mp-name se3-calib,
-  :struct container,
-  :seq-idx 0,
-  :par-idx 0,
-  :state :ready}
- {:mp-name se3-calib,
-  :struct container,
-  :seq-idx 1,
-  :par-idx 0,
-  :state :ready}]
-
-  ```
-  The `mp-name` and `struct` key is needed for reconstructing
-  the path only.
-  "
-  [p]
-  (ks->state-map
-   (p->state-ks p)))
 
 (defn filter-state
   [m s]
@@ -161,12 +129,15 @@
   (filter-state m :executed))
 
 (defn all-executed?
+  "Checks if all entries of map `m`
+  are executed"
   [m]
   (=
    (count m)
    (count (all-executed m))))
 
 (defn errors?
+  "Checks if there are any errors in the map `m`."
   [m]
   (not (empty? (all-error m))))
           
@@ -249,8 +220,7 @@
   ;; nil
   cmp.run> (find-next nil)
   ;; nil
-  ```
-  "
+  ```"
   [m]
   (let [next-m (next-ready m)
         n (count next-m)]
@@ -271,17 +241,19 @@
   (pick-next \"se3-calib@container@0@ctrl\")
   ```"
   [p]
-  (let [state-map (p->state-map p)
+  (let [state-ks (p->state-ks p)
+        state-map (ks->state-map state-ks)
         next-to-start (find-next state-map)]
     (cond
       (errors? state-map) (do
-                            (timbre/error "got errors under path: " p " Will set value for ctrl path to error")
+                            (timbre/error "got errors under path: " p)
                             (st/set-val! p "error"))
       (all-executed? state-map) (do
-                                  (timbre/info "all done, will set value for ctrl path to ready")
-                                  (st/set-val! p "ready"))
+                                  (timbre/info "all done at " p)
+                                  (st/set-val! p "ready")
+                                  (st/set-same-val! state-ks "ready"))
       (nil? next-to-start) (timbre/debug "no new task to start at path: " p)
-      :else (let [k (state-map->k next-to-start)]
+      :else (let [k (state-map->definition-key next-to-start)]
               (timbre/debug "send key: " k "to work/ctrl-chan")
               (a/>!! work/ctrl-chan k)))))
 
@@ -290,7 +262,7 @@
 ;;------------------------------
 (defn status
   [p]
-  (p->state-map p))
+  (ks->state-map (p->state-ks p)))
 
 ;;------------------------------
 ;; ctrl go block 
