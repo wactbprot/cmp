@@ -1,6 +1,8 @@
 (ns cmp.core
   ^{:author "wactbprot"
-    :doc "Provides the api of cmp."}
+    :doc "Provides the api of cmp. `(start)`, `(stop)` etc. 
+          are intended for **repl** use only. Graphical user 
+          interfaces should attache to the **short term memory**."}
   (:require [cmp.lt-mem :as lt]
             [cmp.st-mem :as st]
             [cmp.utils :as utils]
@@ -8,7 +10,6 @@
             [cmp.build :as build]
             [cmp.check :as check]
             [cmp.poll :as poll]
-            [cmp.run :as run]
             [cmp.log :as log]
             [taoensso.timbre :as timbre])
   (:use [clojure.repl]))
@@ -234,15 +235,3 @@
   []
   (doseq [[k v] (deref poll/mon)]
     (utils/print-kv k v)))
-
-;;------------------------------
-;; cont status
-;;------------------------------
-(defn cont-status
-  "todo: cont status looks messy"
-  ([i]
-   (cont-status (->mp-id) i))
-  ([mp-id i]
-   (run/status
-    (utils/get-cont-ctrl-path
-     (utils/extr-main-path mp-id) i))))
