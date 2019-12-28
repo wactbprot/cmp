@@ -33,7 +33,6 @@
   []
   (log/start-repl-out))
 
-
 ;;------------------------------
 ;; current-mp-id atom and workon
 ;;------------------------------
@@ -101,27 +100,6 @@
         (build/store))
    (timbre/info "done  [" mp-id "]" )))
 
-;;------------------------------
-;; clear
-;;------------------------------
-(defn clear
-  "Clears all short term memory for the given `mp-id`
-  (see [[workon!]]).
-   Usage:
-  
-  ```clojure
-  (clear mpid)
-  ;; or
-  (workon! mpid)
-  (clear)
-  
-  ```"
-  ([]
-   (clear (->mp-id)))
-  ([mp-id]
-   (timbre/info "clear " mp-id )
-   (st/clear (utils/extr-main-path mp-id))
-   (timbre/info "done  [" mp-id "]" )))
 
 ;;------------------------------
 ;; documents
@@ -179,14 +157,14 @@
          n-defins (utils/val->int (st/key->val p-defins))]
      (run!
       (fn [i]
-        (poll/start (utils/get-cont-ctrl-path p i)))
+        (poll/monitor! (utils/get-cont-ctrl-path p i)))
       (range n-cont))
      (run!
       (fn [i]
-        (poll/start (utils/get-defins-ctrl-path p i)))
+        (poll/monitor! (utils/get-defins-ctrl-path p i)))
      (range n-defins)))
    (timbre/info "done  [" mp-id "]" )))
-  
+
 ;;------------------------------
 ;; stop all polling
 ;;------------------------------
@@ -196,19 +174,19 @@
   ([]
    (stop (->mp-id)))
   ([mp-id]
-  (timbre/info "stop polling of " mp-id)  
-  (let [p (utils/extr-main-path mp-id)
-        n-cont (utils/val->int (st/key->val (utils/get-meta-ncont-path p)))
-        n-defins (utils/val->int (st/key->val (utils/get-meta-ndefins-path p)))]
-    (run!
-     (fn [i]
-       (poll/stop (utils/get-cont-ctrl-path p i)))
-     (range n-cont))
-    (run!
-     (fn [i]
-       (poll/stop (utils/get-defins-ctrl-path p i)))
-     (range n-defins)))
-  (timbre/info "done  [" mp-id "]" )))
+   (timbre/info "stop polling of " mp-id)  
+   (let [p (utils/extr-main-path mp-id)
+         n-cont (utils/val->int (st/key->val (utils/get-meta-ncont-path p)))
+         n-defins (utils/val->int (st/key->val (utils/get-meta-ndefins-path p)))]
+     (run!
+      (fn [i]
+        (st/set-val! (utils/get-cont-ctrl-path p i) "stop"))
+      (range n-cont))
+     (run!
+      (fn [i]
+        (st/set-val! (utils/get-defins-ctrl-path p i) "stop"))
+      (range n-defins)))
+   (timbre/info "done  [" mp-id "]" )))
 
 ;;------------------------------
 ;; push ctrl commands
@@ -228,10 +206,24 @@
   (timbre/info "done  [" mp-id "]" )))
 
 ;;------------------------------
-;; poll status
+;; clear
 ;;------------------------------
-(defn poll-status
-  "todo: poll status looks messy"
-  []
-  (doseq [[k v] (deref poll/mon)]
-    (utils/print-kv k v)))
+(defn clear
+  "Clears all short term memory for the given `mp-id`
+  (see [[workon!]]).
+   Usage:
+  
+  ```clojure
+  (clear mpid)
+  ;; or
+  (workon! mpid)
+  (clear)
+  
+  ```"
+  ([]
+   (clear (->mp-id)))
+  ([mp-id]
+   (stop mp-id)
+   (timbre/info "clear " mp-id )
+   (st/clear (utils/extr-main-path mp-id))
+   (timbre/info "done  [" mp-id "]" )))

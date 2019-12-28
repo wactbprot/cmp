@@ -12,3 +12,7 @@
 (defn st-conn
   [config]
   (config :st-conn))
+
+(defn heartbeat
+  [config]
+  (config :heartbeat))

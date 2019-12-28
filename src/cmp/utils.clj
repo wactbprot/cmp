@@ -321,26 +321,6 @@
        (apply-to-map-values str)
        (walk/stringify-keys)))
 
-(defn get-next-ctrl
-  "Extracts next command.
-  ToDo:
-  Enable kind of programming like provided in ssmp:
-  load;run;stop --> [load, run, stop]
-  load;2:run,stop -->  [load, run, stop, run, stop]"
-  [s]
-  (first (string/split s #",")))
-
-(defn set-next-ctrl
-  [s r]
-  (string/join "," (assoc (string/split s #",") 0 r)))
-
-(defn rm-next-ctrl
-  [s]
-  (string/join ","
-               (or
-                (not-empty (rest (string/split s #",")))
-                ["ready"])))
-
 (defmulti gen-value
   class)
 

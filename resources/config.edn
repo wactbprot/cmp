@@ -1,6 +1,10 @@
 ;; https://github.com/edn-format/edn
 {
- :lt-uri "http://localhost:5984/vl_db"
+ ;; ctrl endpoint polling haertbeat 
+ :heartbeat 1000
+ ;; long term memory: couchdb
+ :lt-uri "http://127.0.0.1:5984/vl_db"
+ ;; short term memory: redis
  :st-conn {:pool {}
            :spec {:host "127.0.0.1" :port 6379}}
- }
+}

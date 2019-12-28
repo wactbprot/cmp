@@ -8,11 +8,10 @@
             [clojure.core.async :as a]
             [cmp.st-mem :as st]
             [cmp.check :as chk]
+            [cmp.config :as cfg]
             [cmp.run :as run]
             [cmp.utils :as u]))
 
-(def heartbeat 1000)
-(def mon (atom {}))
 
 ;;------------------------------
 ;; exception channel 
@@ -23,92 +22,79 @@
     (let [e (a/<! excep-chan)] 
       (timbre/error (.getMessage e)))))
 
-;;------------------------------
-;; register
-;;------------------------------
-(defn register!
-  "Sets the `mon` atom `true` for the path `p`
-  so that the [[monitor]]s `while` continues."
-  [p]
-  (timbre/debug "register channel for path: " p)
-  (swap! mon assoc p true))
 
-(defn de-register!
-  "Sets the `mon` atom `false` for the path `p`
-  so that the [[monitor]]s `while` stops."
-  [p]
-  (timbre/debug "de-register channel for path: " p)
-  (swap! mon assoc p false))
+(defn get-next-ctrl
+  "Extracts next command.
+  ** ToDo:**
+  Enable kind of programming like provided in ssmp:
 
-(defn registered?
-  "Returns the state of the atom `mon`
-  for the given path `p`."
-  [p]
-  (timbre/debug "registered path: " p)
-  ((deref mon) p))
+  * `load;run;stop` --> `[load, run, stop]`
+  * `load;2:run,stop` -->  `[load, run, stop, run, stop]`"
+  [s]
+  (cond
+    (nil? s) :stop
+    :default (keyword (first (string/split s #",")))))
+
+;; (defn set-next-ctrl
+;;   [s r]
+;;   (string/join "," (assoc (string/split s #",") 0 r)))
+;; 
+;; (defn rm-next-ctrl
+;;   [s]
+;;   (string/join ","
+;;                (or
+;;                 (not-empty (rest (string/split s #",")))
+;;                 ["ready"])))
 
 ;;------------------------------
 ;; dispatch
 ;;------------------------------
 (defmulti dispatch
-  (fn [ctrl-str ctrl-path]
-    (keyword (u/get-next-ctrl ctrl-str))))
+  (fn
+    [ctrl-str ctrl-path]
+    (get-next-ctrl ctrl-str)))
 
 (defmethod dispatch :run
   [ctrl-str ctrl-path]
-  (timbre/debug "dispatch run branch for key: " ctrl-path)
-  (st/set-val! ctrl-path "running")
+  (timbre/debug "dispatch run for key: " ctrl-path)
   (a/>!! run/ctrl-chan ctrl-path))
 
-(defmethod dispatch :running
+(defmethod dispatch :suspend
   [ctrl-str ctrl-path]
-  (timbre/debug "dispatch running branch for key: " ctrl-path)
-  (a/>!! run/ctrl-chan ctrl-path))
+  (timbre/debug "suspend for key: " ctrl-path))
 
 (defmethod dispatch :default
   [ctrl-str ctrl-path]
   (timbre/debug "dispatch default branch for key: " ctrl-path))
 
 ;;------------------------------
+;; continue monitoring
+;;------------------------------
+(defn cont-mon?
+  "The string `\"stop\"` stops the polling
+
+  Todo:
+  * explicid doc tests"
+  ([]
+   false)
+  ([ctrl-str]
+   (not=
+    :stop
+    (get-next-ctrl ctrl-str))))
+
+;;------------------------------
 ;; monitor
 ;;------------------------------
+(def heartbeat (cfg/heartbeat (cfg/config)))
 (defn monitor!
+  "Polls the `ctrl-str` at path `p` and dispatches
+  the resulting `ctrl-cmd`."
   [p]
   (a/go
-    (while ((deref mon) p)
+    (while (cont-mon? (st/key->val p))
       (a/<! (a/timeout heartbeat))
       (try
         (dispatch (st/key->val p) p)
         (catch Exception e
           (timbre/error "catch error at channel " p)
           (a/>! excep-chan e))))))
-
-;;------------------------------
-;; start
-;;------------------------------
-(defn start
-  "Registers and monitors the the struct
-  (`container` or `definitions`) belonging to path `p`.
-  `p` is a string of the form `se3-calib@container@1@ctrl`.
-  The `registered?` predicate function avoids starting more
-  than one `go-loop` for one path `p`."
-  [p]
-  (let [reg (registered? p)]
-    (cond
-      (true? reg) (timbre/warn "already monitoring" p)
-      (or
-       (nil? reg)
-       (false? reg)) (do
-                       (timbre/debug "register and start monitoring" p)
-                       (register! p)
-                       (monitor! p)))))
-
-;;------------------------------
-;; stop
-;;------------------------------
-(defn stop
-  "Stop the monitoring of the struct
-  (`container` or `definitions`)  by de-registering it." 
-  [p]
-  (de-register! p)
-  (timbre/debug "close monitor channel registered for path: " p))
