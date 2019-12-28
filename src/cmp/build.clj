@@ -2,7 +2,6 @@
   ^{:author "wactbprot"
     :doc "Builds up the short term memory with given the mp-definition."}
   (:require [cmp.utils :as u]
-            [cmp.task :as tsk]
             [cmp.st-mem :as st]
             [taoensso.timbre :as log])
   (:use [clojure.repl]))
