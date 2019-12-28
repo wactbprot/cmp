@@ -4,7 +4,6 @@
   (:require [taoensso.timbre :as timbre]
             [clojure.core.async :as a]
             [cmp.st-mem :as st]
-            [cmp.work :as work]            
             [cmp.task :as tsk]
             [cmp.utils :as u]))
 
