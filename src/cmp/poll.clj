@@ -22,37 +22,13 @@
     (let [e (a/<! excep-chan)] 
       (timbre/error (.getMessage e)))))
 
-
-(defn get-next-ctrl
-  "Extracts next command.
-  ** ToDo:**
-  Enable kind of programming like provided in ssmp:
-
-  * `load;run;stop` --> `[load, run, stop]`
-  * `load;2:run,stop` -->  `[load, run, stop, run, stop]`"
-  [s]
-  (cond
-    (nil? s) :stop
-    :default (keyword (first (string/split s #",")))))
-
-;; (defn set-next-ctrl
-;;   [s r]
-;;   (string/join "," (assoc (string/split s #",") 0 r)))
-;; 
-;; (defn rm-next-ctrl
-;;   [s]
-;;   (string/join ","
-;;                (or
-;;                 (not-empty (rest (string/split s #",")))
-;;                 ["ready"])))
-
 ;;------------------------------
 ;; dispatch
 ;;------------------------------
 (defmulti dispatch
   (fn
     [ctrl-str ctrl-path]
-    (get-next-ctrl ctrl-str)))
+    (u/get-next-ctrl ctrl-str)))
 
 (defmethod dispatch :run
   [ctrl-str ctrl-path]
@@ -73,14 +49,13 @@
 (defn cont-mon?
   "The string `\"stop\"` stops the polling
 
-  Todo:
-  * explicid doc tests"
+  #TODO: explicit doc tests"
   ([]
    false)
   ([ctrl-str]
    (not=
     :stop
-    (get-next-ctrl ctrl-str))))
+    (u/get-next-ctrl ctrl-str))))
 
 ;;------------------------------
 ;; monitor

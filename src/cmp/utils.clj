@@ -363,3 +363,30 @@
   or at least problematic"  
   [doc]
   (gen-map (string/replace (json/write-str doc) (re-pattern "@") "%")))
+
+
+;;------------------------------
+;; ctrl endpoint -> poll and run
+;;------------------------------
+(defn get-next-ctrl
+  "Extracts next command.
+
+  #TODO:  Enable kind of programming like provided in ssmp:
+
+  * `load;run;stop` --> `[load, run, stop]`
+  * `load;2:run,stop` -->  `[load, run, stop, run, stop]`"
+  [s]
+  (cond
+    (nil? s) :stop
+    :default (keyword (first (string/split s #",")))))
+
+;; (defn set-next-ctrl
+;;   [s r]
+;;   (string/join "," (assoc (string/split s #",") 0 r)))
+;; 
+;; (defn rm-next-ctrl
+;;   [s]
+;;   (string/join ","
+;;                (or
+;;                 (not-empty (rest (string/split s #",")))
+;;                 ["ready"])))

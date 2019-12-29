@@ -66,10 +66,11 @@
 ;; ctrl go block 
 ;;------------------------------
 (a/go
-(while true  
-  (let [k (a/<! ctrl-chan)]
-    (try
-      (timbre/debug "receive key" k "try to get task and call worker")            
+  (while true  
+    (let [k (a/<! ctrl-chan)]
+      (try
+        (timbre/debug "receive key " k
+                      " try to get task and call worker")            
         (dispatch! (k->task k))
         (catch Exception e
           (timbre/error "catch error at channel " k)

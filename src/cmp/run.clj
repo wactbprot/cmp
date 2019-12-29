@@ -233,6 +233,37 @@
                   (predecessor-executed? m seq-idx) next-m
                   :else nil)))))
 
+
+;;------------------------------
+;; set value at ctrl-path 
+;;------------------------------
+(defmulti set-ctrl!
+  (fn [p kw] kw))
+
+(defmethod set-ctrl! :error
+  [p kw]
+  (timbre/error "got errors under path: " p)
+  (st/set-val! p "error"))
+
+(defmethod set-ctrl! :all-executed
+  [p kw]
+  (let [ctrl-str (keyword (u/get-next-ctrl (st/key->val p)))
+        state-ks (p->state-ks p)]
+    (cond
+      (= ctrl-str :run) (do
+                          (timbre/info "all done at " p
+                                       "will set ready")
+                          (st/set-val! p "ready")
+                          (st/set-same-val! state-ks "ready"))
+      (= ctrl-str :mon) (do
+                          (timbre/info "all done at " p
+                                       "will keep mon")
+                          (st/set-same-val! state-ks "ready")))))
+
+(defmethod set-ctrl! :is-nil
+  [p kw]
+  (timbre/debug "no new task to start at path: " p))
+
 (defn pick-next!
   "Receives the path p and picks the next thing to do.
   p looks like this (must be a string):
@@ -240,22 +271,15 @@
   
   (pick-next \"se3-calib@container@0@ctrl\")
   ```"
-  [p]
-  (let [state-ks (p->state-ks p)
+  [ctrl-path]
+  (let [state-ks (p->state-ks ctrl-path)
         state-map (ks->state-map state-ks)
         next-to-start (find-next state-map)]
     (cond
-      (errors? state-map) (do
-                            (timbre/error "got errors under path: " p)
-                            (st/set-val! p "error"))
-      (all-executed? state-map) (do
-                                  (timbre/info "all done at " p)
-                                  (st/set-val! p "ready")
-                                  (st/set-same-val! state-ks "ready"))
-      (nil? next-to-start) (timbre/debug "no new task to start at path: " p)
-      :else (let [k (state-map->definition-key next-to-start)]
-              (timbre/debug "send key: " k "to work/ctrl-chan")
-              (a/>!! work/ctrl-chan k)))))
+      (errors?       state-map)     (set-ctrl! ctrl-path :error)
+      (all-executed? state-map)     (set-ctrl! ctrl-path :all-executed)
+      (nil?          next-to-start) (set-ctrl! ctrl-path :is-nil)
+      :else (a/>!! work/ctrl-chan (state-map->definition-key next-to-start)))))
 
 ;;------------------------------
 ;; status 
