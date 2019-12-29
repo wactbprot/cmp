@@ -192,13 +192,20 @@
 ;; push ctrl commands
 ;;------------------------------
   
-(defn push
-  "push a cmd string to the control interface of a mp.
-  The mp-id is received over `(->mp-id)`. The defins
-  struct should not be started by user
-  (see [[workon!]])."
+(defn ctrl!
+  "Push a command string (`cmd`) to the control
+  interface of a mp. `cmd`s are:
+  
+  * `\"run\"`
+  * `\"stop\"`
+  * `\"mon\"`
+  * `\"suspend\"`
+
+  The `mp-id` is received over `(->mp-id)`.
+  **NOTE:** The `definitions` struct should not
+  be started by user (see [[workon!]])."
   ([i cmd]
-   (push (->mp-id) i cmd))
+   (ctrl! (->mp-id) i cmd))
   ([mp-id i cmd]
   (timbre/info "push cmd to:" mp-id)
   (let [p (utils/get-cont-ctrl-path (utils/extr-main-path mp-id) i)]

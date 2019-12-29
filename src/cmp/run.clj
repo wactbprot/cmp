@@ -286,7 +286,9 @@
 ;;------------------------------
 (defn status
   [p]
-  (ks->state-map (p->state-ks p)))
+  (->> p
+       (p->state-ks)
+       (ks->state-map)))
 
 ;;------------------------------
 ;; ctrl go block 

@@ -35,6 +35,11 @@
   (timbre/debug "dispatch run for key: " ctrl-path)
   (a/>!! run/ctrl-chan ctrl-path))
 
+(defmethod dispatch :mon
+  [ctrl-str ctrl-path]
+  (timbre/debug "dispatch run for key: " ctrl-path)
+  (a/>!! run/ctrl-chan ctrl-path))
+
 (defmethod dispatch :suspend
   [ctrl-str ctrl-path]
   (timbre/debug "suspend for key: " ctrl-path))
@@ -49,7 +54,7 @@
 (defn cont-mon?
   "The string `\"stop\"` stops the polling
 
-  #TODO: explicit doc tests"
+  **TODO:** explicit doc tests"
   ([]
    false)
   ([ctrl-str]
@@ -60,7 +65,9 @@
 ;;------------------------------
 ;; monitor
 ;;------------------------------
-(def heartbeat (cfg/heartbeat (cfg/config)))
+(def heartbeat
+  "The `heartbeat` of the cmp taken from [[../config.edn]]."
+  (cfg/heartbeat (cfg/config)))
 (defn monitor!
   "Polls the `ctrl-str` at path `p` and dispatches
   the resulting `ctrl-cmd`."

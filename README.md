@@ -33,7 +33,7 @@ REPL only
   (start)
     _
     |
-    +-->(push 0 "run")
+    +-->(ctrl! 0 "run")
     |
     |
     +-->(status)
