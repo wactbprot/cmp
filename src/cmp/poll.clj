@@ -3,15 +3,12 @@
     :doc "Polls the short term memory endpoint `ctrl` 
           and dispatchs depending on the result 
           (`:load`, `:run`, `:stop` etc)."}
-  (:require [clojure.string :as string]
-            [taoensso.timbre :as timbre]
+  (:require [taoensso.timbre :as timbre]
             [clojure.core.async :as a]
             [cmp.st-mem :as st]
-            [cmp.check :as chk]
             [cmp.config :as cfg]
             [cmp.run :as run]
             [cmp.utils :as u]))
-
 
 ;;------------------------------
 ;; exception channel 
@@ -66,11 +63,13 @@
 ;; monitor
 ;;------------------------------
 (def heartbeat
-  "The `heartbeat` of the cmp taken from [[../config.edn]]."
+  "The `heartbeat` of cmp taken from [[config.edn]]."
   (cfg/heartbeat (cfg/config)))
+
 (defn monitor!
-  "Polls the `ctrl-str` at path `p` and dispatches
-  the resulting `ctrl-cmd`."
+  "Polls with [[heartbeat]] the `ctrl-str`
+  at path `p` and dispatches the resulting
+  `ctrl-cmd`."
   [p]
   (a/go
     (while (cont-mon? (st/key->val p))

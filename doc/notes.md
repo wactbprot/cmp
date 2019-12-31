@@ -1,4 +1,4 @@
-# Notes and ideas 
+# ideas 
 
 ## cd-id
 
@@ -27,14 +27,3 @@ customer forking is no longer the way to go)
 
 * further idea which reduces state
 * makes the "reset-task"s no longer necessary
-
-## redis gui
-
-* redis-commander
-
-```shell
-$ npm install -g redis-commander
-```
-
-https://github.com/joeferner/redis-commander
-http://localhost:8081/

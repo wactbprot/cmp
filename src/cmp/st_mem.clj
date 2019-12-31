@@ -42,6 +42,8 @@
   (wcar* (car/get k)))
  
 (defmulti clear
+  "Clears the key `k`. If `k` is a vector `(u/vec->key k)`
+  is used for the conversion to a string."
   class)
 
 (defmethod clear String
@@ -56,3 +58,17 @@
        (u/vec->key)
        (get-keys)
        (del-keys!)))
+
+;; prepair for poll elimination
+(defn obs
+  [msg]
+  (let [[_ _ pkey _] msg]
+    (println "......")
+    (println pkey)))
+
+(def listener
+  (car/with-new-pubsub-listener (:spec conn)
+    {"__keyspace@0*__:wait*" obs}
+    (car/psubscribe "__keyspace@0*__:wait*")))
+
+(car/close-listener listener)
