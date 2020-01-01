@@ -9,7 +9,7 @@
             [cmp.doc :as doc]
             [cmp.build :as build]
             [cmp.check :as check]
-            [cmp.poll :as poll]
+            [cmp.observe :as observe]
             [cmp.log :as log]
             [taoensso.timbre :as timbre])
   (:use [clojure.repl]))
@@ -140,53 +140,29 @@
    (timbre/info "done  [" mp-id "]" )))
 
 ;;------------------------------
-;; start polling
+;; start
 ;;------------------------------
 (defn start
-  "Check and runs the tasks of the
-  containers and definitions.
+  "Registers a listener for the `ctrl` interface.
   (see [[workon!]])."
   ([]
    (start (->mp-id)))
   ([mp-id]
    (timbre/info "start polling for: " mp-id)
-   (let [p (utils/extr-main-path mp-id)
-         p-cont (utils/get-meta-ncont-path p)
-         n-cont (utils/val->int (st/key->val p-cont))
-         p-defins (utils/get-meta-ndefins-path p)
-         n-defins (utils/val->int (st/key->val p-defins))]
-     (run!
-      (fn [i]
-        (poll/monitor! (utils/get-cont-ctrl-path p i)))
-      (range n-cont))
-     (run!
-      (fn [i]
-        (poll/monitor! (utils/get-defins-ctrl-path p i)))
-     (range n-defins)))
-   (timbre/info "done  [" mp-id "]" )))
+   (observe/register! mp-id)))
+  
 
 ;;------------------------------
-;; stop all polling
+;; stop
 ;;------------------------------
 (defn stop
-  "Check and runs the tasks of the containers and definitions
+  "Registers a listener for the `ctrl` interface.
   (see [[workon!]])."
   ([]
-   (stop (->mp-id)))
+   (start (->mp-id)))
   ([mp-id]
-   (timbre/info "stop polling of " mp-id)  
-   (let [p (utils/extr-main-path mp-id)
-         n-cont (utils/val->int (st/key->val (utils/get-meta-ncont-path p)))
-         n-defins (utils/val->int (st/key->val (utils/get-meta-ndefins-path p)))]
-     (run!
-      (fn [i]
-        (st/set-val! (utils/get-cont-ctrl-path p i) "stop"))
-      (range n-cont))
-     (run!
-      (fn [i]
-        (st/set-val! (utils/get-defins-ctrl-path p i) "stop"))
-      (range n-defins)))
-   (timbre/info "done  [" mp-id "]" )))
+   (timbre/info "stop observing " mp-id)
+   (observe/de-register! mp-id)))
 
 ;;------------------------------
 ;; push ctrl commands
