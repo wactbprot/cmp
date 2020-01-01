@@ -150,18 +150,19 @@
         n (count am)]
     (cond
       (= n 0) {}
-      (> n 0) (first am))))
+      :else (first am))))
 
 (defn predecessor-executed?
   "Checks if `all-executed?` in the
   step `i-1` of `m`."
   [m i]
-  (let [j (- i 1)]
-    (all-executed?
-     (seq-idx->all-par-idx m j))))
+  (all-executed?
+   (seq-idx->all-par-idx m (- i 1))))
 
 (defn find-next
-  "The `find-next` function should work as follows:
+  "The `find-next` function
+  returns a list of maps containing the next
+  tasks to start. It should work as follows:
 
   ```clojure
   cmp.run>   (def m
@@ -174,7 +175,8 @@
   
   ;;  #'cmp.run/m
   cmp.run> (find-next m)
-  ;;  {:seq-idx 0, :par-idx 0, :state :ready}
+  ;;  ({:seq-idx 0, :par-idx 0, :state :ready}
+  ;;   {:seq-idx 0, :par-idx 1, :state :ready})
   cmp.run>   (def m
   [{:seq-idx 0, :par-idx 0, :state :working}
    {:seq-idx 0, :par-idx 1, :state :ready}
@@ -185,7 +187,7 @@
   
   ;;  #'cmp.run/m
   cmp.run> (find-next m)
-  ;;  {:seq-idx 0, :par-idx 1, :state :ready}
+  ;;  ({:seq-idx 0, :par-idx 1, :state :ready})
   cmp.run>   (def m
   [{:seq-idx 0, :par-idx 0, :state :working}
    {:seq-idx 0, :par-idx 1, :state :working}
@@ -207,7 +209,7 @@
   
   ;;  #'cmp.run/m
   cmp.run> (find-next m)
-  ;;  {:seq-idx 1, :par-idx 0, :state :ready}
+  ;;  ({:seq-idx 1, :par-idx 0, :state :ready})
   ```
   It should not crash on:
 
@@ -222,16 +224,17 @@
   ;; nil
   ```"
   [m]
-  (let [next-m (next-ready m)
-        n (count next-m)]
+  (let [next-m (next-ready m)]
     (cond
-      (= n 0) nil
-      (> n 0) (let [seq-idx (next-m :seq-idx)]
-                (cond
-                  (nil? seq-idx) nil
-                  (= seq-idx 0) next-m
-                  (predecessor-executed? m seq-idx) next-m
-                  :else nil)))))
+      (= 0 (count next-m)) nil
+      :else (let [seq-idx (next-m :seq-idx)]
+              (cond
+                (nil? seq-idx) nil
+                (= seq-idx 0) (all-ready
+                               (seq-idx->all-par-idx m seq-idx))
+                (predecessor-executed? m seq-idx) (all-ready
+                                                   (seq-idx->all-par-idx m seq-idx))
+                :else nil)))))
 
 
 ;;------------------------------
@@ -264,6 +267,9 @@
   [p kw]
   (timbre/debug "no new task to start at path: " p))
 
+;;------------------------------
+;; pick next task
+;;------------------------------
 (defn pick-next!
   "Receives the path p and picks the next thing to do.
   p looks like this (must be a string):

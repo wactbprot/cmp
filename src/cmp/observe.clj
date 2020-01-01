@@ -42,20 +42,26 @@
       (= cmd :suspend) (timbre/debug "suspend for key: " p)
       :default (timbre/debug "dispatch default branch for key: " p))))
 
+
+;;------------------------------
+;; register, de-register
+;;------------------------------
 (defn registered?
   "Checks if a `listener` is registered under
-  `listeners`-atom"
+  the `listeners`-atom."
   [mp-id]
   (contains? (deref listeners) mp-id))
 
 (defn register!
   "Generates a `ctrl` listener and registers him
-  under the key `mp-id` in the `listeners` atom."
+  under the key `mp-id` in the `listeners` atom.
+  The callback function dispatches depending on
+  the result."
   [mp-id]
   (cond
     (registered? mp-id) (timbre/info "a ctrl listener for "
                                      mp-id
-                                     " is already registered") 
+                                     " is already registered!") 
     :else (swap! listeners  assoc
                  mp-id
                  (st/gen-listener mp-id "ctrl"
@@ -69,9 +75,8 @@
   [mp-id]
   (cond
     (registered? mp-id) (do
-            (st/close-listener! ((deref listeners) mp-id))
-            (swap! listeners dissoc mp-id))
+                          (st/close-listener! ((deref listeners) mp-id))
+                          (swap! listeners dissoc mp-id))
     :else (timbre/info "a ctrl listener for "
                        mp-id
-                       " is not registered")))
-   
+                       " is not registered!")))
