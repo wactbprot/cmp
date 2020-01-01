@@ -224,17 +224,12 @@
   ;; nil
   ```"
   [m]
-  (let [next-m (next-ready m)]
+  (when-let [seq-idx ((next-ready m) :seq-idx)]
     (cond
-      (= 0 (count next-m)) nil
-      :else (let [seq-idx (next-m :seq-idx)]
-              (cond
-                (nil? seq-idx) nil
-                (= seq-idx 0) (all-ready
-                               (seq-idx->all-par-idx m seq-idx))
-                (predecessor-executed? m seq-idx) (all-ready
-                                                   (seq-idx->all-par-idx m seq-idx))
-                :else nil)))))
+      (or
+       (predecessor-executed? m seq-idx)
+       (= seq-idx 0)) (all-ready (seq-idx->all-par-idx m seq-idx))
+      :else nil)))
 
 
 ;;------------------------------
