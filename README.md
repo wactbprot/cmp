@@ -42,7 +42,9 @@ sudo systemctl restart redis.service
 ```
 ## Usage
 
-REPL only
+![redis](./clojure_logo.png)
+
+**REPL only**
 
 ```
  (workon! mp-id)
