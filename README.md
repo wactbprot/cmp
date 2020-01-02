@@ -1,5 +1,6 @@
-![cmp](./Clojure_logo.png)
-
+![cmp](./cmp_logo.png)
+![clojure](./clojure_logo.png)
+![redis](./redis_logo.png)
 # cmp
 
 A study of an interpreter, handling
