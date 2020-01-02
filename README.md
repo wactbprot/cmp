@@ -1,6 +1,5 @@
 ![cmp](./cmp_logo.png)
-![clojure](./clojure_logo.png)
-![redis](./redis_logo.png)
+
 # cmp
 
 A study of an interpreter, handling
@@ -19,6 +18,8 @@ different machine by porting the database and starting *cmp*.
 See the [cmp documentation on github.io.](https://wactbprot.github.io/cmp/)
 
 ## config redis
+
+![redis](./redis_logo.png)
 
 Since version 0.3.0 *cmp* relies on [Keyspace Notifications](https://redis.io/topics/notifications). Therefore it is necassary to swap:
 
