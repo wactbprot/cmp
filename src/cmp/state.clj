@@ -1,4 +1,4 @@
-(ns cmp.run
+(ns cmp.state
   ^{:author "wactbprot"
     :doc "Finds and starts the up comming 
           tasks of a certain container."}
@@ -6,27 +6,9 @@
             [clojure.core.async :as a]
             [cmp.st-mem :as st]
             [cmp.work :as work]            
+            [cmp.reg :as reg]
             [cmp.task :as tsk]
             [cmp.utils :as u]))
-
-;;------------------------------
-;; listeners 
-;;------------------------------
-(def listeners (atom {}))
-
-;;------------------------------
-;; exception channel 
-;;------------------------------
-(def excep-chan (a/chan))
-(a/go
-  (while true
-    (let [e (a/<! excep-chan)] 
-      (timbre/error (.getMessage e)))))
-
-;;------------------------------
-;; ctrl channel invoked by poll 
-;;------------------------------
-(def ctrl-chan (a/chan))
 
 (defn state-map->definition-key
   "Converts a state-map into a key."
@@ -248,30 +230,8 @@
       :else nil)))
 
 ;;------------------------------
-;; registered?, de-register
-;;------------------------------
-(defn registered?
-  "Checks if a `listener` is registered under
-  the `listeners`-atom."
-  [mp-id]
-  (contains? (deref listeners) mp-id))
-
-(defn de-register!
-  "De-registers the listener with the
-  key `mp-id` in the `listeners` atom."
-  [mp-id]
-  (cond
-    (registered? mp-id) (do
-                          (st/close-listener! ((deref listeners) mp-id))
-                          (swap! listeners dissoc mp-id))
-    :else (timbre/info "a ctrl listener for "
-                       mp-id
-                       " is not registered!")))
-
-;;------------------------------
 ;; set value at ctrl-path 
 ;;------------------------------
-
 (defn error-ctrl!
   "Sets the `ctrl` interface to `\"error`."
   [p]
@@ -282,23 +242,24 @@
   "Handels the case where all `state` interfaces
   are `\"executed\"`."
   [p]
-  (let [ctrl-str (->> p
-                      (p->ctrl-k)
+  (let [ctrl-k (p->ctrl-k p)
+        ctrl-str (->> ctrl-k
                       (st/key->val)
                       (u/get-next-ctrl)
                       keyword)
         state-ks (p->state-ks p)]
     (cond
       (= ctrl-str :run) (do
-                          (timbre/info "all done at " p
+                          (timbre/info "all done at " ctrl-k
                                        "will set ready")
-                          (st/set-val! p "ready")
+                          (st/set-val! ctrl-k "ready")
                           (st/set-same-val! state-ks "ready")
-                          (de-register! (u/key->mp-name p)))
+                          (reg/de-register! (u/key->mp-name p) "state"))
       (= ctrl-str :mon) (do
                           (timbre/info "all done at " p
                                        "will keep mon")
-                          (st/set-same-val! state-ks "ready")))))
+                          (st/set-same-val! state-ks "ready")
+                          (st/set-val! ctrl-k "mon")))))
 
 (defn nil-ctrl!
   "Kind of `nop`."
@@ -331,6 +292,19 @@
              next-to-start))))
 
 ;;------------------------------
+;; start, stop
+;;------------------------------
+(defn start
+  [p]
+  (reg/register! (u/key->mp-name p) "state" (fn [msg]
+                                              (start-next! (st/msg->key msg))))
+  (start-next! p))
+
+(defn stop
+  [p]
+  (reg/de-register! (u/key->mp-name p) "state"))
+
+;;------------------------------
 ;; status 
 ;;------------------------------
 (defn status
@@ -338,36 +312,3 @@
   (->> p
        (p->state-ks)
        (ks->state-map)))
-
-
-;;------------------------------
-;; registered?, de-register
-;;------------------------------
-(defn register!
-  "Generates a `state` listener and registers him
-  under the key `mp-id` in the `listeners` atom.
-  The callback function is `start-next`."
-  [mp-id]
-  (cond
-    (registered? mp-id) (timbre/info "a state listener for "
-                                     mp-id
-                                     " is already registered!") 
-    :else (swap! listeners  assoc
-                 mp-id
-                 (st/gen-listener mp-id "state"
-                                  (fn
-                                    [msg]
-                                    (start-next! (st/msg->key msg)))))))
-
-;;------------------------------
-;; ctrl go block 
-;;------------------------------
-(a/go
-  (while true  
-    (let [p (a/<! ctrl-chan)]
-      (try
-        (start-next! p)
-        (register! (u/key->mp-name p))
-        (catch Exception e
-          (timbre/error "catch error at channel " p)
-          (a/>! excep-chan e))))))

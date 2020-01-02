@@ -378,7 +378,7 @@
   [s]
   (cond
     (nil? s) :stop
-    :default (keyword (first (string/split s #",")))))
+    :default (first (string/split s #","))))
 
 ;; (defn set-next-ctrl
 ;;   [s r]

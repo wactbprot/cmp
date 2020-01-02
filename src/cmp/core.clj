@@ -9,7 +9,7 @@
             [cmp.doc :as doc]
             [cmp.build :as build]
             [cmp.check :as check]
-            [cmp.observe :as observe]
+            [cmp.ctrl :as ctrl]
             [cmp.log :as log]
             [taoensso.timbre :as timbre])
   (:use [clojure.repl]))
@@ -148,8 +148,8 @@
   ([]
    (start (->mp-id)))
   ([mp-id]
-   (timbre/info "start polling for: " mp-id)
-   (observe/register! mp-id)))
+   (timbre/info "register observer for: " mp-id)
+   (ctrl/start mp-id)))
   
 
 ;;------------------------------
@@ -159,10 +159,10 @@
   "Registers a listener for the `ctrl` interface.
   (see [[workon!]])."
   ([]
-   (start (->mp-id)))
+   (stop (->mp-id)))
   ([mp-id]
    (timbre/info "stop observing " mp-id)
-   (observe/de-register! mp-id)))
+   (ctrl/stop mp-id)))
 
 ;;------------------------------
 ;; push ctrl commands
