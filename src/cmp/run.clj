@@ -10,6 +10,11 @@
             [cmp.utils :as u]))
 
 ;;------------------------------
+;; listeners 
+;;------------------------------
+(def listeners (atom {}))
+
+;;------------------------------
 ;; exception channel 
 ;;------------------------------
 (def excep-chan (a/chan))
@@ -52,7 +57,18 @@
   "Returns the state keys for a given path"
   [p]
   (sort (st/get-keys
-         (u/replace-key-at-level 3 p "state"))))
+         (u/vec->key [(u/key->mp-name p)
+                      (u/key->struct p)
+                      (u/key->no-idx p)
+                      "state"]))))
+
+(defn p->ctrl-k
+  "Returns the `ctrl` key for a given path `p`."
+  [p]
+  (u/vec->key [(u/key->mp-name p)
+               (u/key->struct p)
+               (u/key->no-idx p)
+               "ctrl"]))
 
 (defn filter-state
   [m s]
@@ -231,56 +247,88 @@
        (= seq-idx 0)) (all-ready (seq-idx->all-par-idx m seq-idx))
       :else nil)))
 
+;;------------------------------
+;; registered?, de-register
+;;------------------------------
+(defn registered?
+  "Checks if a `listener` is registered under
+  the `listeners`-atom."
+  [mp-id]
+  (contains? (deref listeners) mp-id))
+
+(defn de-register!
+  "De-registers the listener with the
+  key `mp-id` in the `listeners` atom."
+  [mp-id]
+  (cond
+    (registered? mp-id) (do
+                          (st/close-listener! ((deref listeners) mp-id))
+                          (swap! listeners dissoc mp-id))
+    :else (timbre/info "a ctrl listener for "
+                       mp-id
+                       " is not registered!")))
 
 ;;------------------------------
 ;; set value at ctrl-path 
 ;;------------------------------
-(defmulti set-ctrl!
-  (fn [p kw] kw))
 
-(defmethod set-ctrl! :error
-  [p kw]
+(defn error-ctrl!
+  "Sets the `ctrl` interface to `\"error`."
+  [p]
   (timbre/error "got errors under path: " p)
-  (st/set-val! p "error"))
+  (st/set-val! (p->ctrl-k p) "error"))
 
-(defmethod set-ctrl! :all-executed
-  [p kw]
-  (let [ctrl-str (keyword (u/get-next-ctrl (st/key->val p)))
+(defn all-exec-ctrl!
+  "Handels the case where all `state` interfaces
+  are `\"executed\"`."
+  [p]
+  (let [ctrl-str (->> p
+                      (p->ctrl-k)
+                      (st/key->val)
+                      (u/get-next-ctrl)
+                      keyword)
         state-ks (p->state-ks p)]
     (cond
       (= ctrl-str :run) (do
                           (timbre/info "all done at " p
                                        "will set ready")
                           (st/set-val! p "ready")
-                          (st/set-same-val! state-ks "ready"))
+                          (st/set-same-val! state-ks "ready")
+                          (de-register! (u/key->mp-name p)))
       (= ctrl-str :mon) (do
                           (timbre/info "all done at " p
                                        "will keep mon")
                           (st/set-same-val! state-ks "ready")))))
 
-(defmethod set-ctrl! :is-nil
-  [p kw]
+(defn nil-ctrl!
+  "Kind of `nop`."
+  [p]
   (timbre/debug "no new task to start at path: " p))
 
 ;;------------------------------
 ;; pick next task
 ;;------------------------------
-(defn pick-next!
+(defn start-next!
   "Receives the path p and picks the next thing to do.
   p looks like this (must be a string):
   ```clojure
   
-  (pick-next \"se3-calib@container@0@ctrl\")
+  (start-next! \"se3-calib@container@0@ctrl\")
   ```"
-  [ctrl-path]
-  (let [state-ks (p->state-ks ctrl-path)
+  [p]
+  (let [ctrl-path (p->ctrl-k p)
+        state-ks (p->state-ks ctrl-path)
         state-map (ks->state-map state-ks)
         next-to-start (find-next state-map)]
     (cond
-      (errors?       state-map)     (set-ctrl! ctrl-path :error)
-      (all-executed? state-map)     (set-ctrl! ctrl-path :all-executed)
-      (nil?          next-to-start) (set-ctrl! ctrl-path :is-nil)
-      :else (a/>!! work/ctrl-chan (state-map->definition-key next-to-start)))))
+      (errors?       state-map)     (error-ctrl! ctrl-path)
+      (all-executed? state-map)     (all-exec-ctrl! ctrl-path)
+      (nil?          next-to-start) (nil-ctrl! ctrl-path)
+      :else (run!
+             (fn [m]
+               (a/>!! work/ctrl-chan (state-map->definition-key m))
+               (a/<!! (a/timeout 500)))
+             next-to-start))))
 
 ;;------------------------------
 ;; status 
@@ -291,6 +339,26 @@
        (p->state-ks)
        (ks->state-map)))
 
+
+;;------------------------------
+;; registered?, de-register
+;;------------------------------
+(defn register!
+  "Generates a `state` listener and registers him
+  under the key `mp-id` in the `listeners` atom.
+  The callback function is `start-next`."
+  [mp-id]
+  (cond
+    (registered? mp-id) (timbre/info "a state listener for "
+                                     mp-id
+                                     " is already registered!") 
+    :else (swap! listeners  assoc
+                 mp-id
+                 (st/gen-listener mp-id "state"
+                                  (fn
+                                    [msg]
+                                    (start-next! (st/msg->key msg)))))))
+
 ;;------------------------------
 ;; ctrl go block 
 ;;------------------------------
@@ -298,7 +366,8 @@
   (while true  
     (let [p (a/<! ctrl-chan)]
       (try
-        (pick-next! p)
+        (start-next! p)
+        (register! (u/key->mp-name p))
         (catch Exception e
           (timbre/error "catch error at channel " p)
           (a/>! excep-chan e))))))

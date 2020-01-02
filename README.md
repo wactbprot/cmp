@@ -2,38 +2,42 @@
 
 # cmp
 
-A study of an interpreter handling
-measurement-program-definitions (**mpd**)
-written in *clojure*. The complete
-state is kept in a **redis** database. 
+A study of an interpreter, handling
+measurement-program (**mp**) definitions
+(**mpd**) written in [clojure](https://clojure.org/).
 
-See the [documentation on github.io pages.](https://wactbprot.github.io/cmp/)
+The idea is that al of the `mp` state is kept in *redis*
+(and only there).
+
+**Hence:**
+* GUIs and other helpers just interact with the *redis key-value store* 
+* a stateful `mp` (a `mp` in time) should be portable to a
+different machine by porting the database and starting *cmp*.
+* lots of *redis* apps are useful in an undiscovered way
+
+See the [cmp documentation on github.io.](https://wactbprot.github.io/cmp/)
 
 ## config redis
 
-In `/etc/redis/redis.conf`:
+Since version 0.3.0 *cmp* relies on [Keyspace Notifications](https://redis.io/topics/notifications). Therefore it is necassary to swap:
+
+```shell
+notify-keyspace-events ""
+```
+
+by
+
 
 ```shell
 notify-keyspace-events AK
 ```
 
-and restart
+in the file `/etc/redis/redis.conf` and restart the service:
+
 
 ```shell
 sudo systemctl restart redis.service
 ```
-
-## redis gui
-
-* redis-commander
-
-```shell
-$ npm install -g redis-commander
-```
-
-https://github.com/joeferner/redis-commander
-http://localhost:8081/
-
 ## Usage
 
 REPL only
@@ -63,6 +67,18 @@ REPL only
     |
     +-->(status)
 ```
+
+## redis gui
+
+* redis-commander
+
+```shell
+$ npm install -g redis-commander
+```
+
+https://github.com/joeferner/redis-commander
+http://localhost:8081/
+
 
 ## (re)generate documentation
 
