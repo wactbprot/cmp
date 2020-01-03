@@ -21,7 +21,7 @@
             [ns-graph "0.1.3"]]
   :codox {:output-path "./docs"
           :themes [:rdash]
-          :metadata {:doc/format :markdown}
+          :metadata {:docs/format :markdown}
           :source-uri "https://github.com/wactbprot/cmp/blob/master/{filepath}#L{line}"}
   :ns-graph {:name "cmp"
              :abbrev-ns false
