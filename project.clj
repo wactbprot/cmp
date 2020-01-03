@@ -2,7 +2,7 @@
   :description "A study of an interpreter for measurement 
   program (mp) definitions (mpd) written in clojure."
   :url "https://github.com/wactbprot/cmp"
-  :dependencies [[org.clojure/clojure "1.10.1"]
+  :dependencies [[org.clojure/clojure "1.10.0"]
                  [org.clojure/core.async "0.4.490"]
                  [com.taoensso/carmine "2.19.1"]
                  [com.ashafa/clutch "0.4.0"]
@@ -20,7 +20,7 @@
   :plugins [[lein-codox "0.10.7"]
             [ns-graph "0.1.3"]]
   :codox {:output-path "./docs"
-          :doc-files ["./docs/graph.md", "./docs/notes.md"]
+          :doc-path "./docs"
           :themes [:rdash]
           :metadata {:doc/format :markdown}
           :source-uri "https://github.com/wactbprot/cmp/blob/master/{filepath}#L{line}"}

@@ -69,7 +69,7 @@
   [m s]
   (filter (fn [x] (= s (x :state))) m))
 
-(defn seq-idx->all-par-idx
+(defn seq-idx->all-par
   "Returns all `par` steps for a given
   state map `m` and `seq-idx`
 
@@ -82,7 +82,7 @@
    {:seq-idx 4, :par-idx 1, :state :executed}
    {:seq-idx 4, :par-idx 2, :state :ready}])
   
-  (seq-idx->all-par-idx m 4)
+  (seq-idx->all-par m 4)
   ({:seq-idx 4, :par-idx 0, :state :ready}
   {:seq-idx 4, :par-idx 1, :state :executed}
   {:seq-idx 4, :par-idx 2, :state :ready})
@@ -131,7 +131,7 @@
    {:seq-idx 4, :par-idx 0, :state :executed}
    {:seq-idx 4, :par-idx 0, :state :ready}])
 
-  (all-executed (seq-idx->all-par-idx m 4))
+  (all-executed (seq-idx->all-par m 4))
   ;; gives
   ;; ({:seq-idx 4, :par-idx 0, :state :executed})
 
@@ -168,7 +168,7 @@
   step `i-1` of `m`."
   [m i]
   (all-executed?
-   (seq-idx->all-par-idx m (- i 1))))
+   (seq-idx->all-par m (- i 1))))
 
 (defn find-next
   "The `find-next` function
@@ -239,7 +239,7 @@
     (cond
       (or
        (predecessor-executed? m seq-idx)
-       (= seq-idx 0)) (all-ready (seq-idx->all-par-idx m seq-idx))
+       (= seq-idx 0)) (all-ready (seq-idx->all-par m seq-idx))
       :else nil)))
 
 ;;------------------------------
@@ -303,7 +303,7 @@
       (errors?       state-map)     (error-ctrl! ctrl-path)
       (all-executed? state-map)     (all-exec-ctrl! ctrl-path)
       (nil?          next-to-start) (nil-ctrl! ctrl-path)
-      :else (do
+      :else (a/go
               (a/<!! (a/timeout 200))
               (a/>!! work/ctrl-chan (state-map->definition-key next-to-start))))))
 
