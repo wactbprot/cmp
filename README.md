@@ -4,7 +4,7 @@ A study of an interpreter, handling
 measurement-program (**mp**) definitions
 (**mpd**) written in [clojure](https://clojure.org/).
 
-The idea is that al of the `mp` state is kept in *redis*
+All of the `mp` state is kept in *redis*
 (and only there).
 
 **Hence:**
@@ -19,7 +19,9 @@ See the [cmp documentation on github.io.](https://wactbprot.github.io/cmp/)
 
 ![redis](docs/redis_logo.png)
 
-Since version 0.3.0 *cmp* relies on [Keyspace Notifications](https://redis.io/topics/notifications). Therefore it is necassary to swap:
+Since version 0.3.0 *cmp* relies on
+[Keyspace Notifications](https://redis.io/topics/notifications).
+Therefore it is necassary to swap:
 
 ```shell
 notify-keyspace-events ""
@@ -38,6 +40,17 @@ in the file `/etc/redis/redis.conf` and restart the service:
 ```shell
 sudo systemctl restart redis.service
 ```
+
+## redis gui
+
+* [RedisDesktopManager](https://github.com/uglide/RedisDesktopManager)
+* [redis-commander](https://github.com/joeferner/redis-commander)
+
+```shell
+$ npm install -g redis-commander
+## --> http://localhost:8081/
+```
+
 ## Usage
 
 ![redis](docs/clojure_logo.png)
@@ -70,17 +83,17 @@ sudo systemctl restart redis.service
     +-->(status)
 ```
 
-## redis gui
+Same as:
 
-* redis-commander
-
-```shell
-$ npm install -g redis-commander
 ```
-
-https://github.com/joeferner/redis-commander
-http://localhost:8081/
-
+ (workon!! mp-id)
+    _
+    |
+    +-->(ctrl! 0 "run")
+    |
+    |
+    +-->(status 0)
+```
 
 ## (re)generate documentation
 

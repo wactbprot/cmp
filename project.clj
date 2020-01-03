@@ -1,4 +1,4 @@
-(defproject cmp "0.4.1"
+(defproject cmp "0.4.2"
   :description "A study of an interpreter for measurement 
   program (mp) definitions (mpd) written in clojure."
   :url "https://github.com/wactbprot/cmp"
@@ -20,7 +20,7 @@
   :plugins [[lein-codox "0.10.7"]
             [ns-graph "0.1.3"]]
   :codox {:output-path "./docs"
-          :doc-files ["docs/graph.md", "docs/notes.md"]
+          :doc-files ["./docs/graph.md", "./docs/notes.md"]
           :themes [:rdash]
           :metadata {:doc/format :markdown}
           :source-uri "https://github.com/wactbprot/cmp/blob/master/{filepath}#L{line}"}
