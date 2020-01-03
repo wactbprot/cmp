@@ -10,6 +10,7 @@
             [cmp.build :as build]
             [cmp.check :as check]
             [cmp.ctrl :as ctrl]
+            [cmp.state :as state]
             [cmp.log :as log]
             [taoensso.timbre :as timbre])
   (:use [clojure.repl]))
@@ -210,3 +211,9 @@
    (timbre/info "clear " mp-id )
    (st/clear (utils/extr-main-path mp-id))
    (timbre/info "done  [" mp-id "]" )))
+
+(defn status
+  ([no]
+   (status (->mp-id) no))
+  ([mp-id no]
+   (state/status mp-id no)))

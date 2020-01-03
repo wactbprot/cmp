@@ -8,40 +8,38 @@
 
 (def conn (cfg/st-conn (cfg/config)))
 
-(defmacro wcar*
-  [& body]
-  `(car/wcar conn ~@body))
-
 (defn get-keys
+  "Get all keys matching  `p*`."
   [p]
-  (wcar* (car/keys (u/vec->key [p "*"]))))
+  (wcar conn  (car/keys (u/vec->key [p "*"]))))
 
 (defn del-keys!
   "Deletes all given keys (`ks`)."
   [ks]
   (run!
-   (fn [k] (wcar* (car/del k)))
+   (fn [k] (wcar conn (car/del k)))
    ks))
 
 (defn del-key!
   [k]
-  (wcar* (car/del k)))
+  (wcar conn (car/del k)))
   
 (defn set-val!
+  "Sets the value `v` for the key `k`."
   [k v]
-  (wcar* (car/set k v)))
+  (wcar conn (car/set k v)))
 
 (defn set-same-val!
   "Sets the given values (`val`) for all keys (`ks`)."
   [ks v]
   (run!
-   (fn [k] (wcar* (car/set k v)))
+   (fn [k] (wcar conn  (car/set k v)))
    ks))
 
 (defn key->val
   "Returns the value for the given key (`k`)."
   [k]
-  (wcar* (car/get k)))
+  (wcar conn (car/get k)))
  
 (defmulti clear
   "Clears the key `k`. If `k` is a vector `(u/vec->key k)`
@@ -80,18 +78,28 @@
   
 (defn gen-subs-pat
   "Generates subscribe patterns which matches
-  depending on  4th key level e.g.:
+  depending on:
 
+  **l2**
+
+  * `container`
+  * `definitions`
+
+  **l3**
+
+  * `0` ... `n`
+
+  **l4**
+  
   * `ctrl`
   * `state`
   * `definition`
   "
-  [mp-id level-4]
-  (str
-   "__keyspace@0*__:" mp-id
-   u/sep "*"
-   u/sep "*"
-   u/sep level-4 "*"))
+  [mp-id l2 l3 l4]
+  (str "__keyspace@0*__:" mp-id
+       u/sep l2
+       u/sep l3
+       u/sep l4 "*"))
 
 (defn gen-listener
   "Returns a listener for published keyspace
@@ -101,8 +109,8 @@
   ;; generate and close
   (close-listener! (gen-listener \"wait\" \"ctrl\" msg->key))
   ```"
-  [mp-id level4 cb]
-  (let [subs-pat (gen-subs-pat mp-id level4)]
+  [mp-id l2 l3 l4 cb]
+  (let [subs-pat (gen-subs-pat mp-id l2 l3 l4)]
     (car/with-new-pubsub-listener (:spec conn)
       {subs-pat cb}
       (car/psubscribe subs-pat))))  

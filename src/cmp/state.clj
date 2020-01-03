@@ -235,7 +235,6 @@
 (defn error-ctrl!
   "Sets the `ctrl` interface to `\"error`."
   [p]
-  (timbre/error "got errors under path: " p)
   (st/set-val! (p->ctrl-k p) "error"))
 
 (defn all-exec-ctrl!
@@ -245,35 +244,32 @@
   (let [ctrl-k (p->ctrl-k p)
         ctrl-str (->> ctrl-k
                       (st/key->val)
-                      (u/get-next-ctrl)
-                      keyword)
+                      (u/get-next-ctrl))
         state-ks (p->state-ks p)]
     (cond
-      (= ctrl-str :run) (do
-                          (timbre/info "all done at " ctrl-k
-                                       "will set ready")
+      (= ctrl-str "run") (do
                           (st/set-val! ctrl-k "ready")
                           (st/set-same-val! state-ks "ready")
-                          (reg/de-register! (u/key->mp-name p) "state"))
-      (= ctrl-str :mon) (do
-                          (timbre/info "all done at " p
-                                       "will keep mon")
+                          (reg/de-register! (u/key->mp-name p)
+                                            (u/key->struct p)
+                                            (u/key->no-idx p)
+                                            "state"))
+      (= ctrl-str "mon") (do
                           (st/set-same-val! state-ks "ready")
                           (st/set-val! ctrl-k "mon")))))
 
 (defn nil-ctrl!
   "Kind of `nop`."
-  [p]
-  (timbre/debug "no new task to start at path: " p))
+  [p])
 
 ;;------------------------------
 ;; pick next task
 ;;------------------------------
 (defn start-next!
   "Receives the path p and picks the next thing to do.
-  p looks like this (must be a string):
+  `p` looks like this (must be a string):
+
   ```clojure
-  
   (start-next! \"se3-calib@container@0@ctrl\")
   ```"
   [p]
@@ -295,20 +291,32 @@
 ;; start, stop
 ;;------------------------------
 (defn start
+  "Registers a listener with a [[start-next!]] callback.
+  Calls `start-next!` as a first trigger."
   [p]
-  (reg/register! (u/key->mp-name p) "state" (fn [msg]
-                                              (start-next! (st/msg->key msg))))
+  (reg/register! (u/key->mp-name p)
+                 (u/key->struct p)
+                 (u/key->no-idx p)
+                 "state"
+                 (fn [msg] (start-next! (st/msg->key msg))))
   (start-next! p))
 
 (defn stop
+  "De-registers the state listener."
   [p]
-  (reg/de-register! (u/key->mp-name p) "state"))
+  (reg/de-register! (u/key->mp-name p)
+                    (u/key->struct p)
+                    (u/key->no-idx p)
+                    "state"))
 
 ;;------------------------------
 ;; status 
 ;;------------------------------
 (defn status
-  [p]
-  (->> p
+  "Return the state map for the `n`th
+  container."
+  [mp-id n]
+  (->> [mp-id "container" n "state"]
+       (u/vec->key)
        (p->state-ks)
        (ks->state-map)))
