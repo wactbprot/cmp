@@ -18,7 +18,7 @@
   :target-path "target/%s"
   :plugins [[lein-codox "0.10.7"]
             [ns-graph "0.1.3"]]
-  :codox {:output-path "./doc"
+  :codox {:output-path "./docs"
           :themes [:rdash]
           :metadata {:doc/format :markdown}
           :source-uri "https://github.com/wactbprot/cmp/blob/master/{filepath}#L{line}"}
