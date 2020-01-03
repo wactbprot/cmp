@@ -3,6 +3,7 @@
     :doc "Observes the ctrl interface."}
   (:require [taoensso.timbre :as timbre]
             [cmp.st-mem :as st]
+            [clojure.core.async :as a]
             [cmp.reg :as reg]
             [cmp.state :as state]
             [cmp.utils :as u]))
@@ -24,11 +25,11 @@
                  (st/key->val)
                  (u/get-next-ctrl))]
     (cond
-      (= cmd "run")     (state/start p)
-      (= cmd "mon")     (state/start p)
-      (= cmd "suspend") (state/stop p)
+      (= cmd "run")     (a/>!! state/ctrl-chan [p "start"])
+      (= cmd "mon")     (a/>!! state/ctrl-chan [p "start"])
+      (= cmd "suspend") (a/>!! state/ctrl-chan [p "stop"])
       (= cmd "stop")    (do
-                          (state/stop p)
+                          (a/>!! state/ctrl-chan [p "stop"])
                           (stop mp-id))
       :default (timbre/debug "dispatch default branch for key: " p))))
 

@@ -217,3 +217,21 @@
    (status (->mp-id) no))
   ([mp-id no]
    (state/status mp-id no)))
+
+
+(defn workon!!
+  "Sets the mpd to work on, then starts:
+  `(clear)`, `(build)`, `(check)`  and `(start)`
+  
+  Usage:
+  
+  ```clojure
+  (workon!! 'se3-calib')
+  ```
+  "
+  [mp-id]
+  (workon! mp-id)
+  (clear)
+  (build)
+  (check)
+  (start))

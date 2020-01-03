@@ -9,6 +9,19 @@
             [cmp.reg :as reg]
             [cmp.task :as tsk]
             [cmp.utils :as u]))
+;;------------------------------
+;; exception channel 
+;;------------------------------
+(def excep-chan (a/chan))
+(a/go
+  (while true
+    (let [e (a/<! excep-chan)] 
+      (timbre/error (.getMessage e)))))
+
+;;------------------------------
+;; ctrl channel invoked by ctrl 
+;;------------------------------
+(def ctrl-chan (a/chan))
 
 (defn state-map->definition-key
   "Converts a state-map into a key."
@@ -248,15 +261,17 @@
         state-ks (p->state-ks p)]
     (cond
       (= ctrl-str "run") (do
-                          (st/set-val! ctrl-k "ready")
-                          (st/set-same-val! state-ks "ready")
-                          (reg/de-register! (u/key->mp-name p)
-                                            (u/key->struct p)
-                                            (u/key->no-idx p)
-                                            "state"))
+                           (timbre/info "all done at " p " (run branch)")
+                           (st/set-val! ctrl-k "ready")
+                           (st/set-same-val! state-ks "ready")
+                           (reg/de-register! (u/key->mp-name p)
+                                             (u/key->struct p)
+                                             (u/key->no-idx p)
+                                             "state"))
       (= ctrl-str "mon") (do
-                          (st/set-same-val! state-ks "ready")
-                          (st/set-val! ctrl-k "mon")))))
+                           (timbre/info "all done at " p " (run mon)")
+                           (st/set-same-val! state-ks "ready")
+                           (st/set-val! ctrl-k "mon")))))
 
 (defn nil-ctrl!
   "Kind of `nop`."
@@ -271,21 +286,24 @@
 
   ```clojure
   (start-next! \"se3-calib@container@0@ctrl\")
-  ```"
+  ```
+  
+  **NOTE:**
+
+  `start-next` only starts the first of
+  `(find-next state-map)` (the upcomming tasks)
+  since the workers set the state to `\"working\"`
+  which triggers the next call to `start-next`.
+  "
   [p]
   (let [ctrl-path (p->ctrl-k p)
-        state-ks (p->state-ks ctrl-path)
-        state-map (ks->state-map state-ks)
-        next-to-start (find-next state-map)]
+        state-map (ks->state-map (p->state-ks ctrl-path))
+        next-to-start (first (find-next state-map))]
     (cond
       (errors?       state-map)     (error-ctrl! ctrl-path)
       (all-executed? state-map)     (all-exec-ctrl! ctrl-path)
       (nil?          next-to-start) (nil-ctrl! ctrl-path)
-      :else (run!
-             (fn [m]
-               (a/>!! work/ctrl-chan (state-map->definition-key m))
-               (a/<!! (a/timeout 500)))
-             next-to-start))))
+      :else (a/>!! work/ctrl-chan (state-map->definition-key next-to-start)))))
 
 ;;------------------------------
 ;; start, stop
@@ -320,3 +338,18 @@
        (u/vec->key)
        (p->state-ks)
        (ks->state-map)))
+
+;;------------------------------
+;; ctrl go block 
+;;------------------------------
+(a/go
+  (while true  
+    (let [[k cmd] (a/<! ctrl-chan)]
+      (try
+        (timbre/debug "receive key " k "and" cmd)            
+        (cond
+          (= cmd "start") (start k)
+          (= cmd "stop") (stop k))
+        (catch Exception e
+          (timbre/error "catch error at channel " k)
+          (a/>! excep-chan e))))))

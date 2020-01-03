@@ -42,9 +42,10 @@
   [task state-key]
   (st/set-val! state-key "working")
   (a/go
-    (a/<! (a/timeout (u/val->int (task :WaitTime))))
-    (timbre/info "wait time over for " state-key)
-    (st/set-val! state-key "executed")))
+    (let [w (u/val->int (task :WaitTime))]
+    (a/<! (a/timeout w))
+    (timbre/info "wait time (" w "ms) over for " state-key)
+    (st/set-val! state-key "executed"))))
 
 ;;------------------------------
 ;; dispatch 
