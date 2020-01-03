@@ -1,3 +1,4 @@
+![cmp](cmp_logo.png)
 
 # ideas 
 

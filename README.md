@@ -1,4 +1,4 @@
-![cmp](./cmp_logo.png)
+![cmp](docs/cmp_logo.png)
 
 # cmp
 
@@ -19,7 +19,7 @@ See the [cmp documentation on github.io.](https://wactbprot.github.io/cmp/)
 
 ## config redis
 
-![redis](./redis_logo.png)
+![redis](docs/redis_logo.png)
 
 Since version 0.3.0 *cmp* relies on [Keyspace Notifications](https://redis.io/topics/notifications). Therefore it is necassary to swap:
 
@@ -42,7 +42,7 @@ sudo systemctl restart redis.service
 ```
 ## Usage
 
-![redis](./clojure_logo.png)
+![redis](docs/clojure_logo.png)
 
 **REPL only**
 

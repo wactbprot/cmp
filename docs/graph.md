@@ -1,4 +1,4 @@
-![clojure](../clojure_logo.png)
+![clojure](clojure_logo.png)
 
 # cmp ns-graph
 
