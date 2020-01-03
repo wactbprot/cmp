@@ -1,7 +1,5 @@
 ![cmp](docs/cmp_logo.png)
 
-# cmp
-
 A study of an interpreter, handling
 measurement-program (**mp**) definitions
 (**mpd**) written in [clojure](https://clojure.org/).
