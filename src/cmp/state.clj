@@ -303,7 +303,9 @@
       (errors?       state-map)     (error-ctrl! ctrl-path)
       (all-executed? state-map)     (all-exec-ctrl! ctrl-path)
       (nil?          next-to-start) (nil-ctrl! ctrl-path)
-      :else (a/>!! work/ctrl-chan (state-map->definition-key next-to-start)))))
+      :else (do
+              (a/<!! (a/timeout 200))
+              (a/>!! work/ctrl-chan (state-map->definition-key next-to-start))))))
 
 ;;------------------------------
 ;; start, stop
