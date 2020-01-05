@@ -1,18 +1,25 @@
 (ns cmp.worker.select
   ^{:author "wactbprot"
-    :doc "select a definition worker."}
+    :doc "Worker selects a definition frem the same `mp-id` 
+          by evaluating the related conditions."}
   (:require [taoensso.timbre :as timbre]
             [clojure.core.async :as a]
             [clojure.string :as string]
             [cmp.st-mem :as st]
             [cmp.utils :as u]))
 
+(defn get-comp-val
+  [k]
+  ;;let
+  (string/split (cond-m :ExchangePath) (re-pattern "\\.")))
+
 (defn cond-match?
   [k]
   (let [cond-m (u/json->map (st/key->val k))
-        [exch-p exch-t] (string/split (cond-m :ExchangePath) (re-pattern "\\."))
+        a      (cond-m :Value)
+        b      (get-comp-val comp-m)
         meth   (cond-m :Methode)
-        val    (cond-m :Value)]
+        
     ))
 
 (defn conds-match?
