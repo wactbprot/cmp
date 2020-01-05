@@ -7,7 +7,9 @@
 ;;------------------------------
 ;; listeners 
 ;;------------------------------
-(def listeners (atom {}))
+(def listeners
+  "Listener has the form `(atom {})`." 
+  (atom {}))
 
 ;;------------------------------
 ;;register!, registered?, de-register!
@@ -34,9 +36,11 @@
           (registered? reg-key) (timbre/info "a ctrl listener for "
                                              mp-id struct no op
                                              " is already registered!") 
-          :else (swap! listeners  assoc
-                       reg-key
-                       (st/gen-listener mp-id struct no op callback)))))
+          :else (do
+                  (swap! listeners assoc
+                         reg-key
+                         (st/gen-listener mp-id struct no op callback))
+                  (timbre/info "registered listener for: " mp-id struct no op)))))
 
 (defn de-register!
   "De-registers the listener with the
@@ -46,7 +50,8 @@
     (cond
       (registered? reg-key) (do
                               (st/close-listener! ((deref listeners) reg-key))
-                              (swap! listeners dissoc reg-key))
+                              (swap! listeners dissoc reg-key)
+                              (timbre/info "de-registered listener: " reg-key))
       :else (timbre/info "a ctrl listener for "
                          reg-key
                          " is not registered!"))))

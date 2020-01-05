@@ -24,13 +24,13 @@
 (def ctrl-chan (a/chan))
 
 (defn state-map->definition-key
-  "Converts a state-map into a key."
+  "Converts a `state-map` into a key."
   [m]
   (u/vec->key [(m :mp-name) (m :struct) (m :no-idx)
                "definition" (m :seq-idx) (m :par-idx)]))
 
 (defn state-key->state-map
-  "Converts a key in a state-map."
+  "Converts a key into a `state-map`."
   [k]
   {:mp-name (u/key->mp-name k)
    :struct (u/key->struct k)
@@ -41,15 +41,21 @@
 
 (defn ks->state-map
   "Builds the state map `m` belonging to a key set `ks`.
-  `m` is introduced in order to keep the functions testable." 
+  `m` is introduced in order to keep the functions testable.
+
+  
+  ```clojure
+  (ks->state-map (p->state-ks \"wait@container@0\"))
+  ```" 
   [ks]
-  (mapv
-   (fn [k]
-     (state-key->state-map k))
-   ks))
+  (mapv state-key->state-map ks))
 
 (defn p->state-ks
-  "Returns the state keys for a given path"
+  "Returns the state keys for a given path.
+
+  ```clojure
+  (p->state-ks \"wait@container@0\")
+  ```" 
   [p]
   (sort (st/get-keys
          (u/vec->key [(u/key->mp-name p)
@@ -58,7 +64,11 @@
                       "state"]))))
 
 (defn p->ctrl-k
-  "Returns the `ctrl` key for a given path `p`."
+  "Returns the `ctrl`-key for a given path `p`.
+
+  ```clojure
+  (p->ctrl-k \"wait@container@0@state@0@0\")
+  ```" 
   [p]
   (u/vec->key [(u/key->mp-name p)
                (u/key->struct p)
@@ -121,7 +131,8 @@
   (filter-state m :working))
 
 (defn all-executed
-  "Returns all-executed entrys of the given state-map.
+  "Returns all-executed entrys of the given `state-map`.
+
   ```clojure
   (def m
   [{:seq-idx 0, :par-idx 0, :state :ready}
@@ -186,8 +197,7 @@
   
   ;;  #'cmp.run/m
   cmp.run> (find-next m)
-  ;;  ({:seq-idx 0, :par-idx 0, :state :ready}
-  ;;   {:seq-idx 0, :par-idx 1, :state :ready})
+  ;;  {:seq-idx 0, :par-idx 0, :state :ready}
   cmp.run>   (def m
   [{:seq-idx 0, :par-idx 0, :state :working}
    {:seq-idx 0, :par-idx 1, :state :ready}
@@ -198,7 +208,7 @@
   
   ;;  #'cmp.run/m
   cmp.run> (find-next m)
-  ;;  ({:seq-idx 0, :par-idx 1, :state :ready})
+  ;;  {:seq-idx 0, :par-idx 1, :state :ready}
   cmp.run>   (def m
   [{:seq-idx 0, :par-idx 0, :state :working}
    {:seq-idx 0, :par-idx 1, :state :working}
@@ -220,7 +230,7 @@
   
   ;;  #'cmp.run/m
   cmp.run> (find-next m)
-  ;;  ({:seq-idx 1, :par-idx 0, :state :ready})
+  ;;  {:seq-idx 1, :par-idx 0, :state :ready}
   ```
   It should not crash on:
 
@@ -235,12 +245,13 @@
   ;; nil
   ```"
   [m]
-  (when-let [seq-idx ((next-ready m) :seq-idx)]
-    (cond
-      (or
-       (predecessor-executed? m seq-idx)
-       (= seq-idx 0)) (all-ready (seq-idx->all-par m seq-idx))
-      :else nil)))
+  (when-let [next-m (next-ready m)]
+    (when-let [i (next-m :seq-idx)]
+      (cond
+        (or
+         (= i 0)
+         (predecessor-executed? m i)) next-m
+        :else nil))))
 
 ;;------------------------------
 ;; set value at ctrl-path 
@@ -293,19 +304,18 @@
   `start-next` only starts the first of
   `(find-next state-map)` (the upcomming tasks)
   since the workers set the state to `\"working\"`
-  which triggers the next call to `start-next`.
-  "
+  which triggers the next call to `start-next`."
   [p]
-  (let [ctrl-path (p->ctrl-k p)
-        state-map (ks->state-map (p->state-ks ctrl-path))
-        next-to-start (first (find-next state-map))]
+  (let [ctrl-p  (p->ctrl-k p)
+        state-m (ks->state-map (p->state-ks ctrl-p))
+        next-m  (find-next state-m)]
     (cond
-      (errors?       state-map)     (error-ctrl! ctrl-path)
-      (all-executed? state-map)     (all-exec-ctrl! ctrl-path)
-      (nil?          next-to-start) (nil-ctrl! ctrl-path)
+      (errors?       state-m) (error-ctrl!    ctrl-p)
+      (all-executed? state-m) (all-exec-ctrl! ctrl-p)
+      (nil?          next-m)  (nil-ctrl!      ctrl-p)
       :else (a/go
-              (a/<!! (a/timeout 200))
-              (a/>!! work/ctrl-chan (state-map->definition-key next-to-start))))))
+              (a/<! (a/timeout 200))
+              (a/>! work/ctrl-chan (state-map->definition-key next-m))))))
 
 ;;------------------------------
 ;; start, stop

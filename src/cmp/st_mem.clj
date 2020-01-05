@@ -13,6 +13,11 @@
   [p]
   (wcar conn  (car/keys (u/vec->key [p "*"]))))
 
+(defn pat->keys
+  "Get all keys matching  the given `pat`."
+  [p]
+  (wcar conn  (car/keys p)))
+
 (defn del-keys!
   "Deletes all given keys (`ks`)."
   [ks]
