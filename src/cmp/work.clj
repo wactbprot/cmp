@@ -29,7 +29,7 @@
   (assoc 
    (->> k
         (st/key->val)
-        (u/gen-map)
+        (u/json->map)
         (tsk/gen-meta-task)
         (tsk/assemble))
    :StructKey k

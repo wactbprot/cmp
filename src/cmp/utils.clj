@@ -354,7 +354,9 @@
 ;; doc, json, map
 ;;------------------------------
 
-(defn gen-map [j]
+(defn json->map
+  "Transforms a json object to a map"
+  [j]
   (json/read-str j :key-fn keyword))
 
 (defn doc->safe-doc
@@ -362,7 +364,7 @@
   since `:%kw` is a valid keyword, `:@kw` is not valid
   or at least problematic"  
   [doc]
-  (gen-map (string/replace (json/write-str doc) (re-pattern "@") "%")))
+  (json->map (string/replace (json/write-str doc) (re-pattern "@") "%")))
 
 
 ;;------------------------------

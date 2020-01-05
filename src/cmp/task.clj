@@ -1,10 +1,8 @@
 (ns cmp.task
   ^{:author "wactbprot"
-    :doc "Builds up the short term 
-          memory with given the mp-definition."}
+    :doc "Spec for tasks."}
   (:require [clojure.spec.alpha :as s]
             [taoensso.timbre :as log]
-            [clojure.data.json :as json]
             [clojure.walk :as walk]
             [clojure.string :as string]
             [cmp.utils :as u]
@@ -74,7 +72,7 @@
   [m task]
   (let [task-s (u/gen-value task)
         re-k (u/gen-re-from-map-keys m)]
-    (u/gen-map (string/replace task-s re-k m))))
+    (u/json->map (string/replace task-s re-k m))))
 
 (defn extract-use-value
   [task m k]

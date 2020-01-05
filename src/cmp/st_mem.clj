@@ -34,6 +34,21 @@
   [k v]
   (wcar conn (car/set k v)))
 
+(defn get-keys-where-val
+  "Returns all keys belonging to `pat` where the
+  value is `val`.
+
+  ```clojure
+  (get-keys-where-val \"wait@definitions@*@class\" \"wait\")
+  ;; (\"wait@definitions@0@class\"
+  ;; \"wait@definitions@2@class\"
+  ;; \"wait@definitions@1@class\")
+  ```
+  "
+  [pat val]
+  (filter (fn [k] (= (key->val k) val))
+          (pat->keys pat)))
+
 (defn set-same-val!
   "Sets the given values (`val`) for all keys (`ks`)."
   [ks v]
