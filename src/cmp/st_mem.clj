@@ -34,6 +34,20 @@
   [k v]
   (wcar conn (car/set k v)))
 
+
+
+(defn set-same-val!
+  "Sets the given values (`val`) for all keys (`ks`)."
+  [ks v]
+  (run!
+   (fn [k] (wcar conn  (car/set k v)))
+   ks))
+
+(defn key->val
+  "Returns the value for the given key (`k`)."
+  [k]
+  (wcar conn (car/get k)))
+
 (defn get-keys-where-val
   "Returns all keys belonging to `pat` where the
   value is `val`.
@@ -49,18 +63,6 @@
   (filter (fn [k] (= (key->val k) val))
           (pat->keys pat)))
 
-(defn set-same-val!
-  "Sets the given values (`val`) for all keys (`ks`)."
-  [ks v]
-  (run!
-   (fn [k] (wcar conn  (car/set k v)))
-   ks))
-
-(defn key->val
-  "Returns the value for the given key (`k`)."
-  [k]
-  (wcar conn (car/get k)))
- 
 (defmulti clear
   "Clears the key `k`. If `k` is a vector `(u/vec->key k)`
   is used for the conversion to a string."

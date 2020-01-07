@@ -8,27 +8,27 @@
             [cmp.st-mem :as st]
             [cmp.utils :as u]))
 
-(defn get-comp-val
+(defn get-comp-path
   [mp-id s]
-  (let [[l0 l1 l2] (string/split s (re-pattern "\\."))]
+  (let [[l0 l1] (string/split s (re-pattern "\\."))]
     (cond
-      (not (nil? l2)) l2
-      (not (nil? l1)) l1
-      :else (timbre/error "unvalid exchange path structure")))
+      (not (nil? l1)) (u/json->map (st/key->val (u/vec->key [mp-id "exchange" "l0"])))
+      (not (nil? l0)) (st/key->val (u/vec->key [mp-id "exchange" "l0"]))
+      :else (timbre/error "unvalid exchange path structure"))))
 
 (defn cond-match?
   [mp-id k]
   (let [cond-m (u/json->map (st/key->val k))
-        a      (get-comp-val mp-id (cond-m :ExchangePath))
+        a      (get-comp-path mp-id (cond-m :ExchangePath))
         b      (cond-m :Value)
-        meth   (cond-m :Methode)
+        meth   (cond-m :Methode)]
         
     ))
 
 (defn conds-match?
   [mp-id k]
   (let [mp-id    (u/key->mp-name k)
-        exch-ks  (st/pat->keys (u/vec->key [mp-id "exchange" "*"]))
+        exch-ks  (st/pat->keys (u/vec->key))
         cond-ks  (st/pat->keys (u/replace-key-at-level 3 k "cond@*"))]
     (filter cond-match? cond-ks)))
 
