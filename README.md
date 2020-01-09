@@ -32,18 +32,23 @@ by
 
 ```shell
 notify-keyspace-events AK
+
 ```
 
 in the file `/etc/redis/redis.conf` and restart the service:
 
 
 ```shell
+# restart
 sudo systemctl restart redis.service
+
+# check state
+sudo systemctl status redis.service
 ```
 
 ## redis gui
 
-* [RedisDesktopManager](https://github.com/uglide/RedisDesktopManager)
+* [RedisDesktopManager](https://github.com/uglide/RedisDesktopManager) `sudo snap install redis-desktop-manager`
 * [redis-commander](https://github.com/joeferner/redis-commander)
 
 ```shell
