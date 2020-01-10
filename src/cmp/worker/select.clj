@@ -39,12 +39,29 @@
   ;; todo
   )
 
-(defn get-exch-val
-  [k  kw]
-  ;; todo
-  )
+(defmulti get-nested-val
+  "Returns the value belonging to key `k`.
+  If the *keyword* `kw` is not `nil` it is
+  used to extract the related value.
+
+  ```clojure
+  (get-nested-val \"se3-calib@definitions@26@cond@0\" :Value)
+  ;; \"f_l\"
+  ```"
+  (fn [k kw] (nil? kw)))
+
+(defmethod get-nested-val true
+  [k kw]
+  (st/key->val k))
+
+(defmethod get-nested-val false
+  [k kw]
+  ((u/json->map (st/key->val k)) kw))
+
 
 (defn conds-match?
+  "Gathers all information for the given
+  definitions key"
   [k]
   (let [mp-id    (u/key->mp-name k)
         exch-ks  (st/pat->keys (u/vec->key))
@@ -57,7 +74,7 @@
              exch-p    (cond-m :ExchangePath)
              exch-k    (get-exch-path mp-id exch-p)
              exch-kw   (get-exch-kw  exch-p)
-             b  (get-exch-val exch-p exch-kw)]
+             b  (get-nested-val exch-p exch-kw)]
          
          (cond-match? a b meth)))
      cond-ks)))

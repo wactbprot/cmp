@@ -366,7 +366,6 @@
   [doc]
   (json->map (string/replace (json/write-str doc) (re-pattern "@") "%")))
 
-
 ;;------------------------------
 ;; ctrl endpoint -> poll and run
 ;;------------------------------
