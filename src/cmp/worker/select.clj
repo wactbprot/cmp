@@ -1,6 +1,6 @@
 (ns cmp.worker.select
   ^{:author "wactbprot"
-    :doc "Worker selects a definition frem the same `mp-id` 
+    :doc "Worker selects a definition from the same `mp-id` 
           by evaluating the related conditions."}
   (:require [taoensso.timbre :as timbre]
             [clojure.core.async :as a]
@@ -18,8 +18,10 @@
   ```
   "
   [mp-id s]
-  (let [[x _] (string/split s (re-pattern "\\."))]
-    (u/vec->key [mp-id "exchange" x])))
+  (u/vec->key
+   [mp-id
+    "exchange"
+    (first (string/split s (re-pattern "\\.")))]))
 
 (defn get-exch-kw
   "Returns the keyword or nil.
@@ -30,9 +32,8 @@
   ;; :bar
   ```" 
   [s]
-  (let [[_ x] (string/split s (re-pattern "\\."))] 
-    (cond
-      (not (nil? x)) (keyword x))))
+  (if-let [x (second (string/split s (re-pattern "\\.")))] 
+    (keyword x)))
 
 (defn cond-match?
   [a b meth]
@@ -64,17 +65,16 @@
   definitions key"
   [k]
   (let [mp-id    (u/key->mp-name k)
-        exch-ks  (st/pat->keys (u/vec->key))
         cond-ks  (st/pat->keys (u/replace-key-at-level 3 k "cond@*"))]
     (filter
      (fn [k]
-       (let [cond-m (u/json->map (st/key->val k))
+       (let [cond-m    (u/json->map (st/key->val k))
              a         (cond-m :Value)
              meth      (cond-m :Methode)
              exch-p    (cond-m :ExchangePath)
              exch-k    (get-exch-path mp-id exch-p)
              exch-kw   (get-exch-kw  exch-p)
-             b  (get-nested-val exch-p exch-kw)]
+             b         (get-nested-val exch-p exch-kw)]
          
          (cond-match? a b meth)))
      cond-ks)))
