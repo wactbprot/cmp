@@ -96,11 +96,29 @@
    (timbre/info "build " mp-id)
    (->> mp-id
         (utils/compl-main-path)
-        (lt/get-doc)
+        (lt/id->doc)
         (utils/doc->safe-doc)
         (build/store))
    (timbre/info "done  [" mp-id "]" )))
 
+(defn build-ref
+ "Builds up a reference or example structure
+  for testing and documentation 
+  (`./recources/ref-mpd.edn`).
+
+  ```clojure
+  (ref-build)
+  ;; (\"OK\" \"OK\" \"OK\")
+  ;;
+  ;; complete file:
+  (read-string
+   (slurp \"resources/ref-mpd.edn\"))
+  ```
+  "
+ []
+ (build/store
+  (read-string
+   (slurp "resources/ref-mpd.edn"))))
 
 ;;------------------------------
 ;; documents

@@ -11,8 +11,8 @@
 
 (defn base-info
   [doc]
-  {:doc-version (lt/get-doc-version doc)
-   :doc-id (lt/get-doc-id doc)})
+  {:doc-version (lt/doc->version doc)
+   :doc-id (lt/doc->id doc)})
 
 (defn extr-doc-type
   "Extracts the document type. Assumes the
@@ -51,15 +51,15 @@
          :doc-type "default"))
 
 (defn add
-  [p doc-id]
-  (let [path (u/get-id-path p doc-id)
-        doc (lt/get-doc doc-id)
+  [p id]
+  (let [path (u/get-id-path p id)
+        doc  (lt/id->doc id)
         info (extr-info doc (base-info doc))]
     (st/set-val! path (u/gen-value info))))
 
 (defn del
-  [p doc-id]
-  (st/del-key! (u/get-id-path p doc-id)))
+  [p id]
+  (st/del-key! (u/get-id-path p id)))
 
 (defn get-ids
   [p]

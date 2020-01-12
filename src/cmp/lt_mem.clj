@@ -7,14 +7,13 @@
 
 (def conn (cfg/lt-conn (cfg/config)))
 
-(defn get-doc
+(defn id->doc
   [id]
   (timbre/debug "try to get document with id: " id)
   (try
     (couch/get-document conn id)
-    (catch Exception ex
-      (timbre/error (.getMessage ex))
-      nil)))
+    (catch Exception e
+      (timbre/error (.getMessage e)))))
 
 (defn get-task-view
   [{task-name :TaskName}]
@@ -22,10 +21,10 @@
   (first
    (couch/get-view conn "dbmp" "tasks" {:key task-name})))
 
-(defn get-doc-version
+(defn doc->version
   [{rev :_rev}]
   (first (string/split rev  #"-")))
 
-(defn get-doc-id
+(defn doc->id
   [{id :_id}]
   id)

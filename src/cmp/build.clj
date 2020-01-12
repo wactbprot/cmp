@@ -130,7 +130,7 @@
   (store ((meta (var store)) :example-input))
   ```"
   {:example-input (read-string
-                   (slurp "resources/mpd-reference.edn"))}
+                   (slurp "resources/ref-mpd.edn"))}
   [{id :_id rev :_rev mp :Mp}]
   (let [p (u/extr-main-path id)]
     (st/clear (u/get-meta-prefix p))

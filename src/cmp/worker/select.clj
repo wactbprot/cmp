@@ -18,6 +18,7 @@
   ```
   "
   [mp-id s]
+  {:pre [(not (nil? s))]}
   (u/vec->key
    [mp-id
     "exchange"
@@ -25,59 +26,81 @@
 
 (defn get-exch-kw
   "Returns the keyword or nil.
-    ```clojure
+
+  ```clojure
   (get-exch-kw \"foo\" )
   ;; nil
   (get-exch-kw \"foo.bar\" )
   ;; :bar
-  ```" 
+  ```"
+  
   [s]
   (if-let [x (second (string/split s (re-pattern "\\.")))] 
     (keyword x)))
 
-(defn cond-match?
-  [a b meth]
-  ;; todo
-  )
-
-(defmulti get-nested-val
-  "Returns the value belonging to key `k`.
+  (defmulti get-comp-val
+  "Returns the *compare value* belonging to key `k`.
   If the *keyword* `kw` is not `nil` it is
   used to extract the related value.
 
   ```clojure
-  (get-nested-val \"se3-calib@definitions@26@cond@0\" :Value)
-  ;; \"f_l\"
+  (get-comp-val \"ref@definitions@0@cond@0\" :Value)
+  ;; \"Pa\"
   ```"
   (fn [k kw] (nil? kw)))
 
-(defmethod get-nested-val true
+(defmethod get-comp-val true
   [k kw]
   (st/key->val k))
 
-(defmethod get-nested-val false
+(defmethod get-comp-val false
   [k kw]
   ((u/json->map (st/key->val k)) kw))
 
+(defn cond-match?
+  "
+  ```clojure
+  ;; one condition looks like this:
+  (u/json->map (st/key->val \"ref@definitions@0@cond@0\"))
+  {:ExchangePath \"A.Unit\", :Methode \"eq\", :Value \"Pa\"}
+  ```
+  "
+  [k]
+  (let [mp-id     (u/key->mp-name k)
+        cond-m    (u/json->map (st/key->val k))
+        b         (cond-m :Value)
+        meth      (cond-m :Methode)
+        exch-p    (cond-m :ExchangePath)
+        exch-k    (get-exch-path mp-id exch-p)
+        exch-kw   (get-exch-kw  exch-p)
+        a         (get-comp-val exch-k exch-kw)]
+    (cond
+      (= meth "eq") (= a b)
+      (= meth "lt") (< (u/val->int a) (u/val->int b))
+      (= meth "gt") (> (u/val->int a) (u/val->int b)))))
 
 (defn conds-match?
   "Gathers all information for the given
-  definitions key"
+  definitions key comparison and checks
+  all of the found conditions.
+  
+  ```clojure
+  (conds-match? \"ref@definitions@0@class\")
+  ;; false
+  (conds-match? \"ref@definitions@1@class\")
+  ;; true
+
+  ```
+  "
   [k]
   (let [mp-id    (u/key->mp-name k)
-        cond-ks  (st/pat->keys (u/replace-key-at-level 3 k "cond@*"))]
-    (filter
-     (fn [k]
-       (let [cond-m    (u/json->map (st/key->val k))
-             a         (cond-m :Value)
-             meth      (cond-m :Methode)
-             exch-p    (cond-m :ExchangePath)
-             exch-k    (get-exch-path mp-id exch-p)
-             exch-kw   (get-exch-kw  exch-p)
-             b         (get-nested-val exch-p exch-kw)]
-         
-         (cond-match? a b meth)))
-     cond-ks)))
+        no-idx   (u/key->no-idx k)
+        k-pat    (u/vec->key [mp-id "definitions" no-idx "cond@*"])
+        cond-ks  (st/pat->keys k-pat)
+        match-ks (filter cond-match? cond-ks)] 
+    (=
+     (count cond-ks)
+     (count match-ks))))
 
 (defn select-definition!
   "Selects and runs a `Definition` from the `Definitions`
@@ -85,11 +108,9 @@
   
   ```clojure
   (select-definition! {:Action select
-                       :Break no,
                        :TaskName Common-select_definition,
-                       :DefinitionClass wait
-                       :Replace {%definitionclass wait}} \"testpath\"
-  ```"
+                       :DefinitionClass wait} \"teststate\"
+  ```" 
   [task state-key]
   (st/set-val! state-key "working")
   (let [mp-id     (u/key->mp-name state-key)
