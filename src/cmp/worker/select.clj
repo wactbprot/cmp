@@ -10,6 +10,7 @@
 
 (defn get-exch-path
   "Returns the base key for the exchange path.
+
   ```clojure
   (get-exch-path  \"foo\" \"bar.baz\")
   ;; \"foo@exchange@bar\"
@@ -19,10 +20,7 @@
   "
   [mp-id s]
   {:pre [(not (nil? s))]}
-  (u/vec->key
-   [mp-id
-    "exchange"
-    (first (string/split s (re-pattern "\\.")))]))
+  (u/vec->key [mp-id "exchange" (first (string/split s (re-pattern "\\.")))]))
 
 (defn get-exch-kw
   "Returns the keyword or nil.
@@ -58,7 +56,9 @@
   ((u/json->map (st/key->val k)) kw))
 
 (defn cond-match?
-  "
+  "Tests a single condotion of the form defined in
+  the `definitions` section.
+  
   ```clojure
   ;; one condition looks like this:
   (u/json->map (st/key->val \"ref@definitions@0@cond@0\"))

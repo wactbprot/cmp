@@ -15,7 +15,6 @@ different machine by porting the database and starting *cmp*.
 
 See the [cmp documentation on github.io.](https://wactbprot.github.io/cmp/)
 
-## config redis
 
 ![redis](docs/redis_logo.png)
 
@@ -56,48 +55,53 @@ $ npm install -g redis-commander
 ## --> http://localhost:8081/
 ```
 
-## Usage
 
-![redis](docs/clojure_logo.png)
+![clojure](docs/clojure_logo.png)
+
+Visit a documented reference `mpd` at
+[resources/ref-mpd.edn](./resources/ref-mpd.edn).
+This `mpd` can be used as a example by:
+
+```clojure
+(build-ref)
+```
 
 **REPL only**
 
-```
- (workon! mp-id)
-    _
-    |
-    v
-  (clear)
-    _
-    |
-    v
-  (build)
-    _
-    |
-    v
-  (check)
-    _
-    |
-    v
-  (start)
-    _
-    |
-    +-->(ctrl! 0 "run")
-    |
-    |
-    +-->(status)
+```clojure
+(workon! mp-id)
+;   _
+;   |
+;   v
+(clear)
+;   _
+;   |
+;   v
+(build)
+;   _
+;   |
+;   v
+(check)
+;   _
+;   |
+;   v
+(start)
+;   _
+;   |
+;   v
+(ctrl! 0 "run")
+;   :
+;   :
+;   :
+(status)
 ```
 
 Same as:
 
-```
- (workon!! mp-id)
-    _
-    |
-    +-->(ctrl! 0 "run")
-    |
-    |
-    +-->(status 0)
+```clojure
+(workon!! mp-id)
+(ctrl! 0 "run")
+(status)
 ```
 
 ## (re)generate documentation
