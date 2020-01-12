@@ -1,26 +1,20 @@
 ![cmp](docs/cmp_logo.png)
 
-A study of an interpreter, handling
-measurement-program (**mp**) definitions
+A study of an interpreter handling
+measurement program definitions
 (**mpd**) written in [clojure](https://clojure.org/).
 
-All of the `mp` state is kept in *redis*
-(and only there).
+All of the `mp` state is kept in a **redis** database.
 
-**Hence:**
-* GUIs and other helpers just interact with the *redis key-value store* 
-* a stateful `mp` (a `mp` in time) should be portable to a
-different machine by porting the database and starting *cmp*.
-* lots of *redis* apps are useful in an undiscovered way
-
-See the [cmp documentation on github.io.](https://wactbprot.github.io/cmp/)
-
+The program api is documented at the 
+[github.io](https://wactbprot.github.io/cmp/)
+page.
 
 ![redis](docs/redis_logo.png)
 
 Since version 0.3.0 *cmp* relies on
 [Keyspace Notifications](https://redis.io/topics/notifications).
-Therefore it is necassary to swap:
+Therefore it is necassary to replace in `/etc/redis/redis.conf`:
 
 ```shell
 notify-keyspace-events ""
@@ -34,7 +28,7 @@ notify-keyspace-events AK
 
 ```
 
-in the file `/etc/redis/redis.conf` and restart the service:
+and restart the service:
 
 
 ```shell
