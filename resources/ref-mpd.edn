@@ -6,8 +6,8 @@
   :Name "wait",
   :Description "Simple measurement programm definition (mpd).",
   :Standard "NN"
-  ;; endpoint for exchanging data and
-  ;; information:
+  ;; Endpoint for exchanging data and information.
+  ;; Internal and external use is intendet. 
   :Exchange {
              ;; one level deep nested values ..
              :A {:Unit "Pa", :Value 100}
@@ -15,21 +15,26 @@
              :B "token"}
   :Container
   [
-   ;; first container
+   ;; Containers are fixed sequences of things to do. 
+   ;; In opposit to definitions containers have no conditions structure.
+   ;; First container:
    {:Description "Container just waits parallel and sequential.",
-    ;; The ctrl endpoint of the first container
-    ;; all values are ok, start, stop and mon will start stop and mon
-    ;; (relaunch the container if all tasks are executed)
+    ;; The ctrl endpoint of the first container.
+    ;; All values are ok. The values start, stop and mon will start stop and mon.
+    ;; mon ... relaunch the container if all tasks are executed
+    ;; void ... just some value (as good as foo or bar), causes no action.
     :Ctrl "void",
     :Title "Simple wait",
-    ;; Element can be used (actual inteded) to filter
+    ;; Element is inteded for filtering the exchange interface:
     ;; which elements should be vissible at a gui of this
     ;; container
     :Element ["A"],
-    ;; The defilition of what schould happen after what. 
+    ;; The defilition of what schould happen after what.
+    ;; The "array of arrays"-structure controlls what happens 
+    ;; parallel and what sequential.
     :Definition
-    [;; First: start a wait task with 3000 ms waittime
-     ;; at the same time start a wait task with 3000 ms waittime
+    [;; First: start a wait task with 3000 ms waittime.
+     ;; At the same time start a wait task with 3000 ms waittime.
      [{:TaskName "Common-wait", :Replace {:%waittime 3000}}
       {:TaskName "Common-wait", :Replace {:%waittime 4000}}]
      ;; After first step is executed: start 4 wait tasks 
