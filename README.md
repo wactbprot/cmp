@@ -10,7 +10,8 @@ The program api is documented at the
 [github.io](https://wactbprot.github.io/cmp/)
 page.
 
-![redis](docs/redis_logo.png)
+
+# Config (Redis)
 
 Since version 0.3.0 *cmp* relies on
 [Keyspace Notifications](https://redis.io/topics/notifications).
@@ -49,9 +50,7 @@ $ npm install -g redis-commander
 ## --> http://localhost:8081/
 ```
 
-
-![clojure](docs/clojure_logo.png)
-
+# Usage
 
 User interaction with *cmp* is **REPL only** so far.
 
@@ -69,6 +68,9 @@ Build check and start with:
 (check)
 (start)
 (ctrl! 0 "run")
+```
+
+```Access log
 ;; ... :48 hiob INFO [cmp.core:187] - push cmd to: ref
 ;; ... :48 hiob INFO [cmp.core:190] - done  [ ref ]
 ;; ... :48 hiob DEBUG [cmp.state:361] - receive key  ref@container@0@ctrl and start
