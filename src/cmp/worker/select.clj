@@ -118,5 +118,6 @@
         def-ks    (u/vec->key [mp-id "definitions" "*" "class"])
         match-ks  (st/get-keys-where-val def-ks def-cls)
         match-k   (first (filter conds-match? match-ks))]
+    (println match-ks)
     (println match-k)
     (st/set-val! state-key "executed")))
