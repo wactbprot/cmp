@@ -6,7 +6,6 @@
             [clojure.core.async :as a]
             [cmp.st-mem :as st]
             [cmp.work :as work]            
-            [cmp.reg :as reg]
             [cmp.task :as tsk]
             [cmp.utils :as u]))
 ;;------------------------------
@@ -265,7 +264,7 @@
   "Handels the case where all `state` interfaces
   are `\"executed\"`."
   [p]
-  (let [ctrl-k (p->ctrl-k p)
+  (let [ctrl-k   (p->ctrl-k p)
         ctrl-str (->> ctrl-k
                       (st/key->val)
                       (u/get-next-ctrl))
@@ -275,7 +274,7 @@
                            (timbre/info "all done at " p " (run branch)")
                            (st/set-val! ctrl-k "ready")
                            (st/set-same-val! state-ks "ready")
-                           (reg/de-register! (u/key->mp-name p)
+                           (st/de-register! (u/key->mp-name p)
                                              (u/key->struct p)
                                              (u/key->no-idx p)
                                              "state"))
@@ -324,7 +323,7 @@
   "Registers a listener with a [[start-next!]] callback.
   Calls `start-next!` as a first trigger."
   [p]
-  (reg/register! (u/key->mp-name p)
+  (st/register! (u/key->mp-name p)
                  (u/key->struct p)
                  (u/key->no-idx p)
                  "state"
@@ -334,7 +333,7 @@
 (defn stop
   "De-registers the state listener."
   [p]
-  (reg/de-register! (u/key->mp-name p)
+  (st/de-register! (u/key->mp-name p)
                     (u/key->struct p)
                     (u/key->no-idx p)
                     "state"))

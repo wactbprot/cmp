@@ -109,13 +109,14 @@
   ```clojure
   (select-definition! {:Action select
                        :TaskName Common-select_definition,
-                       :DefinitionClass wait} \"teststate\"
+                       :DefinitionClass wait} \"teststate\")
   ```" 
   [task state-key]
   (st/set-val! state-key "working")
   (let [mp-id     (u/key->mp-name state-key)
         def-cls   (task :DefinitionClass)
         def-ks    (u/vec->key [mp-id "definitions" "*" "class"])
-        match-ks  (st/get-keys-where-val def-ks def-cls)]
-    (filter conds-match? match-ks)
+        match-ks  (st/get-keys-where-val def-ks def-cls)
+        match-k   (first (filter conds-match? match-ks))]
+    (println match-k)
     (st/set-val! state-key "executed")))

@@ -81,9 +81,13 @@
        (get-keys)
        (del-keys!)))
 
+
+;;------------------------------
+;; keyspace notification
+;;------------------------------
 (defn msg->key
   "Extracts the key from a published keyspace
-  notification message.
+  notification message (`pmessage`).
 
   ```clojure
   (def msg [\"pmessage\"
@@ -101,14 +105,14 @@
 (defn gen-subs-pat
   "Generates subscribe patterns which matches
   depending on:
-
+  
   **l2**
-
+  
   * `container`
   * `definitions`
-
+  
   **l3**
-
+  
   * `0` ... `n`
 
   **l4**
@@ -148,3 +152,55 @@
   ```"
   [l]
   (car/close-listener l))
+
+;;------------------------------
+;; listeners 
+;;------------------------------
+(def listeners
+  "Listener has the form `(atom {})`." 
+  (atom {}))
+
+;;------------------------------
+;;register!, registered?, de-register!
+;;------------------------------
+(defn gen-reg-key
+  "generates a registration key for the listener atom."
+  [mp-id struct no op]
+  (str mp-id "_" struct "_" no "_" op))
+
+(defn registered?
+  "Checks if a `listener` is registered under
+  the `listeners`-atom."
+  [reg-key]
+  (contains? (deref listeners) reg-key))
+
+(defn register!
+  "Generates a `ctrl` listener and registers him
+  under the key `mp-id` in the `listeners` atom.
+  The callback function dispatches depending on
+  the result."
+  [mp-id struct no op callback]
+  (let [reg-key (gen-reg-key mp-id struct no op)]
+        (cond
+          (registered? reg-key) (timbre/info "a ctrl listener for "
+                                             mp-id struct no op
+                                             " is already registered!") 
+          :else (do
+                  (swap! listeners assoc
+                         reg-key
+                         (gen-listener mp-id struct no op callback))
+                  (timbre/info "registered listener for: " mp-id struct no op)))))
+
+(defn de-register!
+  "De-registers the listener with the
+  key `mp-id` in the `listeners` atom."
+  [mp-id struct no op]
+  (let [reg-key (gen-reg-key mp-id struct no op)]
+    (cond
+      (registered? reg-key) (do
+                              (close-listener! ((deref listeners) reg-key))
+                              (swap! listeners dissoc reg-key)
+                              (timbre/info "de-registered listener: " reg-key))
+      :else (timbre/info "a ctrl listener for "
+                         reg-key
+                         " is not registered!"))))
