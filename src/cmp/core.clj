@@ -5,10 +5,11 @@
           interfaces should attache to the **short term memory**."}
   (:require [cmp.lt-mem :as lt]
             [cmp.st-mem :as st]
-            [cmp.utils :as utils]
+            [clojure.core.async :as a]
+            [cmp.utils :as u]
             [cmp.doc :as doc]
-            [cmp.build :as build]
-            [cmp.check :as check]
+            [cmp.build :as bld]
+            [cmp.check :as chk]
             [cmp.ctrl :as ctrl]
             [cmp.state :as state]
             [cmp.log :as log]
@@ -95,10 +96,10 @@
   ([mp-id]
    (timbre/info "build " mp-id)
    (->> mp-id
-        (utils/compl-main-path)
+        (u/compl-main-path)
         (lt/id->doc)
-        (utils/doc->safe-doc)
-        (build/store))
+        (u/doc->safe-doc)
+        (bld/store))
    (timbre/info "done  [" mp-id "]" )))
 
 (defn build-ref
@@ -116,7 +117,7 @@
   ```
   "
  []
- (build/store
+ (bld/store
   (read-string
    (slurp "resources/ref-mpd.edn"))))
 
@@ -126,35 +127,37 @@
 (defn doc-add
   "Adds a doc to the api to store the resuls in. (untested)"
   [doc-id]
-  (doc/add (utils/extr-main-path (->mp-id)) doc-id))
+  (doc/add (u/extr-main-path (->mp-id)) doc-id))
 
 (defn doc-del
   "Removes a doc from the api. (untested)"
   [doc-id]
-  (doc/del (utils/extr-main-path (->mp-id)) doc-id))
+  (doc/del (u/extr-main-path (->mp-id)) doc-id))
 
 ;;------------------------------
 ;; check mp tasks
 ;;------------------------------
 (defn check
   "Check the tasks of the `container` and
-  `definitions` structure. "
+  `definitions` structure. *cmp* does not preload
+  the tasks, they are loaded from the `lt-mem`
+  during runtime."
   ([]
    (check (->mp-id)))
   ([mp-id]
    (timbre/info "check: " mp-id)
-   (let [p (utils/extr-main-path mp-id)
-         k-ncont (utils/get-meta-ncont-path p)
-         n-cont (utils/val->int (st/key->val k-ncont))
-         k-ndefins (utils/get-meta-ndefins-path p)
-         n-defins (utils/val->int (st/key->val k-ndefins))]
+   (let [p         (u/extr-main-path mp-id)
+         k-ncont   (u/get-meta-ncont-path p)
+         n-cont    (u/val->int (st/key->val k-ncont))
+         k-ndefins (u/get-meta-ndefins-path p)
+         n-defins  (u/val->int (st/key->val k-ndefins))]
      (run!
       (fn [i]
-        (check/struct-tasks (utils/get-cont-defin-path p i)))
+        (chk/struct-tasks (u/get-cont-defin-path p i)))
       (range n-cont))
      (run!
       (fn [i]
-        (check/struct-tasks (utils/get-defins-defin-path p i)))
+        (chk/struct-tasks (u/get-defins-defin-path p i)))
       (range n-defins)))
    (timbre/info "done  [" mp-id "]" )))
 
@@ -168,7 +171,7 @@
    (start (->mp-id)))
   ([mp-id]
    (timbre/info "register observer for: " mp-id)
-   (ctrl/start mp-id)))
+   (a/>!! ctrl/ctrl-chan [mp-id :start])))
   
 
 ;;------------------------------
@@ -181,12 +184,11 @@
    (stop (->mp-id)))
   ([mp-id]
    (timbre/info "stop observing " mp-id)
-   (ctrl/stop mp-id)))
+   (a/>!! ctrl/ctrl-chan [mp-id :stop])))
 
 ;;------------------------------
 ;; push ctrl commands
 ;;------------------------------
-  
 (defn ctrl!
   "Push a command string (`cmd`) to the control
   interface of a mp. `cmd`s are:
@@ -202,10 +204,10 @@
   ([i cmd]
    (ctrl! (->mp-id) i cmd))
   ([mp-id i cmd]
-  (timbre/info "push cmd to:" mp-id)
-  (let [p (utils/get-cont-ctrl-path (utils/extr-main-path mp-id) i)]
-    (st/set-val! p cmd))
-  (timbre/info "done  [" mp-id "]" )))
+   (timbre/info "push cmd to:" mp-id)
+   (let [p (u/get-cont-ctrl-path (u/extr-main-path mp-id) i)]
+     (st/set-val! p cmd))
+   (timbre/info "done  [" mp-id "]" )))
 
 ;;------------------------------
 ;; clear
@@ -227,7 +229,7 @@
   ([mp-id]
    (stop mp-id)
    (timbre/info "clear " mp-id )
-   (st/clear (utils/extr-main-path mp-id))
+   (st/clear (u/extr-main-path mp-id))
    (timbre/info "done  [" mp-id "]" )))
 
 (defn status

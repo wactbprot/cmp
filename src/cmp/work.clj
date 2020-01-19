@@ -41,16 +41,24 @@
 (defn dispatch!
   "Dispatches to the workers depending on `:Action`.
   Since every worker have to set their state, `state-key`
-  is the second parameter."  
+  is the second parameter.
+
+  ```clojure
+  (dispatch! {:Action \"wait\" :WaitTime 1000 :StateKey \"testpath\"})
+  ;; #object ... ManyToManyChannel@1247ab05...
+  ;; ... INFO [cmp.worker.wait:20] - wait time ( 1000 ms) over for  testpath
+  (dispatch! {:Action \"foo\" :StateKey \"testpath\"})
+  ;; ... ERROR [cmp.work:52] - unknown action:  :foo
+  ```"  
   [task]
   (let [state-key (task :StateKey)
-        action (task :Action)]
-    (cond
-      (= action "wait") (wait! task state-key)
-      (= action "select") (select-definition! task state-key)
-      :default (do
-                 (timbre/error "unknown action: " action)
-                 (st/set-val! state-key "error")))))
+        action    (keyword (task :Action))]
+    (condp = action
+      :wait   (wait! task state-key)
+      :select (select-definition! task state-key)
+      (do
+        (timbre/error "unknown action: " action)
+        (st/set-val! state-key "error")))))
 
 ;;------------------------------
 ;; ctrl go block 

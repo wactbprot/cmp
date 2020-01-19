@@ -6,6 +6,19 @@
             [clojure.core.async :as a]
             [cmp.state :as state]
             [cmp.utils :as u]))
+;;------------------------------
+;; exception channel 
+;;------------------------------
+(def excep-chan (a/chan))
+(a/go
+  (while true
+    (let [e (a/<! excep-chan)] 
+      (timbre/error (.getMessage e)))))
+
+;;------------------------------
+;; ctrl channel invoked by run 
+;;------------------------------
+(def ctrl-chan (a/chan))
 
 ;;------------------------------
 ;; ctrl-dispatch!, start, stop
@@ -23,15 +36,16 @@
   (let [mp-id (u/key->mp-name p)
         cmd (->> p
                  (st/key->val)
-                 (u/get-next-ctrl))]
-    (cond
-      (= cmd "run")     (a/>!! state/ctrl-chan [p "start"])
-      (= cmd "mon")     (a/>!! state/ctrl-chan [p "start"])
-      (= cmd "suspend") (a/>!! state/ctrl-chan [p "stop"])
-      (= cmd "stop")    (do
-                          (a/>!! state/ctrl-chan [p "stop"])
-                          (stop mp-id))
-      :default (timbre/debug "dispatch default branch for key: " p))))
+                 (u/get-next-ctrl)
+                 keyword)]
+    (condp = cmd
+      :run     (a/>!! state/ctrl-chan [p :start])
+      :mon     (a/>!! state/ctrl-chan [p :start])
+      :suspend (a/>!! state/ctrl-chan [p :stop])
+      :stop    (do
+                 (a/>!! state/ctrl-chan [p :stop])
+                 (stop mp-id))
+      (timbre/debug "dispatch default branch for key: " p))))
 
 (defn start
   "Registers a listener for the `ctrl` interface of the `mp-id`.
@@ -40,3 +54,17 @@
   (st/register! mp-id "*" "*" "ctrl"
                  (fn [msg] (dispatch! (st/msg->key msg)))))
 
+;;------------------------------
+;; ctrl go block 
+;;------------------------------
+(a/go
+  (while true  
+    (let [[k cmd] (a/<! ctrl-chan)]
+      (try
+        (timbre/debug "receive key " k "and" cmd)            
+        (condp = cmd
+          :start (start k)
+          :stop (stop k))
+        (catch Exception e
+          (timbre/error "catch error at channel " k)
+          (a/>! excep-chan e))))))
