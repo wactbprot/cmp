@@ -14,7 +14,7 @@
   (wcar conn  (car/keys (u/vec->key [p "*"]))))
 
 (defn pat->keys
-  "Get all keys matching  the given `pat`."
+  "Get all keys matching  the given pattern `pat`."
   [p]
   (wcar conn  (car/keys p)))
 
@@ -26,6 +26,7 @@
    ks))
 
 (defn del-key!
+  "Delets the key `k`."
   [k]
   (wcar conn (car/del k)))
   
@@ -33,7 +34,6 @@
   "Sets the value `v` for the key `k`."
   [k v]
   (wcar conn (car/set k v)))
-
 
 
 (defn set-same-val!
@@ -48,15 +48,15 @@
   [k]
   (wcar conn (car/get k)))
 
-(defn get-keys-where-val
+(defn filter-keys-where-val
   "Returns all keys belonging to `pat` where the
   value is `val`.
 
   ```clojure
-  (get-keys-where-val \"wait@definitions@*@class\" \"wait\")
-  ;; (\"wait@definitions@0@class\"
-  ;; \"wait@definitions@2@class\"
-  ;; \"wait@definitions@1@class\")
+  (filter-keys-where-val \"ref@definitions@*@class\" \"wait\")
+  ;; (\"ref@definitions@0@class\"
+  ;; \"ref@definitions@2@class\"
+  ;; \"ref@definitions@1@class\")
   ```
   "
   [pat val]
@@ -91,14 +91,15 @@
 
   ```clojure
   (def msg [\"pmessage\"
-           \"__keyspace@0*__:wait@*@*@ctrl*\"
-           \"__keyspace@0__:wait@container@0@ctrl\"
+           \"__keyspace@0*__:ref@*@*@ctrl*\"
+           \"__keyspace@0__:ref@container@0@ctrl\"
            \"set\"])
   (st/msg->key msg)
-  ;; \"wait@container@0@ctrl\"
+  ;; \"ref@container@0@ctrl\"
   ```"
   [[kind l1 l2 l3]]
-    (cond
+  (timbre/debug "received" kind l1 l2 l3)
+  (cond
       (= kind "pmessage") (second (string/split l2 (re-pattern ":")))
       (= kind "psubscribe") (timbre/info "subscribed to " l1)))
   
@@ -133,12 +134,12 @@
   
   ```clojure
   ;; generate and close
-  (close-listener! (gen-listener \"wait\" \"ctrl\" msg->key))
+  (close-listener! (gen-listener \"ref\" \"ctrl\" msg->key))
   ```"
-  [mp-id l2 l3 l4 cb]
+  [mp-id l2 l3 l4 callback]
   (let [subs-pat (gen-subs-pat mp-id l2 l3 l4)]
     (car/with-new-pubsub-listener (:spec conn)
-      {subs-pat cb}
+      {subs-pat callback}
       (car/psubscribe subs-pat))))  
 
 (defn close-listener!
@@ -146,7 +147,7 @@
 
   ```clojure
   ;; generate
-  (def l (gen-listener \"wait\" \"ctrl\" msg->key))
+  (def l (gen-listener \"ref\" \"ctrl\" msg->key))
   ;; close 
   (close-listener! l)
   ```"

@@ -1,10 +1,9 @@
 (ns cmp.build
   ^{:author "wactbprot"
-    :doc "Builds up the short term memory with given the mp-definition."}
+    :doc "Builds up the short term memory with given the `mpd`."}
   (:require [cmp.utils :as u]
             [cmp.st-mem :as st]
-            [taoensso.timbre :as log])
-  (:use [clojure.repl]))
+            [taoensso.timbre :as timbre]))
 
 ;;------------------------------
 ;; exchange
@@ -28,7 +27,7 @@
        (map-indexed
         (fn [kdx ptsk]
           (st/set-val! (u/get-cont-defin-path p idx jdx kdx) (u/gen-value ptsk))
-          (st/set-val! (u/get-cont-state-path p idx jdx kdx) "build"))
+          (st/set-val! (u/get-cont-state-path p idx jdx kdx) "ready"))
         s)))
     defin)))
 
@@ -66,7 +65,7 @@
        (map-indexed
         (fn [kdx ptsk]
           (st/set-val! (u/get-defins-defin-path p idx jdx kdx) (u/gen-value ptsk))
-          (st/set-val! (u/get-defins-state-path p idx jdx kdx) "build"))
+          (st/set-val! (u/get-defins-state-path p idx jdx kdx) "ready"))
         s)))
     defin)))
 

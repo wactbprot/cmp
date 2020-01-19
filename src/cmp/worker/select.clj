@@ -30,8 +30,7 @@
   ;; nil
   (get-exch-kw \"foo.bar\" )
   ;; :bar
-  ```"
-  
+  ```"  
   [s]
   (if-let [x (second (string/split s (re-pattern "\\.")))] 
     (keyword x)))
@@ -102,6 +101,29 @@
      (count cond-ks)
      (count match-ks))))
 
+(defn start-defs
+  "Starts the filtered out `definitions` structure and
+  sets the state of the calling element to executed if the `ctrl`
+  turns to ready (or error if error)."          
+  [match-k state-k]
+  (timbre/debug "start definitions struct " match-k)
+  (let [mp-id     (u/key->mp-name state-k)
+        defs-idx  (u/key->no-idx match-k)
+        ctrl-k    (u/vec->key [mp-id "definitions" defs-idx "ctrl"])
+        callback  (fn
+                    [p]
+                    (cond
+                      (= "ready"
+                         (st/key->val ctrl-k)) (do
+                                                 (st/set-val! state-k "executed")
+                                                 (st/de-register! mp-id "definitions" defs-idx "ctrl"))
+                      (= "error"
+                       (st/key->val ctrl-k)) (st/set-val! state-k "error")))]
+    
+    (st/register! mp-id "definitions" defs-idx "ctrl" callback)
+    (st/set-val! ctrl-k "run")))
+
+
 (defn select-definition!
   "Selects and runs a `Definition` from the `Definitions`
   section of the current `mp`. 
@@ -110,14 +132,22 @@
   (select-definition! {:Action select
                        :TaskName Common-select_definition,
                        :DefinitionClass wait} \"teststate\")
+  ```
+  If more than one than one of the definitions condition match
+  the first is used:
+
+  ```clojure
+  (first (filter conds-match? match-ks))
+  ;; ref@definitions@1@class
   ```" 
-  [task state-key]
-  (st/set-val! state-key "working")
-  (let [mp-id     (u/key->mp-name state-key)
+  [task state-k]
+  (st/set-val! state-k "working")
+  (timbre/debug "start with select, already set " state-k " working")
+  (let [mp-id     (u/key->mp-name state-k)
         def-cls   (task :DefinitionClass)
-        def-ks    (u/vec->key [mp-id "definitions" "*" "class"])
-        match-ks  (st/get-keys-where-val def-ks def-cls)
+        def-pat   (u/vec->key [mp-id "definitions" "*" "class"])
+        match-ks  (sort
+                   (st/filter-keys-where-val def-pat def-cls))
         match-k   (first (filter conds-match? match-ks))]
-    (println match-ks)
-    (println match-k)
-    (st/set-val! state-key "executed")))
+    (start-defs match-k state-k)))
+
