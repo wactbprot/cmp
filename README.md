@@ -105,29 +105,12 @@ Build check and start with:
 
 ```clojure
 (workon! mp-id)
-;   _
-;   |
-;   v
 (clear)
-;   _
-;   |
-;   v
 (build)
-;   _
-;   |
-;   v
 (check)
-;   _
-;   |
-;   v
 (start)
-;   _
-;   |
-;   v
+;; followed by
 (ctrl! 0 "run")
-;   :
-;   :
-;   :
 (status)
 ```
 
