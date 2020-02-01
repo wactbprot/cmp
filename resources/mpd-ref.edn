@@ -52,7 +52,8 @@
     :Element ["*"],
     :Definition
     [[{:TaskName "Common-select_definition",
-       :Replace {:%definitionclass "wait"}}]]}],
+       :Replace {:%definitionclass "wait"}}]]}
+   ],
   ;; Definitions section
   :Definitions
   [;; Several definitions with the same

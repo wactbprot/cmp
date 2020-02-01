@@ -102,13 +102,26 @@
         (bld/store))
    (timbre/info "done  [" mp-id "]" )))
 
-(defn build-ref
- "Builds up a reference or example structure
-  for testing and documentation 
-  (`./recources/ref-mpd.edn`).
-
+(defn build-edn
+  "Builds up a mp from the `edn`.
+  
   ```clojure
-  (ref-build)
+  (build-edn \"resources/mpd-modbus.edn\")
+  ;; (\"OK\" \"OK\" \"OK\")
+  ```
+  "
+  [uri]
+  (bld/store
+   (read-string
+    (slurp uri))))
+
+(defn build-ref
+  "Builds up a reference or example structure
+  for testing and documentation 
+  (`./recources/mpd-ref.edn`).
+  
+  ```clojure
+  (build-ref)
   ;; (\"OK\" \"OK\" \"OK\")
   ;;
   ;; complete file:
@@ -116,10 +129,8 @@
    (slurp \"resources/ref-mpd.edn\"))
   ```
   "
- []
- (bld/store
-  (read-string
-   (slurp "resources/ref-mpd.edn"))))
+  []
+  (build-edn "resources/ref-mpd.edn"))
 
 ;;------------------------------
 ;; documents

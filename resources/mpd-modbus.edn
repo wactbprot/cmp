@@ -1,0 +1,31 @@
+{:_id "mpd-modbus",
+  :Mp
+ {
+  :Date [{:Type "created", :Value "2020-02-01"}],
+  :Name "wait",
+  :Description "Modbus test.",
+  :Standard "NN"
+  ;; Endpoint for exchanging data and information.
+  ;; Internal and external use is intendet. 
+  :Exchange {
+             ;; one level deep nested values ..
+             :A {:Unit "Pa", :Value 100}
+             ;; .. or flat values are valid
+             :B "token"}
+  :Container
+  [
+   {:Description "Test modbus action with prescript",
+    :Ctrl "void",
+    :Title "modbus with pre script",
+    :Element ["*"],
+    :Definition [
+                 [
+                  {:TaskName "VS_SE3-get_valve_pos"
+                   :Replace  {:%valve "V1"}
+                   }
+                  ]
+                 ]
+    }
+   ]
+  }
+ }
