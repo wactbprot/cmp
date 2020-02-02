@@ -46,13 +46,13 @@
 (defn global-defaults
   []
   (let [d (u/get-date-object)]
-    {"%hour" (u/get-hour d)
+    {"%hour"   (u/get-hour d)
      "%minute" (u/get-min d)
      "%second" (u/get-sec d)
-     "%year" (u/get-year d)
-     "%month" (u/get-month d)
-     "%day" (u/get-day d)
-     "%time" (u/get-time d)}))
+     "%year"   (u/get-year d)
+     "%month"  (u/get-month d)
+     "%day"    (u/get-day d)
+     "%time"   (u/get-time d)}))
 
 (defn get-temps
   "Temps contain values related to the current mpd."
@@ -79,17 +79,29 @@
   ((task k) (keyword (m k))))
 
 (defn make-singular-kw
-  [k]
-  (->> k
-       (name)
+  "Takes a keyword or string and removes the tailing
+  letter (most likely a s). Turns the result
+  to a keyword.
+  
+  ```clojure
+  (make-singular-kw :Values)
+  ;; :Value
+  (make-singular-kw \"Values\")
+  ;; :Value
+  ```
+  "
+  [s]
+  (->> s
+       name
        (re-matches #"^(\w*)(s)$")
-       (second)
-       (keyword)))
+       second
+       keyword))
 
 (defmulti merge-use-map
   "The use keyword enables a replace mechanism.
   It works like this:
   proto-task:
+
   ```clojure
   Use: {Values: med_range}
   ;; should lead to:
@@ -114,6 +126,7 @@
   The `proto-task` should be a map containing the `:TaskName`
   `keyword` at least. String version makes a `map` out of `s`
   and calls related method.
+
   ```clojure
   (gen-meta-task \"Common-wait\")
   ;; 19-12-27 11:14:48 hiob DEBUG [cmp.lt-mem:21] - get task:  Common-wait  from ltm
@@ -157,27 +170,24 @@
 
 (defmethod gen-meta-task :default
   [proto-task]
-  (let [{replace :Replace use :Use} proto-task
-        {db-task :value} (u/doc->safe-doc (lt/get-task-view proto-task))
-        {defaults :Defaults} db-task
-        task (dissoc db-task :Defaults)
-        globals (global-defaults)]
-    {:Task task
-     :Use use
-     :Defaults (u/make-map-regexable defaults)
-     :Globals (u/make-map-regexable globals)
-     :Replace (u/make-map-regexable replace)}))
+  (let [db-task (:value (u/doc->safe-doc
+                         (lt/get-task-view proto-task)))]
+    {:Task     (dissoc db-task :Defaults)
+     :Use      (:Use proto-task)
+     :Globals  (u/make-map-regexable (global-defaults))
+     :Defaults (u/make-map-regexable (:Defaults db-task))
+     :Replace  (u/make-map-regexable (:Replace proto-task))}))
 
 (defn assemble
   "Assembles the `task` from the given
   `meta-task` in a special order.
   `assoc`s the structs afterwards."
   [meta-task]
-  (let [{task :Task 
-         use-map :Use 
-         replace :Replace
+  (let [{task     :Task 
+         use-map  :Use 
+         replace  :Replace
          defaults :Defaults 
-         globals :Globals} meta-task]
+         globals  :Globals} meta-task]
     (assoc
      (->> task
           (merge-use-map use-map)
@@ -185,6 +195,6 @@
           (replace-map defaults)
           (replace-map globals))
      :Defaults defaults
-     :Globals globals
-     :Use use-map
-     :Replace replace)))
+     :Globals  globals
+     :Use      use-map
+     :Replace  replace)))

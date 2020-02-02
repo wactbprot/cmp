@@ -6,6 +6,7 @@
             [cmp.st-mem :as st]
             [cmp.worker.wait :refer [wait!]]
             [cmp.worker.select :refer [select-definition!]]
+            [cmp.worker.modbus :refer [modbus!]]
             [cmp.task :as tsk]
             [cmp.utils :as u]))
 
@@ -40,8 +41,8 @@
 ;;------------------------------
 (defn dispatch!
   "Dispatches to the workers depending on `:Action`.
-  Since every worker have to set their state, `state-key`
-  is the second parameter.
+  Since every worker has to manage the state,
+  the  `state-key` is the second parameter.
 
   ```clojure
   (dispatch! {:Action \"wait\" :WaitTime 1000 :StateKey \"testpath\"})
@@ -54,8 +55,9 @@
   (let [state-key (task :StateKey)
         action    (keyword (task :Action))]
     (condp = action
-      :wait   (wait! task state-key)
+      :wait   (wait!              task state-key)
       :select (select-definition! task state-key)
+      :MODBUS (modbus!            task state-key)
       (do
         (timbre/error "unknown action: " action)
         (st/set-val! state-key "error")))))

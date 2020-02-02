@@ -67,3 +67,9 @@
               :V17 40007 :V18 40007 :V19 40007 :V20 40007}
         opc  {:open 1 :close 0}
         ]))
+
+(defn modbus!
+    [task state-key]
+  (st/set-val! state-key "working")
+  (println task)
+  (st/set-val! state-key "executed"))

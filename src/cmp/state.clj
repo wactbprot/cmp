@@ -25,8 +25,8 @@
 (defn state-map->definition-key
   "Converts a `state-map` into a key."
   [m]
-  (u/vec->key [(m :mp-name) (m :struct) (m :no-idx)
-               "definition" (m :seq-idx) (m :par-idx)]))
+  (u/vec->key [(:mp-name m) (:struct m) (:no-idx m)
+               "definition" (:seq-idx m) (:par-idx m)]))
 
 (defn state-key->state-map
   "Converts a key into a `state-map`."
@@ -76,7 +76,7 @@
 
 (defn filter-state
   [m s]
-  (filter (fn [x] (= s (x :state))) m))
+  (filter (fn [x] (= s (:state x))) m))
 
 (defn seq-idx->all-par
   "Returns all `par` steps for a given
@@ -97,7 +97,7 @@
   {:seq-idx 4, :par-idx 2, :state :ready})
   ```"
   [m i]
-  (filter (fn [x] (= i (x :seq-idx))) m))
+  (filter (fn [x] (= i (:seq-idx x))) m))
   
 (defn all-error
   "Returns all  steps with the state
@@ -261,7 +261,7 @@
   (st/set-val! (p->ctrl-k p) "error"))
 
 (defn all-exec-ctrl!
-  "Handels the case where all `state` interfaces
+  "Handles the case where all `state` interfaces
   are `\"executed\"`."
   [p]
   (let [ctrl-k   (p->ctrl-k p)
