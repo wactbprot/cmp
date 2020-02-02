@@ -25,7 +25,10 @@
 (def ctrl-chan (a/chan))
 
 (defn k->task
-  "Returns the assembled task for the given key" 
+  "Returns the assembled `task` for the given key `k`.
+  Since the function in the `cmp.task` namespace are
+  kept independent from the tasks position, runtime infos
+  like `:StructKey` have to be `assoc`ed here" 
   [k]
   (assoc 
    (->> k

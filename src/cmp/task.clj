@@ -43,7 +43,21 @@
   [x]
   (task? (:Task x)))
 
-(defn global-defaults
+(defn ->globals
+  "Returns a map with replacements
+  of general intrest.
+
+  ```clojure
+  (->globals)
+  ;; {\"%hour\" \"14\",
+  ;; \"%minute\" \"07\",
+  ;; \"%second\" \"54\",
+  ;; \"%year\" \"2020\",
+  ;; \"%month\" \"02\",
+  ;; \"%day\" \"02\",
+  ;; \"%time\" \"1580652474824\"}
+  ```
+  "
   []
   (let [d (u/get-date-object)]
     {"%hour"   (u/get-hour d)
@@ -54,14 +68,14 @@
      "%day"    (u/get-day d)
      "%time"   (u/get-time d)}))
 
-(defn get-temps
-  "Temps contain values related to the current mpd."
-  [p]
-  {"%standard" (st/key->val (u/vec->key [p "meta" "standard"]))
-   "%mpname" (st/key->val (u/vec->key [p "meta" "name"]))})
-
 (defmulti replace-map
-  "Replaces tokens (given in the m) in the task."
+  "Replaces tokens (given in the m) in the task.
+
+  ```clojure
+  (replace-map (->globals) {:TaskName \"foo\" :Value \"%time\"})
+  ;; {:TaskName \"foo\", :Value \"1580652820247\"}
+  ```
+  "
   (fn [m task] (map? m)))
 
 (defmethod replace-map false
@@ -71,7 +85,7 @@
 (defmethod replace-map true 
   [m task]
   (let [task-s (u/gen-value task)
-        re-k (u/gen-re-from-map-keys m)]
+        re-k   (u/gen-re-from-map-keys m)]
     (u/json->map (string/replace task-s re-k m))))
 
 (defn extract-use-value
@@ -174,14 +188,33 @@
                          (lt/get-task-view proto-task)))]
     {:Task     (dissoc db-task :Defaults)
      :Use      (:Use proto-task)
-     :Globals  (u/make-map-regexable (global-defaults))
+     :Globals  (u/make-map-regexable (->globals))
      :Defaults (u/make-map-regexable (:Defaults db-task))
      :Replace  (u/make-map-regexable (:Replace proto-task))}))
 
 (defn assemble
   "Assembles the `task` from the given
-  `meta-task` in a special order.
-  `assoc`s the structs afterwards."
+  `meta-task` in a special order:
+
+  * merge Use
+  * replace from Replace
+  * replace from Defaults
+  * replace from Globals
+  
+  `assoc`s the structs afterwards.
+
+  ```clojure
+  (assemble
+    (gen-meta-task {:TaskName \"Common-wait\"
+                    :Replace {\"%waittime\" 10}}))
+  ;; {:Action \"wait\",
+  ;;  :Comment \"Ready in  10 ms\",
+  ;;  :TaskName \"Common-wait\",
+  ;;  :WaitTime \"10\",
+  ;;  ...
+  ;; }
+  ```
+  "
   [meta-task]
   (let [{task     :Task 
          use-map  :Use 
