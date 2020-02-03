@@ -52,10 +52,10 @@
     :Ctrl "void"
     :Title "modbus with pre script"
     :Element ["*"]
-    :Definition [[{:TaskName "VS_SE3-set_valve_pos",
+    :Definition [[{:TaskName "VS_NEW_SE3-set_valve_pos",
                    :Replace {:%valve "V1",
                              :%should "close"}}
-                  {:TaskName "VS_SE3-set_valve_pos",
+                  {:TaskName "VS_NEW_SE3-set_valve_pos",
                    :Replace {:%valve "V1",
                              :%should "open"}}]]
     }]}}
