@@ -6,7 +6,46 @@
   :Description "Modbus test.",
   :Standard "NN"
   :Exchange {
-             ;; add state level example for block 0
+             :Vraw_block1 [
+                            1,0,1,0,
+                            0,0,0,0,
+                            0,0,0,0,
+                            1,0,0,0,
+                            0,0,0,0,
+                            0,0,1,0
+                            ]
+             :Vraw_block2 [
+                            0,0,1,0,
+                            0,0,0,0,
+                            0,0,0,0,
+                            0,0,1,0,
+                            0,0,0,0,
+                            0,0,0,0
+                            ]
+             :Vraw_block3 [
+                           0,0,0,0,
+                           0,0,1,0,
+                           0,0,0,0,
+                           0,0,0,0,
+                           1,1,1,0,
+                           0,0,0,0
+                           ],
+             :Vraw_block4 [
+                           0,0,0,0,
+                           0,0,0,0,
+                           1,1,1,0,
+                           0,0,0,0,
+                           0,0,0,0,
+                           0,0,0,0
+                           ],
+             :Vraw_block5  [
+                           1,1,0,0,
+                           0,0,0,0,
+                           0,0,0,0,
+                           0,0,0,0,
+                           0,0,0,0,
+                           0,0,0,0
+                           ]
              }
   :Container
   [{:Description "Test modbus action with prescript"
