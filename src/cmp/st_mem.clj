@@ -8,15 +8,15 @@
 
 (def conn (cfg/st-conn (cfg/config)))
 
+(defn pat->keys
+  "Get all keys matching  the given pattern `pat`."
+  [pat]
+  (wcar conn  (car/keys pat)))
+
 (defn get-keys
   "Get all keys matching  `p*`."
   [p]
-  (wcar conn  (car/keys (u/vec->key [p "*"]))))
-
-(defn pat->keys
-  "Get all keys matching  the given pattern `pat`."
-  [p]
-  (wcar conn  (car/keys p)))
+  (pat->keys (u/vec->key [p "*"])))
 
 (defn del-keys!
   "Deletes all given keys (`ks`)."

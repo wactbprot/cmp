@@ -73,9 +73,9 @@
     (throw (Exception. "No mp-id set.\n\n\nUse function (workon! <mp-id>)"))))
 
 ;;------------------------------
-;; build
+;; build-mpd
 ;;------------------------------
-(defn build
+(defn build-mpd
   "Loads mpd from long term memory and
   builds the short term memory. The `mp-id`
   must be set with [[workon!]].  
@@ -83,16 +83,16 @@
   Usage:
   
   ```clojure
-  (build mpid)
+  (build-mpd mpid)
   ;; or
   (workon! mpid)
   ;; followed by
-  (build)
+  (build-mpd)
   (check)
   (start)
   ```"
   ([]
-   (build (->mp-id)))
+   (build-mpd (->mp-id)))
   ([mp-id]
    (timbre/info "build " mp-id)
    (->> mp-id
@@ -102,11 +102,11 @@
         (bld/store))
    (timbre/info "done  [" mp-id "]" )))
 
-(defn build-edn
+(defn build-mpd-edn
   "Builds up a mp from the `edn`.
   
   ```clojure
-  (build-edn \"resources/mpd-modbus.edn\")
+  (build-mpd-edn \"resources/mpd-modbus.edn\")
   ;; (\"OK\" \"OK\" \"OK\")
   ```
   "
@@ -115,13 +115,13 @@
    (read-string
     (slurp uri))))
 
-(defn build-ref
+(defn build-mpd-ref
   "Builds up a reference or example structure
   for testing and documentation 
   (`./recources/mpd-ref.edn`).
   
   ```clojure
-  (build-ref)
+  (build-mpd-ref)
   ;; (\"OK\" \"OK\" \"OK\")
   ;;
   ;; complete file:
@@ -130,7 +130,7 @@
   ```
   "
   []
-  (build-edn "resources/ref-mpd.edn"))
+  (build-mpd-edn "resources/mpd-ref.edn"))
 
 ;;------------------------------
 ;; documents
@@ -250,9 +250,38 @@
    (state/status mp-id no)))
 
 
+(defn build-tasks
+  "Builds the `tasks` endpoint. At
+  runtime all `tasks` are provided by
+  `st-mem`" 
+  []
+  (bld/store-tasks (lt/get-all-tasks)))
+
+
+(defn build-tasks-edn
+  [uri]
+  (bld/store-task
+   (read-string
+    (slurp uri))))
+
+
+(defn refresh-tasks
+  "Refreshs the `tasks` endpoint.
+  
+  Usage:
+  
+  ```clojure
+  (refresh-tasks)
+  ```
+  "
+  []
+  (bld/clear-tasks)
+  (bld/store-tasks (lt/get-all-tasks)))
+
+
 (defn workon!!
   "Sets the mpd to work on, then starts:
-  `(clear)`, `(build)`, `(check)`  and `(start)`
+  `(clear)`, `(build-mpd)`, `(check)`  and `(start)`
   
   Usage:
   
@@ -261,8 +290,9 @@
   ```
   "
   [mp-id]
+  (refresh-tasks)
   (workon! mp-id)
   (clear)
-  (build)
+  (build-mpd)
   (check)
   (start))

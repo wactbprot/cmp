@@ -21,6 +21,11 @@
   (first
    (couch/get-view conn "dbmp" "tasks" {:key task-name})))
 
+(defn get-all-tasks
+  []
+  (timbre/debug "get tasks from ltm")
+  (couch/get-view conn "dbmp" "tasks"))
+
 (defn doc->version
   [{rev :_rev}]
   (first (string/split rev  #"-")))

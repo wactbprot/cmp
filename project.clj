@@ -1,4 +1,4 @@
-(defproject cmp "0.4.3"
+(defproject cmp "0.5.0"
   :description "A study of an interpreter for measurement 
   program (mp) definitions (mpd) written in clojure."
   :url "https://github.com/wactbprot/cmp"

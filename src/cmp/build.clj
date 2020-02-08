@@ -35,8 +35,8 @@
   "Stores a single container"
   [p idx {descr :Description
           title :Title
-          ctrl :Ctrl
-          elem :Element
+          ctrl  :Ctrl
+          elem  :Element
           defin :Definition}]           
   (st/set-val! (u/get-cont-title-path p idx) title)
   (st/set-val! (u/get-cont-descr-path p idx) descr)
@@ -140,3 +140,25 @@
     (store-exchange p mp)
     (store-all-container p mp)
     (store-all-definitions p mp)))
+
+(defn store-task
+  "Stores the given `task` unter the
+  path `tasks@<TaskName>`."
+  [task]
+  (st/set-val!
+   (u/vec->key ["tasks" (:TaskName task)])
+   (u/gen-value (u/doc->safe-doc task))))
+
+(defn clear-tasks
+  "Clears `task*`."
+  []
+  (st/del-keys! (st/get-keys "tasks")))
+
+(defn store-tasks
+  "Stores the `task-list`
+  as received from `lt-mem`."
+  [task-list]  
+  (run!
+   (fn [{task :value}]
+     (store-task task))
+   task-list))

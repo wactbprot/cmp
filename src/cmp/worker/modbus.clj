@@ -8,7 +8,7 @@
 
 (defn set-valve-pos-prescript
   "In order to avoid starting up a nodeserver to
-  execute the following pre script this is a clojure
+  execute the following pre script, this is a clojure
   translation.
 
   To make this working a `Input` like:
@@ -69,7 +69,7 @@
         ]))
 
 (defn modbus!
-    [task state-key]
+  [task state-key]
   (st/set-val! state-key "working")
   (println task)
   (st/set-val! state-key "executed"))

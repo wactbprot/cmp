@@ -184,8 +184,11 @@
 
 (defmethod gen-meta-task :default
   [proto-task]
-  (let [db-task (:value (u/doc->safe-doc
-                         (lt/get-task-view proto-task)))]
+  (let [task-name (:TaskName proto-task)
+        db-task   (->> ["tasks" task-name]
+                       u/vec->key
+                       st/key->val
+                       u/json->map)]
     {:Task     (dissoc db-task :Defaults)
      :Use      (:Use proto-task)
      :Globals  (u/make-map-regexable (->globals))
@@ -214,6 +217,10 @@
   ;;  ...
   ;; }
   ```
+  **todo**
+
+  FromExchange
+  
   "
   [meta-task]
   (let [{task     :Task 
@@ -221,13 +228,8 @@
          replace  :Replace
          defaults :Defaults 
          globals  :Globals} meta-task]
-    (assoc
      (->> task
           (merge-use-map use-map)
           (replace-map replace)
           (replace-map defaults)
-          (replace-map globals))
-     :Defaults defaults
-     :Globals  globals
-     :Use      use-map
-     :Replace  replace)))
+          (replace-map globals))))
