@@ -1,0 +1,28 @@
+{:TaskName "VS_SE3-set_valve_pos"
+ :Comment "Setzt die Ventilposition."
+ :FunctionCode "writeSingleRegister"
+ :Host "%host"
+ :Address "%wrtadr"
+ :Action "%acc"
+ :PreScript "set_valve_pos"
+ :PreInput {
+            :should "%should"
+            :valve "%valve"
+            :stateblock1 "%stateblock1"
+            :stateblock2 "%stateblock2"
+            :stateblock3 "%stateblock3"
+            :stateblock4 "%stateblock4"
+            }
+ :Defaults {
+            :%host "172.30.56.46"
+            :%valve 1
+            :%acc "MODBUS"
+            :%readadr "45407"
+            :%switchadr "45395"
+            :%wrtadr "40003"}
+ :FromExchange {
+                :%stateblock1 "Vraw_block1"
+                :%stateblock2 "Vraw_block2"
+                :%stateblock3 "Vraw_block3"
+                :%stateblock4 "Vraw_block4"}
+ }
