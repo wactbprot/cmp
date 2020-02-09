@@ -259,6 +259,14 @@
 
 
 (defn build-tasks-edn
+  "Stores the `task` slurping from the given
+  `uri`
+  Usage:
+  
+  ```clojure
+  (build-tasks-edn \"resources/task-modbus-set.edn\")
+  ;;OK
+  ```"
   [uri]
   (bld/store-task
    (read-string

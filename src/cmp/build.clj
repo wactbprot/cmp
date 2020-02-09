@@ -12,7 +12,7 @@
   "Stores the exchange data."
   [p {exchange :Exchange}]
   (doseq [[k v] exchange]
-    (st/set-val! (u/get-exch-path p (name k)) (u/gen-value v))))
+    (st/set-val! (u/get-exch-path p (name k)) v)))
 
 ;;------------------------------
 ;; container
@@ -26,7 +26,7 @@
       (doall
        (map-indexed
         (fn [kdx ptsk]
-          (st/set-val! (u/get-cont-defin-path p idx jdx kdx) (u/gen-value ptsk))
+          (st/set-val! (u/get-cont-defin-path p idx jdx kdx)  ptsk)
           (st/set-val! (u/get-cont-state-path p idx jdx kdx) "ready"))
         s)))
     defin)))
@@ -40,8 +40,8 @@
           defin :Definition}]           
   (st/set-val! (u/get-cont-title-path p idx) title)
   (st/set-val! (u/get-cont-descr-path p idx) descr)
-  (st/set-val! (u/get-cont-ctrl-path p idx) (u/gen-value ctrl))
-  (st/set-val! (u/get-cont-elem-path p idx) (u/gen-value elem))
+  (st/set-val! (u/get-cont-ctrl-path p idx) ctrl)
+  (st/set-val! (u/get-cont-elem-path p idx) elem)
   (store-defin p idx defin))
 
 (defn store-all-container
@@ -64,7 +64,7 @@
       (doall
        (map-indexed
         (fn [kdx ptsk]
-          (st/set-val! (u/get-defins-defin-path p idx jdx kdx) (u/gen-value ptsk))
+          (st/set-val! (u/get-defins-defin-path p idx jdx kdx) ptsk)
           (st/set-val! (u/get-defins-state-path p idx jdx kdx) "ready"))
         s)))
     defin)))
@@ -75,7 +75,7 @@
   (doall
    (map-indexed
     (fn [jdx c]
-      (st/set-val! (u/get-defins-cond-path p idx jdx) (u/gen-value c)))
+      (st/set-val! (u/get-defins-cond-path p idx jdx) c))
         conds)))
 
 (defn store-definitions
@@ -147,7 +147,7 @@
   [task]
   (st/set-val!
    (u/vec->key ["tasks" (:TaskName task)])
-   (u/gen-value (u/doc->safe-doc task))))
+   (u/doc->safe-doc task)))
 
 (defn clear-tasks
   "Clears `task*`."

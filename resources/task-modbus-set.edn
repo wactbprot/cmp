@@ -1,4 +1,4 @@
-{:TaskName "VS_SE3-set_valve_pos"
+{:TaskName "VS_NEW_SE3-set_valve_pos"
  :Comment "Setzt die Ventilposition."
  :FunctionCode "writeSingleRegister"
  :Host "%host"

@@ -321,25 +321,6 @@
        (apply-to-map-values str)
        (walk/stringify-keys)))
 
-(defmulti gen-value
-  class)
-
-(defmethod gen-value clojure.lang.PersistentArrayMap
-  [x]
-  (json/write-str x))
-
-(defmethod gen-value clojure.lang.PersistentVector
-  [x]
-  (json/write-str x))
-
-(defmethod gen-value clojure.lang.PersistentHashMap
-  [x]
-  (json/write-str x))
-
-(defmethod gen-value :default
-  [x]
-  x)
-
 ;;------------------------------
 ;; output
 ;;------------------------------
@@ -353,6 +334,11 @@
 ;;------------------------------
 ;; doc, json, map
 ;;------------------------------
+(defn map->json
+  "Transforms a hash-map  to a json string"
+  [m]
+  (json/write-str m))
+
 
 (defn json->map
   "Transforms a json object to a map"

@@ -55,7 +55,7 @@
   (let [path (u/get-id-path p id)
         doc  (lt/id->doc id)
         info (extr-info doc (base-info doc))]
-    (st/set-val! path (u/gen-value info))))
+    (st/set-val! path info)))
 
 (defn del
   [p id]

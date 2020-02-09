@@ -30,14 +30,11 @@
   kept independent from the tasks position, runtime infos
   like `:StructKey` have to be `assoc`ed here" 
   [k]
-  (assoc 
-   (->> k
-        (st/key->val)
-        (u/json->map)
-        (tsk/gen-meta-task)
-        (tsk/assemble))
-   :StructKey k
-   :StateKey (u/replace-key-at-level 3 k "state")))
+  (tsk/assemble
+   (assoc (tsk/gen-meta-task (u/json->map (st/key->val k)))
+          :StructKey k
+          :MpName (u/key->mp-name k)
+          :StateKey (u/replace-key-at-level 3 k "state"))))
 
 ;;------------------------------
 ;; dispatch 

@@ -3,10 +3,31 @@
             [cmp.utils :as u]
             [taoensso.timbre :as timbre]
             [clojure.string :as string]
+            [clojure.data.json :as json]
             [cmp.config :as cfg])
   (:use [clojure.repl]))
 
 (def conn (cfg/st-conn (cfg/config)))
+
+
+(defmulti gen-value
+  class)
+
+(defmethod gen-value clojure.lang.PersistentArrayMap
+  [x]
+  (json/write-str x))
+
+(defmethod gen-value clojure.lang.PersistentVector
+  [x]
+  (json/write-str x))
+
+(defmethod gen-value clojure.lang.PersistentHashMap
+  [x]
+  (json/write-str x))
+
+(defmethod gen-value :default
+  [x]
+  x)
 
 (defn pat->keys
   "Get all keys matching  the given pattern `pat`."
@@ -33,8 +54,7 @@
 (defn set-val!
   "Sets the value `v` for the key `k`."
   [k v]
-  (wcar conn (car/set k v)))
-
+  (wcar conn (car/set k (gen-value v))))
 
 (defn set-same-val!
   "Sets the given values (`val`) for all keys (`ks`)."
@@ -42,6 +62,7 @@
   (run!
    (fn [k] (wcar conn  (car/set k v)))
    ks))
+
 
 (defn key->val
   "Returns the value for the given key (`k`)."

@@ -43,6 +43,28 @@
   [x]
   (task? (:Task x)))
 
+(defn get-from-exchange
+  "
+  {
+  :%stateblock1 Vraw_block1
+  :%stateblock2 Vraw_block2
+  :%stateblock3 Vraw_block3
+  :%stateblock4 Vraw_block4
+  }"
+  [m mp-name]
+  (u/apply-to-map-values (fn [x] (u/json->map (st/key->val (u/get-exch-path mp-name x)))) m)
+  )
+
+(defn from-exchange
+  [task]
+  (let [mp-name (:MpName task)
+        fexch   (:FromExchange task)]
+    (cond
+      (nil? mp-name) task
+      (nil? fexch)   task
+      :else (get-from-exchange fexch mp-name)
+      )))
+
 (defn ->globals
   "Returns a map with replacements
   of general intrest.
@@ -84,10 +106,11 @@
 
 (defmethod replace-map true 
   [m task]
-  (let [task-s (u/gen-value task)
-        re-k   (u/gen-re-from-map-keys m)]
-    (u/json->map (string/replace task-s re-k m))))
-
+  (u/json->map (string/replace
+                (u/map->json task)
+                (u/gen-re-from-map-keys m)
+                m)))
+  
 (defn extract-use-value
   [task m k]
   ((task k) (keyword (m k))))
@@ -189,11 +212,12 @@
                        u/vec->key
                        st/key->val
                        u/json->map)]
-    {:Task     (dissoc db-task :Defaults)
-     :Use      (:Use proto-task)
-     :Globals  (u/make-map-regexable (->globals))
-     :Defaults (u/make-map-regexable (:Defaults db-task))
-     :Replace  (u/make-map-regexable (:Replace proto-task))}))
+    {:Task          (dissoc db-task :Defaults)
+     :Use           (:Use proto-task)
+     :Globals       (u/make-map-regexable (->globals))
+     :Defaults      (u/make-map-regexable (:Defaults db-task))
+     :FromExchange  (u/make-map-regexable (from-exchange db-task))
+     :Replace       (u/make-map-regexable (:Replace proto-task))}))
 
 (defn assemble
   "Assembles the `task` from the given
@@ -224,7 +248,8 @@
   "
   [meta-task]
   (let [{task     :Task 
-         use-map  :Use 
+         use-map  :Use
+         fromexch :FromExchange
          replace  :Replace
          defaults :Defaults 
          globals  :Globals} meta-task]
