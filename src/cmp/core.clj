@@ -159,9 +159,9 @@
    (timbre/info "check: " mp-id)
    (let [p         (u/extr-main-path mp-id)
          k-ncont   (u/get-meta-ncont-path p)
-         n-cont    (u/val->int (st/key->val k-ncont))
+         n-cont    (st/key->val k-ncont)
          k-ndefins (u/get-meta-ndefins-path p)
-         n-defins  (u/val->int (st/key->val k-ndefins))]
+         n-defins  (st/key->val k-ndefins)]
      (run!
       (fn [i]
         (chk/struct-tasks (u/get-cont-defin-path p i)))

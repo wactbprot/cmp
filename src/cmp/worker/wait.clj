@@ -13,9 +13,12 @@
   (wait! {:WaitTime 1000} \"testpath\")
   ```"
   [task state-key]
+  (println "##########")
+  (println state-key)
+
   (st/set-val! state-key "working")
   (a/go
-    (let [w (u/val->int (task :WaitTime))]
+    (let [w (read-string (str (task :WaitTime)))]
     (a/<! (a/timeout w))
     (timbre/info "wait time (" w "ms) over for " state-key)
     (st/set-val! state-key "executed"))))

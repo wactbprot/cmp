@@ -52,7 +52,7 @@
   :%stateblock4 Vraw_block4
   }"
   [m mp-name]
-  (u/apply-to-map-values (fn [x] (u/json->map (st/key->val (u/get-exch-path mp-name x)))) m)
+  (println m)
   )
 
 (defn from-exchange
@@ -210,8 +210,7 @@
   (let [task-name (:TaskName proto-task)
         db-task   (->> ["tasks" task-name]
                        u/vec->key
-                       st/key->val
-                       u/json->map)]
+                       st/key->val)]
     {:Task          (dissoc db-task :Defaults)
      :Use           (:Use proto-task)
      :Globals       (u/make-map-regexable (->globals))
@@ -247,14 +246,22 @@
   
   "
   [meta-task]
-  (let [{task     :Task 
+  (let [{struct-k :StructKey 
+         mp-name  :MpName 
+         state-k  :StateKey 
+         task     :Task 
          use-map  :Use
          fromexch :FromExchange
          replace  :Replace
          defaults :Defaults 
          globals  :Globals} meta-task]
+    (assoc 
      (->> task
           (merge-use-map use-map)
           (replace-map replace)
           (replace-map defaults)
-          (replace-map globals))))
+          (replace-map globals))
+     :StructKey struct-k 
+     :MpName    mp-name
+     :StateKey  state-k)))
+  

@@ -31,7 +31,7 @@
   like `:StructKey` have to be `assoc`ed here" 
   [k]
   (tsk/assemble
-   (assoc (tsk/gen-meta-task (u/json->map (st/key->val k)))
+   (assoc (tsk/gen-meta-task (st/key->val k))
           :StructKey k
           :MpName (u/key->mp-name k)
           :StateKey (u/replace-key-at-level 3 k "state"))))

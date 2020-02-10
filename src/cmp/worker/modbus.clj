@@ -14,7 +14,7 @@
   To make this working a `Input` like:
 
   ```javascript
-  Input:{
+  Input: {
          should:%should,
          valve: %valve,
          stateblock1:%stateblock1,

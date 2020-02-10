@@ -9,25 +9,49 @@
 
 (def conn (cfg/st-conn (cfg/config)))
 
+;;------------------------------
+;; store
+;;------------------------------
+(defmulti clj->val
+  "Casts the given (complex) value `x` to a writable
+  type. `json` is used for complex data types.
 
-(defmulti gen-value
+  ```clojure
+  (st/clj->val {:foo \"bar\"})
+  ;; \"{\"foo\":\"bar\"}\"
+  (st/clj->val [1 2 3])
+  ;; \"[1,2,3]\"
+  ```
+  "
   class)
 
-(defmethod gen-value clojure.lang.PersistentArrayMap
+(defmethod clj->val clojure.lang.PersistentArrayMap
   [x]
   (json/write-str x))
 
-(defmethod gen-value clojure.lang.PersistentVector
+(defmethod clj->val clojure.lang.PersistentVector
   [x]
   (json/write-str x))
 
-(defmethod gen-value clojure.lang.PersistentHashMap
+(defmethod clj->val clojure.lang.PersistentHashMap
   [x]
   (json/write-str x))
 
-(defmethod gen-value :default
+(defmethod clj->val :default
   [x]
   x)
+
+(defn set-val!
+  "Sets the value `v` for the key `k`."
+  [k v]
+  (wcar conn (car/set k (clj->val v))))
+
+(defn set-same-val!
+  "Sets the given values (`val`) for all keys (`ks`)."
+  [ks v]
+  (run!
+   (fn [k] (set-val! k v))
+   ks))
 
 (defn pat->keys
   "Get all keys matching  the given pattern `pat`."
@@ -39,50 +63,20 @@
   [p]
   (pat->keys (u/vec->key [p "*"])))
 
-(defn del-keys!
-  "Deletes all given keys (`ks`)."
-  [ks]
-  (run!
-   (fn [k] (wcar conn (car/del k)))
-   ks))
-
+;;------------------------------
+;; del
+;;------------------------------
 (defn del-key!
   "Delets the key `k`."
   [k]
   (wcar conn (car/del k)))
-  
-(defn set-val!
-  "Sets the value `v` for the key `k`."
-  [k v]
-  (wcar conn (car/set k (gen-value v))))
 
-(defn set-same-val!
-  "Sets the given values (`val`) for all keys (`ks`)."
-  [ks v]
+(defn del-keys!
+  "Deletes all given keys (`ks`)."
+  [ks]
   (run!
-   (fn [k] (wcar conn  (car/set k v)))
+   (fn [k] (del-key! k))
    ks))
-
-
-(defn key->val
-  "Returns the value for the given key (`k`)."
-  [k]
-  (wcar conn (car/get k)))
-
-(defn filter-keys-where-val
-  "Returns all keys belonging to `pat` where the
-  value is `val`.
-
-  ```clojure
-  (filter-keys-where-val \"ref@definitions@*@class\" \"wait\")
-  ;; (\"ref@definitions@0@class\"
-  ;; \"ref@definitions@2@class\"
-  ;; \"ref@definitions@1@class\")
-  ```
-  "
-  [pat val]
-  (filter (fn [k] (= (key->val k) val))
-          (pat->keys pat)))
 
 (defmulti clear
   "Clears the key `k`. If `k` is a vector `(u/vec->key k)`
@@ -102,6 +96,57 @@
        (get-keys)
        (del-keys!)))
 
+;;------------------------------
+;; pick
+;;------------------------------
+(defn val->clj
+  "Parses value `v` and returns a
+  clojure type of it.
+
+  ```clojure
+  (val->clj \"-1e-9\")
+  ;; -1.0E-9
+  ;; class:
+  ;;
+  (class (val->clj \"1.23\"))
+  ;; java.lang.Double
+  (class (val->clj \"a\"))
+  ;; java.lang.String
+  (class (val->clj \"[]\"))
+  ;; clojure.lang.PersistentVector
+  (class (val->clj \"{}\"))
+  ;; clojure.lang.PersistentArrayMap
+  (class (val->clj \"{\"a\":1}\"))
+  ;; clojure.lang.PersistentArrayMap
+  ```
+  "
+  [v]
+  (cond
+    (nil? v) nil
+    (re-find #"^-?\d+\.?\d*([Ee]\+\d+|[Ee]-\d+|[Ee]\d+)?$" v) (read-string v)
+    (re-find #"^[\[\{]" v) (u/json->map v)
+    :else v))
+
+(defn key->val
+  "Returns the value for the given key (`k`)
+  and cast it to a clojure type."
+  [k]
+  (val->clj (wcar conn (car/get k))))
+
+(defn filter-keys-where-val
+  "Returns all keys belonging to `pat` where the
+  value is `val`.
+
+  ```clojure
+  (filter-keys-where-val \"ref@definitions@*@class\" \"wait\")
+  ;; (\"ref@definitions@0@class\"
+  ;; \"ref@definitions@2@class\"
+  ;; \"ref@definitions@1@class\")
+  ```
+  "
+  [pat val]
+  (filter (fn [k] (= (key->val k) val))
+          (pat->keys pat)))
 
 ;;------------------------------
 ;; keyspace notification

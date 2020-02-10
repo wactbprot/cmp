@@ -52,7 +52,7 @@
 
 (defmethod get-comp-val false
   [k kw]
-  ((u/json->map (st/key->val k)) kw))
+  (kw (st/key->val k)))
 
 (defn cond-match?
   "Tests a single condotion of the form defined in
@@ -66,17 +66,17 @@
   "
   [k]
   (let [mp-id     (u/key->mp-name k)
-        cond-m    (u/json->map (st/key->val k))
-        b         (cond-m :Value)
+        cond-m    (st/key->val k)
+        b         (str (cond-m :Value))
         meth      (cond-m :Methode)
         exch-p    (cond-m :ExchangePath)
         exch-k    (get-exch-path mp-id exch-p)
         exch-kw   (get-exch-kw  exch-p)
-        a         (get-comp-val exch-k exch-kw)]
+        a         (str (get-comp-val exch-k exch-kw))]
     (cond
       (= meth "eq") (= a b)
-      (= meth "lt") (< (u/val->int a) (u/val->int b))
-      (= meth "gt") (> (u/val->int a) (u/val->int b)))))
+      (= meth "lt") (< (read-string a) (read-string b))
+      (= meth "gt") (> (read-string a) (read-string b)))))
 
 (defn conds-match?
   "Gathers all information for the given
