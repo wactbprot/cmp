@@ -57,7 +57,7 @@ User interaction with *cmp* is **REPL only** so far.
 
 Find a documented reference `mpd` in
 [edn-format](https://github.com/edn-format/edn) 
-at [resources/ref-mpd.edn](./resources/ref-mpd.edn).
+at [resources/mpd-ref.edn](./resources/mpd-ref.edn).
 This `mpd` called `"ref"` can be used as a example.
 Build check and start with:
 
