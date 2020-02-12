@@ -4,12 +4,20 @@ A study of an interpreter handling
 measurement program definitions
 (**mpd**) written in [clojure](https://clojure.org/).
 
-All of the `mp` state is kept in a **redis** database.
+All of the `mp` state is kept in a [redis](https://redis.io) database.
 
 The program api is documented at the 
 [github.io](https://wactbprot.github.io/cmp/)
 page.
 
+The *cmp namespaces* are [connected as shown here](./docs/graph.png).
+
+
+# Clojure
+
+
+* [cheatsheet](https://clojure.org/api/cheatsheet)
+* [clojure-style-guide](https://github.com/bbatsov/clojure-style-guide)
 
 # Config (Redis)
 
