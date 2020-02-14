@@ -2,8 +2,7 @@
   (:require [cmp.utils :as u]
             [cmp.st-mem :as st]
             [cmp.task :as tsk]
-            [taoensso.timbre :as log])
-  (:use [clojure.repl]))
+            [taoensso.timbre :as log]))
 
 (defn struct-tasks
   "Checks the tasks of the structure (`container` or `definitions`):

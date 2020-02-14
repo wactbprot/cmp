@@ -1,4 +1,4 @@
-(defproject cmp "0.6.0"
+(defproject cmp "0.6.1"
   :description "A study of an interpreter for measurement 
   program (mp) definitions (mpd) written in clojure."
   :url "https://github.com/wactbprot/cmp"
@@ -18,7 +18,8 @@
   :main ^:skip-aot cmp.core
   :target-path "target/%s"
   :plugins [[lein-codox "0.10.7"]
-            [ns-graph "0.1.3"]]
+            [ns-graph "0.1.3"]
+            [jonase/eastwood "0.3.7"]]
   :codox {:output-path "./docs"
           :doc-path "./docs"
           :themes [:rdash]

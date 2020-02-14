@@ -2,8 +2,7 @@
   (:require [clojure.string :as string]
             [com.ashafa.clutch :as couch]
             [taoensso.timbre :as timbre]
-            [cmp.config :as cfg])
-  (:use [clojure.repl]))
+            [cmp.config :as cfg]))
 
 (def conn (cfg/lt-conn (cfg/config)))
 

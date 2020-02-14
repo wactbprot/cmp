@@ -3,12 +3,12 @@
 
 (defn config
   []
-  (aero/read-config (clojure.java.io/resource "config.edn")))
+  (aero/read-config  "resources/config.edn"))
 
 (defn lt-conn
-  [config]
-  (config :lt-uri))
+  [c]
+  (c :lt-uri))
 
 (defn st-conn
-  [config]
-  (config :st-conn))
+  [c]
+  (c :st-conn))

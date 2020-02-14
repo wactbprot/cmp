@@ -66,7 +66,8 @@
               :V9  40005 :V10 40005 :V11 40005 :V12 40005
               :V17 40007 :V18 40007 :V19 40007 :V20 40007}
         opc  {:open 1 :close 0}
-        ]))
+        ]
+     (println input)))
 
 (defn modbus!
   [task state-key]

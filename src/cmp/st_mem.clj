@@ -4,8 +4,7 @@
             [taoensso.timbre :as timbre]
             [clojure.string :as string]
             [clojure.data.json :as json]
-            [cmp.config :as cfg])
-  (:use [clojure.repl]))
+            [cmp.config :as cfg]))
 
 (def conn (cfg/st-conn (cfg/config)))
 

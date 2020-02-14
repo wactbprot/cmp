@@ -5,8 +5,7 @@
             [clj-time.format :as tm-f]
             [clj-time.coerce :as tm-c]
             [io.aviso.ansi :as pretty]
-            [clojure.data.json :as json])
-  (:use [clojure.repl]))
+            [clojure.data.json :as json]))
 
 (def sep
   "Short-term-database (st) path seperator.
@@ -16,11 +15,12 @@
 (def re-sep
   "The regex version of the seperator."
   (re-pattern sep))
-    
-(defn vec->key [p]
+
+(defn vec->key
   "Joins the vec to a key."
+  [p]
   (string/join sep p))
-  
+
 (defn replace-key-at-level
   "Generates a new key by replacing an old one
   at the given position.

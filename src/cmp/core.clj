@@ -13,8 +13,7 @@
             [cmp.ctrl :as ctrl]
             [cmp.state :as state]
             [cmp.log :as log]
-            [taoensso.timbre :as timbre])
-  (:use [clojure.repl]))
+            [taoensso.timbre :as timbre]))
 
 ;;------------------------------
 ;; log
@@ -110,10 +109,12 @@
   ;; (\"OK\" \"OK\" \"OK\")
   ```
   "
-  [uri]
-  (bld/store
-   (read-string
-    (slurp uri))))
+  ([]
+   (build-mpd-edn (str "resources/mpd-" (->mp-id) ".edn")))
+  ([uri]
+   (bld/store
+    (read-string
+     (slurp uri)))))
 
 (defn build-mpd-ref
   "Builds up a reference or example structure
@@ -200,7 +201,7 @@
 ;;------------------------------
 ;; push ctrl commands
 ;;------------------------------
-(defn ctrl!
+(defn ctrl
   "Push a command string (`cmd`) to the control
   interface of a mp. `cmd`s are:
   
@@ -213,12 +214,25 @@
   **NOTE:** The `definitions` struct should not
   be started by user (see [[workon!]])."
   ([i cmd]
-   (ctrl! (->mp-id) i cmd))
+   (ctrl (->mp-id) i cmd))
   ([mp-id i cmd]
    (timbre/info "push cmd to:" mp-id)
    (let [p (u/get-cont-ctrl-path (u/extr-main-path mp-id) i)]
      (st/set-val! p cmd))
    (timbre/info "done  [" mp-id "]" )))
+
+(defn rc
+  "Shortcut to push a `run` to the control
+  interface of  mp container `i`."
+  [i]
+  (ctrl (->mp-id) i "run"))
+
+
+(defn sc
+  "Shortcut to push a `stop` to the control
+  interface of  mp container `i`."
+  [i]
+  (ctrl (->mp-id) i "stop"))
 
 ;;------------------------------
 ;; clear

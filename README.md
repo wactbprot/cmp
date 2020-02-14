@@ -15,9 +15,9 @@ The *cmp namespaces* are [connected as shown here](./docs/graph.png).
 
 # Clojure
 
-
 * [cheatsheet](https://clojure.org/api/cheatsheet)
 * [clojure-style-guide](https://github.com/bbatsov/clojure-style-guide)
+* [eastwood (linter)](https://github.com/jonase/eastwood)
 
 # Config (Redis)
 
