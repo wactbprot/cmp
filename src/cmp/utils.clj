@@ -135,30 +135,42 @@
 ;;------------------------------
 ;; path
 ;;------------------------------
-(defmulti extr-main-path
-  "Should work on `mpd-aaa-bbb`
-  as well as on `aaa-bbb`"
-  (fn [s] (string/starts-with? s "mpd-")))
+(defn extr-main-path
+  "Extracts the main path.
 
-(defmethod extr-main-path true
+  Should work on `mpd-aaa-bbb`
+  as well as on `aaa-bbb`.
+
+  ```clojure
+  (u/extr-main-path \"aa\")
+  ;; \"aa\"
+  cmp.core> (u/extr-main-path \"aa-bbb\")
+  ;; \"aa-bbb\"
+  cmp.core> (u/extr-main-path \"aa-bbb-lll\")
+  ;; \"aa-bbb-lll\"
+  ```
+  "
   [s]
-  (second
-   (re-matches  #"^mpd-([a-z0-3\-_]*)$" s)))
+  (if (string/starts-with? s "mpd-")
+    (second
+     (re-matches  #"^mpd-([a-z0-3\-_]*)$" s))
+    s))
 
-(defmethod extr-main-path false
+(defn compl-main-path
+  "Completes the main path by padding a `mpd-`
+  in case it is missing.
+  
+  ```clojure
+  (u/compl-main-path \"aaa\")
+  ;; \"mpd-aaa\"
+  (u/compl-main-path \"mpd-aaa\")
+  ;; \"mpd-aaa\"
+  ```
+  "
   [s]
-  s)
-
-(defmulti compl-main-path
-  "Should work on mpd-aaa-bbb as well as on aaa-bbb"
-  (fn [s] (string/starts-with? s "mpd-")))
-
-(defmethod compl-main-path true
-  [s])
-
-(defmethod compl-main-path false
-  [s]
-  (str "mpd-" s))
+  (if (string/starts-with? s "mpd-")
+    s
+    (str "mpd-" s)))
 
 ;;------------------------------
 ;; exchange

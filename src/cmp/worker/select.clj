@@ -6,36 +6,10 @@
             [clojure.core.async :as a]
             [clojure.string :as string]
             [cmp.st-mem :as st]
+            [cmp.exchange :as exch]
             [cmp.utils :as u]))
 
-(defn get-exch-path
-  "Returns the base key for the exchange path.
-
-  ```clojure
-  (get-exch-path  \"foo\" \"bar.baz\")
-  ;; \"foo@exchange@bar\"
-  (get-exch-path \"foo\" \"bar\")
-  ;; \"foo@exchange@bar\"
-  ```
-  "
-  [mp-id s]
-  {:pre [(not (nil? s))]}
-  (u/vec->key [mp-id "exchange" (first (string/split s (re-pattern "\\.")))]))
-
-(defn get-exch-kw
-  "Returns the keyword or nil.
-
-  ```clojure
-  (get-exch-kw \"foo\" )
-  ;; nil
-  (get-exch-kw \"foo.bar\" )
-  ;; :bar
-  ```"  
-  [s]
-  (if-let [x (second (string/split s (re-pattern "\\.")))] 
-    (keyword x)))
-
-  (defmulti get-comp-val
+(defmulti get-comp-val
   "Returns the *compare value* belonging to key `k`.
   If the *keyword* `kw` is not `nil` it is
   used to extract the related value.
@@ -70,8 +44,8 @@
         b         (str (cond-m :Value))
         meth      (cond-m :Methode)
         exch-p    (cond-m :ExchangePath)
-        exch-k    (get-exch-path mp-id exch-p)
-        exch-kw   (get-exch-kw  exch-p)
+        exch-k    (exch/->key mp-id exch-p)
+        exch-kw   (exch/key->kw exch-p)
         a         (str (get-comp-val exch-k exch-kw))]
     (cond
       (= meth "eq") (= a b)
