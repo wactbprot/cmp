@@ -4,16 +4,10 @@
   (:require [taoensso.timbre :as timbre]
             [cmp.st-mem :as st]
             [clojure.core.async :as a]
+            [cmp.excep :as excep]
             [cmp.state :as state]
             [cmp.utils :as u]))
-;;------------------------------
-;; exception channel 
-;;------------------------------
-(def excep-chan (a/chan))
-(a/go
-  (while true
-    (let [e (a/<! excep-chan)] 
-      (timbre/error (.getMessage e)))))
+
 
 ;;------------------------------
 ;; ctrl channel invoked by run 
@@ -67,4 +61,4 @@
           :stop (stop k))
         (catch Exception e
           (timbre/error "catch error at channel " k)
-          (a/>! excep-chan e))))))
+          (a/>! excep/ch e))))))

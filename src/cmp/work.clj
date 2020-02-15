@@ -7,17 +7,9 @@
             [cmp.worker.wait :refer [wait!]]
             [cmp.worker.select :refer [select-definition!]]
             [cmp.worker.modbus :refer [modbus!]]
+            [cmp.excep :as excep]
             [cmp.task :as tsk]
             [cmp.utils :as u]))
-
-;;------------------------------
-;; exception channel 
-;;------------------------------
-(def excep-chan (a/chan))
-(a/go
-  (while true
-    (let [e (a/<! excep-chan)] 
-      (timbre/error (.getMessage e)))))
 
 ;;------------------------------
 ;; ctrl channel invoked by run 
@@ -30,11 +22,12 @@
   kept independent from the tasks position, runtime infos
   like `:StructKey` have to be `assoc`ed here" 
   [k]
-  (tsk/assemble
-   (assoc (tsk/gen-meta-task (st/key->val k))
-          :StructKey k
-          :MpName (u/key->mp-name k)
-          :StateKey (u/replace-key-at-level 3 k "state"))))
+  (if-let [task (st/key->val k)]
+    (tsk/assemble (assoc (tsk/gen-meta-task task)
+                         :StructKey k
+                         :MpName (u/key->mp-name k)
+                         :StateKey (u/replace-key-at-level 3 k "state")))
+    (a/>! excep/ch (throw (Exception. (str "No task at: " k))))))
 
 ;;------------------------------
 ;; dispatch 
@@ -74,4 +67,4 @@
         (dispatch! (k->task k))
         (catch Exception e
           (timbre/error "catch error at channel " k)
-          (a/>! excep-chan e))))))
+          (a/>! excep/ch e))))))

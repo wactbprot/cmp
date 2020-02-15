@@ -36,3 +36,16 @@
   [s]
   (if-let [x (second (string/split s (re-pattern "\\.")))] 
     (keyword x)))
+
+
+(defn from
+  "
+  {
+  :%stateblock1 Vraw_block1
+  :%stateblock2 Vraw_block2
+  :%stateblock3 Vraw_block3
+  :%stateblock4 Vraw_block4
+  }"
+  [m mp-id]
+  (println m)
+  )

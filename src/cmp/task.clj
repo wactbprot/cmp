@@ -2,11 +2,14 @@
   ^{:author "wactbprot"
     :doc "Spec for tasks."}
   (:require [clojure.spec.alpha :as s]
+            [clojure.core.async :as a]
             [taoensso.timbre :as log]
             [clojure.walk :as walk]
             [clojure.string :as string]
             [cmp.utils :as u]
             [cmp.doc :as d]
+            [cmp.excep :as excep]
+            [cmp.exchange :as exch]
             [cmp.lt-mem :as lt]
             [cmp.st-mem :as st]))
 
@@ -24,16 +27,14 @@
 (s/def ::tcp-task (s/keys :req-un [::TaskName ::Host ::Port]
                           :opt-un [::DocPath]))
 
-(defmulti task?
-  (fn [m] (m :Action)))
-
-(defmethod task? "TCP"
+(defn task?
+  "Checks the task structure against a spec."
   [m]
-  (s/valid? ::tcp-task m))
-
-(defmethod task? :default
-  [m]
-  (s/valid? ::task m))
+  (if (nil? m)
+    (a/>! excep/ch (throw (Exception. "task is nil")))
+    (condp :Action m
+      "TCP"    (s/valid? ::tcp-task m)
+      :default (s/valid? ::task m))))
 
 (defn proto-task?
   [x]
@@ -43,27 +44,14 @@
   [x]
   (task? (:Task x)))
 
-(defn get-from-exchange
-  "
-  {
-  :%stateblock1 Vraw_block1
-  :%stateblock2 Vraw_block2
-  :%stateblock3 Vraw_block3
-  :%stateblock4 Vraw_block4
-  }"
-  [m mp-name]
-  (println m)
-  )
-
 (defn from-exchange
   [task]
-  (let [mp-name (:MpName task)
-        fexch   (:FromExchange task)]
+  (let [mp-id (:MpName task)
+        m     (:FromExchange task)]
     (cond
-      (nil? mp-name) task
-      (nil? fexch)   task
-      :else (get-from-exchange fexch mp-name)
-      )))
+      (nil? mp-id) task
+      (nil? m)     task
+      :else (exch/from m mp-id))))
 
 (defn ->globals
   "Returns a map with replacements

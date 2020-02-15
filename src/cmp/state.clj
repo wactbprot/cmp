@@ -7,15 +7,8 @@
             [cmp.st-mem :as st]
             [cmp.work :as work]            
             [cmp.task :as tsk]
+            [cmp.excep :as excep]
             [cmp.utils :as u]))
-;;------------------------------
-;; exception channel 
-;;------------------------------
-(def excep-chan (a/chan))
-(a/go
-  (while true
-    (let [e (a/<! excep-chan)] 
-      (timbre/error (.getMessage e)))))
 
 ;;------------------------------
 ;; ctrl channel invoked by ctrl 
@@ -341,12 +334,19 @@
 ;;------------------------------
 ;; status 
 ;;------------------------------
-(defn status
-  "Return the state map for the `n`th
+(defn cont-status
+  "Return the state map for the `i`th
   container."
-  [mp-id n]
-  (->> [mp-id "container" n "state"]
-       (u/vec->key)
+  [mp-id i]
+  (->> (u/get-cont-state-path mp-id i)
+       (p->state-ks)
+       (ks->state-map)))
+
+(defn defins-status
+  "Return the state map for the `i`th
+  definition structure."
+  [mp-id i]
+  (->> (u/get-defins-state-path mp-id i)
        (p->state-ks)
        (ks->state-map)))
 
@@ -363,4 +363,4 @@
           :stop (stop k))
         (catch Exception e
           (timbre/error "catch error at channel " k)
-          (a/>! excep-chan e))))))
+          (a/>! excep/ch e))))))

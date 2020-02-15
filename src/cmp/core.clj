@@ -257,11 +257,22 @@
    (st/clear (u/extr-main-path mp-id))
    (timbre/info "done  [" mp-id "]" )))
 
-(defn status
-  ([no]
-   (status (->mp-id) no))
-  ([mp-id no]
-   (state/status mp-id no)))
+(defn cs
+  "`cs` means  **c**ontainer **s**tatus.
+  Returns the state map for the `i` container."
+  ([i]
+   (cs (->mp-id) i))
+  ([mp-id i]
+   (state/cont-status mp-id i)))
+
+
+(defn ds
+  "`ds` means  **d**efinitions **s**tatus.
+  Returns the `state map` for the `i` definitions structure."
+  ([i]
+   (ds (->mp-id) i))
+  ([mp-id i]
+   (state/cont-status mp-id i)))
 
 
 (defn build-tasks
