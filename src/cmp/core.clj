@@ -263,7 +263,7 @@
   ([i]
    (cs (->mp-id) i))
   ([mp-id i]
-   (state/cont-status mp-id i)))
+   (map :state (state/cont-status mp-id i))))
 
 
 (defn ds
@@ -272,7 +272,7 @@
   ([i]
    (ds (->mp-id) i))
   ([mp-id i]
-   (state/cont-status mp-id i)))
+   (map :state (state/defins-status mp-id i))))
 
 
 (defn build-tasks
