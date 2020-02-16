@@ -180,7 +180,7 @@
   "Registers a listener for the `ctrl`
   interface of a `mp-id` (see [[workon!]])."
   ([]
-   (start (->mp-id)))
+   (start-observe (->mp-id)))
   ([mp-id]
    (a/>! ctrl/ctrl-chan [mp-id :start])
    (timbre/info "sent register request for: " mp-id)))
@@ -192,7 +192,7 @@
   "De-registers the listener for the `ctrl`
   interface of the given `mp-id` (see [[workon!]])."
   ([]
-   (stop (->mp-id)))
+   (stop-observe (->mp-id)))
   ([mp-id]
    (a/>! ctrl/ctrl-chan [mp-id :stop])
    (timbre/info "sent de-register request for: " mp-id)))
