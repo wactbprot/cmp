@@ -249,7 +249,7 @@
   ([]
    (clear (->mp-id)))
   ([mp-id]
-   (stop mp-id)
+   (stop-observe mp-id)
    (st/clear (u/extr-main-path mp-id))))
 
 (defn cs
