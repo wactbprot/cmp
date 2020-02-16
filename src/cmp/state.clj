@@ -358,9 +358,9 @@
     (let [[k cmd] (a/<! ctrl-chan)]
       (try
         (timbre/debug "receive key " k "and" cmd)            
-        (condp = cmd
-          :start (start k)
-          :stop (stop k))
+        (condp = (keyword cmd)
+          :start  (start k)
+          :stop   (stop k))
         (catch Exception e
           (timbre/error "catch error at channel " k)
           (a/>! excep/ch e))))))

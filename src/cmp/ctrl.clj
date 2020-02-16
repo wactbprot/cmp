@@ -8,7 +8,6 @@
             [cmp.state :as state]
             [cmp.utils :as u]))
 
-
 ;;------------------------------
 ;; ctrl channel invoked by run 
 ;;------------------------------
@@ -18,47 +17,42 @@
 ;; ctrl-dispatch!, start, stop
 ;;------------------------------
 (defn stop
-  "De-registers a listener for the `ctrl`
-  interface of the `mp-id`."
+  "De-registers the listener for the `ctrl`
+  interfacees of the `mp-id`. After stopping
+  the system will no longer react on changes
+  at the `ctrl` interface."
   [mp-id]
   (st/de-register! mp-id "*" "*" "ctrl"))
 
 (defn dispatch!
   "Dispatches on the value of the
-  `ctrl` interface `p`."
+  `ctrl` interface  for the structure
+  belonging to `p`."
   [p]
-  (let [mp-id (u/key->mp-name p)
-        cmd (->> p
+  (let [cmd (->> p
                  (st/key->val)
-                 (u/get-next-ctrl)
-                 keyword)]
-    (condp = cmd
-      :run     (a/>!! state/ctrl-chan [p :start])
-      :mon     (a/>!! state/ctrl-chan [p :start])
-      :suspend (a/>!! state/ctrl-chan [p :stop])
-      :stop    (do
-                 (a/>!! state/ctrl-chan [p :stop])
-                 (stop mp-id))
-      (timbre/debug "dispatch default branch for key: " p))))
+                 (u/get-next-ctrl))]
+    (a/>! state/ctrl-chan [p cmd])))
 
 (defn start
-  "Registers a listener for the `ctrl` interface of the `mp-id`.
-  The [[dispatch]] function becomes the `callback`." 
+  "Registers a listener for the `ctrl` interface of
+  the entire `mp-id`. The [[dispatch]] function
+  becomes the listeners `callback`." 
   [mp-id]
   (st/register! mp-id "*" "*" "ctrl"
-                 (fn [msg] (dispatch! (st/msg->key msg)))))
+                (fn [msg] (dispatch! (st/msg->key msg)))))
 
 ;;------------------------------
 ;; ctrl go block 
 ;;------------------------------
 (a/go
   (while true  
-    (let [[k cmd] (a/<! ctrl-chan)]
+    (let [[mp-id cmd] (a/<! ctrl-chan)]
       (try
-        (timbre/debug "receive key " k "and" cmd)            
+        (timbre/debug "receive key " mp-id "and" cmd)            
         (condp = cmd
-          :start (start k)
-          :stop (stop k))
+          :start  (start mp-id)
+          :stop   (stop mp-id))
         (catch Exception e
-          (timbre/error "catch error at channel " k)
+          (timbre/error "catch error at channel " mp-id)
           (a/>! excep/ch e))))))

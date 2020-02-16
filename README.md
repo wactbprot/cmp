@@ -60,8 +60,51 @@ $ npm install -g redis-commander
 
 # Usage
 
-User interaction with *cmp* is **REPL only** so far.
+User interaction with *cmp* is **REPL only** so far. The `core`
+namespace is the entry point. Use the `(dir cmp.core)` to get an
+overview: 
 
+```clojure
+(dir cmp.core)
+;; ->mp-id
+;; build-mpd
+;; build-mpd-edn
+;; build-mpd-ref
+;; build-tasks
+;; build-tasks-edn
+;; check
+;; clear
+;; cs
+;; ctrl
+;; current-mp-id
+;; doc-add
+;; doc-del
+;; ds
+;; log-init!
+;; log-start-repl-out!
+;; log-stop-repl-out!
+;; rc
+;; refresh-tasks
+;; sc
+;; start-observe
+;; status
+;; stop
+;; stop-observe
+;; workon!
+;; workon!!
+```
+
+Use `(doc build-tasks)` for a more detailed view.
+
+```clojure
+(doc build-tasks)
+-------------------------
+cmp.core/build-tasks
+([])
+  Builds the `tasks` endpoint. At
+  runtime all `tasks` are provided by
+  `st-mem` 
+  ```
 
 Find a documented reference `mpd` in
 [edn-format](https://github.com/edn-format/edn) 
@@ -71,63 +114,17 @@ Build check and start with:
 
 
 ```clojure
-(build-ref)
 (workon! "ref")
+(build-ref-edn)
 (check)
-(start)
-(ctrl! 0 "run")
+(start-observe)
+(rc 0) ;; abbrev. for (ctrl 0 "run") 
 ```
-
-```Access log
-;; ... :48 hiob INFO [cmp.core:187] - push cmd to: ref
-;; ... :48 hiob INFO [cmp.core:190] - done  [ ref ]
-;; ... :48 hiob DEBUG [cmp.state:361] - receive key  ref@container@0@ctrl and start
-;; ... :48 hiob INFO [cmp.reg:43] - registered listener for:  ref container 0 state
-;; ... :48 hiob INFO [cmp.st-mem:103] - subscribed to  __keyspace@0*__:ref@container@0@state*
-;; ... :48 hiob DEBUG [cmp.work:62] - receive key  ref@container@0@definition@0@0  try to get task and call worker
-;; ... :48 hiob DEBUG [cmp.lt-mem:20] - get task:  Common-wait  from ltm
-;; ... :48 hiob DEBUG [cmp.work:62] - receive key  ref@container@0@definition@0@1  try to get task and call worker
-;; ... :48 hiob DEBUG [cmp.lt-mem:20] - get task:  Common-wait  from ltm
-;; ... :51 hiob INFO [cmp.worker.wait:20] - wait time ( 3000 ms) over for  ref@container@0@state@0@0
-;; ... :52 hiob INFO [cmp.worker.wait:20] - wait time ( 4000 ms) over for  ref@container@0@state@0@1
-;; ... :53 hiob DEBUG [cmp.work:62] - receive key  ref@container@0@definition@1@0  try to get task and call worker
-;; ... :53 hiob DEBUG [cmp.lt-mem:20] - get task:  Common-wait  from ltm
-;; ... :53 hiob DEBUG [cmp.work:62] - receive key  ref@container@0@definition@1@1  try to get task and call worker
-;; ... :53 hiob DEBUG [cmp.lt-mem:20] - get task:  Common-wait  from ltm
-;; ... :53 hiob DEBUG [cmp.work:62] - receive key  ref@container@0@definition@1@2  try to get task and call worker
-;; ... :53 hiob DEBUG [cmp.lt-mem:20] - get task:  Common-wait  from ltm
-;; ... :53 hiob DEBUG [cmp.work:62] - receive key  ref@container@0@definition@1@3  try to get task and call worker
-;; ... :53 hiob DEBUG [cmp.lt-mem:20] - get task:  Common-wait  from ltm
-;; ... :56 hiob INFO [cmp.worker.wait:20] - wait time ( 3000 ms) over for  ref@container@0@state@1@0
-;; ... :56 hiob INFO [cmp.worker.wait:20] - wait time ( 3000 ms) over for  ref@container@0@state@1@1
-;; ... :56 hiob INFO [cmp.worker.wait:20] - wait time ( 3000 ms) over for  ref@container@0@state@1@2
-;; ... :56 hiob INFO [cmp.worker.wait:20] - wait time ( 3000 ms) over for  ref@container@0@state@1@3
-;; ... :57 hiob DEBUG [cmp.work:62] - receive key  ref@container@0@definition@2@0  try to get task and call worker
-;; ... :57 hiob DEBUG [cmp.lt-mem:20] - get task:  Common-wait  from ltm
-;; ... :58 hiob INFO [cmp.worker.wait:20] - wait time ( 1000 ms) over for  ref@container@0@state@2@0
-;; ... :58 hiob INFO [cmp.state:275] - all done at  ref@container@0@ctrl  (run branch)
-;; ... :58 hiob DEBUG [cmp.ctrl:34] - dispatch default branch for key:  ref@container@0@ctrl
-;; ... :58 hiob INFO [cmp.reg:54] - de-registered listener:  ref_container_0_state
-
-```
-
-```clojure
-(workon! mp-id)
-(clear)
-(build)
-(check)
-(start)
-;; followed by
-(ctrl! 0 "run")
-(status)
-```
-
-Same as:
 
 ```clojure
 (workon!! mp-id)
-(ctrl! 0 "run")
-(status)
+(rc 0)
+(sc 0)
 ```
 
 ## (re)generate documentation

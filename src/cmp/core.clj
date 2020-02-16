@@ -176,27 +176,26 @@
 ;;------------------------------
 ;; start
 ;;------------------------------
-(defn start
-  "Registers a listener for the `ctrl` interface.
-  (see [[workon!]])."
+(defn start-observe
+  "Registers a listener for the `ctrl`
+  interface of a `mp-id` (see [[workon!]])."
   ([]
    (start (->mp-id)))
   ([mp-id]
-   (timbre/info "register observer for: " mp-id)
-   (a/>!! ctrl/ctrl-chan [mp-id :start])))
-  
+   (a/>! ctrl/ctrl-chan [mp-id :start])
+   (timbre/info "sent register request for: " mp-id)))
 
 ;;------------------------------
 ;; stop
 ;;------------------------------
-(defn stop
-  "Registers a listener for the `ctrl` interface.
-  (see [[workon!]])."
+(defn stop-observe
+  "De-registers the listener for the `ctrl`
+  interface of the given `mp-id` (see [[workon!]])."
   ([]
    (stop (->mp-id)))
   ([mp-id]
-   (timbre/info "stop observing " mp-id)
-   (a/>!! ctrl/ctrl-chan [mp-id :stop])))
+   (a/>! ctrl/ctrl-chan [mp-id :stop])
+   (timbre/info "sent de-register request for: " mp-id)))
 
 ;;------------------------------
 ;; push ctrl commands
@@ -216,10 +215,8 @@
   ([i cmd]
    (ctrl (->mp-id) i cmd))
   ([mp-id i cmd]
-   (timbre/info "push cmd to:" mp-id)
    (let [p (u/get-cont-ctrl-path (u/extr-main-path mp-id) i)]
-     (st/set-val! p cmd))
-   (timbre/info "done  [" mp-id "]" )))
+     (st/set-val! p cmd))))
 
 (defn rc
   "Shortcut to push a `run` to the control
@@ -253,9 +250,7 @@
    (clear (->mp-id)))
   ([mp-id]
    (stop mp-id)
-   (timbre/info "clear " mp-id )
-   (st/clear (u/extr-main-path mp-id))
-   (timbre/info "done  [" mp-id "]" )))
+   (st/clear (u/extr-main-path mp-id))))
 
 (defn cs
   "`cs` means  **c**ontainer **s**tatus.
@@ -265,15 +260,14 @@
   ([mp-id i]
    (map :state (state/cont-status mp-id i))))
 
-
 (defn ds
   "`ds` means  **d**efinitions **s**tatus.
-  Returns the `state map` for the `i` definitions structure."
+  Returns the `state map` for the `i`
+  definitions structure."
   ([i]
    (ds (->mp-id) i))
   ([mp-id i]
    (map :state (state/defins-status mp-id i))))
-
 
 (defn build-tasks
   "Builds the `tasks` endpoint. At
@@ -328,4 +322,4 @@
   (clear)
   (build-mpd)
   (check)
-  (start))
+  (start-observe))
