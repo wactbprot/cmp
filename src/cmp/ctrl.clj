@@ -32,7 +32,7 @@
   (let [cmd (->> p
                  (st/key->val)
                  (u/get-next-ctrl))]
-    (a/>! state/ctrl-chan [p cmd])))
+    (a/>!! state/ctrl-chan [p cmd])))
 
 (defn start
   "Registers a listener for the `ctrl` interface of

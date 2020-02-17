@@ -182,7 +182,7 @@
   ([]
    (start-observe (->mp-id)))
   ([mp-id]
-   (a/>! ctrl/ctrl-chan [mp-id :start])
+   (a/>!! ctrl/ctrl-chan [mp-id :start])
    (timbre/info "sent register request for: " mp-id)))
 
 ;;------------------------------
@@ -194,7 +194,7 @@
   ([]
    (stop-observe (->mp-id)))
   ([mp-id]
-   (a/>! ctrl/ctrl-chan [mp-id :stop])
+   (a/>!! ctrl/ctrl-chan [mp-id :stop])
    (timbre/info "sent de-register request for: " mp-id)))
 
 ;;------------------------------
@@ -277,7 +277,7 @@
   (bld/store-tasks (lt/get-all-tasks)))
 
 
-(defn build-tasks-edn
+(defn build-task-edn
   "Stores the `task` slurping from the given
   `uri`
   Usage:

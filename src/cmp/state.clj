@@ -258,23 +258,25 @@
   are `\"executed\"`."
   [p]
   (let [ctrl-k   (p->ctrl-k p)
-        ctrl-str (->> ctrl-k
-                      (st/key->val)
-                      (u/get-next-ctrl))
+        cmd      (->> ctrl-k
+                     (st/key->val)
+                     (u/get-next-ctrl)
+                     keyword)
         state-ks (p->state-ks p)]
-    (cond
-      (= ctrl-str "run") (do
-                           (timbre/info "all done at " p " (run branch)")
-                           (st/set-val! ctrl-k "ready")
-                           (st/set-same-val! state-ks "ready")
-                           (st/de-register! (u/key->mp-name p)
-                                             (u/key->struct p)
-                                             (u/key->no-idx p)
-                                             "state"))
-      (= ctrl-str "mon") (do
-                           (timbre/info "all done at " p " (run mon)")
-                           (st/set-same-val! state-ks "ready")
-                           (st/set-val! ctrl-k "mon")))))
+    (condp = cmd
+      :run (do
+             (timbre/info "all done at " p " (run branch)")
+             (st/set-val! ctrl-k "ready")
+             (st/set-same-val! state-ks "ready")
+             (st/de-register! (u/key->mp-name p)
+                              (u/key->struct p)
+                              (u/key->no-idx p)
+                              "state"))
+      :mon (do
+             (timbre/info "all done at " p " (run mon)")
+             (st/set-same-val! state-ks "ready")
+             (st/set-val! ctrl-k "mon"))
+      (timbre/info "default branch in all-exec fn of " p))))
 
 (defn nil-ctrl!
   "Kind of `nop`."
