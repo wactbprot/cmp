@@ -12,7 +12,6 @@ page.
 
 The *cmp namespaces* are [connected as shown here](./docs/graph.png).
 
-
 # Clojure
 
 * [cheatsheet](https://clojure.org/api/cheatsheet)

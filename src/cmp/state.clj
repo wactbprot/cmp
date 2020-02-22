@@ -10,10 +10,6 @@
             [cmp.excep :as excep]
             [cmp.utils :as u]))
 
-;;------------------------------
-;; ctrl channel invoked by ctrl 
-;;------------------------------
-(def ctrl-chan (a/chan))
 
 (defn state-map->definition-key
   "Converts a `state-map` into a key."
@@ -55,17 +51,31 @@
                       (u/key->no-idx p)
                       "state"]))))
 
-(defn p->ctrl-k
-  "Returns the `ctrl`-key for a given path `p`.
+(defn k->ctrl-k
+  "Returns the `ctrl`-key for a given key `k`.
+  In other words: ensures k to be a `ctrl-key`.
 
   ```clojure
-  (p->ctrl-k \"wait@container@0@state@0@0\")
+  (k->ctrl-k \"wait@container@0@state@0@0\")
+  ;; \"wait@container@0@ctrl\"
+  (k->ctrl-k
+    (k->ctrl-k
+      (k->ctrl-k \"wait@container@0@state@0@0\")))
+    ;; \"wait@container@0@ctrl\"
   ```" 
-  [p]
-  (u/vec->key [(u/key->mp-name p)
-               (u/key->struct p)
-               (u/key->no-idx p)
+  [k]
+  (u/vec->key [(u/key->mp-name k)
+               (u/key->struct k)
+               (u/key->no-idx k)
                "ctrl"]))
+
+(defn ctrl-k->cmd
+  "Gets the `cmd` from the `ctrl-k`."
+  [k]
+  (->> k
+       (st/key->val)
+       (u/get-next-ctrl)
+       keyword))
 
 (defn filter-state
   [m s]
@@ -242,41 +252,65 @@
       (cond
         (or
          (= i 0)
-         (predecessor-executed? m i)) next-m
-        :else nil))))
+         (predecessor-executed? m i)) next-m))))
+
+
+;;------------------------------
+;; stop
+;;------------------------------
+(defn stop
+  "Sets all states (the state interface) to ready.
+  De-registers the `state` listener.
+  The de-register pattern is derived
+  from the key  `k` (may be the
+  `ctrl-key` or `state-key`)."
+  [k]
+  (let [state-ks (p->state-ks k)]
+    (st/set-same-val! state-ks "ready")
+    (st/de-register! (u/key->mp-name k)
+                     (u/key->struct k)
+                     (u/key->no-idx k)
+                     "state")))
+;;------------------------------
+;; stop
+;;------------------------------
+(defn suspend
+  "Simply de-registers the `state` listener
+  without changing the state interface.
+  The de-register pattern is derived
+  from the key  `k` (may be the
+  `ctrl-key` or `state-key`)."
+  [k]
+  (let [state-ks (p->state-ks k)]
+    (st/de-register! (u/key->mp-name k)
+                     (u/key->struct k)
+                     (u/key->no-idx k)
+                     "state")))
 
 ;;------------------------------
 ;; set value at ctrl-path 
 ;;------------------------------
 (defn error-ctrl!
-  "Sets the `ctrl` interface to `\"error`."
-  [p]
-  (st/set-val! (p->ctrl-k p) "error"))
+  "Sets the `ctrl` interface to `\"error\"`."
+  [k]
+  (st/set-val! (k->ctrl-k k) "error"))
 
 (defn all-exec-ctrl!
   "Handles the case where all `state` interfaces
-  are `\"executed\"`."
-  [p]
-  (let [ctrl-k   (p->ctrl-k p)
-        cmd      (->> ctrl-k
-                     (st/key->val)
-                     (u/get-next-ctrl)
-                     keyword)
-        state-ks (p->state-ks p)]
+  are `\"executed\"`. Gets the value  the `ctrl`"
+  [k]
+  (let [ctrl-k   (k->ctrl-k k)
+        cmd      (ctrl-k->cmd ctrl-k)
+        state-ks (p->state-ks k)]
+    (timbre/info "all done at " k " under ctrl cmd " cmd)
     (condp = cmd
       :run (do
-             (timbre/info "all done at " p " (run branch)")
              (st/set-val! ctrl-k "ready")
-             (st/set-same-val! state-ks "ready")
-             (st/de-register! (u/key->mp-name p)
-                              (u/key->struct p)
-                              (u/key->no-idx p)
-                              "state"))
+             (stop ctrl-k))
       :mon (do
-             (timbre/info "all done at " p " (run mon)")
              (st/set-same-val! state-ks "ready")
              (st/set-val! ctrl-k "mon"))
-      (timbre/info "default branch in all-exec fn of " p))))
+      (timbre/info "default condp branch in all-exec fn of " k ))))
 
 (defn nil-ctrl!
   "Kind of `nop`."
@@ -286,11 +320,19 @@
 ;; pick next task
 ;;------------------------------
 (defn start-next!
-  "Receives the path p and picks the next thing to do.
-  `p` looks like this (must be a string):
+  "Receives the key `k` and picks the next thing to do.
+  `k` is
+  * the `ctrl-key` on the first run
+  * the `state-key` on the following calls
+  The keys (must be a string) and look like this:
 
   ```clojure
+  ;; ctrl-key
   (start-next! \"se3-calib@container@0@ctrl\")
+
+  ;; state-key
+  (start-next! \"se3-calib@container@0@state@1@1\")
+
   ```
   
   **NOTE:**
@@ -299,39 +341,33 @@
   `(find-next state-map)` (the upcomming tasks)
   since the workers set the state to `\"working\"`
   which triggers the next call to `start-next`."
-  [p]
-  (let [ctrl-p  (p->ctrl-k p)
-        state-m (ks->state-map (p->state-ks ctrl-p))
+  [k]
+  (let [ctrl-k  (k->ctrl-k k)
+        state-m (ks->state-map (p->state-ks ctrl-k))
         next-m  (find-next state-m)]
     (cond
-      (errors?       state-m) (error-ctrl!    ctrl-p)
-      (all-executed? state-m) (all-exec-ctrl! ctrl-p)
-      (nil?          next-m)  (nil-ctrl!      ctrl-p)
+      (errors?       state-m) (error-ctrl!    ctrl-k)
+      (all-executed? state-m) (all-exec-ctrl! ctrl-k)
+      (nil?          next-m)  (nil-ctrl!      ctrl-k)
       :else (a/go
               (a/<! (a/timeout 200))
               (a/>! work/ctrl-chan (state-map->definition-key next-m))))))
 
 ;;------------------------------
-;; start, stop
+;; start
 ;;------------------------------
 (defn start
   "Registers a listener with a [[start-next!]] callback.
-  Calls `start-next!` as a first trigger."
-  [p]
-  (st/register! (u/key->mp-name p)
-                 (u/key->struct p)
-                 (u/key->no-idx p)
+  Calls `start-next!` as a first trigger.
+  The register pattern is derived
+  from the key  `k` (`ctrl-key`)."
+  [k]
+  (st/register!  (u/key->mp-name k)
+                 (u/key->struct k)
+                 (u/key->no-idx k)
                  "state"
                  (fn [msg] (start-next! (st/msg->key msg))))
-  (start-next! p))
-
-(defn stop
-  "De-registers the state listener."
-  [p]
-  (st/de-register! (u/key->mp-name p)
-                    (u/key->struct p)
-                    (u/key->no-idx p)
-                    "state"))
+  (start-next! k))
 
 ;;------------------------------
 ;; status 
@@ -353,16 +389,23 @@
        (ks->state-map)))
 
 ;;------------------------------
+;; ctrl channel invoked by ctrl 
+;;------------------------------
+(def ctrl-chan (a/chan))
+;;------------------------------
 ;; ctrl go block 
 ;;------------------------------
 (a/go
   (while true  
-    (let [[k cmd] (a/<! ctrl-chan)]
+    (let [[k cmd] (a/<! ctrl-chan)] ; k ... ctrl-key
       (try
         (timbre/debug "receive key " k "and" cmd)            
         (condp = (keyword cmd)
-          :start  (start k)
-          :stop   (stop k))
+          :run     (start k)
+          :mon     (start k)
+          :stop    (stop k)
+          :suspend (suspend k)
+          (timbre/info  "received cmd " cmd " for path " k ))
         (catch Exception e
           (timbre/error "catch error at channel " k)
           (a/>! excep/ch e))))))

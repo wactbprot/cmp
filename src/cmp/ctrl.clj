@@ -8,23 +8,11 @@
             [cmp.state :as state]
             [cmp.utils :as u]))
 
-;;------------------------------
-;; ctrl channel invoked by run 
-;;------------------------------
-(def ctrl-chan (a/chan))
 
 ;;------------------------------
-;; ctrl-dispatch!, start, stop
+;; ctrl-dispatch!
 ;;------------------------------
-(defn stop
-  "De-registers the listener for the `ctrl`
-  interfacees of the `mp-id`. After stopping
-  the system will no longer react on changes
-  at the `ctrl` interface."
-  [mp-id]
-  (st/de-register! mp-id "*" "*" "ctrl"))
-
-(defn dispatch!
+(defn dispatch
   "Dispatches on the value of the
   `ctrl` interface  for the structure
   belonging to `p`."
@@ -34,13 +22,32 @@
                  (u/get-next-ctrl))]
     (a/>!! state/ctrl-chan [p cmd])))
 
+;;------------------------------
+;; stop
+;;------------------------------
+(defn stop
+  "De-registers the listener for the `ctrl`
+  interfacees of the `mp-id`. After stopping
+  the system will no longer react on changes
+  at the `ctrl` interface."
+  [mp-id]
+  (st/de-register! mp-id "*" "*" "ctrl"))
+
+;;------------------------------
+;; start
+;;------------------------------
 (defn start
   "Registers a listener for the `ctrl` interface of
   the entire `mp-id`. The [[dispatch]] function
   becomes the listeners `callback`." 
   [mp-id]
   (st/register! mp-id "*" "*" "ctrl"
-                (fn [msg] (dispatch! (st/msg->key msg)))))
+                (fn [msg] (dispatch (st/msg->key msg)))))
+
+;;------------------------------
+;; ctrl channel invoked by run 
+;;------------------------------
+(def ctrl-chan (a/chan))
 
 ;;------------------------------
 ;; ctrl go block 
