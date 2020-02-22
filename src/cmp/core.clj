@@ -157,7 +157,6 @@
   ([]
    (check (->mp-id)))
   ([mp-id]
-   (timbre/info "check: " mp-id)
    (let [p         (u/extr-main-path mp-id)
          k-ncont   (u/get-meta-ncont-path p)
          n-cont    (st/key->val k-ncont)
@@ -170,11 +169,10 @@
      (run!
       (fn [i]
         (chk/struct-tasks (u/get-defins-defin-path p i)))
-      (range n-defins)))
-   (timbre/info "done  [" mp-id "]" )))
+      (range n-defins)))))
 
 ;;------------------------------
-;; start
+;; start observing
 ;;------------------------------
 (defn start-observe
   "Registers a listener for the `ctrl`
@@ -186,7 +184,7 @@
    (timbre/info "sent register request for: " mp-id)))
 
 ;;------------------------------
-;; stop
+;; stop observing 
 ;;------------------------------
 (defn stop-observe
   "De-registers the listener for the `ctrl`
@@ -315,6 +313,21 @@
    (stop-observe mp-id)
    (st/clear (u/extr-main-path mp-id))))
 
+
+(defn clear-all
+  "The pattern `*@meta@name` is used to find all
+   mp-names. Function removes all keys of all `mpd`s
+
+  TODO:
+  rm all tasks"  
+  []
+  (map clear
+       (map u/key->mp-name
+            (st/pat->keys "*@meta@name"))))
+
+;;------------------------------
+;; workon!!
+;;------------------------------
 (defn workon!!
   "Sets the mpd to work on, then starts:
   `(clear)`, `(build-mpd)`, `(check)`  and `(start)`
