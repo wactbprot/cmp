@@ -56,10 +56,11 @@
   (while true  
     (let [[mp-id cmd] (a/<! ctrl-chan)]
       (try
-        (timbre/debug "receive key " mp-id "and" cmd)            
-        (condp = cmd
+        (timbre/info "receive key " mp-id "and" cmd)
+        (condp = (keyword cmd)
           :start  (start mp-id)
-          :stop   (stop mp-id))
+          :stop   (stop mp-id)
+          (timbre/error "no case for " mp-id "and" cmd))
         (catch Exception e
           (timbre/error "catch error at channel " mp-id)
           (a/>! excep/ch e))))))

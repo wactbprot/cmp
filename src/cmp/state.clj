@@ -256,21 +256,29 @@
 
 
 ;;------------------------------
+;; reset
+;;------------------------------
+(defn reset 
+  "Sets all states (the state interface) to ready."
+  [k]
+  (st/set-same-val! (p->state-ks k) "ready"))
+
+;;------------------------------
 ;; stop
 ;;------------------------------
 (defn stop
-  "Sets all states (the state interface) to ready.
-  De-registers the `state` listener.
+  "De-registers the `state` listener.
   The de-register pattern is derived
   from the key  `k` (may be the
-  `ctrl-key` or `state-key`)."
+  `ctrl-key` or `state-key`).
+  Resets the state interface afterwards."
   [k]
-  (let [state-ks (p->state-ks k)]
-    (st/set-same-val! state-ks "ready")
-    (st/de-register! (u/key->mp-name k)
-                     (u/key->struct k)
-                     (u/key->no-idx k)
-                     "state")))
+  (st/de-register! (u/key->mp-name k)
+                   (u/key->struct k)
+                   (u/key->no-idx k)
+                   "state")
+  (reset k))
+
 ;;------------------------------
 ;; stop
 ;;------------------------------
@@ -392,6 +400,7 @@
 ;; ctrl channel invoked by ctrl 
 ;;------------------------------
 (def ctrl-chan (a/chan))
+
 ;;------------------------------
 ;; ctrl go block 
 ;;------------------------------
@@ -399,9 +408,10 @@
   (while true  
     (let [[k cmd] (a/<! ctrl-chan)] ; k ... ctrl-key
       (try
-        (timbre/debug "receive key " k "and" cmd)            
+        (timbre/info "receive key " k "and" cmd)            
         (condp = (keyword cmd)
           :run     (start k)
+          :reset   (reset k)
           :mon     (start k)
           :stop    (stop k)
           :suspend (suspend k)

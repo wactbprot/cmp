@@ -200,7 +200,7 @@
 ;;------------------------------
 ;; push ctrl commands
 ;;------------------------------
-(defn ctrl
+(defn set-ctrl
   "Push a command string (`cmd`) to the control
   interface of a mp. `cmd`s are:
   
@@ -213,59 +213,48 @@
   **NOTE:** The `definitions` struct should not
   be started by user (see [[workon!]])."
   ([i cmd]
-   (ctrl (->mp-id) i cmd))
+   (set-ctrl (->mp-id) i cmd))
   ([mp-id i cmd]
    (let [p (u/get-cont-ctrl-path (u/extr-main-path mp-id) i)]
      (st/set-val! p cmd))))
 
-(defn rc
+(defn run-c
   "Shortcut to push a `run` to the control
   interface of  mp container `i`."
   [i]
-  (ctrl (->mp-id) i "run"))
+  (set-ctrl (->mp-id) i "run"))
 
 
-(defn sc
+(defn stop-c
   "Shortcut to push a `stop` to the control
   interface of  mp container `i`."
   [i]
-  (ctrl (->mp-id) i "stop"))
+  (set-ctrl (->mp-id) i "stop"))
 
-;;------------------------------
-;; clear
-;;------------------------------
-(defn clear
-  "Clears all short term memory for the given `mp-id`
-  (see [[workon!]]).
-   Usage:
-  
-  ```clojure
-  (clear mpid)
-  ;; or
-  (workon! mpid)
-  (clear)
-  
-  ```"
-  ([]
-   (clear (->mp-id)))
-  ([mp-id]
-   (stop-observe mp-id)
-   (st/clear (u/extr-main-path mp-id))))
+(defn reset-c
+  "Shortcut to push a `reset` to the control
+  interface of  mp container `i`. The `reset` cmd
+  does **not** de-register the state listener so
+  that the container starts from the beginning.
+  **reset is a container restart**
+  "
+  [i]
+  (set-ctrl (->mp-id) i "reset"))
 
-(defn cs
-  "`cs` means  **c**ontainer **s**tatus.
+(defn stat-c
+  "Returns the  **c**ontainer **s**tatus.
   Returns the state map for the `i` container."
   ([i]
-   (cs (->mp-id) i))
+   (stat-c (->mp-id) i))
   ([mp-id i]
    (map :state (state/cont-status mp-id i))))
 
-(defn ds
-  "`ds` means  **d**efinitions **s**tatus.
+(defn stat-d
+  "Returns  **d**efinitions **s**tatus.
   Returns the `state map` for the `i`
   definitions structure."
   ([i]
-   (ds (->mp-id) i))
+   (stat-d (->mp-id) i))
   ([mp-id i]
    (map :state (state/defins-status mp-id i))))
 
@@ -291,7 +280,6 @@
    (read-string
     (slurp uri))))
 
-
 (defn refresh-tasks
   "Refreshs the `tasks` endpoint.
   
@@ -305,6 +293,27 @@
   (bld/clear-tasks)
   (bld/store-tasks (lt/get-all-tasks)))
 
+
+;;------------------------------
+;; clear
+;;------------------------------
+(defn clear
+  "Clears all short term memory for the given `mp-id`
+  (see [[workon!]]).
+   Usage:
+  
+  ```clojure
+  (clear mpid)
+  ;; or
+  (workon! mpid)
+  (clear)
+  
+  ```"
+  ([]
+   (clear (->mp-id)))
+  ([mp-id]
+   (stop-observe mp-id)
+   (st/clear (u/extr-main-path mp-id))))
 
 (defn workon!!
   "Sets the mpd to work on, then starts:

@@ -64,33 +64,32 @@ namespace is the entry point. Use the `(dir cmp.core)` to get an
 overview: 
 
 ```clojure
-(dir cmp.core)
-;; ->mp-id
-;; build-mpd
-;; build-mpd-edn
-;; build-mpd-ref
-;; build-tasks
-;; build-tasks-edn
-;; check
-;; clear
-;; cs
-;; ctrl
-;; current-mp-id
-;; doc-add
-;; doc-del
-;; ds
-;; log-init!
-;; log-start-repl-out!
-;; log-stop-repl-out!
-;; rc
-;; refresh-tasks
-;; sc
-;; start-observe
-;; status
-;; stop
-;; stop-observe
-;; workon!
-;; workon!!
+;;   (dir cmp.core)
+;;   ->mp-id
+;;   build-mpd
+;;   build-mpd-edn
+;;   build-mpd-ref
+;;   build-task-edn
+;;   build-tasks
+;;   check
+;;   clear
+;;   ctrl
+;;   current-mp-id
+;;   doc-add
+;;   doc-del
+;;   log-init!
+;;   log-start-repl-out!
+;;   log-stop-repl-out!
+;;   refresh-tasks
+;;   run-c
+;;   set-ctrl
+;;   start-observe
+;;   stat-c
+;;   stat-d
+;;   stop-c
+;;   stop-observe
+;;   workon!
+;;   workon!!
 ```
 
 Use `(doc build-tasks)` for a more detailed view.
@@ -117,13 +116,13 @@ Build check and start with:
 (build-ref-edn)
 (check)
 (start-observe)
-(rc 0) ;; abbrev. for (ctrl 0 "run") 
+(run-c 0) ;; abbrev. for (ctrl 0 "run") 
 ```
 
 ```clojure
 (workon!! mp-id)
-(rc 0)
-(sc 0)
+(run-c 0)
+(stat-c 0)
 ```
 
 ## (re)generate documentation
