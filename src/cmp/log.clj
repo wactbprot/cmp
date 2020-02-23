@@ -11,16 +11,22 @@
                                   formatted-output-str (force output_)]
                               (println formatted-output-str)))})
 
-(defn init
-  "Initializes the logging. Default appenders are println and gelf."
+(defn start-gelf
+  "Initializes the logging to gelf."
   ([]
-   (init "127.0.0.1" 12201))
+   (start-gelf "127.0.0.1" 12201))
   ([host port]
    (timbre/with-config
     (timbre/merge-config!
      {:level :debug
-      :appenders {:println stdout-appender
-                  :gelf (gelf/gelf-appender host port :udp)}}))))
+      :appenders {:gelf (gelf/gelf-appender host port :udp)}}))))
+
+(defn stop-gelf
+  "Stops the gelf appender."
+  []
+  (timbre/with-config
+    (timbre/merge-config!
+     {:appenders {:gelf {:enabled? false}}})))
 
 (defn stop-repl-out
   "Stops the println appender."

@@ -21,4 +21,4 @@
        (st/set-val! state-key "checking")
        (assert (tsk/meta-task? meta-task))
        (st/set-val! state-key "ready")))
-   (st/get-keys p)))
+   (st/key->keys p)))

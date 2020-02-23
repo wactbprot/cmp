@@ -18,12 +18,6 @@
 ;;------------------------------
 ;; log
 ;;------------------------------
-(defn log-init!
-  "Initializes a `std-out` on `info` level and a
-  `gelf` appender on `debug` level."
-  []
-  (log/init))
-
 (defn log-stop-repl-out!
   "Stops the println appender."
   []
@@ -316,11 +310,9 @@
 
 (defn clear-all
   "The pattern `*@meta@name` is used to find all
-   mp-names. Function removes all keys of all `mpd`s
-
-  TODO:
-  rm all tasks"  
+   mp-names. Function removes all keys of all `mpd`s"  
   []
+  (clear "task")
   (map clear
        (map u/key->mp-name
             (st/pat->keys "*@meta@name"))))

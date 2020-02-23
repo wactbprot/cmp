@@ -11,7 +11,7 @@
 ;;------------------------------
 ;; store
 ;;------------------------------
-(defmulti clj->val
+(defn clj->val
   "Casts the given (complex) value `x` to a writable
   type. `json` is used for complex data types.
 
@@ -22,23 +22,12 @@
   ;; \"[1,2,3]\"
   ```
   "
-  class)
-
-(defmethod clj->val clojure.lang.PersistentArrayMap
   [x]
-  (json/write-str x))
-
-(defmethod clj->val clojure.lang.PersistentVector
-  [x]
-  (json/write-str x))
-
-(defmethod clj->val clojure.lang.PersistentHashMap
-  [x]
-  (json/write-str x))
-
-(defmethod clj->val :default
-  [x]
-  x)
+  (condp = (class x)
+    clojure.lang.PersistentArrayMap (json/write-str x)
+    clojure.lang.PersistentVector   (json/write-str x)
+    clojure.lang.PersistentHashMap  (json/write-str x)
+    x))
 
 (defn set-val!
   "Sets the value `v` for the key `k`."
@@ -57,10 +46,10 @@
   [pat]
   (wcar conn  (car/keys pat)))
 
-(defn get-keys
-  "Get all keys matching  `p*`."
-  [p]
-  (pat->keys (u/vec->key [p "*"])))
+(defn key->keys
+  "Get all keys matching  `k*`."
+  [k]
+  (pat->keys (u/vec->key [k "*"])))
 
 ;;------------------------------
 ;; del
@@ -73,28 +62,21 @@
 (defn del-keys!
   "Deletes all given keys (`ks`)."
   [ks]
-  (run!
-   (fn [k] (del-key! k))
-   ks))
+  (run! del-key! ks))
 
-(defmulti clear
+(defn clear
   "Clears the key `k`. If `k` is a vector `(u/vec->key k)`
   is used for the conversion to a string."
-  class)
-
-(defmethod clear String
-  [k]
-  (->> k
-       (get-keys)
-       (del-keys!)))
-
-(defmethod clear clojure.lang.PersistentVector
-  [k]
-  (->> k
-       (u/vec->key)
-       (get-keys)
-       (del-keys!)))
-
+  [x]
+  (condp = (class x)
+    String                        (->> x
+                                        key->keys
+                                        del-keys!)
+    clojure.lang.PersistentVector (->> x
+                                       u/vec->key
+                                       key->keys
+                                       del-keys!)))
+  
 ;;------------------------------
 ;; pick
 ;;------------------------------

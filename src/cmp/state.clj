@@ -32,20 +32,20 @@
   `m` is introduced in order to keep the functions testable.
 
   
-  ```clojure
-  (ks->state-map (p->state-ks \"wait@container@0\"))
+  ```clojur
+  (ks->state-map (k->state-ks \"wait@container@0\"))
   ```" 
   [ks]
   (mapv state-key->state-map ks))
 
-(defn p->state-ks
+(defn k->state-ks
   "Returns the state keys for a given path.
 
   ```clojure
-  (p->state-ks \"wait@container@0\")
+  (k->state-ks \"wait@container@0\")
   ```" 
   [p]
-  (sort (st/get-keys
+  (sort (st/key->keys
          (u/vec->key [(u/key->mp-name p)
                       (u/key->struct p)
                       (u/key->no-idx p)
@@ -261,7 +261,7 @@
 (defn reset 
   "Sets all states (the state interface) to ready."
   [k]
-  (st/set-same-val! (p->state-ks k) "ready"))
+  (st/set-same-val! (k->state-ks k) "ready"))
 
 ;;------------------------------
 ;; stop
@@ -289,7 +289,7 @@
   from the key  `k` (may be the
   `ctrl-key` or `state-key`)."
   [k]
-  (let [state-ks (p->state-ks k)]
+  (let [state-ks (k->state-ks k)]
     (st/de-register! (u/key->mp-name k)
                      (u/key->struct k)
                      (u/key->no-idx k)
@@ -309,14 +309,14 @@
   [k]
   (let [ctrl-k   (k->ctrl-k k)
         cmd      (ctrl-k->cmd ctrl-k)
-        state-ks (p->state-ks k)]
+        state-ks (k->state-ks k)]
     (timbre/info "all done at " k " under ctrl cmd " cmd)
     (condp = cmd
       :run (do
              (st/set-val! ctrl-k "ready")
              (stop ctrl-k))
       :mon (do
-             (st/set-same-val! state-ks "ready")
+             (stop ctrl-k)
              (st/set-val! ctrl-k "mon"))
       (timbre/info "default condp branch in all-exec fn of " k ))))
 
@@ -351,7 +351,7 @@
   which triggers the next call to `start-next`."
   [k]
   (let [ctrl-k  (k->ctrl-k k)
-        state-m (ks->state-map (p->state-ks ctrl-k))
+        state-m (ks->state-map (k->state-ks ctrl-k))
         next-m  (find-next state-m)]
     (cond
       (errors?       state-m) (error-ctrl!    ctrl-k)
@@ -385,7 +385,7 @@
   container."
   [mp-id i]
   (->> (u/get-cont-state-path mp-id i)
-       (p->state-ks)
+       (k->state-ks)
        (ks->state-map)))
 
 (defn defins-status
@@ -393,7 +393,7 @@
   definition structure."
   [mp-id i]
   (->> (u/get-defins-state-path mp-id i)
-       (p->state-ks)
+       (k->state-ks)
        (ks->state-map)))
 
 ;;------------------------------

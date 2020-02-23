@@ -152,7 +152,7 @@
 (defn clear-tasks
   "Clears `task*`."
   []
-  (st/del-keys! (st/get-keys "tasks")))
+  (st/del-keys! (st/key->keys "tasks")))
 
 (defn store-tasks
   "Stores the `task-list`
