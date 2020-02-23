@@ -116,7 +116,7 @@
 
 (defn filter-keys-where-val
   "Returns all keys belonging to `pat` where the
-  value is `val`.
+  value is `x`.
 
   ```clojure
   (filter-keys-where-val \"ref@definitions@*@class\" \"wait\")
@@ -125,8 +125,8 @@
   ;; \"ref@definitions@1@class\")
   ```
   "
-  [pat val]
-  (filter (fn [k] (= (key->val k) val))
+  [pat x]
+  (filter (fn [k] (= (key->val k) x))
           (pat->keys pat)))
 
 ;;------------------------------

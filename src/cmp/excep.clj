@@ -8,7 +8,7 @@
 ;; exception channel 
 ;;------------------------------
 (def ch (a/chan))
-(a/go
-  (while true
-    (let [e (a/<! ch)] 
-      (timbre/error (.getMessage e)))))
+(a/go-loop []
+  (let [e (a/<! ch)] 
+    (timbre/error (.getMessage e)))
+  (recur))

@@ -404,8 +404,7 @@
 ;;------------------------------
 ;; ctrl go block 
 ;;------------------------------
-(a/go
-  (while true  
+(a/go-loop []
     (let [[k cmd] (a/<! ctrl-chan)] ; k ... ctrl-key
       (try
         (timbre/info "receive key " k "and" cmd)            
@@ -418,4 +417,5 @@
           (timbre/info  "received cmd " cmd " for path " k ))
         (catch Exception e
           (timbre/error "catch error at channel " k)
-          (a/>! excep/ch e))))))
+          (a/>! excep/ch e))))
+  (recur))
