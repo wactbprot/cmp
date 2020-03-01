@@ -7,8 +7,17 @@
 
 (defn lt-conn
   [c]
-  (c :lt-uri))
+  (:lt-uri c))
 
 (defn st-conn
   [c]
-  (c :st-conn))
+  (:st-conn c))
+
+(defn edn-tasks
+  [c]
+  (:edn-tasks c))
+
+(defn edn-mpds
+  [c]
+  (:edn-mpds c))
+

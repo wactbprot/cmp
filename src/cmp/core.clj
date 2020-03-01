@@ -8,6 +8,7 @@
             [clojure.core.async :as a]
             [cmp.utils :as u]
             [cmp.doc :as doc]
+            [cmp.config :as cfg]
             [cmp.build :as bld]
             [cmp.check :as chk]
             [cmp.ctrl :as ctrl]
@@ -103,29 +104,13 @@
   ;; (\"OK\" \"OK\" \"OK\")
   ```
   "
-  ([]
-   (build-mpd-edn (str "resources/mpd-" (->mp-id) ".edn")))
-  ([uri]
-   (bld/store
-    (read-string
-     (slurp uri)))))
-
-(defn build-mpd-ref
-  "Builds up a reference or example structure
-  for testing and documentation 
-  (`./recources/mpd-ref.edn`).
-  
-  ```clojure
-  (build-mpd-ref)
-  ;; (\"OK\" \"OK\" \"OK\")
-  ;;
-  ;; complete file:
-  (read-string
-   (slurp \"resources/ref-mpd.edn\"))
-  ```
-  "
   []
-  (build-mpd-edn "resources/mpd-ref.edn"))
+  (run!
+   (fn [uri]
+     (bld/store
+      (read-string
+       (slurp uri))))
+   (cfg/edn-mpds (cfg/config))))
 
 ;;------------------------------
 ;; documents
@@ -233,6 +218,9 @@
   [i]
   (set-ctrl (->mp-id) i "reset"))
 
+;;------------------------------
+;; status (stat)
+;;------------------------------
 (defn stat-c
   "Returns the  **c**ontainer **s**tatus.
   Returns the state map for the `i` container."
@@ -250,6 +238,10 @@
   ([mp-id i]
    (map :state (state/defins-status mp-id i))))
 
+
+;;------------------------------
+;; tasks
+;;------------------------------
 (defn build-tasks
   "Builds the `tasks` endpoint. At
   runtime all `tasks` are provided by
@@ -259,18 +251,22 @@
 
 
 (defn build-task-edn
-  "Stores the `task` slurping from the given
-  `uri`
+  "Stores the `task` slurping from the files
+  given in `resources/config.edn`
+
   Usage:
   
   ```clojure
-  (build-tasks-edn \"resources/task-modbus-set.edn\")
-  ;;OK
+  (build-tasks-edn)
   ```"
-  [uri]
-  (bld/store-task
-   (read-string
-    (slurp uri))))
+  []
+  (run!
+   (fn [uri]
+     (println uri)
+       (bld/store-task
+        (read-string
+         (slurp uri))))
+     (cfg/edn-tasks (cfg/config))))
 
 (defn refresh-tasks
   "Refreshs the `tasks` endpoint.

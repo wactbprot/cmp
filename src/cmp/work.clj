@@ -23,10 +23,12 @@
   like `:StructKey` have to be `assoc`ed here" 
   [k]
   (if-let [task (st/key->val k)]
-    (tsk/assemble (assoc (tsk/gen-meta-task task)
-                         :StructKey k
-                         :MpName (u/key->mp-name k)
-                         :StateKey (u/replace-key-at-level 3 k "state")))
+    (tsk/assemble
+     (tsk/gen-meta-task
+      (assoc task
+             :StructKey k
+             :MpName    (u/key->mp-name k)
+             :StateKey  (u/replace-key-at-level 3 k "state"))))
     (a/>! excep/ch (throw (Exception. (str "No task at: " k))))))
 
 ;;------------------------------

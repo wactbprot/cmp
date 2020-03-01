@@ -103,15 +103,15 @@
   [task m k]
   ((task k) (keyword (m k))))
 
-(defn make-singular-kw
+(defn str->singular-kw
   "Takes a keyword or string and removes the tailing
   letter (most likely a s). Turns the result
   to a keyword.
   
   ```clojure
-  (make-singular-kw :Values)
+  (str->singular-kw :Values)
   ;; :Value
-  (make-singular-kw \"Values\")
+  (str->singular-kw \"Values\")
   ;; :Value
   ```
   "
@@ -122,31 +122,36 @@
        second
        keyword))
 
-(defmulti merge-use-map
+(defn merge-use-map
   "The use keyword enables a replace mechanism.
   It works like this:
   proto-task:
-
+  
   ```clojure
   Use: {Values: med_range}
   ;; should lead to:
   task: { Value: rangeX.1}
   ```"
-  (fn [m task] (map? m)))
-
-(defmethod merge-use-map false
   [m task]
-  task)
+  (if (map? m)
+    (merge task
+           (into {}
+                 (map
+                  (fn [k]
+                    (hash-map
+                     (str->singular-kw k)
+                     (extract-use-value task m k)))
+                  (keys m))))
+    task))
 
-(defmethod merge-use-map true
-  [m task]
-  (merge task (into {}
-                   (map
-                    (fn [k]
-                      (hash-map (make-singular-kw k) (extract-use-value task m k)))
-                    (keys m)))))
+(defn ensure-proto-task
+  "Returns x if it is not a string."
+  [x]
+  (if (string? x)
+    {:TaskName x}
+    x))
 
-(defmulti gen-meta-task
+(defn gen-meta-task
   "Gathers all information for the given `proto-task` (map).
   The `proto-task` should be a map containing the `:TaskName`
   `keyword` at least. String version makes a `map` out of `s`
@@ -187,18 +192,14 @@
   
   (gen-meta-task {:TaskName \"Common-wait\" :Replace {\"%waittime\" 10}})
   ```"
-  class)
-
-(defmethod gen-meta-task String
-  [task-name]
-  (gen-meta-task {:TaskName task-name}))
-
-(defmethod gen-meta-task :default
-  [proto-task]
-  (let [task-name (:TaskName proto-task)
-        db-task   (->> ["tasks" task-name]
-                       u/vec->key
-                       st/key->val)]
+  [x]
+  (let  [proto-task (ensure-proto-task x)
+         task-name  (:TaskName proto-task)
+         db-task    (merge
+                     (->> ["tasks" task-name]
+                          u/vec->key
+                          st/key->val)
+                     x)]
     {:Task          (dissoc db-task :Defaults)
      :Use           (:Use proto-task)
      :Globals       (u/make-map-regexable (->globals))
