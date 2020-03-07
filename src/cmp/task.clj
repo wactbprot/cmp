@@ -44,15 +44,6 @@
   [x]
   (task? (:Task x)))
 
-(defn from-exchange
-  [task]
-  (let [mp-id (:MpName task)
-        m     (:FromExchange task)]
-    (cond
-      (nil? mp-id) task
-      (nil? m)     task
-      :else (exch/from m mp-id))))
-
 (defn ->globals
   "Returns a map with replacements
   of general intrest.
@@ -200,11 +191,10 @@
                           u/vec->key
                           st/key->val)
                      x)]
-    {:Task          (dissoc db-task :Defaults)
+    {:Task          db-task 
      :Use           (:Use proto-task)
      :Globals       (u/make-map-regexable (->globals))
      :Defaults      (u/make-map-regexable (:Defaults db-task))
-     :FromExchange  (u/make-map-regexable (from-exchange db-task))
      :Replace       (u/make-map-regexable (:Replace proto-task))}))
 
 (defn assemble
@@ -229,28 +219,30 @@
   ;;  ...
   ;; }
   ```
-  **todo**
-
-  FromExchange
-  
   "
   [meta-task]
-  (let [{struct-k :StructKey 
-         mp-name  :MpName 
-         state-k  :StateKey 
-         task     :Task 
-         use-map  :Use
-         fromexch :FromExchange
-         replace  :Replace
-         defaults :Defaults 
-         globals  :Globals} meta-task]
+  (let [db-task  (:Task         meta-task)
+        use-map  (:Use          meta-task)
+        replace  (:Replace      meta-task)
+        defaults (:Defaults     meta-task)
+        globals  (:Globals      meta-task)
+        struct-k (:StructKey    meta-task)
+        mp-name  (:MpName       meta-task)
+        state-k  (:StateKey     meta-task)
+        exch-map (:FromExchange db-task)
+        task     (dissoc db-task
+                         :FromExchange
+                         :Replace
+                         :Defaults)
+        from-exch-map (u/make-map-regexable
+                       (exch/from mp-name exch-map))]
     (assoc 
      (->> task
           (merge-use-map use-map)
+          (replace-map from-exch-map)
           (replace-map replace)
           (replace-map defaults)
           (replace-map globals))
      :StructKey struct-k 
      :MpName    mp-name
      :StateKey  state-k)))
-  

@@ -17,18 +17,18 @@
 (def ctrl-chan (a/chan))
 
 (defn k->task
-  "Returns the assembled `task` for the given key `k`.
+  "Returns the assembled `task` for the given key `k`
+  pointing to the `proto-task`.
   Since the function in the `cmp.task` namespace are
   kept independent from the tasks position, runtime infos
   like `:StructKey` have to be `assoc`ed here" 
   [k]
-  (if-let [task (st/key->val k)]
+  (if-let [proto-task (st/key->val k)]
     (tsk/assemble
-     (tsk/gen-meta-task
-      (assoc task
+     (assoc  (tsk/gen-meta-task proto-task)
              :StructKey k
              :MpName    (u/key->mp-name k)
-             :StateKey  (u/replace-key-at-level 3 k "state"))))
+             :StateKey  (u/replace-key-at-level 3 k "state")))
     (a/>! excep/ch (throw (Exception. (str "No task at: " k))))))
 
 ;;------------------------------

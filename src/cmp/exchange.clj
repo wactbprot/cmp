@@ -20,8 +20,7 @@
   "
   [mp-id s]
   {:pre [(not (nil? s))]}
-  (u/get-exch-path
-   (u/get-exch-prefix mp-id)
+  (u/get-exch-path mp-id
    (first (string/split s (re-pattern "\\.")))))
 
 (defn key->kw
@@ -46,8 +45,13 @@
   :%stateblock3 Vraw_block3
   :%stateblock4 Vraw_block4
   }"
-  [m mp-id]
-  (println "----------------------------_")
+  [mp-id m]
+  (println "m")
   (println m)
-    (println "----------------------------_")
-  )
+  (println "eeeeeee")
+  (if-not (or
+           (nil? m)
+           (nil? mp-id))
+    (u/apply-to-map-values
+     (fn [v] (st/key->val (->key mp-id v)))
+     m)))

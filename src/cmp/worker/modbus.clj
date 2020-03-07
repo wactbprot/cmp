@@ -70,7 +70,28 @@
      (println input)))
 
 (defn modbus!
+  "
+  ```clojure
+  {:TaskName VS_NEW_SE3-set_valve_pos
+  :Comment Setzt die Ventilposition.
+  :StructKey modbus@container@0@definition@0@1
+  :FunctionCode writeSingleRegister
+  :StateKey modbus@container@0@state@0@1
+  :Address 40003
+  :PreInput
+  {
+  :should open
+  :valve V1
+  :stateblock1 [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]
+  :stateblock2 [0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0]
+  :stateblock3 [0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0]
+  :stateblock4 [0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  }
+  :Action MODBUS
+  :PreScript set_valve_pos
+  :Host 172.30.56.46
+  :MpName modbus}
+  ```"
   [task state-key]
   (st/set-val! state-key "working")
-  (println task)
   (st/set-val! state-key "executed"))

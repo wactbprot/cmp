@@ -176,12 +176,12 @@
 ;; exchange
 ;;------------------------------
 (defn get-exch-prefix
-  [p]
-  (vec->key [p "exchange"]))
+  [mp-id]
+  (vec->key [mp-id "exchange"]))
 
 (defn get-exch-path
-  [p name]
-  (vec->key [(get-exch-prefix p) name]))
+  [mp-id s]
+  (vec->key [(get-exch-prefix mp-id) s]))
 
 ;;------------------------------
 ;; container path
