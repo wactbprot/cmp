@@ -5,7 +5,13 @@
 ;; "foo@exchange@bar"
 (-&gt;key "foo" "bar")
 ;; "foo@exchange@bar"
-</code></pre></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/exchange.clj#L11">view source</a></div></div><div class="public anchor" id="var-from"><h3>from</h3><div class="usage"><code>(from mp-id m)</code></div><div class="doc"><div class="markdown"><p>{ :%stateblock1 Vraw_block1 :%stateblock2 Vraw_block2 :%stateblock3 Vraw_block3 :%stateblock4 Vraw_block4 }</p></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/exchange.clj#L40">view source</a></div></div><div class="public anchor" id="var-key-.3Ekw"><h3>key-&gt;kw</h3><div class="usage"><code>(key-&gt;kw s)</code></div><div class="doc"><div class="markdown"><p>Returns the keyword or nil.</p>
+</code></pre></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/exchange.clj#L11">view source</a></div></div><div class="public anchor" id="var-from"><h3>from</h3><div class="usage"><code>(from mp-id m)</code></div><div class="doc"><div class="markdown"><p>Builds a map by replacing the values of the input map. The values are gathered from the <code>exchange</code> interface with the keys: <code>&lt;mp-id&gt;@exchange@&lt;input-map-value&gt;</code>.</p>
+<pre><code class="clojure">(from "modbus" {:%stateblock1 "Vraw_block1"
+                  :%stateblock2 "Vraw_block2"
+                  :%stateblock3 "Vraw_block3"
+                  :%stateblock4 "Vraw_block4"})
+</code></pre>
+<p><strong>Todo</strong> check for non trivial <code>&lt;input-map-value&gt;</code> like <code>{:%aaa "bbb.ccc"}</code></p></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/exchange.clj#L40">view source</a></div></div><div class="public anchor" id="var-key-.3Ekw"><h3>key-&gt;kw</h3><div class="usage"><code>(key-&gt;kw s)</code></div><div class="doc"><div class="markdown"><p>Returns the keyword or nil.</p>
 <pre><code class="clojure">(key-&gt;kw "foo" )
 ;; nil
 (key-&gt;kw "foo.bar" )

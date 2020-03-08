@@ -39,19 +39,24 @@
 
 (defn from
   "
-  {
-  :%stateblock1 Vraw_block1
-  :%stateblock2 Vraw_block2
-  :%stateblock3 Vraw_block3
-  :%stateblock4 Vraw_block4
-  }"
+  Builds a map by replacing the values of the input map.
+  The values are gathered from the `exchange` interface
+  with the keys: `<mp-id>@exchange@<input-map-value>`.
+
+  ```clojure
+  (from \"modbus\" {:%stateblock1 \"Vraw_block1\"
+                    :%stateblock2 \"Vraw_block2\"
+                    :%stateblock3 \"Vraw_block3\"
+                    :%stateblock4 \"Vraw_block4\"})
+  ```
+  **Todo**
+  check for non trivial `<input-map-value>` like
+  `{:%aaa \"bbb.ccc\"}`
+  "
   [mp-id m]
-  (println "m")
-  (println m)
-  (println "eeeeeee")
-  (if-not (or
-           (nil? m)
-           (nil? mp-id))
+  (if (or
+       (map? m)
+       (string? mp-id))
     (u/apply-to-map-values
      (fn [v] (st/key->val (->key mp-id v)))
      m)))

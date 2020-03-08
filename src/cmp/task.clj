@@ -191,7 +191,7 @@
                           u/vec->key
                           st/key->val)
                      x)]
-    {:Task          db-task 
+    {:Task          (dissoc db-task :Defaults) 
      :Use           (:Use proto-task)
      :Globals       (u/make-map-regexable (->globals))
      :Defaults      (u/make-map-regexable (:Defaults db-task))
@@ -232,10 +232,10 @@
         exch-map (:FromExchange db-task)
         task     (dissoc db-task
                          :FromExchange
-                         :Replace
-                         :Defaults)
+                         :Replace)
         from-exch-map (u/make-map-regexable
                        (exch/from mp-name exch-map))]
+    (println mp-name)
     (assoc 
      (->> task
           (merge-use-map use-map)
@@ -246,3 +246,4 @@
      :StructKey struct-k 
      :MpName    mp-name
      :StateKey  state-k)))
+  

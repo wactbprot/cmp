@@ -94,4 +94,5 @@
   ```"
   [task state-key]
   (st/set-val! state-key "working")
+  (println task)
   (st/set-val! state-key "executed"))

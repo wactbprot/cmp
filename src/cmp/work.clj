@@ -12,30 +12,28 @@
             [cmp.utils :as u]))
 
 ;;------------------------------
-;; ctrl channel invoked by run 
+;; task 
 ;;------------------------------
-(def ctrl-chan (a/chan))
-
 (defn k->task
   "Returns the assembled `task` for the given key `k`
   pointing to the `proto-task`.
-  Since the function in the `cmp.task` namespace are
-  kept independent from the tasks position, runtime infos
-  like `:StructKey` have to be `assoc`ed here" 
+  Since the functions in the `cmp.task` namespace are
+  (kept) independent from the tasks position, runtime infos
+  like `:StructKey` have to be `assoc`ed here." 
   [k]
   (if-let [proto-task (st/key->val k)]
     (tsk/assemble
-     (assoc  (tsk/gen-meta-task proto-task)
-             :StructKey k
-             :MpName    (u/key->mp-name k)
-             :StateKey  (u/replace-key-at-level 3 k "state")))
+     (assoc (tsk/gen-meta-task proto-task)
+            :StructKey k
+            :MpName    (u/key->mp-name k)
+            :StateKey  (u/replace-key-at-level 3 k "state")))
     (a/>! excep/ch (throw (Exception. (str "No task at: " k))))))
 
 ;;------------------------------
 ;; dispatch 
 ;;------------------------------
 (defn dispatch!
-  "Dispatches to the workers depending on `:Action`.
+  "Dispatches to the workers depending on `(:Action task)`.
   Since every worker has to manage the state,
   the  `state-key` is the second parameter.
 
@@ -47,8 +45,8 @@
   ;; ... ERROR [cmp.work:52] - unknown action:  :foo
   ```"  
   [task]
-  (let [state-key (task :StateKey)
-        action    (keyword (task :Action))]
+  (let [action    (keyword (:Action task))
+        state-key (task :StateKey)]
     (condp = action
       :wait   (wait!              task state-key)
       :select (select-definition! task state-key)
@@ -56,6 +54,12 @@
       (do
         (timbre/error "unknown action: " action)
         (st/set-val! state-key "error")))))
+
+
+;;------------------------------
+;; ctrl channel invoked by run 
+;;------------------------------
+(def ctrl-chan (a/chan))
 
 ;;------------------------------
 ;; ctrl go block 
