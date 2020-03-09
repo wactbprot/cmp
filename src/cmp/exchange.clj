@@ -36,21 +36,52 @@
   (if-let [x (second (string/split s (re-pattern "\\.")))] 
     (keyword x)))
 
-
+(defn key->val
+  "Returns the value from the exchange interface.
+  Respects the case where the given  `s` is non trivial."  
+  [mp-id s]
+  (let [kw  (key->kw s)
+        k   (->key mp-id s)
+        val (st/key->val k)]
+    (if kw
+      (kw val)
+      val)))
+  
 (defn from
   "
   Builds a map by replacing the values of the input map.
-  The values are gathered from the `exchange` interface
-  with the keys: `<mp-id>@exchange@<input-map-value>`.
+  The replacements are gathered from the `exchange` interface
+  with the keys: `<mp-id>@exchange@<input-map-value>`
 
+  Example key: `modbus@exchange@Vraw_block1`
+  Example value: `[
+                  1,0,1,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  1,0,0,0,
+                  0,0,0,0,
+                  0,0,1,0
+                  ]`
+  Return: `{:%stateblock1 [
+                  1,0,1,0,
+                  0,0,0,0,
+                  0,0,0,0,
+                  1,0,0,0,
+                  0,0,0,0,
+                  0,0,1,0
+                  ]}` 
   ```clojure
-  (from \"modbus\" {:%stateblock1 \"Vraw_block1\"
+  (from \"modbus\" {
+                    :%stateblock1 \"Vraw_block1\"
                     :%stateblock2 \"Vraw_block2\"
                     :%stateblock3 \"Vraw_block3\"
-                    :%stateblock4 \"Vraw_block4\"})
+                    :%stateblock4 \"Vraw_block4\"
+                    })
   ```
+  
   **Todo**
-  check for non trivial `<input-map-value>` like
+
+  Check for non trivial `<input-map-value>` like
   `{:%aaa \"bbb.ccc\"}`
   "
   [mp-id m]
@@ -58,5 +89,5 @@
        (map? m)
        (string? mp-id))
     (u/apply-to-map-values
-     (fn [v] (st/key->val (->key mp-id v)))
+     (fn [v] (key->val mp-id v))
      m)))

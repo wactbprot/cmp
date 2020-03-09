@@ -235,7 +235,6 @@
                          :Replace)
         from-exch-map (u/make-map-regexable
                        (exch/from mp-name exch-map))]
-    (println mp-name)
     (assoc 
      (->> task
           (merge-use-map use-map)

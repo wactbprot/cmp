@@ -4,7 +4,7 @@
 
 (def stdout-appender {:enabled?   true
                       :async?     false
-                      :min-level  :info
+                      :min-level  :debug
                       :output-fn  :inherit
                       :fn (fn [data]
                             (let [{:keys [output_]} data

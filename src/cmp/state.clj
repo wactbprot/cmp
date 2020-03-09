@@ -313,8 +313,8 @@
     (timbre/info "all done at " k " under ctrl cmd " cmd)
     (condp = cmd
       :run (do
-             (st/set-val! ctrl-k "ready")
-             (stop ctrl-k))
+             (stop ctrl-k)
+             (st/set-val! ctrl-k "ready"))
       :mon (do
              (stop ctrl-k)
              (st/set-val! ctrl-k "mon"))
@@ -358,7 +358,6 @@
       (all-executed? state-m) (all-exec-ctrl! ctrl-k)
       (nil?          next-m)  (nil-ctrl!      ctrl-k)
       :else (a/go
-              (a/<! (a/timeout 200))
               (a/>! work/ctrl-chan (state-map->definition-key next-m))))))
 
 ;;------------------------------
@@ -407,14 +406,14 @@
 (a/go-loop []
     (let [[k cmd] (a/<! ctrl-chan)] ; k ... ctrl-key
       (try
-        (timbre/info "receive key " k "and" cmd)            
+        (timbre/info "state go loop: receive key: " k "and cmd: " cmd)            
         (condp = (keyword cmd)
           :run     (start k)
           :reset   (reset k)
           :mon     (start k)
           :stop    (stop k)
           :suspend (suspend k)
-          (timbre/info  "received cmd " cmd " for path " k ))
+          (timbre/info  "state go loop: default case: nop" ))
         (catch Exception e
           (timbre/error "catch error at channel " k)
           (a/>! excep/ch e))))

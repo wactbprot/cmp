@@ -44,9 +44,8 @@
   (dispatch! {:Action \"foo\" :StateKey \"testpath\"})
   ;; ... ERROR [cmp.work:52] - unknown action:  :foo
   ```"  
-  [task]
-  (let [action    (keyword (:Action task))
-        state-key (task :StateKey)]
+  [task state-key]
+  (let [action    (keyword (:Action task))]
     (condp = action
       :wait   (wait!              task state-key)
       :select (select-definition! task state-key)
@@ -69,7 +68,13 @@
     (try
       (timbre/debug "receive key " k
                     " try to get task and call worker")            
-      (dispatch! (k->task k))
+      (if-let [task (k->task k)]
+        (if-let [state-key (:StateKey task)]
+          (if (=
+               "ready"
+               (st/key->val state-key))
+            (dispatch! task state-key)
+            (timbre/debug "state not ready for: " k))))
       (catch Exception e
         (timbre/error "catch error at channel " k)
         (a/>! excep/ch e))))
