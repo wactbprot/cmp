@@ -145,11 +145,14 @@
   ;; \"ref@container@0@ctrl\"
   ```"
   [[kind l1 l2 l3]]
-  (timbre/debug "received" kind l1 l2 l3)
-  (cond
-      (= kind "pmessage") (second (string/split l2 (re-pattern ":")))
-      (= kind "psubscribe") (timbre/info "subscribed to " l1)))
-  
+  (condp = kind
+    "pmessage"   (do
+                   (let [k (second (string/split l2 (re-pattern ":")))]
+                     (timbre/debug "st_mem triggered key: " k)
+                     k))
+    "psubscribe" (timbre/info "subscribed to " l1)
+    (timbre/warn "received" kind l1 l2 l3)))
+
 (defn gen-subs-pat
   "Generates subscribe patterns which matches
   depending on:

@@ -7,7 +7,10 @@
             [clojure.string :as string]
             [cmp.st-mem :as st]
             [cmp.exchange :as exch]
-            [cmp.utils :as u]))
+            [cmp.utils :as u]
+            [cmp.config :as cfg]))
+
+(def mtp (cfg/min-task-period (cfg/config)))
 
 (defmulti get-comp-val
   "Returns the *compare value* belonging to key `k`.
@@ -116,6 +119,7 @@
   ```" 
   [task state-k]
   (st/set-val! state-k "working")
+  (Thread/sleep mtp)
   (timbre/debug "start with select, already set " state-k " working")
   (let [mp-id     (u/key->mp-name state-k)
         def-cls   (task :DefinitionClass)

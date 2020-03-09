@@ -4,7 +4,10 @@
   (:require [taoensso.timbre :as timbre]
             [clojure.core.async :as a]
             [cmp.st-mem :as st]
-            [cmp.utils :as u]))
+            [cmp.utils :as u]
+            [cmp.config :as cfg]))
+
+(def mtp (cfg/min-task-period (cfg/config)))
 
 (defn set-valve-pos-prescript
   "In order to avoid starting up a nodeserver to
@@ -94,5 +97,6 @@
   ```"
   [task state-key]
   (st/set-val! state-key "working")
-  ;;(println task) --> no time
+  (Thread/sleep mtp)
+  (println task) ;;--> no time
   (st/set-val! state-key "executed"))

@@ -8,6 +8,10 @@
  :edn-tasks ["resources/task-modbus-set.edn"]
  :edn-mpds ["resources/mpd-ref.edn"
             "resources/mpd-modbus.edn"]
+ ;; a task schould at least take 10ms
+ ;; in order to give the keyspace notif
+ ;; a chance to find the next to start
+ :min-task-period 20
  }
  
  

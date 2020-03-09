@@ -2,9 +2,10 @@
   ^{:author "wactbprot"
     :doc "wait worker."}
   (:require [taoensso.timbre :as timbre]
-            [clojure.core.async :as a]
             [cmp.st-mem :as st]
-            [cmp.utils :as u]))
+            [cmp.config :as cfg]))
+
+(def mtp (cfg/min-task-period (cfg/config)))
 
 (defn wait!
   "Delays the `mp` for the time given with `:WaitTime`.
@@ -14,8 +15,9 @@
   ```"
   [task state-key]
   (st/set-val! state-key "working")
-  (a/go
-    (let [w (read-string (str (task :WaitTime)))]
-    (a/<! (a/timeout w))
+  (let [w (read-string (str (task :WaitTime)))]
+    (if (< w mtp)
+      (Thread/sleep mtp)
+      (Thread/sleep w))
     (timbre/info "wait time (" w "ms) over for " state-key)
-    (st/set-val! state-key "executed"))))
+    (st/set-val! state-key "executed")))

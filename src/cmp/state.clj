@@ -349,16 +349,17 @@
   `(find-next state-map)` (the upcomming tasks)
   since the workers set the state to `\"working\"`
   which triggers the next call to `start-next`."
-  [k]
-  (let [ctrl-k  (k->ctrl-k k)
-        state-m (ks->state-map (k->state-ks ctrl-k))
-        next-m  (find-next state-m)]
-    (cond
-      (errors?       state-m) (error-ctrl!    ctrl-k)
-      (all-executed? state-m) (all-exec-ctrl! ctrl-k)
-      (nil?          next-m)  (nil-ctrl!      ctrl-k)
-      :else (a/go
-              (a/>! work/ctrl-chan (state-map->definition-key next-m))))))
+  [x]
+  (if-let [k x]
+    (let [ctrl-k  (k->ctrl-k k)
+          state-m (ks->state-map (k->state-ks ctrl-k))
+          next-m  (find-next state-m)]
+      (cond
+        (errors?       state-m) (error-ctrl!    ctrl-k)
+        (all-executed? state-m) (all-exec-ctrl! ctrl-k)
+        (nil?          next-m)  (nil-ctrl!      ctrl-k)
+        :else (a/go
+                (a/>! work/ctrl-chan (state-map->definition-key next-m)))))))
 
 ;;------------------------------
 ;; start

@@ -21,3 +21,7 @@
   [c]
   (:edn-mpds c))
 
+(defn min-task-period
+  [c]
+  (:min-task-period c))
+

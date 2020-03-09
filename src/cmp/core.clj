@@ -93,8 +93,7 @@
         (u/compl-main-path)
         (lt/id->doc)
         (u/doc->safe-doc)
-        (bld/store))
-   (timbre/info "done  [" mp-id "]" )))
+        (bld/store))))
 
 (defn build-mpd-edn
   "Builds up a mp from the `edn`.
@@ -107,6 +106,7 @@
   []
   (run!
    (fn [uri]
+     (timbre/info "try to slurp and build: " uri  )
      (bld/store
       (read-string
        (slurp uri))))
@@ -262,7 +262,7 @@
   []
   (run!
    (fn [uri]
-     (println uri)
+     (timbre/info "try to slurp and build: " uri  )
        (bld/store-task
         (read-string
          (slurp uri))))
