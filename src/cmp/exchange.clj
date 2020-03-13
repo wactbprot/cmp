@@ -85,7 +85,7 @@
   `{:%aaa \"bbb.ccc\"}`
   "
   [mp-id m]
-  (if (or
+  (if (and
        (map? m)
        (string? mp-id))
     (u/apply-to-map-values

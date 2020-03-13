@@ -34,6 +34,7 @@
 ;;------------------------------
 (defn dispatch!
   "Dispatches to the workers depending on `(:Action task)`.
+
   Since every worker has to manage the state,
   the  `state-key` is the second parameter.
 

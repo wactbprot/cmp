@@ -4,12 +4,13 @@
   (:require [taoensso.timbre :as timbre]
             [clojure.core.async :as a]
             [cmp.st-mem :as st]
+            [cmp.excep :as excep]
             [cmp.utils :as u]
             [cmp.config :as cfg]))
 
 (def mtp (cfg/min-task-period (cfg/config)))
 
-(defn set-valve-pos-prescript
+(defn set-valve-pos
   "In order to avoid starting up a nodeserver to
   execute the following pre script, this is a clojure
   translation.
@@ -55,7 +56,7 @@
    var ret = {'Value' : vs, 'Address':ad}; ret;
   ```  
   "
-  [input]
+  [task state-key]
   (let [blk  {:V1  1     :V2  1     :V3  1     :V4  1 
               :V5  2     :V6  2     :V7  2     :V8  2 
               :V9  3     :V10 3     :V11 3     :V12 3
@@ -70,16 +71,40 @@
               :V17 40007 :V18 40007 :V19 40007 :V20 40007}
         opc  {:open 1 :close 0}
         ]
-     (println input)))
+    (println task)))
+
+(defn resolve-pre-script
+  "Checks if the task has a `:PreScript` (name of the script to run)
+  and an `:Input` key. If not `task` is returned."
+
+  [task state-key]
+  (if-let [script (:PreScript task)]
+    (if-let [input (:PreInput task)]
+      (condp = script
+        "set_valve_pos" (set-valve-pos task state-key)
+        (do
+          (timbre/error "script with name: " script " not implemented")
+          (timbre/error "will set state: " state-key " to error")
+          (st/set-val! state-key "error")))
+      task)
+    task))
 
 (defn modbus!
-  "
+  "Param is called `pre-task` because some tasks come with a
+  `:PreScript` which has to be executed in order to complete
+  the task (sometimes the `:Value` is computed be the
+  `:PreScript`).
+  
+  
   ```clojure
-  {:TaskName VS_NEW_SE3-set_valve_pos
+  {
+  :TaskName VS_NEW_SE3-set_valve_pos
   :Comment Setzt die Ventilposition.
   :StructKey modbus@container@0@definition@0@1
-  :FunctionCode writeSingleRegister
   :StateKey modbus@container@0@state@0@1
+  :MpName modbus
+  :FunctionCode writeSingleRegister
+  
   :Address 40003
   :PreInput
   {
@@ -93,10 +118,11 @@
   :Action MODBUS
   :PreScript set_valve_pos
   :Host 172.30.56.46
-  :MpName modbus}
+  }
   ```"
-  [task state-key]
+  [pre-task state-key]
   (st/set-val! state-key "working")
-  (Thread/sleep mtp)
-  (println task) ;;--> no time
-  (st/set-val! state-key "executed"))
+  (let [task (resolve-pre-script pre-task state-key)]
+    (Thread/sleep mtp)
+    (println task)
+    (st/set-val! state-key "executed")))

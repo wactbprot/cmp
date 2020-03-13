@@ -278,8 +278,12 @@
   ```
   "
   []
+  (timbre/info "clear tasks")
   (bld/clear-tasks)
-  (bld/store-tasks (lt/get-all-tasks)))
+  (timbre/info "build tasks from db")
+  (bld/store-tasks (lt/get-all-tasks))
+  (timbre/info "build edn tasks")
+  (build-task-edn))
 
 
 ;;------------------------------
