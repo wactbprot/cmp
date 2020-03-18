@@ -11,28 +11,11 @@
 ;;------------------------------
 ;; store
 ;;------------------------------
-(defn clj->val
-  "Casts the given (complex) value `x` to a writable
-  type. `json` is used for complex data types.
-
-  ```clojure
-  (st/clj->val {:foo \"bar\"})
-  ;; \"{\"foo\":\"bar\"}\"
-  (st/clj->val [1 2 3])
-  ;; \"[1,2,3]\"
-  ```
-  "
-  [x]
-  (condp = (class x)
-    clojure.lang.PersistentArrayMap (json/write-str x)
-    clojure.lang.PersistentVector   (json/write-str x)
-    clojure.lang.PersistentHashMap  (json/write-str x)
-    x))
 
 (defn set-val!
   "Sets the value `v` for the key `k`."
   [k v]
-  (wcar conn (car/set k (clj->val v))))
+  (wcar conn (car/set k (u/clj->val v))))
 
 (defn set-same-val!
   "Sets the given values (`val`) for all keys (`ks`)."
@@ -77,42 +60,12 @@
                                        key->keys
                                        del-keys!)))
   
-;;------------------------------
-;; pick
-;;------------------------------
-(defn val->clj
-  "Parses value `v` and returns a
-  clojure type of it.
-
-  ```clojure
-  (val->clj \"-1e-9\")
-  ;; -1.0E-9
-  ;; class:
-  ;;
-  (class (val->clj \"1.23\"))
-  ;; java.lang.Double
-  (class (val->clj \"a\"))
-  ;; java.lang.String
-  (class (val->clj \"[]\"))
-  ;; clojure.lang.PersistentVector
-  (class (val->clj \"{}\"))
-  ;; clojure.lang.PersistentArrayMap
-  (class (val->clj \"{\"a\":1}\"))
-  ;; clojure.lang.PersistentArrayMap
-  ```
-  "
-  [v]
-  (cond
-    (nil? v) nil
-    (re-find #"^-?\d+\.?\d*([Ee]\+\d+|[Ee]-\d+|[Ee]\d+)?$" v) (read-string v)
-    (re-find #"^[\[\{]" v) (u/json->map v)
-    :else v))
 
 (defn key->val
   "Returns the value for the given key (`k`)
   and cast it to a clojure type."
   [k]
-  (val->clj (wcar conn (car/get k))))
+  (u/val->clj (wcar conn (car/get k))))
 
 (defn filter-keys-where-val
   "Returns all keys belonging to `pat` where the

@@ -295,21 +295,26 @@
   (re-pattern (string/join "|" (keys m))))
 
 (defn apply-to-map-values
+  "Applies function `f` to the values of
+  the map `m`."
   [f m]
-  (into {} (map (fn [[k v]] [k (f v)]) m)))
+  (into {} (map
+            (fn [[k v]]
+              (cond
+                (map? v) [k (apply-to-map-values f v)]
+                :default [k (f v)]))
+            m)))
 
-(defmulti make-map-regexable
-  (fn [m] (and (map? m)
-               (not (empty? m)))))
-
-(defmethod make-map-regexable false
-  [m])
-
-(defmethod make-map-regexable true
-  [m]
-  (->> m
-       (apply-to-map-values str)
-       (walk/stringify-keys)))
+(defn apply-to-map-keys
+  "Applies function `f` to the keys of
+  the map `m`."
+  [f m]
+  (into {} (map
+            (fn [[k v]]
+              (cond
+                (map? v) [(f k) (apply-to-map-keys f v)]
+                :default [(f k) v]))
+            m)))
 
 ;;------------------------------
 ;; output
@@ -329,7 +334,6 @@
   [m]
   (json/write-str m))
 
-
 (defn json->map
   "Transforms a json object to a map"
   [j]
@@ -341,6 +345,66 @@
   or at least problematic"  
   [doc]
   (json->map (string/replace (json/write-str doc) (re-pattern "@") "%")))
+
+(defn clj->val
+  "Casts the given (complex) value `x` to a writable
+  type. `json` is used for complex data types.
+
+  ```clojure
+  (st/clj->val {:foo \"bar\"})
+  ;; \"{\"foo\":\"bar\"}\"
+  (st/clj->val [1 2 3])
+  ;; \"[1,2,3]\"
+  ```
+  "
+  [x]
+  (condp = (class x)
+    clojure.lang.PersistentArrayMap (json/write-str x)
+    clojure.lang.PersistentVector   (json/write-str x)
+    clojure.lang.PersistentHashMap  (json/write-str x)
+    x))
+
+
+(defn make-replacable
+  [x]
+  (condp = (class x)
+    clojure.lang.PersistentArrayMap (json/write-str x)
+    clojure.lang.PersistentVector   (json/write-str x)
+    clojure.lang.PersistentHashMap  (json/write-str x)
+    (str x)))
+
+;;------------------------------
+;; pick
+;;------------------------------
+(defn val->clj
+  "Parses value `v` and returns a
+  clojure type of it.
+
+  ```clojure
+  (val->clj \"-1e-9\")
+  ;; -1.0E-9
+  ;; class:
+  ;;
+  (class (val->clj \"1.23\"))
+  ;; java.lang.Double
+  (class (val->clj \"a\"))
+  ;; java.lang.String
+  (class (val->clj \"[]\"))
+  ;; clojure.lang.PersistentVector
+  (class (val->clj \"{}\"))
+  ;; clojure.lang.PersistentArrayMap
+  (class (val->clj \"{\"a\":1}\"))
+  ;; clojure.lang.PersistentArrayMap
+  ```
+  "
+  [v]
+  (let [s-pat #"^-?\d+\.?\d*([Ee]\+\d+|[Ee]-\d+|[Ee]\d+)?$"
+        c-pat #"^[\[\{]"]
+    (cond
+      (nil? v) nil
+      (re-find s-pat v) (read-string v)
+      (re-find c-pat v) (json->map v)
+      :else v)))
 
 ;;------------------------------
 ;; ctrl endpoint -> poll and run

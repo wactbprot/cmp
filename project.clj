@@ -29,4 +29,5 @@
              :abbrev-ns false
              :source-paths ["src/"]
              :exclude ["java.*" "clojure.*" "taoensso.timbre"]}
-  :profiles {:uberjar {:aot :all}})
+  ;; :profiles {:uberjar {:aot :all}}
+  )

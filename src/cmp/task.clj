@@ -4,7 +4,7 @@
   (:require [clojure.spec.alpha :as s]
             [clojure.core.async :as a]
             [taoensso.timbre :as log]
-            [clojure.walk :as walk]
+            [clojure.walk :as w]
             [clojure.string :as string]
             [cmp.utils :as u]
             [cmp.doc :as d]
@@ -69,7 +69,8 @@
      "%day"    (u/get-day d)
      "%time"   (u/get-time d)}))
 
-(defmulti replace-map
+(comment
+  (defn replace-map
   "Replaces tokens (given in the m) in the task.
 
   ```clojure
@@ -77,22 +78,29 @@
   ;; {:TaskName \"foo\", :Value \"1580652820247\"}
   ```
   "
-  (fn [m task] (map? m)))
-
-(defmethod replace-map false
   [m task]
-  task)
+  (if-not (nil? m)
+    (u/json->map
+     (reduce
+      (fn [s [k v]]
+        (let [pat (re-pattern (name k))
+              r   (u/make-replacable v)]
+          (string/replace s pat r)))
+      (u/map->json task) m))
+    task)))
 
-(defmethod replace-map true 
+(defn replace-map
   [m task]
-  (u/json->map (string/replace
-                (u/map->json task)
-                (u/gen-re-from-map-keys m)
-                m)))
-  
+  (let [f (fn [v]
+            (if-let [r (get m v)]
+              r
+              v))]
+    (u/apply-to-map-values f task)))
+
+
 (defn extract-use-value
   [task m k]
-  ((task k) (keyword (m k))))
+  ((keyword (m k)) (task k)))
 
 (defn str->singular-kw
   "Takes a keyword or string and removes the tailing
@@ -193,9 +201,9 @@
                      x)]
     {:Task          (dissoc db-task :Defaults) 
      :Use           (:Use proto-task)
-     :Globals       (u/make-map-regexable (->globals))
-     :Defaults      (u/make-map-regexable (:Defaults db-task))
-     :Replace       (u/make-map-regexable (:Replace proto-task))}))
+     :Globals       (->globals)
+     :Defaults      (:Defaults db-task)
+     :Replace       (:Replace proto-task)}))
 
 (defn assemble
   "Assembles the `task` from the given
@@ -233,8 +241,7 @@
         task     (dissoc db-task
                          :FromExchange
                          :Replace)
-        from-exch-map (u/make-map-regexable
-                       (exch/from mp-name exch-map))]
+        from-exch-map (exch/from mp-name exch-map)]
     (assoc 
      (->> task
           (merge-use-map use-map)

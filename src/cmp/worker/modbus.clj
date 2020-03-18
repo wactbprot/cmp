@@ -56,7 +56,7 @@
    var ret = {'Value' : vs, 'Address':ad}; ret;
   ```  
   "
-  [task state-key]
+  [task input state-key]
   (let [blk  {:V1  1     :V2  1     :V3  1     :V4  1 
               :V5  2     :V6  2     :V7  2     :V8  2 
               :V9  3     :V10 3     :V11 3     :V12 3
@@ -69,9 +69,24 @@
               :V5  40004 :V6  40004 :V7  40004 :V8  40004 
               :V9  40005 :V10 40005 :V11 40005 :V12 40005
               :V17 40007 :V18 40007 :V19 40007 :V20 40007}
-        opc  {:open 1 :close 0}
-        ]
-    (println task)))
+        opc  {:open 1    :close 0}
+        kw-should  (keyword (:should input))
+        kw-v       (keyword (:valve  input))
+        blks       [(:stateblock1 input)
+                    (:stateblock2 input)
+                    (:stateblock3 input)
+                    (:stateblock4 input)]
+        val-oc     (kw-should opc)
+        v-blk      (nth blks (kw-v blk))
+        v-pos      (kw-v vpos)
+        new-adr    (kw-v adr)
+        new-state  (assoc v-blk v-pos val-oc)]
+    (assoc
+     (dissoc task
+             :PreScript
+             :PreInput)
+     :Address new-adr
+     :Value new-state)))
 
 (defn resolve-pre-script
   "Checks if the task has a `:PreScript` (name of the script to run)
@@ -81,7 +96,9 @@
   (if-let [script (:PreScript task)]
     (if-let [input (:PreInput task)]
       (condp = script
-        "set_valve_pos" (set-valve-pos task state-key)
+        "set_valve_pos" (do
+                          (timbre/debug "found prescript: " input)
+                          (set-valve-pos task input state-key))
         (do
           (timbre/error "script with name: " script " not implemented")
           (timbre/error "will set state: " state-key " to error")
@@ -95,34 +112,37 @@
   the task (sometimes the `:Value` is computed be the
   `:PreScript`).
   
-  
   ```clojure
-  {
-  :TaskName VS_NEW_SE3-set_valve_pos
-  :Comment Setzt die Ventilposition.
-  :StructKey modbus@container@0@definition@0@1
-  :StateKey modbus@container@0@state@0@1
-  :MpName modbus
-  :FunctionCode writeSingleRegister
   
-  :Address 40003
-  :PreInput
-  {
-  :should open
-  :valve V1
-  :stateblock1 [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]
-  :stateblock2 [0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0]
-  :stateblock3 [0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0]
-  :stateblock4 [0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  }
-  :Action MODBUS
-  :PreScript set_valve_pos
-  :Host 172.30.56.46
-  }
+   (modbus! ((meta (var modbus!)) :example-task)
+            ((meta (var modbus!)) :example-state-key))
   ```"
+  {:example-state-key "example"
+   :example-task 
+   {
+    :TaskName "VS_NEW_SE3-set_valve_pos"
+    :Comment "Setzt die Ventilposition."
+    :Action "MODBUS"
+    :StructKey "example@container@0@definition@0@1"
+    :StateKey "example@container@0@state@0@1"
+    :MpName "modbus"
+    :Host "172.30.56.46"
+    :FunctionCode "writeSingleRegister"
+    :PreInput
+    {
+     :should "open"
+     :valve "V1"
+     :stateblock1 [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]
+     :stateblock2 [0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0]
+     :stateblock3 [0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0]
+     :stateblock4 [0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0]
+     }
+    :PreScript "set_valve_pos"
+    }
+   }
   [pre-task state-key]
   (st/set-val! state-key "working")
+  (Thread/sleep mtp)
   (let [task (resolve-pre-script pre-task state-key)]
-    (Thread/sleep mtp)
     (println task)
     (st/set-val! state-key "executed")))
