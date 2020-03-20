@@ -69,8 +69,8 @@
      "%day"    (u/get-day d)
      "%time"   (u/get-time d)}))
 
-(comment
-  (defn replace-map
+
+  (defn outer-replace-map
   "Replaces tokens (given in the m) in the task.
 
   ```clojure
@@ -87,12 +87,17 @@
               r   (u/make-replacable v)]
           (string/replace s pat r)))
       (u/map->json task) m))
-    task)))
+    task))
 
-(defn replace-map
+(defn inner-replace-map
+  "Applies the generated function  `f` to the
+  values `v` of the of the `task` map. `f`s input is `v`.
+  If `m` has a key `v` the value of this key is returned.
+  If `m` has no key `v` the `v` returned. "
   [m task]
-  (let [f (fn [v]
-            (if-let [r (get m v)]
+  (let [nm (u/apply-to-map-keys name m)
+        f (fn [v]
+            (if-let [r (get nm  v)]
               r
               v))]
     (u/apply-to-map-values f task)))
@@ -245,10 +250,10 @@
     (assoc 
      (->> task
           (merge-use-map use-map)
-          (replace-map from-exch-map)
-          (replace-map replace)
-          (replace-map defaults)
-          (replace-map globals))
+          (inner-replace-map from-exch-map)
+          (outer-replace-map replace)
+          (outer-replace-map defaults)
+          (outer-replace-map globals))
      :StructKey struct-k 
      :MpName    mp-name
      :StateKey  state-k)))

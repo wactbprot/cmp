@@ -1,4 +1,4 @@
-(defproject cmp "0.6.2"
+(defproject cmp "0.6.3"
   :description "A study of an interpreter for measurement 
   program (mp) definitions (mpd) written in clojure."
   :url "https://github.com/wactbprot/cmp"
@@ -11,6 +11,7 @@
                  [org.clojure/data.json "0.2.6"]
                  [com.taoensso/timbre "4.10.0"]
                  [aero "1.1.3"]
+                 [clj-http "3.10.0"]
                  [biz.paluch.logging/logstash-gelf "1.12.0"]
                  [ch.qos.logback/logback-classic "1.0.1"]
                  [org.graylog2/gelfclient "1.4.1"]

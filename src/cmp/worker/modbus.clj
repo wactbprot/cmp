@@ -5,6 +5,7 @@
             [clojure.core.async :as a]
             [cmp.st-mem :as st]
             [cmp.excep :as excep]
+            [clj-http.client :as http]
             [cmp.utils :as u]
             [cmp.config :as cfg]))
 
@@ -96,9 +97,7 @@
   (if-let [script (:PreScript task)]
     (if-let [input (:PreInput task)]
       (condp = script
-        "set_valve_pos" (do
-                          (timbre/debug "found prescript: " input)
-                          (set-valve-pos task input state-key))
+        "set_valve_pos" (set-valve-pos task input state-key)
         (do
           (timbre/error "script with name: " script " not implemented")
           (timbre/error "will set state: " state-key " to error")
@@ -144,5 +143,10 @@
   (st/set-val! state-key "working")
   (Thread/sleep mtp)
   (let [task (resolve-pre-script pre-task state-key)]
-    (println task)
+    (http/post "http://i75464:55555"
+                 {:body (u/map->json task)
+                  :content-type :json
+                  :socket-timeout 1000      ;; in milliseconds
+                  :connection-timeout 1000  ;; in milliseconds
+                  :accept :json})
     (st/set-val! state-key "executed")))

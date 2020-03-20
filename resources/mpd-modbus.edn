@@ -52,10 +52,13 @@
     :Ctrl "void"
     :Title "modbus with pre script"
     :Element ["*"]
-    :Definition [[{:TaskName "VS_NEW_SE3-set_valve_pos",
+    :Definition [;; valve state needed first
+                 [{:TaskName "VS_NEW_SE3-set_valve_pos",
                    :Replace {:%valve "V1",
-                             :%should "close"}}
-                  {:TaskName "VS_NEW_SE3-set_valve_pos",
+                             :%should "close"}}]
+                 [{:TaskName "Common-wait"
+                   :Replace {:%waittime 3000}}]
+                 [{:TaskName "VS_NEW_SE3-set_valve_pos",
                    :Replace {:%valve "V1",
                              :%should "open"}}]]
     }]}}
