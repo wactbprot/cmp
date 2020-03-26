@@ -10,6 +10,8 @@
             [cmp.config :as cfg]))
 
 (def mtp (cfg/min-task-period (cfg/config)))
+(def post-header (cfg/post-header (cfg/config)))
+(def dev-hub-url (cfg/dev-hub-url (cfg/config)))
 
 (defn set-valve-pos
   "In order to avoid starting up a nodeserver to
@@ -92,7 +94,6 @@
 (defn resolve-pre-script
   "Checks if the task has a `:PreScript` (name of the script to run)
   and an `:Input` key. If not `task` is returned."
-
   [task state-key]
   (if-let [script (:PreScript task)]
     (if-let [input (:PreInput task)]
@@ -142,11 +143,8 @@
   [pre-task state-key]
   (st/set-val! state-key "working")
   (Thread/sleep mtp)
-  (let [task (resolve-pre-script pre-task state-key)]
-    (http/post "http://i75464:55555"
-                 {:body (u/map->json task)
-                  :content-type :json
-                  :socket-timeout 1000      ;; in milliseconds
-                  :connection-timeout 1000  ;; in milliseconds
-                  :accept :json})
-    (st/set-val! state-key "executed")))
+  (if-let [task (resolve-pre-script pre-task state-key)]
+    (println
+     (http/post dev-hub-url
+               (assoc post-header :body (u/map->json task)))
+    (st/set-val! state-key "executed"))))

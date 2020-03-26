@@ -25,3 +25,11 @@
   [c]
   (:min-task-period c))
 
+(defn post-header
+  [c]
+  (:post-header c))
+
+(defn dev-hub-url
+  [c]
+  (:dev-hub-url c))
+

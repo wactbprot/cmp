@@ -12,6 +12,11 @@
  ;; in order to give the keyspace notif
  ;; a chance to find the next to start
  :min-task-period 20
+ :post-header {:content-type :json
+               :socket-timeout 1000      ;; in milliseconds
+               :connection-timeout 1000  ;; in milliseconds
+               :accept :json}
+ :dev-hub-url "http://127.0.0.1:8000"
  }
  
  
