@@ -121,7 +121,7 @@
              :PreScript
              :PreInput)
      :Address new-adr))
-  ))
+  )
 
 (defn resolve-pre-script
   "Checks if the task has a `:PreScript` (name of the script to run)
