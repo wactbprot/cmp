@@ -1,0 +1,18 @@
+{
+ :TaskName "VS_NEW_SE3-get_valve_pos"
+ :Comment "Liefert die Ventilposition des Ventils %valve."
+ :FunctionCode "ReadHoldingRegisters"
+ :OutMode "8Bits*"
+ :Quantity 5
+ :Skip  1
+ :Host "%host"
+ :Action "%acc"
+ :PreScript "get_valve_pos"
+ :PreInput {
+            :valve "%valve"
+            }
+ :Defaults {
+            :%host "172.30.56.46"
+            :%acc "MODBUS"
+            }
+ }
