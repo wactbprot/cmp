@@ -6,53 +6,63 @@
   :Description "Modbus test.",
   :Standard "NN"
   :Exchange {
-             :Vraw_block1 [
-                            1,0,1,0,
-                            0,0,0,0,
-                            0,0,0,0,
-                            1,0,0,0,
-                            0,0,0,0,
-                            0,0,1,0
-                            ]
-             :Vraw_block2 [
-                            0,0,1,0,
-                            0,0,0,0,
-                            0,0,0,0,
-                            0,0,1,0,
-                            0,0,0,0,
-                            0,0,0,0
-                            ]
-             :Vraw_block3 [
-                           0,0,0,0,
-                           0,0,1,0,
-                           0,0,0,0,
-                           0,0,0,0,
-                           1,1,1,0,
-                           0,0,0,0
-                           ],
-             :Vraw_block4 [
-                           0,0,0,0,
-                           0,0,0,0,
-                           1,1,1,0,
-                           0,0,0,0,
-                           0,0,0,0,
-                           0,0,0,0
-                           ],
-             :Vraw_block5  [
-                           1,1,0,0,
-                           0,0,0,0,
-                           0,0,0,0,
-                           0,0,0,0,
-                           0,0,0,0,
-                           0,0,0,0
-                           ]
+            ;; :Vraw_block1 [
+            ;;                1,0,1,0,
+            ;;                0,0,0,0,
+            ;;                0,0,0,0,
+            ;;                1,0,0,0,
+            ;;                0,0,0,0,
+            ;;                0,0,1,0
+            ;;                ]
+            ;; :Vraw_block2 [
+            ;;                0,0,1,0,
+            ;;                0,0,0,0,
+            ;;                0,0,0,0,
+            ;;                0,0,1,0,
+            ;;                0,0,0,0,
+            ;;                0,0,0,0
+            ;;                ]
+            ;; :Vraw_block3 [
+            ;;               0,0,0,0,
+            ;;               0,0,1,0,
+            ;;               0,0,0,0,
+            ;;               0,0,0,0,
+            ;;               1,1,1,0,
+            ;;               0,0,0,0
+            ;;               ],
+            ;; :Vraw_block4 [
+            ;;               0,0,0,0,
+            ;;               0,0,0,0,
+            ;;               1,1,1,0,
+            ;;               0,0,0,0,
+            ;;               0,0,0,0,
+            ;;               0,0,0,0
+            ;;               ],
+            ;; :Vraw_block5  [
+            ;;               1,1,0,0,
+            ;;               0,0,0,0,
+            ;;               0,0,0,0,
+            ;;               0,0,0,0,
+            ;;               0,0,0,0,
+            ;;               0,0,0,0
+            ;;               ]
              }
   :Container
-  [{:Description "Test modbus action with prescript"
+  [{:Description "Test modbus action with prescript (get)"
     :Ctrl "void"
-    :Title "modbus with pre script"
+    :Title "modbus get test"
     :Element ["*"]
-    :Definition [;; valve state needed first
+    :Definition [
+                 [{:TaskName "VS_NEW_SE3-get_valve_pos",
+                   :Replace {:%valve "V1"}}]
+                 [{:TaskName "VS_NEW_SE3-get_valve_pos",
+                   :Replace {:%valve "V2"}}]]
+    }
+   {:Description "Test modbus action with prescript (set)"
+    :Ctrl "void"
+    :Title "modbus set test"
+    :Element ["*"]
+    :Definition [
                  [{:TaskName "VS_NEW_SE3-set_valve_pos",
                    :Replace {:%valve "V1",
                              :%should "close"}}]
