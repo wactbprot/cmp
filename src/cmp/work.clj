@@ -68,16 +68,17 @@
   (let [k (a/<! ctrl-chan)]
     (if-let [task (k->task k)]
       (if-let [state-key (:StateKey task)]
-        (if (= (st/key->val state-key) "ready")
-          (do
-            (timbre/debug "try to call worker for: " k)
-            (try
-              (dispatch! task state-key)
-              (catch Exception e
-                (timbre/error "catch error on task dispatch for: " k)
-                (st/set-val! state-key "error")
-                (a/>! excep/ch e))))
-          (timbre/debug "state is not ready for: " k))
+        (let [state (st/key->val state-key)] 
+          (if (= state "ready")
+            (do
+              (timbre/debug "try to call worker for: " k)
+              (try
+                (dispatch! task state-key)
+                (catch Exception e
+                  (timbre/error "catch error on task dispatch for: " k)
+                  (st/set-val! state-key "error")
+                  (a/>! excep/ch e))))
+            (timbre/debug "state is not ready for: " k)))
         (timbre/debug "task has no state key: " k))
       (timbre/debug "no task at: " k)))
   (recur))
