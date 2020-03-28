@@ -5,7 +5,8 @@
  ;; short term memory: redis
  :st-conn {:pool {}
            :spec {:host "127.0.0.1" :port 6379}}
- :edn-tasks ["resources/task-modbus-set.edn"]
+ :edn-tasks ["resources/task-modbus-set.edn"
+             "resources/task-modbus-get.edn"]
  :edn-mpds ["resources/mpd-ref.edn"
             "resources/mpd-modbus.edn"]
  ;; a task schould at least take 10ms

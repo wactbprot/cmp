@@ -1,13 +1,14 @@
 (ns cmp.worker.modbus
   ^{:author "wactbprot"
     :doc "modbus worker."}
-  (:require [taoensso.timbre :as timbre]
+  (:require [clj-http.client :as http]
             [clojure.core.async :as a]
-            [cmp.st-mem :as st]
+            [cmp.config :as cfg]
             [cmp.excep :as excep]
-            [clj-http.client :as http]
+            [cmp.resp :as resp]
+            [cmp.st-mem :as st]
             [cmp.utils :as u]
-            [cmp.config :as cfg]))
+            [taoensso.timbre :as timbre]))
 
 (def mtp (cfg/min-task-period (cfg/config)))
 (def post-header (cfg/post-header (cfg/config)))
@@ -120,8 +121,7 @@
      (dissoc task
              :PreScript
              :PreInput)
-     :Address new-adr))
-  )
+     :Address new-adr)))
 
 (defn resolve-pre-script
   "Checks if the task has a `:PreScript` (name of the script to run)
@@ -131,10 +131,11 @@
     (if-let [input (:PreInput task)]
       (condp = script
         "set_valve_pos" (set-valve-pos task input state-key)
+        "get_valve_pos" (get-valve-pos task input state-key)
         (do
           (timbre/error "script with name: " script " not implemented")
-          (timbre/error "will set state: " state-key " to error")
-          (st/set-val! state-key "error")))
+          (st/set-val! state-key "error")
+          (timbre/error "set state: " state-key " to error")))
       task)
     task))
 
@@ -176,7 +177,13 @@
   (st/set-val! state-key "working")
   (Thread/sleep mtp)
   (if-let [task (resolve-pre-script pre-task state-key)]
-    (println
-     (http/post dev-hub-url
-               (assoc post-header :body (u/map->json task)))
-    (st/set-val! state-key "executed"))))
+    (let [req (assoc post-header
+                   :body (u/map->json task))
+          url dev-hub-url]
+      (timbre/debug "send: " req)
+      (a/>!! resp/ctrl-chan [(http/post url req) state-key]))
+    (let [err-msg (str
+                   "failed to build task for: " state-key)]
+      (timbre/error err-msg)
+      (st/set-val! state-key "error")
+      (a/>! excep/ch (throw err-msg)))))

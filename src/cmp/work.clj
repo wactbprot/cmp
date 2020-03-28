@@ -41,9 +41,9 @@
   ```clojure
   (dispatch! {:Action \"wait\" :WaitTime 1000 :StateKey \"testpath\"})
   ;; #object ... ManyToManyChannel@1247ab05...
-  ;; ... INFO [cmp.worker.wait:20] - wait time ( 1000 ms) over for  testpath
+  ;; INFO [cmp.worker.wait:20] - wait time ( 1000 ms) over for  testpath
   (dispatch! {:Action \"foo\" :StateKey \"testpath\"})
-  ;; ... ERROR [cmp.work:52] - unknown action:  :foo
+  ;; ERROR [cmp.work:52] - unknown action:  :foo
   ```"  
   [task state-key]
   (let [action    (keyword (:Action task))]
@@ -66,17 +66,18 @@
 ;;------------------------------
 (a/go-loop []
   (let [k (a/<! ctrl-chan)]
-    (try
-      (timbre/debug "receive key " k
-                    " try to get task and call worker")            
-      (if-let [task (k->task k)]
-        (if-let [state-key (:StateKey task)]
-          (if (=
-               "ready"
-               (st/key->val state-key))
-            (dispatch! task state-key)
-            (timbre/debug "state not ready for: " k))))
-      (catch Exception e
-        (timbre/error "catch error at channel " k)
-        (a/>! excep/ch e))))
+    (if-let [task (k->task k)]
+      (if-let [state-key (:StateKey task)]
+        (if (= (st/key->val state-key) "ready")
+          (do
+            (timbre/debug "try to call worker for: " k)
+            (try
+              (dispatch! task state-key)
+              (catch Exception e
+                (timbre/error "catch error on task dispatch for: " k)
+                (st/set-val! state-key "error")
+                (a/>! excep/ch e))))
+          (timbre/debug "state is not ready for: " k))
+        (timbre/debug "task has no state key: " k))
+      (timbre/debug "no task at: " k)))
   (recur))
