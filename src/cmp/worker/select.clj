@@ -12,48 +12,35 @@
 
 (def mtp (cfg/min-task-period (cfg/config)))
 
-(defmulti get-comp-val
-  "Returns the *compare value* belonging to key `k`.
-  If the *keyword* `kw` is not `nil` it is
-  used to extract the related value.
-
-  ```clojure
-  (get-comp-val \"ref@definitions@0@cond@0\" :Value)
-  ;; \"Pa\"
-  ```"
-  (fn [k kw] (nil? kw)))
-
-(defmethod get-comp-val true
-  [k kw]
-  (st/key->val k))
-
-(defmethod get-comp-val false
-  [k kw]
-  (kw (st/key->val k)))
 
 (defn cond-match?
-  "Tests a single condotion of the form defined in
+  "Tests a single condition of the form defined in
   the `definitions` section.
   
+  **Example**
+  
+  Condition maps `m` looks like this:
+  
   ```clojure
-  ;; one condition looks like this:
   (u/json->map (st/key->val \"ref@definitions@0@cond@0\"))
-  {:ExchangePath \"A.Unit\", :Methode \"eq\", :Value \"Pa\"}
+  ;;
+  ;; {
+  ;;  :ExchangePath \"A.Unit\" ; the value under ref@exchange@A/Unit
+  ;;  :Methode \"eq\"          ; should be equal to
+  ;;  :Value \"Pa\"            ; Pa
+  ;; }
   ```
   "
   [k]
-  (let [mp-id     (u/key->mp-name k)
-        cond-m    (st/key->val k)
-        b         (str (cond-m :Value))
-        meth      (cond-m :Methode)
-        exch-p    (cond-m :ExchangePath)
-        exch-k    (exch/->key mp-id exch-p)
-        exch-kw   (exch/key->kw exch-p)
-        a         (str (get-comp-val exch-k exch-kw))]
-    (cond
-      (= meth "eq") (= a b)
-      (= meth "lt") (< (read-string a) (read-string b))
-      (= meth "gt") (> (read-string a) (read-string b)))))
+  (let [mp-id (u/key->mp-name k)
+        m     (st/key->val    k)
+        p     (:ExchangePath m)
+        a     (str (exch/comp-val mp-id p))
+        b     (str (:Value m))]
+    (condp = (:Methode m)
+      "eq" (= a b)
+      "lt" (< (read-string a) (read-string b))
+      "gt" (> (read-string a) (read-string b)))))
 
 (defn conds-match?
   "Gathers all information for the given
@@ -81,7 +68,22 @@
 (defn start-defs
   "Starts the filtered out `definitions` structure and
   sets the state of the calling element to executed if the `ctrl`
-  turns to ready (or error if error)."          
+  turns to ready (or error if error).
+
+  TODO
+  
+  ```clojure
+  (let [mp-id     (u/key->mp-name state-k)
+        defs-idx  (u/key->no-idx match-k)
+        ctrl-k    (u/vec->key [mp-id \"definitions\" defs-idx \"ctrl\"])])
+  ```
+
+  should be replaced by
+
+  ```clojure
+  (get-defins-ctrl-path ...)
+  ```
+  "          
   [match-k state-k]
   (timbre/debug "start definitions struct " match-k)
   (let [mp-id     (u/key->mp-name state-k)
@@ -128,4 +130,3 @@
                    (st/filter-keys-where-val def-pat def-cls))
         match-k   (first (filter conds-match? match-ks))]
     (start-defs match-k state-k)))
-

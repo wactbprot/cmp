@@ -46,6 +46,25 @@
     (if kw
       (kw val)
       val)))
+
+(defn comp-val
+  "Returns the *compare value* belonging to a `mp-id`
+  and an ExchangePath `k`. Gets the  *keyword* `kw`
+  from `k` if `k` looks like this: `aaa.bbb`. If `kw`
+  is not `nil` it is used to extract the related value.
+
+  ```clojure
+  (comp-val \"ref\" \"A.Unit\")
+  ;; \"Pa\"
+  ;; or:
+  (comp-val \"modbus\" \"Vraw_block1\")
+  ;; [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]
+  ```"
+  [mp-id p]
+  (let [k (->key mp-id p)]
+    (if-let [kw  (key->kw p)]
+      (kw (st/key->val k))
+      (st/key->val k))))
   
 (defn from
   "
