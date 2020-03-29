@@ -6,7 +6,17 @@
             [cmp.st-mem :as st]
             [cmp.excep :as excep]))
 
+(defn dispatch
+  "Dispatches responds from outer space.
+  Expected responses are:
 
+  * Result
+  * ToExchange
+  * error
+  * DocPath
+  "
+  [body state-key]
+  (println body))
 
 ;;------------------------------
 ;; ctrl channel invoked by run 
@@ -17,11 +27,11 @@
 ;; ctrl go block 
 ;;------------------------------
 (a/go-loop []
-  (let [[resp state-key] (a/<! ctrl-chan)]
+  (let [[res state-key] (a/<! ctrl-chan)]
+    (timbre/debug "try dispatch response for: " state-key)
     (try
-      (timbre/debug "receive response for " state-key
-                    " try to dispatch")            
-      (println resp)
+      (condp = (:status res)
+        200 (dispatch (:body res) state-key))
       (catch Exception e
         (timbre/error "catch error at channel " state-key)
         (a/>! excep/ch e))))
