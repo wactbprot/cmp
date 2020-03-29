@@ -65,31 +65,40 @@ overview:
 
 ```clojure
 ;;   (dir cmp.core)
-;;   ->mp-id
-;;   build-mpd
-;;   build-mpd-edn
-;;   build-mpd-ref
-;;   build-task-edn
-;;   build-tasks
-;;   check
-;;   clear
-;;   ctrl
-;;   current-mp-id
-;;   doc-add
-;;   doc-del
-;;   log-init!
-;;   log-start-repl-out!
-;;   log-stop-repl-out!
-;;   refresh-tasks
-;;   run-c
-;;   set-ctrl
-;;   start-observe
-;;   stat-c
-;;   stat-d
-;;   stop-c
-;;   stop-observe
-;;   workon!
-;;   workon!!
+;; ->mp-id
+;; current-mp-id
+;;
+;; build-mpd
+;; build-mpd-edn
+;;
+;; check
+;;
+;; clear
+;; clear-all
+
+;;
+;; doc-add
+;; doc-del
+;;
+;; log-start-repl-out!
+;; log-stop-repl-out!
+;;
+;; build-task-edn
+;; build-tasks
+;; refresh-tasks
+;;
+;; reset-c
+;; run-c
+;; stop-c
+;; set-ctrl
+;;
+;; stat-c
+;; stat-d
+;;
+;; start-observe
+;; stop-observe
+;;
+;; workon!
 ```
 
 Use `(doc build-tasks)` for a more detailed view.

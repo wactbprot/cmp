@@ -37,10 +37,10 @@
         p     (:ExchangePath m)
         a     (str (exch/comp-val mp-id p))
         b     (str (:Value m))]
-    (condp = (:Methode m)
-      "eq" (= a b)
-      "lt" (< (read-string a) (read-string b))
-      "gt" (> (read-string a) (read-string b)))))
+    (condp = (keyword (:Methode m))
+      :eq (= a b)
+      :lt (< (read-string a) (read-string b))
+      :gt (> (read-string a) (read-string b)))))
 
 (defn conds-match?
   "Gathers all information for the given

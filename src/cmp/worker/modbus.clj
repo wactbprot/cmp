@@ -180,7 +180,7 @@
     (let [req (assoc post-header
                    :body (u/map->json task))
           url dev-hub-url]
-      (timbre/debug "send: " req)
+      (timbre/debug "send: " req "to: " url)
       (a/>!! resp/ctrl-chan [(http/post url req) state-key]))
     (let [err-msg (str
                    "failed to build task for: " state-key)]

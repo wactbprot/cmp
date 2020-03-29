@@ -227,7 +227,7 @@
   ([i]
    (stat-c (->mp-id) i))
   ([mp-id i]
-   (map :state (state/cont-status mp-id i))))
+   (state/cont-status mp-id i)))
 
 (defn stat-d
   "Returns  **d**efinitions **s**tatus.
@@ -236,7 +236,7 @@
   ([i]
    (stat-d (->mp-id) i))
   ([mp-id i]
-   (map :state (state/defins-status mp-id i))))
+   (state/defins-status mp-id i)))
 
 
 ;;------------------------------
@@ -316,24 +316,3 @@
   (map clear
        (map u/key->mp-name
             (st/pat->keys "*@meta@name"))))
-
-;;------------------------------
-;; workon!!
-;;------------------------------
-(defn workon!!
-  "Sets the mpd to work on, then starts:
-  `(clear)`, `(build-mpd)`, `(check)`  and `(start)`
-  
-  Usage:
-  
-  ```clojure
-  (workon!! 'se3-calib')
-  ```
-  "
-  [mp-id]
-  (refresh-tasks)
-  (workon! mp-id)
-  (clear)
-  (build-mpd)
-  (check)
-  (start-observe))
