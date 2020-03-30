@@ -340,11 +340,15 @@
   (json/read-str j :key-fn keyword))
 
 (defn doc->safe-doc
-  "Replaces all of the `@`-signs by a `%`-sign
-  since `:%kw` is a valid keyword, `:@kw` is not valid
-  or at least problematic"  
+  "Replaces all of the `@`-signs (if followed by letters 1)
+  by a `%`-sign  because `:%kw` is a valid keyword but `:@kw` not
+  (or at least problematic).
+
+  1) There are devices annotating channeles by `(@101:105)`.
+  This should remain as it is.
+  "
   [doc]
-  (json->map (string/replace (json/write-str doc) (re-pattern "@") "%")))
+  (json->map (string/replace (json/write-str doc)  (re-pattern "@\\[a-zA-Z\\]*") "%")))
 
 (defn clj->val
   "Casts the given (complex) value `x` to a writable
