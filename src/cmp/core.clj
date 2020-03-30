@@ -53,10 +53,10 @@
 
 (defn ->mp-id
   "Returns the mpd-id set with workon!.
-
+  
   Usage:
   
-  ```clojure
+   ```clojure
   (workon! 'se3-calib')
   (->mp-id)
   ```
@@ -65,6 +65,46 @@
   (if-let [mp-id (deref current-mp-id)]
     mp-id
     (throw (Exception. "No mp-id set.\n\n\nUse function (workon! <mp-id>)"))))
+
+
+;;------------------------------
+;; info
+;;------------------------------
+(defn info-mpd
+  "The pattern `*@meta@name` is used to find all
+   mp-names available at short term memory."  
+  []
+  (run! prn
+        (map u/key->mp-name
+             (st/pat->keys "*@meta@name"))))
+
+(defn info-listener
+  "Returns a list with the currently registered listener
+  patterns."
+  []
+  (run! prn
+        (keys (deref st/listeners))))
+
+;;------------------------------
+;; status (stat)
+;;------------------------------
+(defn stat-c
+  "Returns the  **c**ontainer **s**tatus.
+  Returns the state map for the `i` container."
+  ([i]
+   (stat-c (->mp-id) i))
+  ([mp-id i]
+   (state/cont-status mp-id i)))
+
+(defn stat-d
+  "Returns  **d**efinitions **s**tatus.
+  Returns the `state map` for the `i`
+  definitions structure."
+  ([i]
+   (stat-d (->mp-id) i))
+  ([mp-id i]
+   (state/defins-status mp-id i)))
+
 
 ;;------------------------------
 ;; build-mpd
@@ -217,26 +257,6 @@
   "
   [i]
   (set-ctrl (->mp-id) i "reset"))
-
-;;------------------------------
-;; status (stat)
-;;------------------------------
-(defn stat-c
-  "Returns the  **c**ontainer **s**tatus.
-  Returns the state map for the `i` container."
-  ([i]
-   (stat-c (->mp-id) i))
-  ([mp-id i]
-   (state/cont-status mp-id i)))
-
-(defn stat-d
-  "Returns  **d**efinitions **s**tatus.
-  Returns the `state map` for the `i`
-  definitions structure."
-  ([i]
-   (stat-d (->mp-id) i))
-  ([mp-id i]
-   (state/defins-status mp-id i)))
 
 
 ;;------------------------------
