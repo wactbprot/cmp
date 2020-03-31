@@ -30,8 +30,17 @@
   (let [[res state-key] (a/<! ctrl-chan)]
     (timbre/debug "try dispatch response for: " state-key)
     (try
-      (condp = (:status res)
-        200 (dispatch (:body res) state-key))
+      (if-let [status (:status res)]
+        (cond
+          (< status 300) (dispatch (:body res) state-key)
+          (= status 304) (dispatch (:body res) state-key)
+          :default (a/>! excep/ch
+                         (throw (str "request for: "
+                                     state-key
+                                     " failed with status: "
+                                     status))))
+        (a/>! excep/ch (throw (str "no status in header for: "
+                                   state-key))))
       (catch Exception e
         (timbre/error "catch error at channel " state-key)
         (a/>! excep/ch e))))
