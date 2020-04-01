@@ -67,8 +67,7 @@
       (st/key->val k))))
   
 (defn from
-  "
-  Builds a map by replacing the values of the input map.
+  "Builds a map by replacing the values of the input map.
   The replacements are gathered from the `exchange` interface
   with the keys: `<mp-id>@exchange@<input-map-value>`
 
@@ -104,9 +103,15 @@
   `{:%aaa \"bbb.ccc\"}`
   "
   [mp-id m]
-  (if (and
-       (map? m)
-       (string? mp-id))
+  (if (and (string? mp-id) (map? m))
     (u/apply-to-map-values
      (fn [v] (key->val mp-id v))
      m)))
+
+(defn to
+  "Writes `m` in a special way to the exchange interface"
+  [mp-id m]
+  (if  (and (string? mp-id) (map? m))
+    (println m)
+    ;; go on here
+    ))
