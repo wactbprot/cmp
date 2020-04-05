@@ -177,17 +177,17 @@
    (check (->mp-id)))
   ([mp-id]
    (let [p         (u/extr-main-path mp-id)
-         k-ncont   (u/get-meta-ncont-path p)
+         k-ncont   (st/get-meta-ncont-path p)
          n-cont    (st/key->val k-ncont)
-         k-ndefins (u/get-meta-ndefins-path p)
+         k-ndefins (st/get-meta-ndefins-path p)
          n-defins  (st/key->val k-ndefins)]
      (run!
       (fn [i]
-        (chk/struct-tasks (u/get-cont-defin-path p i)))
+        (chk/struct-tasks (st/get-cont-defin-path p i)))
       (range n-cont))
      (run!
       (fn [i]
-        (chk/struct-tasks (u/get-defins-defin-path p i)))
+        (chk/struct-tasks (st/get-defins-defin-path p i)))
       (range n-defins)))))
 
 ;;------------------------------
@@ -232,7 +232,7 @@
   ([i cmd]
    (set-ctrl (->mp-id) i cmd))
   ([mp-id i cmd]
-   (let [p (u/get-cont-ctrl-path (u/extr-main-path mp-id) i)]
+   (let [p (st/get-cont-ctrl-path (u/extr-main-path mp-id) i)]
      (st/set-val! p cmd))))
 
 (defn run-c

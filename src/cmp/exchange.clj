@@ -20,7 +20,7 @@
   "
   [mp-id s]
   {:pre [(not (nil? s))]}
-  (u/get-exch-path mp-id
+  (st/get-exch-path mp-id
    (first (string/split s (re-pattern "\\.")))))
 
 (defn key->kw
@@ -112,6 +112,5 @@
   "Writes `m` in a special way to the exchange interface"
   [mp-id m]
   (if  (and (string? mp-id) (map? m))
-    (println m)
-    ;; go on here
-    ))
+      (doseq [[k v] m]
+        (st/set-val! (st/get-exch-path mp-id (name k)) v))))

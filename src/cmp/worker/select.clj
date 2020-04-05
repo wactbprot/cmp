@@ -81,14 +81,14 @@
   should be replaced by
 
   ```clojure
-  (get-defins-ctrl-path ...)
+  (st/get-defins-ctrl-path ...)
   ```
   "          
   [match-k state-k]
   (timbre/debug "start definitions struct " match-k)
   (let [mp-id     (u/key->mp-name state-k)
         defs-idx  (u/key->no-idx match-k)
-        ctrl-k    (u/vec->key [mp-id "definitions" defs-idx "ctrl"])
+        ctrl-k    (st/get-defins-ctrl-path mp-id defs-idx)
         callback  (fn
                     [p]
                     (cond

@@ -83,6 +83,123 @@
           (pat->keys pat)))
 
 ;;------------------------------
+;; exchange
+;;------------------------------
+(defn get-exch-prefix
+  "Returns the `exchange` prefix."
+  [mp-id]
+  (u/vec->key [mp-id "exchange"]))
+
+(defn get-exch-path
+  "Returns the `exchange` path (key)."
+  [mp-id s]
+  (u/vec->key [(get-exch-prefix mp-id) s]))
+
+;;------------------------------
+;; container path
+;;------------------------------
+(defn get-cont-prefix
+  [p]
+  (u/vec->key [p "container"]))
+
+(defn get-cont-title-path
+  [p i]
+  (u/vec->key [(get-cont-prefix p) i  "title"]))
+
+(defn get-cont-descr-path
+  [p i]
+  (u/vec->key [(get-cont-prefix p) i  "descr"]))
+
+(defn get-cont-ctrl-path
+  [p i]
+  (u/vec->key [(get-cont-prefix p) i  "ctrl"]))
+
+(defn get-cont-elem-path
+  [p i]
+  (u/vec->key [(get-cont-prefix p) i  "elem"]))
+
+(defn get-cont-defin-path
+  ([p i]
+   (u/vec->key [(get-cont-prefix p) i "definition"]))
+  ([p i j k]
+   (u/vec->key [(get-cont-prefix p) i "definition" j k])))
+
+(defn get-cont-state-path
+  ([p i]
+   (u/vec->key [(get-cont-prefix p) i  "state"]))
+  ([p i j k]
+   (u/vec->key [(get-cont-prefix p) i  "state" j k])))
+
+;;------------------------------
+;; definitions path
+;;------------------------------
+(defn get-defins-prefix
+  [p]
+  (u/vec->key [p "definitions"]))
+
+(defn get-defins-defin-path
+  ([p i]
+   (u/vec->key [(get-defins-prefix p) i "definition"]))
+  ([p i j k]
+  (u/vec->key [(get-defins-prefix p) i "definition" j k])))
+
+(defn get-defins-state-path
+  ([p i]
+   (u/vec->key [(get-defins-prefix p) i "state"]))
+  ([p i j k]
+   (u/vec->key [(get-defins-prefix p) i "state" j k])))
+
+(defn get-defins-cond-path
+  [p i j]
+  (u/vec->key [(get-defins-prefix p) i "cond" j]))
+
+(defn get-defins-ctrl-path
+  [p i]
+  (u/vec->key [(get-defins-prefix p) i "ctrl"]))
+
+(defn get-defins-descr-path
+  [p i]
+  (u/vec->key [(get-defins-prefix p) i "descr"]))
+
+(defn get-defins-class-path
+  [p i]
+  (u/vec->key [(get-defins-prefix p) i "class"]))
+
+;;------------------------------
+;; id path
+;;------------------------------
+(defn get-id-path
+  [p id]
+  (u/vec->key [p "id" id]))
+
+;;------------------------------
+;; meta path
+;;------------------------------
+(defn get-meta-prefix
+  [p]
+  (u/vec->key [p "meta"]))
+
+(defn get-meta-std-path
+  [p]
+  (u/vec->key [(get-meta-prefix p) "std"]))
+
+(defn get-meta-name-path
+  [p]
+  (u/vec->key [(get-meta-prefix p) "name"]))
+
+(defn get-meta-descr-path
+  [p]
+  (u/vec->key [(get-meta-prefix p) "descr"]))
+
+(defn get-meta-ncont-path
+  [p]
+  (u/vec->key [(get-meta-prefix p) "ncont"]))
+
+(defn get-meta-ndefins-path
+  [p]
+  (u/vec->key [(get-meta-prefix p) "ndefins"]))
+
+;;------------------------------
 ;; keyspace notification
 ;;------------------------------
 (defn msg->key

@@ -384,7 +384,7 @@
   "Return the state map for the `i`th
   container."
   [mp-id i]
-  (->> (u/get-cont-state-path mp-id i)
+  (->> (st/get-cont-state-path mp-id i)
        (k->state-ks)
        (ks->state-map)))
 
@@ -392,7 +392,7 @@
   "Return the state map for the `i`th
   definition structure."
   [mp-id i]
-  (->> (u/get-defins-state-path mp-id i)
+  (->> (st/get-defins-state-path mp-id i)
        (k->state-ks)
        (ks->state-map)))
 

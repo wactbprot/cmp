@@ -52,14 +52,14 @@
 
 (defn add
   [p id]
-  (let [path (u/get-id-path p id)
+  (let [path (st/get-id-path p id)
         doc  (lt/id->doc id)
         info (extr-info doc (base-info doc))]
     (st/set-val! path info)))
 
 (defn del
   [p id]
-  (st/del-key! (u/get-id-path p id)))
+  (st/del-key! (st/get-id-path p id)))
 
 (defn get-ids
   [p]
