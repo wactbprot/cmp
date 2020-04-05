@@ -133,7 +133,7 @@
    (str (tm-c/to-long d))))
 
 ;;------------------------------
-;; path
+;; mp-id
 ;;------------------------------
 (defn extr-main-path
   "Extracts the main path.
@@ -172,12 +172,7 @@
     s
     (str "mpd-" s)))
 
-
 ;;------------------------------
-
-(defn gen-re-from-map-keys
-  [m]
-  (re-pattern (string/join "|" (keys m))))
 
 (defn apply-to-map-values
   "Applies function `f` to the values of

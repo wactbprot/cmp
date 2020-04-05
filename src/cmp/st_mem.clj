@@ -99,105 +99,109 @@
 ;; container path
 ;;------------------------------
 (defn get-cont-prefix
-  [p]
-  (u/vec->key [p "container"]))
+  "Returns the `container` prefix."
+  [mp-id]
+  (u/vec->key [mp-id "container"]))
 
 (defn get-cont-title-path
-  [p i]
-  (u/vec->key [(get-cont-prefix p) i  "title"]))
+  [mp-id i]
+  (u/vec->key [(get-cont-prefix mp-id) i  "title"]))
 
 (defn get-cont-descr-path
-  [p i]
-  (u/vec->key [(get-cont-prefix p) i  "descr"]))
+  [mp-id i]
+  (u/vec->key [(get-cont-prefix mp-id) i  "descr"]))
 
 (defn get-cont-ctrl-path
-  [p i]
-  (u/vec->key [(get-cont-prefix p) i  "ctrl"]))
+  [mp-id i]
+  (u/vec->key [(get-cont-prefix mp-id) i  "ctrl"]))
 
 (defn get-cont-elem-path
-  [p i]
-  (u/vec->key [(get-cont-prefix p) i  "elem"]))
+  [mp-id i]
+  (u/vec->key [(get-cont-prefix mp-id) i  "elem"]))
 
 (defn get-cont-defin-path
-  ([p i]
-   (u/vec->key [(get-cont-prefix p) i "definition"]))
-  ([p i j k]
-   (u/vec->key [(get-cont-prefix p) i "definition" j k])))
+  ([mp-id i]
+   (u/vec->key [(get-cont-prefix mp-id) i "definition"]))
+  ([mp-id i j k]
+   (u/vec->key [(get-cont-prefix mp-id) i "definition" j k])))
 
 (defn get-cont-state-path
-  ([p i]
-   (u/vec->key [(get-cont-prefix p) i  "state"]))
-  ([p i j k]
-   (u/vec->key [(get-cont-prefix p) i  "state" j k])))
+  ([mp-id i]
+   (u/vec->key [(get-cont-prefix mp-id) i  "state"]))
+  ([mp-id i j k]
+   (u/vec->key [(get-cont-prefix mp-id) i  "state" j k])))
 
 ;;------------------------------
 ;; definitions path
 ;;------------------------------
 (defn get-defins-prefix
-  [p]
-  (u/vec->key [p "definitions"]))
+  "Returns the `definitions` prefix."
+  [mp-id]
+  (u/vec->key [mp-id "definitions"]))
 
 (defn get-defins-defin-path
-  ([p i]
-   (u/vec->key [(get-defins-prefix p) i "definition"]))
-  ([p i j k]
-  (u/vec->key [(get-defins-prefix p) i "definition" j k])))
+  ([mp-id i]
+   (u/vec->key [(get-defins-prefix mp-id) i "definition"]))
+  ([mp-id i j k]
+  (u/vec->key [(get-defins-prefix mp-id) i "definition" j k])))
 
 (defn get-defins-state-path
-  ([p i]
-   (u/vec->key [(get-defins-prefix p) i "state"]))
-  ([p i j k]
-   (u/vec->key [(get-defins-prefix p) i "state" j k])))
+  ([mp-id i]
+   (u/vec->key [(get-defins-prefix mp-id) i "state"]))
+  ([mp-id i j k]
+   (u/vec->key [(get-defins-prefix mp-id) i "state" j k])))
 
 (defn get-defins-cond-path
-  [p i j]
-  (u/vec->key [(get-defins-prefix p) i "cond" j]))
+  [mp-id i j]
+  (u/vec->key [(get-defins-prefix mp-id) i "cond" j]))
 
 (defn get-defins-ctrl-path
-  [p i]
-  (u/vec->key [(get-defins-prefix p) i "ctrl"]))
+  [mp-id i]
+  (u/vec->key [(get-defins-prefix mp-id) i "ctrl"]))
 
 (defn get-defins-descr-path
-  [p i]
-  (u/vec->key [(get-defins-prefix p) i "descr"]))
+  [mp-id i]
+  (u/vec->key [(get-defins-prefix mp-id) i "descr"]))
 
 (defn get-defins-class-path
-  [p i]
-  (u/vec->key [(get-defins-prefix p) i "class"]))
+  [mp-id i]
+  (u/vec->key [(get-defins-prefix mp-id) i "class"]))
 
 ;;------------------------------
 ;; id path
 ;;------------------------------
 (defn get-id-path
-  [p id]
-  (u/vec->key [p "id" id]))
+  "Returns the `id` key."
+  [mp-id id]
+  (u/vec->key [mp-id "id" id]))
 
 ;;------------------------------
 ;; meta path
 ;;------------------------------
 (defn get-meta-prefix
-  [p]
-  (u/vec->key [p "meta"]))
+  "Returns the `meta` prefix."
+  [mp-id]
+  (u/vec->key [mp-id "meta"]))
 
 (defn get-meta-std-path
-  [p]
-  (u/vec->key [(get-meta-prefix p) "std"]))
+  [mp-id]
+  (u/vec->key [(get-meta-prefix mp-id) "std"]))
 
 (defn get-meta-name-path
-  [p]
-  (u/vec->key [(get-meta-prefix p) "name"]))
+  [mp-id]
+  (u/vec->key [(get-meta-prefix mp-id) "name"]))
 
 (defn get-meta-descr-path
-  [p]
-  (u/vec->key [(get-meta-prefix p) "descr"]))
+  [mp-id]
+  (u/vec->key [(get-meta-prefix mp-id) "descr"]))
 
 (defn get-meta-ncont-path
-  [p]
-  (u/vec->key [(get-meta-prefix p) "ncont"]))
+  [mp-id]
+  (u/vec->key [(get-meta-prefix mp-id) "ncont"]))
 
 (defn get-meta-ndefins-path
-  [p]
-  (u/vec->key [(get-meta-prefix p) "ndefins"]))
+  [mp-id]
+  (u/vec->key [(get-meta-prefix mp-id) "ndefins"]))
 
 ;;------------------------------
 ;; keyspace notification
