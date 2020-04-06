@@ -20,11 +20,11 @@
 (defn state-key->state-map
   "Converts a key into a `state-map`."
   [k]
-  {:mp-name (u/key->mp-name k)
-   :struct (u/key->struct k)
-   :no-idx (u/key->no-idx k)
-   :seq-idx (u/key->seq-idx k)
-   :par-idx (u/key->par-idx k)
+  {:mp-name (st/key->mp-name k)
+   :struct (st/key->struct k)
+   :no-idx (st/key->no-idx k)
+   :seq-idx (st/key->seq-idx k)
+   :par-idx (st/key->par-idx k)
    :state (keyword (st/key->val k))})
 
 (defn ks->state-map
@@ -46,9 +46,9 @@
   ```" 
   [p]
   (sort (st/key->keys
-         (u/vec->key [(u/key->mp-name p)
-                      (u/key->struct p)
-                      (u/key->no-idx p)
+         (u/vec->key [(st/key->mp-name p)
+                      (st/key->struct p)
+                      (st/key->no-idx p)
                       "state"]))))
 
 (defn k->ctrl-k
@@ -64,9 +64,9 @@
     ;; \"wait@container@0@ctrl\"
   ```" 
   [k]
-  (u/vec->key [(u/key->mp-name k)
-               (u/key->struct k)
-               (u/key->no-idx k)
+  (u/vec->key [(st/key->mp-name k)
+               (st/key->struct k)
+               (st/key->no-idx k)
                "ctrl"]))
 
 (defn ctrl-k->cmd
@@ -273,9 +273,9 @@
   `ctrl-key` or `state-key`).
   Resets the state interface afterwards."
   [k]
-  (st/de-register! (u/key->mp-name k)
-                   (u/key->struct k)
-                   (u/key->no-idx k)
+  (st/de-register! (st/key->mp-name k)
+                   (st/key->struct k)
+                   (st/key->no-idx k)
                    "state")
   (reset k))
 
@@ -290,9 +290,9 @@
   `ctrl-key` or `state-key`)."
   [k]
   (let [state-ks (k->state-ks k)]
-    (st/de-register! (u/key->mp-name k)
-                     (u/key->struct k)
-                     (u/key->no-idx k)
+    (st/de-register! (st/key->mp-name k)
+                     (st/key->struct k)
+                     (st/key->no-idx k)
                      "state")))
 
 ;;------------------------------
@@ -370,9 +370,9 @@
   The register pattern is derived
   from the key  `k` (`ctrl-key`)."
   [k]
-  (st/register!  (u/key->mp-name k)
-                 (u/key->struct k)
-                 (u/key->no-idx k)
+  (st/register!  (st/key->mp-name k)
+                 (st/key->struct k)
+                 (st/key->no-idx k)
                  "state"
                  (fn [msg] (start-next! (st/msg->key msg))))
   (start-next! k))

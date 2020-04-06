@@ -60,10 +60,3 @@
 (defn del
   [p id]
   (st/del-key! (st/get-id-path p id)))
-
-(defn get-ids
-  [p]
-  (let [ks (st/key->keys (u/vec->key [p "id"]))]
-    (mapv
-     (fn [k] (u/id-key->id k))
-     ks)))

@@ -26,8 +26,8 @@
 ;; ref@definitions@1@class
 </code></pre></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/worker/select.clj#L106">view source</a></div></div><div class="public anchor" id="var-start-defs"><h3>start-defs</h3><div class="usage"><code>(start-defs match-k state-k)</code></div><div class="doc"><div class="markdown"><p>Starts the filtered out <code>definitions</code> structure and sets the state of the calling element to executed if the <code>ctrl</code> turns to ready (or error if error).</p>
 <p>TODO</p>
-<pre><code class="clojure">(let [mp-id     (u/key-&gt;mp-name state-k)
-      defs-idx  (u/key-&gt;no-idx match-k)
+<pre><code class="clojure">(let [mp-id     (st/key-&gt;mp-name state-k)
+      defs-idx  (st/key-&gt;no-idx match-k)
       ctrl-k    (u/vec-&gt;key [mp-id "definitions" defs-idx "ctrl"])])
 </code></pre>
 <p>should be replaced by</p>

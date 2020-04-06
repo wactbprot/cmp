@@ -75,7 +75,7 @@
    mp-names available at short term memory."  
   []
   (run! prn
-        (map u/key->mp-name
+        (map st/key->mp-name
              (st/pat->keys "*@meta@name"))))
 
 (defn info-listener
@@ -334,5 +334,5 @@
   []
   (clear "task")
   (map clear
-       (map u/key->mp-name
+       (map st/key->mp-name
             (st/pat->keys "*@meta@name"))))

@@ -25,7 +25,7 @@
     (tsk/assemble
      (assoc (tsk/gen-meta-task proto-task)
             :StructKey k
-            :MpName    (u/key->mp-name k)
+            :MpName    (st/key->mp-name k)
             :StateKey  (u/replace-key-at-level 3 k "state")))
     (a/>! excep/ch (throw (Exception. (str "No task at: " k))))))
 

@@ -32,7 +32,7 @@
   ```
   "
   [k]
-  (let [mp-id (u/key->mp-name k)
+  (let [mp-id (st/key->mp-name k)
         m     (st/key->val    k)
         p     (:ExchangePath m)
         a     (str (exch/comp-val mp-id p))
@@ -56,8 +56,8 @@
   ```
   "
   [k]
-  (let [mp-id    (u/key->mp-name k)
-        no-idx   (u/key->no-idx k)
+  (let [mp-id    (st/key->mp-name k)
+        no-idx   (st/key->no-idx k)
         k-pat    (u/vec->key [mp-id "definitions" no-idx "cond@*"])
         cond-ks  (st/pat->keys k-pat)
         match-ks (filter cond-match? cond-ks)] 
@@ -73,8 +73,8 @@
   TODO
   
   ```clojure
-  (let [mp-id     (u/key->mp-name state-k)
-        defs-idx  (u/key->no-idx match-k)
+  (let [mp-id     (st/key->mp-name state-k)
+        defs-idx  (st/key->no-idx match-k)
         ctrl-k    (u/vec->key [mp-id \"definitions\" defs-idx \"ctrl\"])])
   ```
 
@@ -86,8 +86,8 @@
   "          
   [match-k state-k]
   (timbre/debug "start definitions struct " match-k)
-  (let [mp-id     (u/key->mp-name state-k)
-        defs-idx  (u/key->no-idx match-k)
+  (let [mp-id     (st/key->mp-name state-k)
+        defs-idx  (st/key->no-idx match-k)
         ctrl-k    (st/get-defins-ctrl-path mp-id defs-idx)
         callback  (fn
                     [p]
@@ -123,7 +123,7 @@
   (st/set-val! state-k "working")
   (Thread/sleep mtp)
   (timbre/debug "start with select, already set " state-k " working")
-  (let [mp-id     (u/key->mp-name state-k)
+  (let [mp-id     (st/key->mp-name state-k)
         def-cls   (task :DefinitionClass)
         def-pat   (u/vec->key [mp-id "definitions" "*" "class"])
         match-ks  (sort

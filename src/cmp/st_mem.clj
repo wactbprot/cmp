@@ -82,6 +82,46 @@
   (filter (fn [k] (= (key->val k) x))
           (pat->keys pat)))
 
+
+;;------------------------------
+;; key arithmetic
+;;------------------------------
+
+(defn key->mp-name
+  "Returns the name of the `mpd` for
+  the given key."
+  [k]
+  {:pre (string? k)}
+  ((string/split k u/re-sep) 0))
+
+(defn key->struct
+  "Returns the name of the `structure`
+  for the given key."
+  [k]
+  {:pre (string? k)}
+  ((string/split k u/re-sep) 1))
+
+(defn key->no-idx
+  "Returns an integer corresponding to
+  the givens key container index."
+  [k]
+  {:pre (string? k)}
+  (Integer/parseInt  ((string/split k u/re-sep) 2)))
+
+(defn key->seq-idx
+  "Returns an integer corresponding to
+  the givens key sequential index."
+  [k]
+  {:pre (string? k)}
+  (Integer/parseInt  ((string/split k u/re-sep) 4)))
+
+(defn key->par-idx
+  "Returns an integer corresponding to
+  the givens key parallel index."
+  [k]
+  {:pre (string? k)}
+  (Integer/parseInt  ((string/split k u/re-sep) 5)))
+
 ;;------------------------------
 ;; exchange
 ;;------------------------------
