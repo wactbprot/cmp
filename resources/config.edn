@@ -1,14 +1,14 @@
 ;; https://github.com/edn-format/edn
 {
  ;; long term memory: couchdb
- :lt-uri "http://127.0.0.1:5984/vl_db"
+ :lt-uri "http://127.0.0.1:5984/aaaa"
  ;; short term memory: redis
  :st-conn {:pool {}
            :spec {:host "127.0.0.1" :port 6379}}
  :edn-tasks ["resources/task-modbus-set.edn"
              "resources/task-modbus-get.edn"]
  :edn-mpds ["resources/mpd-ref.edn"
-            "resources/mpd-modbus.edn"]
+            "resources/mpd-devs.edn"]
  ;; a task schould at least take 10ms
  ;; in order to give the keyspace notif
  ;; a chance to find the next to start

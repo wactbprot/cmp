@@ -4,6 +4,8 @@
   (:require [clojure.core.async :as a]
             [cmp.exchange :as exch]
             [cmp.excep :as excep]
+            [cmp.doc :as doc]
+            [cmp.lt-mem :as lt]
             [cmp.st-mem :as st]
             [cmp.utils :as u]
             [taoensso.timbre :as timbre]))
@@ -17,9 +19,19 @@
   * error
   "
   [body task state-key]
-  (let [to-exch (:ToExchange body)
-        mp-id   (:MpName task)]
-    (exch/to mp-id to-exch)))
+  (if-let [err (:error body)]
+    (a/>! excep/ch (throw (str "respons: " body " at " state-key)))
+    (let [to-exch  (:ToExchange body)
+          results  (:Result body) 
+          path     (:DocPath body)
+          mp-id    (:MpName task)]
+      (exch/to! mp-id to-exch)
+      (if (and (string? path) (vector? results))
+        (doc/store-results {:place-holder "foo"} results path)
+        ;; here: is Result translated to a vector?
+        ))))
+
+
 
 ;;------------------------------
 ;; ctrl channel invoked by run 

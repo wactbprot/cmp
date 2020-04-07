@@ -332,7 +332,7 @@
   "The pattern `*@meta@name` is used to find all
    mp-names. Function removes all keys of all `mpd`s"  
   []
-  (clear "task")
+  (clear "tasks")
   (map clear
        (map st/key->mp-name
             (st/pat->keys "*@meta@name"))))

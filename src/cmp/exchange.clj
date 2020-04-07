@@ -7,7 +7,6 @@
             [cmp.st-mem :as st]
             [cmp.utils :as u]))
 
-
 (defn ->key
   "Returns the base key for the exchange path.
 
@@ -66,7 +65,7 @@
       (kw (st/key->val k))
       (st/key->val k))))
   
-(defn from
+(defn from!
   "Builds a map by replacing the values of the input map.
   The replacements are gathered from the `exchange` interface
   with the keys: `<mp-id>@exchange@<input-map-value>`
@@ -108,8 +107,14 @@
      (fn [v] (key->val mp-id v))
      m)))
 
-(defn to
-  "Writes `m` in a special way to the exchange interface"
+(defn to!
+  "Writes `m` to the exchange interface.
+  The first level keys of `m` are used for the
+  access path.
+  ```clojure
+  {:A 1}
+  ```
+  will be stored under `<mp-id>@exchange@A`."
   [mp-id m]
   (if  (and (string? mp-id) (map? m))
       (doseq [[k v] m]

@@ -246,7 +246,7 @@
         task     (dissoc db-task
                          :FromExchange
                          :Replace)
-        from-exch-map (exch/from mp-name exch-map)]
+        from-exch-map (exch/from! mp-name exch-map)]
     (assoc 
      (->> task
           (merge-use-map use-map)

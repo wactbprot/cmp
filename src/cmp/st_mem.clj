@@ -59,7 +59,6 @@
                                        u/vec->key
                                        key->keys
                                        del-keys!)))
-  
 
 (defn key->val
   "Returns the value for the given key (`k`)

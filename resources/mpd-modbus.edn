@@ -1,9 +1,9 @@
-{:_id "mpd-modbus",
+{:_id "mpd-devs",
   :Mp
  {
   :Date [{:Type "created", :Value "2020-02-01"}],
   :Name "wait",
-  :Description "Modbus test.",
+  :Description "Device tests agains the devhub.",
   :Standard "NN"
   :Exchange {
             ;; :Vraw_block1 [
@@ -71,4 +71,12 @@
                  [{:TaskName "VS_NEW_SE3-set_valve_pos",
                    :Replace {:%valve "V1",
                              :%should "open"}}]]
-    }]}}
+    }
+    {:Description "Test TCP action."
+    :Ctrl "void"
+    :Title "TCP test with result set."
+    :Element ["*"]
+    :Definition [
+                 [{:TaskName "MKS_SRG_3-read_out",
+                   :Replace {:%docpath "Measurement.Values.Pressure"}}]
+ ]}}
