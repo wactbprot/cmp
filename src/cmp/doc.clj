@@ -77,24 +77,64 @@
          keyword
          (string/split s (re-pattern "\\.")))))
 
-(defn fit-in
-  "Fits m into the struct"
-  [struct m]
+(defn replace-if
+  "Replaces `v`alue of `k`ey in struct
+  if `v`is not `nil`.
+
+  ```clojure
+  (replace-if {:Type \"a\"} :Type \"b\")
+  ;; {:Type \"b\"}
+  ```
+  "
+  [m k v]
+  (if (and (some? v) (keyword? k))
+    (assoc m k v)
+    m))
+
+(defn append-if
+  "Appends `v` to the value of `k`.
+  If `k` does not exist in `m`, `k [v]` is assoced.
+  If `k` does exist in `m`, `v` is conjed.
+  
+  ```clojure
+  (append-if {:Value [1 2 3]} :Value 4)
+  ;; {:Value [1 2 3 4]}"
+  [m k v]
+  (if (and (some? v) (keyword? k))
+    (if-let [old-v (k m)]
+      (assoc m k (conj old-v v))
+      (assoc m k [v]))
+    m))
+
+(defn append-and-replace
+  "Append `:Value`, `:SdValue` and `:N` if present.
+  Relaces `:Type` and `:Unit`."  
+  [struct {t :Type v :Value u :Unit n :N s :SdValue}]
+  (-> (-> struct
+          (replace-if :Type t)
+          (replace-if :Unit u))
+      (append-if :Value v)
+      (append-if :SdValue s)
+      (append-if :N n)))
+  
+(defn fit-in-struct
+  "Fits `m` into the given structure `s`."
+  [s m]
   (if-let [t (:Type m)]
-    (let [is-type? (fn [x]  (= (:Type x) t))
-          idx-ok?  (fn [i x] (when (is-type? x) i))]
-          (if-let [idx (keep-indexed idx-ok? struct)]
-            (prn idx)
-            (conj struct m)))))
+    (let [same-type? (fn [x]  (= (:Type x) t))
+          idx?       (fn [i x] (when (same-type? x) i))]
+          (if-let [idx (first (keep-indexed idx? s))]
+            (append-and-replace (nth s idx) m)
+            (conj s m))))) 
 
 (defn store-result
-  "Stores the result (typically a `Type`, `Value` `Unit` map)
+  "Stores the result (typically a `:Type`, `:Value` `:Unit` map)
   to the given `doc`ument."  
-  [doc m path]
-  (let [kw   (path->kw-vec path)]
-    (if-let [struct (get-in doc kw)]
-      (fit-in struct m)
-      (assoc-in doc kw m))))
+  [doc m p]
+  (let [kw-vec (path->kw-vec p)]
+    (if-let [s (get-in doc kw-vec)]
+      (assoc-in doc kw-vec (fit-in-struct s m))
+      (assoc-in doc kw-vec [m]))))
     
 (defn store-results
   "Takes a vector of maps. Calls `store-result`
