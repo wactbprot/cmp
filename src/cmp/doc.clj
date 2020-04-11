@@ -77,6 +77,41 @@
          keyword
          (string/split s (re-pattern "\\.")))))
 
+(defn ensure-vector-val
+  "Ensures that `v` is a vector.
+
+  ```clojure
+  (ensure-vector-val nil)
+  ;; nil
+  (ensure-vector-val 1)
+  ;; [1]
+  (ensure-vector-val [1])
+  ;; [1]
+  ```"
+  [v]
+  (if-let [x v]
+    (if (vector? x)
+      x
+      [x])))
+
+(defn vector-if
+  "Makes the value `v` behind the keyword `kw`
+  a vector if `v` is not nil."
+  [m kw]
+  (if (and (map? m) (keyword? kw))
+    (if-let [v (kw m)]
+      (assoc m kw (ensure-vector-val v))
+      m)))
+
+(defn ensure-vector-vals
+  "Ensures that the values behind `:Value`,
+  `:SdValue` and `:N` are vectors."
+  [m]
+  (-> m
+      (vector-if :Value)
+      (vector-if :SdValue)
+      (vector-if :N)))
+
 (defn replace-if
   "Replaces `v`alue of `k`ey in struct
   if `v`is not `nil`.
@@ -101,40 +136,46 @@
   ;; {:Value [1 2 3 4]}"
   [m k v]
   (if (and (some? v) (keyword? k))
-    (if-let [old-v (k m)]
-      (assoc m k (conj old-v v))
-      (assoc m k [v]))
+    (let [new-v (ensure-vector-val v)]
+      (if-let [old-v (k m)]
+        (assoc m k (into [] (concat old-v new-v)))
+        (assoc m k new-v)))
     m))
 
 (defn append-and-replace
   "Append `:Value`, `:SdValue` and `:N` if present.
   Relaces `:Type` and `:Unit`."  
   [struct {t :Type v :Value u :Unit n :N s :SdValue}]
-  (-> (-> struct
-          (replace-if :Type t)
-          (replace-if :Unit u))
-      (append-if :Value v)
-      (append-if :SdValue s)
-      (append-if :N n)))
-  
+  (->
+   (-> struct
+       (replace-if :Type t)
+       (replace-if :Unit u))
+   (append-if :Value v)
+   (append-if :SdValue s)
+   (append-if :N n)))
+
 (defn fit-in-struct
-  "Fits `m` into the given structure `s`."
+  "Fits `m` into the given structure `s`. Function
+  looks up the `:Type` of `m`. If a structure with
+  the same `:Type` exist [[append-and-replace]] is
+  called."
   [s m]
   (if-let [t (:Type m)]
     (let [same-type? (fn [x]  (= (:Type x) t))
           idx?       (fn [i x] (when (same-type? x) i))]
           (if-let [idx (first (keep-indexed idx? s))]
-            (append-and-replace (nth s idx) m)
-            (conj s m))))) 
+            (assoc s idx (append-and-replace (nth s idx) m))
+            (conj s (ensure-vector-vals m))))))
 
 (defn store-result
-  "Stores the result (typically a `:Type`, `:Value` `:Unit` map)
-  to the given `doc`ument."  
+  "Stores the result (typically a `:Type`,
+  `:Value` `:Unit` map) to the given `doc`ument
+  under `p`ath."  
   [doc m p]
   (let [kw-vec (path->kw-vec p)]
     (if-let [s (get-in doc kw-vec)]
       (assoc-in doc kw-vec (fit-in-struct s m))
-      (assoc-in doc kw-vec [m]))))
+      (assoc-in doc kw-vec [(ensure-vector-vals m)]))))
     
 (defn store-results
   "Takes a vector of maps. Calls `store-result`
