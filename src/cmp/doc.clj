@@ -21,11 +21,8 @@
   first key hierarchy beside `:_id` and `:_rev`."
   [doc m]
   (first
-   (filter
-    (fn [kw] (not
-              (or
-               (= :_id kw)
-               (= :_rev kw))))
+   (filter (fn [kw] (not
+              (or (= :_id kw) (= :_rev kw))))
     (keys doc))))
 
 (defmulti extr-info
@@ -71,7 +68,7 @@
   ;; [:a :b :c]
   ```"
   [s]
-  {:pre (string? s)}
+  {:pre [(string? s)]}
   (into []
         (map
          keyword
@@ -81,7 +78,7 @@
   "Ensures that `v` is a vector.
 
   ```clojure
-  (ensure-vector-val nil)
+  (ensure-vector-val nil) ;!
   ;; nil
   (ensure-vector-val 1)
   ;; [1]
@@ -173,10 +170,14 @@
   under `p`ath."  
   [doc m p]
   (let [kw-vec (path->kw-vec p)]
-    (if-let [s (get-in doc kw-vec)]
-      (assoc-in doc kw-vec (fit-in-struct s m))
-      (assoc-in doc kw-vec [(ensure-vector-vals m)]))))
-    
+    (if (and (:Type m) (:Value m))
+      (if-let [s (get-in doc kw-vec)]
+        (assoc-in doc kw-vec (fit-in-struct s m))
+        (assoc-in doc kw-vec [(ensure-vector-vals m)]))
+      (if-let [s (get-in doc kw-vec)]
+        (assoc-in doc kw-vec (merge s m))
+        (assoc-in doc kw-vec m)))))
+
 (defn store-results
   "Takes a vector of maps. Calls `store-result`
   on each map."

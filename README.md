@@ -47,6 +47,7 @@ sudo systemctl restart redis.service
 sudo systemctl status redis.service
 ```
 
+
 ## redis gui
 
 * [RedisDesktopManager](https://github.com/uglide/RedisDesktopManager) `sudo snap install redis-desktop-manager`
@@ -56,6 +57,16 @@ sudo systemctl status redis.service
 $ npm install -g redis-commander
 ## --> http://localhost:8081/
 ```
+# Tests and code coverage
+
+```shell
+lein test
+```
+
+```shell
+lein cloverage
+```
+
 
 # Usage
 

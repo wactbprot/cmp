@@ -18,7 +18,8 @@
                  [codox-theme-rdash "0.1.2"]]
   :main ^:skip-aot cmp.core
   :target-path "target/%s"
-  :plugins [[lein-codox "0.10.7"]
+  :plugins [[lein-cloverage "1.1.2"]
+            [lein-codox "0.10.7"]
             [ns-graph "0.1.3"]
             [jonase/eastwood "0.3.7"]]
   :codox {:output-path "./docs"
