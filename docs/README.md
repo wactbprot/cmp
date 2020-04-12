@@ -11,22 +11,12 @@ All of the `mp` state is kept in a [redis](https://redis.io) database.
 * [coverage](./coverage)
 * [namespaces](./graph.png)
 
-The program api is documented at the 
-[github.io](https://wactbprot.github.io/cmp/)
-
-The *cmp namespaces* are .
-
-# Clojure
-
-* [cheatsheet](https://clojure.org/api/cheatsheet)
-* [clojure-style-guide](https://github.com/bbatsov/clojure-style-guide)
-* [eastwood (linter)](https://github.com/jonase/eastwood)
 
 # Usage
 
 User interaction with *cmp* is **REPL only** so far. The `core`
 namespace is the entry point. Use the `(dir cmp.core)` to get an
-overview: 
+overview.
 
 ## reference mpd
 
@@ -53,7 +43,6 @@ followed by:
 (run-c 0) ;; abbrev. for (ctrl 0 "run") 
 ```
 
-
 Use `(doc build-tasks)` for a more detailed view.
 
 ```clojure
@@ -72,8 +61,14 @@ cmp.core/build-tasks
 (stat-c 0)
 ```
 
-# Config (Redis)
+# Clojure
 
+* [cheatsheet](https://clojure.org/api/cheatsheet)
+* [clojure-style-guide](https://github.com/bbatsov/clojure-style-guide)
+* [eastwood (linter)](https://github.com/jonase/eastwood)
+
+# Redis
+## config
 Since version 0.3.0 *cmp* relies on
 [Keyspace Notifications](https://redis.io/topics/notifications).
 Therefore it is necassary to replace in `/etc/redis/redis.conf`:
@@ -112,6 +107,7 @@ $ npm install -g redis-commander
 ## --> http://localhost:8081/
 ```
 
+# documentation an tests
 ## (re)generate documentation
 
 ```shell
