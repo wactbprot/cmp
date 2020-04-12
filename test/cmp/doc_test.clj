@@ -6,16 +6,6 @@
 (def m-val {:Type "b" :Unit "b" :Value 1 :SdValue 1 :N 1})
 (def m-vaa {:Type "a" :Unit "b" :Value 1 :SdValue 1 :N 1})
 
-(deftest vector-if-i
-  (testing "makes vectors of vals (i)"
-    (is (= [0] (:Value (vector-if m-vec :Value)))
-        "Leaves [1] a vector.")
-    (is (= [1] (:Value (vector-if m-val :Value)))
-        "Makes 1 a vector.")
-    (is (nil? (:Value (vector-if nil :Value)))
-        "Don't crash on nil.")
-    (is (nil? (:Value (vector-if m-vec nil)))
-        "Don't crash on nil.")))
 
 (deftest append-and-replace-test-i
   (testing "append and replace (i)"
@@ -56,7 +46,9 @@
     (is (= [1] (:N (append-and-replace {} m-val)))
         "N is inserted.")))
 
-(def doc1 {:Calibration {:Measurement {:Values {:Pressure []}}}})
+(def doc1 {:Calibration {:Measurement
+                         {:Values
+                          {:Pressure []}}}})
 (def doc2 {:Calibration {:Measurement
                          {:Values
                           {:Pressure [
@@ -73,11 +65,6 @@
 (def v1 [:Calibration :Measurement :Values :Pressure])
 (def v2 [:Calibration :Measurement :Values :not-there])
 (def v3 [:Calibration :Measurement :AuxValues])
-
-(deftest path-to-keyword-i
-  (testing "Path translation (i)"
-    (is (= v1 (path->kw-vec p1)) 
-        "Translates path to keyword vector.")))
 
 (deftest store-result-i
   (testing "results are stored (i)"
@@ -139,3 +126,20 @@
                       {:Gas "N2"} p3)
                     v3)) 
         "Map is assoced.")))
+
+(deftest store-results-i
+  (testing "results are stored(i)"
+    (is (= [0 1] (:Value
+                  (nth
+                   (get-in
+                    (store-results doc1 [m-vec m-val m-vaa] p1)
+                    v1)
+                   0)))
+        "Values got attached if they have equal Types.")
+    (is (= [1] (:Value
+                  (nth
+                   (get-in
+                    (store-results doc1 [m-vec m-val m-vaa] p1)
+                    v1)
+                   1)))
+        "Map is inserted and values become vextors.")))

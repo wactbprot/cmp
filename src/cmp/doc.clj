@@ -59,85 +59,14 @@
   [p id]
   (st/del-key! (st/get-id-path p id)))
 
-(defn path->kw-vec
-  "Turns the path into a vector of
-  keywords.
-
-  ```clojure
-  (path->kw-vec \"a.b.c\")
-  ;; [:a :b :c]
-  ```"
-  [s]
-  {:pre [(string? s)]}
-  (into []
-        (map
-         keyword
-         (string/split s (re-pattern "\\.")))))
-
-(defn ensure-vector-val
-  "Ensures that `v` is a vector.
-
-  ```clojure
-  (ensure-vector-val nil) ;!
-  ;; nil
-  (ensure-vector-val 1)
-  ;; [1]
-  (ensure-vector-val [1])
-  ;; [1]
-  ```"
-  [v]
-  (if-let [x v]
-    (if (vector? x)
-      x
-      [x])))
-
-(defn vector-if
-  "Makes the value `v` behind the keyword `kw`
-  a vector if `v` is not nil."
-  [m kw]
-  (if (and (map? m) (keyword? kw))
-    (if-let [v (kw m)]
-      (assoc m kw (ensure-vector-val v))
-      m)))
-
 (defn ensure-vector-vals
   "Ensures that the values behind `:Value`,
   `:SdValue` and `:N` are vectors."
   [m]
   (-> m
-      (vector-if :Value)
-      (vector-if :SdValue)
-      (vector-if :N)))
-
-(defn replace-if
-  "Replaces `v`alue of `k`ey in struct
-  if `v`is not `nil`.
-
-  ```clojure
-  (replace-if {:Type \"a\"} :Type \"b\")
-  ;; {:Type \"b\"}
-  ```
-  "
-  [m k v]
-  (if (and (some? v) (keyword? k))
-    (assoc m k v)
-    m))
-
-(defn append-if
-  "Appends `v` to the value of `k`.
-  If `k` does not exist in `m`, `k [v]` is assoced.
-  If `k` does exist in `m`, `v` is conjed.
-  
-  ```clojure
-  (append-if {:Value [1 2 3]} :Value 4)
-  ;; {:Value [1 2 3 4]}"
-  [m k v]
-  (if (and (some? v) (keyword? k))
-    (let [new-v (ensure-vector-val v)]
-      (if-let [old-v (k m)]
-        (assoc m k (into [] (concat old-v new-v)))
-        (assoc m k new-v)))
-    m))
+      (u/vector-if :Value)
+      (u/vector-if :SdValue)
+      (u/vector-if :N)))
 
 (defn append-and-replace
   "Append `:Value`, `:SdValue` and `:N` if present.
@@ -145,11 +74,11 @@
   [struct {t :Type v :Value u :Unit n :N s :SdValue}]
   (->
    (-> struct
-       (replace-if :Type t)
-       (replace-if :Unit u))
-   (append-if :Value v)
-   (append-if :SdValue s)
-   (append-if :N n)))
+       (u/replace-if :Type t)
+       (u/replace-if :Unit u))
+   (u/append-if :Value v)
+   (u/append-if :SdValue s)
+   (u/append-if :N n)))
 
 (defn fit-in-struct
   "Fits `m` into the given structure `s`. Function
@@ -165,11 +94,14 @@
             (conj s (ensure-vector-vals m))))))
 
 (defn store-result
-  "Stores the result (typically a `:Type`,
-  `:Value` `:Unit` map) to the given `doc`ument
-  under `p`ath."  
+  "Stores the result map `m` in the given `doc`ument
+  under `p`ath. If `m` contains `:Type` and `:Value` `m`
+  is [[fit-in-struct]] and the structure `s` is assumed
+  to be a `vector`. Other cases (e.g. merge in `:AuxValues`)
+  are straight forward (see [[cmp/test/cmp/doc_test.clj]]
+  for details)."
   [doc m p]
-  (let [kw-vec (path->kw-vec p)]
+  (let [kw-vec (u/path->kw-vec p)]
     (if (and (:Type m) (:Value m))
       (if-let [s (get-in doc kw-vec)]
         (assoc-in doc kw-vec (fit-in-struct s m))
