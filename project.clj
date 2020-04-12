@@ -22,10 +22,8 @@
             [lein-codox "0.10.7"]
             [ns-graph "0.1.3"]
             [jonase/eastwood "0.3.7"]]
-  :cloverage {:output "./docs/coverage"}
-  :codox {:output-path "./docs"
-          :doc-path "./docs"
-          :themes [:rdash]
+  ;:cloverage {:output "./coverage"}
+  :codox {:themes [:rdash]
           :metadata {:doc/format :markdown}
           :source-uri "https://github.com/wactbprot/cmp/blob/master/{filepath}#L{line}"}
   :ns-graph {:name "cmp"

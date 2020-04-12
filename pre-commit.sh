@@ -1,15 +1,19 @@
 #!/bin/sh
 
-echo "\n========= coverage =========\n" 
-rm docs/coverage/cmp/worker/*.html
-rm docs/coverage/cmp/*.html
-rm docs/coverage/*.html
+echo "\nrm -r docs/*\n" 
+rm -r docs/*
+echo "============================" 
+echo "========= coverage ========="
+echo "============================" 
 lein cloverage
-
-echo "\n=========   codox   =========\n" 
-rm docs/*.html
+cp -r target/coverage docs/coverage
+echo "============================" 
+echo "=========  codox   ========="
+echo "============================" 
 lein codox
-
-echo "\n=========  ns-graph  =========\n" 
+cp -r target/default/doc docs/api
+echo "============================" 
+echo "========= ns-graph ========="
+echo "============================" 
 lein ns-graph
 mv graph.png docs/graph.png 
