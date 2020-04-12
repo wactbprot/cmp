@@ -7,13 +7,13 @@ echo "============================"
 echo "========= coverage ========="
 echo "============================" 
 lein cloverage
-cp -r target/coverage docs/coverage
+cp -r target/coverage/* docs/coverage
 
 echo "============================" 
 echo "=========  codox   ========="
 echo "============================" 
 lein codox
-cp -r target/default/doc docs/api
+cp -r target/default/doc/* docs/api
 
 echo "============================" 
 echo "========= ns-graph ========="
