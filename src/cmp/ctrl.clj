@@ -17,10 +17,12 @@
   `ctrl` interface  for the structure
   belonging to `p`."
   [p]
-  (let [cmd (->> p
-                 (st/key->val)
-                 (u/get-next-ctrl))]
-    (a/>!! state/ctrl-chan [p cmd])))
+  (timbre/info "ctrl dispatch call for path: " p)
+  (if p
+    (let [cmd (->> p
+                   st/key->val
+                   u/get-next-ctrl)]
+      (a/>!! state/ctrl-chan [p cmd]))))
 
 ;;------------------------------
 ;; stop
@@ -41,6 +43,7 @@
   the entire `mp-id`. The [[dispatch]] function
   becomes the listeners `callback`." 
   [mp-id]
+  (timbre/info "register ctrl listener for: " mp-id)
   (st/register! mp-id "*" "*" "ctrl"
                 (fn [msg] (dispatch (st/msg->key msg)))))
 

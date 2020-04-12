@@ -258,12 +258,10 @@
   ;; \"ref@container@0@ctrl\"
   ```"
   [[kind l1 l2 l3]]
-  (condp = kind
-    "pmessage"   (do
-                   (let [k (second (string/split l2 (re-pattern ":")))]
-                     (timbre/debug "st_mem triggered key: " k)
-                     k))
-    "psubscribe" (timbre/info "subscribed to " l1)
+  (timbre/info "msg->key received: " (str kind l1 l2 l3))
+  (condp = (keyword kind)
+    :pmessage   (second (string/split l2 #":"))
+    :psubscribe (timbre/info "subscribed to " l1)
     (timbre/warn "received" kind l1 l2 l3)))
 
 (defn gen-subs-pat
@@ -345,26 +343,17 @@
   the result."
   [mp-id struct no op callback]
   (let [reg-key (gen-reg-key mp-id struct no op)]
-        (cond
-          (registered? reg-key) (timbre/info "a ctrl listener for "
-                                             mp-id struct no op
-                                             " is already registered!") 
-          :else (do
-                  (swap! listeners assoc
-                         reg-key
-                         (gen-listener mp-id struct no op callback))
-                  (timbre/info "registered listener for: " mp-id struct no op)))))
+    (if-not (registered? reg-key)
+      (swap! listeners assoc
+             reg-key
+             (gen-listener mp-id struct no op callback)))))
 
 (defn de-register!
   "De-registers the listener with the
   key `mp-id` in the `listeners` atom."
   [mp-id struct no op]
   (let [reg-key (gen-reg-key mp-id struct no op)]
-    (cond
-      (registered? reg-key) (do
-                              (close-listener! ((deref listeners) reg-key))
-                              (swap! listeners dissoc reg-key)
-                              (timbre/info "de-registered listener: " reg-key))
-      :else (timbre/info "a ctrl listener for "
-                         reg-key
-                         " is not registered!"))))
+    (if (registered? reg-key)
+      (do
+        (close-listener! ((deref listeners) reg-key))
+        (swap! listeners dissoc reg-key)))))

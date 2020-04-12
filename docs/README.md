@@ -69,6 +69,7 @@ cmp.core/build-tasks
 
 # Redis
 ## config
+
 Since version 0.3.0 *cmp* relies on
 [Keyspace Notifications](https://redis.io/topics/notifications).
 Therefore it is necassary to replace in `/etc/redis/redis.conf`:
@@ -78,7 +79,6 @@ notify-keyspace-events ""
 ```
 
 by
-
 
 ```shell
 notify-keyspace-events AK
@@ -96,7 +96,6 @@ sudo systemctl restart redis.service
 sudo systemctl status redis.service
 ```
 
-
 ## redis gui
 
 * [RedisDesktopManager](https://github.com/uglide/RedisDesktopManager) `sudo snap install redis-desktop-manager`
@@ -107,23 +106,33 @@ $ npm install -g redis-commander
 ## --> http://localhost:8081/
 ```
 
-# documentation an tests
-## (re)generate documentation
+# devel
+## documentation
+
+(re)generate documentation
 
 ```shell
 $ cd path/to/cmp
 $ lein codox
 ```
 
-```
-## tests and code coverage
+## tests
 
 ```shell
 $ cd path/to/cmp
 $ lein test
 ```
 
+## code coverage
+
 ```shell
 $ cd path/to/cmp
 $ lein cloverage
+```
+
+## ns-graph
+
+```shell
+$ cd path/to/cmp
+$ lein ns-graph
 ```
