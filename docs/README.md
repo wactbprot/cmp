@@ -60,16 +60,6 @@ sudo systemctl status redis.service
 ```shell
 $ npm install -g redis-commander
 ## --> http://localhost:8081/
-```
-# Tests and code coverage
-
-```shell
-lein test
-```
-
-```shell
-lein cloverage
-```
 
 
 # Usage
@@ -78,43 +68,31 @@ User interaction with *cmp* is **REPL only** so far. The `core`
 namespace is the entry point. Use the `(dir cmp.core)` to get an
 overview: 
 
-```clojure
-;;   (dir cmp.core)
-;; ->mp-id
-;; current-mp-id
-;;
-;; build-mpd
-;; build-mpd-edn
-;;
-;; check
-;;
-;; clear
-;; clear-all
+## reference mpd
 
-;;
-;; doc-add
-;; doc-del
-;;
-;; log-start-repl-out!
-;; log-stop-repl-out!
-;;
-;; build-task-edn
-;; build-tasks
-;; refresh-tasks
-;;
-;; reset-c
-;; run-c
-;; stop-c
-;; set-ctrl
-;;
-;; stat-c
-;; stat-d
-;;
-;; start-observe
-;; stop-observe
-;;
-;; workon!
+Find a documented reference `mpd` in
+[edn-format](https://github.com/edn-format/edn) 
+at [resources/mpd-ref.edn](../resources/mpd-ref.edn).
+This `mpd` called `"ref"` can be used as a example.
+
+Build or refresh tasks with:
+```clojure
+(refresh-tasks)
 ```
+
+Build `edn` examples with:
+
+```clojure
+(build-ref-edn)
+```
+followed by:
+
+```clojure
+(workon! "ref")
+(start-observe)
+(run-c 0) ;; abbrev. for (ctrl 0 "run") 
+```
+
 
 Use `(doc build-tasks)` for a more detailed view.
 
@@ -126,21 +104,6 @@ cmp.core/build-tasks
   Builds the `tasks` endpoint. At
   runtime all `tasks` are provided by
   `st-mem` 
-  ```
-
-Find a documented reference `mpd` in
-[edn-format](https://github.com/edn-format/edn) 
-at [resources/mpd-ref.edn](./resources/mpd-ref.edn).
-This `mpd` called `"ref"` can be used as a example.
-Build check and start with:
-
-
-```clojure
-(workon! "ref")
-(build-ref-edn)
-(check)
-(start-observe)
-(run-c 0) ;; abbrev. for (ctrl 0 "run") 
 ```
 
 ```clojure
@@ -154,4 +117,17 @@ Build check and start with:
 ```shell
 $ cd path/to/cmp
 $ lein codox
+```
+
+```
+## tests and code coverage
+
+```shell
+$ cd path/to/cmp
+$ lein test
+```
+
+```shell
+$ cd path/to/cmp
+$ lein cloverage
 ```
