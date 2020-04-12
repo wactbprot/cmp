@@ -1,0 +1,500 @@
+<html>
+ <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="../coverage.css"/>  <title> cmp/build.clj </title>
+ </head>
+ <body>
+<span class="covered" title="1 out of 1 forms covered">
+                001&nbsp;&nbsp;(ns&nbsp;cmp.build
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                002&nbsp;&nbsp;&nbsp;&nbsp;^{:author&nbsp;&quot;wactbprot&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:doc&nbsp;&quot;Builds&nbsp;up&nbsp;the&nbsp;short&nbsp;term&nbsp;memory&nbsp;with&nbsp;given&nbsp;the&nbsp;`mpd`.&quot;}
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[cmp.utils&nbsp;:as&nbsp;u]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;:as&nbsp;st]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[taoensso.timbre&nbsp;:as&nbsp;timbre]))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                007&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                008&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                009&nbsp;&nbsp;;;&nbsp;exchange
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                010&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                011&nbsp;&nbsp;(defn&nbsp;store-exchange
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                012&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;the&nbsp;exchange&nbsp;data.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                013&nbsp;&nbsp;&nbsp;&nbsp;[p&nbsp;{exchange&nbsp;:Exchange}]
+                </span><br/>
+<span class="not-covered" title="0 out of 32 forms covered">
+                014&nbsp;&nbsp;&nbsp;&nbsp;(doseq&nbsp;[[k&nbsp;v]&nbsp;exchange]
+                </span><br/>
+<span class="not-covered" title="0 out of 18 forms covered">
+                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-exch-path&nbsp;p&nbsp;(name&nbsp;k))&nbsp;v)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                016&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                017&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                018&nbsp;&nbsp;;;&nbsp;container
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                019&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                020&nbsp;&nbsp;(defn&nbsp;store-defin
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                021&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;the&nbsp;definition&nbsp;section.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                022&nbsp;&nbsp;&nbsp;&nbsp;[p&nbsp;idx&nbsp;defin]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                023&nbsp;&nbsp;&nbsp;&nbsp;(doall
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map-indexed
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[jdx&nbsp;s]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(doall
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map-indexed
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[kdx&nbsp;ptsk]
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-cont-defin-path&nbsp;p&nbsp;idx&nbsp;jdx&nbsp;kdx)&nbsp;&nbsp;ptsk)
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-cont-state-path&nbsp;p&nbsp;idx&nbsp;jdx&nbsp;kdx)&nbsp;&quot;ready&quot;))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s)))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defin)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                033&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                034&nbsp;&nbsp;(defn&nbsp;store-container
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;a&nbsp;single&nbsp;container&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;[p&nbsp;idx&nbsp;{descr&nbsp;:Description
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:Title
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl&nbsp;&nbsp;:Ctrl
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elem&nbsp;&nbsp;:Element
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defin&nbsp;:Definition}]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                041&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-cont-title-path&nbsp;p&nbsp;idx)&nbsp;title)
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                042&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-cont-descr-path&nbsp;p&nbsp;idx)&nbsp;descr)
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                043&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-cont-ctrl-path&nbsp;p&nbsp;idx)&nbsp;ctrl)
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                044&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-cont-elem-path&nbsp;p&nbsp;idx)&nbsp;elem)
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                045&nbsp;&nbsp;&nbsp;&nbsp;(store-defin&nbsp;p&nbsp;idx&nbsp;defin))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                046&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                047&nbsp;&nbsp;(defn&nbsp;store-all-container
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                048&nbsp;&nbsp;&nbsp;&nbsp;&quot;Triggers&nbsp;the&nbsp;storing&nbsp;of&nbsp;the&nbsp;singel&nbsp;containers&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                049&nbsp;&nbsp;&nbsp;&nbsp;[p&nbsp;{conts&nbsp;:Container}]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                050&nbsp;&nbsp;&nbsp;&nbsp;(doall
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map-indexed
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[idx&nbsp;cont]&nbsp;(store-container&nbsp;p&nbsp;idx&nbsp;cont))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conts)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                054&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                055&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                056&nbsp;&nbsp;;;&nbsp;definitions
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                057&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                058&nbsp;&nbsp;(defn&nbsp;store-defins
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                059&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;the&nbsp;definitions&nbsp;section.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                060&nbsp;&nbsp;&nbsp;&nbsp;[p&nbsp;idx&nbsp;defin]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                061&nbsp;&nbsp;&nbsp;&nbsp;(doall
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                062&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map-indexed
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                063&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[jdx&nbsp;s]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                064&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(doall
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map-indexed
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                066&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[kdx&nbsp;ptsk]
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-defins-defin-path&nbsp;p&nbsp;idx&nbsp;jdx&nbsp;kdx)&nbsp;ptsk)
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                068&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-defins-state-path&nbsp;p&nbsp;idx&nbsp;jdx&nbsp;kdx)&nbsp;&quot;ready&quot;))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s)))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defin)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                071&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                072&nbsp;&nbsp;(defn&nbsp;store-conds
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                073&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;the&nbsp;definitions&nbsp;conditions.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                074&nbsp;&nbsp;&nbsp;&nbsp;[p&nbsp;idx&nbsp;conds]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                075&nbsp;&nbsp;&nbsp;&nbsp;(doall
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map-indexed
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                077&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[jdx&nbsp;c]
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                078&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-defins-cond-path&nbsp;p&nbsp;idx&nbsp;jdx)&nbsp;c))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                079&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conds)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                080&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                081&nbsp;&nbsp;(defn&nbsp;store-definitions
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                082&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;a&nbsp;definition&nbsp;given&nbsp;in&nbsp;the&nbsp;definition&nbsp;section
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                083&nbsp;&nbsp;&nbsp;&nbsp;(second&nbsp;way&nbsp;beside&nbsp;container&nbsp;to&nbsp;provide&nbsp;definitions).
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                084&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;includes&nbsp;`DefinitionClass`&nbsp;and&nbsp;`Conditions`.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                085&nbsp;&nbsp;&nbsp;&nbsp;[p&nbsp;idx&nbsp;ds]
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                086&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{cls&nbsp;:DefinitionClass
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                087&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;descr&nbsp;:ShortDescr
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                088&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conds&nbsp;:Condition
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                089&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defin&nbsp;:Definition}&nbsp;ds]
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-defins-descr-path&nbsp;p&nbsp;idx)&nbsp;descr)
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                091&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-defins-class-path&nbsp;p&nbsp;idx)&nbsp;cls)
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                092&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-conds&nbsp;p&nbsp;idx&nbsp;conds)
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                093&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-defins&nbsp;p&nbsp;idx&nbsp;defin)
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                094&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-defins-ctrl-path&nbsp;p&nbsp;idx)&nbsp;&quot;ready&quot;)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                095&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                096&nbsp;&nbsp;(defn&nbsp;store-all-definitions
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                097&nbsp;&nbsp;&nbsp;&nbsp;&quot;Triggers&nbsp;the&nbsp;storing&nbsp;of&nbsp;the&nbsp;definition&nbsp;section.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                098&nbsp;&nbsp;&nbsp;&nbsp;[p&nbsp;{defins&nbsp;:Definitions}]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                099&nbsp;&nbsp;&nbsp;&nbsp;(doall
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map-indexed
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[idx&nbsp;ds]&nbsp;(store-definitions&nbsp;p&nbsp;idx&nbsp;ds))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defins)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                103&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                104&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                105&nbsp;&nbsp;;;&nbsp;meta
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                106&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                107&nbsp;&nbsp;(defn&nbsp;store-meta
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                108&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;the&nbsp;mp&nbsp;meta&nbsp;data.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                109&nbsp;&nbsp;&nbsp;&nbsp;[p&nbsp;{standard&nbsp;:Standard
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                110&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;:Name
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                111&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;descr&nbsp;:Description
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                112&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cont&nbsp;:Container
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                113&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defins&nbsp;:Definitions}]
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                114&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-meta-std-path&nbsp;p)&nbsp;standard)
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                115&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-meta-name-path&nbsp;p)&nbsp;name)
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                116&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-meta-descr-path&nbsp;p)&nbsp;descr)
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                117&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-meta-ndefins-path&nbsp;p)&nbsp;(count&nbsp;defins))
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                118&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;get-meta-ncont-path&nbsp;p)&nbsp;(count&nbsp;cont)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                119&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                120&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                121&nbsp;&nbsp;;;&nbsp;all
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                122&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                123&nbsp;&nbsp;(defn&nbsp;store
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                124&nbsp;&nbsp;&nbsp;&nbsp;&quot;Triggers&nbsp;the&nbsp;storing&nbsp;of&nbsp;`meta`,&nbsp;`exchange`,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                125&nbsp;&nbsp;&nbsp;&nbsp;`container`s&nbsp;etc.&nbsp;to&nbsp;the&nbsp;short&nbsp;term&nbsp;memory.
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                126&nbsp;&nbsp;&nbsp;&nbsp;Clears&nbsp;up&nbsp;the&nbsp;fields&nbsp;before.&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                127&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                128&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;use&nbsp;metadata&nbsp;example&nbsp;input
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                129&nbsp;&nbsp;&nbsp;&nbsp;(store&nbsp;((meta&nbsp;(var&nbsp;store))&nbsp;:example-input))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                130&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                131&nbsp;&nbsp;&nbsp;&nbsp;{:example-input&nbsp;(read-string
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                132&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(slurp&nbsp;&quot;resources&#x2F;mpd-ref.edn&quot;))}
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                133&nbsp;&nbsp;&nbsp;&nbsp;[{id&nbsp;:_id&nbsp;rev&nbsp;:_rev&nbsp;mp&nbsp;:Mp}]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                134&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[p&nbsp;(u&#x2F;extr-main-path&nbsp;id)]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                135&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clear&nbsp;(st&#x2F;get-meta-prefix&nbsp;p))
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                136&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clear&nbsp;(st&#x2F;get-exch-prefix&nbsp;p))
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                137&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clear&nbsp;(st&#x2F;get-cont-prefix&nbsp;p))
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                138&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clear&nbsp;(st&#x2F;get-defins-prefix&nbsp;p))
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                139&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-meta&nbsp;p&nbsp;mp)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                140&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-exchange&nbsp;p&nbsp;mp)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                141&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-all-container&nbsp;p&nbsp;mp)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                142&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-all-definitions&nbsp;p&nbsp;mp)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                143&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                144&nbsp;&nbsp;(defn&nbsp;store-task
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                145&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;the&nbsp;given&nbsp;`task`&nbsp;unter&nbsp;the
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                146&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;`tasks@&lt;TaskName&gt;`.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                147&nbsp;&nbsp;&nbsp;&nbsp;[task]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                148&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                149&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[&quot;tasks&quot;&nbsp;(:TaskName&nbsp;task)])
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                150&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;doc-&gt;safe-doc&nbsp;task)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                151&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                152&nbsp;&nbsp;(defn&nbsp;clear-tasks
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                153&nbsp;&nbsp;&nbsp;&nbsp;&quot;Clears&nbsp;`task*`.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                154&nbsp;&nbsp;&nbsp;&nbsp;[]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                155&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;del-keys!&nbsp;(st&#x2F;key-&gt;keys&nbsp;&quot;tasks&quot;)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                156&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                157&nbsp;&nbsp;(defn&nbsp;store-tasks
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                158&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;the&nbsp;`task-list`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                159&nbsp;&nbsp;&nbsp;&nbsp;as&nbsp;received&nbsp;from&nbsp;`lt-mem`.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                160&nbsp;&nbsp;&nbsp;&nbsp;[task-list]&nbsp;&nbsp;
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                161&nbsp;&nbsp;&nbsp;&nbsp;(run!
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                162&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[{task&nbsp;:value}]
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                163&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-task&nbsp;task))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                164&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task-list))
+                </span><br/>
+ </body>
+</html>
