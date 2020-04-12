@@ -22,46 +22,6 @@ The *cmp namespaces* are .
 * [clojure-style-guide](https://github.com/bbatsov/clojure-style-guide)
 * [eastwood (linter)](https://github.com/jonase/eastwood)
 
-# Config (Redis)
-
-Since version 0.3.0 *cmp* relies on
-[Keyspace Notifications](https://redis.io/topics/notifications).
-Therefore it is necassary to replace in `/etc/redis/redis.conf`:
-
-```shell
-notify-keyspace-events ""
-```
-
-by
-
-
-```shell
-notify-keyspace-events AK
-
-```
-
-and restart the service:
-
-
-```shell
-# restart
-sudo systemctl restart redis.service
-
-# check state
-sudo systemctl status redis.service
-```
-
-
-## redis gui
-
-* [RedisDesktopManager](https://github.com/uglide/RedisDesktopManager) `sudo snap install redis-desktop-manager`
-* [redis-commander](https://github.com/joeferner/redis-commander)
-
-```shell
-$ npm install -g redis-commander
-## --> http://localhost:8081/
-
-
 # Usage
 
 User interaction with *cmp* is **REPL only** so far. The `core`
@@ -110,6 +70,46 @@ cmp.core/build-tasks
 (workon!! mp-id)
 (run-c 0)
 (stat-c 0)
+```
+
+# Config (Redis)
+
+Since version 0.3.0 *cmp* relies on
+[Keyspace Notifications](https://redis.io/topics/notifications).
+Therefore it is necassary to replace in `/etc/redis/redis.conf`:
+
+```shell
+notify-keyspace-events ""
+```
+
+by
+
+
+```shell
+notify-keyspace-events AK
+
+```
+
+and restart the service:
+
+
+```shell
+# restart
+sudo systemctl restart redis.service
+
+# check state
+sudo systemctl status redis.service
+```
+
+
+## redis gui
+
+* [RedisDesktopManager](https://github.com/uglide/RedisDesktopManager) `sudo snap install redis-desktop-manager`
+* [redis-commander](https://github.com/joeferner/redis-commander)
+
+```shell
+$ npm install -g redis-commander
+## --> http://localhost:8081/
 ```
 
 ## (re)generate documentation
