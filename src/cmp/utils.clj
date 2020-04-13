@@ -30,6 +30,14 @@
    (assoc
     (string/split k re-sep) l r)))
 
+(defn key-at-level
+  "Returns the value of the key `k` at the level `l`"
+  [k l]
+  {:pre [(string? k)
+         (int? l)] }
+  (nth (string/split k re-sep) l ))
+
+
 ;;------------------------------
 ;; date time
 ;;------------------------------

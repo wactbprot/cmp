@@ -60,13 +60,22 @@
                                        key->keys
                                        del-keys!)))
 
+;;------------------------------
+;; get value(s)
+;;------------------------------
 (defn key->val
   "Returns the value for the given key (`k`)
   and cast it to a clojure type."
   [k]
   (u/val->clj (wcar conn (car/get k))))
 
-(defn filter-keys-where-val
+(defn keys->vals
+  "Returns a vector of the `vals`
+  behind the keys `ks`."
+  [ks]
+  (into [] (map key->val ks)))
+
+  (defn filter-keys-where-val
   "Returns all keys belonging to `pat` where the
   value is `x`.
 
@@ -80,7 +89,6 @@
   [pat x]
   (filter (fn [k] (= (key->val k) x))
           (pat->keys pat)))
-
 
 ;;------------------------------
 ;; key arithmetic
@@ -207,12 +215,17 @@
   (u/vec->key [(get-defins-prefix mp-id) i "class"]))
 
 ;;------------------------------
-;; id path
+;; id path and pat
 ;;------------------------------
+(defn get-id-prefix
+  "Returns the `id` prefix."
+  [mp-id]
+  (u/vec->key [mp-id "id"]))
+
 (defn get-id-path
   "Returns the `id` key."
   [mp-id id]
-  (u/vec->key [mp-id "id" id]))
+  (u/vec->key [(get-id-prefix mp-id) id]))
 
 ;;------------------------------
 ;; meta path

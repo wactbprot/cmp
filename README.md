@@ -4,5 +4,5 @@ A study of an interpreter handling
 measurement program definitions
 (**mpd**) written in [clojure](https://clojure.org/).
 
-[documentation](https://wactbprot.github.io/cmp/)
+See documentation on [wactbprot.github.io](https://wactbprot.github.io/cmp/)
 

@@ -20,8 +20,8 @@
   {:doc-version (lt/doc->version doc)
    :doc-id (lt/doc->id doc)})
 
-(defn extr-doc-type
-  "Extracts the document type. Assumes the
+(defn doc-type
+  "Returns the type of the document. Assumes the
   type of the document to be the
   first key hierarchy beside `:_id` and `:_rev`."
   [doc m]
@@ -30,25 +30,27 @@
               (or (= :_id kw) (= :_rev kw))))
     (keys doc))))
 
-(defmulti extr-info
-  extr-doc-type)
+(defmulti doc-info
+  "Extracts informations about a document
+  depending on the type."
+  doc-type)
 
-(defmethod extr-info :Calibration
+(defmethod doc-info :Calibration
   [doc m]
   (assoc m
          :doc-type "Calibration"))
 
-(defmethod extr-info :Measurement
+(defmethod doc-info :Measurement
   [doc m]
   (assoc m
          :doc-type "Measurement"))
 
-(defmethod extr-info :State
+(defmethod doc-info :State
   [doc m]
   (assoc m
          :doc-type "State"))
 
-(defmethod extr-info :default
+(defmethod doc-info :default
   [doc m]
   (assoc m
          :doc-type "default"))
@@ -59,10 +61,11 @@
 (defn add
   "Adds a info map to the short term memory."
   [mpd-id id]
-  (let [path (st/get-id-path mpd-id id)
-        doc  (lt/id->doc id)
-        info (extr-info doc (base-info doc))]
-    (st/set-val! path info)))
+  (if-let [doc (lt/id->doc id)]
+    (let [k    (st/get-id-path mpd-id id)
+          info (doc-info doc (base-info doc))]
+      (st/set-val! k info))
+    (timbre/error "no doc added")))
 
 ;;------------------------------
 ;; rm
@@ -73,9 +76,28 @@
   (st/del-key! (st/get-id-path mpd-id id)))
 
 ;;------------------------------
+;; ids
+;;------------------------------
+(defn ids
+  "Returns the list of ids added.
+  ```clojure
+  (add \"devs\" \"cal-2018-ce3-kk-75003_0002\")
+  ;; hiob DEBUG [cmp.lt-mem:14] - try to get 
+  ;; document with id: cal-2018-ce3-kk-75003_0002
+  ;; OK
+  (ids \"devs\")
+  ;; (cal-2018-ce3-kk-75003_0002)
+  ```"
+  [mp-id]
+  (map
+   (fn [k] (u/key-at-level k 2))
+   (st/key->keys
+    (st/get-id-prefix mp-id))))
+  
+;;------------------------------
 ;; data to doc
 ;;------------------------------
-(defn ensure-vector-vals
+(defn vector-vals
   "Ensures that the values behind `:Value`,
   `:SdValue` and `:N` are vectors."
   [m]
@@ -107,7 +129,7 @@
           idx?       (fn [i x] (when (same-type? x) i))]
           (if-let [idx (first (keep-indexed idx? s))]
             (assoc s idx (append-and-replace (nth s idx) m))
-            (conj s (ensure-vector-vals m))))))
+            (conj s (vector-vals m))))))
 
 (defn store-result
   "Stores the result map `m` in the given `doc`ument
@@ -121,7 +143,7 @@
     (if (and (:Type m) (:Value m))
       (if-let [s (get-in doc kw-vec)]
         (assoc-in doc kw-vec (fit-in-struct s m))
-        (assoc-in doc kw-vec [(ensure-vector-vals m)]))
+        (assoc-in doc kw-vec [(vector-vals m)]))
       (if-let [s (get-in doc kw-vec)]
         (assoc-in doc kw-vec (merge s m))
         (assoc-in doc kw-vec m)))))
