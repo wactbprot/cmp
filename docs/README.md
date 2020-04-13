@@ -9,16 +9,16 @@
 
 # Usage
 
-User interaction with *cmp* is **REPL only** so far. The `core`
+User interaction with **cmp** is **REPL only** so far. The `core`
 namespace is the entry point. Use `(dir cmp.core)` to get an
 overview.
 
 ## reference mpd
 
-Find a documented reference `mpd` in
-[edn-format](https://github.com/edn-format/edn) 
+Find a documented reference measurement program definition
+(`mpd`) in [edn-format](https://github.com/edn-format/edn) 
 at [resources/mpd-ref.edn](../resources/mpd-ref.edn).
-This `mpd` called `"ref"` can be used as a example.
+This `mpd` named `"ref"` can be used as a example.
 
 Build or refresh tasks with:
 ```clojure
