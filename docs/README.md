@@ -1,10 +1,5 @@
-![cmp](cmp_logo.png)
 
-A study of an interpreter handling
-measurement program definitions
-(**mpd**) written in [clojure](https://clojure.org/).
 
-All of the `mp` state is kept in a [redis](https://redis.io) database.
 
 
 * [API](./api)
@@ -15,7 +10,7 @@ All of the `mp` state is kept in a [redis](https://redis.io) database.
 # Usage
 
 User interaction with *cmp* is **REPL only** so far. The `core`
-namespace is the entry point. Use the `(dir cmp.core)` to get an
+namespace is the entry point. Use `(dir cmp.core)` to get an
 overview.
 
 ## reference mpd
@@ -35,6 +30,7 @@ Build `edn` examples with:
 ```clojure
 (build-ref-edn)
 ```
+
 followed by:
 
 ```clojure
@@ -70,8 +66,9 @@ cmp.core/build-tasks
 # Redis
 ## config
 
-Since version 0.3.0 *cmp* relies on
-[Keyspace Notifications](https://redis.io/topics/notifications).
+All of the `mp` state is kept in a [redis](https://redis.io) database.
+
+Since version 0.3.0 *cmp* relies on [Keyspace Notifications](https://redis.io/topics/notifications).
 Therefore it is necassary to replace in `/etc/redis/redis.conf`:
 
 ```shell
