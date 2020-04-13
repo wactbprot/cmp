@@ -31,7 +31,7 @@
   "Checks the task structure against a spec."
   [m]
   (if (nil? m)
-    (a/>! excep/ch (throw (Exception. "task is nil")))
+    (a/>!! excep/ch (throw (Exception. "task is nil")))
     (condp :Action m
       "TCP"    (s/valid? ::tcp-task m)
       :default (s/valid? ::task m))))

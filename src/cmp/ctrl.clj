@@ -65,5 +65,5 @@
         (timbre/error "no case for: " mp-id " and cmd: " cmd))
       (catch Exception e
         (timbre/error "catch error for: " mp-id)
-        (a/>! excep/ch e))))
+        (a/>!! excep/ch e))))
   (recur))

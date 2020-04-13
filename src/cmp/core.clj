@@ -157,13 +157,17 @@
 ;;------------------------------
 (defn doc-add
   "Adds a doc to the api to store the resuls in. (untested)"
-  [doc-id]
-  (doc/add (u/extr-main-path (->mp-id)) doc-id))
+  ([doc-id]
+   (doc-add (->mp-id) doc-id))
+  ([mp-id doc-id]
+   (doc/add mp-id doc-id)))
 
-(defn doc-del
+(defn doc-rm
   "Removes a doc from the api. (untested)"
-  [doc-id]
-  (doc/del (u/extr-main-path (->mp-id)) doc-id))
+  ([doc-id]
+   (doc-rm (->mp-id) doc-id))
+  ([mp-id doc-id]
+   (doc/rm mp-id doc-id)))
 
 ;;------------------------------
 ;; check mp tasks

@@ -10,7 +10,12 @@
             [clojure.string :as string]
             [taoensso.timbre :as timbre]))
 
+
+;;------------------------------
+;; extract doc info
+;;------------------------------
 (defn base-info
+  "Returns a map with documents base info."
   [doc]
   {:doc-version (lt/doc->version doc)
    :doc-id (lt/doc->id doc)})
@@ -48,17 +53,28 @@
   (assoc m
          :doc-type "default"))
 
+;;------------------------------
+;; add
+;;------------------------------
 (defn add
-  [p id]
-  (let [path (st/get-id-path p id)
+  "Adds a info map to the short term memory."
+  [mpd-id id]
+  (let [path (st/get-id-path mpd-id id)
         doc  (lt/id->doc id)
         info (extr-info doc (base-info doc))]
     (st/set-val! path info)))
 
-(defn del
-  [p id]
-  (st/del-key! (st/get-id-path p id)))
+;;------------------------------
+;; rm
+;;------------------------------
+(defn rm
+  "Removes the info map from the short term memory."
+  [mpd-id id]
+  (st/del-key! (st/get-id-path mpd-id id)))
 
+;;------------------------------
+;; data to doc
+;;------------------------------
 (defn ensure-vector-vals
   "Ensures that the values behind `:Value`,
   `:SdValue` and `:N` are vectors."

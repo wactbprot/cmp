@@ -16,7 +16,7 @@
     (couch/get-document conn id)
     (catch Exception e
       (timbre/error "catch error on attempt to get doc: " id)
-      (a/>! excep/ch e))))
+      (a/>!! excep/ch e))))
 
 (defn put-doc
   "Saves a document to the long term memory."
@@ -26,7 +26,7 @@
     (couch/put-document conn doc)
     (catch Exception e
       (timbre/error "catch error on attempt to put doc")
-      (a/>! excep/ch e))))
+      (a/>!! excep/ch e))))
 
 (defn get-all-tasks
   "Returns all tasks."

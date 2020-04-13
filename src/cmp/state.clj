@@ -417,5 +417,5 @@
           (timbre/info  "state go loop: default case: nop" ))
         (catch Exception e
           (timbre/error "catch error at channel " k)
-          (a/>! excep/ch e))))
+          (a/>!! excep/ch e))))
   (recur))

@@ -186,4 +186,4 @@
                    "failed to build task for: " state-key)]
       (timbre/error err-msg)
       (st/set-val! state-key "error")
-      (a/>! excep/ch (throw err-msg)))))
+      (a/>!! excep/ch (throw err-msg)))))

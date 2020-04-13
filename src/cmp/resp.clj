@@ -20,7 +20,7 @@
   "
   [body task state-key]
   (if-let [err (:error body)]
-    (a/>! excep/ch (throw (str "respons: " body " at " state-key)))
+    (a/>!! excep/ch (throw (str "respons: " body " at " state-key)))
     (let [to-exch  (:ToExchange body)
           results  (:Result body) 
           path     (:DocPath body)
@@ -50,16 +50,16 @@
           (cond
             (< status 300) (dispatch body task state-key)
             (= status 304) (dispatch body task state-key)
-            :default (a/>! excep/ch
+            :default (a/>!! excep/ch
                            (throw (str "request for: "
                                        state-key
                                        " failed with status: "
                                        status))))
-          (a/>! excep/ch (throw (str "response body can not be parsed for: "
+          (a/>!! excep/ch (throw (str "response body can not be parsed for: "
                                      state-key))))
-        (a/>! excep/ch (throw (str "no status in header for: "
+        (a/>!! excep/ch (throw (str "no status in header for: "
                                    state-key))))
       (catch Exception e
         (timbre/error "catch error at channel " state-key)
-        (a/>! excep/ch e))))
+        (a/>!! excep/ch e))))
   (recur))
