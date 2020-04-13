@@ -1,5 +1,4 @@
 theme: jekyll-theme-minimal
 logo: ./cmp_logo_s.png
 title: cmp
-description: A study of an interpreter handling measurement
-program definitions written in clojure.
+description: A study of an interpreter handling measurement program definitions written in clojure.
