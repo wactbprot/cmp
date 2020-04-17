@@ -1,6 +1,4 @@
-
-
-
+# Documentation
 
 * [API](./api)
 * [coverage](./coverage)
@@ -55,6 +53,22 @@ cmp.core/build-tasks
 (workon!! mp-id)
 (run-c 0)
 (stat-c 0)
+```
+
+## documents
+
+To add or rm documents for storing data in use
+`(doc-add mp-id doc-id)`, `(doc-rm mp-id doc-id)`.
+If `(->mp-id)` is set (by `(workon mp-id)`)
+`(doc-add doc-id)`, `(doc-rm doc-id)` is sufficient.
+
+```clojure
+(doc-add "cal-2020-se3-kk-11111_0002")
+;; hiob DEBUG [cmp.lt-mem:14] - try to get document
+;;             with id: cal-2020-se3-kk-11111_0002
+;; "OK"
+(doc-ids)
+;; (cal-2020-se3-kk-11111_0001 cal-2020-se3-kk-11111_0002)
 ```
 
 # Clojure

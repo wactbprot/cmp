@@ -10,6 +10,19 @@
             [cmp.utils :as u]
             [taoensso.timbre :as timbre]))
 
+(defn state-key->response-key
+  "Turns the given `state-key` into a
+  `response-key`.
+
+  ```clojure
+  (state-key->response-key \"devs@container@0@state@0@0\")
+  ;; devs@container@0@response@0@0
+  ```
+  "
+  [state-key]
+  (u/replace-key-at-level 3 state-key "response"))
+
+
 (defn dispatch
   "Dispatches responds from outer space.
   Expected responses are:
@@ -17,26 +30,47 @@
   * Result
   * ToExchange
   * error
+
+  It's maybe a good idea to save the
+  respons body to a key associated to
+  the state key (done).
   "
   [body task state-key]
   (if-let [err (:error body)]
-    (a/>!! excep/ch (throw (str "respons: " body " at " state-key)))
-    (let [to-exch  (:ToExchange body)
+    (a/>!! excep/ch (throw (str "response: " body " at " state-key)))
+    (let [resp-key (state-key->response-key state-key)
+          to-exch  (:ToExchange body)
           results  (:Result body) 
-          path     (:DocPath body)
+          doc-path (:DocPath task)
           mp-id    (:MpName task)]
-      (exch/to! mp-id to-exch)
-      (if (and (string? path) (vector? results))
-        (doc/store-results {:place-holder "foo"} results path)
-        ;; here: is Result translated to a vector?
-        ))))
-
-
+      (timbre/debug "write response body to: " resp-key)
+      (st/set-val! resp-key body)
+      (let [res-exch  (exch/to! mp-id to-exch)
+            res-doc   (doc/store! mp-id results doc-path)]
+        (prn res-exch)
+        (prn res-doc)
+        
+        (cond
+          (:error res-exch) (do
+                              (st/set-val! state-key "error")
+                              (a/>!! excep/ch (throw (str "error on exch/to! at: " state-key))))
+          (:error res-doc)  (do
+                              (st/set-val! state-key "error")
+                              (a/>!! excep/ch (throw (str "error on doc/store! at: " state-key))))
+          (and
+           (:ok res-exch)     
+           (:ok res-doc))   (do
+                              (st/set-val! state-key "executed")
+                              (timbre/info "response handeled for: " state-key))
+          :default          (do
+                              (st/set-val! state-key "error")
+                              (a/>!! excep/ch (throw (str "unexpected behaviour at: " state-key)))))))))
 
 ;;------------------------------
-;; ctrl channel invoked by run 
+;; ctrl channel buffers
+;; 10 response processings
 ;;------------------------------
-(def ctrl-chan (a/chan))
+(def ctrl-chan (a/chan (a/buffer 10)))
 
 ;;------------------------------
 ;; ctrl go block 
@@ -50,16 +84,17 @@
           (cond
             (< status 300) (dispatch body task state-key)
             (= status 304) (dispatch body task state-key)
-            :default (a/>!! excep/ch
+            :default (a/>! excep/ch
                            (throw (str "request for: "
                                        state-key
                                        " failed with status: "
                                        status))))
-          (a/>!! excep/ch (throw (str "response body can not be parsed for: "
-                                     state-key))))
-        (a/>!! excep/ch (throw (str "no status in header for: "
-                                   state-key))))
+          (a/>! excep/ch (throw (str "body can not be parsed for: "
+                                      state-key))))
+        (a/>! excep/ch (throw (str "no status in header for: "
+                                    state-key))))
       (catch Exception e
-        (timbre/error "catch error at channel " state-key)
-        (a/>!! excep/ch e))))
+        (timbre/error "catch error at channel "
+                      state-key)
+        (a/>! excep/ch e))))
   (recur))

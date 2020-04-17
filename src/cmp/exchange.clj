@@ -109,13 +109,31 @@
 
 (defn to!
   "Writes `m` to the exchange interface.
-  The first level keys of `m` are used for the
-  access path.
+  The first level keys of `m` are used
+  for the key. The return value of the
+  storing process (e.g. \"OK\") is converted
+  to a `keyword`. After storing the amounts
+  of `:OK` is compared to `(count m)`.
+  
   ```clojure
-  {:A 1}
+  {:A 1
+   :B 2}
   ```
-  will be stored under `<mp-id>@exchange@A`."
+  Stores the value `1` under the key
+  `<mp-id>@exchange@A` and a `2` under
+  `<mp-id>@exchange@B`."
   [mp-id m]
-  (if  (and (string? mp-id) (map? m))
-      (doseq [[k v] m]
-        (st/set-val! (st/get-exch-path mp-id (name k)) v))))
+  (if (string? mp-id)
+    (if (map? m)
+      (let [n   (count m)
+            res (map
+                 (fn [[k v]]
+                   (keyword
+                    (st/set-val! (st/get-exch-path mp-id (name k)) v)))
+                 m)]
+        (if (= n
+               (:OK (frequencies res)))
+          {:ok true}
+          {:error "not all write procs succeed"}))
+      {:ok true})
+    {:error "mp-id must be a string"}))

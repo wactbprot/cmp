@@ -169,6 +169,14 @@
   ([mp-id doc-id]
    (doc/rm mp-id doc-id)))
 
+(defn doc-ids
+  "Gets a list of ids added."
+  ([]
+   (doc-ids (->mp-id)))
+  ([mp-id]
+   (doc/ids mp-id)))
+
+
 ;;------------------------------
 ;; check mp tasks
 ;;------------------------------

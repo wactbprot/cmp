@@ -22,13 +22,19 @@
   (string/join sep p))
 
 (defn replace-key-at-level
-  "Generates a new key by replacing an old one
-  at the given position.
-  ToDo: the key levels should have a name or keyword."
+  "Generates a new key by replacing an
+  old key `k`  at the given position `l` with the
+  given string `r`.
+
+  REVIEW
+  The key levels should have a name or keyword.
+  Passing integers (`l`) is unimaginative. 
+  "
   [l k r]
-  (vec->key
-   (assoc
-    (string/split k re-sep) l r)))
+  {:pre [(string? k)
+         (int? l)
+         (string? r)]}
+  (vec->key (assoc (string/split k re-sep) l r)))
 
 (defn key-at-level
   "Returns the value of the key `k` at the level `l`"

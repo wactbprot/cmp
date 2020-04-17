@@ -47,6 +47,7 @@
   ```"  
   [task state-key]
   (let [action    (keyword (:Action task))]
+    (timbre/info "cond for action: " action)
     (condp = action
       :wait   (wait!              task state-key)
       :select (select-definition! task state-key)
@@ -59,13 +60,14 @@
 ;;------------------------------
 ;; ctrl channel invoked by run 
 ;;------------------------------
-(def ctrl-chan (a/chan))
+(def ctrl-chan (a/chan (a/buffer 10)))
 
 ;;------------------------------
 ;; ctrl go block 
 ;;------------------------------
 (a/go-loop []
   (let [k (a/<! ctrl-chan)]
+    (timbre/info "receive request for: " k)
     (if-let [task (k->task k)]
       (if-let [state-key (:StateKey task)]
         (let [state (st/key->val state-key)] 
@@ -77,7 +79,7 @@
                 (catch Exception e
                   (timbre/error "catch error on task dispatch for: " k)
                   (st/set-val! state-key "error")
-                  (a/>!! excep/ch e))))
+                  (a/>! excep/ch e))))
             (timbre/debug "state is not ready for: " k)))
         (timbre/debug "task has no state key: " k))
       (timbre/debug "no task at: " k)))

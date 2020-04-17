@@ -33,11 +33,3 @@
   []
   (timbre/debug "get tasks from ltm")
   (couch/get-view conn "dbmp" "tasks"))
-
-(defn doc->version
-  [{rev :_rev}]
-  (first (string/split rev  #"-")))
-
-(defn doc->id
-  [{id :_id}]
-  id)

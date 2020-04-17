@@ -11,14 +11,28 @@
             [taoensso.timbre :as timbre]))
 
 
+(defn doc->version
+  "Returns the version of the document as
+  an integer value:"
+  [{rev :_rev}]
+  (if-let [v (first (string/split rev  #"-"))]
+    (Integer/parseInt v)))
+
+
+(defn doc->id
+  "Returns the id of the document."
+  [{id :_id}]
+  id)
+
+
 ;;------------------------------
 ;; extract doc info
 ;;------------------------------
 (defn base-info
   "Returns a map with documents base info."
   [doc]
-  {:doc-version (lt/doc->version doc)
-   :doc-id (lt/doc->id doc)})
+  {:doc-version (doc->version doc)
+   :doc-id (doc->id doc)})
 
 (defn doc-type
   "Returns the type of the document. Assumes the
@@ -155,3 +169,44 @@
   (reduce 
    (fn [doc m] (store-result doc m path))
    doc res-vec))
+
+(defn store!
+  "Stores the `results` vector under
+  the `doc-path` of every document loaded
+  at the given `mp-id`. Checks if the
+  version of each document is `+1`.
+  Returns `{:ok true}` or `{:error <problem>}`.
+
+  **example**
+
+  ```clojure
+  (def results [{:Type \"cmp-test\" :Unit \"Pa\" :Value 1}
+               {:Type \"cmp-test2\" :Unit \"Pa\" :Value 2}])
+
+  (def doc-path  \"Calibration.Measurement.Values.Pressure\")  
+
+  (store! \"devs\" results doc-path)
+  ```"  
+  [mp-id results doc-path]
+  (if results
+    (if (and (string? mp-id)
+             (string? doc-path)
+             (vector? results))
+      (let [ids (ids mp-id)]
+        (if (= 0 (count ids))
+          {:ok true :warn "no documents loaded"}
+          (let [res (map
+                     (fn [id]
+                       (let [in-doc  (lt/id->doc id)
+                             doc     (store-results in-doc results doc-path)
+                             out-doc (lt/put-doc doc)]
+                         (if (= (doc->version out-doc)
+                                (+ 1 (doc->version in-doc)))
+                           :ok
+                           :error)))
+                     ids)]
+            (if-let [n-err (:error (frequencies res))]
+              {:error "got " n-err " during attempt to store results"}
+            {:ok true}))))
+      {:error "wrong store! input"})
+    {:ok true}))

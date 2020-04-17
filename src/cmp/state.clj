@@ -301,16 +301,18 @@
 (defn error-ctrl!
   "Sets the `ctrl` interface to `\"error\"`."
   [k]
+  (timbre/error  "error-ctrl! for: " k)
   (st/set-val! (k->ctrl-k k) "error"))
 
 (defn all-exec-ctrl!
   "Handles the case where all `state` interfaces
   are `\"executed\"`. Gets the value  the `ctrl`"
   [k]
+  (timbre/info "all done at " k)
   (let [ctrl-k   (k->ctrl-k k)
         cmd      (ctrl-k->cmd ctrl-k)
         state-ks (k->state-ks k)]
-    (timbre/info "all done at " k " under ctrl cmd " cmd)
+    (timbre/info "ctrl cmd is: " cmd)
     (condp = cmd
       :run (do
              (stop ctrl-k)
@@ -322,7 +324,8 @@
 
 (defn nil-ctrl!
   "Kind of `nop`."
-  [p])
+  [k]
+  (timbre/debug "nil-ctrl! for: " k))
 
 ;;------------------------------
 ;; pick next task
@@ -345,20 +348,23 @@
   
   **NOTE:**
 
-  `start-next` only starts the first of
+  `start-next!` only starts the first of
   `(find-next state-map)` (the upcomming tasks)
   since the workers set the state to `\"working\"`
-  which triggers the next call to `start-next`."
+  which triggers the next call to `start-next!`."
   [x]
+  (timbre/info "start-next! on " x)
   (if-let [k x]
     (let [ctrl-k  (k->ctrl-k k)
           state-m (ks->state-map (k->state-ks ctrl-k))
           next-m  (find-next state-m)]
+      (timbre/debug "next map is: " next-m)
       (cond
         (errors?       state-m) (error-ctrl!    ctrl-k)
         (all-executed? state-m) (all-exec-ctrl! ctrl-k)
         (nil?          next-m)  (nil-ctrl!      ctrl-k)
         :else (a/go
+                (timbre/debug "request to work/ctrl-chan channel")
                 (a/>! work/ctrl-chan (state-map->definition-key next-m)))))))
 
 ;;------------------------------
@@ -370,6 +376,7 @@
   The register pattern is derived
   from the key  `k` (`ctrl-key`)."
   [k]
+  (timbre/info "register start-next! callback and start-next!")
   (st/register!  (st/key->mp-name k)
                  (st/key->struct k)
                  (st/key->no-idx k)
@@ -417,5 +424,5 @@
           (timbre/info  "state go loop: default case: nop" ))
         (catch Exception e
           (timbre/error "catch error at channel " k)
-          (a/>!! excep/ch e))))
+          (a/>! excep/ch e))))
   (recur))
