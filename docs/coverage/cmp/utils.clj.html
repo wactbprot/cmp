@@ -926,73 +926,76 @@
                 307&nbsp;&nbsp;&nbsp;&nbsp;(append-if&nbsp;{:Value&nbsp;[1&nbsp;2&nbsp;3]}&nbsp;:Value&nbsp;4)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                308&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:Value&nbsp;[1&nbsp;2&nbsp;3&nbsp;4]}&quot;
+                308&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:Value&nbsp;[1&nbsp;2&nbsp;3&nbsp;4]}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                309&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;k&nbsp;v]
+                309&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                310&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;k&nbsp;v]
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                310&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(some?&nbsp;v)&nbsp;(keyword?&nbsp;k))
+                311&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(some?&nbsp;v)&nbsp;(keyword?&nbsp;k))
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                311&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[new-v&nbsp;(val-&gt;vec&nbsp;v)]
+                312&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[new-v&nbsp;(val-&gt;vec&nbsp;v)]
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                312&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[old-v&nbsp;(k&nbsp;m)]
+                313&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[old-v&nbsp;(k&nbsp;m)]
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                313&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;m&nbsp;k&nbsp;(into&nbsp;[]&nbsp;(concat&nbsp;old-v&nbsp;new-v)))
+                314&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;m&nbsp;k&nbsp;(into&nbsp;[]&nbsp;(concat&nbsp;old-v&nbsp;new-v)))
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                314&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;m&nbsp;k&nbsp;new-v)))
+                315&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;m&nbsp;k&nbsp;new-v)))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                315&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m))
+                316&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                316&nbsp;&nbsp;
+                317&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                317&nbsp;&nbsp;(defn&nbsp;path-&gt;kw-vec
+                318&nbsp;&nbsp;(defn&nbsp;path-&gt;kw-vec
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                318&nbsp;&nbsp;&nbsp;&nbsp;&quot;Turns&nbsp;the&nbsp;path&nbsp;into&nbsp;a&nbsp;vector&nbsp;of
+                319&nbsp;&nbsp;&nbsp;&nbsp;&quot;Turns&nbsp;the&nbsp;path&nbsp;into&nbsp;a&nbsp;vector&nbsp;of
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                319&nbsp;&nbsp;&nbsp;&nbsp;keywords.
+                320&nbsp;&nbsp;&nbsp;&nbsp;keywords.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                320&nbsp;&nbsp;
+                321&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                321&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                322&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                322&nbsp;&nbsp;&nbsp;&nbsp;(path-&gt;kw-vec&nbsp;\&quot;a.b.c\&quot;)
+                323&nbsp;&nbsp;&nbsp;&nbsp;(path-&gt;kw-vec&nbsp;\&quot;a.b.c\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                323&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;[:a&nbsp;:b&nbsp;:c]
+                324&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;[:a&nbsp;:b&nbsp;:c]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                324&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                325&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                325&nbsp;&nbsp;&nbsp;&nbsp;[s]
+                326&nbsp;&nbsp;&nbsp;&nbsp;[s]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                326&nbsp;&nbsp;&nbsp;&nbsp;{:pre&nbsp;[(string?&nbsp;s)]}
+                327&nbsp;&nbsp;&nbsp;&nbsp;{:pre&nbsp;[(string?&nbsp;s)]}
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                327&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;[]
+                328&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;[]
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                328&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map
+                329&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                329&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keyword
+                330&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keyword
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                330&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(string&#x2F;split&nbsp;s&nbsp;(re-pattern&nbsp;&quot;\\.&quot;)))))
+                331&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(string&#x2F;split&nbsp;s&nbsp;(re-pattern&nbsp;&quot;\\.&quot;)))))
                 </span><br/>
  </body>
 </html>
