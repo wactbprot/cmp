@@ -88,18 +88,18 @@
 ;;------------------------------
 ;; mp-id
 ;;------------------------------
-(defn extr-main-path
+(defn main-path
   "Extracts the main path.
 
   Should work on `mpd-aaa-bbb`
   as well as on `aaa-bbb`.
 
   ```clojure
-  (u/extr-main-path \"aa\")
+  (u/main-path \"aa\")
   ;; \"aa\"
-  cmp.core> (u/extr-main-path \"aa-bbb\")
+  cmp.core> (u/main-path \"aa-bbb\")
   ;; \"aa-bbb\"
-  cmp.core> (u/extr-main-path \"aa-bbb-lll\")
+  cmp.core> (u/main-path \"aa-bbb-lll\")
   ;; \"aa-bbb-lll\"
   ```
   "
@@ -168,7 +168,7 @@
   (json/write-str m))
 
 (defn json->map
-  "Transforms a json object to a map"
+  "Transforms a json object to a map."
   [j]
   (json/read-str j :key-fn keyword))
 
@@ -258,35 +258,22 @@
     (nil? s) :stop
     :default (first (string/split s #","))))
 
-;; (defn set-next-ctrl
-;;   [s r]
-;;   (string/join "," (assoc (string/split s #",") 0 r)))
-;; 
-;; (defn rm-next-ctrl
-;;   [s]
-;;   (string/join ","
-;;                (or
-;;                 (not-empty (rest (string/split s #",")))
-;;                 ["ready"])))
-
-
-
-(defn ensure-vector-val
+(defn val->vec
   "Ensures that `v` is a vector.
 
   ```clojure
-  (ensure-vector-val nil) ;!
+  (val->vec nil) ;!
   ;; nil
-  (ensure-vector-val 1)
+  (val->vec 1)
   ;; [1]
-  (ensure-vector-val [1])
+  (val->vec [1])
   ;; [1]
   ```"
   [v]
-  (if-let [x v]
-    (if (vector? x)
-      x
-      [x])))
+  (if v
+    (if (vector? v)
+      v
+      [v])))
 
 (defn vector-if
   "Makes the value `v` behind the keyword `kw`
@@ -294,7 +281,7 @@
   [m kw]
   (if (and (map? m) (keyword? kw))
     (if-let [v (kw m)]
-      (assoc m kw (ensure-vector-val v))
+      (assoc m kw (val->vec v))
       m)))
 
 (defn replace-if
@@ -321,7 +308,7 @@
   ;; {:Value [1 2 3 4]}"
   [m k v]
   (if (and (some? v) (keyword? k))
-    (let [new-v (ensure-vector-val v)]
+    (let [new-v (val->vec v)]
       (if-let [old-v (k m)]
         (assoc m k (into [] (concat old-v new-v)))
         (assoc m k new-v)))

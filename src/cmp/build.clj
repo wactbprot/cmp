@@ -131,7 +131,7 @@
   {:example-input (read-string
                    (slurp "resources/mpd-ref.edn"))}
   [{id :_id rev :_rev mp :Mp}]
-  (let [p (u/extr-main-path id)]
+  (let [p (u/main-path id)]
     (st/clear (st/meta-prefix p))
     (st/clear (st/exch-prefix p))
     (st/clear (st/cont-prefix p))

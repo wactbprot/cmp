@@ -23,3 +23,13 @@
   (testing "Path translation (i)"
     (is (= v1 (path->kw-vec p1)) 
         "Translates path to keyword vector.")))
+
+(deftest val->vec-i
+  (testing "Values are transformed to vector (i)"
+    (is (nil? (val->vec nil)) 
+        "nil remains nil.")
+    (is (= [1] (val->vec 1)) 
+        "1 becomes [1].")
+    (is (= [1] (val->vec [1])) 
+        "[1] remains [1].")))
+

@@ -185,7 +185,7 @@
   ([]
    (check (->mp-id)))
   ([mp-id]
-   (let [p         (u/extr-main-path mp-id)
+   (let [p         (u/main-path mp-id)
          k-ncont   (st/meta-ncont-path p)
          n-cont    (st/key->val k-ncont)
          k-ndefins (st/meta-ndefins-path p)
