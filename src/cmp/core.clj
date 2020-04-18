@@ -40,7 +40,7 @@
 
 (defn workon!
   "Sets the mpd to work on (see [[current-mp-id]]).
-
+  
   Usage:
   
   ```clojure
@@ -54,13 +54,11 @@
 (defn ->mp-id
   "Returns the mpd-id set with workon!.
   
-  Usage:
-  
-   ```clojure
+  Example:
+  ```clojure
   (workon! 'se3-calib')
   (->mp-id)
-  ```
-  "
+  ```"
   []
   (if-let [mp-id (deref current-mp-id)]
     mp-id
@@ -97,7 +95,7 @@
    (state/cont-status mp-id i)))
 
 (defn n-status
-  "Returns  **d**efinitions **s**tatus.
+  "Returns  defi**n**itions status.
   Returns the `state map` for the `i`
   definitions structure."
   ([i]
@@ -110,9 +108,9 @@
 ;; build mpd
 ;;------------------------------
 (defn m-build
-  "Loads mpd from long term memory and
+  "Loads a mpd from long term memory and
   builds the short term memory. The `mp-id`
-  must be set with [[workon!]].  
+  may be set with [[workon!]].  
   
   Usage:  
   ```clojure
@@ -133,10 +131,11 @@
         (bld/store))))
 
 (defn m-build-edn
-  "Builds up a mp from the `edn`.
+  "Builds up a the mpds in `edn` format provided by *cmp*
+  (see resources directory).
   
   ```clojure
-  (build-mpd-edn \"resources/mpd-modbus.edn\")
+  (m-build-edn \"resources/mpd-modbus.edn\")
   ;; (\"OK\" \"OK\" \"OK\")
   ```
   "
@@ -178,7 +177,10 @@
 ;; check mp tasks
 ;;------------------------------
 (defn check
-  "Check the tasks of the `container` and
+  "
+  REVIEW
+  
+  Check the tasks of the `container` and
   `definitions` structure. *cmp* does not preload
   the tasks, they are loaded from the `lt-mem`
   during runtime."
