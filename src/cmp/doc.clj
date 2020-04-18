@@ -76,7 +76,7 @@
   "Adds a info map to the short term memory."
   [mpd-id id]
   (if-let [doc (lt/id->doc id)]
-    (let [k    (st/get-id-path mpd-id id)
+    (let [k    (st/id-path mpd-id id)
           info (doc-info doc (base-info doc))]
       (st/set-val! k info))
     (timbre/error "no doc added")))
@@ -87,7 +87,7 @@
 (defn rm
   "Removes the info map from the short term memory."
   [mpd-id id]
-  (st/del-key! (st/get-id-path mpd-id id)))
+  (st/del-key! (st/id-path mpd-id id)))
 
 ;;------------------------------
 ;; ids
@@ -106,7 +106,7 @@
   (map
    (fn [k] (u/key-at-level k 2))
    (st/key->keys
-    (st/get-id-prefix mp-id))))
+    (st/id-prefix mp-id))))
   
 ;;------------------------------
 ;; data to doc

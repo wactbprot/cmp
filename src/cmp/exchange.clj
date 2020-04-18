@@ -19,7 +19,7 @@
   "
   [mp-id s]
   {:pre [(not (nil? s))]}
-  (st/get-exch-path mp-id
+  (st/exch-path mp-id
    (first (string/split s (re-pattern "\\.")))))
 
 (defn key->kw
@@ -129,7 +129,7 @@
             res (map
                  (fn [[k v]]
                    (keyword
-                    (st/set-val! (st/get-exch-path mp-id (name k)) v)))
+                    (st/set-val! (st/exch-path mp-id (name k)) v)))
                  m)]
         (if (= n
                (:OK (frequencies res)))

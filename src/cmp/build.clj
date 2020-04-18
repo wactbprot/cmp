@@ -12,7 +12,7 @@
   "Stores the exchange data."
   [p {exchange :Exchange}]
   (doseq [[k v] exchange]
-    (st/set-val! (st/get-exch-path p (name k)) v)))
+    (st/set-val! (st/exch-path p (name k)) v)))
 
 ;;------------------------------
 ;; container
@@ -26,8 +26,8 @@
       (doall
        (map-indexed
         (fn [kdx ptsk]
-          (st/set-val! (st/get-cont-defin-path p idx jdx kdx)  ptsk)
-          (st/set-val! (st/get-cont-state-path p idx jdx kdx) "ready"))
+          (st/set-val! (st/cont-defin-path p idx jdx kdx)  ptsk)
+          (st/set-val! (st/cont-state-path p idx jdx kdx) "ready"))
         s)))
     defin)))
 
@@ -38,10 +38,10 @@
           ctrl  :Ctrl
           elem  :Element
           defin :Definition}]           
-  (st/set-val! (st/get-cont-title-path p idx) title)
-  (st/set-val! (st/get-cont-descr-path p idx) descr)
-  (st/set-val! (st/get-cont-ctrl-path p idx) ctrl)
-  (st/set-val! (st/get-cont-elem-path p idx) elem)
+  (st/set-val! (st/cont-title-path p idx) title)
+  (st/set-val! (st/cont-descr-path p idx) descr)
+  (st/set-val! (st/cont-ctrl-path p idx) ctrl)
+  (st/set-val! (st/cont-elem-path p idx) elem)
   (store-defin p idx defin))
 
 (defn store-all-container
@@ -64,8 +64,8 @@
       (doall
        (map-indexed
         (fn [kdx ptsk]
-          (st/set-val! (st/get-defins-defin-path p idx jdx kdx) ptsk)
-          (st/set-val! (st/get-defins-state-path p idx jdx kdx) "ready"))
+          (st/set-val! (st/defins-defin-path p idx jdx kdx) ptsk)
+          (st/set-val! (st/defins-state-path p idx jdx kdx) "ready"))
         s)))
     defin)))
 
@@ -75,7 +75,7 @@
   (doall
    (map-indexed
     (fn [jdx c]
-      (st/set-val! (st/get-defins-cond-path p idx jdx) c))
+      (st/set-val! (st/defins-cond-path p idx jdx) c))
         conds)))
 
 (defn store-definitions
@@ -87,11 +87,11 @@
          descr :ShortDescr
          conds :Condition
          defin :Definition} ds]
-    (st/set-val! (st/get-defins-descr-path p idx) descr)
-    (st/set-val! (st/get-defins-class-path p idx) cls)
+    (st/set-val! (st/defins-descr-path p idx) descr)
+    (st/set-val! (st/defins-class-path p idx) cls)
     (store-conds p idx conds)
     (store-defins p idx defin)
-    (st/set-val! (st/get-defins-ctrl-path p idx) "ready")))
+    (st/set-val! (st/defins-ctrl-path p idx) "ready")))
 
 (defn store-all-definitions
   "Triggers the storing of the definition section."
@@ -111,11 +111,11 @@
       descr :Description
       cont :Container
       defins :Definitions}]
-  (st/set-val! (st/get-meta-std-path p) standard)
-  (st/set-val! (st/get-meta-name-path p) name)
-  (st/set-val! (st/get-meta-descr-path p) descr)
-  (st/set-val! (st/get-meta-ndefins-path p) (count defins))
-  (st/set-val! (st/get-meta-ncont-path p) (count cont)))
+  (st/set-val! (st/meta-std-path p) standard)
+  (st/set-val! (st/meta-name-path p) name)
+  (st/set-val! (st/meta-descr-path p) descr)
+  (st/set-val! (st/meta-ndefins-path p) (count defins))
+  (st/set-val! (st/meta-ncont-path p) (count cont)))
 
 ;;------------------------------
 ;; all
@@ -132,10 +132,10 @@
                    (slurp "resources/mpd-ref.edn"))}
   [{id :_id rev :_rev mp :Mp}]
   (let [p (u/extr-main-path id)]
-    (st/clear (st/get-meta-prefix p))
-    (st/clear (st/get-exch-prefix p))
-    (st/clear (st/get-cont-prefix p))
-    (st/clear (st/get-defins-prefix p))
+    (st/clear (st/meta-prefix p))
+    (st/clear (st/exch-prefix p))
+    (st/clear (st/cont-prefix p))
+    (st/clear (st/defins-prefix p))
     (store-meta p mp)
     (store-exchange p mp)
     (store-all-container p mp)
