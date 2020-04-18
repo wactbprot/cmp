@@ -7,9 +7,38 @@
 
 # Usage
 
-User interaction with **cmp** is **REPL only** so far. The `core`
+User interaction with **cmp** is **REPL only**. The `core`
 namespace is the entry point. Use `(dir cmp.core)` to get an
-overview.
+overview. Commands in `(ns cmp.core)` have the following prefixes:
+
+* `t-` ... **tasks**
+- `t-build (cmp.core) <f>`
+- `t-build-edn (cmp.core) <f>`
+- `t-clear (cmp.core) <f>`
+- `t-refresh (cmp.core) <f>`
+
+* `m-` ... **mpd**
+- `m-build (cmp.core) <f>`
+- `m-build-edn (cmp.core) <f>`
+- `m-clear (cmp.core) <f>`
+- `m-info (cmp.core) <f>`
+- `m-start (cmp.core) <f>`
+- `m-stop (cmp.core) <f>`
+
+* `d-` ... **documents**
+- `d-add (cmp.core) <f>`
+- `d-ids (cmp.core) <f>`
+- `d-rm (cmp.core) <f>`
+
+* `c-` ... **container**
+- `c-reset (cmp.core) <f>`
+- `c-run (cmp.core) <f>`
+- `c-status (cmp.core) <f>`
+- `c-stop (cmp.core) <f> `	
+
+* `n-` ... **definitions**
+- `n-status (cmp.core) <f>`
+
 
 ## reference mpd
 

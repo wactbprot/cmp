@@ -70,7 +70,7 @@
 ;;------------------------------
 ;; info
 ;;------------------------------
-(defn info-mpd
+(defn m-info
   "The pattern `*@meta@name` is used to find all
    mp-names available at short term memory."  
   []
@@ -78,7 +78,7 @@
         (map st/key->mp-name
              (st/pat->keys "*@meta@name"))))
 
-(defn info-listener
+(defn l-info
   "Returns a list with the currently registered listener
   patterns."
   []
@@ -88,45 +88,42 @@
 ;;------------------------------
 ;; status (stat)
 ;;------------------------------
-(defn stat-c
-  "Returns the  **c**ontainer **s**tatus.
+(defn c-status
+  "Returns the  **c**ontainer status.
   Returns the state map for the `i` container."
   ([i]
-   (stat-c (->mp-id) i))
+   (c-status (->mp-id) i))
   ([mp-id i]
    (state/cont-status mp-id i)))
 
-(defn stat-d
+(defn n-status
   "Returns  **d**efinitions **s**tatus.
   Returns the `state map` for the `i`
   definitions structure."
   ([i]
-   (stat-d (->mp-id) i))
+   (n-status (->mp-id) i))
   ([mp-id i]
    (state/defins-status mp-id i)))
 
 
 ;;------------------------------
-;; build-mpd
+;; build mpd
 ;;------------------------------
-(defn build-mpd
+(defn m-build
   "Loads mpd from long term memory and
   builds the short term memory. The `mp-id`
   must be set with [[workon!]].  
   
-  Usage:
-  
+  Usage:  
   ```clojure
-  (build-mpd mpid)
+  (m-build mpid)
   ;; or
   (workon! mpid)
   ;; followed by
-  (build-mpd)
-  (check)
-  (start)
+  (m-build)
   ```"
   ([]
-   (build-mpd (->mp-id)))
+   (m-build (->mp-id)))
   ([mp-id]
    (timbre/info "build " mp-id)
    (->> mp-id
@@ -135,7 +132,7 @@
         (u/doc->safe-doc)
         (bld/store))))
 
-(defn build-mpd-edn
+(defn m-build-edn
   "Builds up a mp from the `edn`.
   
   ```clojure
@@ -155,24 +152,24 @@
 ;;------------------------------
 ;; documents
 ;;------------------------------
-(defn doc-add
+(defn d-add
   "Adds a doc to the api to store the resuls in."
   ([doc-id]
-   (doc-add (->mp-id) doc-id))
+   (d-add (->mp-id) doc-id))
   ([mp-id doc-id]
    (doc/add mp-id doc-id)))
 
-(defn doc-rm
+(defn d-rm
   "Removes a doc from the api."
   ([doc-id]
-   (doc-rm (->mp-id) doc-id))
+   (d-rm (->mp-id) doc-id))
   ([mp-id doc-id]
    (doc/rm mp-id doc-id)))
 
-(defn doc-ids
+(defn d-ids
   "Gets a list of ids added."
   ([]
-   (doc-ids (->mp-id)))
+   (d-ids (->mp-id)))
   ([mp-id]
    (doc/ids mp-id)))
 
@@ -203,24 +200,24 @@
       (range n-defins)))))
 
 ;;------------------------------
-;; start observing
+;; start observing mp
 ;;------------------------------
-(defn start-observe
+(defn m-start
   "Registers a listener for the `ctrl`
   interface of a `mp-id` (see [[workon!]])."
   ([]
-   (start-observe (->mp-id)))
+   (m-start (->mp-id)))
   ([mp-id]
    (ctrl/start mp-id)))
 
 ;;------------------------------
 ;; stop observing 
 ;;------------------------------
-(defn stop-observe
+(defn m-stop
   "De-registers the listener for the `ctrl`
   interface of the given `mp-id` (see [[workon!]])."
   ([]
-   (stop-observe (->mp-id)))
+   (m-stop (->mp-id)))
   ([mp-id]
    (ctrl/stop mp-id)))
 
@@ -244,49 +241,48 @@
   ([mp-id i cmd]
    (st/set-val! (st/cont-ctrl-path  mp-id i) cmd)))
 
-(defn run-c
+(defn c-run
   "Shortcut to push a `run` to the control
   interface of  mp container `i`."
   [i]
   (set-ctrl (->mp-id) i "run"))
 
 
-(defn stop-c
+(defn c-stop
   "Shortcut to push a `stop` to the control
   interface of  mp container `i`."
   [i]
   (set-ctrl (->mp-id) i "stop"))
 
-(defn reset-c
+(defn c-reset
   "Shortcut to push a `reset` to the control
   interface of  mp container `i`. The `reset` cmd
-  does **not** de-register the state listener so
+  does **not** de-register the `state` listener so
   that the container starts from the beginning.
   **reset is a container restart**
   "
   [i]
   (set-ctrl (->mp-id) i "reset"))
 
-
 ;;------------------------------
 ;; tasks
 ;;------------------------------
-(defn build-tasks
+(defn t-build
   "Builds the `tasks` endpoint. At
   runtime all `tasks` are provided by
-  `st-mem`" 
+  `st-mem`. The advantage is: tasks
+  can be modified at runtime." 
   []
-  (bld/store-tasks (lt/get-all-tasks)))
+  (bld/store-tasks (lt/all-tasks)))
 
-
-(defn build-task-edn
+(defn t-build-edn
   "Stores the `task` slurping from the files
   given in `resources/config.edn`
 
   Usage:
   
   ```clojure
-  (build-tasks-edn)
+  (t-build-edn)
   ```"
   []
   (run!
@@ -297,51 +293,46 @@
          (slurp uri))))
      (cfg/edn-tasks (cfg/config))))
 
-(defn refresh-tasks
+
+(defn t-clear
+  "Function removes all keys starting with `tasks`."  
+  []
+  (st/clear "tasks"))
+
+(defn t-refresh
   "Refreshs the `tasks` endpoint.
   
   Usage:
   
   ```clojure
-  (refresh-tasks)
+  (t-refresh)
   ```
   "
   []
   (timbre/info "clear tasks")
-  (bld/clear-tasks)
+  (t-clear)
   (timbre/info "build tasks from db")
-  (bld/store-tasks (lt/get-all-tasks))
+  (t-build)
   (timbre/info "build edn tasks")
-  (build-task-edn))
-
+  (t-build-edn))
 
 ;;------------------------------
-;; clear
+;; clear mpd
 ;;------------------------------
-(defn clear
+(defn m-clear
   "Clears all short term memory for the given `mp-id`
   (see [[workon!]]).
    Usage:
   
   ```clojure
-  (clear mpid)
+  (m-clear mpid)
   ;; or
   (workon! mpid)
-  (clear)
+  (m-clear)
   
   ```"
   ([]
-   (clear (->mp-id)))
+   (m-clear (->mp-id)))
   ([mp-id]
-   (stop-observe mp-id)
-   (st/clear (u/extr-main-path mp-id))))
-
-
-(defn clear-all
-  "The pattern `*@meta@name` is used to find all
-   mp-names. Function removes all keys of all `mpd`s"  
-  []
-  (clear "tasks")
-  (map clear
-       (map st/key->mp-name
-            (st/pat->keys "*@meta@name"))))
+   (m-stop mp-id)
+   (st/clear mp-id)))

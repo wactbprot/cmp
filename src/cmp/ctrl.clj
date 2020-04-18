@@ -46,4 +46,4 @@
   (let [callback (fn [msg]
                    (dispatch
                     (st/msg->key msg)))]
-    (st/register! mp-id "*" "*" "ctrl" callback)))
+   (st/register! mp-id "*" "*" "ctrl" callback)))

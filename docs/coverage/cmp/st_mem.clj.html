@@ -416,7 +416,7 @@
                 137&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                138&nbsp;&nbsp;(defn&nbsp;get-exch-prefix
+                138&nbsp;&nbsp;(defn&nbsp;exch-prefix
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 139&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;`exchange`&nbsp;prefix.&quot;
@@ -431,7 +431,7 @@
                 142&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                143&nbsp;&nbsp;(defn&nbsp;get-exch-path
+                143&nbsp;&nbsp;(defn&nbsp;exch-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 144&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;`exchange`&nbsp;path&nbsp;(key).&quot;
@@ -440,7 +440,7 @@
                 145&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;s]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                146&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-exch-prefix&nbsp;mp-id)&nbsp;s]))
+                146&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(exch-prefix&nbsp;mp-id)&nbsp;s]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 147&nbsp;&nbsp;
@@ -455,7 +455,7 @@
                 150&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                151&nbsp;&nbsp;(defn&nbsp;get-cont-prefix
+                151&nbsp;&nbsp;(defn&nbsp;cont-prefix
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 152&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;`container`&nbsp;prefix.&quot;
@@ -470,85 +470,85 @@
                 155&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                156&nbsp;&nbsp;(defn&nbsp;get-cont-title-path
+                156&nbsp;&nbsp;(defn&nbsp;cont-title-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 157&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                158&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&nbsp;&quot;title&quot;]))
+                158&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&nbsp;&quot;title&quot;]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 159&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                160&nbsp;&nbsp;(defn&nbsp;get-cont-descr-path
+                160&nbsp;&nbsp;(defn&nbsp;cont-descr-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 161&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                162&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&nbsp;&quot;descr&quot;]))
+                162&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&nbsp;&quot;descr&quot;]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 163&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                164&nbsp;&nbsp;(defn&nbsp;get-cont-ctrl-path
+                164&nbsp;&nbsp;(defn&nbsp;cont-ctrl-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 165&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                166&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&nbsp;&quot;ctrl&quot;]))
+                166&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&nbsp;&quot;ctrl&quot;]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 167&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                168&nbsp;&nbsp;(defn&nbsp;get-cont-elem-path
+                168&nbsp;&nbsp;(defn&nbsp;cont-elem-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 169&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                170&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&nbsp;&quot;elem&quot;]))
+                170&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&nbsp;&quot;elem&quot;]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 171&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                172&nbsp;&nbsp;(defn&nbsp;get-cont-defin-path
+                172&nbsp;&nbsp;(defn&nbsp;cont-defin-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 173&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;i]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                174&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;definition&quot;]))
+                174&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;definition&quot;]))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 175&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;i&nbsp;j&nbsp;k]
                 </span><br/>
 <span class="not-covered" title="0 out of 10 forms covered">
-                176&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;definition&quot;&nbsp;j&nbsp;k])))
+                176&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;definition&quot;&nbsp;j&nbsp;k])))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 177&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                178&nbsp;&nbsp;(defn&nbsp;get-cont-state-path
+                178&nbsp;&nbsp;(defn&nbsp;cont-state-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 179&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;i]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                180&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&nbsp;&quot;state&quot;]))
+                180&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&nbsp;&quot;state&quot;]))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 181&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;i&nbsp;j&nbsp;k]
                 </span><br/>
 <span class="not-covered" title="0 out of 10 forms covered">
-                182&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&nbsp;&quot;state&quot;&nbsp;j&nbsp;k])))
+                182&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(cont-prefix&nbsp;mp-id)&nbsp;i&nbsp;&nbsp;&quot;state&quot;&nbsp;j&nbsp;k])))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 183&nbsp;&nbsp;
@@ -563,7 +563,7 @@
                 186&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                187&nbsp;&nbsp;(defn&nbsp;get-defins-prefix
+                187&nbsp;&nbsp;(defn&nbsp;defins-prefix
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 188&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;`definitions`&nbsp;prefix.&quot;
@@ -578,85 +578,85 @@
                 191&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                192&nbsp;&nbsp;(defn&nbsp;get-defins-defin-path
+                192&nbsp;&nbsp;(defn&nbsp;defins-defin-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 193&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;i]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                194&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;definition&quot;]))
+                194&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;definition&quot;]))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 195&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;i&nbsp;j&nbsp;k]
                 </span><br/>
 <span class="not-covered" title="0 out of 10 forms covered">
-                196&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;definition&quot;&nbsp;j&nbsp;k])))
+                196&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;definition&quot;&nbsp;j&nbsp;k])))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 197&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                198&nbsp;&nbsp;(defn&nbsp;get-defins-state-path
+                198&nbsp;&nbsp;(defn&nbsp;defins-state-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 199&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;i]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                200&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;state&quot;]))
+                200&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;state&quot;]))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 201&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;i&nbsp;j&nbsp;k]
                 </span><br/>
 <span class="not-covered" title="0 out of 10 forms covered">
-                202&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;state&quot;&nbsp;j&nbsp;k])))
+                202&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;state&quot;&nbsp;j&nbsp;k])))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 203&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                204&nbsp;&nbsp;(defn&nbsp;get-defins-cond-path
+                204&nbsp;&nbsp;(defn&nbsp;defins-cond-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 205&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i&nbsp;j]
                 </span><br/>
 <span class="not-covered" title="0 out of 9 forms covered">
-                206&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;cond&quot;&nbsp;j]))
+                206&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;cond&quot;&nbsp;j]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 207&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                208&nbsp;&nbsp;(defn&nbsp;get-defins-ctrl-path
+                208&nbsp;&nbsp;(defn&nbsp;defins-ctrl-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 209&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                210&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;ctrl&quot;]))
+                210&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;ctrl&quot;]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 211&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                212&nbsp;&nbsp;(defn&nbsp;get-defins-descr-path
+                212&nbsp;&nbsp;(defn&nbsp;defins-descr-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 213&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                214&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;descr&quot;]))
+                214&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;descr&quot;]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 215&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                216&nbsp;&nbsp;(defn&nbsp;get-defins-class-path
+                216&nbsp;&nbsp;(defn&nbsp;defins-class-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 217&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                218&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;class&quot;]))
+                218&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(defins-prefix&nbsp;mp-id)&nbsp;i&nbsp;&quot;class&quot;]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 219&nbsp;&nbsp;
@@ -671,7 +671,7 @@
                 222&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                223&nbsp;&nbsp;(defn&nbsp;get-id-prefix
+                223&nbsp;&nbsp;(defn&nbsp;id-prefix
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 224&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;`id`&nbsp;prefix.&quot;
@@ -686,7 +686,7 @@
                 227&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                228&nbsp;&nbsp;(defn&nbsp;get-id-path
+                228&nbsp;&nbsp;(defn&nbsp;id-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 229&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;`id`&nbsp;key.&quot;
@@ -695,7 +695,7 @@
                 230&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;id]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                231&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-id-prefix&nbsp;mp-id)&nbsp;id]))
+                231&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(id-prefix&nbsp;mp-id)&nbsp;id]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 232&nbsp;&nbsp;
@@ -710,7 +710,7 @@
                 235&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                236&nbsp;&nbsp;(defn&nbsp;get-meta-prefix
+                236&nbsp;&nbsp;(defn&nbsp;meta-prefix
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 237&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;`meta`&nbsp;prefix.&quot;
@@ -725,61 +725,61 @@
                 240&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                241&nbsp;&nbsp;(defn&nbsp;get-meta-std-path
+                241&nbsp;&nbsp;(defn&nbsp;meta-std-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 242&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                243&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-meta-prefix&nbsp;mp-id)&nbsp;&quot;std&quot;]))
+                243&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(meta-prefix&nbsp;mp-id)&nbsp;&quot;std&quot;]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 244&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                245&nbsp;&nbsp;(defn&nbsp;get-meta-name-path
+                245&nbsp;&nbsp;(defn&nbsp;meta-name-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 246&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                247&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-meta-prefix&nbsp;mp-id)&nbsp;&quot;name&quot;]))
+                247&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(meta-prefix&nbsp;mp-id)&nbsp;&quot;name&quot;]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 248&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                249&nbsp;&nbsp;(defn&nbsp;get-meta-descr-path
+                249&nbsp;&nbsp;(defn&nbsp;meta-descr-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 250&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                251&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-meta-prefix&nbsp;mp-id)&nbsp;&quot;descr&quot;]))
+                251&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(meta-prefix&nbsp;mp-id)&nbsp;&quot;descr&quot;]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 252&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                253&nbsp;&nbsp;(defn&nbsp;get-meta-ncont-path
+                253&nbsp;&nbsp;(defn&nbsp;meta-ncont-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 254&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                255&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-meta-prefix&nbsp;mp-id)&nbsp;&quot;ncont&quot;]))
+                255&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(meta-prefix&nbsp;mp-id)&nbsp;&quot;ncont&quot;]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 256&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                257&nbsp;&nbsp;(defn&nbsp;get-meta-ndefins-path
+                257&nbsp;&nbsp;(defn&nbsp;meta-ndefins-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 258&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                259&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(get-meta-prefix&nbsp;mp-id)&nbsp;&quot;ndefins&quot;]))
+                259&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(meta-prefix&nbsp;mp-id)&nbsp;&quot;ndefins&quot;]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 260&nbsp;&nbsp;

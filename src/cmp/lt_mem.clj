@@ -28,7 +28,7 @@
       (timbre/error "catch error on attempt to put doc")
       (a/>!! excep/ch e))))
 
-(defn get-all-tasks
+(defn all-tasks
   "Returns all tasks."
   []
   (timbre/debug "get tasks from ltm")

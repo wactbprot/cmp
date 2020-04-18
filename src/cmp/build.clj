@@ -149,11 +149,6 @@
    (u/vec->key ["tasks" (:TaskName task)])
    (u/doc->safe-doc task)))
 
-(defn clear-tasks
-  "Clears `task*`."
-  []
-  (st/del-keys! (st/key->keys "tasks")))
-
 (defn store-tasks
   "Stores the `task-list`
   as received from `lt-mem`."

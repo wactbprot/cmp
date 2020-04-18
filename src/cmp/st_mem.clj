@@ -363,10 +363,12 @@
   [mp-id struct no op callback]
   (let [reg-key (reg-key mp-id struct no op)]
     (if-not (registered? reg-key)
-      (swap! listeners assoc
-             reg-key
-             (gen-listener mp-id struct no op callback)))))
-
+      {:ok (map?
+            (swap! listeners assoc
+                   reg-key
+                   (gen-listener mp-id struct no op callback)))}
+      {:ok true :warn "already registered"})))
+  
 (defn de-register!
   "De-registers the listener with the
   key `mp-id` in the `listeners` atom."
@@ -375,4 +377,6 @@
     (if (registered? reg-key)
       (do
         (close-listener! ((deref listeners) reg-key))
-        (swap! listeners dissoc reg-key)))))
+        {:ok (map?
+              (swap! listeners dissoc reg-key))})
+      {:ok true :warn "not registered"})))
