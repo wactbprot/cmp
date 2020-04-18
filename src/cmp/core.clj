@@ -211,8 +211,7 @@
   ([]
    (start-observe (->mp-id)))
   ([mp-id]
-   (a/>!! ctrl/ctrl-chan [mp-id :start])
-   (timbre/info "sent register request for: " mp-id)))
+   (ctrl/start mp-id)))
 
 ;;------------------------------
 ;; stop observing 
@@ -223,8 +222,7 @@
   ([]
    (stop-observe (->mp-id)))
   ([mp-id]
-   (a/>!! ctrl/ctrl-chan [mp-id :stop])
-   (timbre/info "sent de-register request for: " mp-id)))
+   (ctrl/stop mp-id)))
 
 ;;------------------------------
 ;; push ctrl commands

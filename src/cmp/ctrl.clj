@@ -8,21 +8,20 @@
             [cmp.state :as state]
             [cmp.utils :as u]))
 
-
 ;;------------------------------
 ;; ctrl-dispatch!
 ;;------------------------------
 (defn dispatch
   "Dispatches on the value of the
   `ctrl` interface  for the structure
-  belonging to `p`."
-  [p]
-  (timbre/info "ctrl dispatch call for path: " p)
-  (if p
-    (let [cmd (->> p
+  belonging to `k`."
+  [k]
+  (timbre/info "ctrl dispatch call for path: " k)
+  (if k
+    (let [cmd (->> k
                    st/key->val
                    u/get-next-ctrl)]
-      (a/>!! state/ctrl-chan [p cmd]))))
+      (a/>!! state/ctrl-chan [k cmd]))))
 
 ;;------------------------------
 ;; stop
@@ -44,26 +43,7 @@
   becomes the listeners `callback`." 
   [mp-id]
   (timbre/info "register ctrl listener for: " mp-id)
-  (st/register! mp-id "*" "*" "ctrl"
-                (fn [msg] (dispatch (st/msg->key msg)))))
-
-;;------------------------------
-;; ctrl channel invoked by run 
-;;------------------------------
-(def ctrl-chan (a/chan))
-
-;;------------------------------
-;; ctrl go block 
-;;------------------------------
-(a/go-loop []
-  (let [[mp-id cmd] (a/<! ctrl-chan)]
-    (try
-      (timbre/info "receive key: " mp-id " and cmd: " cmd)
-      (condp = (keyword cmd)
-        :start  (start mp-id)
-        :stop   (stop mp-id)
-        (timbre/error "no case for: " mp-id " and cmd: " cmd))
-      (catch Exception e
-        (timbre/error "catch error for: " mp-id)
-        (a/>! excep/ch e))))
-  (recur))
+  (let [callback (fn [msg]
+                   (dispatch
+                    (st/msg->key msg)))]
+    (st/register! mp-id "*" "*" "ctrl" callback)))
