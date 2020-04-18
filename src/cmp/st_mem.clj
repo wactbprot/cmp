@@ -337,9 +337,7 @@
 ;;------------------------------
 ;; listeners 
 ;;------------------------------
-(def listeners
-  "Listener has the form `(atom {})`." 
-  (atom {}))
+(defonce listeners (atom {}))
 
 ;;------------------------------
 ;;register!, registered?, de-register!
