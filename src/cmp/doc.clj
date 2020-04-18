@@ -177,8 +177,7 @@
   version of each document is `+1`.
   Returns `{:ok true}` or `{:error <problem>}`.
 
-  **example**
-
+  Example:
   ```clojure
   (def results [{:Type \"cmp-test\" :Unit \"Pa\" :Value 1}
                {:Type \"cmp-test2\" :Unit \"Pa\" :Value 2}])

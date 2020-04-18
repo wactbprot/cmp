@@ -305,7 +305,8 @@
   
   ```clojure
   (append-if {:Value [1 2 3]} :Value 4)
-  ;; {:Value [1 2 3 4]}"
+  ;; {:Value [1 2 3 4]}
+  ```"
   [m k v]
   (if (and (some? v) (keyword? k))
     (let [new-v (val->vec v)]
