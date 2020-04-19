@@ -92,7 +92,7 @@
   ([i]
    (c-status (->mp-id) i))
   ([mp-id i]
-   (state/cont-status mp-id i)))
+   (u/print-vec-map (state/cont-status mp-id i))))
 
 (defn n-status
   "Returns  defi**n**itions status.
@@ -101,7 +101,7 @@
   ([i]
    (n-status (->mp-id) i))
   ([mp-id i]
-   (state/defins-status mp-id i)))
+   (u/print-vec-map (state/defins-status mp-id i))))
 
 
 ;;------------------------------
@@ -259,12 +259,21 @@
 (defn c-reset
   "Shortcut to push a `reset` to the control
   interface of  mp container `i`. The `reset` cmd
-  does **not** de-register the `state` listener so
+  **don't**  de-register the `state` listener so
   that the container starts from the beginning.
   **reset is a container restart**
   "
   [i]
   (set-ctrl (->mp-id) i "reset"))
+
+(defn c-suspend
+  "Shortcut to push a `suspend` to the control
+  interface of  mp container `i`. The `suspend` cmd
+  de-register the `state` listener and leaves the state
+  as it is.
+  "
+  [i]
+  (set-ctrl (->mp-id) i "suspend"))
 
 ;;------------------------------
 ;; tasks

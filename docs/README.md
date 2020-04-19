@@ -35,6 +35,7 @@ overview. Commands in `(ns cmp.core)` have the following prefixes:
 - `c-run (cmp.core) <f>`
 - `c-status (cmp.core) <f>`
 - `c-stop (cmp.core) <f> `
+- `c-suspend (cmp.core) <f>`
 
 * `n-` ... **definitions**
 - `n-status (cmp.core) <f>`

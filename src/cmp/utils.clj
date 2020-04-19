@@ -152,12 +152,27 @@
 ;;------------------------------
 ;; output
 ;;------------------------------
+(defn print-sep
+  []
+  (println
+   (pretty/bold-white "\t ---- \t\t\t ----")))
+
 (defn print-kv
   [k v]
   (println "\t"
-           (pretty/bold-yellow (string/replace k re-sep "\t"))
-           (pretty/bold-blue "\t|==>\t")
-           (pretty/bold-yellow v)))
+           (pretty/yellow k)
+           (pretty/bold-white "\t : \t")
+           (pretty/yellow v)))
+
+(defn print-vec-map
+  "Pretty prints a vector of maps."
+  [vec]
+  (run! (fn [m]
+          (print-sep)
+          (run! (fn [[k v]]
+                  (print-kv k v))
+                m))
+        vec))
 
 ;;------------------------------
 ;; doc, json, map
