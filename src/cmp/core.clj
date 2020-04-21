@@ -62,7 +62,7 @@
   []
   (if-let [mp-id (deref current-mp-id)]
     mp-id
-    (throw (Exception. "No mp-id set.\n\n\nUse function (workon! <mp-id>)"))))
+    (throw (Exception. "No mp-id set.\n\n\nUse the function (workon! <mp-id>)"))))
 
 
 ;;------------------------------
@@ -102,7 +102,6 @@
    (n-status (->mp-id) i))
   ([mp-id i]
    (u/print-vec-map (state/defins-status mp-id i))))
-
 
 ;;------------------------------
 ;; build mpd
