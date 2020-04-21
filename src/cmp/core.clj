@@ -6,10 +6,12 @@
   (:require [cmp.lt-mem :as lt]
             [cmp.st-mem :as st]
             [clojure.core.async :as a]
+            [clojure.pprint :as pp]
             [cmp.utils :as u]
             [cmp.doc :as doc]
             [cmp.config :as cfg]
             [cmp.build :as bld]
+            [cmp.task :as tsk]
             [cmp.check :as chk]
             [cmp.ctrl :as ctrl]
             [cmp.state :as state]
@@ -92,7 +94,7 @@
   ([i]
    (c-status (->mp-id) i))
   ([mp-id i]
-   (u/print-vec-map (state/cont-status mp-id i))))
+   (pp/print-table (state/cont-status mp-id i))))
 
 (defn n-status
   "Returns  defi**n**itions status.
@@ -101,7 +103,7 @@
   ([i]
    (n-status (->mp-id) i))
   ([mp-id i]
-   (u/print-vec-map (state/defins-status mp-id i))))
+   (pp/print-table (state/defins-status mp-id i))))
 
 
 ;;------------------------------
@@ -286,23 +288,38 @@
   []
   (bld/store-tasks (lt/all-tasks)))
 
-(defn t-list-action
-  "Prints a list of all tasks stored in
-  **short term memory**. If a `action` is given
-  it is used as a filter."
+(defn t-table
+  "Prints a table of **assembled tasks** stored in
+  **short term memory**. If a `kw` and `val` are given
+  it is used as a filter
+  Example:
+  ```clojure
+  (t-table)
+  ;; same as
+  (t-table :Action :all)
+  ;;
+  (t-table :Action \"TCP\")
+  ;;
+  (t-table :Port \"23\")
+  ```
+  . "
   ([]
-   (t-list-action :all))
-  ([action]
-  (run!
-   (fn [k]
-     (let [task   (st/key->val k)
-           name   (:TaskName task)
-           acc    (:Action task)]
-       (if (= :all action)
-         (u/print-kvv k name acc))
-       (if (= acc action)
-         (u/print-kvv k name action))))   
-  (st/key->keys "tasks"))))
+   (t-table  :Action :all))
+  ([kw val]
+   (pp/print-table
+    (filter some?
+            (into []
+                  (map
+                   (fn [k]
+                     (let [task   (tsk/assemble
+                                   (tsk/gen-meta-task
+                                    (u/key-at-level k 1)))
+                           name   (:TaskName task)
+                           acc    (kw task)]
+                       (if (and acc
+                            (or(= acc val) (= :all val)))
+                         {:stm-key k :Name name kw acc} )))
+                   (st/key->keys "tasks")))))))
 
 (defn t-build-edn
   "Stores the `task` slurping from the files

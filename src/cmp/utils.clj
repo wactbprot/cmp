@@ -4,7 +4,6 @@
             [clj-time.core :as tm]
             [clj-time.format :as tm-f]
             [clj-time.coerce :as tm-c]
-            [io.aviso.ansi :as pretty]
             [clojure.data.json :as json]))
 
 (def sep
@@ -148,41 +147,6 @@
                 (map? v) [(f k) (apply-to-map-keys f v)]
                 :default [(f k) v]))
             m)))
-
-;;------------------------------
-;; output
-;;------------------------------
-(defn print-sep
-  []
-  (println
-   (pretty/bold-white "\t ---- \t\t\t ----")))
-
-(defn print-kv
-  [k v]
-  (println "\t"
-           (pretty/yellow k)
-           (pretty/bold-white "\t\t\t : \t\t\t")
-           (pretty/yellow v)))
-
-(defn print-kvv
-  [k v0 v1]
-  (println "\t"
-           (pretty/yellow k)
-           (pretty/bold-white "\t\t\t : \t\t\t")
-           (pretty/yellow v0)
-           (pretty/bold-white "\t\t\t : \t\t\t")
-           (pretty/yellow v1)))
-
-(defn print-vec-map
-  "Pretty prints a vector of maps."
-  [vec]
-  (run! (fn [m]
-          (print-sep)
-          (run! (fn [[k v]]
-                  (print-kv k v))
-                m))
-        vec))
-
 ;;------------------------------
 ;; doc, json, map
 ;;------------------------------

@@ -203,7 +203,7 @@
                      (->> ["tasks" task-name]
                           u/vec->key
                           st/key->val)
-                     x)]
+                     proto-task)]
     {:Task          (dissoc db-task :Defaults) 
      :Use           (:Use proto-task)
      :Globals       (->globals)
