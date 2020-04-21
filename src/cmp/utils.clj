@@ -161,8 +161,17 @@
   [k v]
   (println "\t"
            (pretty/yellow k)
-           (pretty/bold-white "\t : \t")
+           (pretty/bold-white "\t\t\t : \t\t\t")
            (pretty/yellow v)))
+
+(defn print-kvv
+  [k v0 v1]
+  (println "\t"
+           (pretty/yellow k)
+           (pretty/bold-white "\t\t\t : \t\t\t")
+           (pretty/yellow v0)
+           (pretty/bold-white "\t\t\t : \t\t\t")
+           (pretty/yellow v1)))
 
 (defn print-vec-map
   "Pretty prints a vector of maps."

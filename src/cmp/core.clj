@@ -285,6 +285,24 @@
   []
   (bld/store-tasks (lt/all-tasks)))
 
+(defn t-list-action
+  "Prints a list of all tasks stored in
+  **short term memory**. If a `action` is given
+  it is used as a filter."
+  ([]
+   (t-list-action :all))
+  ([action]
+  (run!
+   (fn [k]
+     (let [task   (st/key->val k)
+           name   (:TaskName task)
+           acc    (:Action task)]
+       (if (= :all action)
+         (u/print-kvv k name acc))
+       (if (= acc action)
+         (u/print-kvv k name action))))   
+  (st/key->keys "tasks"))))
+
 (defn t-build-edn
   "Stores the `task` slurping from the files
   given in `resources/config.edn`
