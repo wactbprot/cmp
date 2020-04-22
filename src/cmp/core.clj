@@ -292,6 +292,7 @@
   "Prints a table of **assembled tasks** stored in
   **short term memory**. If a `kw` and `val` are given
   it is used as a filter
+
   Example:
   ```clojure
   (t-table)
@@ -309,17 +310,13 @@
    (pp/print-table
     (filter some?
             (into []
-                  (map
-                   (fn [k]
-                     (let [task   (tsk/assemble
-                                   (tsk/gen-meta-task
-                                    (u/key-at-level k 1)))
-                           name   (:TaskName task)
-                           acc    (kw task)]
-                       (if (and acc
-                            (or(= acc val) (= :all val)))
-                         {:stm-key k :Name name kw acc} )))
-                   (st/key->keys "tasks")))))))
+                  (map (fn [k]
+                         (let [name  (u/key-at-level k 1)
+                               task  (tsk/assemble (tsk/gen-meta-task name))
+                               value (kw task)]
+                           (if (and value (or (= value val) (= :all val)))
+                             {:stm-key k :Name name kw value} )))
+                       (st/key->keys "tasks")))))))
 
 (defn t-build-edn
   "Stores the `task` slurping from the files
