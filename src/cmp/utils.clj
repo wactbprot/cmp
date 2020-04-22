@@ -36,12 +36,31 @@
   (vec->key (assoc (string/split k re-sep) l r)))
 
 (defn key-at-level
-  "Returns the value of the key `k` at the level `l`"
+  "Returns the value of the key `k` at the level `l`."
   [k l]
   {:pre [(string? k)
          (int? l)] }
   (nth (string/split k re-sep) l ))
 
+(defn key-at-first-level
+  [k]
+  "Returns the value of the key `k` at the level 0"
+  (key-at-level k 0))
+
+(defn key-at-second-level
+  [k]
+  "Returns the value of the key `k` at the level 0"
+  (key-at-level k 1))
+
+(defn key-at-third-level
+  [k]
+  "Returns the value of the key `k` at the level 0"
+  (key-at-level k 2))
+
+(defn key-at-fourth-level
+  [k]
+  "Returns the value of the key `k` at the level 0"
+  (key-at-level k 2))
 
 ;;------------------------------
 ;; date time
@@ -169,16 +188,17 @@
   This should remain as it is.
   "
   [doc]
-  (json->map (string/replace (json/write-str doc)  (re-pattern "@\\[a-zA-Z\\]*") "%")))
+  (json->map (string/replace (json/write-str doc)  #"@\\[a-zA-Z\\]*"  "%")))
 
 (defn clj->val
   "Casts the given (complex) value `x` to a writable
   type. `json` is used for complex data types.
 
+  Example:
   ```clojure
-  (st/clj->val {:foo \"bar\"})
+  (clj->val {:foo \"bar\"})
   ;; \"{\"foo\":\"bar\"}\"
-  (st/clj->val [1 2 3])
+  (clj->val [1 2 3])
   ;; \"[1,2,3]\"
   ```
   "
@@ -189,14 +209,9 @@
     clojure.lang.PersistentHashMap  (json/write-str x)
     x))
 
-
-(defn make-replacable
+(defn clj->str-val
   [x]
-  (condp = (class x)
-    clojure.lang.PersistentArrayMap (json/write-str x)
-    clojure.lang.PersistentVector   (json/write-str x)
-    clojure.lang.PersistentHashMap  (json/write-str x)
-    (str x)))
+  (str (clj->val x) ))
 
 ;;------------------------------
 ;; pick

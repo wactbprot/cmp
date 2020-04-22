@@ -70,21 +70,26 @@
      "%time"   (u/get-time d)}))
 
 
-  (defn outer-replace-map
+(defn outer-replace-map
   "Replaces tokens (given in the m) in the task.
-
+  This kind of replacement is used during the
+  task build up at the beginning of its life cycle.
+  
+  Example:
   ```clojure
-  (replace-map (->globals) {:TaskName \"foo\" :Value \"%time\"})
+  (outer-replace-map (->globals) {:TaskName \"foo\" :Value \"%time\"})
   ;; {:TaskName \"foo\", :Value \"1580652820247\"}
+  (outer-replace-map nil {:TaskName \"foo\" :Value \"%time\"})
+  ;; {:TaskName \"foo\", :Value \"%time\"}
   ```
   "
   [m task]
-  (if-not (nil? m)
+  (if (map? m)
     (u/json->map
      (reduce
       (fn [s [k v]]
         (let [pat (re-pattern (name k))
-              r   (u/make-replacable v)]
+              r   (u/clj->str-val v)]
           (string/replace s pat r)))
       (u/map->json task) m))
     task))
@@ -93,7 +98,10 @@
   "Applies the generated function  `f` to the
   values `v` of the of the `task` map. `f`s input is `v`.
   If `m` has a key `v` the value of this key is returned.
-  If `m` has no key `v` the `v` returned. "
+  If `m` has no key `v` the `v` returned.
+  This kind of replacement is used during the
+  runtime.
+  "
   [m task]
   (let [nm (u/apply-to-map-keys name m)
         f (fn [v]
