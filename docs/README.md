@@ -68,6 +68,13 @@ Build `tasks` provided by *cmp* in `edn`-format with:
 (t-build-edn)
 ```
 
+`(t-table)` overview of all tasks loaded in short term memory.
+The table may be filtered:
+
+![cmp](docs/t-table.png)
+
+
+
 ## start mpd
 
 ```clojure
