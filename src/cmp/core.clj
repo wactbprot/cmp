@@ -305,7 +305,7 @@
   . "
   ([]
    (t-table  :Action :all))
-  ([kw val]
+  ([kw v]
    (pp/print-table
     (filter some?
             (into []
@@ -313,16 +313,15 @@
                          (let [name  (u/key-at-level k 1)
                                task  (tsk/assemble (tsk/gen-meta-task name))
                                value (kw task)]
-                           (if (and value (or (= value val) (= :all val)))
+                           (if (and value (or (= value v) (= :all v)))
                              {:stm-key k :Name name kw value} )))
                        (st/key->keys "tasks")))))))
 
 (defn t-build-edn
-  "Stores the `task` slurping from the files
-  given in `resources/config.edn`
+  "Stores the `task` slurped from the files
+  configured in `resources/config.edn`.
 
-  Usage:
-  
+  Example:
   ```clojure
   (t-build-edn)
   ```"
@@ -344,8 +343,7 @@
 (defn t-refresh
   "Refreshs the `tasks` endpoint.
   
-  Usage:
-  
+  Example:
   ```clojure
   (t-refresh)
   ```
@@ -364,8 +362,8 @@
 (defn m-clear
   "Clears all short term memory for the given `mp-id`
   (see [[workon!]]).
-   Usage:
-  
+
+  Example:
   ```clojure
   (m-clear mpid)
   ;; or
