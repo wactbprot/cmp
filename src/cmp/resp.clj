@@ -1,7 +1,8 @@
 (ns cmp.resp
   ^{:author "wactbprot"
     :doc "Catches responses and dispatchs."}
-  (:require [clojure.core.async :as a]
+  (:require [clj-http.client :as http]
+            [clojure.core.async :as a]
             [cmp.exchange :as exch]
             [cmp.excep :as excep]
             [cmp.doc :as doc]
@@ -47,9 +48,6 @@
       (st/set-val! resp-key body)
       (let [res-exch  (exch/to! mp-id to-exch)
             res-doc   (doc/store! mp-id results doc-path)]
-        (prn res-exch)
-        (prn res-doc)
-        
         (cond
           (:error res-exch) (do
                               (st/set-val! state-key "error")
@@ -70,31 +68,40 @@
 ;; ctrl channel buffers
 ;; 10 response processings
 ;;------------------------------
-(def ctrl-chan (a/chan (a/buffer 10)))
+(defonce ctrl-chan (a/chan))
 
 ;;------------------------------
 ;; ctrl go block 
 ;;------------------------------
 (a/go-loop []
-  (let [[res task state-key] (a/<! ctrl-chan)]
-    (timbre/debug "try dispatch response for: " state-key)
-    (try
+  (let [[url req task state-key] (a/<! ctrl-chan)]    
+    (timbre/debug "try dispatch response for: " url )
+    (let [res (http/post url req)]
+      (prn  (dispatch (u/val->clj  (:body res))  task state-key))
+      
       (if-let [status (:status res)]
         (if-let [body (u/val->clj  (:body res))]
-          (cond
-            (< status 300) (dispatch body task state-key)
-            (= status 304) (dispatch body task state-key)
-            :default (a/>! excep/ch
-                           (throw (str "request for: "
-                                       state-key
-                                       " failed with status: "
-                                       status))))
-          (a/>! excep/ch (throw (str "body can not be parsed for: "
-                                      state-key))))
-        (a/>! excep/ch (throw (str "no status in header for: "
-                                    state-key))))
-      (catch Exception e
-        (timbre/error "catch error at channel "
-                      state-key)
-        (a/>! excep/ch e))))
+          (try
+            (cond
+              (< status 300) (dispatch body task state-key) 
+              (= status 304) (dispatch body task state-key)
+              :default (a/>! excep/ch
+                             (throw
+                              (Exception. (str "request for: "
+                                               state-key
+                                               " failed with status: "
+                                               status)))))
+            (catch Exception e
+              (timbre/error "catch error at channel "
+                            state-key)
+              (a/>! excep/ch e)))
+          
+          (a/>! excep/ch
+                (throw
+                 (Exception. (str "body can not be parsed for: "
+                                  state-key)))))
+        (a/>! excep/ch
+              (throw
+               (Exception. (str "no status in header for: "
+                                state-key)))))))
   (recur))

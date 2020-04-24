@@ -56,7 +56,7 @@
   (comp-val \"ref\" \"A.Unit\")
   ;; \"Pa\"
   ;; or:
-  (comp-val \"modbus\" \"Vraw_block1\")
+  (comp-val \"devhub\" \"Vraw_block1\")
   ;; [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]
   ```"
   [mp-id p]
@@ -70,7 +70,7 @@
   The replacements are gathered from the `exchange` interface
   with the keys: `<mp-id>@exchange@<input-map-value>`
 
-  Example key: `modbus@exchange@Vraw_block1`
+  Example key: `devhub@exchange@Vraw_block1`
   Example value: `[
                   1,0,1,0,
                   0,0,0,0,
@@ -88,7 +88,7 @@
                   0,0,1,0
                   ]}` 
   ```clojure
-  (from \"modbus\" {
+  (from \"devhub\" {
                     :%stateblock1 \"Vraw_block1\"
                     :%stateblock2 \"Vraw_block2\"
                     :%stateblock3 \"Vraw_block3\"

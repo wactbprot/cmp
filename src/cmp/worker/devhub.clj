@@ -1,8 +1,7 @@
-(ns cmp.worker.modbus
+(ns cmp.worker.devhub
   ^{:author "wactbprot"
-    :doc "modbus worker."}
-  (:require [clj-http.client :as http]
-            [clojure.core.async :as a]
+    :doc "devhub worker."}
+  (:require [clojure.core.async :as a]
             [cmp.config :as cfg]
             [cmp.excep :as excep]
             [cmp.resp :as resp]
@@ -139,7 +138,7 @@
       task)
     task))
 
-(defn modbus!
+(defn devhub!
   "Param is called `pre-task` because some tasks come with a
   `:PreScript` which has to be executed in order to complete
   the task (sometimes the `:Value` is computed be the
@@ -147,8 +146,8 @@
   
   ```clojure
   
-   (modbus! ((meta (var modbus!)) :example-task)
-            ((meta (var modbus!)) :example-state-key))
+   (devhub! ((meta (var devhub!)) :example-task)
+            ((meta (var devhub!)) :example-state-key))
   ```"
   {:example-state-key "example"
    :example-task 
@@ -158,7 +157,7 @@
     :Action "MODBUS"
     :StructKey "example@container@0@definition@0@1"
     :StateKey "example@container@0@state@0@1"
-    :MpName "modbus"
+    :MpName "devhub"
     :Host "172.30.56.46"
     :FunctionCode "writeSingleRegister"
     :PreInput
@@ -181,9 +180,9 @@
                    :body (u/map->json task))
           url dev-hub-url]
       (timbre/debug "send req to: " url)
-      (a/>!! resp/ctrl-chan [(http/post url req) task state-key]))
+      (a/>!! resp/ctrl-chan [url req task state-key]))
     (let [err-msg (str
                    "failed to build task for: " state-key)]
       (timbre/error err-msg)
       (st/set-val! state-key "error")
-      (a/>!! excep/ch (throw err-msg)))))
+      (a/>!! excep/ch (throw (Exception. err-msg))))))

@@ -6,7 +6,7 @@
             [cmp.st-mem :as st]
             [cmp.worker.wait :refer [wait!]]
             [cmp.worker.select :refer [select-definition!]]
-            [cmp.worker.modbus :refer [modbus!]]
+            [cmp.worker.devhub :refer [devhub!]]
             [cmp.excep :as excep]
             [cmp.task :as tsk]
             [cmp.utils :as u]))
@@ -25,7 +25,7 @@
     (tsk/assemble
      (assoc (tsk/gen-meta-task proto-task)
             :StructKey k
-            :MpName    (st/key->mp-name k)
+            :MpName    (st/key->key-space k)
             :StateKey  (u/replace-key-at-level 3 k "state")))
     (a/>!! excep/ch (throw (Exception. (str "No task at: " k))))))
 
@@ -49,9 +49,12 @@
   (let [action    (keyword (:Action task))]
     (timbre/info "cond for action: " action)
     (condp = action
-      :wait   (wait!              task state-key)
-      :select (select-definition! task state-key)
-      :MODBUS (modbus!            task state-key)
+      :wait    (wait!              task state-key)
+      :select  (select-definition! task state-key)
+      :MODBUS  (devhub!            task state-key)
+      :TCP     (devhub!            task state-key)
+      :VXI11   (devhub!            task state-key)
+      :EXECUTE (devhub!            task state-key)
       (do
         (timbre/error "unknown action: " action)
         (st/set-val! state-key "error")))))

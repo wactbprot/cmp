@@ -32,7 +32,7 @@
   ```
   "
   [k]
-  (let [mp-id (st/key->mp-name k)
+  (let [mp-id (st/key->key-space k)
         m     (st/key->val    k)
         p     (:ExchangePath m)
         a     (str (exch/comp-val mp-id p))
@@ -56,7 +56,7 @@
   ```
   "
   [k]
-  (let [mp-id    (st/key->mp-name k)
+  (let [mp-id    (st/key->key-space k)
         no-idx   (st/key->no-idx k)
         k-pat    (u/vec->key [mp-id "definitions" no-idx "cond@*"])
         cond-ks  (st/pat->keys k-pat)
@@ -73,7 +73,7 @@
   TODO
   
   ```clojure
-  (let [mp-id     (st/key->mp-name state-k)
+  (let [mp-id     (st/key->key-space state-k)
         defs-idx  (st/key->no-idx match-k)
         ctrl-k    (u/vec->key [mp-id \"definitions\" defs-idx \"ctrl\"])])
   ```
@@ -86,7 +86,7 @@
   "          
   [match-k state-k]
   (timbre/debug "start definitions struct " match-k)
-  (let [mp-id     (st/key->mp-name state-k)
+  (let [mp-id     (st/key->key-space state-k)
         defs-idx  (st/key->no-idx match-k)
         ctrl-k    (st/defins-ctrl-path mp-id defs-idx)
         callback  (fn
@@ -123,7 +123,7 @@
   (st/set-val! state-k "working")
   (Thread/sleep mtp)
   (timbre/debug "start with select, already set " state-k " working")
-  (let [mp-id     (st/key->mp-name state-k)
+  (let [mp-id     (st/key->key-space state-k)
         def-cls   (task :DefinitionClass)
         def-pat   (u/vec->key [mp-id "definitions" "*" "class"])
         match-ks  (sort

@@ -15,6 +15,7 @@
             [cmp.check :as chk]
             [cmp.ctrl :as ctrl]
             [cmp.state :as state]
+            [cmp.work :as work]
             [cmp.log :as log]
             [taoensso.timbre :as timbre]))
 
@@ -75,7 +76,7 @@
    mp-names available at short term memory."  
   []
   (run! prn
-        (map st/key->mp-name
+        (map st/key->key-space
              (st/pat->keys "*@meta@name"))))
 
 (defn l-info
@@ -136,8 +137,7 @@
   (see resources directory).
   
   ```clojure
-  (m-build-edn \"resources/mpd-modbus.edn\")
-  ;; (\"OK\" \"OK\" \"OK\")
+  (m-build-edn \"resources/mpd-devhub.edn\")
   ```
   "
   []
@@ -310,12 +310,20 @@
     (filter some?
             (into []
                   (map (fn [k]
-                         (let [name  (u/key-at-level k 1)
+                         (let [name  (st/key->struct k)
                                task  (tsk/assemble (tsk/gen-meta-task name))
                                value (kw task)]
                            (if (and value (or (= value v) (= :all v)))
                              {:stm-key k :Name name kw value} )))
                        (st/key->keys "tasks")))))))
+(defn t-run
+  [name]
+  (-> name
+      tsk/gen-meta-task
+      tsk/assemble
+      (work/dispatch! "core")))
+   
+  
 
 (defn t-build-edn
   "Stores the `task` slurped from the files

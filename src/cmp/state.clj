@@ -20,7 +20,7 @@
 (defn state-key->state-map
   "Converts a key into a `state-map`."
   [k]
-  {:mp-name (st/key->mp-name k)
+  {:mp-name (st/key->key-space k)
    :struct (st/key->struct k)
    :no-idx (st/key->no-idx k)
    :seq-idx (st/key->seq-idx k)
@@ -46,7 +46,7 @@
   ```" 
   [p]
   (sort (st/key->keys
-         (u/vec->key [(st/key->mp-name p)
+         (u/vec->key [(st/key->key-space p)
                       (st/key->struct p)
                       (st/key->no-idx p)
                       "state"]))))
@@ -64,7 +64,7 @@
     ;; \"wait@container@0@ctrl\"
   ```" 
   [k]
-  (u/vec->key [(st/key->mp-name k)
+  (u/vec->key [(st/key->key-space k)
                (st/key->struct k)
                (st/key->no-idx k)
                "ctrl"]))
@@ -273,7 +273,7 @@
   `ctrl-key` or `state-key`).
   Resets the state interface afterwards."
   [k]
-  (st/de-register! (st/key->mp-name k)
+  (st/de-register! (st/key->key-space k)
                    (st/key->struct k)
                    (st/key->no-idx k)
                    "state")
@@ -290,7 +290,7 @@
   `ctrl-key` or `state-key`)."
   [k]
   (let [state-ks (k->state-ks k)]
-    (st/de-register! (st/key->mp-name k)
+    (st/de-register! (st/key->key-space k)
                      (st/key->struct k)
                      (st/key->no-idx k)
                      "state")))
@@ -362,7 +362,7 @@
       (cond
         (errors?       state-m) (error-ctrl!    ctrl-k)
         (all-executed? state-m) (all-exec-ctrl! ctrl-k)
-        (nil?          next-m)  (nil-ctrl!      ctrl-k)
+        (nil?           next-m) (nil-ctrl!      ctrl-k)
         :else (a/go
                 (timbre/debug "request to work/ctrl-chan channel")
                 (a/>! work/ctrl-chan (state-map->definition-key next-m)))))))
@@ -377,7 +377,7 @@
   from the key  `k` (`ctrl-key`)."
   [k]
   (timbre/info "register start-next! callback and start-next!")
-  (st/register!  (st/key->mp-name k)
+  (st/register!  (st/key->key-space k)
                  (st/key->struct k)
                  (st/key->no-idx k)
                  "state"

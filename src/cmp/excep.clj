@@ -9,6 +9,8 @@
 ;;------------------------------
 (def ch (a/chan))
 (a/go-loop []
-  (let [e (a/<! ch)] 
-    (timbre/error (.getMessage e)))
+  (let [e (a/<! ch)]
+    (if (string? e)
+      (timbre/error e)
+      (timbre/error (.getMessage e))))
   (recur))

@@ -42,26 +42,6 @@
          (int? l)] }
   (nth (string/split k re-sep) l ))
 
-(defn key-at-first-level
-  [k]
-  "Returns the value of the key `k` at the level 0"
-  (key-at-level k 0))
-
-(defn key-at-second-level
-  [k]
-  "Returns the value of the key `k` at the level 0"
-  (key-at-level k 1))
-
-(defn key-at-third-level
-  [k]
-  "Returns the value of the key `k` at the level 0"
-  (key-at-level k 2))
-
-(defn key-at-fourth-level
-  [k]
-  "Returns the value of the key `k` at the level 0"
-  (key-at-level k 2))
-
 ;;------------------------------
 ;; date time
 ;;------------------------------

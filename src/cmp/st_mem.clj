@@ -97,40 +97,63 @@
 ;;------------------------------
 ;; key arithmetic
 ;;------------------------------
-(defn key->mp-name
-  "Returns the name of the `mpd` for
-  the given key."
+(defn key->key-space
+  "Returns the name of the key space for
+  the given key.
+
+  May be:
+  * tasks
+  * <mp-id>
+
+  "
   [k]
   {:pre [(string? k)]}
-  ((string/split k u/re-sep) 0))
+  (nth (string/split k u/re-sep) 0 nil))
 
 (defn key->struct
-  "Returns the name of the `structure`
+  "Returns the name of the `struct`ure
+  for the given key.
+
+  May be:
+  * <taskname>
+  * definitions
+  * container
+  "
+  [k]
+  {:pre [(string? k)]}
+  (nth (string/split k u/re-sep) 1 nil))
+
+
+(defn key->no-idx
+  "Returns an integer corresponding to the
+  given key `container` or `definitions` index."
+  [k]
+  {:pre [(string? k)]}
+  (if-let [n (nth (string/split k u/re-sep) 2 nil)]
+    (Integer/parseInt n)))
+
+(defn key->func
+  "Returns the name of the `func`tion
   for the given key."
   [k]
   {:pre [(string? k)]}
-  ((string/split k u/re-sep) 1))
-
-(defn key->no-idx
-  "Returns an integer corresponding to
-  the givens key container index."
-  [k]
-  {:pre [(string? k)]}
-  (Integer/parseInt  ((string/split k u/re-sep) 2)))
+  (nth (string/split k u/re-sep) 3 nil))
 
 (defn key->seq-idx
   "Returns an integer corresponding to
   the givens key sequential index."
   [k]
   {:pre [(string? k)]}
-  (Integer/parseInt  ((string/split k u/re-sep) 4)))
+  (if-let [n (nth (string/split k u/re-sep) 4 nil)]
+    (Integer/parseInt  n)))
 
 (defn key->par-idx
   "Returns an integer corresponding to
   the givens key parallel index."
   [k]
   {:pre [(string? k)]}
-  (Integer/parseInt  ((string/split k u/re-sep) 5)))
+  (if-let [n (nth (string/split k u/re-sep) 5 nil)]
+    (Integer/parseInt  n)))
 
 ;;------------------------------
 ;; exchange
