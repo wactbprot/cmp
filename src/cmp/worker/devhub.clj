@@ -182,8 +182,7 @@
       (timbre/debug "send req to: " url)
       (a/go
         (a/>!! resp/ctrl-chan [(http/post url req) task state-key])))
-    (let [err-msg (str
-                   "failed to build task for: " state-key)]
+    (let [err-msg (str "failed to build task for: " state-key)]
       (timbre/error err-msg)
       (st/set-val! state-key "error")
-      (a/>!! excep/ch (throw (Exception. err-msg))))))
+      (a/>!! excep/ch  err-msg))))

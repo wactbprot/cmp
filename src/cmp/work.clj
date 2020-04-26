@@ -27,7 +27,7 @@
             :StructKey k
             :MpName    (st/key->key-space k)
             :StateKey  (u/replace-key-at-level 3 k "state")))
-    (a/>!! excep/ch (throw (Exception. (str "No task at: " k))))))
+    (a/>!! excep/ch (str "No task at: " k))))
 
 ;;------------------------------
 ;; dispatch 

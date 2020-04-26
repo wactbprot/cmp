@@ -37,9 +37,7 @@
   "
   [body task state-key]
   (if-let [err (:error body)]
-    (a/>!! excep/ch (throw
-                     (Exception.
-                      (str "response: " body " at " state-key))))
+    (a/>!! excep/ch (str "response: " body " at " state-key))
     (let [resp-key (state-key->response-key state-key)
           to-exch  (:ToExchange body)
           results  (:Result body) 
@@ -51,25 +49,25 @@
             res-doc   (doc/store! mp-id results doc-path)]
         (cond
           (:error res-exch) (do
-                              (st/set-val! state-key "error")
-                              (a/>!! excep/ch (throw
-                                               (Exception.
-                                                (str "error on exch/to! at: " state-key)))))
+                              (let [msg (str "error on exch/to! at: " state-key)]
+                                (st/set-val! state-key "error")
+                                (a/>!! excep/ch msg)
+                              {:error msg}))
           (:error res-doc)  (do
-                              (st/set-val! state-key "error")
-                              (a/>!! excep/ch (throw
-                                               (Exception.
-                                                (str "error on doc/store! at: " state-key)))))
+                              (let [msg (str "error on doc/store! at: " state-key)]
+                                (st/set-val! state-key "error")
+                                (a/>!! excep/ch msg)
+                                {:error msg}))
           (and
            (:ok res-exch)     
            (:ok res-doc))   (do
                               (st/set-val! state-key "executed")
-                              (timbre/info "response handeled for: " state-key))
+                              (timbre/info "response handeled for: " state-key)
+                              {:ok true})
           :default          (do
-                              (st/set-val! state-key "error")
-                              (a/>!! excep/ch (throw
-                                               (Exception.
-                                                (str "unexpected behaviour at: " state-key))))))))))
+                              (let [msg (str "unexpected behaviour at: " state-key)]
+                                (st/set-val! state-key "error")
+                                (a/>!! excep/ch msg))))))))
 
 ;;------------------------------
 ;; ctrl channel buffers
@@ -86,18 +84,12 @@
           (if-let [body (u/val->clj  (:body res))]
             (if (< status 400) 
               (dispatch! body task state-key) 
-              (a/>! excep/ch
-                    (throw
-                     (Exception. (str "request for: "
-                                      state-key
-                                      " failed with status: "
-                                      status)))))            
-            (a/>! excep/ch
-                  (throw
-                   (Exception. (str "body can not be parsed for: "
-                                    state-key)))))
-          (a/>! excep/ch
-                (throw
-                 (Exception. (str "no status in header for: "
-                                  state-key))))))
+              (a/>! excep/ch (str "request for: "
+                                  state-key
+                                  " failed with status: "
+                                  status)))            
+            (a/>! excep/ch (str "body can not be parsed for: "
+                                state-key)))
+          (a/>! excep/ch (str "no status in header for: "
+                              state-key))))
   (recur))
