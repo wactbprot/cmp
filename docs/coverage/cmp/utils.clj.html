@@ -23,121 +23,121 @@
                 006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clj-time.coerce&nbsp;:as&nbsp;tm-c]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[io.aviso.ansi&nbsp;:as&nbsp;pretty]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.data.json&nbsp;:as&nbsp;json]))
+                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.data.json&nbsp;:as&nbsp;json]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                009&nbsp;&nbsp;
+                008&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                010&nbsp;&nbsp;(def&nbsp;sep
+                009&nbsp;&nbsp;(def&nbsp;sep
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                011&nbsp;&nbsp;&nbsp;&nbsp;&quot;Short-term-database&nbsp;(st)&nbsp;path&nbsp;seperator.
+                010&nbsp;&nbsp;&nbsp;&nbsp;&quot;Short-term-database&nbsp;(st)&nbsp;path&nbsp;seperator.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                012&nbsp;&nbsp;&nbsp;&nbsp;Must&nbsp;not&nbsp;be&nbsp;a&nbsp;regex&nbsp;operator&nbsp;(like&nbsp;`.`&nbsp;or&nbsp;`|`)&quot;
+                011&nbsp;&nbsp;&nbsp;&nbsp;Must&nbsp;not&nbsp;be&nbsp;a&nbsp;regex&nbsp;operator&nbsp;(like&nbsp;`.`&nbsp;or&nbsp;`|`)&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                013&nbsp;&nbsp;&nbsp;&nbsp;&quot;@&quot;)
+                012&nbsp;&nbsp;&nbsp;&nbsp;&quot;@&quot;)
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                014&nbsp;&nbsp;
+                013&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                015&nbsp;&nbsp;(def&nbsp;re-sep
+                014&nbsp;&nbsp;(def&nbsp;re-sep
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                016&nbsp;&nbsp;&nbsp;&nbsp;&quot;The&nbsp;regex&nbsp;version&nbsp;of&nbsp;the&nbsp;seperator.&quot;
+                015&nbsp;&nbsp;&nbsp;&nbsp;&quot;The&nbsp;regex&nbsp;version&nbsp;of&nbsp;the&nbsp;seperator.&quot;
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;(re-pattern&nbsp;sep))
+                016&nbsp;&nbsp;&nbsp;&nbsp;(re-pattern&nbsp;sep))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                018&nbsp;&nbsp;
+                017&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                019&nbsp;&nbsp;(defn&nbsp;vec-&gt;key
+                018&nbsp;&nbsp;(defn&nbsp;vec-&gt;key
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                020&nbsp;&nbsp;&nbsp;&nbsp;&quot;Joins&nbsp;the&nbsp;vec&nbsp;to&nbsp;a&nbsp;key.&quot;
+                019&nbsp;&nbsp;&nbsp;&nbsp;&quot;Joins&nbsp;the&nbsp;vec&nbsp;to&nbsp;a&nbsp;key.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                021&nbsp;&nbsp;&nbsp;&nbsp;[p]
+                020&nbsp;&nbsp;&nbsp;&nbsp;[p]
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;(string&#x2F;join&nbsp;sep&nbsp;p))
+<span class="covered" title="4 out of 4 forms covered">
+                021&nbsp;&nbsp;&nbsp;&nbsp;(string&#x2F;join&nbsp;sep&nbsp;p))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                023&nbsp;&nbsp;
+                022&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                024&nbsp;&nbsp;(defn&nbsp;replace-key-at-level
+                023&nbsp;&nbsp;(defn&nbsp;replace-key-at-level
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                025&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;a&nbsp;new&nbsp;key&nbsp;by&nbsp;replacing&nbsp;an
+                024&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;a&nbsp;new&nbsp;key&nbsp;by&nbsp;replacing&nbsp;an
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;old&nbsp;key&nbsp;`k`&nbsp;&nbsp;at&nbsp;the&nbsp;given&nbsp;position&nbsp;`l`&nbsp;with&nbsp;the
+                025&nbsp;&nbsp;&nbsp;&nbsp;old&nbsp;key&nbsp;`k`&nbsp;&nbsp;at&nbsp;the&nbsp;given&nbsp;position&nbsp;`l`&nbsp;with&nbsp;the
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;given&nbsp;string&nbsp;`r`.
+                026&nbsp;&nbsp;&nbsp;&nbsp;given&nbsp;string&nbsp;`r`.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                028&nbsp;&nbsp;
+                027&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;REVIEW
+                028&nbsp;&nbsp;&nbsp;&nbsp;REVIEW
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;key&nbsp;levels&nbsp;should&nbsp;have&nbsp;a&nbsp;name&nbsp;or&nbsp;keyword.
+                029&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;key&nbsp;levels&nbsp;should&nbsp;have&nbsp;a&nbsp;name&nbsp;or&nbsp;keyword.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;Passing&nbsp;integers&nbsp;(`l`)&nbsp;is&nbsp;unimaginative.&nbsp;
+                030&nbsp;&nbsp;&nbsp;&nbsp;Passing&nbsp;integers&nbsp;(`l`)&nbsp;is&nbsp;unimaginative.&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                032&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                031&nbsp;&nbsp;&nbsp;&nbsp;&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                033&nbsp;&nbsp;&nbsp;&nbsp;[l&nbsp;k&nbsp;r]
+                032&nbsp;&nbsp;&nbsp;&nbsp;[l&nbsp;k&nbsp;r]
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                034&nbsp;&nbsp;&nbsp;&nbsp;{:pre&nbsp;[(string?&nbsp;k)
+<span class="covered" title="3 out of 3 forms covered">
+                033&nbsp;&nbsp;&nbsp;&nbsp;{:pre&nbsp;[(string?&nbsp;k)
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int?&nbsp;l)
+<span class="covered" title="3 out of 3 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int?&nbsp;l)
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(string?&nbsp;r)]}
+<span class="covered" title="3 out of 3 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(string?&nbsp;r)]}
                 </span><br/>
-<span class="not-covered" title="0 out of 10 forms covered">
-                037&nbsp;&nbsp;&nbsp;&nbsp;(vec-&gt;key&nbsp;(assoc&nbsp;(string&#x2F;split&nbsp;k&nbsp;re-sep)&nbsp;l&nbsp;r)))
+<span class="covered" title="5 out of 5 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[v&nbsp;(string&#x2F;split&nbsp;k&nbsp;re-sep)]
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(&lt;&nbsp;l&nbsp;(count&nbsp;v))
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(vec-&gt;key&nbsp;(assoc&nbsp;v&nbsp;l&nbsp;r)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                038&nbsp;&nbsp;
+                039&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                039&nbsp;&nbsp;(defn&nbsp;key-at-level
+                040&nbsp;&nbsp;(defn&nbsp;key-at-level
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                040&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;key&nbsp;`k`&nbsp;at&nbsp;the&nbsp;level&nbsp;`l`&quot;
+                041&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;key&nbsp;`k`&nbsp;at&nbsp;the&nbsp;level&nbsp;`l`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                041&nbsp;&nbsp;&nbsp;&nbsp;[k&nbsp;l]
+                042&nbsp;&nbsp;&nbsp;&nbsp;[k&nbsp;l]
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                042&nbsp;&nbsp;&nbsp;&nbsp;{:pre&nbsp;[(string?&nbsp;k)
+                043&nbsp;&nbsp;&nbsp;&nbsp;{:pre&nbsp;[(string?&nbsp;k)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int?&nbsp;l)]&nbsp;}
+                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int?&nbsp;l)]&nbsp;}
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                044&nbsp;&nbsp;&nbsp;&nbsp;(nth&nbsp;(string&#x2F;split&nbsp;k&nbsp;re-sep)&nbsp;l&nbsp;))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                045&nbsp;&nbsp;
+<span class="not-covered" title="0 out of 8 forms covered">
+                045&nbsp;&nbsp;&nbsp;&nbsp;(nth&nbsp;(string&#x2F;split&nbsp;k&nbsp;re-sep)&nbsp;l&nbsp;nil))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 046&nbsp;&nbsp;
@@ -454,620 +454,503 @@
 <span class="not-covered" title="0 out of 1 forms covered">
                 150&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m)))
                 </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                151&nbsp;&nbsp;
+<span class="not-tracked" title="0 out of 0 forms covered">
+                151&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                152&nbsp;&nbsp;;;------------------------------
+                152&nbsp;&nbsp;;;&nbsp;doc,&nbsp;json,&nbsp;map
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                153&nbsp;&nbsp;;;&nbsp;output
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                154&nbsp;&nbsp;;;------------------------------
+                153&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                155&nbsp;&nbsp;(defn&nbsp;print-sep
+                154&nbsp;&nbsp;(defn&nbsp;map-&gt;json
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                156&nbsp;&nbsp;&nbsp;&nbsp;[]
+                155&nbsp;&nbsp;&nbsp;&nbsp;&quot;Transforms&nbsp;a&nbsp;hash-map&nbsp;&nbsp;to&nbsp;a&nbsp;json&nbsp;string&quot;
                 </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
-                157&nbsp;&nbsp;&nbsp;&nbsp;(println
+<span class="not-tracked" title="0 out of 0 forms covered">
+                156&nbsp;&nbsp;&nbsp;&nbsp;[m]
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                158&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pretty&#x2F;bold-white&nbsp;&quot;\t&nbsp;----&nbsp;\t\t\t&nbsp;----&quot;)))
+                157&nbsp;&nbsp;&nbsp;&nbsp;(json&#x2F;write-str&nbsp;m))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                159&nbsp;&nbsp;
+                158&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                160&nbsp;&nbsp;(defn&nbsp;print-kv
+                159&nbsp;&nbsp;(defn&nbsp;json-&gt;map
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                161&nbsp;&nbsp;&nbsp;&nbsp;[k&nbsp;v]
+                160&nbsp;&nbsp;&nbsp;&nbsp;&quot;Transforms&nbsp;a&nbsp;json&nbsp;object&nbsp;to&nbsp;a&nbsp;map.&quot;
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                162&nbsp;&nbsp;&nbsp;&nbsp;(println&nbsp;&quot;\t&quot;
+<span class="not-tracked" title="0 out of 0 forms covered">
+                161&nbsp;&nbsp;&nbsp;&nbsp;[j]
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                163&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pretty&#x2F;yellow&nbsp;k)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                164&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pretty&#x2F;bold-white&nbsp;&quot;\t\t\t&nbsp;:&nbsp;\t\t\t&quot;)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                165&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pretty&#x2F;yellow&nbsp;v)))
+<span class="not-covered" title="0 out of 5 forms covered">
+                162&nbsp;&nbsp;&nbsp;&nbsp;(json&#x2F;read-str&nbsp;j&nbsp;:key-fn&nbsp;keyword))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                166&nbsp;&nbsp;
+                163&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                167&nbsp;&nbsp;(defn&nbsp;print-kvv
+                164&nbsp;&nbsp;(defn&nbsp;doc-&gt;safe-doc
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                168&nbsp;&nbsp;&nbsp;&nbsp;[k&nbsp;v0&nbsp;v1]
+                165&nbsp;&nbsp;&nbsp;&nbsp;&quot;Replaces&nbsp;all&nbsp;of&nbsp;the&nbsp;`@`-signs&nbsp;(if&nbsp;followed&nbsp;by&nbsp;letters&nbsp;1)
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                169&nbsp;&nbsp;&nbsp;&nbsp;(println&nbsp;&quot;\t&quot;
+<span class="not-tracked" title="0 out of 0 forms covered">
+                166&nbsp;&nbsp;&nbsp;&nbsp;by&nbsp;a&nbsp;`%`-sign&nbsp;&nbsp;because&nbsp;`:%kw`&nbsp;is&nbsp;a&nbsp;valid&nbsp;keyword&nbsp;but&nbsp;`:@kw`&nbsp;not
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                170&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pretty&#x2F;yellow&nbsp;k)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                171&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pretty&#x2F;bold-white&nbsp;&quot;\t\t\t&nbsp;:&nbsp;\t\t\t&quot;)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                172&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pretty&#x2F;yellow&nbsp;v0)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                173&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pretty&#x2F;bold-white&nbsp;&quot;\t\t\t&nbsp;:&nbsp;\t\t\t&quot;)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                174&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pretty&#x2F;yellow&nbsp;v1)))
+<span class="not-tracked" title="0 out of 0 forms covered">
+                167&nbsp;&nbsp;&nbsp;&nbsp;(or&nbsp;at&nbsp;least&nbsp;problematic).
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                175&nbsp;&nbsp;
+                168&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                169&nbsp;&nbsp;&nbsp;&nbsp;1)&nbsp;There&nbsp;are&nbsp;devices&nbsp;annotating&nbsp;channeles&nbsp;by&nbsp;`(@101:105)`.
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                170&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;should&nbsp;remain&nbsp;as&nbsp;it&nbsp;is.
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                171&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                172&nbsp;&nbsp;&nbsp;&nbsp;[doc]
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                173&nbsp;&nbsp;&nbsp;&nbsp;(json-&gt;map&nbsp;(string&#x2F;replace&nbsp;(json&#x2F;write-str&nbsp;doc)&nbsp;&nbsp;#&quot;@\\[a-zA-Z\\]*&quot;&nbsp;&nbsp;&quot;%&quot;)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                174&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                176&nbsp;&nbsp;(defn&nbsp;print-vec-map
+                175&nbsp;&nbsp;(defn&nbsp;clj-&gt;val
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                177&nbsp;&nbsp;&nbsp;&nbsp;&quot;Pretty&nbsp;prints&nbsp;a&nbsp;vector&nbsp;of&nbsp;maps.&quot;
+                176&nbsp;&nbsp;&nbsp;&nbsp;&quot;Casts&nbsp;the&nbsp;given&nbsp;(complex)&nbsp;value&nbsp;`x`&nbsp;to&nbsp;a&nbsp;writable
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                178&nbsp;&nbsp;&nbsp;&nbsp;[vec]
+                177&nbsp;&nbsp;&nbsp;&nbsp;type.&nbsp;`json`&nbsp;is&nbsp;used&nbsp;for&nbsp;complex&nbsp;data&nbsp;types.
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                179&nbsp;&nbsp;&nbsp;&nbsp;(run!&nbsp;(fn&nbsp;[m]
+<span class="blank" title="0 out of 0 forms covered">
+                178&nbsp;&nbsp;
                 </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
-                180&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(print-sep)
+<span class="not-tracked" title="0 out of 0 forms covered">
+                179&nbsp;&nbsp;&nbsp;&nbsp;Example:
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                181&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(run!&nbsp;(fn&nbsp;[[k&nbsp;v]]
+<span class="not-tracked" title="0 out of 0 forms covered">
+                180&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                181&nbsp;&nbsp;&nbsp;&nbsp;(clj-&gt;val&nbsp;{:foo&nbsp;\&quot;bar\&quot;})
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                182&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;{\&quot;foo\&quot;:\&quot;bar\&quot;}\&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                183&nbsp;&nbsp;&nbsp;&nbsp;(clj-&gt;val&nbsp;[1&nbsp;2&nbsp;3])
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                184&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;[1,2,3]\&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                185&nbsp;&nbsp;&nbsp;&nbsp;```
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                186&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                187&nbsp;&nbsp;&nbsp;&nbsp;[x]
+                </span><br/>
+<span class="not-covered" title="0 out of 17 forms covered">
+                188&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(class&nbsp;x)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                182&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(print-kv&nbsp;k&nbsp;v))
+                189&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clojure.lang.PersistentArrayMap&nbsp;(json&#x2F;write-str&nbsp;x)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                190&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clojure.lang.PersistentVector&nbsp;&nbsp;&nbsp;(json&#x2F;write-str&nbsp;x)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                191&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clojure.lang.PersistentHashMap&nbsp;&nbsp;(json&#x2F;write-str&nbsp;x)
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                183&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m))
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                184&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vec))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                185&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                186&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                187&nbsp;&nbsp;;;&nbsp;doc,&nbsp;json,&nbsp;map
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                188&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                189&nbsp;&nbsp;(defn&nbsp;map-&gt;json
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                190&nbsp;&nbsp;&nbsp;&nbsp;&quot;Transforms&nbsp;a&nbsp;hash-map&nbsp;&nbsp;to&nbsp;a&nbsp;json&nbsp;string&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                191&nbsp;&nbsp;&nbsp;&nbsp;[m]
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                192&nbsp;&nbsp;&nbsp;&nbsp;(json&#x2F;write-str&nbsp;m))
+                192&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 193&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                194&nbsp;&nbsp;(defn&nbsp;json-&gt;map
+                194&nbsp;&nbsp;(defn&nbsp;clj-&gt;str-val
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                195&nbsp;&nbsp;&nbsp;&nbsp;&quot;Transforms&nbsp;a&nbsp;json&nbsp;object&nbsp;to&nbsp;a&nbsp;map.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                196&nbsp;&nbsp;&nbsp;&nbsp;[j]
+                195&nbsp;&nbsp;&nbsp;&nbsp;[x]
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                197&nbsp;&nbsp;&nbsp;&nbsp;(json&#x2F;read-str&nbsp;j&nbsp;:key-fn&nbsp;keyword))
+                196&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;(clj-&gt;val&nbsp;x)&nbsp;))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                198&nbsp;&nbsp;
+                197&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                198&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                199&nbsp;&nbsp;;;&nbsp;pick
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                200&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                199&nbsp;&nbsp;(defn&nbsp;doc-&gt;safe-doc
+                201&nbsp;&nbsp;(defn&nbsp;val-&gt;clj
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                200&nbsp;&nbsp;&nbsp;&nbsp;&quot;Replaces&nbsp;all&nbsp;of&nbsp;the&nbsp;`@`-signs&nbsp;(if&nbsp;followed&nbsp;by&nbsp;letters&nbsp;1)
+                202&nbsp;&nbsp;&nbsp;&nbsp;&quot;Parses&nbsp;value&nbsp;`v`&nbsp;and&nbsp;returns&nbsp;a
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                201&nbsp;&nbsp;&nbsp;&nbsp;by&nbsp;a&nbsp;`%`-sign&nbsp;&nbsp;because&nbsp;`:%kw`&nbsp;is&nbsp;a&nbsp;valid&nbsp;keyword&nbsp;but&nbsp;`:@kw`&nbsp;not
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                202&nbsp;&nbsp;&nbsp;&nbsp;(or&nbsp;at&nbsp;least&nbsp;problematic).
+                203&nbsp;&nbsp;&nbsp;&nbsp;clojure&nbsp;type&nbsp;of&nbsp;it.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                203&nbsp;&nbsp;
+                204&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                204&nbsp;&nbsp;&nbsp;&nbsp;1)&nbsp;There&nbsp;are&nbsp;devices&nbsp;annotating&nbsp;channeles&nbsp;by&nbsp;`(@101:105)`.
+                205&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                205&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;should&nbsp;remain&nbsp;as&nbsp;it&nbsp;is.
+                206&nbsp;&nbsp;&nbsp;&nbsp;(val-&gt;clj&nbsp;\&quot;-1e-9\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                206&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                207&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;-1.0E-9
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                207&nbsp;&nbsp;&nbsp;&nbsp;[doc]
-                </span><br/>
-<span class="not-covered" title="0 out of 11 forms covered">
-                208&nbsp;&nbsp;&nbsp;&nbsp;(json-&gt;map&nbsp;(string&#x2F;replace&nbsp;(json&#x2F;write-str&nbsp;doc)&nbsp;&nbsp;(re-pattern&nbsp;&quot;@\\[a-zA-Z\\]*&quot;)&nbsp;&quot;%&quot;)))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                209&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                210&nbsp;&nbsp;(defn&nbsp;clj-&gt;val
+                208&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;class:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                211&nbsp;&nbsp;&nbsp;&nbsp;&quot;Casts&nbsp;the&nbsp;given&nbsp;(complex)&nbsp;value&nbsp;`x`&nbsp;to&nbsp;a&nbsp;writable
+                209&nbsp;&nbsp;&nbsp;&nbsp;;;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                212&nbsp;&nbsp;&nbsp;&nbsp;type.&nbsp;`json`&nbsp;is&nbsp;used&nbsp;for&nbsp;complex&nbsp;data&nbsp;types.
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                213&nbsp;&nbsp;
+                210&nbsp;&nbsp;&nbsp;&nbsp;(class&nbsp;(val-&gt;clj&nbsp;\&quot;1.23\&quot;))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                214&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                211&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;java.lang.Double
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                215&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clj-&gt;val&nbsp;{:foo&nbsp;\&quot;bar\&quot;})
+                212&nbsp;&nbsp;&nbsp;&nbsp;(class&nbsp;(val-&gt;clj&nbsp;\&quot;a\&quot;))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                216&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;{\&quot;foo\&quot;:\&quot;bar\&quot;}\&quot;
+                213&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;java.lang.String
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                217&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clj-&gt;val&nbsp;[1&nbsp;2&nbsp;3])
+                214&nbsp;&nbsp;&nbsp;&nbsp;(class&nbsp;(val-&gt;clj&nbsp;\&quot;[]\&quot;))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                218&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;[1,2,3]\&quot;
+                215&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;clojure.lang.PersistentVector
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                219&nbsp;&nbsp;&nbsp;&nbsp;```
+                216&nbsp;&nbsp;&nbsp;&nbsp;(class&nbsp;(val-&gt;clj&nbsp;\&quot;{}\&quot;))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                220&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                217&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;clojure.lang.PersistentArrayMap
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                221&nbsp;&nbsp;&nbsp;&nbsp;[x]
-                </span><br/>
-<span class="not-covered" title="0 out of 17 forms covered">
-                222&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(class&nbsp;x)
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                223&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clojure.lang.PersistentArrayMap&nbsp;(json&#x2F;write-str&nbsp;x)
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                224&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clojure.lang.PersistentVector&nbsp;&nbsp;&nbsp;(json&#x2F;write-str&nbsp;x)
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                225&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clojure.lang.PersistentHashMap&nbsp;&nbsp;(json&#x2F;write-str&nbsp;x)
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                226&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                227&nbsp;&nbsp;
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                228&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                229&nbsp;&nbsp;(defn&nbsp;make-replacable
+                218&nbsp;&nbsp;&nbsp;&nbsp;(class&nbsp;(val-&gt;clj&nbsp;\&quot;{\&quot;a\&quot;:1}\&quot;))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                230&nbsp;&nbsp;&nbsp;&nbsp;[x]
+                219&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;clojure.lang.PersistentArrayMap
                 </span><br/>
-<span class="not-covered" title="0 out of 17 forms covered">
-                231&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(class&nbsp;x)
+<span class="not-tracked" title="0 out of 0 forms covered">
+                220&nbsp;&nbsp;&nbsp;&nbsp;```
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                232&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clojure.lang.PersistentArrayMap&nbsp;(json&#x2F;write-str&nbsp;x)
+<span class="not-tracked" title="0 out of 0 forms covered">
+                221&nbsp;&nbsp;&nbsp;&nbsp;&quot;
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                233&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clojure.lang.PersistentVector&nbsp;&nbsp;&nbsp;(json&#x2F;write-str&nbsp;x)
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                234&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clojure.lang.PersistentHashMap&nbsp;&nbsp;(json&#x2F;write-str&nbsp;x)
+<span class="not-tracked" title="0 out of 0 forms covered">
+                222&nbsp;&nbsp;&nbsp;&nbsp;[v]
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                235&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;x)))
+                223&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[s-pat&nbsp;#&quot;^-?\d+\.?\d*([Ee]\+\d+|[Ee]-\d+|[Ee]\d+)?$&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                224&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c-pat&nbsp;#&quot;^[\[\{]&quot;]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                225&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                226&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nil?&nbsp;v)&nbsp;nil
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                227&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(re-find&nbsp;s-pat&nbsp;v)&nbsp;(read-string&nbsp;v)
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                228&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(re-find&nbsp;c-pat&nbsp;v)&nbsp;(json-&gt;map&nbsp;v)
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                229&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:else&nbsp;v)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                230&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                231&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                232&nbsp;&nbsp;;;&nbsp;ctrl&nbsp;endpoint&nbsp;-&gt;&nbsp;poll&nbsp;and&nbsp;run
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                233&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                234&nbsp;&nbsp;(defn&nbsp;get-next-ctrl
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                235&nbsp;&nbsp;&nbsp;&nbsp;&quot;Extracts&nbsp;next&nbsp;command.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 236&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                237&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                238&nbsp;&nbsp;;;&nbsp;pick
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                239&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                240&nbsp;&nbsp;(defn&nbsp;val-&gt;clj
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                241&nbsp;&nbsp;&nbsp;&nbsp;&quot;Parses&nbsp;value&nbsp;`v`&nbsp;and&nbsp;returns&nbsp;a
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                242&nbsp;&nbsp;&nbsp;&nbsp;clojure&nbsp;type&nbsp;of&nbsp;it.
+                237&nbsp;&nbsp;&nbsp;&nbsp;#TODO:&nbsp;&nbsp;Enable&nbsp;kind&nbsp;of&nbsp;programming&nbsp;like&nbsp;provided&nbsp;in&nbsp;ssmp:
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                243&nbsp;&nbsp;
+                238&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                244&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                239&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`load;run;stop`&nbsp;--&gt;&nbsp;`[load,&nbsp;run,&nbsp;stop]`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                245&nbsp;&nbsp;&nbsp;&nbsp;(val-&gt;clj&nbsp;\&quot;-1e-9\&quot;)
+                240&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`load;2:run,stop`&nbsp;--&gt;&nbsp;&nbsp;`[load,&nbsp;run,&nbsp;stop,&nbsp;run,&nbsp;stop]`&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                246&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;-1.0E-9
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                247&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;class:
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                248&nbsp;&nbsp;&nbsp;&nbsp;;;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                249&nbsp;&nbsp;&nbsp;&nbsp;(class&nbsp;(val-&gt;clj&nbsp;\&quot;1.23\&quot;))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                250&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;java.lang.Double
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                251&nbsp;&nbsp;&nbsp;&nbsp;(class&nbsp;(val-&gt;clj&nbsp;\&quot;a\&quot;))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                252&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;java.lang.String
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                253&nbsp;&nbsp;&nbsp;&nbsp;(class&nbsp;(val-&gt;clj&nbsp;\&quot;[]\&quot;))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                254&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;clojure.lang.PersistentVector
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                255&nbsp;&nbsp;&nbsp;&nbsp;(class&nbsp;(val-&gt;clj&nbsp;\&quot;{}\&quot;))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                256&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;clojure.lang.PersistentArrayMap
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                257&nbsp;&nbsp;&nbsp;&nbsp;(class&nbsp;(val-&gt;clj&nbsp;\&quot;{\&quot;a\&quot;:1}\&quot;))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                258&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;clojure.lang.PersistentArrayMap
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                259&nbsp;&nbsp;&nbsp;&nbsp;```
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                260&nbsp;&nbsp;&nbsp;&nbsp;&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                261&nbsp;&nbsp;&nbsp;&nbsp;[v]
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                262&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[s-pat&nbsp;#&quot;^-?\d+\.?\d*([Ee]\+\d+|[Ee]-\d+|[Ee]\d+)?$&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                263&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c-pat&nbsp;#&quot;^[\[\{]&quot;]
+                241&nbsp;&nbsp;&nbsp;&nbsp;[s]
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                264&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
+                242&nbsp;&nbsp;&nbsp;&nbsp;(cond
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                265&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nil?&nbsp;v)&nbsp;nil
+                243&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nil?&nbsp;s)&nbsp;:stop
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                266&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(re-find&nbsp;s-pat&nbsp;v)&nbsp;(read-string&nbsp;v)
-                </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                267&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(re-find&nbsp;c-pat&nbsp;v)&nbsp;(json-&gt;map&nbsp;v)
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                268&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:else&nbsp;v)))
+<span class="not-covered" title="0 out of 6 forms covered">
+                244&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:default&nbsp;(first&nbsp;(string&#x2F;split&nbsp;s&nbsp;#&quot;,&quot;))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                269&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                270&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                271&nbsp;&nbsp;;;&nbsp;ctrl&nbsp;endpoint&nbsp;-&gt;&nbsp;poll&nbsp;and&nbsp;run
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                272&nbsp;&nbsp;;;------------------------------
+                245&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                273&nbsp;&nbsp;(defn&nbsp;get-next-ctrl
+                246&nbsp;&nbsp;(defn&nbsp;val-&gt;vec
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                274&nbsp;&nbsp;&nbsp;&nbsp;&quot;Extracts&nbsp;next&nbsp;command.
+                247&nbsp;&nbsp;&nbsp;&nbsp;&quot;Ensures&nbsp;that&nbsp;`v`&nbsp;is&nbsp;a&nbsp;vector.
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                248&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                249&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                250&nbsp;&nbsp;&nbsp;&nbsp;(val-&gt;vec&nbsp;nil)&nbsp;;!
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                251&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;nil
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                252&nbsp;&nbsp;&nbsp;&nbsp;(val-&gt;vec&nbsp;1)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                253&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;[1]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                254&nbsp;&nbsp;&nbsp;&nbsp;(val-&gt;vec&nbsp;[1])
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                255&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;[1]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                256&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                257&nbsp;&nbsp;&nbsp;&nbsp;[v]
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                258&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;v
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                259&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(vector?&nbsp;v)
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                260&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                261&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[v])))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                262&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                263&nbsp;&nbsp;(defn&nbsp;vector-if
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                264&nbsp;&nbsp;&nbsp;&nbsp;&quot;Makes&nbsp;the&nbsp;value&nbsp;`v`&nbsp;behind&nbsp;the&nbsp;keyword&nbsp;`kw`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                265&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;vector&nbsp;if&nbsp;`v`&nbsp;is&nbsp;not&nbsp;nil.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                266&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;kw]
+                </span><br/>
+<span class="covered" title="11 out of 11 forms covered">
+                267&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(map?&nbsp;m)&nbsp;(keyword?&nbsp;kw))
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                268&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[v&nbsp;(kw&nbsp;m)]
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                269&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;m&nbsp;kw&nbsp;(val-&gt;vec&nbsp;v))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                270&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                271&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                272&nbsp;&nbsp;(defn&nbsp;replace-if
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                273&nbsp;&nbsp;&nbsp;&nbsp;&quot;Replaces&nbsp;`v`alue&nbsp;of&nbsp;`k`ey&nbsp;in&nbsp;struct
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                274&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;`v`is&nbsp;not&nbsp;`nil`.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 275&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                276&nbsp;&nbsp;&nbsp;&nbsp;#TODO:&nbsp;&nbsp;Enable&nbsp;kind&nbsp;of&nbsp;programming&nbsp;like&nbsp;provided&nbsp;in&nbsp;ssmp:
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                277&nbsp;&nbsp;
+                276&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                278&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`load;run;stop`&nbsp;--&gt;&nbsp;`[load,&nbsp;run,&nbsp;stop]`
+                277&nbsp;&nbsp;&nbsp;&nbsp;(replace-if&nbsp;{:Type&nbsp;\&quot;a\&quot;}&nbsp;:Type&nbsp;\&quot;b\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                279&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`load;2:run,stop`&nbsp;--&gt;&nbsp;&nbsp;`[load,&nbsp;run,&nbsp;stop,&nbsp;run,&nbsp;stop]`&quot;
+                278&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:Type&nbsp;\&quot;b\&quot;}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                280&nbsp;&nbsp;&nbsp;&nbsp;[s]
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                281&nbsp;&nbsp;&nbsp;&nbsp;(cond
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                282&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nil?&nbsp;s)&nbsp;:stop
-                </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
-                283&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:default&nbsp;(first&nbsp;(string&#x2F;split&nbsp;s&nbsp;#&quot;,&quot;))))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                284&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                285&nbsp;&nbsp;(defn&nbsp;val-&gt;vec
+                279&nbsp;&nbsp;&nbsp;&nbsp;```
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                286&nbsp;&nbsp;&nbsp;&nbsp;&quot;Ensures&nbsp;that&nbsp;`v`&nbsp;is&nbsp;a&nbsp;vector.
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                287&nbsp;&nbsp;
+                280&nbsp;&nbsp;&nbsp;&nbsp;&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                288&nbsp;&nbsp;&nbsp;&nbsp;```clojure
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                289&nbsp;&nbsp;&nbsp;&nbsp;(val-&gt;vec&nbsp;nil)&nbsp;;!
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                290&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;nil
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                291&nbsp;&nbsp;&nbsp;&nbsp;(val-&gt;vec&nbsp;1)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                292&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;[1]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                293&nbsp;&nbsp;&nbsp;&nbsp;(val-&gt;vec&nbsp;[1])
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                294&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;[1]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                295&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                296&nbsp;&nbsp;&nbsp;&nbsp;[v]
-                </span><br/>
-<span class="covered" title="2 out of 2 forms covered">
-                297&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;v
-                </span><br/>
-<span class="covered" title="4 out of 4 forms covered">
-                298&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(vector?&nbsp;v)
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                299&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v
-                </span><br/>
-<span class="covered" title="2 out of 2 forms covered">
-                300&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[v])))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                301&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                302&nbsp;&nbsp;(defn&nbsp;vector-if
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                303&nbsp;&nbsp;&nbsp;&nbsp;&quot;Makes&nbsp;the&nbsp;value&nbsp;`v`&nbsp;behind&nbsp;the&nbsp;keyword&nbsp;`kw`
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                304&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;vector&nbsp;if&nbsp;`v`&nbsp;is&nbsp;not&nbsp;nil.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                305&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;kw]
+                281&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;k&nbsp;v]
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                306&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(map?&nbsp;m)&nbsp;(keyword?&nbsp;kw))
-                </span><br/>
-<span class="covered" title="8 out of 8 forms covered">
-                307&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[v&nbsp;(kw&nbsp;m)]
-                </span><br/>
-<span class="covered" title="7 out of 7 forms covered">
-                308&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;m&nbsp;kw&nbsp;(val-&gt;vec&nbsp;v))
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                309&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m)))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                310&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                311&nbsp;&nbsp;(defn&nbsp;replace-if
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                312&nbsp;&nbsp;&nbsp;&nbsp;&quot;Replaces&nbsp;`v`alue&nbsp;of&nbsp;`k`ey&nbsp;in&nbsp;struct
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                313&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;`v`is&nbsp;not&nbsp;`nil`.
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                314&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                315&nbsp;&nbsp;&nbsp;&nbsp;```clojure
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                316&nbsp;&nbsp;&nbsp;&nbsp;(replace-if&nbsp;{:Type&nbsp;\&quot;a\&quot;}&nbsp;:Type&nbsp;\&quot;b\&quot;)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                317&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:Type&nbsp;\&quot;b\&quot;}
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                318&nbsp;&nbsp;&nbsp;&nbsp;```
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                319&nbsp;&nbsp;&nbsp;&nbsp;&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                320&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;k&nbsp;v]
-                </span><br/>
-<span class="covered" title="11 out of 11 forms covered">
-                321&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(some?&nbsp;v)&nbsp;(keyword?&nbsp;k))
+                282&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(some?&nbsp;v)&nbsp;(keyword?&nbsp;k))
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                322&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;m&nbsp;k&nbsp;v)
+                283&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;m&nbsp;k&nbsp;v)
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                323&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m))
+                284&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                324&nbsp;&nbsp;
+                285&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                325&nbsp;&nbsp;(defn&nbsp;append-if
+                286&nbsp;&nbsp;(defn&nbsp;append-if
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                326&nbsp;&nbsp;&nbsp;&nbsp;&quot;Appends&nbsp;`v`&nbsp;to&nbsp;the&nbsp;value&nbsp;of&nbsp;`k`.
+                287&nbsp;&nbsp;&nbsp;&nbsp;&quot;Appends&nbsp;`v`&nbsp;to&nbsp;the&nbsp;value&nbsp;of&nbsp;`k`.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                327&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;`k`&nbsp;does&nbsp;not&nbsp;exist&nbsp;in&nbsp;`m`,&nbsp;`k&nbsp;[v]`&nbsp;is&nbsp;assoced.
+                288&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;`k`&nbsp;does&nbsp;not&nbsp;exist&nbsp;in&nbsp;`m`,&nbsp;`k&nbsp;[v]`&nbsp;is&nbsp;assoced.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                328&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;`k`&nbsp;does&nbsp;exist&nbsp;in&nbsp;`m`,&nbsp;`v`&nbsp;is&nbsp;conjed.
+                289&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;`k`&nbsp;does&nbsp;exist&nbsp;in&nbsp;`m`,&nbsp;`v`&nbsp;is&nbsp;conjed.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                329&nbsp;&nbsp;&nbsp;&nbsp;
+                290&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                330&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                291&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                331&nbsp;&nbsp;&nbsp;&nbsp;(append-if&nbsp;{:Value&nbsp;[1&nbsp;2&nbsp;3]}&nbsp;:Value&nbsp;4)
+                292&nbsp;&nbsp;&nbsp;&nbsp;(append-if&nbsp;{:Value&nbsp;[1&nbsp;2&nbsp;3]}&nbsp;:Value&nbsp;4)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                332&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:Value&nbsp;[1&nbsp;2&nbsp;3&nbsp;4]}
+                293&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:Value&nbsp;[1&nbsp;2&nbsp;3&nbsp;4]}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                333&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                294&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                334&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;k&nbsp;v]
+                295&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;k&nbsp;v]
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                335&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(some?&nbsp;v)&nbsp;(keyword?&nbsp;k))
+                296&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(some?&nbsp;v)&nbsp;(keyword?&nbsp;k))
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                336&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[new-v&nbsp;(val-&gt;vec&nbsp;v)]
+                297&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[new-v&nbsp;(val-&gt;vec&nbsp;v)]
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                337&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[old-v&nbsp;(k&nbsp;m)]
+                298&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[old-v&nbsp;(k&nbsp;m)]
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                338&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;m&nbsp;k&nbsp;(into&nbsp;[]&nbsp;(concat&nbsp;old-v&nbsp;new-v)))
+                299&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;m&nbsp;k&nbsp;(into&nbsp;[]&nbsp;(concat&nbsp;old-v&nbsp;new-v)))
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                339&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;m&nbsp;k&nbsp;new-v)))
+                300&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;m&nbsp;k&nbsp;new-v)))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                340&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m))
+                301&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                341&nbsp;&nbsp;
+                302&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                342&nbsp;&nbsp;(defn&nbsp;path-&gt;kw-vec
+                303&nbsp;&nbsp;(defn&nbsp;path-&gt;kw-vec
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                343&nbsp;&nbsp;&nbsp;&nbsp;&quot;Turns&nbsp;the&nbsp;path&nbsp;into&nbsp;a&nbsp;vector&nbsp;of
+                304&nbsp;&nbsp;&nbsp;&nbsp;&quot;Turns&nbsp;the&nbsp;path&nbsp;into&nbsp;a&nbsp;vector&nbsp;of
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                344&nbsp;&nbsp;&nbsp;&nbsp;keywords.
+                305&nbsp;&nbsp;&nbsp;&nbsp;keywords.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                345&nbsp;&nbsp;
+                306&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                346&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                307&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                347&nbsp;&nbsp;&nbsp;&nbsp;(path-&gt;kw-vec&nbsp;\&quot;a.b.c\&quot;)
+                308&nbsp;&nbsp;&nbsp;&nbsp;(path-&gt;kw-vec&nbsp;\&quot;a.b.c\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                348&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;[:a&nbsp;:b&nbsp;:c]
+                309&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;[:a&nbsp;:b&nbsp;:c]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                349&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                310&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                350&nbsp;&nbsp;&nbsp;&nbsp;[s]
+                311&nbsp;&nbsp;&nbsp;&nbsp;[s]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                351&nbsp;&nbsp;&nbsp;&nbsp;{:pre&nbsp;[(string?&nbsp;s)]}
+                312&nbsp;&nbsp;&nbsp;&nbsp;{:pre&nbsp;[(string?&nbsp;s)]}
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                352&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;[]
+                313&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;[]
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                353&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map
+                314&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                354&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keyword
+                315&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keyword
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                355&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(string&#x2F;split&nbsp;s&nbsp;(re-pattern&nbsp;&quot;\\.&quot;)))))
+                316&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(string&#x2F;split&nbsp;s&nbsp;(re-pattern&nbsp;&quot;\\.&quot;)))))
                 </span><br/>
  </body>
 </html>
