@@ -15,7 +15,11 @@
 (defn set-val!
   "Sets the value `v` for the key `k`."
   [k v]
-  (wcar conn (car/set k (u/clj->val v))))
+  (if k
+    (if v
+      (wcar conn (car/set k (u/clj->val v)))
+      (timbre/warn "no value given"))
+    (timbre/warn "no key given")))
 
 (defn set-same-val!
   "Sets the given values (`val`) for all keys (`ks`)."
