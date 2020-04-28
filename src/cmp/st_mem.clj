@@ -98,6 +98,19 @@
    (fn [k] (= x (key->val k)))
    (pat->keys pat)))
 
+
+(defn state-key->response-key
+  "Turns the given `state-key` into a
+  `response-key`.
+
+  ```clojure
+  (state-key->response-key \"devs@container@0@state@0@0\")
+  ;; devs@container@0@response@0@0
+  ```
+  "
+  [state-key]
+  (u/replace-key-at-level 3 state-key "response"))
+
 ;;------------------------------
 ;; key arithmetic
 ;;------------------------------

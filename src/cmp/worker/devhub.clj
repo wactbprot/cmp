@@ -156,7 +156,6 @@
     :TaskName "VS_NEW_SE3-set_valve_pos"
     :Comment "Setzt die Ventilposition."
     :Action "MODBUS"
-    :StructKey "example@container@0@definition@0@1"
     :StateKey "example@container@0@state@0@1"
     :MpName "devhub"
     :Host "172.30.56.46"

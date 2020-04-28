@@ -24,7 +24,6 @@
   (if-let [proto-task (st/key->val k)]
     (tsk/assemble
      (assoc (tsk/gen-meta-task proto-task)
-            :StructKey k
             :MpName    (st/key->key-space k)
             :StateKey  (u/replace-key-at-level 3 k "state")))
     (a/>!! excep/ch (str "No task at: " k))))
@@ -46,7 +45,7 @@
   ;; ERROR [cmp.work:52] - unknown action:  :foo
   ```"  
   [task state-key]
-  (let [action    (keyword (:Action task))]
+  (let [action (keyword (:Action task))]
     (timbre/info "cond for action: " action)
     (condp = action
       :wait    (wait!              task state-key)

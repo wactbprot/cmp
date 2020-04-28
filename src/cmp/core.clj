@@ -48,26 +48,11 @@
   
   ```clojure
   (workon! 'se3-calib')
-  (->mp-id)
+  @current-mp-id
   ```
   "
   [mp-id]
   (reset! current-mp-id mp-id))
-
-(defn ->mp-id
-  "Returns the mpd-id set with workon!.
-  
-  Example:
-  ```clojure
-  (workon! 'se3-calib')
-  (->mp-id)
-  ```"
-  []
-  (if-let [mp-id (deref current-mp-id)]
-    mp-id
-    (throw
-     (Exception.
-      "No mp-id set.\n\n\nUse the function (workon! <mp-id>)"))))
 
 ;;------------------------------
 ;; info
@@ -94,7 +79,7 @@
   "Returns the  **c**ontainer status.
   Returns the state map for the `i` container."
   ([i]
-   (c-status (->mp-id) i))
+   (c-status @current-mp-id i))
   ([mp-id i]
    (pp/print-table (state/cont-status mp-id i))))
 
@@ -103,7 +88,7 @@
   Returns the `state map` for the `i`
   definitions structure."
   ([i]
-   (n-status (->mp-id) i))
+   (n-status @current-mp-id i))
   ([mp-id i]
    (pp/print-table (state/defins-status mp-id i))))
 
@@ -124,7 +109,7 @@
   (m-build)
   ```"
   ([]
-   (m-build (->mp-id)))
+   (m-build @current-mp-id))
   ([mp-id]
    (timbre/info "build " mp-id)
    (->> mp-id
@@ -156,21 +141,21 @@
 (defn d-add
   "Adds a doc to the api to store the resuls in."
   ([doc-id]
-   (d-add (->mp-id) doc-id))
+   (d-add @current-mp-id doc-id))
   ([mp-id doc-id]
    (doc/add mp-id doc-id)))
 
 (defn d-rm
   "Removes a doc from the api."
   ([doc-id]
-   (d-rm (->mp-id) doc-id))
+   (d-rm @current-mp-id doc-id))
   ([mp-id doc-id]
    (doc/rm mp-id doc-id)))
 
 (defn d-ids
   "Gets a list of ids added."
   ([]
-   (d-ids (->mp-id)))
+   (d-ids @current-mp-id))
   ([mp-id]
    (doc/ids mp-id)))
 
@@ -187,7 +172,7 @@
   the tasks, they are loaded from the `lt-mem`
   during runtime."
   ([]
-   (check (->mp-id)))
+   (check @current-mp-id))
   ([mp-id]
    (let [p         (u/main-path mp-id)
          k-ncont   (st/meta-ncont-path p)
@@ -210,7 +195,7 @@
   "Registers a listener for the `ctrl`
   interface of a `mp-id` (see [[workon!]])."
   ([]
-   (m-start (->mp-id)))
+   (m-start @current-mp-id))
   ([mp-id]
    (ctrl/start mp-id)))
 
@@ -221,7 +206,7 @@
   "De-registers the listener for the `ctrl`
   interface of the given `mp-id` (see [[workon!]])."
   ([]
-   (m-stop (->mp-id)))
+   (m-stop @current-mp-id))
   ([mp-id]
    (ctrl/stop mp-id)))
 
@@ -237,11 +222,11 @@
   * `\"mon\"`
   * `\"suspend\"`
 
-  The `mp-id` is received over `(->mp-id)`.
+  The `mp-id` is received over `@current-mp-id`.
   **NOTE:** The `definitions` struct should not
   be started by user (see [[workon!]])."
   ([i cmd]
-   (set-ctrl (->mp-id) i cmd))
+   (set-ctrl @current-mp-id i cmd))
   ([mp-id i cmd]
    (st/set-val! (st/cont-ctrl-path  mp-id i) cmd)))
 
@@ -249,14 +234,14 @@
   "Shortcut to push a `run` to the control
   interface of  mp container `i`."
   [i]
-  (set-ctrl (->mp-id) i "run"))
+  (set-ctrl @current-mp-id i "run"))
 
 
 (defn c-stop
   "Shortcut to push a `stop` to the control
   interface of  mp container `i`."
   [i]
-  (set-ctrl (->mp-id) i "stop"))
+  (set-ctrl @current-mp-id i "stop"))
 
 (defn c-reset
   "Shortcut to push a `reset` to the control
@@ -266,7 +251,7 @@
   **reset is a container restart**
   "
   [i]
-  (set-ctrl (->mp-id) i "reset"))
+  (set-ctrl @current-mp-id i "reset"))
 
 (defn c-suspend
   "Shortcut to push a `suspend` to the control
@@ -275,7 +260,7 @@
   as it is.
   "
   [i]
-  (set-ctrl (->mp-id) i "suspend"))
+  (set-ctrl @current-mp-id i "suspend"))
 
 ;;------------------------------
 ;; tasks
@@ -318,11 +303,39 @@
                              {:stm-key k :Name name kw value} )))
                        (st/key->keys "tasks")))))))
 (defn t-run
-  [name]
-  (-> name
-      tsk/gen-meta-task
-      tsk/assemble
-      (work/dispatch! "core")))
+  "Runs the task with the given name (from stm).
+  If only the name is provided, results are stored
+  under  `core@container@0@response@0@0`. If
+  `mp-id`, `i`, `j` and  `k` is given, the results are
+  written to  `<mp-id@container@<i>@response@<j>@<k>`.
+
+  Example:
+  ```clojure
+  (t-run \"DKM_PPC4_DMM-read_temp\")
+  ;;
+  ;; results are stored by default at
+  ;; core@container@0@response@0@0
+  ;;
+  (st/key->val \"core@container@0@response@0@0\")
+  ;;
+  ;; {:t_start 1588071759882,
+  ;; :t_stop 1588071768996,
+  ;; :Result
+  ;; [{:Type dkmppc4,
+  ;;  :Value 24.297828639,
+  ;;  :Unit C,
+  ;;  :SdValue 0.0013625169107,
+  ;;  :N 10}]}
+  ```  
+  "
+  ([name]
+   (t-run name "core" 0 0 0))
+   ([name mp-id i j k]
+    (let [state-key (st/cont-state-path mp-id i j k)
+          meta-task (assoc (tsk/gen-meta-task name)
+                           :MpName mp-id
+                           :StateKey state-key)]
+      (work/dispatch! (tsk/assemble meta-task) state-key))))
    
   
 
@@ -381,7 +394,7 @@
   
   ```"
   ([]
-   (m-clear (->mp-id)))
+   (m-clear @current-mp-id))
   ([mp-id]
    (m-stop mp-id)
    (st/clear mp-id)))
