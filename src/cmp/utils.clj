@@ -33,14 +33,16 @@
   {:pre [(string? k)
          (int? l)
          (string? r)]}
-  (vec->key (assoc (string/split k re-sep) l r)))
+  (let [v (string/split k re-sep)]
+    (if (< l (count v))
+      (vec->key (assoc v l r)))))
 
 (defn key-at-level
   "Returns the value of the key `k` at the level `l`."
   [k l]
   {:pre [(string? k)
          (int? l)] }
-  (nth (string/split k re-sep) l ))
+  (nth (string/split k re-sep) l nil))
 
 ;;------------------------------
 ;; date time

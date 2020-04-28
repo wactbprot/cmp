@@ -1,7 +1,8 @@
 (ns cmp.worker.devhub
   ^{:author "wactbprot"
     :doc "devhub worker."}
-  (:require [clojure.core.async :as a]
+  (:require [clj-http.client :as http]
+            [clojure.core.async :as a]
             [cmp.config :as cfg]
             [cmp.excep :as excep]
             [cmp.resp :as resp]
@@ -176,13 +177,12 @@
   (st/set-val! state-key "working")
   (Thread/sleep mtp)
   (if-let [task (resolve-pre-script pre-task state-key)]
-    (let [req (assoc post-header
-                   :body (u/map->json task))
+    (let [req (assoc post-header :body (u/map->json task))
           url dev-hub-url]
       (timbre/debug "send req to: " url)
-      (a/>!! resp/ctrl-chan [url req task state-key]))
-    (let [err-msg (str
-                   "failed to build task for: " state-key)]
+      (a/go
+        (a/>!! resp/ctrl-chan [(http/post url req) task state-key])))
+    (let [err-msg (str "failed to build task for: " state-key)]
       (timbre/error err-msg)
       (st/set-val! state-key "error")
-      (a/>!! excep/ch (throw (Exception. err-msg))))))
+      (a/>!! excep/ch  err-msg))))

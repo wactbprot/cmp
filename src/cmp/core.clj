@@ -65,8 +65,9 @@
   []
   (if-let [mp-id (deref current-mp-id)]
     mp-id
-    (throw (Exception. "No mp-id set.\n\n\nUse the function (workon! <mp-id>)"))))
-
+    (throw
+     (Exception.
+      "No mp-id set.\n\n\nUse the function (workon! <mp-id>)"))))
 
 ;;------------------------------
 ;; info

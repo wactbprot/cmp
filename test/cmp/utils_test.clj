@@ -24,12 +24,13 @@
     (is (= v1 (path->kw-vec p1)) 
         "Translates path to keyword vector.")))
 
-(deftest val->vec-i
-  (testing "Values are transformed to vector (i)"
-    (is (nil? (val->vec nil)) 
-        "nil remains nil.")
-    (is (= [1] (val->vec 1)) 
-        "1 becomes [1].")
-    (is (= [1] (val->vec [1])) 
-        "[1] remains [1].")))
+(deftest replace-key-at-level-i
+  (testing "Substitude parts in key (i)"
+    (is (= "aaa" (replace-key-at-level 0 "kkk" "aaa")) 
+        "basic functionality l 0")
+    (is (= "kkk@aaa" (replace-key-at-level 1 "kkk@kkk" "aaa")) 
+        "basic functionality l 1")
+    (is (nil? (replace-key-at-level 10 "kkk@kkk" "aaa")) 
+        "return nil if l > count split of key")))
+
 
