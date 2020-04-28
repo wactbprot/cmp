@@ -1,4 +1,4 @@
-theme: jekyll-theme-minimal
+theme: jekyll-theme-hacker
 logo: ./cmp_logo_s.png
 title: cmp
 description: A study of an interpreter of measurement program definitions written in clojure.
