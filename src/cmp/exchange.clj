@@ -102,7 +102,8 @@
   `{:%aaa \"bbb.ccc\"}`
   "
   [mp-id m]
-  (if (and (string? mp-id) (map? m))
+  (if (and (string? mp-id)
+           (map? m))
     (u/apply-to-map-values
      (fn [v] (key->val mp-id v))
      m)))
