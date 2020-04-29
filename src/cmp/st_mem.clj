@@ -357,6 +357,7 @@
   ```"
   [mp-id l2 l3 l4 callback]
   (let [s-pat (subs-pat mp-id l2 l3 l4)]
+    (timbre/debug "new pubsub-listener for pat: " s-pat)
     (car/with-new-pubsub-listener (:spec conn)
       {s-pat callback}
       (car/psubscribe s-pat))))  
@@ -384,8 +385,8 @@
 ;;------------------------------
 (defn reg-key
   "Generates a registration key for the listener atom."
-  [mp-id struct no op]
-  (str mp-id "_" struct "_" no "_" op))
+  [mp-id struct no func]
+  (str mp-id "_" struct "_" no "_" func))
 
 (defn registered?
   "Checks if a `listener` is registered under
@@ -398,23 +399,25 @@
   key `mp-id` in the `listeners` atom.
   The callback function dispatches depending on
   the result."
-  [mp-id struct no op callback]
-  (let [reg-key (reg-key mp-id struct no op)]
+  [mp-id struct no func callback]
+  (let [reg-key (reg-key mp-id struct no func)]
     (if-not (registered? reg-key)
       {:ok (map?
             (swap! listeners assoc
                    reg-key
-                   (gen-listener mp-id struct no op callback)))}
+                   (gen-listener mp-id struct no func callback)))}
       {:ok true :warn "already registered"})))
   
 (defn de-register!
   "De-registers the listener with the
   key `mp-id` in the `listeners` atom."
-  [mp-id struct no op]
-  (let [reg-key (reg-key mp-id struct no op)]
+  [mp-id struct no func]
+  (let [reg-key (reg-key mp-id struct no func)]
     (if (registered? reg-key)
       (do
+        (timbre/debug "de-register:" reg-key)
         (close-listener! ((deref listeners) reg-key))
         {:ok (map?
-              (swap! listeners dissoc reg-key))})
+              (swap! listeners dissoc
+                     reg-key))})
       {:ok true :warn "not registered"})))

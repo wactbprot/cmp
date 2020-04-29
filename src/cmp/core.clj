@@ -305,18 +305,18 @@
 (defn t-run
   "Runs the task with the given name (from stm).
   If only the name is provided, results are stored
-  under  `core@container@0@response@0@0`. If
-  `mp-id`, `i`, `j` and  `k` is given, the results are
-  written to  `<mp-id@container@<i>@response@<j>@<k>`.
+  under  `core@test@0@response@0@0`.
 
+  If  `mp-id`, `struct`, `i`, `j` and  `k` is given,
+  the results are written to `<mp-id@<struct>@<i>@response@<j>@<k>`.
+  A listener at this key triggers a `callback` which de-registers
+  and closes the listener. The callback also gets the value of 
+  the key (`<mp-id@<struct>@<i>@response@<j>@<k>`) and pretty
+  prints it.
+  
   Example:
   ```clojure
   (t-run \"DKM_PPC4_DMM-read_temp\")
-  ;;
-  ;; results are stored by default at
-  ;; core@container@0@response@0@0
-  ;;
-  (st/key->val \"core@container@0@response@0@0\")
   ;;
   ;; {:t_start 1588071759882,
   ;; :t_stop 1588071768996,
@@ -329,15 +329,22 @@
   ```  
   "
   ([name]
-   (t-run name "core" 0 0 0))
-   ([name mp-id i j k]
-    (let [state-key (st/cont-state-path mp-id i j k)
-          meta-task (assoc (tsk/gen-meta-task name)
-                           :MpName mp-id
-                           :StateKey state-key)]
-      (work/dispatch! (tsk/assemble meta-task) state-key))))
-   
-  
+   (t-run name "core" "test" 0 0 0))
+  ([name mp-id struct i j k]
+   (let [func      "response"
+         state-key (u/vec->key[mp-id struct i "state" j k])
+         resp-key  (u/vec->key[mp-id struct i func j k])
+         meta-task (assoc (tsk/gen-meta-task name)
+                          :MpName mp-id
+                          :StateKey state-key)
+         callback  (fn [msg]
+                     (if-let [k (st/msg->key msg)]
+                       (do
+                         (st/de-register! mp-id struct i func)
+                         (pp/pprint (st/key->val k)))))]
+     (st/register! mp-id struct i func callback)
+     (work/dispatch! (tsk/assemble meta-task) state-key)
+     (timbre/info "task dispached, wait for response"))))
 
 (defn t-build-edn
   "Stores the `task` slurped from the files
