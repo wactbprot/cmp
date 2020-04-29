@@ -1081,188 +1081,197 @@
 <span class="not-covered" title="0 out of 7 forms covered">
                 359&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[s-pat&nbsp;(subs-pat&nbsp;mp-id&nbsp;l2&nbsp;l3&nbsp;l4)]
                 </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                360&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;debug&nbsp;&quot;new&nbsp;pubsub-listener&nbsp;for&nbsp;pat:&nbsp;&quot;&nbsp;s-pat)
+                </span><br/>
 <span class="not-covered" title="0 out of 115 forms covered">
-                360&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(car&#x2F;with-new-pubsub-listener&nbsp;(:spec&nbsp;conn)
+                361&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(car&#x2F;with-new-pubsub-listener&nbsp;(:spec&nbsp;conn)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                361&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{s-pat&nbsp;callback}
+                362&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{s-pat&nbsp;callback}
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                362&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(car&#x2F;psubscribe&nbsp;s-pat))))&nbsp;&nbsp;
+                363&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(car&#x2F;psubscribe&nbsp;s-pat))))&nbsp;&nbsp;
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                363&nbsp;&nbsp;
+                364&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                364&nbsp;&nbsp;(defn&nbsp;close-listener!
+                365&nbsp;&nbsp;(defn&nbsp;close-listener!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                365&nbsp;&nbsp;&nbsp;&nbsp;&quot;Closes&nbsp;the&nbsp;given&nbsp;listener&nbsp;generated&nbsp;by&nbsp;[[gen-listener]].
+                366&nbsp;&nbsp;&nbsp;&nbsp;&quot;Closes&nbsp;the&nbsp;given&nbsp;listener&nbsp;generated&nbsp;by&nbsp;[[gen-listener]].
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                366&nbsp;&nbsp;
+                367&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                367&nbsp;&nbsp;&nbsp;&nbsp;Example:
+                368&nbsp;&nbsp;&nbsp;&nbsp;Example:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                368&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                369&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                369&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;generate
+                370&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;generate
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                370&nbsp;&nbsp;&nbsp;&nbsp;(def&nbsp;l&nbsp;(gen-listener&nbsp;\&quot;ref\&quot;&nbsp;\&quot;ctrl\&quot;&nbsp;msg-&gt;key))
+                371&nbsp;&nbsp;&nbsp;&nbsp;(def&nbsp;l&nbsp;(gen-listener&nbsp;\&quot;ref\&quot;&nbsp;\&quot;ctrl\&quot;&nbsp;msg-&gt;key))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                371&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;close&nbsp;
+                372&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;close&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                372&nbsp;&nbsp;&nbsp;&nbsp;(close-listener!&nbsp;l)
+                373&nbsp;&nbsp;&nbsp;&nbsp;(close-listener!&nbsp;l)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                373&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                374&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                374&nbsp;&nbsp;&nbsp;&nbsp;[l]
+                375&nbsp;&nbsp;&nbsp;&nbsp;[l]
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                375&nbsp;&nbsp;&nbsp;&nbsp;(car&#x2F;close-listener&nbsp;l))
+                376&nbsp;&nbsp;&nbsp;&nbsp;(car&#x2F;close-listener&nbsp;l))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                376&nbsp;&nbsp;
+                377&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                377&nbsp;&nbsp;;;------------------------------
+                378&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                378&nbsp;&nbsp;;;&nbsp;listeners&nbsp;
+                379&nbsp;&nbsp;;;&nbsp;listeners&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                379&nbsp;&nbsp;;;------------------------------
+                380&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="partial" title="9 out of 10 forms covered">
-                380&nbsp;&nbsp;(defonce&nbsp;listeners&nbsp;(atom&nbsp;{}))
+                381&nbsp;&nbsp;(defonce&nbsp;listeners&nbsp;(atom&nbsp;{}))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                381&nbsp;&nbsp;
+                382&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                382&nbsp;&nbsp;;;------------------------------
+                383&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                383&nbsp;&nbsp;;;register!,&nbsp;registered?,&nbsp;de-register!
+                384&nbsp;&nbsp;;;register!,&nbsp;registered?,&nbsp;de-register!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                384&nbsp;&nbsp;;;------------------------------
+                385&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                385&nbsp;&nbsp;(defn&nbsp;reg-key
+                386&nbsp;&nbsp;(defn&nbsp;reg-key
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                386&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;a&nbsp;registration&nbsp;key&nbsp;for&nbsp;the&nbsp;listener&nbsp;atom.&quot;
+                387&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;a&nbsp;registration&nbsp;key&nbsp;for&nbsp;the&nbsp;listener&nbsp;atom.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                387&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;struct&nbsp;no&nbsp;op]
+                388&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;struct&nbsp;no&nbsp;func]
                 </span><br/>
 <span class="not-covered" title="0 out of 9 forms covered">
-                388&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;mp-id&nbsp;&quot;_&quot;&nbsp;struct&nbsp;&quot;_&quot;&nbsp;no&nbsp;&quot;_&quot;&nbsp;op))
+                389&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;mp-id&nbsp;&quot;_&quot;&nbsp;struct&nbsp;&quot;_&quot;&nbsp;no&nbsp;&quot;_&quot;&nbsp;func))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                389&nbsp;&nbsp;
+                390&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                390&nbsp;&nbsp;(defn&nbsp;registered?
+                391&nbsp;&nbsp;(defn&nbsp;registered?
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                391&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;a&nbsp;`listener`&nbsp;is&nbsp;registered&nbsp;under
+                392&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;a&nbsp;`listener`&nbsp;is&nbsp;registered&nbsp;under
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                392&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;`listeners`-atom.&quot;
+                393&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;`listeners`-atom.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                393&nbsp;&nbsp;&nbsp;&nbsp;[reg-key]
+                394&nbsp;&nbsp;&nbsp;&nbsp;[reg-key]
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                394&nbsp;&nbsp;&nbsp;&nbsp;(contains?&nbsp;(deref&nbsp;listeners)&nbsp;reg-key))
+                395&nbsp;&nbsp;&nbsp;&nbsp;(contains?&nbsp;(deref&nbsp;listeners)&nbsp;reg-key))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                395&nbsp;&nbsp;
+                396&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                396&nbsp;&nbsp;(defn&nbsp;register!
+                397&nbsp;&nbsp;(defn&nbsp;register!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                397&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;and&nbsp;registers&nbsp;a&nbsp;&nbsp;listener&nbsp;under&nbsp;the
+                398&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;and&nbsp;registers&nbsp;a&nbsp;&nbsp;listener&nbsp;under&nbsp;the
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                398&nbsp;&nbsp;&nbsp;&nbsp;key&nbsp;`mp-id`&nbsp;in&nbsp;the&nbsp;`listeners`&nbsp;atom.
+                399&nbsp;&nbsp;&nbsp;&nbsp;key&nbsp;`mp-id`&nbsp;in&nbsp;the&nbsp;`listeners`&nbsp;atom.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                399&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;callback&nbsp;function&nbsp;dispatches&nbsp;depending&nbsp;on
+                400&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;callback&nbsp;function&nbsp;dispatches&nbsp;depending&nbsp;on
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                400&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;result.&quot;
+                401&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;result.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                401&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;struct&nbsp;no&nbsp;op&nbsp;callback]
+                402&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;callback]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                402&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[reg-key&nbsp;(reg-key&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;op)]
+                403&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[reg-key&nbsp;(reg-key&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func)]
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                403&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;(registered?&nbsp;reg-key)
+                404&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;(registered?&nbsp;reg-key)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                404&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?
+                405&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                405&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;listeners&nbsp;assoc
+                406&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;listeners&nbsp;assoc
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                406&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reg-key
+                407&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reg-key
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                407&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gen-listener&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;op&nbsp;callback)))}
+                408&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gen-listener&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;callback)))}
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                408&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;already&nbsp;registered&quot;})))
+                409&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;already&nbsp;registered&quot;})))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                409&nbsp;&nbsp;&nbsp;&nbsp;
+                410&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                410&nbsp;&nbsp;(defn&nbsp;de-register!
+                411&nbsp;&nbsp;(defn&nbsp;de-register!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                411&nbsp;&nbsp;&nbsp;&nbsp;&quot;De-registers&nbsp;the&nbsp;listener&nbsp;with&nbsp;the
+                412&nbsp;&nbsp;&nbsp;&nbsp;&quot;De-registers&nbsp;the&nbsp;listener&nbsp;with&nbsp;the
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                412&nbsp;&nbsp;&nbsp;&nbsp;key&nbsp;`mp-id`&nbsp;in&nbsp;the&nbsp;`listeners`&nbsp;atom.&quot;
+                413&nbsp;&nbsp;&nbsp;&nbsp;key&nbsp;`mp-id`&nbsp;in&nbsp;the&nbsp;`listeners`&nbsp;atom.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                413&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;struct&nbsp;no&nbsp;op]
+                414&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;struct&nbsp;no&nbsp;func]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                414&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[reg-key&nbsp;(reg-key&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;op)]
+                415&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[reg-key&nbsp;(reg-key&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func)]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                415&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(registered?&nbsp;reg-key)
+                416&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(registered?&nbsp;reg-key)
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                416&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
+                417&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                418&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;debug&nbsp;&quot;de-register:&quot;&nbsp;reg-key)
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                417&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(close-listener!&nbsp;((deref&nbsp;listeners)&nbsp;reg-key))
+                419&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(close-listener!&nbsp;((deref&nbsp;listeners)&nbsp;reg-key))
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                418&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?
+                420&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                421&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;listeners&nbsp;dissoc
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                422&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reg-key))})
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                419&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;listeners&nbsp;dissoc&nbsp;reg-key))})
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                420&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;not&nbsp;registered&quot;})))
+                423&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;not&nbsp;registered&quot;})))
                 </span><br/>
  </body>
 </html>
