@@ -5,6 +5,7 @@
             [clojure.core.async :as a]
             [cmp.st-mem :as st]
             [cmp.worker.wait :refer [wait!]]
+            [cmp.worker.write-exchange :refer [write-exchange!]]
             [cmp.worker.select :refer [select-definition!]]
             [cmp.worker.devhub :refer [devhub!]]
             [cmp.excep :as excep]
@@ -14,12 +15,13 @@
 ;;------------------------------
 ;; task 
 ;;------------------------------
-(defn k->task
+(defn key->task
   "Returns the assembled `task` for the given key `k`
   pointing to the `proto-task`.
   Since the functions in the `cmp.task` namespace are
-  (kept) independent from the tasks position, runtime infos
-  like `:StructKey` have to be `assoc`ed here." 
+  (kept) independent from the tasks position, this info
+  (`:StateKey` holds the position of the task)
+  have to be `assoc`ed here." 
   [k]
   (if-let [proto-task (st/key->val k)]
     (tsk/assemble
@@ -48,12 +50,13 @@
   (let [action (keyword (:Action task))]
     (timbre/info "cond for action: " action)
     (condp = action
-      :wait    (wait!              task state-key)
-      :select  (select-definition! task state-key)
-      :MODBUS  (devhub!            task state-key)
-      :TCP     (devhub!            task state-key)
-      :VXI11   (devhub!            task state-key)
-      :EXECUTE (devhub!            task state-key)
+      :wait           (wait!              task state-key)
+      :select         (select-definition! task state-key)
+      :writeExchange  (write-exchange!    task state-key)
+      :MODBUS         (devhub!            task state-key)
+      :TCP            (devhub!            task state-key)
+      :VXI11          (devhub!            task state-key)
+      :EXECUTE        (devhub!            task state-key)
       (do
         (timbre/error "unknown action: " action)
         (st/set-val! state-key "error")))))
@@ -70,7 +73,7 @@
 (a/go-loop []
   (let [k (a/<! ctrl-chan)]
     (timbre/info "receive request for: " k)
-    (if-let [task (k->task k)]
+    (if-let [task (key->task k)]
       (if-let [state-key (:StateKey task)]
         (let [state (st/key->val state-key)] 
           (if (= state "ready")

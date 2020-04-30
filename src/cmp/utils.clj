@@ -193,11 +193,21 @@
 
 (defn clj->str-val
   [x]
-  (str (clj->val x) ))
+  (str (clj->val x)))
 
 ;;------------------------------
 ;; pick
 ;;------------------------------
+(defn str->clj
+  [s]
+  {:pre [(string? s)]}
+  (let [s-pat #"^-?\d+\.?\d*([Ee]\+\d+|[Ee]-\d+|[Ee]\d+)?$"
+        c-pat #"^[\[\{]"]
+    (cond
+      (re-find s-pat s) (read-string s)
+      (re-find c-pat s) (json->map s)
+      :else s)))
+
 (defn val->clj
   "Parses value `v` and returns a
   clojure type of it.
@@ -220,13 +230,10 @@
   ```
   "
   [v]
-  (let [s-pat #"^-?\d+\.?\d*([Ee]\+\d+|[Ee]-\d+|[Ee]\d+)?$"
-        c-pat #"^[\[\{]"]
-    (cond
-      (nil? v) nil
-      (re-find s-pat v) (read-string v)
-      (re-find c-pat v) (json->map v)
-      :else v)))
+  (cond
+    (string? v)  (str->clj v)
+    (boolean? v) v
+    :else v))
 
 ;;------------------------------
 ;; ctrl endpoint -> poll and run

@@ -326,25 +326,36 @@
   ;;  :Unit C,
   ;;  :SdValue 0.0013625169107,
   ;;  :N 10}]}
-  ```  
+  ```
+
+  Debug
+  ```clojure
+  @st/listeners
+  (st/de-register! \"core\" \"test\" 0 \"response\")
+  ```
   "
   ([name]
    (t-run name "core" "test" 0 0 0))
   ([name mp-id struct i j k]
-   (let [func      "response"
-         state-key (u/vec->key[mp-id struct i "state" j k])
-         resp-key  (u/vec->key[mp-id struct i func j k])
-         meta-task (assoc (tsk/gen-meta-task name)
-                          :MpName mp-id
-                          :StateKey state-key)
-         callback  (fn [msg]
-                     (if-let [k (st/msg->key msg)]
-                       (do
-                         (st/de-register! mp-id struct i func)
-                         (pp/pprint (st/key->val k)))))]
-     (st/register! mp-id struct i func callback)
-     (work/dispatch! (tsk/assemble meta-task) state-key)
-     (timbre/info "task dispached, wait for response"))))
+   (let [func         "response"
+         state-key    (u/vec->key[mp-id struct i "state" j k])
+         resp-key     (u/vec->key[mp-id struct i func j k])
+         meta-task    (assoc (tsk/gen-meta-task name)
+                            :MpName mp-id
+                            :StateKey state-key)
+         task         (tsk/assemble meta-task)
+         action-is?   (partial = (keyword (:Action task)))
+         dev-action  [:Modbus :VXI11 :TCP :UDP :EXECUTE]
+         dev-action?  (some action-is? dev-action)]
+     (when dev-action?
+       (st/register! mp-id struct i func (fn [msg]
+                                           (when [k (st/msg->key msg)]
+                                             (do
+                                               (st/de-register! mp-id struct i func)
+                                               (pp/pprint (st/key->val k)))))))
+     (work/dispatch! task state-key)
+     (when dev-action?
+       (timbre/info "task dispached, wait for response")))))
 
 (defn t-build-edn
   "Stores the `task` slurped from the files

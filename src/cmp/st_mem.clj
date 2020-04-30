@@ -15,8 +15,8 @@
 (defn set-val!
   "Sets the value `v` for the key `k`."
   [k v]
-  (if k
-    (if v
+  (if (string? k)
+    (if (some? v)
       (wcar conn (car/set k (u/clj->val v)))
       (timbre/warn "no value given"))
     (timbre/warn "no key given")))

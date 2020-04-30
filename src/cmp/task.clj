@@ -247,7 +247,6 @@
         replace  (:Replace      meta-task)
         defaults (:Defaults     meta-task)
         globals  (:Globals      meta-task)
-        struct-k (:StructKey    meta-task)
         mp-name  (:MpName       meta-task)
         state-k  (:StateKey     meta-task)
         exch-map (:FromExchange db-task)
@@ -262,7 +261,6 @@
           (outer-replace-map replace)
           (outer-replace-map defaults)
           (outer-replace-map globals))
-     :StructKey struct-k 
      :MpName    mp-name
      :StateKey  state-k)))
   

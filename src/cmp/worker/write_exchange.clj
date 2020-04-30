@@ -21,10 +21,13 @@
         m     (:Value task)
         res   (exch/to! mp-id m)]
     (cond
-      (:error res) (do
-                     (prn "error")
-                     (st/set-val! state-key "error"))
-      (:ok res)    (do
-                     (prn "ok")
-                     (st/set-val! state-key "executed"))
-      :default (prn "should not happen"))))
+      (:error res) (let [err-msg (str "error on attempt to write exchange at: "
+                                      state-key)]
+                     (timbre/error err-msg)
+                     (st/set-val! state-key "error")
+                     {:error err-msg})
+      (:ok res)    (let [msg "wrote to exchange"]
+                     (timbre/info msg)
+                     (st/set-val! state-key "executed")
+                     {:ok true})
+      :default (timbre/warn "should not happen"))))
