@@ -24,12 +24,4 @@
 <p>If more than one than one of the definitions condition match the first is used:</p>
 <pre><code class="clojure">(first (filter conds-match? match-ks))
 ;; ref@definitions@1@class
-</code></pre></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/worker/select.clj#L110">view source</a></div></div><div class="public anchor" id="var-start-defs.21"><h3>start-defs!</h3><div class="usage"><code>(start-defs! match-k state-k)</code></div><div class="doc"><div class="markdown"><p>Starts the filtered out <code>definitions</code> structure and sets the state of the calling element to executed if the <code>ctrl</code> turns to ready (or error if error).</p>
-<p>TODO</p>
-<pre><code class="clojure">(let [mp-id     (st/key-&gt;key-space state-k)
-      defs-idx  (st/key-&gt;no-idx match-k)
-      ctrl-k    (u/vec-&gt;key [mp-id "definitions" defs-idx "ctrl"])])
-</code></pre>
-<p>should be replaced by</p>
-<pre><code class="clojure">(st/defins-ctrl-path ...)
-</code></pre></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/worker/select.clj#L72">view source</a></div></div></div></body></html>
+</code></pre></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/worker/select.clj#L98">view source</a></div></div><div class="public anchor" id="var-start-defs.21"><h3>start-defs!</h3><div class="usage"><code>(start-defs! match-k state-k)</code></div><div class="doc"><div class="markdown"><p>Starts the filtered out <code>definitions</code> structure and sets the state of the calling element to executed if the <code>ctrl</code> turns to ready (or error if error).</p></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/worker/select.clj#L72">view source</a></div></div></div></body></html>
