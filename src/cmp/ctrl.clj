@@ -40,10 +40,10 @@
 (defn start
   "Registers a listener for the `ctrl` interface of
   the entire `mp-id`. The [[dispatch]] function
-  becomes the listeners `callback`." 
+  becomes the listeners `cb!`." 
   [mp-id]
   (timbre/info "register ctrl listener for: " mp-id)
-  (let [callback (fn [msg]
+  (let [cb! (fn [msg]
                    (dispatch
                     (st/msg->key msg)))]
-   (st/register! mp-id "*" "*" "ctrl" callback)))
+   (st/register! mp-id "*" "*" "ctrl" cb!)))

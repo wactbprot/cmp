@@ -62,7 +62,7 @@
    mp-names available at short term memory."  
   []
   (run! prn
-        (map st/key->key-space
+        (map st/key->mp-id
              (st/pat->keys "*@meta@name"))))
 
 (defn l-info
@@ -271,7 +271,7 @@
   `st-mem`. The advantage is: tasks
   can be modified at runtime." 
   []
-  (bld/store-tasks (lt/all-tasks)))
+  (bld/tasks (lt/all-tasks)))
 
 (defn t-table
   "Prints a table of **assembled tasks** stored in
@@ -309,7 +309,7 @@
 
   If  `mp-id`, `struct`, `i`, `j` and  `k` is given,
   the results are written to `<mp-id@<struct>@<i>@response@<j>@<k>`.
-  A listener at this key triggers a `callback` which de-registers
+  A listener at this key triggers a `cb!` which de-registers
   and closes the listener. The callback also gets the value of 
   the key (`<mp-id@<struct>@<i>@response@<j>@<k>`) and pretty
   prints it.
@@ -345,14 +345,15 @@
                             :StateKey state-key)
          task         (tsk/assemble meta-task)
          action-is?   (partial = (keyword (:Action task)))
-         dev-action  [:Modbus :VXI11 :TCP :UDP :EXECUTE]
-         dev-action?  (some action-is? dev-action)]
+         dev-action   [:Modbus :VXI11 :TCP :UDP :EXECUTE]
+         dev-action?  (some action-is? dev-action)
+         cb!          (fn [msg]
+                        (when [k (st/msg->key msg)]
+                          (do
+                            (st/de-register! mp-id struct i func)
+                            (pp/pprint (st/key->val k)))))]
      (when dev-action?
-       (st/register! mp-id struct i func (fn [msg]
-                                           (when [k (st/msg->key msg)]
-                                             (do
-                                               (st/de-register! mp-id struct i func)
-                                               (pp/pprint (st/key->val k)))))))
+       (st/register! mp-id struct i func cb!))
      (work/dispatch! task state-key)
      (when dev-action?
        (timbre/info "task dispached, wait for response")))))
@@ -369,7 +370,7 @@
   (run!
    (fn [uri]
      (timbre/info "try to slurp and build: " uri  )
-       (bld/store-task
+       (bld/task
         (read-string
          (slurp uri))))
      (cfg/edn-tasks (cfg/config))))
