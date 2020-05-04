@@ -551,19 +551,25 @@
                 182&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a&#x2F;go
                 </span><br/>
 <span class="not-covered" title="0 out of 10 forms covered">
-                183&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a&#x2F;&gt;!!&nbsp;resp&#x2F;ctrl-chan&nbsp;[(http&#x2F;post&nbsp;url&nbsp;req)&nbsp;task&nbsp;state-key])))
+                183&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a&#x2F;&gt;!!&nbsp;resp&#x2F;ctrl-chan&nbsp;[(http&#x2F;post&nbsp;url&nbsp;req)&nbsp;task&nbsp;state-key]))
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                184&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true})
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                184&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[err-msg&nbsp;(str&nbsp;&quot;failed&nbsp;to&nbsp;build&nbsp;task&nbsp;for:&nbsp;&quot;&nbsp;state-key)]
+                185&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[err-msg&nbsp;(str&nbsp;&quot;failed&nbsp;to&nbsp;build&nbsp;task&nbsp;for:&nbsp;&quot;&nbsp;state-key)]
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                185&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;error&nbsp;err-msg)
+                186&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;error&nbsp;err-msg)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                186&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;)
+                187&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                187&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a&#x2F;&gt;!!&nbsp;excep&#x2F;ch&nbsp;&nbsp;err-msg))))
+                188&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a&#x2F;&gt;!!&nbsp;excep&#x2F;ch&nbsp;&nbsp;err-msg)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                189&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:error&nbsp;err-msg})))
                 </span><br/>
  </body>
 </html>
