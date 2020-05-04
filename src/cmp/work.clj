@@ -26,7 +26,7 @@
   (if-let [proto-task (st/key->val k)]
     (tsk/assemble
      (assoc (tsk/gen-meta-task proto-task)
-            :MpName    (st/key->key-space k)
+            :MpName    (st/key->mp-id k)
             :StateKey  (u/replace-key-at-level 3 k "state")))
     (a/>!! excep/ch (str "No task at: " k))))
 

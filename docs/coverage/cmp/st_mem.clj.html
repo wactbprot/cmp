@@ -353,7 +353,7 @@
                 116&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                117&nbsp;&nbsp;(defn&nbsp;key-&gt;key-space
+                117&nbsp;&nbsp;(defn&nbsp;key-&gt;mp-id
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 118&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;key&nbsp;space&nbsp;for
@@ -1076,7 +1076,7 @@
                 357&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                358&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;l2&nbsp;l3&nbsp;l4&nbsp;callback]
+                358&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;l2&nbsp;l3&nbsp;l4&nbsp;cb!]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
                 359&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[s-pat&nbsp;(subs-pat&nbsp;mp-id&nbsp;l2&nbsp;l3&nbsp;l4)]
@@ -1088,7 +1088,7 @@
                 361&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(car&#x2F;with-new-pubsub-listener&nbsp;(:spec&nbsp;conn)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                362&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{s-pat&nbsp;callback}
+                362&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{s-pat&nbsp;cb!}
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
                 363&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(car&#x2F;psubscribe&nbsp;s-pat))))&nbsp;&nbsp;
@@ -1202,13 +1202,13 @@
                 399&nbsp;&nbsp;&nbsp;&nbsp;key&nbsp;`mp-id`&nbsp;in&nbsp;the&nbsp;`listeners`&nbsp;atom.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                400&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;callback&nbsp;function&nbsp;dispatches&nbsp;depending&nbsp;on
+                400&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;cb!&nbsp;function&nbsp;dispatches&nbsp;depending&nbsp;on
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 401&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;result.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                402&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;callback]
+                402&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
                 403&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[reg-key&nbsp;(reg-key&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func)]
@@ -1226,7 +1226,7 @@
                 407&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reg-key
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                408&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gen-listener&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;callback)))}
+                408&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gen-listener&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!)))}
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
                 409&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;already&nbsp;registered&quot;})))

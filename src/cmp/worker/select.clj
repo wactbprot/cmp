@@ -36,7 +36,7 @@
   ```
   "
   [k]
-  (let [mp-id (st/key->key-space k)
+  (let [mp-id (st/key->mp-id k)
         m     (st/key->val    k)
         p     (:ExchangePath m)
         a     (str (exch/comp-val mp-id p))
@@ -60,7 +60,7 @@
   ```
   "
   [k]
-  (let [mp-id    (st/key->key-space k)
+  (let [mp-id    (st/key->mp-id k)
         no-idx   (st/key->no-idx k)
         k-pat    (u/vec->key [mp-id "definitions" no-idx "cond@*"])
         cond-ks  (st/pat->keys k-pat)
@@ -74,36 +74,24 @@
   sets the state of the calling element to executed if the `ctrl`
   turns to ready (or error if error).
 
-  TODO
-  
-  ```clojure
-  (let [mp-id     (st/key->key-space state-k)
-        defs-idx  (st/key->no-idx match-k)
-        ctrl-k    (u/vec->key [mp-id \"definitions\" defs-idx \"ctrl\"])])
-  ```
-
-  should be replaced by
-
-  ```clojure
-  (st/defins-ctrl-path ...)
-  ```
   "          
   [match-k state-k]
   (timbre/debug "start definitions struct " match-k)
-  (let [mp-id     (st/key->key-space state-k)
-        defs-idx  (st/key->no-idx match-k)
-        ctrl-k    (st/defins-ctrl-path mp-id defs-idx)
-        callback  (fn
-                    [p]
-                    (cond
-                      (= "ready"
-                         (st/key->val ctrl-k)) (do
-                                                 (st/set-val! state-k "executed")
-                                                 (st/de-register! mp-id "definitions" defs-idx "ctrl"))
-                      (= "error"
-                       (st/key->val ctrl-k)) (st/set-val! state-k "error")))]
+  (let [struct "definitions"
+        func   "ctrl"
+        mp-id  (st/key->mp-id state-k)
+        no-idx (st/key->no-idx match-k)
+        ctrl-k (st/defins-ctrl-path mp-id no-idx)
+        cb!    (fn [p]
+                 (cond
+                   (= "ready"
+                      (st/key->val ctrl-k)) (do
+                                              (st/set-val! state-k "executed")
+                                              (st/de-register! mp-id struct no-idx func))
+                   (= "error"
+                      (st/key->val ctrl-k)) (st/set-val! state-k "error")))]
     
-    (st/register! mp-id "definitions" defs-idx "ctrl" callback)
+    (st/register! mp-id struct no-idx func cb!)
     (st/set-val! ctrl-k "run")))
 
 
@@ -127,7 +115,7 @@
   (st/set-val! state-k "working")
   (Thread/sleep mtp)
   (timbre/debug "start with select, already set " state-k " working")
-  (let [mp-id     (st/key->key-space state-k)
+  (let [mp-id     (st/key->mp-id state-k)
         def-cls   (task :DefinitionClass)
         def-pat   (u/vec->key [mp-id "definitions" "*" "class"])
         match-ks  (sort

@@ -114,7 +114,7 @@
 ;;------------------------------
 ;; key arithmetic
 ;;------------------------------
-(defn key->key-space
+(defn key->mp-id
   "Returns the name of the key space for
   the given key.
 
@@ -355,11 +355,11 @@
   ;; generate and close
   (close-listener! (gen-listener \"ref\" \"ctrl\" msg->key))
   ```"
-  [mp-id l2 l3 l4 callback]
+  [mp-id l2 l3 l4 cb!]
   (let [s-pat (subs-pat mp-id l2 l3 l4)]
     (timbre/debug "new pubsub-listener for pat: " s-pat)
     (car/with-new-pubsub-listener (:spec conn)
-      {s-pat callback}
+      {s-pat cb!}
       (car/psubscribe s-pat))))  
 
 (defn close-listener!
@@ -397,15 +397,15 @@
 (defn register!
   "Generates and registers a  listener under the
   key `mp-id` in the `listeners` atom.
-  The callback function dispatches depending on
+  The cb! function dispatches depending on
   the result."
-  [mp-id struct no func callback]
+  [mp-id struct no func cb!]
   (let [reg-key (reg-key mp-id struct no func)]
     (if-not (registered? reg-key)
       {:ok (map?
             (swap! listeners assoc
                    reg-key
-                   (gen-listener mp-id struct no func callback)))}
+                   (gen-listener mp-id struct no func cb!)))}
       {:ok true :warn "already registered"})))
   
 (defn de-register!

@@ -20,7 +20,7 @@
 (defn state-key->state-map
   "Converts a key into a `state-map`."
   [k]
-  {:mp-name (st/key->key-space k)
+  {:mp-name (st/key->mp-id k)
    :struct (st/key->struct k)
    :no-idx (st/key->no-idx k)
    :seq-idx (st/key->seq-idx k)
@@ -46,7 +46,7 @@
   ```" 
   [p]
   (sort (st/key->keys
-         (u/vec->key [(st/key->key-space p)
+         (u/vec->key [(st/key->mp-id p)
                       (st/key->struct p)
                       (st/key->no-idx p)
                       "state"]))))
@@ -64,7 +64,7 @@
     ;; \"wait@container@0@ctrl\"
   ```" 
   [k]
-  (u/vec->key [(st/key->key-space k)
+  (u/vec->key [(st/key->mp-id k)
                (st/key->struct k)
                (st/key->no-idx k)
                "ctrl"]))
@@ -273,7 +273,7 @@
   `ctrl-key` or `state-key`).
   Resets the state interface afterwards."
   [k]
-  (st/de-register! (st/key->key-space k)
+  (st/de-register! (st/key->mp-id k)
                    (st/key->struct k)
                    (st/key->no-idx k)
                    "state")
@@ -290,7 +290,7 @@
   `ctrl-key` or `state-key`)."
   [k]
   (let [state-ks (k->state-ks k)]
-    (st/de-register! (st/key->key-space k)
+    (st/de-register! (st/key->mp-id k)
                      (st/key->struct k)
                      (st/key->no-idx k)
                      "state")))
@@ -377,7 +377,7 @@
   from the key  `k` (`ctrl-key`)."
   [k]
   (timbre/info "register start-next! callback and start-next!")
-  (st/register!  (st/key->key-space k)
+  (st/register!  (st/key->mp-id k)
                  (st/key->struct k)
                  (st/key->no-idx k)
                  "state"
