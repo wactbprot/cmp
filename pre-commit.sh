@@ -2,6 +2,7 @@
 
 rm -r docs/api/*
 rm -r docs/coverage/*
+cp resources/mpd-ref.edn docs/
 
 echo "============================" 
 echo "========= coverage ========="

@@ -105,8 +105,8 @@ overview. Commands in `(ns cmp.core)` have the following prefixes:
 
 Find a documented reference measurement program definition (`mpd`) in
 [edn-format](https://github.com/edn-format/edn) at
-[resources/mpd-ref.edn](../resources/mpd-ref.edn).  This `mpd` named
-`"ref"` can be used as a example.
+[mpd-ref.edn](./mpd-ref.edn). 
+
 
 Build `mpd` provided by *cmp* in `edn`-format with:
 
