@@ -13,6 +13,10 @@
   [c]
   (:st-conn c))
 
+(defn st-db
+  [c]
+  (get-in c [:st-conn :spec :db]))
+
 (defn edn-tasks
   [c]
   (:edn-tasks c))

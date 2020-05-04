@@ -345,10 +345,10 @@
                             :StateKey state-key)
          task         (tsk/assemble meta-task)
          action-is?   (partial = (keyword (:Action task)))
-         dev-action   [:Modbus :VXI11 :TCP :UDP :EXECUTE]
+         dev-action   [:MODBUS :VXI11 :TCP :UDP :EXECUTE]
          dev-action?  (some action-is? dev-action)
          cb!          (fn [msg]
-                        (when [k (st/msg->key msg)]
+                        (if-let [k (st/msg->key msg)]
                           (do
                             (st/de-register! mp-id struct i func)
                             (pp/pprint (st/key->val k)))))]

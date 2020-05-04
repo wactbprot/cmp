@@ -7,6 +7,7 @@
             [cmp.config :as cfg]))
 
 (def conn (cfg/st-conn (cfg/config)))
+(def db (cfg/st-db (cfg/config)))
 
 ;;------------------------------
 ;; store
@@ -341,7 +342,7 @@
   * `definition`
   "
   [mp-id l2 l3 l4]
-  (str "__keyspace@0*__:" mp-id
+  (str "__keyspace@" db "*__:" mp-id
        u/sep l2
        u/sep l3
        u/sep l4 "*"))
