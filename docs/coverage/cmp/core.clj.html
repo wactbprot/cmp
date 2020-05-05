@@ -1046,7 +1046,7 @@
                 347&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action-is?&nbsp;&nbsp;&nbsp;(partial&nbsp;=&nbsp;(keyword&nbsp;(:Action&nbsp;task)))
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                348&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dev-action&nbsp;&nbsp;&nbsp;[:Modbus&nbsp;:VXI11&nbsp;:TCP&nbsp;:UDP&nbsp;:EXECUTE]
+                348&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dev-action&nbsp;&nbsp;&nbsp;[:MODBUS&nbsp;:VXI11&nbsp;:TCP&nbsp;:UDP&nbsp;:EXECUTE]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
                 349&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dev-action?&nbsp;&nbsp;(some&nbsp;action-is?&nbsp;dev-action)
@@ -1054,8 +1054,8 @@
 <span class="not-covered" title="0 out of 1 forms covered">
                 350&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cb!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[msg]
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                351&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;[k&nbsp;(st&#x2F;msg-&gt;key&nbsp;msg)]
+<span class="not-covered" title="0 out of 9 forms covered">
+                351&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[k&nbsp;(st&#x2F;msg-&gt;key&nbsp;msg)]
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
                 352&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do

@@ -356,7 +356,7 @@
        (st/register! mp-id struct i func cb!))
      (work/dispatch! task state-key)
      (when dev-action?
-       (timbre/info "task dispached, wait for response")))))
+       (timbre/info "task dispached, wait for response...")))))
 
 (defn t-build-edn
   "Stores the `task` slurped from the files
