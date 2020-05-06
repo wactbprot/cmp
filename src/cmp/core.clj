@@ -10,7 +10,7 @@
             [cmp.utils :as u]
             [cmp.doc :as doc]
             [cmp.config :as cfg]
-            [cmp.build :as bld]
+            [cmp.build :as build]
             [cmp.task :as tsk]
             [cmp.check :as chk]
             [cmp.ctrl :as ctrl]
@@ -116,7 +116,7 @@
         (u/compl-main-path)
         (lt/id->doc)
         (u/doc->safe-doc)
-        (bld/store))))
+        (build/store))))
 
 (defn m-build-edn
   "Builds up a the mpds in `edn` format provided by *cmp*
@@ -130,7 +130,7 @@
   (run!
    (fn [uri]
      (timbre/info "try to slurp and build: " uri  )
-     (bld/store
+     (build/store
       (read-string
        (slurp uri))))
    (cfg/edn-mpds (cfg/config))))
@@ -271,7 +271,7 @@
   `st-mem`. The advantage is: tasks
   can be modified at runtime." 
   []
-  (bld/tasks (lt/all-tasks)))
+  (build/tasks (lt/all-tasks)))
 
 (defn t-table
   "Prints a table of **assembled tasks** stored in
@@ -358,6 +358,18 @@
      (when dev-action?
        (timbre/info "task dispached, wait for response")))))
 
+(defn t-show
+  "Pretty prints the task with the
+  given `name`. If a `mp-id` is given. `FromExchange`
+  dependencies may be resolved."
+  ([name]
+   (t-show name "core"))
+  ([name mp-id]
+   (pp/pprint
+    (tsk/assemble
+     (assoc (tsk/gen-meta-task name)
+            :MpName mp-id)))))
+
 (defn t-build-edn
   "Stores the `task` slurped from the files
   configured in `resources/config.edn`.
@@ -370,7 +382,7 @@
   (run!
    (fn [uri]
      (timbre/info "try to slurp and build: " uri  )
-       (bld/task
+       (build/task
         (read-string
          (slurp uri))))
      (cfg/edn-tasks (cfg/config))))

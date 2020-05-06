@@ -17,8 +17,8 @@
                :socket-timeout 600000      ;; 10 min
                :connection-timeout 600000  ;; 10 min 
                :accept :json}
-  :dev-hub-url "http://e75455:55555"
- ;; :dev-hub-url "http://localhost:8008"
+ ;; :dev-hub-url "http://e75455:55555"
+  :dev-hub-url "http://localhost:8008"
  ;; :dev-hub-url "http://a73436:55555"
  }
  
