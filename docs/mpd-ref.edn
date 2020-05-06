@@ -1,0 +1,95 @@
+{:_id "mpd-ref",
+ :_rev "6-b4475e103286fba67eb4ad849270841d",
+ :Mp
+ {
+  :Date [{:Type "created", :Value "2020-01-11"}],
+  :Name "wait",
+  :Description "Simple measurement programm definition (mpd).",
+  :Standard "NN"
+  ;; Endpoint for exchanging data and information.
+  ;; Internal and external use is intendet. 
+  :Exchange {
+             ;; one level deep nested values ..
+             :A {:Unit "Pa", :Value 100}
+             ;; .. or flat values are valid
+             :B "token"}
+  :Container
+  [
+   ;; Containers are fixed sequences of things to do. 
+   ;; In opposit to definitions containers have no conditions structure.
+   ;; First container:
+   {:Description "Container just waits parallel and sequential.",
+    ;; The ctrl endpoint of the first container.
+    ;; All values are ok. The values start, stop and mon will start stop and mon.
+    ;; mon ... relaunch the container if all tasks are executed
+    ;; void ... just some value (as good as foo or bar), causes no action.
+    :Ctrl "void",
+    :Title "Simple wait",
+    ;; Element is inteded for filtering the exchange interface:
+    ;; which elements should be vissible at a gui of this
+    ;; container
+    :Element ["A"],
+    ;; The defilition of what schould happen after what.
+    ;; The "array of arrays"-structure controlls what happens 
+    ;; parallel and what sequential.
+    :Definition
+    [;; First: start a wait task with 3000 ms waittime.
+     ;; At the same time start a wait task with 3000 ms waittime.
+     [{:TaskName "Common-wait", :Replace {:%waittime 3000}}
+      {:TaskName "Common-wait", :Replace {:%waittime 4000}}]
+     ;; After first step is executed: start 4 wait tasks 
+     ;; with 3000 ms waittime, step is executed within 3000ms
+     [{:TaskName "Common-wait", :Replace {:%waittime 3000}}
+      {:TaskName "Common-wait", :Replace {:%waittime 3000}}
+      {:TaskName "Common-wait", :Replace {:%waittime 3000}}
+      {:TaskName "Common-wait", :Replace {:%waittime 3000}}]
+     ;; After the second step is executed: wait 1000ms
+     [{:TaskName "Common-wait", :Replace {:%waittime 1000}}]]}
+   ;; second container
+   {:Description "Just waits",
+    :Ctrl "void",
+    :Title "choose definitions",
+    :Element ["*"],
+    :Definition
+    [[{:TaskName "Common-select_definition",
+       :Replace {:%definitionclass "wait"}}]]}
+   ],
+  ;; Definitions section
+  :Definitions
+  [;; Several definitions with the same
+   ;; class (here wait) are possible.
+   ;; At Runtime: the first of all matching 
+   ;; (see condition section) definition is started
+   {:DefinitionClass "wait",
+    :ShortDescr "just waits\n",
+    ;; condition for the
+    ;; the exec. of the first
+    ;; definition for the class wait
+    :Condition
+    [{:ExchangePath "A.Unit", :Methode "eq", :Value "Pa"}
+     {:ExchangePath "A.Value", :Methode "gt", :Value 133}],
+    :Definition
+    [[{:TaskName "Common-wait", :Replace {:%waittime 3000}}
+      {:TaskName "Common-wait", :Replace {:%waittime 4000}}]]}
+   {:DefinitionClass "wait",
+    :ShortDescr "just waits\n",
+    ;; condition for the
+    ;; the exec. of the second
+    ;; definition for the class wait
+    :Condition
+    [{:ExchangePath "A.Unit", :Methode "eq", :Value "Pa"}
+     {:ExchangePath "A.Value", :Methode "lt", :Value 133}],
+    ;; The definition structure under definitions section 
+    ;; works the same as under container
+    :Definition
+    [[{:TaskName "Common-wait", :Replace {:%waittime 3000}}
+      {:TaskName "Common-wait", :Replace {:%waittime 4000}}]]}
+   {:DefinitionClass "wait",
+    :ShortDescr "just waits\n",
+    :Condition
+    [{:ExchangePath "A.Unit", :Methode "eq", :Value "Pa"}
+     {:ExchangePath "A.Value", :Methode "lt", :Value 13}],
+    :Definition
+    [[{:TaskName "Common-wait", :Replace {:%waittime 3000}}
+      {:TaskName "Common-wait", :Replace {:%waittime 4000}}]]}],
+}}
