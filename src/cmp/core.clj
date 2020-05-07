@@ -11,7 +11,7 @@
             [cmp.doc :as doc]
             [cmp.config :as cfg]
             [cmp.build :as build]
-            [cmp.task :as tsk]
+            [cmp.task :as task]
             [cmp.check :as chk]
             [cmp.ctrl :as ctrl]
             [cmp.state :as state]
@@ -297,7 +297,7 @@
             (into []
                   (map (fn [k]
                          (let [name  (st/key->struct k)
-                               task  (tsk/assemble (tsk/gen-meta-task name))
+                               task  (task/assemble (task/gen-meta-task name))
                                value (kw task)]
                            (if (and value (or (= value v) (= :all v)))
                              {:stm-key k :Name name kw value} )))
@@ -337,26 +337,22 @@
   ([name]
    (t-run name "core" "test" 0 0 0))
   ([name mp-id struct i j k]
-   (let [func         "response"
-         state-key    (u/vec->key[mp-id struct i "state" j k])
-         resp-key     (u/vec->key[mp-id struct i func j k])
-         meta-task    (assoc (tsk/gen-meta-task name)
-                            :MpName mp-id
-                            :StateKey state-key)
-         task         (tsk/assemble meta-task)
-         action-is?   (partial = (keyword (:Action task)))
-         dev-action   [:MODBUS :VXI11 :TCP :UDP :EXECUTE]
-         dev-action?  (some action-is? dev-action)
-         cb!          (fn [msg]
-                        (if-let [k (st/msg->key msg)]
-                          (do
-                            (st/de-register! mp-id struct i func)
-                            (pp/pprint (st/key->val k)))))]
-     (when dev-action?
-       (st/register! mp-id struct i func cb!))
-     (work/dispatch! task state-key)
-     (when dev-action?
-       (timbre/info "task dispached, wait for response...")))))
+   (let [func       "response"
+         state-key  (u/vec->key[mp-id struct i "state" j k])
+         resp-key   (u/vec->key[mp-id struct i func j k])
+         meta-task  (assoc (task/gen-meta-task name)
+                           :MpName mp-id
+                           :StateKey state-key)
+         task       (task/assemble meta-task)]
+     (when (task/dev-action? task)
+       (do
+         (timbre/info "task dispached, wait for response...")
+         (st/register! mp-id struct i func (fn [msg]
+                                             (if-let [k (st/msg->key msg)]
+                                               (do
+                                                 (st/de-register! mp-id struct i func)
+                                                 (pp/pprint (st/key->val k))))))))
+     (work/dispatch! task state-key))))
 
 (defn t-show
   "Pretty prints the task with the
@@ -366,8 +362,8 @@
    (t-show name "core"))
   ([name mp-id]
    (pp/pprint
-    (tsk/assemble
-     (assoc (tsk/gen-meta-task name)
+    (task/assemble
+     (assoc (task/gen-meta-task name)
             :MpName mp-id)))))
 
 (defn t-build-edn

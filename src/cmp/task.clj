@@ -13,6 +13,7 @@
             [cmp.lt-mem :as lt]
             [cmp.st-mem :as st]))
 
+
 (s/def ::TaskName string?)
 (s/def ::Action string?)
 (s/def ::Replace map?)
@@ -44,12 +45,32 @@
   [x]
   (task? (:Task x)))
 
-(defn ->globals
+;;------------------------------
+;; action(s)(?)
+;;------------------------------
+(defn action-eq?
+  "A `=` partial on the `task` `:Action`."
+  [task]
+  {:pre [(map? task)]}
+  (partial = (keyword (:Action task))))
+
+(defn dev-action?
+  "Device actions are:
+  * :MODBUS
+  * :VXI11
+  * :TCP
+  * :UDP 
+  "
+  [task]
+  {:pre [(map? task)]}
+  (some (action-eq? task) [:MODBUS :VXI11 :TCP :UDP]))
+
+(defn globals
   "Returns a map with replacements
   of general intrest.
 
   ```clojure
-  (->globals)
+  (globals)
   ;; {\"%hour\" \"14\",
   ;; \"%minute\" \"07\",
   ;; \"%second\" \"54\",
@@ -77,7 +98,7 @@
   
   Example:
   ```clojure
-  (outer-replace-map (->globals) {:TaskName \"foo\" :Value \"%time\"})
+  (outer-replace-map (globals) {:TaskName \"foo\" :Value \"%time\"})
   ;; {:TaskName \"foo\", :Value \"1580652820247\"}
   (outer-replace-map nil {:TaskName \"foo\" :Value \"%time\"})
   ;; {:TaskName \"foo\", :Value \"%time\"}
@@ -214,7 +235,7 @@
                      proto-task)]
     {:Task          (dissoc db-task :Defaults) 
      :Use           (:Use proto-task)
-     :Globals       (->globals)
+     :Globals       (globals)
      :Defaults      (:Defaults db-task)
      :Replace       (:Replace proto-task)}))
 
@@ -263,4 +284,3 @@
           (outer-replace-map globals))
      :MpName    mp-name
      :StateKey  state-k)))
-  
