@@ -17,7 +17,7 @@
 ;;------------------------------
 ;; container
 ;;------------------------------
-(defn defin 
+(defn definition
   "Stores the definition section."
   [p idx defin]
   (doall
@@ -42,14 +42,16 @@
   (st/set-val! (st/cont-descr-path p idx) descr)
   (st/set-val! (st/cont-ctrl-path p idx) ctrl)
   (st/set-val! (st/cont-elem-path p idx) elem)
-  (defin p idx defin))
+  (definition p idx defin))
 
 (defn all-container
   "Triggers the storing of the singel containers"
   [p {conts :Container}]
   (doall
    (map-indexed
-    (fn [idx cont] (container p idx cont))
+    (fn [idx cont] (prn p)
+      (prn idx)
+      (prn cont) (container p idx cont))
     conts)))
 
 ;;------------------------------

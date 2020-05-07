@@ -2,12 +2,8 @@
   ^{:author "wactbprot"
     :doc "Worker selects a definition from the same `mp-id` 
           by evaluating the related conditions.
-          
-          REVIEW:
-          try avoid spreading side effects
          "}
   (:require [taoensso.timbre :as timbre]
-            [clojure.core.async :as a]
             [clojure.string :as string]
             [cmp.st-mem :as st]
             [cmp.exchange :as exch]
@@ -15,7 +11,6 @@
             [cmp.config :as cfg]))
 
 (def mtp (cfg/min-task-period (cfg/config)))
-
 
 (defn cond-match?
   "Tests a single condition of the form defined in
@@ -69,10 +64,10 @@
      (count cond-ks)
      (count match-ks))))
 
-(defn start-defs!
-  "Starts the filtered out `definitions` structure and
-  sets the state of the calling element to executed if the `ctrl`
-  turns to ready (or error if error).
+(defn start-defins!
+  "Starts the matching `definitions` structure and
+  sets the state of the calling element to `executed`
+  if the `ctrl`  turns to ready (or error if error).
 
   "          
   [match-k state-k]
@@ -82,15 +77,14 @@
         mp-id  (st/key->mp-id state-k)
         no-idx (st/key->no-idx match-k)
         ctrl-k (st/defins-ctrl-path mp-id no-idx)
-        cb!    (fn [p]
-                 (cond
-                   (= "ready"
-                      (st/key->val ctrl-k)) (do
-                                              (st/set-val! state-k "executed")
-                                              (st/de-register! mp-id struct no-idx func))
-                   (= "error"
-                      (st/key->val ctrl-k)) (st/set-val! state-k "error")))]
-    
+        cb!    (fn [msg]
+                 (when-let [k (st/msg->key msg)]
+                   (let [ctrl-val (st/key->val ctrl-k)] 
+                   (condp = ctrl-val
+                     "ready" (do
+                               (st/set-val! state-k "executed")
+                               (st/de-register! mp-id struct no-idx func))
+                     "error" (st/key->val ctrl-k)) (st/set-val! state-k "error"))))]
     (st/register! mp-id struct no-idx func cb!)
     (st/set-val! ctrl-k "run")))
 
@@ -119,6 +113,7 @@
         def-cls   (task :DefinitionClass)
         def-pat   (u/vec->key [mp-id "definitions" "*" "class"])
         match-ks  (sort
-                   (st/filter-keys-where-val def-pat def-cls))
-        match-k   (first (filter conds-match? match-ks))]
-    (start-defs! match-k state-k)))
+                   (st/filter-keys-where-val def-pat def-cls))]
+    (if-let [match-k (first (filter conds-match? match-ks))]
+      (start-defins! match-k state-k)
+      (timbre/error "nothing match"))))
