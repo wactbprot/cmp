@@ -46,7 +46,7 @@
      ;; After the second step is executed: wait 1000ms
      [{:TaskName "Common-wait", :Replace {:%waittime 1000}}]]}
    ;; second container
-   {:Description "Just waits",
+   {:Description "Show case select feature",
     :Ctrl "void",
     :Title "choose definitions",
     :Element ["*"],

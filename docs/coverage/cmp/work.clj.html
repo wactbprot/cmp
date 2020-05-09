@@ -82,17 +82,17 @@
 <span class="not-covered" title="0 out of 8 forms covered">
                 026&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[proto-task&nbsp;(st&#x2F;key-&gt;val&nbsp;k)]
                 </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(tsk&#x2F;assemble
-                </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;(tsk&#x2F;gen-meta-task&nbsp;proto-task)
+<span class="not-covered" title="0 out of 4 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[meta-task&nbsp;(tsk&#x2F;gen-meta-task&nbsp;proto-task)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:MpName&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;mp-id&nbsp;k)
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;mp-id&nbsp;k)
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:StateKey&nbsp;&nbsp;(u&#x2F;replace-key-at-level&nbsp;3&nbsp;k&nbsp;&quot;state&quot;)))
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key&nbsp;(u&#x2F;replace-key-at-level&nbsp;3&nbsp;k&nbsp;&quot;state&quot;)]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(tsk&#x2F;assemble&nbsp;meta-task&nbsp;mp-id&nbsp;state-key))
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
                 031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a&#x2F;&gt;!!&nbsp;excep&#x2F;ch&nbsp;(str&nbsp;&quot;No&nbsp;task&nbsp;at:&nbsp;&quot;&nbsp;k))))

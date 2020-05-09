@@ -487,7 +487,7 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 161&nbsp;&nbsp;&nbsp;&nbsp;[j]
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 162&nbsp;&nbsp;&nbsp;&nbsp;(json&#x2F;read-str&nbsp;j&nbsp;:key-fn&nbsp;keyword))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -520,8 +520,8 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 172&nbsp;&nbsp;&nbsp;&nbsp;[doc]
                 </span><br/>
-<span class="not-covered" title="0 out of 9 forms covered">
-                173&nbsp;&nbsp;&nbsp;&nbsp;(json-&gt;map&nbsp;(string&#x2F;replace&nbsp;(json&#x2F;write-str&nbsp;doc)&nbsp;&nbsp;#&quot;@\\[a-zA-Z\\]*&quot;&nbsp;&nbsp;&quot;%&quot;)))
+<span class="covered" title="11 out of 11 forms covered">
+                173&nbsp;&nbsp;&nbsp;&nbsp;(json-&gt;map&nbsp;(string&#x2F;replace&nbsp;(json&#x2F;write-str&nbsp;doc)&nbsp;&nbsp;(re-pattern&nbsp;&quot;(@)([a-zA-Z]*)&quot;)&nbsp;&nbsp;&quot;%$2&quot;)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 174&nbsp;&nbsp;
