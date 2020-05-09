@@ -17,6 +17,7 @@
 ;;------------------------------
 ;; container
 ;;------------------------------
+
 (defn store-defin
   "Stores the definition section."
   [p idx defin]

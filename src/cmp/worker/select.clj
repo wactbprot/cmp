@@ -2,12 +2,8 @@
   ^{:author "wactbprot"
     :doc "Worker selects a definition from the same `mp-id` 
           by evaluating the related conditions.
-          
-          REVIEW:
-          try avoid spreading side effects
          "}
   (:require [taoensso.timbre :as timbre]
-            [clojure.core.async :as a]
             [clojure.string :as string]
             [cmp.st-mem :as st]
             [cmp.exchange :as exch]
@@ -15,7 +11,6 @@
             [cmp.config :as cfg]))
 
 (def mtp (cfg/min-task-period (cfg/config)))
-
 
 (defn cond-match?
   "Tests a single condition of the form defined in
@@ -69,10 +64,10 @@
      (count cond-ks)
      (count match-ks))))
 
-(defn start-defs!
-  "Starts the filtered out `definitions` structure and
-  sets the state of the calling element to executed if the `ctrl`
-  turns to ready (or error if error).
+(defn start-defins!
+  "Starts the matching `definitions` structure and
+  sets the state of the calling element to `executed`
+  if the `ctrl`  turns to ready (or error if error).
 
   "          
   [match-k state-k]
@@ -93,7 +88,6 @@
                             (st/set-val! state-k "error"))))]
     (st/set-val! ctrl-k "run")
     (st/register! mp-id struct no-idx func cb!)))
-
 
 (defn select-definition!
   "Selects and runs a `Definition` from the `Definitions`
@@ -119,6 +113,7 @@
         def-cls   (task :DefinitionClass)
         def-pat   (u/vec->key [mp-id "definitions" "*" "class"])
         match-ks  (sort
-                   (st/filter-keys-where-val def-pat def-cls))
-        match-k   (first (filter conds-match? match-ks))]
-    (start-defs! match-k state-k)))
+                   (st/filter-keys-where-val def-pat def-cls))]
+    (if-let [match-k (first (filter conds-match? match-ks))]
+      (start-defins! match-k state-k)
+      (timbre/error "nothing match"))))
