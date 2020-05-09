@@ -256,6 +256,16 @@ $ lein codox
 $ lein test
 ```
 
+### Run tests from REPL
+
+Example `utils-tests`:
+
+```clojure
+(ns cmp.utils-test) 
+(use 'clojure.test)
+(run-tests)
+```
+
 ## code coverage
 
 ```shell

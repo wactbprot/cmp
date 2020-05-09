@@ -82,17 +82,17 @@
         mp-id  (st/key->mp-id state-k)
         no-idx (st/key->no-idx match-k)
         ctrl-k (st/defins-ctrl-path mp-id no-idx)
-        cb!    (fn [p]
-                 (cond
-                   (= "ready"
-                      (st/key->val ctrl-k)) (do
-                                              (st/set-val! state-k "executed")
-                                              (st/de-register! mp-id struct no-idx func))
-                   (= "error"
-                      (st/key->val ctrl-k)) (st/set-val! state-k "error")))]
-    
-    (st/register! mp-id struct no-idx func cb!)
-    (st/set-val! ctrl-k "run")))
+        cb!    (fn [msg]
+                 (condp = (keyword (st/key->val ctrl-k))
+                   :run   (timbre/debug "start-defs! run callback for" ctrl-k)
+                   :ready (do
+                            (timbre/debug "start-defs! ready callback for" ctrl-k)
+                            (st/set-val! state-k "executed"))
+                   :error (do
+                            (timbre/error "start-defs! error callback for" ctrl-k)
+                            (st/set-val! state-k "error"))))]
+    (st/set-val! ctrl-k "run")
+    (st/register! mp-id struct no-idx func cb!)))
 
 
 (defn select-definition!

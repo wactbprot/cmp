@@ -170,7 +170,7 @@
   This should remain as it is.
   "
   [doc]
-  (json->map (string/replace (json/write-str doc)  #"@\\[a-zA-Z\\]*"  "%")))
+  (json->map (string/replace (json/write-str doc)  (re-pattern "(@)([a-zA-Z]*)")  "%$2")))
 
 (defn clj->val
   "Casts the given (complex) value `x` to a writable

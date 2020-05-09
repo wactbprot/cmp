@@ -46,9 +46,9 @@
   (task? (:Task x)))
 
 ;;------------------------------
-;; action(s)(?)
+;; action(s)(?)--> solve with spec!!
 ;;------------------------------
-(defn action-eq?
+(defn action-eq
   "A `=` partial on the `task` `:Action`."
   [task]
   {:pre [(map? task)]}
@@ -63,8 +63,12 @@
   "
   [task]
   {:pre [(map? task)]}
-  (some (action-eq? task) [:MODBUS :VXI11 :TCP :UDP]))
+  (let []
+  (some (action-eq task) [:MODBUS :VXI11 :TCP :UDP])))
 
+;;------------------------------
+;; globals
+;;------------------------------
 (defn globals
   "Returns a map with replacements
   of general intrest.
@@ -251,36 +255,37 @@
   `assoc`s the structs afterwards.
 
   ```clojure
+  (def proto-task {:TaskName \"Common-wait\"
+                    :Replace {\"%waittime\" 10}})
   (assemble
-    (gen-meta-task {:TaskName \"Common-wait\"
-                    :Replace {\"%waittime\" 10}}))
-  ;; {:Action \"wait\",
-  ;;  :Comment \"Ready in  10 ms\",
+    (gen-meta-task proto-task \"ref\" \"ref@container@0@state@0@0\"))
+  ;; {:Action  \"wait\",
+  ;;  :Comment  \"Ready in  10 ms\",
   ;;  :TaskName \"Common-wait\",
   ;;  :WaitTime \"10\",
+  ;;  :MpName   \"ref\"
+  ;;  :StateKey \"ref@container@0@state@0@0\"
   ;;  ...
   ;; }
   ```
   "
-  [meta-task]
+  [meta-task mp-id state-key]
   (let [db-task  (:Task         meta-task)
         use-map  (:Use          meta-task)
         replace  (:Replace      meta-task)
         defaults (:Defaults     meta-task)
         globals  (:Globals      meta-task)
-        mp-name  (:MpName       meta-task)
-        state-k  (:StateKey     meta-task)
         exch-map (:FromExchange db-task)
         task     (dissoc db-task
                          :FromExchange
                          :Replace)
-        from-exch-map (exch/from! mp-name exch-map)]
+        from-map (exch/from! mp-id exch-map)]
     (assoc 
      (->> task
           (merge-use-map use-map)
-          (inner-replace-map from-exch-map)
+          (inner-replace-map from-map)
           (outer-replace-map replace)
           (outer-replace-map defaults)
           (outer-replace-map globals))
-     :MpName    mp-name
-     :StateKey  state-k)))
+     :MpName    mp-id
+     :StateKey  state-key)))

@@ -8,7 +8,7 @@
 ;;------------------------------
 ;; exchange
 ;;------------------------------
-(defn exchange
+(defn store-exchange
   "Stores the exchange data."
   [p {exchange :Exchange}]
   (doseq [[k v] exchange]
@@ -17,7 +17,7 @@
 ;;------------------------------
 ;; container
 ;;------------------------------
-(defn defin 
+(defn store-defin
   "Stores the definition section."
   [p idx defin]
   (doall
@@ -31,7 +31,7 @@
         s)))
     defin)))
 
-(defn container
+(defn store-container
   "Stores a single container"
   [p idx {descr :Description
           title :Title
@@ -42,20 +42,20 @@
   (st/set-val! (st/cont-descr-path p idx) descr)
   (st/set-val! (st/cont-ctrl-path p idx) ctrl)
   (st/set-val! (st/cont-elem-path p idx) elem)
-  (defin p idx defin))
+  (store-defin p idx defin))
 
-(defn all-container
+(defn store-all-container
   "Triggers the storing of the singel containers"
   [p {conts :Container}]
   (doall
    (map-indexed
-    (fn [idx cont] (container p idx cont))
+    (fn [idx cont] (store-container p idx cont))
     conts)))
 
 ;;------------------------------
 ;; definitions
 ;;------------------------------
-(defn defins
+(defn store-defins
   "Stores the definitions section."
   [p idx defin]
   (doall
@@ -78,7 +78,7 @@
       (st/set-val! (st/defins-cond-path p idx jdx) c))
         conds)))
 
-(defn definitions
+(defn store-definitions
   "Stores a definition given in the definition section
   (second way beside container to provide definitions).
   This includes `DefinitionClass` and `Conditions`."
@@ -90,27 +90,27 @@
     (st/set-val! (st/defins-descr-path p idx) descr)
     (st/set-val! (st/defins-class-path p idx) cls)
     (store-conds p idx conds)
-    (defins p idx defin)
+    (store-defins p idx defin)
     (st/set-val! (st/defins-ctrl-path p idx) "ready")))
 
-(defn all-definitions
+(defn store-all-definitions
   "Triggers the storing of the definition section."
   [p {defins :Definitions}]
   (doall
    (map-indexed
-    (fn [idx ds] (definitions p idx ds))
+    (fn [idx ds] (store-definitions p idx ds))
     defins)))
 
 ;;------------------------------
 ;; meta
 ;;------------------------------
-(defn meta-data
+(defn store-meta
   "Stores the mp meta data."
   [p {standard :Standard
-      name     :Name
-      descr    :Description
-      cont     :Container
-      defins   :Definitions}]
+      name :Name
+      descr :Description
+      cont :Container
+      defins :Definitions}]
   (st/set-val! (st/meta-std-path p) standard)
   (st/set-val! (st/meta-name-path p) name)
   (st/set-val! (st/meta-descr-path p) descr)
@@ -136,23 +136,24 @@
     (st/clear (st/exch-prefix p))
     (st/clear (st/cont-prefix p))
     (st/clear (st/defins-prefix p))
-    (meta-data p mp)
-    (exchange p mp)
-    (all-container p mp)
-    (all-definitions p mp)))
+    (store-meta p mp)
+    (store-exchange p mp)
+    (store-all-container p mp)
+    (store-all-definitions p mp)))
 
-(defn task
-  "Stores the given task `t` under the
+(defn store-task
+  "Stores the given `task` unter the
   path `tasks@<TaskName>`."
-  [t]
+  [task]
   (st/set-val!
-   (u/vec->key ["tasks" (:TaskName t)])
-   (u/doc->safe-doc t)))
+   (u/vec->key ["tasks" (:TaskName task)])
+   (u/doc->safe-doc task)))
 
-(defn tasks
-  "Stores the task list `v`
+(defn store-tasks
+  "Stores the `task-list`
   as received from `lt-mem`."
-  [v]  
+  [task-list]  
   (run!
-   (fn [{t :value}] (task t))
-   v))
+   (fn [{task :value}]
+     (store-task task))
+   task-list))

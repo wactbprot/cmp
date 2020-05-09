@@ -24,10 +24,10 @@
   have to be `assoc`ed here." 
   [k]
   (if-let [proto-task (st/key->val k)]
-    (tsk/assemble
-     (assoc (tsk/gen-meta-task proto-task)
-            :MpName    (st/key->mp-id k)
-            :StateKey  (u/replace-key-at-level 3 k "state")))
+    (let [meta-task (tsk/gen-meta-task proto-task)
+          mp-id     (st/key->mp-id k)
+          state-key (u/replace-key-at-level 3 k "state")]
+      (tsk/assemble meta-task mp-id state-key))
     (a/>!! excep/ch (str "No task at: " k))))
 
 ;;------------------------------

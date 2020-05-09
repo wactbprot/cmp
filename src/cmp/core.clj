@@ -271,7 +271,7 @@
   `st-mem`. The advantage is: tasks
   can be modified at runtime." 
   []
-  (build/tasks (lt/all-tasks)))
+  (build/store-tasks (lt/all-tasks)))
 
 (defn t-table
   "Prints a table of **assembled tasks** stored in
@@ -286,22 +286,29 @@
   ;;
   (t-table :Action \"TCP\")
   ;;
-  (t-table :Port \"23\")
+  (t-table :Port \"23\" \"ref\")
   ```
   . "
   ([]
-   (t-table  :Action :all))
+   (t-table  :Action :all "core" "test" 0 0 0))
   ([kw v]
-   (pp/print-table
-    (filter some?
-            (into []
-                  (map (fn [k]
-                         (let [name  (st/key->struct k)
-                               task  (task/assemble (task/gen-meta-task name))
-                               value (kw task)]
-                           (if (and value (or (= value v) (= :all v)))
-                             {:stm-key k :Name name kw value} )))
-                       (st/key->keys "tasks")))))))
+   (t-table  kw v "core" "test" 0 0 0))
+  ([kw v mp-id]
+   (t-table  kw v mp-id "test" 0 0 0))
+  ([kw v mp-id struct i j k]
+   (let [state-key (u/vec->key [mp-id struct i "state" j k])]
+     (pp/print-table
+      (filter some?
+              (into []
+                    (map (fn [k]
+                           (let [name      (st/key->struct k)
+                                 meta-task (task/gen-meta-task name)
+                                 task      (task/assemble meta-task mp-id state-key)
+                                 value     (kw task)]
+                             (if (and value (or (= value v) (= :all v)))
+                               {kw value :TaskName name :stm-key k} )))
+                         (st/key->keys "tasks"))))))))
+
 (defn t-run
   "Runs the task with the given name (from stm).
   If only the name is provided, results are stored
@@ -340,32 +347,43 @@
    (let [func       "response"
          state-key  (u/vec->key[mp-id struct i "state" j k])
          resp-key   (u/vec->key[mp-id struct i func j k])
-         meta-task  (assoc (task/gen-meta-task name)
-                           :MpName mp-id
-                           :StateKey state-key)
-         task       (task/assemble meta-task)]
+         meta-task  (task/gen-meta-task name)
+         task       (task/assemble meta-task mp-id state-key)]
      (when (task/dev-action? task)
-       (do
-         (timbre/info "task dispached, wait for response...")
-         (st/register! mp-id struct i func (fn [msg]
-                                             (if-let [k (st/msg->key msg)]
-                                               (do
-                                                 (st/de-register! mp-id struct i func)
-                                                 (pp/pprint (st/key->val k))))))))
+       (timbre/info "task dispached, wait for response...")
+       (st/register! mp-id struct i func (fn [msg]
+                                           (when-let [k (st/msg->key msg)]
+                                             (st/de-register! mp-id struct i func)
+                                             (pp/pprint (st/key->val k))))))
      (work/dispatch! task state-key))))
 
-(defn t-show
-  "Pretty prints the task with the
-  given `name`. If a `mp-id` is given. `FromExchange`
-  dependencies may be resolved."
-  ([name]
-   (t-show name "core"))
-  ([name mp-id]
-   (pp/pprint
-    (task/assemble
-     (assoc (task/gen-meta-task name)
-            :MpName mp-id)))))
+(defn t-raw
+  "Shows the raw task as stored at st-memory" 
+  [s]
+  (st/key->val (u/vec->key ["tasks" s])))
 
+(defn t-assemble
+  "Assembles the task with the given `x`
+  (`TaskName` or
+  `{:TaskName \"task-name\" :Replace {:%waittime 3000}}`).
+  If a `mp-id` (default is `\"core\"`) is given
+  `FromExchange` dependencies may be resolved.
+
+  Example:
+  ```clojure
+  (t-assemble {:TaskName \"Common-wait\"
+           :Replace {\"%waittime\" 3000}})
+  ```
+  "
+  ([x]
+   (t-assemble x "core" "test" 0 0 0))
+  ([x mp-id]
+   (t-assemble x mp-id "test" 0 0 0))
+  ([x mp-id struct i j k]
+   (let [state-key  (u/vec->key[mp-id struct i "state" j k])
+         meta-task  (task/gen-meta-task x)]
+     (task/assemble meta-task mp-id state-key))))
+  
 (defn t-build-edn
   "Stores the `task` slurped from the files
   configured in `resources/config.edn`.
@@ -378,7 +396,7 @@
   (run!
    (fn [uri]
      (timbre/info "try to slurp and build: " uri  )
-       (build/task
+       (build/store-task
         (read-string
          (slurp uri))))
      (cfg/edn-tasks (cfg/config))))

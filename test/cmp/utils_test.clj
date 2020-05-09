@@ -34,3 +34,7 @@
         "return nil if l > count split of key")))
 
 
+(deftest doc->safe-doc-i
+  (testing "Substitude @ by % (i)"
+    (is (= {:a "%kk"} (doc->safe-doc {:a "@kk"})) 
+        "basic functionality")))
