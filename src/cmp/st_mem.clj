@@ -316,7 +316,6 @@
   ;; \"ref@container@0@ctrl\"
   ```"
   [[kind l1 l2 l3]]
-  (timbre/debug "msg->key received: " (str kind l1 l2 l3))
   (condp = (keyword kind)
     :pmessage   (second (string/split l2 #":"))
     :psubscribe (timbre/info "subscribed to " l1)
@@ -358,7 +357,6 @@
   ```"
   [mp-id l2 l3 l4 cb!]
   (let [s-pat (subs-pat mp-id l2 l3 l4)]
-    (timbre/debug "new pubsub-listener for pat: " s-pat)
     (car/with-new-pubsub-listener (:spec conn)
       {s-pat cb!}
       (car/psubscribe s-pat))))  

@@ -268,98 +268,101 @@
 <span class="not-covered" title="0 out of 4 forms covered">
                 088&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-k&nbsp;&quot;error&quot;))))]
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                089&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;ctrl-k&nbsp;&quot;run&quot;)
+<span class="not-tracked" title="0 out of 0 forms covered">
+                089&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;mp-id&nbsp;struct&nbsp;no-idx&nbsp;func&nbsp;cb!)))
+                090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;mp-id&nbsp;struct&nbsp;no-idx&nbsp;func&nbsp;cb!)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                091&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;ctrl-k&nbsp;&quot;run&quot;)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                091&nbsp;&nbsp;
+                092&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                092&nbsp;&nbsp;(defn&nbsp;select-definition!
+                093&nbsp;&nbsp;(defn&nbsp;select-definition!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                093&nbsp;&nbsp;&nbsp;&nbsp;&quot;Selects&nbsp;and&nbsp;runs&nbsp;a&nbsp;`Definition`&nbsp;from&nbsp;the&nbsp;`Definitions`
+                094&nbsp;&nbsp;&nbsp;&nbsp;&quot;Selects&nbsp;and&nbsp;runs&nbsp;a&nbsp;`Definition`&nbsp;from&nbsp;the&nbsp;`Definitions`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                094&nbsp;&nbsp;&nbsp;&nbsp;section&nbsp;of&nbsp;the&nbsp;current&nbsp;`mp`.&nbsp;
+                095&nbsp;&nbsp;&nbsp;&nbsp;section&nbsp;of&nbsp;the&nbsp;current&nbsp;`mp`.&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                095&nbsp;&nbsp;&nbsp;&nbsp;
+                096&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                096&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                097&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                097&nbsp;&nbsp;&nbsp;&nbsp;(select-definition!&nbsp;{:Action&nbsp;select
+                098&nbsp;&nbsp;&nbsp;&nbsp;(select-definition!&nbsp;{:Action&nbsp;select
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                098&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:TaskName&nbsp;Common-select_definition,
+                099&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:TaskName&nbsp;Common-select_definition,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                099&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:DefinitionClass&nbsp;wait}&nbsp;\&quot;teststate\&quot;)
+                100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:DefinitionClass&nbsp;wait}&nbsp;\&quot;teststate\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                100&nbsp;&nbsp;&nbsp;&nbsp;```
+                101&nbsp;&nbsp;&nbsp;&nbsp;```
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                101&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;more&nbsp;than&nbsp;one&nbsp;than&nbsp;one&nbsp;of&nbsp;the&nbsp;definitions&nbsp;condition&nbsp;match
+                102&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;more&nbsp;than&nbsp;one&nbsp;than&nbsp;one&nbsp;of&nbsp;the&nbsp;definitions&nbsp;condition&nbsp;match
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                102&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;first&nbsp;is&nbsp;used:
+                103&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;first&nbsp;is&nbsp;used:
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                103&nbsp;&nbsp;
+                104&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                104&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                105&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                105&nbsp;&nbsp;&nbsp;&nbsp;(first&nbsp;(filter&nbsp;conds-match?&nbsp;match-ks))
+                106&nbsp;&nbsp;&nbsp;&nbsp;(first&nbsp;(filter&nbsp;conds-match?&nbsp;match-ks))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                106&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;ref@definitions@1@class
+                107&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;ref@definitions@1@class
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                107&nbsp;&nbsp;&nbsp;&nbsp;```&quot;&nbsp;
+                108&nbsp;&nbsp;&nbsp;&nbsp;```&quot;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                108&nbsp;&nbsp;&nbsp;&nbsp;[task&nbsp;state-k]
+                109&nbsp;&nbsp;&nbsp;&nbsp;[task&nbsp;state-k]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                109&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-k&nbsp;&quot;working&quot;)
+                110&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-k&nbsp;&quot;working&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                110&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;mtp)
+                111&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;mtp)
                 </span><br/>
 <span class="not-covered" title="0 out of 17 forms covered">
-                111&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;debug&nbsp;&quot;start&nbsp;with&nbsp;select,&nbsp;already&nbsp;set&nbsp;&quot;&nbsp;state-k&nbsp;&quot;&nbsp;working&quot;)
+                112&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;debug&nbsp;&quot;start&nbsp;with&nbsp;select,&nbsp;already&nbsp;set&nbsp;&quot;&nbsp;state-k&nbsp;&quot;&nbsp;working&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                112&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;mp-id&nbsp;state-k)
+                113&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;mp-id&nbsp;state-k)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                113&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;def-cls&nbsp;&nbsp;&nbsp;(task&nbsp;:DefinitionClass)
+                114&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;def-cls&nbsp;&nbsp;&nbsp;(task&nbsp;:DefinitionClass)
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                114&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;def-pat&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[mp-id&nbsp;&quot;definitions&quot;&nbsp;&quot;*&quot;&nbsp;&quot;class&quot;])
+                115&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;def-pat&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[mp-id&nbsp;&quot;definitions&quot;&nbsp;&quot;*&quot;&nbsp;&quot;class&quot;])
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                115&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;match-ks&nbsp;&nbsp;(sort
+                116&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;match-ks&nbsp;&nbsp;(sort
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                116&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;filter-keys-where-val&nbsp;def-pat&nbsp;def-cls))]
+                117&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;filter-keys-where-val&nbsp;def-pat&nbsp;def-cls))]
                 </span><br/>
 <span class="not-covered" title="0 out of 11 forms covered">
-                117&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[match-k&nbsp;(first&nbsp;(filter&nbsp;conds-match?&nbsp;match-ks))]
+                118&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[match-k&nbsp;(first&nbsp;(filter&nbsp;conds-match?&nbsp;match-ks))]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                118&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start-defins!&nbsp;match-k&nbsp;state-k)
+                119&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start-defins!&nbsp;match-k&nbsp;state-k)
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                119&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;error&nbsp;&quot;nothing&nbsp;match&quot;))))
+                120&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;error&nbsp;&quot;nothing&nbsp;match&quot;))))
                 </span><br/>
  </body>
 </html>

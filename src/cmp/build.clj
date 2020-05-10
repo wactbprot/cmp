@@ -33,7 +33,7 @@
     defin)))
 
 (defn store-container
-  "Stores a single container"
+  "Stores a single container."
   [p idx {descr :Description
           title :Title
           ctrl  :Ctrl
@@ -46,7 +46,7 @@
   (store-defin p idx defin))
 
 (defn store-all-container
-  "Triggers the storing of the singel containers"
+  "Triggers the storing of the containers."
   [p {conts :Container}]
   (doall
    (map-indexed
@@ -57,7 +57,8 @@
 ;; definitions
 ;;------------------------------
 (defn store-defins
-  "Stores the definitions section."
+  "Stores the definitions section. Initiates all
+  state keys with `\"ready\"`."
   [p idx defin]
   (doall
    (map-indexed
@@ -106,7 +107,14 @@
 ;; meta
 ;;------------------------------
 (defn store-meta
-  "Stores the mp meta data."
+  "Stores the meta data of an mpd:
+
+  * standard
+  * name
+  * description
+  * number of containers
+  * number of definitions
+  "
   [p {standard :Standard
       name :Name
       descr :Description
@@ -142,17 +150,21 @@
     (store-all-container p mp)
     (store-all-definitions p mp)))
 
+
+;;------------------------------
+;; tasks
+;;------------------------------
 (defn store-task
-  "Stores the given `task` unter the
-  path `tasks@<TaskName>`."
+  "Stores the given `task` unter the path
+  `tasks@<TaskName>`."
   [task]
   (st/set-val!
    (u/vec->key ["tasks" (:TaskName task)])
    (u/doc->safe-doc task)))
 
 (defn store-tasks
-  "Stores the `task-list`
-  as received from `lt-mem`."
+  "Stores the `task-list` as received
+  from `lt-mem`."
   [task-list]  
   (run!
    (fn [{task :value}]

@@ -86,8 +86,9 @@
                    :error (do
                             (timbre/error "start-defs! error callback for" ctrl-k)
                             (st/set-val! state-k "error"))))]
-    (st/set-val! ctrl-k "run")
-    (st/register! mp-id struct no-idx func cb!)))
+    
+    (st/register! mp-id struct no-idx func cb!)
+    (st/set-val! ctrl-k "run")))
 
 (defn select-definition!
   "Selects and runs a `Definition` from the `Definitions`

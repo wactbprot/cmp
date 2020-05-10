@@ -50,13 +50,13 @@
   (let [action (keyword (:Action task))]
     (timbre/info "cond for action: " action)
     (condp = action
-      :wait           (wait!              task state-key)
-      :select         (select-definition! task state-key)
-      :writeExchange  (write-exchange!    task state-key)
-      :MODBUS         (devhub!            task state-key)
-      :TCP            (devhub!            task state-key)
-      :VXI11          (devhub!            task state-key)
-      :EXECUTE        (devhub!            task state-key)
+      :select         (a/go (select-definition! task state-key))
+      :writeExchange  (a/go (write-exchange!    task state-key))
+      :wait           (a/go (wait!              task state-key))
+      :MODBUS         (a/go (devhub!            task state-key))
+      :TCP            (a/go (devhub!            task state-key))
+      :VXI11          (a/go (devhub!            task state-key))
+      :EXECUTE        (a/go (devhub!            task state-key))
       (do
         (timbre/error "unknown action: " action)
         (st/set-val! state-key "error")))))

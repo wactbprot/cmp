@@ -16,6 +16,7 @@
             [cmp.ctrl :as ctrl]
             [cmp.state :as state]
             [cmp.work :as work]
+            [cmp.pubsubstat :as p]
             [cmp.log :as log]
             [taoensso.timbre :as timbre]))
 
