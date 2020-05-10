@@ -8,21 +8,39 @@
 
 (def table (atom []))
 
+(defn cb!
+  [msg]
+  (let [d   (u/get-date-object)
+        k   (st/msg->key msg)
+        val (st/key->val k)]
+    (swap! table conj {:h (u/get-hour d)
+                       :m (u/get-min d)
+                       :s (u/get-sec d)
+                       :meth (nth msg 0)
+                       :k k
+                       :val val })
+    (pp/print-table (deref table))))
+
 (defn start
-  [mp-id]
-  (st/register! mp-id "*" "*" "*" (fn [msg]
-                                    (prn msg)
-                                    (let [d   (u/get-date-object)
-                                          k   (st/msg->key msg)
-                                          val (st/key->val k)]
-                                      (swap! table conj {:h (u/get-hour d)
-                                                         :m (u/get-min d)
-                                                         :s (u/get-sec d)
-                                                         :meth (nth msg 0)
-                                                         :k k
-                                                         :val val })
-                                      (pp/print-table (deref table))))))
+  "Registers a listener. Pretty prints a table
+  on events."
+  ([]
+   (start "*" "*" "*" "*"))
+  ([mp-id struct]
+   (start mp-id struct "*" "*"))
+  ([mp-id struct i]
+   (start mp-id struct i "*"))
+  ([mp-id struct i func]
+  (st/register! mp-id struct i func cb!)))
+
 (defn stop
-  [mp-id]
-  (reset! table [])
-  (st/de-register! mp-id "*" "*" "*"))
+  "De-registers the listener. Resets the table `atom`."
+  ([]
+   (stop "*" "*" "*" "*"))
+  ([mp-id struct]
+   (stop mp-id struct "*" "*"))
+  ([mp-id struct i]
+   (stop mp-id struct i "*"))
+  ([mp-id struct i func]
+   (reset! table [])
+   (st/de-register! mp-id struct i func)))
