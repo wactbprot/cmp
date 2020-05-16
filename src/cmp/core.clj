@@ -16,7 +16,6 @@
             [cmp.ctrl :as ctrl]
             [cmp.state :as state]
             [cmp.work :as work]
-            [cmp.pubsubstat :as p]
             [cmp.log :as log]
             [taoensso.timbre :as timbre]))
 
@@ -444,3 +443,48 @@
   ([mp-id]
    (m-stop mp-id)
    (st/clear mp-id)))
+
+;;------------------------------
+;; p-ubsub events
+;;------------------------------
+(def pubsub-table (atom []))
+(defn p-start-table
+  "Registers a listener. Pretty prints a pubsub-table
+  on events."
+  ([]
+   (p-start-table "*" "*" "*" "*"))
+  ([mp-id struct]
+   (p-start-table mp-id struct "*" "*"))
+  ([mp-id struct i]
+   (p-start-table mp-id struct i "*"))
+  ([mp-id struct i func]
+   (let [cb! (fn  [msg]
+               (let [d   (u/get-date-object)
+                     k   (st/msg->key msg)
+                     val (st/key->val k)]
+                 (swap! pubsub-table conj {:h    (u/get-hour d)
+                                           :m    (u/get-min d)
+                                           :s    (u/get-sec d)
+                                           :meth (nth msg 0)
+                                           :k    k
+                                           :val  val })
+                 (pp/print-table (deref pubsub-table))))]
+     (st/register! mp-id struct i func cb!))))
+
+(defn p-clear-table
+  []
+  "Resets the pubsub-table `atom`."
+  (reset! pubsub-table []))
+
+(defn p-stop-table
+  "De-registers the pubsub listener.
+  Resets the pubsub-table `atom`."
+  ([]
+   (p-stop-table "*" "*" "*" "*"))
+  ([mp-id struct]
+   (p-stop-table mp-id struct "*" "*"))
+  ([mp-id struct i]
+   (p-stop-table mp-id struct i "*"))
+  ([mp-id struct i func]
+   (p-clear-table)
+   (st/de-register! mp-id struct i func)))

@@ -116,6 +116,11 @@ overview. Commands in `(ns cmp.core)` have the following prefixes:
 * `n-` ... **definitions**
 - `n-status (cmp.core) <f>`
 
+* `p-` ... **pubsub table** (start in a second repl)
+- `p-clear-table (cmp.core) <f>`
+- `p-start-table (cmp.core) <f>`
+- `p-stop-table (cmp.core) <f>`
+
 
 ## reference mpd
 
