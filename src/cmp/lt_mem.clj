@@ -3,7 +3,6 @@
             [clojure.string :as string]
             [com.ashafa.clutch :as couch]
             [cmp.config :as cfg]
-            [cmp.excep :as excep]
             [taoensso.timbre :as timbre]))
 
 (def conn (cfg/lt-conn (cfg/config)))
@@ -15,8 +14,7 @@
   (try
     (couch/get-document conn id)
     (catch Exception e
-      (timbre/error "catch error on attempt to get doc: " id)
-      (a/>!! excep/ch e))))
+      (timbre/error "catch error on attempt to get doc: " id))))
 
 (defn put-doc
   "Saves a document to the long term memory."
@@ -25,8 +23,7 @@
   (try
     (couch/put-document conn doc)
     (catch Exception e
-      (timbre/error "catch error on attempt to put doc")
-      (a/>!! excep/ch e))))
+      (timbre/error "catch error on attempt to put doc"))))
 
 (defn all-tasks
   "Returns all tasks."

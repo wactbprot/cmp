@@ -2,13 +2,11 @@
   ^{:author "wactbprot"
     :doc "Spec for tasks."}
   (:require [clojure.spec.alpha :as s]
-            [clojure.core.async :as a]
             [taoensso.timbre :as log]
             [clojure.walk :as w]
             [clojure.string :as string]
             [cmp.utils :as u]
             [cmp.doc :as d]
-            [cmp.excep :as excep]
             [cmp.exchange :as exch]
             [cmp.lt-mem :as lt]
             [cmp.st-mem :as st]))
@@ -32,7 +30,7 @@
   "Checks the task structure against a spec."
   [m]
   (if (nil? m)
-    (a/>!! excep/ch "task is nil")
+    (throw (Exception. "task is nil"))
     (condp :Action m
       "TCP"    (s/valid? ::tcp-task m)
       :default (s/valid? ::task m))))

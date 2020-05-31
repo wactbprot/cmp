@@ -3,14 +3,13 @@
     :doc "Catches responses and dispatchs."}
   (:require [clojure.core.async :as a]
             [cmp.exchange :as exch]
-            [cmp.excep :as excep]
             [cmp.doc :as doc]
             [cmp.lt-mem :as lt]
             [cmp.st-mem :as st]
             [cmp.utils :as u]
             [taoensso.timbre :as timbre]))
 
-(defn dispatch!
+(defn dispatch
   "Dispatches responds from outer space.
   Expected responses are:
 
@@ -24,7 +23,7 @@
   "
   [body task state-key]
   (if-let [err (:error body)]
-    (a/>!! excep/ch (str "response: " body " at " state-key))
+    (throw (Exception. (str "response: " body " at " state-key)))
     (let [resp-key (st/state-key->response-key state-key)
           to-exch  (:ToExchange body)
           results  (:Result body) 
@@ -36,47 +35,34 @@
             res-doc   (doc/store! mp-id results doc-path)]
         (cond
           (:error res-exch) (do
-                              (let [msg (str "error on exch/to! at: " state-key)]
-                                (st/set-val! state-key "error")
-                                (a/>!! excep/ch msg)
-                              {:error msg}))
+                              (st/set-val! state-key "error")
+                              (throw (Exception. (str "error on exch/to! at: " state-key))))
           (:error res-doc)  (do
-                              (let [msg (str "error on doc/store! at: " state-key)]
-                                (st/set-val! state-key "error")
-                                (a/>!! excep/ch msg)
-                                {:error msg}))
+                              (st/set-val! state-key "error")
+                              (throw (Exception. (str "error on doc/store! at: " state-key))))
           (and
            (:ok res-exch)     
            (:ok res-doc))   (do
                               (st/set-val! state-key "executed")
-                              (timbre/info "response handeled for: " state-key)
-                              {:ok true})
-          :default          (do
-                              (let [msg (str "unexpected behaviour at: " state-key)]
-                                (st/set-val! state-key "error")
-                                (a/>!! excep/ch msg))))))))
+                              (timbre/info "response handeled for: " state-key))
+          :unexpected       (do
+                              (st/set-val! state-key "error")
+                              (throw (Exception. (str "unexpected behaviour at: " state-key )))))))))
 
 ;;------------------------------
-;; ctrl channel buffers
-;; 10 response processings
+;; check
 ;;------------------------------
-(def ctrl-chan (a/chan))
-
-;;------------------------------
-;; ctrl go block 
-;;------------------------------
-(a/go-loop []
-  (let [[res task state-key] (a/<! ctrl-chan)]
-        (if-let [status (:status res)]
-          (if-let [body (u/val->clj  (:body res))]
-            (if (< status 400) 
-              (dispatch! body task state-key) 
-              (a/>! excep/ch (str "request for: "
-                                  state-key
-                                  " failed with status: "
-                                  status)))            
-            (a/>! excep/ch (str "body can not be parsed for: "
-                                state-key)))
-          (a/>! excep/ch (str "no status in header for: "
+(defn check
+  "Checks a response from outer space.
+  Lookes at the status, parses the body and dispathes."
+  [res task state-key]
+  (if-let [status (:status res)]
+    (if-let [body (u/val->clj (:body res))]
+      (if (< status 400) 
+        (dispatch body task state-key) 
+        (throw (Exception. (str "request for: " state-key
+                                " failed with status: " status))))            
+       (throw (Exception. (str "body can not be parsed for: "
                               state-key))))
-  (recur))
+    (throw (Exception. (str "no status in header for: "
+                            state-key)))))

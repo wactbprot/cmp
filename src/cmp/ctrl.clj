@@ -3,13 +3,11 @@
     :doc "Observes the `ctrl` interface."}
   (:require [taoensso.timbre :as timbre]
             [cmp.st-mem :as st]
-            [clojure.core.async :as a]
-            [cmp.excep :as excep]
             [cmp.state :as state]
             [cmp.utils :as u]))
 
 ;;------------------------------
-;; ctrl-dispatch!
+;; ctrl-dispatch
 ;;------------------------------
 (defn dispatch
   "Dispatches on the value of the
@@ -17,11 +15,9 @@
   belonging to `k`."
   [k]
   (timbre/info "ctrl dispatch call for path: " k)
-  (if k
-    (let [cmd (->> k
-                   st/key->val
-                   u/get-next-ctrl)]
-      (a/>!! state/ctrl-chan [k cmd]))))
+  (when k
+    (let [cmd (u/get-next-ctrl (st/key->val k))]
+      (state/dispatch k cmd))))
 
 ;;------------------------------
 ;; stop

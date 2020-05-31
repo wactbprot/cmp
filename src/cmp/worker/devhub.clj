@@ -4,7 +4,6 @@
   (:require [clj-http.client :as http]
             [clojure.core.async :as a]
             [cmp.config :as cfg]
-            [cmp.excep :as excep]
             [cmp.resp :as resp]
             [cmp.st-mem :as st]
             [cmp.utils :as u]
@@ -180,10 +179,7 @@
           url dev-hub-url]
       (timbre/debug "send req to: " url)
       (a/go
-        (a/>!! resp/ctrl-chan [(http/post url req) task state-key]))
-      {:ok true})
-    (let [err-msg (str "failed to build task for: " state-key)]
-      (timbre/error err-msg)
-      (st/set-val! state-key "error")
-      (a/>!! excep/ch  err-msg)
-      {:error err-msg})))
+        (resp/check (http/post url req) task state-key)))
+    (do 
+      (timbre/error (str "failed to build task for: " state-key))
+      (st/set-val! state-key "error"))))

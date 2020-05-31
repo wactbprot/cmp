@@ -3,15 +3,13 @@
     :doc "Finds and starts the up comming 
           tasks of a certain container."}
   (:require [taoensso.timbre :as timbre]
-            [clojure.core.async :as a]
             [cmp.st-mem :as st]
             [cmp.work :as work]            
             [cmp.task :as tsk]
-            [cmp.excep :as excep]
             [cmp.utils :as u]))
 
 
-(defn state-map->definition-key
+(defn state-map->struct-key
   "Converts a `state-map` into a key."
   [m]
   (u/vec->key [(:mp-name m) (:struct m) (:no-idx m)
@@ -256,9 +254,9 @@
 
 
 ;;------------------------------
-;; reset
+;; ready!
 ;;------------------------------
-(defn reset 
+(defn ready! 
   "Sets all states (the state interface) to ready."
   [k]
   (st/set-same-val! (k->state-ks k) "ready"))
@@ -266,8 +264,9 @@
 ;;------------------------------
 ;; stop
 ;;------------------------------
-(defn stop
-  "De-registers the `state` listener.
+(defn de-observe!
+  "Opposite of [[observe!]]:
+  De-registers the `state` listener.
   The de-register pattern is derived
   from the key  `k` (may be the
   `ctrl-key` or `state-key`).
@@ -277,14 +276,14 @@
                    (st/key->struct k)
                    (st/key->no-idx k)
                    "state")
-  (reset k))
+  (ready! k))
 
 ;;------------------------------
-;; stop
+;; suspend!
 ;;------------------------------
-(defn suspend
+(defn suspend!
   "Simply de-registers the `state` listener
-  without changing the state interface.
+  without changing (e.g. ready!) the state interface.
   The de-register pattern is derived
   from the key  `k` (may be the
   `ctrl-key` or `state-key`)."
@@ -298,13 +297,18 @@
 ;;------------------------------
 ;; set value at ctrl-path 
 ;;------------------------------
-(defn error-ctrl!
+(defn error!
   "Sets the `ctrl` interface to `\"error\"`."
   [k]
-  (timbre/error  "error-ctrl! for: " k)
+  (timbre/error  "error! for: " k)
   (st/set-val! (k->ctrl-k k) "error"))
 
-(defn all-exec-ctrl!
+(defn nop!
+  "No operation."
+  [k]
+  (timbre/debug "nop! for: " k))
+
+(defn all-exec!
   "Handles the case where all `state` interfaces
   are `\"executed\"`. Gets the value  the `ctrl`"
   [k]
@@ -315,17 +319,12 @@
     (timbre/info "ctrl cmd is: " cmd)
     (condp = cmd
       :run (do
-             (stop ctrl-k)
+             (de-observe! ctrl-k)
              (st/set-val! ctrl-k "ready"))
       :mon (do
-             (stop ctrl-k)
+             (de-observe! ctrl-k)
              (st/set-val! ctrl-k "mon"))
       (timbre/info "default condp branch in all-exec fn of " k ))))
-
-(defn nil-ctrl!
-  "Kind of `nop`."
-  [k]
-  (timbre/debug "nil-ctrl! for: " k))
 
 ;;------------------------------
 ;; pick next task
@@ -355,22 +354,21 @@
   [x]
   (timbre/info "start-next! on " x)
   (if-let [k x]
-    (let [ctrl-k  (k->ctrl-k k)
-          state-m (ks->state-map (k->state-ks ctrl-k))
-          next-m  (find-next state-m)]
+    (let [ctrl-k   (k->ctrl-k k)
+          state-m  (ks->state-map (k->state-ks ctrl-k))
+          next-m   (find-next state-m)]
       (timbre/debug "next map is: " next-m)
       (cond
-        (errors?       state-m) (error-ctrl!    ctrl-k)
-        (all-executed? state-m) (all-exec-ctrl! ctrl-k)
-        (nil?           next-m) (nil-ctrl!      ctrl-k)
-        :else (a/go
-                (timbre/debug "request to work/ctrl-chan channel")
-                (a/>! work/ctrl-chan (state-map->definition-key next-m)))))))
+        (errors?       state-m) (error!    ctrl-k)
+        (all-executed? state-m) (all-exec! ctrl-k)
+        (nil?           next-m) (nop!      ctrl-k)
+        :run-worker  (work/dispatch
+                      (state-map->struct-key next-m))))))
 
 ;;------------------------------
-;; start
+;; observe!
 ;;------------------------------
-(defn start
+(defn observe!
   "Registers a listener with a [[start-next!]] callback.
   Calls `start-next!` as a first trigger.
   The register pattern is derived
@@ -404,25 +402,15 @@
        (ks->state-map)))
 
 ;;------------------------------
-;; ctrl channel invoked by ctrl 
+;; dispatch
 ;;------------------------------
-(def ctrl-chan (a/chan))
-
-;;------------------------------
-;; ctrl go block 
-;;------------------------------
-(a/go-loop []
-    (let [[k cmd] (a/<! ctrl-chan)] ; k ... ctrl-key
-      (try
-        (timbre/info "state go loop: receive key: " k "and cmd: " cmd)            
-        (condp = (keyword cmd)
-          :run     (start k)
-          :reset   (reset k)
-          :mon     (start k)
-          :stop    (stop k)
-          :suspend (suspend k)
-          (timbre/info  "state go loop: default case: nop" ))
-        (catch Exception e
-          (timbre/error "catch error at channel " k)
-          (a/>! excep/ch e))))
-  (recur))
+(defn dispatch
+  "Dispaches depending on `cmd`."
+  [k cmd]
+  (condp = (keyword cmd)
+    :run     (observe!    k)
+    :mon     (observe!    k)
+    :stop    (de-observe! k)
+    :reset   (ready!      k)
+    :suspend (suspend!    k)
+    (timbre/info  "state go loop: default case: nop" )))

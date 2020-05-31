@@ -2,7 +2,6 @@
   ^{:author "wactbprot"
     :doc "Handles the access to the exchange interface."}
   (:require [taoensso.timbre :as timbre]
-            [clojure.core.async :as a]
             [clojure.string :as string]
             [cmp.st-mem :as st]
             [cmp.utils :as u]))
