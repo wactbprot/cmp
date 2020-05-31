@@ -413,4 +413,4 @@
     :stop    (de-observe! k)
     :reset   (ready!      k)
     :suspend (suspend!    k)
-    (timbre/info  "state go loop: default case: nop" )))
+    (timbre/info  "state dispach function: default case: nop" )))
