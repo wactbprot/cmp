@@ -1,7 +1,7 @@
 (ns cmp.ctrl
   ^{:author "wactbprot"
     :doc "Observes the `ctrl` interface."}
-  (:require [taoensso.timbre :as timbre]
+  (:require [taoensso.timbre :as log]
             [cmp.st-mem :as st]
             [cmp.state :as state]
             [cmp.utils :as u]))
@@ -14,7 +14,7 @@
   `ctrl` interface  for the structure
   belonging to `k`."
   [k]
-  (timbre/info "ctrl dispatch call for path: " k)
+  (log/info "ctrl dispatch call for path: " k)
   (when k
     (let [cmd (u/get-next-ctrl (st/key->val k))]
       (state/dispatch k cmd))))
@@ -38,7 +38,7 @@
   the entire `mp-id`. The [[dispatch]] function
   becomes the listeners `cb!`." 
   [mp-id]
-  (timbre/info "register ctrl listener for: " mp-id)
+  (log/info "register ctrl listener for: " mp-id)
   (let [cb! (fn [msg]
                    (dispatch
                     (st/msg->key msg)))]

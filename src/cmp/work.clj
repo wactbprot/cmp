@@ -1,7 +1,7 @@
 (ns cmp.work
   ^{:author "wactbprot"
     :doc "Runs the upcomming tasks of a certain container."}
-  (:require [taoensso.timbre :as timbre]
+  (:require [taoensso.timbre :as log]
             [clojure.core.async :as a]
             [cmp.st-mem :as st]
             [cmp.worker.wait :refer [wait!]]
@@ -56,7 +56,7 @@
   (let [task (get-task x)]
     (if-let [state-key (:StateKey task)]
       (let [action (keyword (:Action task))]
-        (timbre/info "cond for action: " action)
+        (log/info "cond for action: " action)
         (condp = action
           :select         (a/go (select-definition! task state-key))
           :writeExchange  (a/go (write-exchange!    task state-key))
@@ -66,6 +66,6 @@
           :VXI11          (a/go (devhub!            task state-key))
           :EXECUTE        (a/go (devhub!            task state-key))
           (do
-            (timbre/error "unknown action: " action)
+            (log/error "unknown action: " action)
             (st/set-val! state-key "error"))))
-      (timbre/debug "task has no state key: " x))))
+      (log/debug "task has no state key: " x))))

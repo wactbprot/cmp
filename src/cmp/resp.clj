@@ -7,7 +7,7 @@
             [cmp.lt-mem :as lt]
             [cmp.st-mem :as st]
             [cmp.utils :as u]
-            [taoensso.timbre :as timbre]))
+            [taoensso.timbre :as log]))
 
 (defn dispatch
   "Dispatches responds from outer space.
@@ -29,7 +29,7 @@
           results  (:Result body) 
           doc-path (:DocPath task)
           mp-id    (:MpName task)]
-      (timbre/debug "write response body to: " resp-key)
+      (log/debug "write response body to: " resp-key)
       (st/set-val! resp-key body)
       (let [res-exch  (exch/to! mp-id to-exch)
             res-doc   (doc/store! mp-id results doc-path)]
@@ -44,7 +44,7 @@
            (:ok res-exch)     
            (:ok res-doc))   (do
                               (st/set-val! state-key "executed")
-                              (timbre/info "response handeled for: " state-key))
+                              (log/info "response handeled for: " state-key))
           :unexpected       (do
                               (st/set-val! state-key "error")
                               (throw (Exception. (str "unexpected behaviour at: " state-key )))))))))

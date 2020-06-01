@@ -1,7 +1,7 @@
 (ns cmp.st-mem
   (:require [taoensso.carmine :as car :refer (wcar)]
             [cmp.utils :as u]
-            [taoensso.timbre :as timbre]
+            [taoensso.timbre :as log]
             [clojure.string :as string]
             [clojure.data.json :as json]
             [cmp.config :as cfg]))
@@ -19,8 +19,8 @@
   (if (string? k)
     (if (some? v)
       (wcar conn (car/set k (u/clj->val v)))
-      (timbre/warn "no value given"))
-    (timbre/warn "no key given")))
+      (log/warn "no value given"))
+    (log/warn "no key given")))
 
 (defn set-same-val!
   "Sets the given values (`val`) for all keys (`ks`)."
@@ -318,8 +318,8 @@
   [[kind l1 l2 l3]]
   (condp = (keyword kind)
     :pmessage   (second (string/split l2 #":"))
-    :psubscribe (timbre/info "subscribed to " l1)
-    (timbre/warn "received" kind l1 l2 l3)))
+    :psubscribe (log/info "subscribed to " l1)
+    (log/warn "received" kind l1 l2 l3)))
 
 (defn subs-pat
   "Generates subscribe patterns which matches
@@ -414,7 +414,7 @@
   (let [reg-key (reg-key mp-id struct no func)]
     (if (registered? reg-key)
       (do
-        (timbre/debug "de-register:" reg-key)
+        (log/debug "de-register:" reg-key)
         (close-listener! ((deref listeners) reg-key))
         {:ok (map?
               (swap! listeners dissoc

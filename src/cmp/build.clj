@@ -3,7 +3,7 @@
     :doc "Builds up the short term memory with given the `mpd`."}
   (:require [cmp.utils :as u]
             [cmp.st-mem :as st]
-            [taoensso.timbre :as timbre]))
+            [taoensso.timbre :as log]))
 
 ;;------------------------------
 ;; exchange

@@ -2,7 +2,7 @@
   ^{:author "wactbprot"
     :doc "Finds and starts the up comming 
           tasks of a certain container."}
-  (:require [taoensso.timbre :as timbre]
+  (:require [taoensso.timbre :as log]
             [cmp.st-mem :as st]
             [cmp.work :as work]            
             [cmp.task :as tsk]
@@ -300,23 +300,23 @@
 (defn error!
   "Sets the `ctrl` interface to `\"error\"`."
   [k]
-  (timbre/error  "error! for: " k)
+  (log/error  "error! for: " k)
   (st/set-val! (k->ctrl-k k) "error"))
 
 (defn nop!
   "No operation."
   [k]
-  (timbre/debug "nop! for: " k))
+  (log/debug "nop! for: " k))
 
 (defn all-exec!
   "Handles the case where all `state` interfaces
   are `\"executed\"`. Gets the value  the `ctrl`"
   [k]
-  (timbre/info "all done at " k)
+  (log/info "all done at " k)
   (let [ctrl-k   (k->ctrl-k k)
         cmd      (ctrl-k->cmd ctrl-k)
         state-ks (k->state-ks k)]
-    (timbre/info "ctrl cmd is: " cmd)
+    (log/info "ctrl cmd is: " cmd)
     (condp = cmd
       :run (do
              (de-observe! ctrl-k)
@@ -324,7 +324,7 @@
       :mon (do
              (de-observe! ctrl-k)
              (st/set-val! ctrl-k "mon"))
-      (timbre/info "default condp branch in all-exec fn of " k ))))
+      (log/info "default condp branch in all-exec fn of " k ))))
 
 ;;------------------------------
 ;; pick next task
@@ -352,12 +352,12 @@
   since the workers set the state to `\"working\"`
   which triggers the next call to `start-next!`."
   [x]
-  (timbre/info "start-next! on " x)
+  (log/info "start-next! on " x)
   (if-let [k x]
     (let [ctrl-k   (k->ctrl-k k)
           state-m  (ks->state-map (k->state-ks ctrl-k))
           next-m   (find-next state-m)]
-      (timbre/debug "next map is: " next-m)
+      (log/debug "next map is: " next-m)
       (cond
         (errors?       state-m) (error!    ctrl-k)
         (all-executed? state-m) (all-exec! ctrl-k)
@@ -374,7 +374,7 @@
   The register pattern is derived
   from the key  `k` (`ctrl-key`)."
   [k]
-  (timbre/info "register start-next! callback and start-next!")
+  (log/info "register start-next! callback and start-next!")
   (st/register!  (st/key->mp-id k)
                  (st/key->struct k)
                  (st/key->no-idx k)
@@ -394,8 +394,8 @@
        (ks->state-map)))
 
 (defn defins-status
-  "Return the state map for the `i`th
-  definition structure."
+  "Return the `state-map` for the `i`th
+  definition*s* structure."
   [mp-id i]
   (->> (st/defins-state-path mp-id i)
        (k->state-ks)
@@ -413,4 +413,4 @@
     :stop    (de-observe! k)
     :reset   (ready!      k)
     :suspend (suspend!    k)
-    (timbre/info  "state dispach function: default case: nop" )))
+    (log/info  "default case state dispach function" )))

@@ -1,7 +1,7 @@
 (ns cmp.exchange
   ^{:author "wactbprot"
     :doc "Handles the access to the exchange interface."}
-  (:require [taoensso.timbre :as timbre]
+  (:require [taoensso.timbre :as log]
             [clojure.string :as string]
             [cmp.st-mem :as st]
             [cmp.utils :as u]))
