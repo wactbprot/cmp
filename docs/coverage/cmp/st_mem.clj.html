@@ -14,7 +14,7 @@
                 003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;:as&nbsp;u]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[taoensso.timbre&nbsp;:as&nbsp;timbre]
+                004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[taoensso.timbre&nbsp;:as&nbsp;log]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.string&nbsp;:as&nbsp;string]
@@ -68,10 +68,10 @@
                 021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(wcar&nbsp;conn&nbsp;(car&#x2F;set&nbsp;k&nbsp;(u&#x2F;clj-&gt;val&nbsp;v)))
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;warn&nbsp;&quot;no&nbsp;value&nbsp;given&quot;))
+                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;warn&nbsp;&quot;no&nbsp;value&nbsp;given&quot;))
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;warn&nbsp;&quot;no&nbsp;key&nbsp;given&quot;)))
+                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;warn&nbsp;&quot;no&nbsp;key&nbsp;given&quot;)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 024&nbsp;&nbsp;
@@ -965,10 +965,10 @@
                 320&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:pmessage&nbsp;&nbsp;&nbsp;(second&nbsp;(string&#x2F;split&nbsp;l2&nbsp;#&quot;:&quot;))
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                321&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:psubscribe&nbsp;(timbre&#x2F;info&nbsp;&quot;subscribed&nbsp;to&nbsp;&quot;&nbsp;l1)
+                321&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:psubscribe&nbsp;(log&#x2F;info&nbsp;&quot;subscribed&nbsp;to&nbsp;&quot;&nbsp;l1)
                 </span><br/>
 <span class="not-covered" title="0 out of 19 forms covered">
-                322&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;warn&nbsp;&quot;received&quot;&nbsp;kind&nbsp;l1&nbsp;l2&nbsp;l3)))
+                322&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;warn&nbsp;&quot;received&quot;&nbsp;kind&nbsp;l1&nbsp;l2&nbsp;l3)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 323&nbsp;&nbsp;
@@ -1253,7 +1253,7 @@
                 416&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                417&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;debug&nbsp;&quot;de-register:&quot;&nbsp;reg-key)
+                417&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;de-register:&quot;&nbsp;reg-key)
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
                 418&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(close-listener!&nbsp;((deref&nbsp;listeners)&nbsp;reg-key))

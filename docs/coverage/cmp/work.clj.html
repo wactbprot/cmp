@@ -14,7 +14,7 @@
                 003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:doc&nbsp;&quot;Runs&nbsp;the&nbsp;upcomming&nbsp;tasks&nbsp;of&nbsp;a&nbsp;certain&nbsp;container.&quot;}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[taoensso.timbre&nbsp;:as&nbsp;timbre]
+                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[taoensso.timbre&nbsp;:as&nbsp;log]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.core.async&nbsp;:as&nbsp;a]
@@ -179,7 +179,7 @@
                 058&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[action&nbsp;(keyword&nbsp;(:Action&nbsp;task))]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;info&nbsp;&quot;cond&nbsp;for&nbsp;action:&nbsp;&quot;&nbsp;action)
+                059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;info&nbsp;&quot;cond&nbsp;for&nbsp;action:&nbsp;&quot;&nbsp;action)
                 </span><br/>
 <span class="not-covered" title="0 out of 38 forms covered">
                 060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;action
@@ -209,13 +209,13 @@
                 068&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;error&nbsp;&quot;unknown&nbsp;action:&nbsp;&quot;&nbsp;action)
+                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;unknown&nbsp;action:&nbsp;&quot;&nbsp;action)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
                 070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;))))
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;debug&nbsp;&quot;task&nbsp;has&nbsp;no&nbsp;state&nbsp;key:&nbsp;&quot;&nbsp;x))))
+                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;task&nbsp;has&nbsp;no&nbsp;state&nbsp;key:&nbsp;&quot;&nbsp;x))))
                 </span><br/>
  </body>
 </html>

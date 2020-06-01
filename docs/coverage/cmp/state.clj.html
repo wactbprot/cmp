@@ -17,7 +17,7 @@
                 004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tasks&nbsp;of&nbsp;a&nbsp;certain&nbsp;container.&quot;}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                005&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[taoensso.timbre&nbsp;:as&nbsp;timbre]
+                005&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[taoensso.timbre&nbsp;:as&nbsp;log]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;:as&nbsp;st]
@@ -911,7 +911,7 @@
                 302&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                303&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;error&nbsp;&nbsp;&quot;error!&nbsp;for:&nbsp;&quot;&nbsp;k)
+                303&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&nbsp;&quot;error!&nbsp;for:&nbsp;&quot;&nbsp;k)
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
                 304&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(k-&gt;ctrl-k&nbsp;k)&nbsp;&quot;error&quot;))
@@ -929,7 +929,7 @@
                 308&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                309&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;debug&nbsp;&quot;nop!&nbsp;for:&nbsp;&quot;&nbsp;k))
+                309&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;nop!&nbsp;for:&nbsp;&quot;&nbsp;k))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 310&nbsp;&nbsp;
@@ -947,7 +947,7 @@
                 314&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                315&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;info&nbsp;&quot;all&nbsp;done&nbsp;at&nbsp;&quot;&nbsp;k)
+                315&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;info&nbsp;&quot;all&nbsp;done&nbsp;at&nbsp;&quot;&nbsp;k)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
                 316&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ctrl-k&nbsp;&nbsp;&nbsp;(k-&gt;ctrl-k&nbsp;k)
@@ -959,7 +959,7 @@
                 318&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-ks&nbsp;(k-&gt;state-ks&nbsp;k)]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                319&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;info&nbsp;&quot;ctrl&nbsp;cmd&nbsp;is:&nbsp;&quot;&nbsp;cmd)
+                319&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;info&nbsp;&quot;ctrl&nbsp;cmd&nbsp;is:&nbsp;&quot;&nbsp;cmd)
                 </span><br/>
 <span class="not-covered" title="0 out of 13 forms covered">
                 320&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;cmd
@@ -983,7 +983,7 @@
                 326&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;ctrl-k&nbsp;&quot;mon&quot;))
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                327&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;info&nbsp;&quot;default&nbsp;condp&nbsp;branch&nbsp;in&nbsp;all-exec&nbsp;fn&nbsp;of&nbsp;&quot;&nbsp;k&nbsp;))))
+                327&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;info&nbsp;&quot;default&nbsp;condp&nbsp;branch&nbsp;in&nbsp;all-exec&nbsp;fn&nbsp;of&nbsp;&quot;&nbsp;k&nbsp;))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 328&nbsp;&nbsp;
@@ -1067,7 +1067,7 @@
                 354&nbsp;&nbsp;&nbsp;&nbsp;[x]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                355&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;info&nbsp;&quot;start-next!&nbsp;on&nbsp;&quot;&nbsp;x)
+                355&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;info&nbsp;&quot;start-next!&nbsp;on&nbsp;&quot;&nbsp;x)
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
                 356&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[k&nbsp;x]
@@ -1082,7 +1082,7 @@
                 359&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next-m&nbsp;&nbsp;&nbsp;(find-next&nbsp;state-m)]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                360&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;debug&nbsp;&quot;next&nbsp;map&nbsp;is:&nbsp;&quot;&nbsp;next-m)
+                360&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;next&nbsp;map&nbsp;is:&nbsp;&quot;&nbsp;next-m)
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
                 361&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
@@ -1133,7 +1133,7 @@
                 376&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                377&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;info&nbsp;&quot;register&nbsp;start-next!&nbsp;callback&nbsp;and&nbsp;start-next!&quot;)
+                377&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;info&nbsp;&quot;register&nbsp;start-next!&nbsp;callback&nbsp;and&nbsp;start-next!&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
                 378&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;&nbsp;(st&#x2F;key-&gt;mp-id&nbsp;k)
@@ -1193,10 +1193,10 @@
                 396&nbsp;&nbsp;(defn&nbsp;defins-status
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                397&nbsp;&nbsp;&nbsp;&nbsp;&quot;Return&nbsp;the&nbsp;state&nbsp;map&nbsp;for&nbsp;the&nbsp;`i`th
+                397&nbsp;&nbsp;&nbsp;&nbsp;&quot;Return&nbsp;the&nbsp;`state-map`&nbsp;for&nbsp;the&nbsp;`i`th
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                398&nbsp;&nbsp;&nbsp;&nbsp;definition&nbsp;structure.&quot;
+                398&nbsp;&nbsp;&nbsp;&nbsp;definition*s*&nbsp;structure.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 399&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i]
@@ -1250,7 +1250,7 @@
                 415&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:suspend&nbsp;(suspend!&nbsp;&nbsp;&nbsp;&nbsp;k)
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                416&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;info&nbsp;&nbsp;&quot;state&nbsp;dispach&nbsp;function:&nbsp;default&nbsp;case:&nbsp;nop&quot;&nbsp;)))
+                416&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;info&nbsp;&nbsp;&quot;default&nbsp;case&nbsp;state&nbsp;dispach&nbsp;function&quot;&nbsp;)))
                 </span><br/>
  </body>
 </html>

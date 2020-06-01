@@ -14,7 +14,7 @@
                 003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:doc&nbsp;&quot;Observes&nbsp;the&nbsp;`ctrl`&nbsp;interface.&quot;}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[taoensso.timbre&nbsp;:as&nbsp;timbre]
+                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[taoensso.timbre&nbsp;:as&nbsp;log]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;:as&nbsp;st]
@@ -53,7 +53,7 @@
                 016&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;info&nbsp;&quot;ctrl&nbsp;dispatch&nbsp;call&nbsp;for&nbsp;path:&nbsp;&quot;&nbsp;k)
+                017&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;info&nbsp;&quot;ctrl&nbsp;dispatch&nbsp;call&nbsp;for&nbsp;path:&nbsp;&quot;&nbsp;k)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
                 018&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;k
@@ -125,7 +125,7 @@
                 040&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                041&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;info&nbsp;&quot;register&nbsp;ctrl&nbsp;listener&nbsp;for:&nbsp;&quot;&nbsp;mp-id)
+                041&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;info&nbsp;&quot;register&nbsp;ctrl&nbsp;listener&nbsp;for:&nbsp;&quot;&nbsp;mp-id)
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
                 042&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[cb!&nbsp;(fn&nbsp;[msg]

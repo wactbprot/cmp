@@ -20,7 +20,7 @@
                 005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.config&nbsp;:as&nbsp;cfg]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[taoensso.timbre&nbsp;:as&nbsp;timbre]))
+                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[taoensso.timbre&nbsp;:as&nbsp;log]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 007&nbsp;&nbsp;
@@ -41,7 +41,7 @@
                 012&nbsp;&nbsp;&nbsp;&nbsp;[id]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                013&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;debug&nbsp;&quot;try&nbsp;to&nbsp;get&nbsp;document&nbsp;with&nbsp;id:&nbsp;&quot;&nbsp;id)
+                013&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;try&nbsp;to&nbsp;get&nbsp;document&nbsp;with&nbsp;id:&nbsp;&quot;&nbsp;id)
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
                 014&nbsp;&nbsp;&nbsp;&nbsp;(try
@@ -53,7 +53,7 @@
                 016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;error&nbsp;&quot;catch&nbsp;error&nbsp;on&nbsp;attempt&nbsp;to&nbsp;get&nbsp;doc:&nbsp;&quot;&nbsp;id))))
+                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;catch&nbsp;error&nbsp;on&nbsp;attempt&nbsp;to&nbsp;get&nbsp;doc:&nbsp;&quot;&nbsp;id))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 018&nbsp;&nbsp;
@@ -68,7 +68,7 @@
                 021&nbsp;&nbsp;&nbsp;&nbsp;[doc]
                 </span><br/>
 <span class="not-covered" title="0 out of 18 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;debug&nbsp;&quot;try&nbsp;to&nbsp;save&nbsp;document&nbsp;with&nbsp;id:&nbsp;&quot;&nbsp;(:_id&nbsp;doc))
+                022&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;try&nbsp;to&nbsp;save&nbsp;document&nbsp;with&nbsp;id:&nbsp;&quot;&nbsp;(:_id&nbsp;doc))
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
                 023&nbsp;&nbsp;&nbsp;&nbsp;(try
@@ -80,7 +80,7 @@
                 025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;error&nbsp;&quot;catch&nbsp;error&nbsp;on&nbsp;attempt&nbsp;to&nbsp;put&nbsp;doc&quot;))))
+                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;catch&nbsp;error&nbsp;on&nbsp;attempt&nbsp;to&nbsp;put&nbsp;doc&quot;))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 027&nbsp;&nbsp;
@@ -95,7 +95,7 @@
                 030&nbsp;&nbsp;&nbsp;&nbsp;[]
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;debug&nbsp;&quot;get&nbsp;tasks&nbsp;from&nbsp;ltm&quot;)
+                031&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;get&nbsp;tasks&nbsp;from&nbsp;ltm&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
                 032&nbsp;&nbsp;&nbsp;&nbsp;(couch&#x2F;get-view&nbsp;conn&nbsp;&quot;dbmp&quot;&nbsp;&quot;tasks&quot;))
