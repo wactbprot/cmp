@@ -17,7 +17,7 @@
     var ret ={'Address':ad}; ret;
   ```"
   [task]
-  (let [input (:PreScript task)
+  (let [input (:PreInput task)
         adr {:V1  45407 :V2  45407 :V3  45407 :V4  45407
              :V5  45409 :V6  45409 :V7  45409 :V8  45409 
              :V9  45411 :V10 45411 :V11 45411 :V12 45411
@@ -79,7 +79,7 @@
   ```  
   "
   [task]
-  (let [input (:PreScript task)
+  (let [input (:PreInput task)
         blk  {:V1  1     :V2  1     :V3  1     :V4  1 
               :V5  2     :V6  2     :V7  2     :V8  2 
               :V9  3     :V10 3     :V11 3     :V12 3
@@ -107,6 +107,8 @@
         v-pos      (kw-v vpos)
         new-adr    (kw-v adr)
         new-state  (assoc v-blk v-pos val-oc)]
+    (prn "..............:::::::::")
+    (prn opc)
     (assoc
      (dissoc task
              :PreScript
