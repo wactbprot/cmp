@@ -158,7 +158,6 @@
   ([mp-id]
    (doc/ids mp-id)))
 
-
 ;;------------------------------
 ;; check mp tasks
 ;;------------------------------
@@ -213,17 +212,38 @@
 ;; push ctrl commands
 ;;------------------------------
 (defn set-ctrl
-  "Push a command string (`cmd`) to the control
-  interface of a mp. `cmd`s are:
+  "Writes the command string (`cmd`) to the control
+  interface of a `mpd`. If the `mpd` is already
+  started (see [[m-start]]) the next steps work
+  as follows:  `cmd` is written to the short
+  term memory by means of [[cmp.st-mem.set-val!]].
+  The writing process triggers the `registered`
+  `callback` (registered by [[m-start]]). The
+  `callback` cares about the `cmd`.  `cmd`s are:
   
   * `\"run\"`
   * `\"stop\"`
   * `\"mon\"`
   * `\"suspend\"`
 
-  The `mp-id` is received over `@current-mp-id`.
-  **NOTE:** The `definitions` struct should not
-  be started by user (see [[workon!]])."
+  The `mp-id` parameter may be give directly
+
+  ```clojure
+  (set-ctrl \"ref\" \"run\")
+  ```
+  or is derived from `@current-mp-id` [[workon \"ref\"]].
+
+
+  ```clojure
+  (workon! \"ref\"=
+  (set-ctrl \"run\")
+  ```
+
+  **NOTE:**
+
+  `set-ctrl` only writes to the `container` structure.
+  The `definitions` struct should not be started by a
+  user (see [[workon!]])."
   ([i cmd]
    (set-ctrl @current-mp-id i cmd))
   ([mp-id i cmd]
