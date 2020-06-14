@@ -7,7 +7,7 @@
             [cmp.resp :as resp]
             [cmp.st-mem :as st]
             [cmp.utils :as u]
-            [taoensso.timbre :as timbre]))
+            [taoensso.timbre :as log]))
 
 (def mtp (cfg/min-task-period (cfg/config)))
 (def post-header (cfg/post-header (cfg/config)))
@@ -132,9 +132,9 @@
         "set_valve_pos" (set-valve-pos task input state-key)
         "get_valve_pos" (get-valve-pos task input state-key)
         (do
-          (timbre/error "script with name: " script " not implemented")
+          (log/error "script with name: " script " not implemented")
           (st/set-val! state-key "error")
-          (timbre/error "set state: " state-key " to error")))
+          (log/error "set state: " state-key " to error")))
       task)
     task))
 
@@ -177,9 +177,15 @@
   (if-let [task (resolve-pre-script pre-task state-key)]
     (let [req (assoc post-header :body (u/map->json task))
           url dev-hub-url]
-      (timbre/debug "send req to: " url)
+      (log/debug "send req to: " url)
       (a/go
-        (resp/check (http/post url req) task state-key)))
+        (try
+          (let [res (http/post url req)]
+            (resp/check res task state-key))
+          (catch Exception e
+            (st/set-val! state-key "error")
+            (log/error "request failed"))))
     (do 
-      (timbre/error (str "failed to build task for: " state-key))
-      (st/set-val! state-key "error"))))
+      (log/error (str "failed to build task for: " state-key))
+      (st/set-val! state-key "error")))))
+

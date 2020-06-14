@@ -168,18 +168,17 @@
   step with state `:ready`. Returns an
   empty map if nothing next"
   [m]
-  (let [am (all-ready m)
-        n (count am)]
-    (cond
-      (= n 0) {}
-      :else (first am))))
+  (let [am (all-ready m)]
+    (if (zero? (count am))
+      {}
+      (first am))))
 
 (defn predecessor-executed?
   "Checks if `all-executed?` in the
-  step `i-1` of `m`."
+  step `i-1` (`(dec i)`) of `m`."
   [m i]
   (all-executed?
-   (seq-idx->all-par m (- i 1))))
+   (seq-idx->all-par m (dec i))))
 
 (defn find-next
   "The `find-next` function
@@ -247,11 +246,10 @@
   [m]
   (when-let [next-m (next-ready m)]
     (when-let [i (next-m :seq-idx)]
-      (cond
-        (or
-         (= i 0)
-         (predecessor-executed? m i)) next-m))))
-
+      (when (or
+             (zero? i)
+             (predecessor-executed? m i))
+        next-m))))
 
 ;;------------------------------
 ;; ready!
