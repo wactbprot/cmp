@@ -7,7 +7,7 @@
             [cmp.resp :as resp]
             [cmp.st-mem :as st]
             [cmp.utils :as u]
-            [taoensso.timbre :as log]))
+            [taoensso.timbre :as log]
             [cmp.worker.pre-script :as ps]
             [taoensso.timbre :as timbre]))
 
@@ -21,15 +21,14 @@
   "Checks if the task has a `:PreScript` (name of the script to run)
   and an `:Input` key. If not `task` is returned."
   [task state-key]
-  (if-let [script-name (:PreScript task)]
+  (if-let [script-name (keyword (:PreScript task))]
     (if-let [input (:PreInput task)]
       (condp = script-name
-        "set_valve_pos" (ps/set-valve-pos task)
-        "get_valve_pos" (ps/get-valve-pos task)
+        :set_valve_pos (ps/set-valve-pos task)
+        :get_valve_pos (ps/get-valve-pos task)
         (do
-          (log/error "script with name: " script " not implemented")
-          (st/set-val! state-key "error")
-          (log/error "set state: " state-key " to error")))
+          (log/error "script: " script-name " not implemented")
+          (st/set-val! state-key "error")))
       task)
     task))
 
