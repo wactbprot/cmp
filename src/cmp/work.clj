@@ -16,25 +16,23 @@
 ;;------------------------------
 (defn get-task
   "Returns the assembled `task` for the given key `k`
-  pointing to the `proto-task`.
+  related to the `proto-task`.
   Since the functions in the `cmp.task` namespace are
   (kept) independent from the tasks position, this info
-  (`:StateKey` holds the position of the task)
-  have to be `assoc`ed here." 
+  (`:StateKey` holds the position of the task) have
+  to be `assoc`ed in `tsk/assemble`." 
   [x]
   (if (map? x)
     x
-    (let [k x]
-      (try
-        (if-let [proto-task (st/key->val k)]
-          (let [meta-task (tsk/gen-meta-task proto-task)
-                mp-id     (st/key->mp-id k)
-                state-key (u/replace-key-at-level 3 k "state")]
-            (tsk/assemble meta-task mp-id state-key))
-          )
-        (catch Exception e
-          (str "error at building task at: " k
-               " catch: " (.getMessage e)))))))
+    (try
+      (if-let [proto-task (st/key->val x)]
+        (let [meta-task (tsk/gen-meta-task proto-task)
+              mp-id     (st/key->mp-id x)
+              state-key (u/replace-key-at-level 3 x "state")]
+          (tsk/assemble meta-task mp-id state-key)))
+      (catch Exception e
+          (str "error at building task at: " x
+               " catch: " (.getMessage e))))))
 
 ;;------------------------------
 ;; dispatch 
@@ -47,8 +45,6 @@
 
   ```clojure
   (dispatch {:Action \"wait\" :WaitTime 1000 :StateKey \"testpath\"})
-  ;; #object ... ManyToManyChannel@1247ab05...
-  ;; INFO [cmp.worker.wait:20] - wait time ( 1000 ms) over for  testpath
   (dispatch! {:Action \"foo\" :StateKey \"testpath\"})
   ;; ERROR [cmp.work:52] - unknown action:  :foo
   ```"  
