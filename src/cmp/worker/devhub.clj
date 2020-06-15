@@ -26,7 +26,7 @@
         "set_valve_pos" (ps/set-valve-pos task)
         "get_valve_pos" (ps/get-valve-pos task)
         (do
-          (timbre/error "script with name: " script " not implemented")
+          (timbre/error "script with name: " script-name " not implemented")
           (st/set-val! state-key "error")
           (timbre/error "set state: " state-key " to error")))
       task)
