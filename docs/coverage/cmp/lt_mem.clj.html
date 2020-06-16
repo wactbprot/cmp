@@ -25,80 +25,74 @@
 <span class="blank" title="0 out of 0 forms covered">
                 007&nbsp;&nbsp;
                 </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
-                008&nbsp;&nbsp;(def&nbsp;conn&nbsp;(cfg&#x2F;lt-conn&nbsp;(cfg&#x2F;config)))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                009&nbsp;&nbsp;
-                </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                010&nbsp;&nbsp;(defn&nbsp;id-&gt;doc
+                008&nbsp;&nbsp;(defn&nbsp;id-&gt;doc
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                011&nbsp;&nbsp;&nbsp;&nbsp;&quot;Gets&nbsp;a&nbsp;document&nbsp;from&nbsp;the&nbsp;long&nbsp;term&nbsp;memory.&quot;
+                009&nbsp;&nbsp;&nbsp;&nbsp;&quot;Gets&nbsp;a&nbsp;document&nbsp;from&nbsp;the&nbsp;long&nbsp;term&nbsp;memory.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                012&nbsp;&nbsp;&nbsp;&nbsp;[id]
+                010&nbsp;&nbsp;&nbsp;&nbsp;[id]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                013&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;try&nbsp;to&nbsp;get&nbsp;document&nbsp;with&nbsp;id:&nbsp;&quot;&nbsp;id)
+                011&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;try&nbsp;to&nbsp;get&nbsp;document&nbsp;with&nbsp;id:&nbsp;&quot;&nbsp;id)
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                014&nbsp;&nbsp;&nbsp;&nbsp;(try
+                012&nbsp;&nbsp;&nbsp;&nbsp;(try
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(couch&#x2F;get-document&nbsp;conn&nbsp;id)
+<span class="not-covered" title="0 out of 7 forms covered">
+                013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(couch&#x2F;get-document&nbsp;(cfg&#x2F;lt-conn&nbsp;(cfg&#x2F;config))&nbsp;id)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
+                014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;catch&nbsp;error&nbsp;on&nbsp;attempt&nbsp;to&nbsp;get&nbsp;doc:&nbsp;&quot;&nbsp;id))))
+                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;catch&nbsp;error&nbsp;on&nbsp;attempt&nbsp;to&nbsp;get&nbsp;doc:&nbsp;&quot;&nbsp;id))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                018&nbsp;&nbsp;
+                016&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                019&nbsp;&nbsp;(defn&nbsp;put-doc
+                017&nbsp;&nbsp;(defn&nbsp;put-doc
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                020&nbsp;&nbsp;&nbsp;&nbsp;&quot;Saves&nbsp;a&nbsp;document&nbsp;to&nbsp;the&nbsp;long&nbsp;term&nbsp;memory.&quot;
+                018&nbsp;&nbsp;&nbsp;&nbsp;&quot;Saves&nbsp;a&nbsp;document&nbsp;to&nbsp;the&nbsp;long&nbsp;term&nbsp;memory.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                021&nbsp;&nbsp;&nbsp;&nbsp;[doc]
+                019&nbsp;&nbsp;&nbsp;&nbsp;[doc]
                 </span><br/>
 <span class="not-covered" title="0 out of 18 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;try&nbsp;to&nbsp;save&nbsp;document&nbsp;with&nbsp;id:&nbsp;&quot;&nbsp;(:_id&nbsp;doc))
+                020&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;try&nbsp;to&nbsp;save&nbsp;document&nbsp;with&nbsp;id:&nbsp;&quot;&nbsp;(:_id&nbsp;doc))
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;(try
+                021&nbsp;&nbsp;&nbsp;&nbsp;(try
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(couch&#x2F;put-document&nbsp;conn&nbsp;doc)
+<span class="not-covered" title="0 out of 7 forms covered">
+                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(couch&#x2F;put-document&nbsp;(cfg&#x2F;lt-conn&nbsp;(cfg&#x2F;config))&nbsp;doc)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
+                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;catch&nbsp;error&nbsp;on&nbsp;attempt&nbsp;to&nbsp;put&nbsp;doc&quot;))))
+                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;catch&nbsp;error&nbsp;on&nbsp;attempt&nbsp;to&nbsp;put&nbsp;doc&quot;))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                027&nbsp;&nbsp;
+                025&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                028&nbsp;&nbsp;(defn&nbsp;all-tasks
+                026&nbsp;&nbsp;(defn&nbsp;all-tasks
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;all&nbsp;tasks.&quot;
+                027&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;all&nbsp;tasks.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;[]
+                028&nbsp;&nbsp;&nbsp;&nbsp;[]
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;get&nbsp;tasks&nbsp;from&nbsp;ltm&quot;)
+                029&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;get&nbsp;tasks&nbsp;from&nbsp;ltm&quot;)
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                032&nbsp;&nbsp;&nbsp;&nbsp;(couch&#x2F;get-view&nbsp;conn&nbsp;&quot;dbmp&quot;&nbsp;&quot;tasks&quot;))
+<span class="not-covered" title="0 out of 8 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;(couch&#x2F;get-view&nbsp;(cfg&#x2F;lt-conn&nbsp;(cfg&#x2F;config))&nbsp;&quot;dbmp&quot;&nbsp;&quot;tasks&quot;))
                 </span><br/>
  </body>
 </html>

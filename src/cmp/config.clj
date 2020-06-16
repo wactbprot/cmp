@@ -7,7 +7,11 @@
 
 (defn lt-conn
   [c]
-  (:lt-uri c))
+  (let [usr (System/getenv "CMPUSR")
+        pwd (System/getenv "CMPPWD")]
+    (if (and usr pwd)
+      (str (:lt-prot c)"://"usr":"pwd"@"(:lt-srv c)":"(:lt-port c)"/"(:lt-db c))
+      (str (:lt-prot c)"://"(:lt-srv c)":"(:lt-port c)"/"(:lt-db c)))))
 
 (defn st-conn
   [c]

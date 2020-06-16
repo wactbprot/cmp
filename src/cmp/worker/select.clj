@@ -57,8 +57,8 @@
   [k]
   (let [mp-id    (st/key->mp-id k)
         no-idx   (st/key->no-idx k)
-        k-pat    (u/vec->key [mp-id "definitions" no-idx "cond@*"])
-        cond-ks  (st/pat->keys k-pat)
+        pat      (u/vec->key [mp-id "definitions" no-idx "cond@*"])
+        cond-ks  (st/pat->keys pat)
         match-ks (filter cond-match? cond-ks)] 
     (=
      (count cond-ks)
@@ -97,7 +97,7 @@
   ```clojure
   (select-definition! {:Action select
                        :TaskName Common-select_definition,
-                       :DefinitionClass wait} \"teststate\")
+                       :DefinitionClass wait} )
   ```
   If more than one than one of the definitions condition match
   the first is used:
@@ -106,15 +106,15 @@
   (first (filter conds-match? match-ks))
   ;; ref@definitions@1@class
   ```" 
-  [task state-k]
-  (st/set-val! state-k "working")
+  [{mp-id :MpName cls :DefinitionClass state-key :StateKey}]
+  (st/set-val! state-key "working")
+  (timbre/debug "start with select, already set " state-key  " working")
   (Thread/sleep mtp)
-  (timbre/debug "start with select, already set " state-k " working")
-  (let [mp-id     (st/key->mp-id state-k)
-        def-cls   (task :DefinitionClass)
-        def-pat   (u/vec->key [mp-id "definitions" "*" "class"])
-        match-ks  (sort
-                   (st/filter-keys-where-val def-pat def-cls))]
-    (if-let [match-k (first (filter conds-match? match-ks))]
-      (start-defins! match-k state-k)
-      (timbre/error "nothing match"))))
+  (let [pat   (u/vec->key [mp-id "definitions" "*" "class"])
+        ks    (sort (st/filter-keys-where-val pat cls))]
+    (prn cls)
+    (if-let [k (first (filter conds-match? ks))]
+      (start-defins! k state-key)
+      (do
+        (timbre/error "nothing match")
+        (st/set-val! state-key "error")))))
