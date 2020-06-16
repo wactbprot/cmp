@@ -16,10 +16,10 @@
 (conds-match? "ref@definitions@1@class")
 ;; true
 
-</code></pre></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/worker/select.clj#L44">view source</a></div></div><div class="public anchor" id="var-mtp"><h3>mtp</h3><div class="usage"></div><div class="doc"><div class="markdown"></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/worker/select.clj#L13">view source</a></div></div><div class="public anchor" id="var-select-definition.21"><h3>select-definition!</h3><div class="usage"><code>(select-definition! task state-k)</code></div><div class="doc"><div class="markdown"><p>Selects and runs a <code>Definition</code> from the <code>Definitions</code> section of the current <code>mp</code>. </p>
+</code></pre></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/worker/select.clj#L44">view source</a></div></div><div class="public anchor" id="var-mtp"><h3>mtp</h3><div class="usage"></div><div class="doc"><div class="markdown"></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/worker/select.clj#L13">view source</a></div></div><div class="public anchor" id="var-select-definition.21"><h3>select-definition!</h3><div class="usage"><code>(select-definition! {mp-id :MpName, cls :DefinitionClass, state-key :StateKey})</code></div><div class="doc"><div class="markdown"><p>Selects and runs a <code>Definition</code> from the <code>Definitions</code> section of the current <code>mp</code>. </p>
 <pre><code class="clojure">(select-definition! {:Action select
                      :TaskName Common-select_definition,
-                     :DefinitionClass wait} "teststate")
+                     :DefinitionClass wait} )
 </code></pre>
 <p>If more than one than one of the definitions condition match the first is used:</p>
 <pre><code class="clojure">(first (filter conds-match? match-ks))
