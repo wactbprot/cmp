@@ -14,12 +14,13 @@
   ```clojure
   (wait! {:WaitTime 1000} \"testpath\")
   ```"
-  [task state-key]
+  [{val :Value mp-id :MpName state-key :StateKey}]
+
   (st/set-val! state-key "working")
+  (timbre/debug "start with write-exchange, already set " state-key  " working")
   (Thread/sleep mtp)
-  (let [mp-id (:MpName task)
-        m     (:Value task)
-        res   (exch/to! mp-id m)]
+
+  (let [res (exch/to! mp-id val)]
     (cond
       (:error res) (let [err-msg (str "error on attempt to write exchange at: "
                                       state-key)]

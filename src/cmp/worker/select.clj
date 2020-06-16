@@ -107,9 +107,11 @@
   ;; ref@definitions@1@class
   ```" 
   [{mp-id :MpName cls :DefinitionClass state-key :StateKey}]
+  
   (st/set-val! state-key "working")
   (timbre/debug "start with select, already set " state-key  " working")
   (Thread/sleep mtp)
+
   (let [pat   (u/vec->key [mp-id "definitions" "*" "class"])
         ks    (sort (st/filter-keys-where-val pat cls))]
     (prn cls)

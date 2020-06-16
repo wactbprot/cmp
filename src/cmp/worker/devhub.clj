@@ -46,6 +46,7 @@
   [pre-task state-key]
   (st/set-val! state-key "working")
   (Thread/sleep mtp)
+
   (if-let [task (resolve-pre-script pre-task state-key)]
     (let [req (assoc post-header :body (u/map->json task))
           url dev-hub-url]
