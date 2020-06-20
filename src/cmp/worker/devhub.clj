@@ -19,8 +19,8 @@
 
 (defn resolve-pre-script
   "Checks if the task has a `:PreScript` (name of the script to run)
-  and an `:Input` key. If not `task` is returned."
-  [task state-key]
+  and an `:Input` key. If not, `task` is returned."
+  [task]
   (if-let [script-name (keyword (:PreScript task))]
     (if-let [input (:PreInput task)]
       (condp = script-name
@@ -28,10 +28,11 @@
         :get_valve_pos (ps/get-valve-pos task)
         (do
           (log/error "script: " script-name " not implemented")
-          (st/set-val! state-key "error")))
+          (when-let [state-key (:StateKey task)]
+            (st/set-val! state-key "error"))))
       task)
     task))
-
+  
 (defn devhub!
   "Param is called `pre-task` because some tasks come with a
   `:PreScript` which has to be executed in order to complete
@@ -39,26 +40,27 @@
   `:PreScript`).
   
   ```clojure
-  
-   (devhub! ((meta (var devhub!)) :example-task)
-            ((meta (var devhub!)) :example-state-key))
+   (devhub! {:Action \"TCP\" :Port 23 :Host \"localhost\" :Value \"Hi!\"})
   ```"
-  [pre-task state-key]
-  (st/set-val! state-key "working")
-  (Thread/sleep mtp)
-
-  (if-let [task (resolve-pre-script pre-task state-key)]
-    (let [req (assoc post-header :body (u/map->json task))
-          url dev-hub-url]
-      (log/debug "send req to: " url)
-      (a/go
-        (try
-          (let [res (http/post url req)]
-            (resp/check res task state-key))
-          (catch Exception e
-            (st/set-val! state-key "error")
-            (log/error "request failed"))))
-    (do 
-      (log/error (str "failed to build task for: " state-key))
-      (st/set-val! state-key "error")))))
+  [pre-task]
+  (let [state-key (:StateKey pre-task)]
+    (when state-key
+      (st/set-val! state-key "working"))
+    (Thread/sleep mtp)
+    (if-let [task (resolve-pre-script pre-task)]
+      (let [req (assoc post-header :body (u/map->json task))
+            url dev-hub-url]
+        (log/debug "send req to: " url)
+        (a/go
+          (try
+            (let [res (http/post url req)]
+              (resp/check res task state-key))
+            (catch Exception e
+              (if state-key
+                (st/set-val! state-key "error"))
+              (log/error "request failed"))))
+        (do 
+          (log/error (str "failed to exec task at: " state-key))
+          (if state-key
+            (st/set-val! state-key "error")))))))
 

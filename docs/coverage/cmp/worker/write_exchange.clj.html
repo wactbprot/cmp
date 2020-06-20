@@ -47,64 +47,73 @@
                 014&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                015&nbsp;&nbsp;&nbsp;&nbsp;(wait!&nbsp;{:WaitTime&nbsp;1000}&nbsp;\&quot;testpath\&quot;)
+                015&nbsp;&nbsp;&nbsp;&nbsp;(write-exchange!&nbsp;{:Value&nbsp;{:a&nbsp;1&nbsp;:b&nbsp;2}&nbsp;:MpName&nbsp;\&quot;ref\&quot;})
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                016&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                016&nbsp;&nbsp;&nbsp;&nbsp;;;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;[{val&nbsp;:Value&nbsp;mp-id&nbsp;:MpName&nbsp;state-key&nbsp;:StateKey}]
+                017&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;\&quot;ref@exchange@b\&quot;)
                 </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                018&nbsp;&nbsp;
+<span class="not-tracked" title="0 out of 0 forms covered">
+                018&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;2
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                019&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                020&nbsp;&nbsp;&nbsp;&nbsp;[{val&nbsp;:Value&nbsp;mp-id&nbsp;:MpName&nbsp;state-key&nbsp;:StateKey}]
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                021&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;state-key
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                019&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;working&quot;)
-                </span><br/>
-<span class="not-covered" title="0 out of 17 forms covered">
-                020&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;debug&nbsp;&quot;start&nbsp;with&nbsp;write-exchange,&nbsp;already&nbsp;set&nbsp;&quot;&nbsp;state-key&nbsp;&nbsp;&quot;&nbsp;working&quot;)
+                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;working&quot;))
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                021&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;mtp)
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                022&nbsp;&nbsp;
+                023&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;mtp)
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[res&nbsp;(exch&#x2F;to!&nbsp;mp-id&nbsp;val)]
+                024&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[res&nbsp;(exch&#x2F;to!&nbsp;mp-id&nbsp;val)]
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:error&nbsp;res)&nbsp;(let&nbsp;[err-msg&nbsp;(str&nbsp;&quot;error&nbsp;on&nbsp;attempt&nbsp;to&nbsp;write&nbsp;exchange&nbsp;at:&nbsp;&quot;
+<span class="not-covered" title="0 out of 4 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:error&nbsp;res)&nbsp;(do
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;state-key
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;))
+                </span><br/>
+<span class="not-covered" title="0 out of 15 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;error&nbsp;&quot;error&nbsp;on&nbsp;attempt&nbsp;to&nbsp;write&nbsp;exchange&quot;))
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:ok&nbsp;res)&nbsp;&nbsp;&nbsp;&nbsp;(do&nbsp;
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;state-key
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;executed&quot;))
+                </span><br/>
+<span class="not-covered" title="0 out of 15 forms covered">
+                033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;info&nbsp;&quot;wrote&nbsp;to&nbsp;exchange&quot;))
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key)]
-                </span><br/>
-<span class="not-covered" title="0 out of 15 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;error&nbsp;err-msg)
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;)
+                034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:default&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:error&nbsp;err-msg})
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:ok&nbsp;res)&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[msg&nbsp;&quot;wrote&nbsp;to&nbsp;exchange&quot;]
-                </span><br/>
-<span class="not-covered" title="0 out of 15 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;info&nbsp;msg)
+                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;state-key
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;executed&quot;)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true})
+                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;))
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:default&nbsp;(timbre&#x2F;warn&nbsp;&quot;should&nbsp;not&nbsp;happen&quot;))))
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(timbre&#x2F;warn&nbsp;&quot;unclear&nbsp;exchange&nbsp;response&quot;)))))
                 </span><br/>
  </body>
 </html>

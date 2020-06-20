@@ -11,17 +11,18 @@
   "Delays the `mp` for the time given with `:WaitTime`.
   
   ```clojure
-  (wait! {:WaitTime 1000 :StateKey \"test\"})
+  (wait! {:WaitTime 1000})
   ```"
   [{wait-time :WaitTime state-key :StateKey}]
-  
-  (st/set-val! state-key "working")
-  (timbre/debug "start with wait, already set " state-key  " working")
-
+  (when state-key
+    (do 
+      (st/set-val! state-key "working")
+      (timbre/debug "start with wait, already set " state-key  " working")))
   (let [w (read-string (str wait-time))]
     (if (< w mtp)
       (Thread/sleep mtp)
       (Thread/sleep w))
-    (timbre/info "wait time (" w "ms) over for " state-key)
-    (st/set-val! state-key "executed")
-    {:ok true}))
+    (when state-key
+      (do 
+        (timbre/info "wait time (" w "ms) over for " state-key)
+        (st/set-val! state-key "executed")))))

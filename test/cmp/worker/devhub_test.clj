@@ -28,5 +28,5 @@
  
 (deftest resolve-pre-script-test-i
   (testing "Returns task"
-    (is (map? (resolve-pre-script task "example@container@0@state@0@1"))
+    (is (map? (resolve-pre-script task))
         "Got the right type.")))
