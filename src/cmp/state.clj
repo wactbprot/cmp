@@ -360,7 +360,7 @@
         (errors?       state-m) (error!    ctrl-k)
         (all-executed? state-m) (all-exec! ctrl-k)
         (nil?           next-m) (nop!      ctrl-k)
-        :run-worker  (work/dispatch
+        :run-worker  (work/check
                       (state-map->struct-key next-m))))))
 
 ;;------------------------------

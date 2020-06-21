@@ -255,7 +255,6 @@
   [i]
   (set-ctrl @current-mp-id i "run"))
 
-
 (defn c-stop
   "Shortcut to push a `stop` to the control
   interface of  mp container `i`."
@@ -374,7 +373,7 @@
                                            (when-let [k (st/msg->key msg)]
                                              (st/de-register! mp-id struct i func)
                                              (pp/pprint (st/key->val k))))))
-     (work/dispatch task state-key))))
+     (work/check task))))
 
 (defn t-raw
   "Shows the raw task as stored at st-memory" 

@@ -99,7 +99,6 @@
    (fn [k] (= x (key->val k)))
    (pat->keys pat)))
 
-
 (defn state-key->response-key
   "Turns the given `state-key` into a
   `response-key`.

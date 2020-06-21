@@ -6,13 +6,13 @@
             [cmp.st-mem :as st]
             [cmp.utils :as u]))
 
-(defn ->key
+(defn exch-key
   "Returns the base key for the exchange path.
 
   ```clojure
-  (->key  \"foo\" \"bar.baz\")
+  (exch-key  \"foo\" \"bar.baz\")
   ;; \"foo@exchange@bar\"
-  (->key \"foo\" \"bar\")
+  (exch-key \"foo\" \"bar\")
   ;; \"foo@exchange@bar\"
   ```
   "
@@ -34,12 +34,12 @@
   (if-let [x (second (string/split s (re-pattern "\\.")))] 
     (keyword x)))
 
-(defn key->val
+(defn exch-val
   "Returns the value from the exchange interface.
   Respects the case where the given  `s` is non trivial."  
   [mp-id s]
   (let [kw  (key->kw s)
-        k   (->key mp-id s)
+        k   (exch-key mp-id s)
         val (st/key->val k)]
     (if kw
       (kw val)
@@ -59,7 +59,7 @@
   ;; [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]
   ```"
   [mp-id p]
-  (let [k (->key mp-id p)]
+  (let [k (exch-key mp-id p)]
     (if-let [kw  (key->kw p)]
       (kw (st/key->val k))
       (st/key->val k))))
@@ -87,7 +87,7 @@
                   0,0,1,0
                   ]}` 
   ```clojure
-  (from \"devhub\" {
+  (from! \"devhub\" {
                     :%stateblock1 \"Vraw_block1\"
                     :%stateblock2 \"Vraw_block2\"
                     :%stateblock3 \"Vraw_block3\"
@@ -101,10 +101,9 @@
   `{:%aaa \"bbb.ccc\"}`
   "
   [mp-id m]
-  (if (and (string? mp-id)
-           (map? m))
+  (when (and (string? mp-id) (map? m))
     (u/apply-to-map-values
-     (fn [v] (key->val mp-id v))
+     (fn [v] (exch-val mp-id v))
      m)))
 
 (defn to!
@@ -131,9 +130,26 @@
                    (keyword
                     (st/set-val! (st/exch-path mp-id (name k)) v)))
                  m)]
-        (if (= n
-               (:OK (frequencies res)))
+        (if (= n (:OK (frequencies res)))
           {:ok true}
           {:error "not all write procs succeed"}))
       {:ok true})
     {:error "mp-id must be a string"}))
+
+(defn ok?
+  "Checks a certain exchange endpoint to evaluate
+  to true"
+  [mp-id k]
+  (contains? #{"ok" :ok "true" true "jo!"} (exch-val mp-id k)))
+
+(defn stop-if
+  "Checks if the exchange path given with `:MpName`
+  and `:StopIf` evaluates to true."
+  [{mp-id :MpName k :StopIf}]
+  (ok? mp-id k))
+
+(defn run-if
+  "Checks if the  exchange path given with `:MpName`
+  and `:RunIf` evaluates to true."
+  [{mp-id :MpName k :RunIf}]
+  (ok? mp-id k))
