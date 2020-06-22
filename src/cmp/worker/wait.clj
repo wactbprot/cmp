@@ -15,14 +15,12 @@
   ```"
   [{wait-time :WaitTime state-key :StateKey}]
   (when state-key
-    (do 
-      (st/set-val! state-key "working")
-      (timbre/debug "start with wait, already set " state-key  " working")))
+    (st/set-val! state-key "working")
+    (timbre/debug "start with wait, already set " state-key  " working"))
   (let [w (read-string (str wait-time))]
     (if (< w mtp)
       (Thread/sleep mtp)
       (Thread/sleep w))
     (when state-key
-      (do 
         (timbre/info "wait time (" w "ms) over for " state-key)
-        (st/set-val! state-key "executed")))))
+        (st/set-val! state-key "executed"))))
