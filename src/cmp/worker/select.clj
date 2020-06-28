@@ -76,18 +76,8 @@
         func   "ctrl"
         mp-id  (st/key->mp-id state-k)
         no-idx (st/key->no-idx match-k)
-        ctrl-k (st/defins-ctrl-path mp-id no-idx)
-        cb!    (fn [msg]
-                 (condp = (keyword (st/key->val ctrl-k))
-                   :run   (timbre/debug "start-defs! run callback for" ctrl-k)
-                   :ready (do
-                            (timbre/debug "start-defs! ready callback for" ctrl-k)
-                            (st/set-val! state-k "executed"))
-                   :error (do
-                            (timbre/error "start-defs! error callback for" ctrl-k)
-                            (st/set-val! state-k "error"))))]
-    
-    (st/register! mp-id struct no-idx func cb!)
+        ctrl-k (st/defins-ctrl-path mp-id no-idx)]
+    (st/register! mp-id struct no-idx func (st/gen-listener-callback ctrl-k state-k))
     (st/set-val! ctrl-k "run")))
 
 (defn select-definition!

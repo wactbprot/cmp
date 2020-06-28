@@ -1267,5 +1267,53 @@
 <span class="not-covered" title="0 out of 5 forms covered">
                 421&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;not&nbsp;registered&quot;})))
                 </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                422&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                423&nbsp;&nbsp;(defn&nbsp;gen-listener-callback
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                424&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;a&nbsp;callback&nbsp;function&nbsp;for&nbsp;a&nbsp;listener
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                425&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;a&nbsp;`outside-ctrl-k`.&nbsp;If&nbsp;the&nbsp;`ctrl`-interface
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                426&nbsp;&nbsp;&nbsp;&nbsp;becomes&nbsp;ready&nbsp;`inside-state-k`&nbsp;is&nbsp;set&nbsp;to&nbsp;`executed.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                427&nbsp;&nbsp;&nbsp;&nbsp;[outside-ctrl-k&nbsp;inside-state-k]
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                428&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[msg]
+                </span><br/>
+<span class="not-covered" title="0 out of 15 forms covered">
+                429&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;msg)
+                </span><br/>
+<span class="not-covered" title="0 out of 28 forms covered">
+                430&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(keyword&nbsp;(key-&gt;val&nbsp;outside-ctrl-k))
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                431&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:run&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;run&nbsp;callback&nbsp;for&quot;&nbsp;outside-ctrl-k)
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                432&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:ready&nbsp;(do
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                433&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;ready&nbsp;callback&nbsp;for&quot;&nbsp;outside-ctrl-k)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                434&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(set-val!&nbsp;inside-state-k&nbsp;&quot;executed&quot;))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                435&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:error&nbsp;(do
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                436&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;error&nbsp;callback&nbsp;for&quot;&nbsp;outside-ctrl-k)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                437&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(set-val!&nbsp;inside-state-k&nbsp;&quot;error&quot;)))))
+                </span><br/>
  </body>
 </html>

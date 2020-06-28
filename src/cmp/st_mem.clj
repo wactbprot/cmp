@@ -419,3 +419,19 @@
               (swap! listeners dissoc
                      reg-key))})
       {:ok true :warn "not registered"})))
+
+(defn gen-listener-callback
+  "Returns a callback function for a listener
+  to a `outside-ctrl-k`. If the `ctrl`-interface
+  becomes ready `inside-state-k` is set to `executed."
+  [outside-ctrl-k inside-state-k]
+  (fn [msg]
+    (log/debug msg)
+    (condp = (keyword (key->val outside-ctrl-k))
+      :run   (log/debug "run callback for" outside-ctrl-k)
+      :ready (do
+               (log/debug "ready callback for" outside-ctrl-k)
+               (set-val! inside-state-k "executed"))
+      :error (do
+               (log/error "error callback for" outside-ctrl-k)
+               (set-val! inside-state-k "error")))))
