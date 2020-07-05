@@ -10,21 +10,22 @@
 
 (defn exec-index
   "Registers a callback for the `i`th container of the mpd `mp`."
-  [{mp :Mp  i :Container state-k :StateKey}]
+  [{mp :Mp mp-id :MpName i :Container state-k :StateKey}]
   (let [ctrl-k (st/cont-ctrl-path mp i)]
-    (st/register! mp "container" i "definition" (st/listener-callback ctrl-k state-k))
+    (st/register! mp-id "container" i "definition" (st/listener-callback ctrl-k state-k))
     (st/set-val! ctrl-k "run")))
 
 (defn exec-title
   "Searches for the given  `:ContainerTitle`. Extracts the `no-idx`
   and uses the `exec-index` function to register a callback."
-  [{mp :Mp cont-title :ContainerTitle state-key :StateKey}]
+  [{mp :Mp mp-id :MpName cont-title :ContainerTitle state-key :StateKey}]
+  (prn cont-title)
   (let [ks (st/pat->keys (u/vec->key [mp "container" "*" "title"]))
         title? (fn [k] (= cont-title (st/key->val k)))]
     (if-let [k (first (filter title? ks))]
-      (exec-index {:Mp mp  :Container (st/key->no-idx k) :StateKey state-key}) 
+      (exec-index {:Mp mp :MpName mp-id :Container (st/key->no-idx k) :StateKey state-key}) 
       (do
-        (log/error "no container with title: " cont-title)
+        (log/error (str "no container with title: >"cont-title "<"))
         (st/set-val! state-key "error")))))
 
 (defn run-mp!

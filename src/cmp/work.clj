@@ -6,6 +6,7 @@
             [cmp.st-mem :as st]
             [cmp.exchange :as exch]
             [cmp.worker.wait :refer [wait!]]
+            [cmp.worker.run-mp :refer [run-mp!]]
             [cmp.worker.write-exchange :refer [write-exchange!]]
             [cmp.worker.select :refer [select-definition!]]
             [cmp.worker.devhub :refer [devhub!]]
@@ -44,6 +45,7 @@
         action (keyword (:Action task))]
     (condp = action
       :select         (a/go (select-definition! task))
+      :runMp          (a/go (run-mp!            task))
       :writeExchange  (a/go (write-exchange!    task))
       :wait           (a/go (wait!              task))
       :MODBUS         (a/go (devhub!            task))

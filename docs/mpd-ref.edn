@@ -24,7 +24,7 @@
     ;; mon ... relaunch the container if all tasks are executed
     ;; void ... just some value (as good as foo or bar), causes no action.
     :Ctrl "void",
-    :Title "Simple wait",
+    :Title "simple wait",
     ;; Element is inteded for filtering the exchange interface:
     ;; which elements should be vissible at a gui of this
     ;; container
@@ -48,11 +48,19 @@
    ;; second container
    {:Description "Show case select feature",
     :Ctrl "void",
-    :Title "choose definitions",
+    :Title "choose definition and run it",
     :Element ["*"],
     :Definition
     [[{:TaskName "Common-select_definition",
        :Replace {:%definitionclass "wait"}}]]}
+   {:Description "Run a mpd. Here ref (itself) first container.",
+    :Ctrl "void",
+    :Title "run 1st container",
+    :Element ["*"],
+    :Definition
+    [[{:TaskName "Common-run_mp",
+       :Replace {:%conttitle "simple wait"
+                 :%mpdef "ref" }}]]}
    ],
   ;; Definitions section
   :Definitions
