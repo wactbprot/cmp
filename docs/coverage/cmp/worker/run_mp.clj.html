@@ -38,19 +38,19 @@
                 011&nbsp;&nbsp;(defn&nbsp;exec-index
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                012&nbsp;&nbsp;&nbsp;&nbsp;[{mp&nbsp;:Mp&nbsp;mp-id&nbsp;:MpName&nbsp;i&nbsp;:Container&nbsp;state-k&nbsp;:StateKey}]
+                012&nbsp;&nbsp;&nbsp;&nbsp;&quot;Registers&nbsp;a&nbsp;callback&nbsp;for&nbsp;the&nbsp;`i`th&nbsp;container&nbsp;of&nbsp;the&nbsp;mpd&nbsp;`mp`.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                013&nbsp;&nbsp;&nbsp;&nbsp;[{mp&nbsp;:Mp&nbsp;&nbsp;i&nbsp;:Container&nbsp;state-k&nbsp;:StateKey}]
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                013&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ctrl-k&nbsp;(st&#x2F;cont-ctrl-path&nbsp;mp&nbsp;i)]
+                014&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ctrl-k&nbsp;(st&#x2F;cont-ctrl-path&nbsp;mp&nbsp;i)]
                 </span><br/>
 <span class="not-covered" title="0 out of 10 forms covered">
-                014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;mp-id&nbsp;&quot;container&quot;&nbsp;i&nbsp;&quot;definition&quot;&nbsp;(st&#x2F;gen-listener-callback&nbsp;ctrl-k&nbsp;state-k))
+                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;mp&nbsp;&quot;container&quot;&nbsp;i&nbsp;&quot;definition&quot;&nbsp;(st&#x2F;listener-callback&nbsp;ctrl-k&nbsp;state-k))
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;ctrl-k&nbsp;&quot;run&quot;)))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                016&nbsp;&nbsp;
+                016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;ctrl-k&nbsp;&quot;run&quot;)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 017&nbsp;&nbsp;
@@ -59,55 +59,85 @@
                 018&nbsp;&nbsp;(defn&nbsp;exec-title
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                019&nbsp;&nbsp;&nbsp;&nbsp;[{mp&nbsp;:Mp&nbsp;mp-id&nbsp;:MpName&nbsp;cont&nbsp;:ContainerTitle&nbsp;state-key&nbsp;:StateKey}]
+                019&nbsp;&nbsp;&nbsp;&nbsp;&quot;Searches&nbsp;for&nbsp;the&nbsp;given&nbsp;&nbsp;`:ContainerTitle`.&nbsp;Extracts&nbsp;the&nbsp;`no-idx`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                020&nbsp;&nbsp;&nbsp;&nbsp;)
+                020&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;uses&nbsp;the&nbsp;`exec-index`&nbsp;function&nbsp;to&nbsp;register&nbsp;a&nbsp;callback.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                021&nbsp;&nbsp;&nbsp;&nbsp;[{mp&nbsp;:Mp&nbsp;cont-title&nbsp;:ContainerTitle&nbsp;state-key&nbsp;:StateKey}]
+                </span><br/>
+<span class="not-covered" title="0 out of 10 forms covered">
+                022&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ks&nbsp;(st&#x2F;pat-&gt;keys&nbsp;(u&#x2F;vec-&gt;key&nbsp;[mp&nbsp;&quot;container&quot;&nbsp;&quot;*&quot;&nbsp;&quot;title&quot;]))
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title?&nbsp;(fn&nbsp;[k]&nbsp;(=&nbsp;cont-title&nbsp;(st&#x2F;key-&gt;val&nbsp;k)))]
+                </span><br/>
+<span class="not-covered" title="0 out of 11 forms covered">
+                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[k&nbsp;(first&nbsp;(filter&nbsp;title?&nbsp;ks))]
+                </span><br/>
+<span class="not-covered" title="0 out of 11 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(exec-index&nbsp;{:Mp&nbsp;mp&nbsp;&nbsp;:Container&nbsp;(st&#x2F;key-&gt;no-idx&nbsp;k)&nbsp;:StateKey&nbsp;state-key})&nbsp;
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;no&nbsp;container&nbsp;with&nbsp;title:&nbsp;&quot;&nbsp;cont-title)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                021&nbsp;&nbsp;
+                029&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                022&nbsp;&nbsp;(defn&nbsp;run-mp!
+                030&nbsp;&nbsp;(defn&nbsp;run-mp!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[task]
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{cont-title&nbsp;:ContainerTitle
+                031&nbsp;&nbsp;&nbsp;&nbsp;&quot;Runs&nbsp;a&nbsp;certain&nbsp;container&nbsp;of&nbsp;a&nbsp;mpd.&nbsp;Task&nbsp;is&nbsp;marked&nbsp;as&nbsp;executed&nbsp;if&nbsp;all
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cont-index&nbsp;:Container
+                032&nbsp;&nbsp;&nbsp;&nbsp;tasks&nbsp;in&nbsp;the&nbsp;container&nbsp;are&nbsp;executed.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                033&nbsp;&nbsp;&nbsp;&nbsp;[task]
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key&nbsp;&nbsp;:StateKey}&nbsp;task]
+                034&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{cont-title&nbsp;:ContainerTitle
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cont-index&nbsp;:Container
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key&nbsp;&nbsp;:StateKey}&nbsp;task]
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;state-key
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;state-key
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;working&quot;)
+                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;working&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 17 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;start&nbsp;with&nbsp;wait,&nbsp;already&nbsp;set&nbsp;&quot;&nbsp;state-key&nbsp;&nbsp;&quot;&nbsp;working&quot;))
+                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;start&nbsp;with&nbsp;wait,&nbsp;already&nbsp;set&nbsp;&quot;&nbsp;state-key&nbsp;&nbsp;&quot;&nbsp;working&quot;))
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
+                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(nil?&nbsp;cont-title))&nbsp;(exec-title&nbsp;task)
+                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(nil?&nbsp;cont-title))&nbsp;(exec-title&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(nil?&nbsp;cont-index))&nbsp;(exec-index&nbsp;task)
+                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(nil?&nbsp;cont-index))&nbsp;(exec-index&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:not-found&nbsp;(when&nbsp;state-key
+                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:not-found&nbsp;(when&nbsp;state-key
                 </span><br/>
 <span class="not-covered" title="0 out of 18 forms covered">
-                034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;(str&nbsp;&quot;no&nbsp;container&nbsp;title&nbsp;or&nbsp;index&nbsp;at:&nbsp;&quot;&nbsp;state-key))
+                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;(str&nbsp;&quot;no&nbsp;container&nbsp;title&nbsp;or&nbsp;index&nbsp;at:&nbsp;&quot;&nbsp;state-key))
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;)))))
+                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;)))))
                 </span><br/>
  </body>
 </html>

@@ -77,7 +77,7 @@
         mp-id  (st/key->mp-id state-k)
         no-idx (st/key->no-idx match-k)
         ctrl-k (st/defins-ctrl-path mp-id no-idx)]
-    (st/register! mp-id struct no-idx func (st/gen-listener-callback ctrl-k state-k))
+    (st/register! mp-id struct no-idx func (st/listener-callback ctrl-k state-k))
     (st/set-val! ctrl-k "run")))
 
 (defn select-definition!
