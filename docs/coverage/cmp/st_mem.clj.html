@@ -1073,19 +1073,19 @@
                 356&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                357&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;l2&nbsp;l3&nbsp;l4&nbsp;cb!]
+                357&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;l2&nbsp;l3&nbsp;l4&nbsp;callback]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                358&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[s-pat&nbsp;(subs-pat&nbsp;mp-id&nbsp;l2&nbsp;l3&nbsp;l4)]
+                358&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[pat&nbsp;(subs-pat&nbsp;mp-id&nbsp;l2&nbsp;l3&nbsp;l4)]
                 </span><br/>
 <span class="not-covered" title="0 out of 115 forms covered">
                 359&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(car&#x2F;with-new-pubsub-listener&nbsp;(:spec&nbsp;conn)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                360&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{s-pat&nbsp;cb!}
+                360&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{pat&nbsp;callback}
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                361&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(car&#x2F;psubscribe&nbsp;s-pat))))&nbsp;&nbsp;
+                361&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(car&#x2F;psubscribe&nbsp;pat))))&nbsp;&nbsp;
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 362&nbsp;&nbsp;
@@ -1178,10 +1178,10 @@
                 391&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;`listeners`-atom.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                392&nbsp;&nbsp;&nbsp;&nbsp;[reg-key]
+                392&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                393&nbsp;&nbsp;&nbsp;&nbsp;(contains?&nbsp;(deref&nbsp;listeners)&nbsp;reg-key))
+                393&nbsp;&nbsp;&nbsp;&nbsp;(contains?&nbsp;(deref&nbsp;listeners)&nbsp;k))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 394&nbsp;&nbsp;
@@ -1196,124 +1196,145 @@
                 397&nbsp;&nbsp;&nbsp;&nbsp;key&nbsp;`mp-id`&nbsp;in&nbsp;the&nbsp;`listeners`&nbsp;atom.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                398&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;cb!&nbsp;function&nbsp;dispatches&nbsp;depending&nbsp;on
+                398&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;`callback`&nbsp;function&nbsp;dispatches&nbsp;depending&nbsp;on
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                399&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;result.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                400&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!]
-                </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                401&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[reg-key&nbsp;(reg-key&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func)]
-                </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
-                402&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;(registered?&nbsp;reg-key)
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                403&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                404&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;listeners&nbsp;assoc
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                405&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reg-key
-                </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                406&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gen-listener&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!)))}
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                407&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;already&nbsp;registered&quot;})))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                408&nbsp;&nbsp;&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                409&nbsp;&nbsp;(defn&nbsp;de-register!
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                410&nbsp;&nbsp;&nbsp;&nbsp;&quot;De-registers&nbsp;the&nbsp;listener&nbsp;with&nbsp;the
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                411&nbsp;&nbsp;&nbsp;&nbsp;key&nbsp;`mp-id`&nbsp;in&nbsp;the&nbsp;`listeners`&nbsp;atom.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                412&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;struct&nbsp;no&nbsp;func]
-                </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                413&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[reg-key&nbsp;(reg-key&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func)]
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                414&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(registered?&nbsp;reg-key)
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                415&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
-                </span><br/>
-<span class="not-covered" title="0 out of 16 forms covered">
-                416&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;de-register:&quot;&nbsp;reg-key)
-                </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                417&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(close-listener!&nbsp;((deref&nbsp;listeners)&nbsp;reg-key))
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                418&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                419&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;listeners&nbsp;dissoc
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                420&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reg-key))})
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                421&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;not&nbsp;registered&quot;})))
+                399&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;result.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                422&nbsp;&nbsp;
+                400&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                401&nbsp;&nbsp;&nbsp;&nbsp;TODO:&nbsp;register&nbsp;and&nbsp;execute&nbsp;more&nbsp;than&nbsp;one&nbsp;function
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                402&nbsp;&nbsp;&nbsp;&nbsp;store&nbsp;functions&nbsp;and&nbsp;generate&nbsp;a&nbsp;new&nbsp;callback&nbsp;from
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                403&nbsp;&nbsp;&nbsp;&nbsp;old&nbsp;and&nbsp;new&nbsp;functions
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                404&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                405&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;callback]
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                406&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[reg-key&nbsp;(reg-key&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func)]
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                407&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;(registered?&nbsp;reg-key)&nbsp;;;&nbsp;
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                408&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                409&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;listeners&nbsp;assoc
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                410&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reg-key
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                411&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gen-listener&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;callback))
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                412&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;register&nbsp;listener&nbsp;at:&nbsp;&quot;&nbsp;reg-key))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                413&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                414&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;already&nbsp;registered:&nbsp;&quot;&nbsp;reg-key)))))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                415&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                423&nbsp;&nbsp;(defn&nbsp;listener-callback
+                416&nbsp;&nbsp;(defn&nbsp;de-register!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                424&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;a&nbsp;function&nbsp;for&nbsp;a&nbsp;listener
+                417&nbsp;&nbsp;&nbsp;&nbsp;&quot;De-registers&nbsp;the&nbsp;listener&nbsp;with&nbsp;the
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                425&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;a&nbsp;`outside-ctrl-k`.&nbsp;If&nbsp;the&nbsp;`ctrl`-interface
+                418&nbsp;&nbsp;&nbsp;&nbsp;key&nbsp;`mp-id`&nbsp;in&nbsp;the&nbsp;`listeners`&nbsp;atom.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                426&nbsp;&nbsp;&nbsp;&nbsp;becomes&nbsp;ready&nbsp;`inside-state-k`&nbsp;is&nbsp;set&nbsp;to&nbsp;`executed.&quot;
+                419&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;struct&nbsp;no&nbsp;func]
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                427&nbsp;&nbsp;&nbsp;&nbsp;[outside-ctrl-k&nbsp;inside-state-k]
+<span class="not-covered" title="0 out of 7 forms covered">
+                420&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[reg-key&nbsp;(reg-key&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func)]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                421&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(registered?&nbsp;reg-key)
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                428&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[msg]
+                422&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                423&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;de-register:&quot;&nbsp;reg-key)
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                424&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(close-listener!&nbsp;((deref&nbsp;listeners)&nbsp;reg-key))
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                425&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                426&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;listeners&nbsp;dissoc
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                427&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reg-key))})
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                428&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;not&nbsp;registered&quot;})))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                429&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                430&nbsp;&nbsp;(defn&nbsp;listener-callback
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                431&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;a&nbsp;function&nbsp;for&nbsp;a&nbsp;listener
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                432&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;a&nbsp;`outside-ctrl-k`.&nbsp;If&nbsp;the&nbsp;`ctrl`-interface
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                433&nbsp;&nbsp;&nbsp;&nbsp;becomes&nbsp;ready&nbsp;`inside-state-k`&nbsp;is&nbsp;set&nbsp;to&nbsp;`executed.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                434&nbsp;&nbsp;&nbsp;&nbsp;[outside-ctrl-k&nbsp;inside-state-k]
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                435&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[msg]
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                429&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;msg)
+                436&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;msg)
                 </span><br/>
 <span class="not-covered" title="0 out of 28 forms covered">
-                430&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(keyword&nbsp;(key-&gt;val&nbsp;outside-ctrl-k))
+                437&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(keyword&nbsp;(key-&gt;val&nbsp;outside-ctrl-k))
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                431&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:run&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;run&nbsp;callback&nbsp;for&quot;&nbsp;outside-ctrl-k)
+                438&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:run&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;run&nbsp;callback&nbsp;for&quot;&nbsp;outside-ctrl-k)
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                432&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:ready&nbsp;(do
+                439&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:ready&nbsp;(do
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                433&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;ready&nbsp;callback&nbsp;for&quot;&nbsp;outside-ctrl-k)
+                440&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;ready&nbsp;callback&nbsp;for&quot;&nbsp;outside-ctrl-k)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                434&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(set-val!&nbsp;inside-state-k&nbsp;&quot;executed&quot;))
+                441&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(set-val!&nbsp;inside-state-k&nbsp;&quot;executed&quot;))
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                435&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:error&nbsp;(do
+                442&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:error&nbsp;(do
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                436&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;error&nbsp;callback&nbsp;for&quot;&nbsp;outside-ctrl-k)
+                443&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;error&nbsp;callback&nbsp;for&quot;&nbsp;outside-ctrl-k)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                437&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(set-val!&nbsp;inside-state-k&nbsp;&quot;error&quot;)))))
+                444&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(set-val!&nbsp;inside-state-k&nbsp;&quot;error&quot;)))))
                 </span><br/>
  </body>
 </html>
