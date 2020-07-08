@@ -376,62 +376,52 @@
 ;;------------------------------
 ;; listeners 
 ;;------------------------------
-(defonce listeners (atom {}))
+(defonce *listeners* (atom {}))
 
 ;;------------------------------
 ;;register!, registered?, de-register!
 ;;------------------------------
 (defn reg-key
-  "Generates a registration key for the listener atom."
-  [mp-id struct no func]
-  (str mp-id "_" struct "_" no "_" func))
+  "Generates a registration key for the listener atom.
+  The `level` param allows to register more than one
+  listener for one pattern."
+  [mp-id struct no func level]
+  (str mp-id "_" struct "_" no "_" func "_" level))
 
 (defn registered?
   "Checks if a `listener` is registered under
-  the `listeners`-atom."
+  the `*listeners*`-atom."
   [reg-key]
-  (contains? (deref listeners) reg-key))
+  (contains? (deref *listeners*) reg-key))
 
 (defn register!
   "Generates and registers a  listener under the
-  key `mp-id` in the `listeners` atom.
+  key `mp-id` in the `*listeners*` atom.
   The cb! function dispatches depending on
   the result."
-  [mp-id struct no func cb!]
-  (let [reg-key (reg-key mp-id struct no func)]
-    (if-not (registered? reg-key)
-      {:ok (map?
-            (swap! listeners assoc
-                   reg-key
-                   (gen-listener mp-id struct no func cb!)))}
-      {:ok true :warn "already registered"})))
-  
+  ([mp-id struct no func cb!]
+   (register! mp-id struct no func cb! "a"))
+  ([mp-id struct no func cb! level]
+   (let [reg-key (reg-key mp-id struct no func level)]
+     (if-not (registered? reg-key)
+       {:ok (map?
+             (swap! *listeners* assoc
+                    reg-key
+                    (gen-listener mp-id struct no func cb!)))}
+       {:ok true :warn "already registered"}))))
+
 (defn de-register!
   "De-registers the listener with the
-  key `mp-id` in the `listeners` atom."
-  [mp-id struct no func]
-  (let [reg-key (reg-key mp-id struct no func)]
-    (if (registered? reg-key)
-      (do
-        (log/debug "de-register:" reg-key)
-        (close-listener! ((deref listeners) reg-key))
-        {:ok (map?
-              (swap! listeners dissoc
-                     reg-key))})
-      {:ok true :warn "not registered"})))
-
-(defn listener-callback
-  "Returns a function for a listener
-  to a `outside-ctrl-k`. If the `ctrl`-interface
-  becomes ready `inside-state-k` is set to `executed."
-  [outside-ctrl-k inside-state-k]
-  (fn [msg]
-    (log/debug msg)
-    (condp = (keyword (key->val outside-ctrl-k))
-      :run   (log/debug "run callback for" outside-ctrl-k)
-      :ready (do
-               (log/debug "ready callback for" outside-ctrl-k)
-               (set-val! inside-state-k "executed"))
-      :error (do
-               (log/error "error callback for" outside-ctrl-k)
-               (set-val! inside-state-k "error")))))
+  key `mp-id` in the `*listeners*` atom."
+  ([mp-id struct no func]
+   (de-register! mp-id struct no func "a"))
+  ([mp-id struct no func level]
+   (let [reg-key (reg-key mp-id struct no func level)]
+     (if (registered? reg-key)
+       (do
+         (log/debug "de-register:" reg-key)
+         (close-listener! ((deref *listeners*) reg-key))
+         {:ok (map?
+               (swap! *listeners* dissoc
+                      reg-key))})
+       {:ok true :warn "not registered"}))))
