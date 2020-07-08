@@ -465,7 +465,7 @@
 ;;------------------------------
 ;; p-ubsub events
 ;;------------------------------
-(def *p-table* (atom []) )
+(def p-table (atom []) )
 (defn p-start-table
   "Registers a listener. Pretty prints a p-table
   on events. 
@@ -518,19 +518,19 @@
                (let [d   (u/get-date-object)
                      k   (st/msg->key msg)
                      val (st/key->val k)]
-                 (swap! *p-table* conj {:h    (u/get-hour d)
+                 (swap! p-table conj {:h    (u/get-hour d)
                                       :m    (u/get-min d)
                                       :s    (u/get-sec d)
                                       :meth (nth msg 0)
                                       :k    k
                                       :val  val })
-                 (pp/print-table (deref *p-table*))))]
+                 (pp/print-table (deref p-table))))]
      (st/register! mp-id struct i func cb!))))
 
 (defn p-clear-table
   []
-  "Resets the *p-table* `atom`."
-  (reset! *p-table* []))
+  "Resets the p-table `atom`."
+  (reset! p-table []))
 
 (defn p-stop-table
   "De-registers the pubsub listener.
