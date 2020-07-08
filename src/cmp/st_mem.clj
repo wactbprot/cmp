@@ -376,7 +376,7 @@
 ;;------------------------------
 ;; listeners 
 ;;------------------------------
-(defonce *listeners* (atom {}))
+(defonce listeners (atom {}))
 
 ;;------------------------------
 ;;register!, registered?, de-register!
@@ -390,13 +390,13 @@
 
 (defn registered?
   "Checks if a `listener` is registered under
-  the `*listeners*`-atom."
+  the `listeners`-atom."
   [reg-key]
-  (contains? (deref *listeners*) reg-key))
+  (contains? (deref listeners) reg-key))
 
 (defn register!
   "Generates and registers a  listener under the
-  key `mp-id` in the `*listeners*` atom.
+  key `mp-id` in the `listeners` atom.
   The cb! function dispatches depending on
   the result."
   ([mp-id struct no func cb!]
@@ -405,14 +405,14 @@
    (let [reg-key (reg-key mp-id struct no func level)]
      (if-not (registered? reg-key)
        {:ok (map?
-             (swap! *listeners* assoc
+             (swap! listeners assoc
                     reg-key
                     (gen-listener mp-id struct no func cb!)))}
        {:ok true :warn "already registered"}))))
 
 (defn de-register!
   "De-registers the listener with the
-  key `mp-id` in the `*listeners*` atom."
+  key `mp-id` in the `listeners` atom."
   ([mp-id struct no func]
    (de-register! mp-id struct no func "a"))
   ([mp-id struct no func level]
@@ -420,8 +420,8 @@
      (if (registered? reg-key)
        (do
          (log/debug "de-register:" reg-key)
-         (close-listener! ((deref *listeners*) reg-key))
+         (close-listener! ((deref listeners) reg-key))
          {:ok (map?
-               (swap! *listeners* dissoc
+               (swap! listeners dissoc
                       reg-key))})
        {:ok true :warn "not registered"}))))

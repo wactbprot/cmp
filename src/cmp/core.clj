@@ -32,26 +32,26 @@
   (log/start-repl-out))
 
 ;;------------------------------
-;; *current-mp-id* atom and workon
+;; current-mp-id atom and workon
 ;;------------------------------
-(def *current-mp-id*
+(def current-mp-id
   "Provides a storing place for the current mp-id
   for convenience. Due to this atom the `(build)`,
   `(check)` or `(start)` function needs no argument." 
   (atom nil))
 
 (defn workon!
-  "Sets the mpd to work on (see [[*current-mp-id*]]).
+  "Sets the mpd to work on (see [[current-mp-id]]).
   
   Usage:
   
   ```clojure
   (workon! 'se3-calib')
-  (deref *current-mp-id*)
+  (deref current-mp-id)
   ```
   "
   [mp-id]
-  (reset! *current-mp-id* mp-id))
+  (reset! current-mp-id mp-id))
 
 ;;------------------------------
 ;; info
@@ -69,7 +69,7 @@
   patterns."
   []
   (run! prn
-        (keys (deref st/*listeners*))))
+        (keys (deref st/listeners))))
 
 ;;------------------------------
 ;; status (stat)
@@ -78,7 +78,7 @@
   "Returns the  **c**ontainer status.
   Returns the state map for the `i` container."
   ([i]
-   (c-status (deref *current-mp-id*) i))
+   (c-status (deref current-mp-id) i))
   ([mp-id i]
    (pp/print-table (state/cont-status mp-id i))))
 
@@ -87,7 +87,7 @@
   Returns the `state map` for the `i`
   definitions structure."
   ([i]
-   (n-status (deref *current-mp-id*) i))
+   (n-status (deref current-mp-id) i))
   ([mp-id i]
    (pp/print-table (state/defins-status mp-id i))))
 
@@ -108,7 +108,7 @@
   (m-build)
   ```"
   ([]
-   (m-build (deref *current-mp-id*)))
+   (m-build (deref current-mp-id)))
   ([mp-id]
    (timbre/info "build " mp-id)
    (->> mp-id
@@ -140,21 +140,21 @@
 (defn d-add
   "Adds a doc to the api to store the resuls in."
   ([doc-id]
-   (d-add (deref *current-mp-id*) doc-id))
+   (d-add (deref current-mp-id) doc-id))
   ([mp-id doc-id]
    (doc/add mp-id doc-id)))
 
 (defn d-rm
   "Removes a doc from the api."
   ([doc-id]
-   (d-rm (deref *current-mp-id*) doc-id))
+   (d-rm (deref current-mp-id) doc-id))
   ([mp-id doc-id]
    (doc/rm mp-id doc-id)))
 
 (defn d-ids
   "Gets a list of ids added."
   ([]
-   (d-ids (deref *current-mp-id*)))
+   (d-ids (deref current-mp-id)))
   ([mp-id]
    (doc/ids mp-id)))
 
@@ -170,7 +170,7 @@
   the tasks, they are loaded from the `lt-mem`
   during runtime."
   ([]
-   (check (deref *current-mp-id*)))
+   (check (deref current-mp-id)))
   ([mp-id]
    (let [p         (u/main-path mp-id)
          k-ncont   (st/meta-ncont-path p)
@@ -193,7 +193,7 @@
   "Registers a listener for the `ctrl`
   interface of a `mp-id` (see [[workon!]])."
   ([]
-   (m-start (deref *current-mp-id*)))
+   (m-start (deref current-mp-id)))
   ([mp-id]
    (ctrl/start mp-id)))
 
@@ -204,7 +204,7 @@
   "De-registers the listener for the `ctrl`
   interface of the given `mp-id` (see [[workon!]])."
   ([]
-   (m-stop (deref *current-mp-id*)))
+   (m-stop (deref current-mp-id)))
   ([mp-id]
    (ctrl/stop mp-id)))
 
@@ -231,7 +231,7 @@
   ```clojure
   (set-ctrl \"ref\" \"run\")
   ```
-  or is derived from `(deref *current-mp-id*)` [[workon \"ref\"]].
+  or is derived from `(deref current-mp-id)` [[workon \"ref\"]].
 
 
   ```clojure
@@ -245,7 +245,7 @@
   The `definitions` struct should not be started by a
   user (see [[workon!]])."
   ([i cmd]
-   (set-ctrl (deref *current-mp-id*) i cmd))
+   (set-ctrl (deref current-mp-id) i cmd))
   ([mp-id i cmd]
    (st/set-val! (st/cont-ctrl-path  mp-id i) cmd)))
 
@@ -253,13 +253,13 @@
   "Shortcut to push a `run` to the control
   interface of  mp container `i`."
   [i]
-  (set-ctrl (deref *current-mp-id*) i "run"))
+  (set-ctrl (deref current-mp-id) i "run"))
 
 (defn c-stop
   "Shortcut to push a `stop` to the control
   interface of  mp container `i`."
   [i]
-  (set-ctrl (deref *current-mp-id*) i "stop"))
+  (set-ctrl (deref current-mp-id) i "stop"))
 
 (defn c-reset
   "Shortcut to push a `reset` to the control
@@ -269,7 +269,7 @@
   **reset is a container restart**
   "
   [i]
-  (set-ctrl (deref *current-mp-id*) i "reset"))
+  (set-ctrl (deref current-mp-id) i "reset"))
 
 (defn c-suspend
   "Shortcut to push a `suspend` to the control
@@ -278,7 +278,7 @@
   as it is.
   "
   [i]
-  (set-ctrl (deref *current-mp-id*) i "suspend"))
+  (set-ctrl (deref current-mp-id) i "suspend"))
 
 ;;------------------------------
 ;; tasks
@@ -355,7 +355,7 @@
 
   Debug
   ```clojure
-  @st/*listeners*
+  @st/listeners
   (st/de-register! \"core\" \"test\" 0 \"response\")
   ```
   "
@@ -457,7 +457,7 @@
   
   ```"
   ([]
-   (m-clear (deref *current-mp-id*)))
+   (m-clear (deref current-mp-id)))
   ([mp-id]
    (m-stop mp-id)
    (st/clear mp-id)))
