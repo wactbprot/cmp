@@ -61,7 +61,7 @@
 <p>The <code>mp-id</code> parameter may be give directly</p>
 <pre><code class="clojure">(set-ctrl "ref" "run")
 </code></pre>
-<p>or is derived from <code>@current-mp-id</code> <a href="null">workon "ref"</a>.</p>
+<p>or is derived from <code>(deref current-mp-id)</code> <a href="null">workon "ref"</a>.</p>
 <pre><code class="clojure">(workon! "ref"=
 (set-ctrl "run")
 </code></pre>
@@ -106,5 +106,5 @@
 <p>. </p></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/core.clj#L300">view source</a></div></div><div class="public anchor" id="var-workon.21"><h3>workon!</h3><div class="usage"><code>(workon! mp-id)</code></div><div class="doc"><div class="markdown"><p>Sets the mpd to work on (see <a href="cmp.core.html#var-current-mp-id">current-mp-id</a>).</p>
 <p>Usage:</p>
 <pre><code class="clojure">(workon! 'se3-calib')
-@current-mp-id
+(deref current-mp-id)
 </code></pre></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/core.clj#L43">view source</a></div></div></div></body></html>

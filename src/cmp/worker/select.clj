@@ -3,7 +3,7 @@
     :doc "Worker selects a definition from the same `mp-id` 
           by evaluating the related conditions.
          "}
-  (:require [taoensso.timbre :as timbre]
+  (:require [taoensso.timbre :as log]
             [clojure.string :as string]
             [cmp.st-mem :as st]
             [cmp.exchange :as exch]
@@ -65,19 +65,30 @@
      (count match-ks))))
 
 (defn start-defins!
-  "Starts the matching `definitions` structure and
-  sets the state of the calling element to `executed`
+  "Starts the matching `definitions` structure. `register`s
+  a level b callback. Sets the state of the calling element to `executed`
   if the `ctrl`  turns to ready (or error if error).
 
   "          
   [match-k state-k]
-  (timbre/debug "start definitions struct " match-k)
-  (let [struct "definitions"
-        func   "ctrl"
-        mp-id  (st/key->mp-id state-k)
-        no-idx (st/key->no-idx match-k)
-        ctrl-k (st/defins-ctrl-path mp-id no-idx)]
-    (st/register! mp-id struct no-idx func (st/listener-callback ctrl-k state-k))
+  (log/debug "start definitions struct " match-k)
+  (let [struct   "definitions"
+        func     "ctrl"
+        mp-id    (st/key->mp-id state-k)
+        no-idx   (st/key->no-idx match-k)
+        ctrl-k   (st/defins-ctrl-path mp-id no-idx)
+        level    "b"
+        callback  (fn [msg]
+                    (condp = (keyword (st/key->val ctrl-k))
+                      :run   (log/debug "run callback for" ctrl-k)
+                      :ready (do
+                               (log/debug "ready callback for" ctrl-k)
+                               (st/set-val! state-k "executed")
+                               (st/de-register! mp-id struct no-idx func level)
+                      :error (do
+                               (log/error "error callback for" ctrl-k)
+                               (st/set-val! state-k "error")))))]
+    (st/register! mp-id struct no-idx func callback level)
     (st/set-val! ctrl-k "run")))
 
 (defn select-definition!
@@ -97,16 +108,14 @@
   ;; ref@definitions@1@class
   ```" 
   [{mp-id :MpName cls :DefinitionClass state-key :StateKey}]
-  
   (st/set-val! state-key "working")
-  (timbre/debug "start with select, already set " state-key  " working")
+  (log/debug "start with select, already set " state-key  " working")
   (Thread/sleep mtp)
 
   (let [pat   (u/vec->key [mp-id "definitions" "*" "class"])
         ks    (sort (st/filter-keys-where-val pat cls))]
-    (prn cls)
     (if-let [k (first (filter conds-match? ks))]
       (start-defins! k state-key)
       (do
-        (timbre/error "nothing match")
+        (log/error "nothing match")
         (st/set-val! state-key "error")))))
