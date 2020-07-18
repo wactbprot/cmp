@@ -48,7 +48,7 @@
    ;; second container
    {:Description "Show case select feature",
     :Ctrl "void",
-    :Title "choose definition and run it",
+    :Title "choose definition, run it",
     :Element ["*"],
     :Definition
     [[{:TaskName "Common-select_definition",
@@ -69,7 +69,7 @@
    ;; At Runtime: the first of all matching 
    ;; (see condition section) definition is started
    {:DefinitionClass "wait",
-    :ShortDescr "just waits\n",
+    :ShortDescr "waits 1 and 2s\n",
     ;; condition for the
     ;; the exec. of the first
     ;; definition for the class wait
@@ -77,10 +77,10 @@
     [{:ExchangePath "A.Unit", :Methode "eq", :Value "Pa"}
      {:ExchangePath "A.Value", :Methode "gt", :Value 133}],
     :Definition
-    [[{:TaskName "Common-wait", :Replace {:%waittime 3000}}
-      {:TaskName "Common-wait", :Replace {:%waittime 4000}}]]}
+    [[{:TaskName "Common-wait", :Replace {:%waittime 1000}}
+      {:TaskName "Common-wait", :Replace {:%waittime 2000}}]]}
    {:DefinitionClass "wait",
-    :ShortDescr "just waits\n",
+    :ShortDescr "waits 3 and 4s\n",
     ;; condition for the
     ;; the exec. of the second
     ;; definition for the class wait
@@ -93,11 +93,11 @@
     [[{:TaskName "Common-wait", :Replace {:%waittime 3000}}
       {:TaskName "Common-wait", :Replace {:%waittime 4000}}]]}
    {:DefinitionClass "wait",
-    :ShortDescr "just waits\n",
+    :ShortDescr "waits 4 and 5s\n",
     :Condition
     [{:ExchangePath "A.Unit", :Methode "eq", :Value "Pa"}
      {:ExchangePath "A.Value", :Methode "lt", :Value 13}],
     :Definition
-    [[{:TaskName "Common-wait", :Replace {:%waittime 3000}}
-      {:TaskName "Common-wait", :Replace {:%waittime 4000}}]]}],
+    [[{:TaskName "Common-wait", :Replace {:%waittime 4000}}
+      {:TaskName "Common-wait", :Replace {:%waittime 5000}}]]}],
 }}

@@ -255,6 +255,12 @@
   [i]
   (set-ctrl @current-mp-id i "run"))
 
+(defn c-mon
+  "Shortcut to push a `mon` to the control
+  interface of  mp container `i`."
+  [i]
+  (set-ctrl @current-mp-id i "mon"))
+
 (defn c-stop
   "Shortcut to push a `stop` to the control
   interface of  mp container `i`."
