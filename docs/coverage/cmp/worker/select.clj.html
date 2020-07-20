@@ -247,23 +247,23 @@
 <span class="not-covered" title="0 out of 1 forms covered">
                 081&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback&nbsp;&nbsp;(fn&nbsp;[msg]
                 </span><br/>
-<span class="not-covered" title="0 out of 23 forms covered">
+<span class="not-covered" title="0 out of 28 forms covered">
                 082&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(keyword&nbsp;(st&#x2F;key-&gt;val&nbsp;ctrl-k))
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
                 083&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:run&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;run&nbsp;callback&nbsp;for&quot;&nbsp;ctrl-k)
                 </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
+<span class="not-covered" title="0 out of 1 forms covered">
                 084&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:ready&nbsp;(do
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
                 085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;ready&nbsp;callback&nbsp;for&quot;&nbsp;ctrl-k)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-k&nbsp;&quot;executed&quot;)
+                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-k&nbsp;&quot;executed&quot;)&nbsp;
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                087&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;de-register!&nbsp;mp-id&nbsp;struct&nbsp;no-idx&nbsp;func&nbsp;level)
+                087&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;de-register!&nbsp;mp-id&nbsp;struct&nbsp;no-idx&nbsp;func&nbsp;level))
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
                 088&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:error&nbsp;(do
@@ -272,7 +272,7 @@
                 089&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;error&nbsp;callback&nbsp;for&quot;&nbsp;ctrl-k)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-k&nbsp;&quot;error&quot;)))))]
+                090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-k&nbsp;&quot;error&quot;))))]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
                 091&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;mp-id&nbsp;struct&nbsp;no-idx&nbsp;func&nbsp;callback&nbsp;level)
@@ -343,29 +343,26 @@
 <span class="not-covered" title="0 out of 2 forms covered">
                 113&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;mtp)
                 </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                114&nbsp;&nbsp;
-                </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                115&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[pat&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[mp-id&nbsp;&quot;definitions&quot;&nbsp;&quot;*&quot;&nbsp;&quot;class&quot;])
+                114&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[pat&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[mp-id&nbsp;&quot;definitions&quot;&nbsp;&quot;*&quot;&nbsp;&quot;class&quot;])
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                116&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ks&nbsp;&nbsp;&nbsp;&nbsp;(sort&nbsp;(st&#x2F;filter-keys-where-val&nbsp;pat&nbsp;cls))]
+                115&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ks&nbsp;&nbsp;&nbsp;&nbsp;(sort&nbsp;(st&#x2F;filter-keys-where-val&nbsp;pat&nbsp;cls))]
                 </span><br/>
 <span class="not-covered" title="0 out of 11 forms covered">
-                117&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[k&nbsp;(first&nbsp;(filter&nbsp;conds-match?&nbsp;ks))]
+                116&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[k&nbsp;(first&nbsp;(filter&nbsp;conds-match?&nbsp;ks))]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                118&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start-defins!&nbsp;k&nbsp;state-key)
+                117&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start-defins!&nbsp;k&nbsp;state-key)
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                119&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
+                118&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                120&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;nothing&nbsp;match&quot;)
+                119&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;nothing&nbsp;match&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                121&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;)))))
+                120&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;)))))
                 </span><br/>
  </body>
 </html>

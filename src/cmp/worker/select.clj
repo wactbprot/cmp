@@ -83,11 +83,11 @@
                       :run   (log/debug "run callback for" ctrl-k)
                       :ready (do
                                (log/debug "ready callback for" ctrl-k)
-                               (st/set-val! state-k "executed")
-                               (st/de-register! mp-id struct no-idx func level)
+                               (st/set-val! state-k "executed") 
+                               (st/de-register! mp-id struct no-idx func level))
                       :error (do
                                (log/error "error callback for" ctrl-k)
-                               (st/set-val! state-k "error")))))]
+                               (st/set-val! state-k "error"))))]
     (st/register! mp-id struct no-idx func callback level)
     (st/set-val! ctrl-k "run")))
 
@@ -111,7 +111,6 @@
   (st/set-val! state-key "working")
   (log/debug "start with select, already set " state-key  " working")
   (Thread/sleep mtp)
-
   (let [pat   (u/vec->key [mp-id "definitions" "*" "class"])
         ks    (sort (st/filter-keys-where-val pat cls))]
     (if-let [k (first (filter conds-match? ks))]
