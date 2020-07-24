@@ -21,6 +21,7 @@
                       :run   (log/debug "run callback for" ctrl-k)
                       :ready (do
                                (log/debug "ready callback for" ctrl-k)
+                               (Thread/sleep mtp)
                                (st/set-val! state-k "executed")
                                (log/debug "set" state-k " to executed" )
                                (st/de-register! mp struct i func level)

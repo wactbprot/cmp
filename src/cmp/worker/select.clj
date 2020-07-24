@@ -83,10 +83,12 @@
                       :run   (log/debug "run callback for" ctrl-k)
                       :ready (do
                                (log/debug "ready callback for" ctrl-k)
+                               (Thread/sleep mtp)
                                (st/set-val! state-k "executed") 
                                (st/de-register! mp-id struct no-idx func level))
                       :error (do
                                (log/error "error callback for" ctrl-k)
+                               (Thread/sleep mtp)
                                (st/set-val! state-k "error"))))]
     (st/register! mp-id struct no-idx func callback level)
     (st/set-val! ctrl-k "run")))

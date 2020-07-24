@@ -22,5 +22,6 @@
       (Thread/sleep mtp)
       (Thread/sleep w))
     (when state-key
-        (timbre/info "wait time (" w "ms) over for " state-key)
-        (st/set-val! state-key "executed"))))
+      (timbre/info "wait time (" w "ms) over for " state-key)
+      (Thread/sleep mtp)
+      (st/set-val! state-key "executed"))))
