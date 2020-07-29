@@ -12,16 +12,20 @@
   "Registers a level b callback for the `i`th container of the mpd `mp`."
   [{mp :Mp  i :Container state-k :StateKey}]
   (let [ctrl-k    (st/cont-ctrl-path mp i)
-        func      "definition"
+        func      "ctrl"
         struct    "container"
         level     "b"
         callback  (fn [msg]
+                    (prn msg)
                     (condp = (keyword (st/key->val ctrl-k))
                       :run   (log/debug "run callback for" ctrl-k)
                       :ready (do
                                (log/debug "ready callback for" ctrl-k)
+                               (Thread/sleep mtp)
                                (st/set-val! state-k "executed")
-                               (st/de-register! mp struct i func level))
+                               (log/debug "set" state-k " to executed" )
+                               (st/de-register! mp struct i func level)
+                               (log/debug "de-registered" mp struct i func level ))
                       :error (do
                                (log/error "error callback for" ctrl-k)
                                (st/set-val! state-k "error"))))]
@@ -37,7 +41,7 @@
     (if-let [k (first (filter title? ks))]
       (exec-index {:Mp mp  :Container (st/key->no-idx k) :StateKey state-key}) 
       (do
-        (log/error "no container with title: " cont-title)
+        (log/error (str "no container with title: >"cont-title "<"))
         (st/set-val! state-key "error")))))
 
 (defn run-mp!

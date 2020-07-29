@@ -6,11 +6,15 @@
             [cmp.st-mem :as st]
             [cmp.exchange :as exch]
             [cmp.worker.wait :refer [wait!]]
+            [cmp.worker.run-mp :refer [run-mp!]]
             [cmp.worker.write-exchange :refer [write-exchange!]]
             [cmp.worker.select :refer [select-definition!]]
             [cmp.worker.devhub :refer [devhub!]]
             [cmp.task :as tsk]
+            [cmp.config :as cfg]
             [cmp.utils :as u]))
+
+(def mtp (cfg/min-task-period (cfg/config)))
 
 ;;------------------------------
 ;; task 
@@ -44,6 +48,7 @@
         action (keyword (:Action task))]
     (condp = action
       :select         (a/go (select-definition! task))
+      :runMp          (a/go (run-mp!            task))
       :writeExchange  (a/go (write-exchange!    task))
       :wait           (a/go (wait!              task))
       :MODBUS         (a/go (devhub!            task))
@@ -68,6 +73,7 @@
         state-key (:StateKey task)
         run-if    (:RunIf    task)
         stop-if   (:StopIf   task)]
+    (Thread/sleep mtp)
     (if (nil? run-if)
       (if (nil? stop-if)
         (dispatch task) ;; no run-if or stop-if

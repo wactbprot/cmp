@@ -57,10 +57,12 @@
               (resp/check res task state-key))
             (catch Exception e
               (if state-key
+                (Thread/sleep mtp)
                 (st/set-val! state-key "error"))
               (log/error "request failed"))))
         (do 
           (log/error (str "failed to exec task at: " state-key))
           (if state-key
+            (Thread/sleep mtp)
             (st/set-val! state-key "error")))))))
 

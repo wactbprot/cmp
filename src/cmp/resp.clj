@@ -2,12 +2,15 @@
   ^{:author "wactbprot"
     :doc "Catches responses and dispatchs."}
   (:require [clojure.core.async :as a]
+            [cmp.config :as cfg]
             [cmp.exchange :as exch]
             [cmp.doc :as doc]
             [cmp.lt-mem :as lt]
             [cmp.st-mem :as st]
             [cmp.utils :as u]
             [taoensso.timbre :as log]))
+
+(def mtp (cfg/min-task-period (cfg/config)))
 
 (defn dispatch
   "Dispatches responds from outer space.
@@ -35,17 +38,21 @@
             res-doc   (doc/store! mp-id results doc-path)]
         (cond
           (:error res-exch) (do
+                              (Thread/sleep mtp)
                               (st/set-val! state-key "error")
                               (throw (Exception. (str "error on exch/to! at: " state-key))))
           (:error res-doc)  (do
+                              (Thread/sleep mtp)
                               (st/set-val! state-key "error")
                               (throw (Exception. (str "error on doc/store! at: " state-key))))
           (and
            (:ok res-exch)     
            (:ok res-doc))   (do
+                              (Thread/sleep mtp)
                               (st/set-val! state-key "executed")
                               (log/info "response handeled for: " state-key))
           :unexpected       (do
+                              (Thread/sleep mtp)
                               (st/set-val! state-key "error")
                               (throw (Exception. (str "unexpected behaviour at: " state-key )))))))))
 

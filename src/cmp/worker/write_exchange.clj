@@ -25,13 +25,16 @@
     (cond
       (:error res) (do
                      (when state-key
+                       (Thread/sleep mtp)
                        (st/set-val! state-key "error"))
                      (timbre/error "error on attempt to write exchange"))
       (:ok res)    (do 
                      (when state-key
+                       (Thread/sleep mtp)
                        (st/set-val! state-key "executed"))
                      (timbre/info "wrote to exchange"))
       :default     (do
                      (when state-key
+                       (Thread/sleep mtp)
                        (st/set-val! state-key "error"))
                      (timbre/warn "unclear exchange response")))))
