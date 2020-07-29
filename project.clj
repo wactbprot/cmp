@@ -22,7 +22,7 @@
             [lein-codox "0.10.7"]
             [ns-graph "0.1.3"]
             [jonase/eastwood "0.3.7"]
-	    ]
+	    [lein-marginalia "0.9.1"]]
   :cloverage {:low-watermark 30
              :high-watermark 60}
   ;;  :codox {:themes [:rdash]
