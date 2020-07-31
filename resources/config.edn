@@ -1,7 +1,8 @@
 ;; https://github.com/edn-format/edn
 {
  ;; long term memory: couchdb
- :lt-srv "127.0.0.1"
+ ;;:lt-srv "127.0.0.1"
+ :lt-srv "a73434"
  :lt-port 5984
  :lt-db "vl_db"
  :lt-prot "http"
@@ -20,8 +21,8 @@
                :socket-timeout 600000      ;; 10 min
                :connection-timeout 600000  ;; 10 min 
                :accept :json}
- ;; :dev-hub-url "http://e75455:55555"
-  :dev-hub-url "http://localhost:8008"
+  :dev-hub-url "http://e75455:55555"
+ ;; :dev-hub-url "http://localhost:8008"
  ;; :dev-hub-url "http://a73436:55555"
  }
  

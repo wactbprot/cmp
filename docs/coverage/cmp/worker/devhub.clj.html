@@ -145,23 +145,23 @@
 <span class="not-covered" title="0 out of 3 forms covered">
                 047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;state-key
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;working&quot;))
-                </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;mtp)
+                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;mtp)
                 </span><br/>
-<span class="not-covered" title="0 out of 10 forms covered">
+<span class="not-covered" title="0 out of 4 forms covered">
+                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;working&quot;))
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
                 050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[task&nbsp;(resolve-pre-script&nbsp;pre-task)]
                 </span><br/>
 <span class="not-covered" title="0 out of 9 forms covered">
-                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[req&nbsp;(assoc&nbsp;post-header&nbsp;:body&nbsp;(u&#x2F;map-&gt;json&nbsp;task))
+                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[req&nbsp;&nbsp;(assoc&nbsp;post-header&nbsp;:body&nbsp;(u&#x2F;map-&gt;json&nbsp;task))
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;dev-hub-url]
+                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;dev-hub-url]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;send&nbsp;req&nbsp;to:&nbsp;&quot;&nbsp;url)
+                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;try&nbsp;to&nbsp;send&nbsp;req&nbsp;to:&nbsp;&quot;&nbsp;url)
                 </span><br/>
 <span class="not-covered" title="0 out of 149 forms covered">
                 054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a&#x2F;go
@@ -178,8 +178,8 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 058&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
                 </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
-                059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;state-key
+<span class="not-covered" title="0 out of 3 forms covered">
+                059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;state-key
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
                 060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;mtp)
@@ -188,7 +188,7 @@
                 061&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;))
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                062&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;request&nbsp;failed&quot;))))
+                062&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;request&nbsp;failed&quot;)))))
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
                 063&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do&nbsp;
@@ -196,17 +196,14 @@
 <span class="not-covered" title="0 out of 18 forms covered">
                 064&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;(str&nbsp;&quot;failed&nbsp;to&nbsp;exec&nbsp;task&nbsp;at:&nbsp;&quot;&nbsp;state-key))
                 </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
-                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;state-key
+<span class="not-covered" title="0 out of 3 forms covered">
+                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;state-key
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
                 066&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;mtp)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;)))))))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                068&nbsp;&nbsp;
+                067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;))))))
                 </span><br/>
  </body>
 </html>

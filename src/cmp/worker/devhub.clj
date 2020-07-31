@@ -45,24 +45,23 @@
   [pre-task]
   (let [state-key (:StateKey pre-task)]
     (when state-key
+      (Thread/sleep mtp)
       (st/set-val! state-key "working"))
-    (Thread/sleep mtp)
     (if-let [task (resolve-pre-script pre-task)]
-      (let [req (assoc post-header :body (u/map->json task))
-            url dev-hub-url]
-        (log/debug "send req to: " url)
+      (let [req  (assoc post-header :body (u/map->json task))
+            url  dev-hub-url]
+        (log/debug "try to send req to: " url)
         (a/go
           (try
             (let [res (http/post url req)]
               (resp/check res task state-key))
             (catch Exception e
-              (if state-key
+              (when state-key
                 (Thread/sleep mtp)
                 (st/set-val! state-key "error"))
-              (log/error "request failed"))))
+              (log/error "request failed")))))
         (do 
           (log/error (str "failed to exec task at: " state-key))
-          (if state-key
+          (when state-key
             (Thread/sleep mtp)
-            (st/set-val! state-key "error")))))))
-
+            (st/set-val! state-key "error"))))))
