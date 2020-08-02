@@ -122,23 +122,6 @@
   [m]
   (filter-state m :ready))
 
-(defn all-working
-  "Returns all  steps with the state
-  `:working` for a given state map `m`.
-  
-  ```clojure
-  (def m
-  [{:seq-idx 0, :par-idx 0, :state :working}
-   {:seq-idx 1, :par-idx 0, :state :working}
-   {:seq-idx 2, :par-idx 0, :state :executed}
-   {:seq-idx 3, :par-idx 0, :state :ready}
-   {:seq-idx 4, :par-idx 0, :state :executed}
-   {:seq-idx 5, :par-idx 0, :state :ready}])
-
-  (all-working m)
-  ```"
-  [m]
-  (filter-state m :working))
 
 (defn all-executed
   "Returns all-executed entrys of the given `state-map`.
@@ -334,29 +317,42 @@
       (log/info "default condp branch in all-exec fn of " k ))))
 
 ;;------------------------------
-;; pick next task
+;; choose and start next task
 ;;------------------------------
-(defn start-next!
-  "Receives the `state-vec` and picks the next thing to do.
+(defn choose-next
+  "Receives the `state-vec` and picks the next thing to do
+  without side effects.
   
   **NOTE:**
-
-  `start-next!` only starts the first of
+  
+  `choose-next!` only choose the first of
   `(find-next state-map)` (the upcomming tasks)
   since the workers set the state to `\"working\"`
   which triggers the next call to `start-next!`."
-  [state-vec work-fn]
+ 
+  [state-vec]
   (when (vector? state-vec)
-    (let [next-m   (find-next state-vec)
-          ctrl-k   (state-map->ctrl-key (first state-vec))]
-      (log/debug "next map is: " next-m)
+    (let [next-m (find-next state-vec)
+          ctrl-k (state-map->ctrl-key (first state-vec))
+          defi-k (state-map->definition-key next-m)]
       (cond
-        (errors?       state-vec) (error!    ctrl-k)
-        (all-executed? state-vec) (all-exec! ctrl-k)
-        (nil?           next-m)   (nop!      ctrl-k)
-        :run-worker  (work-fn
-                      (state-map->definition-key next-m))))))
+        (errors?       state-vec) {:what :error    :k ctrl-k}
+        (all-executed? state-vec) {:what :all-exec :k ctrl-k}
+        (nil?          next-m)    {:what :nop      :k ctrl-k}
+        :run-worker               {:what :work     :k defi-k}))))
 
+(defn start-next!
+  "Side effects all around. "
+  [state-vec]
+  (when (vector? state-vec)
+    (let [{what :what
+           k    :k} (choose-next state-vec)]
+      (condp = what
+        :error    (error! k)
+        :all-exec (all-exec! k)
+        :nop      (nop! k)
+        :work     (work/check k)))))
+      
 ;;------------------------------
 ;; observe!
 ;;------------------------------
@@ -374,9 +370,9 @@
                  (fn [msg] 
                    (start-next! (ks->state-vec
                                  (k->state-ks
-                                  (st/msg->key msg))) work/check)))
+                                  (st/msg->key msg))))))
   (start-next! (ks->state-vec
-                (k->state-ks k)) work/check))
+                (k->state-ks k))))
 
 ;;------------------------------
 ;; status 
