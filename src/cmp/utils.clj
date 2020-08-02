@@ -238,7 +238,7 @@
 ;;------------------------------
 ;; ctrl endpoint -> poll and run
 ;;------------------------------
-(defn get-next-ctrl
+(defn next-ctrl-cmd
   "Extracts next command.
 
   #TODO:  Enable kind of programming like provided in ssmp:

@@ -9,11 +9,18 @@
             [cmp.utils :as u]))
 
 
-(defn state-map->struct-key
-  "Converts a `state-map` into a key."
+(defn state-map->definition-key
+  "Converts a `state-map` into the belonging `definition` key."
   [m]
-  (u/vec->key [(:mp-name m) (:struct m) (:no-idx m)
-               "definition" (:seq-idx m) (:par-idx m)]))
+  (when (map? m)
+    (u/vec->key [(:mp-name m) (:struct m) (:no-idx m) "definition"
+                 (:seq-idx m) (:par-idx m)])))
+
+(defn state-map->ctrl-key
+  "Converts a `state-map` into the belonging `ctrl` key."
+  [m]
+  (when (map? m)
+    (u/vec->key [(:mp-name m) (:struct m) (:no-idx m) "ctrl"])))
 
 (defn state-key->state-map
   "Converts a key into a `state-map`."
@@ -25,16 +32,17 @@
    :par-idx (st/key->par-idx k)
    :state (keyword (st/key->val k))})
 
-(defn ks->state-map
+(defn ks->state-vec
   "Builds the state map `m` belonging to a key set `ks`.
   `m` is introduced in order to keep the functions testable.
 
   
   ```clojur
-  (ks->state-map (k->state-ks \"wait@container@0\"))
+  (ks->state-vec (k->state-ks \"wait@container@0\"))
   ```" 
   [ks]
-  (mapv state-key->state-map ks))
+  (when ks
+    (mapv state-key->state-map ks)))
 
 (defn k->state-ks
   "Returns the state keys for a given path.
@@ -42,12 +50,14 @@
   ```clojure
   (k->state-ks \"wait@container@0\")
   ```" 
-  [p]
-  (sort (st/key->keys
-         (u/vec->key [(st/key->mp-id p)
-                      (st/key->struct p)
-                      (st/key->no-idx p)
-                      "state"]))))
+  [k]
+  (when k
+    (sort
+     (st/key->keys
+      (u/vec->key [(st/key->mp-id k)
+                   (st/key->struct k)
+                   (st/key->no-idx k)
+                   "state"])))))
 
 (defn k->ctrl-k
   "Returns the `ctrl`-key for a given key `k`.
@@ -71,10 +81,10 @@
   "Gets the `cmd` from the `ctrl-k`."
   [k]
   (->> k
-       (st/key->val)
-       (u/get-next-ctrl)
+       st/key->val
+       u/next-ctrl-cmd
        keyword))
-
+  
 (defn filter-state
   [m s]
   (filter (fn [x] (= s (:state x))) m))
@@ -311,11 +321,9 @@
   "Handles the case where all `state` interfaces
   are `\"executed\"`. Gets the value  the `ctrl`"
   [k]
-  (log/info "all done at " k)
   (let [ctrl-k   (k->ctrl-k k)
-        cmd      (ctrl-k->cmd ctrl-k)
-        state-ks (k->state-ks k)]
-    (log/info "ctrl cmd is: " cmd)
+        cmd      (ctrl-k->cmd ctrl-k)]
+    (log/info "all done at: " k "ctrl interface cmd is: " cmd)
     (condp = cmd
       :run (do
              (de-observe! ctrl-k)
@@ -329,20 +337,7 @@
 ;; pick next task
 ;;------------------------------
 (defn start-next!
-  "Receives the key `k` and picks the next thing to do.
-  `k` is
-  * the `ctrl-key` on the first run
-  * the `state-key` on the following calls
-  The keys (must be a string) and look like this:
-
-  ```clojure
-  ;; ctrl-key
-  (start-next! \"se3-calib@container@0@ctrl\")
-
-  ;; state-key
-  (start-next! \"se3-calib@container@0@state@1@1\")
-
-  ```
+  "Receives the `state-vec` and picks the next thing to do.
   
   **NOTE:**
 
@@ -350,19 +345,18 @@
   `(find-next state-map)` (the upcomming tasks)
   since the workers set the state to `\"working\"`
   which triggers the next call to `start-next!`."
-  [x]
-  (log/info "start-next! on " x)
-  (if-let [k x]
-    (let [ctrl-k   (k->ctrl-k k)
-          state-m  (ks->state-map (k->state-ks ctrl-k))
-          next-m   (find-next state-m)]
+  [state-vec]
+  (when (vector? state-vec)
+    (let [next-m   (find-next state-vec)
+          ctrl-k   (state-map->ctrl-key (first state-vec))]
       (log/debug "next map is: " next-m)
+      (log/debug "ctrl key is: " ctrl-k)
       (cond
-        (errors?       state-m) (error!    ctrl-k)
-        (all-executed? state-m) (all-exec! ctrl-k)
+        (errors?       state-vec) (error!    ctrl-k)
+        (all-executed? state-vec) (all-exec! ctrl-k)
         (nil?           next-m) (nop!      ctrl-k)
         :run-worker  (work/check
-                      (state-map->struct-key next-m))))))
+                      (state-map->definition-key next-m))))))
 
 ;;------------------------------
 ;; observe!
@@ -378,8 +372,12 @@
                  (st/key->struct k)
                  (st/key->no-idx k)
                  "state"
-                 (fn [msg] (start-next! (st/msg->key msg))))
-  (start-next! k))
+                 (fn [msg] 
+                   (start-next! (ks->state-vec
+                                         (k->state-ks
+                                          (st/msg->key msg))))))
+  (start-next! (ks->state-vec
+                (k->state-ks k))))
 
 ;;------------------------------
 ;; status 
@@ -388,9 +386,7 @@
   "Return the state map for the `i`th
   container."
   [mp-id i]
-  (->> (st/cont-state-path mp-id i)
-       (k->state-ks)
-       (ks->state-map)))
+  (ks->state-vec (k->state-ks (st/cont-state-path mp-id i))))
 
 (defn defins-status
   "Return the `state-map` for the `i`th
@@ -398,7 +394,7 @@
   [mp-id i]
   (->> (st/defins-state-path mp-id i)
        (k->state-ks)
-       (ks->state-map)))
+       (ks->state-vec)))
 
 ;;------------------------------
 ;; dispatch

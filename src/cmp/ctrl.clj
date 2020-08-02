@@ -16,7 +16,7 @@
   [k]
   (log/info "ctrl dispatch call for path: " k)
   (when k
-    (let [cmd (u/get-next-ctrl (st/key->val k))]
+    (let [cmd (u/next-ctrl-cmd (st/key->val k))]
       (state/dispatch k cmd))))
 
 ;;------------------------------
