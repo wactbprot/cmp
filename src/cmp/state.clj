@@ -345,17 +345,16 @@
   `(find-next state-map)` (the upcomming tasks)
   since the workers set the state to `\"working\"`
   which triggers the next call to `start-next!`."
-  [state-vec]
+  [state-vec work-fn]
   (when (vector? state-vec)
     (let [next-m   (find-next state-vec)
           ctrl-k   (state-map->ctrl-key (first state-vec))]
       (log/debug "next map is: " next-m)
-      (log/debug "ctrl key is: " ctrl-k)
       (cond
         (errors?       state-vec) (error!    ctrl-k)
         (all-executed? state-vec) (all-exec! ctrl-k)
-        (nil?           next-m) (nop!      ctrl-k)
-        :run-worker  (work/check
+        (nil?           next-m)   (nop!      ctrl-k)
+        :run-worker  (work-fn
                       (state-map->definition-key next-m))))))
 
 ;;------------------------------
@@ -374,10 +373,10 @@
                  "state"
                  (fn [msg] 
                    (start-next! (ks->state-vec
-                                         (k->state-ks
-                                          (st/msg->key msg))))))
+                                 (k->state-ks
+                                  (st/msg->key msg))) work/check)))
   (start-next! (ks->state-vec
-                (k->state-ks k))))
+                (k->state-ks k)) work/check))
 
 ;;------------------------------
 ;; status 
