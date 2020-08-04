@@ -124,8 +124,8 @@
 
   "
   [k]
-  {:pre [(string? k)]}
-  (nth (string/split k u/re-sep) 0 nil))
+  (when k
+    (nth (string/split k u/re-sep) 0 nil)))
 
 (defn key->struct
   "Returns the name of the `struct`ure
@@ -137,40 +137,39 @@
   * container
   "
   [k]
-  {:pre [(string? k)]}
-  (nth (string/split k u/re-sep) 1 nil))
-
+  (when k
+    (nth (string/split k u/re-sep) 1 nil)))
 
 (defn key->no-idx
   "Returns an integer corresponding to the
   given key `container` or `definitions` index."
   [k]
-  {:pre [(string? k)]}
-  (if-let [n (nth (string/split k u/re-sep) 2 nil)]
-    (Integer/parseInt n)))
+  (when k
+    (if-let [n (nth (string/split k u/re-sep) 2 nil)]
+      (Integer/parseInt n))))
 
 (defn key->func
   "Returns the name of the `func`tion
   for the given key."
   [k]
-  {:pre [(string? k)]}
-  (nth (string/split k u/re-sep) 3 nil))
+  (when k
+    (nth (string/split k u/re-sep) 3 nil)))
 
 (defn key->seq-idx
   "Returns an integer corresponding to
   the givens key sequential index."
   [k]
-  {:pre [(string? k)]}
-  (if-let [n (nth (string/split k u/re-sep) 4 nil)]
-    (Integer/parseInt  n)))
+  (when k
+    (if-let [n (nth (string/split k u/re-sep) 4 nil)]
+      (Integer/parseInt  n))))
 
 (defn key->par-idx
   "Returns an integer corresponding to
   the givens key parallel index."
   [k]
-  {:pre [(string? k)]}
-  (if-let [n (nth (string/split k u/re-sep) 5 nil)]
-    (Integer/parseInt  n)))
+  (when k
+    (if-let [n (nth (string/split k u/re-sep) 5 nil)]
+      (Integer/parseInt  n))))
 
 ;;------------------------------
 ;; exchange

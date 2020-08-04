@@ -23,7 +23,8 @@
     (u/vec->key [(:mp-name m) (:struct m) (:no-idx m) "ctrl"])))
 
 (defn state-key->state-map
-  "Converts a key into a `state-map`."
+  "Builds a `state-map` by means of the key structure
+  and `st/key->val`. "
   [k]
   {:mp-name (st/key->mp-id k)
    :struct (st/key->struct k)
@@ -173,76 +174,6 @@
   (all-executed?
    (seq-idx->all-par m (dec i))))
 
-(defn find-next
-  "The `find-next` function
-  returns a list of maps containing the next
-  tasks to start. It should work as follows:
-
-  ```clojure
-  cmp.run>   (def m
-  [{:seq-idx 0, :par-idx 0, :state :ready}
-   {:seq-idx 0, :par-idx 1, :state :ready}
-   {:seq-idx 1, :par-idx 0, :state :ready}
-   {:seq-idx 2, :par-idx 0, :state :ready}
-   {:seq-idx 3, :par-idx 0, :state :ready}
-   {:seq-idx 3, :par-idx 0, :state :ready}])
-  
-  ;;  #'cmp.run/m
-  cmp.run> (find-next m)
-  ;;  {:seq-idx 0, :par-idx 0, :state :ready}
-  cmp.run>   (def m
-  [{:seq-idx 0, :par-idx 0, :state :working}
-   {:seq-idx 0, :par-idx 1, :state :ready}
-   {:seq-idx 1, :par-idx 0, :state :ready}
-   {:seq-idx 2, :par-idx 0, :state :ready}
-   {:seq-idx 3, :par-idx 0, :state :ready}
-   {:seq-idx 3, :par-idx 0, :state :ready}])
-  
-  ;;  #'cmp.run/m
-  cmp.run> (find-next m)
-  ;;  {:seq-idx 0, :par-idx 1, :state :ready}
-  cmp.run>   (def m
-  [{:seq-idx 0, :par-idx 0, :state :working}
-   {:seq-idx 0, :par-idx 1, :state :working}
-   {:seq-idx 1, :par-idx 0, :state :ready}
-   {:seq-idx 2, :par-idx 0, :state :ready}
-   {:seq-idx 3, :par-idx 0, :state :ready}
-   {:seq-idx 3, :par-idx 0, :state :ready}])
-  
-  ;;  #'cmp.run/m
-  cmp.run> (find-next m)
-  ;;  nil
-  cmp.run>   (def m
-  [{:seq-idx 0, :par-idx 0, :state :executed}
-   {:seq-idx 0, :par-idx 1, :state :executed}
-   {:seq-idx 1, :par-idx 0, :state :ready}
-   {:seq-idx 2, :par-idx 0, :state :ready}
-   {:seq-idx 3, :par-idx 0, :state :ready}
-   {:seq-idx 3, :par-idx 0, :state :ready}])
-  
-  ;;  #'cmp.run/m
-  cmp.run> (find-next m)
-  ;;  {:seq-idx 1, :par-idx 0, :state :ready}
-  ```
-  It should not crash on:
-
-  ```clojure
-  cmp.run> (count (next-ready m))
-  ;; 0
-  cmp.run> (find-next m)
-  ;; nil
-  cmp.run> (find-next {})
-  ;; nil
-  cmp.run> (find-next nil)
-  ;; nil
-  ```"
-  [m]
-  (when-let [next-m (next-ready m)]
-    (when-let [i (next-m :seq-idx)]
-      (when (or
-             (zero? i)
-             (predecessor-executed? m i))
-        next-m))))
 
 ;;------------------------------
 ;; ready!
@@ -319,20 +250,36 @@
 ;;------------------------------
 ;; choose and start next task
 ;;------------------------------
+
+(defn next-map
+  "The `next-map` function returns a map containing the next
+  step to start. See `cmp.state-test/next-map-i` for examples
+  how  `next-map` should work.
+  
+  ```clojure
+   (next-map [{:seq-idx 0, :par-idx 0, :state :executed}
+              {:seq-idx 0, :par-idx 1, :state :executed}
+              {:seq-idx 1, :par-idx 0, :state :executed}
+              {:seq-idx 2, :par-idx 0, :state :executed}
+              {:seq-idx 3, :par-idx 0, :state :working}
+              {:seq-idx 3, :par-idx 1, :state :ready}])
+  ;; cmp.state> {:seq-idx 3, :par-idx 1, :state :ready}
+  ```"
+  [m]
+  (when-let [next-m (next-ready m)]
+    (when-let [i (:seq-idx next-m)]
+      (when (or
+             (zero? i)
+             (predecessor-executed? m i))
+        next-m))))
+
 (defn choose-next
-  "Receives the `state-vec` and picks the next thing to do
-  without side effects.
-  
-  **NOTE:**
-  
-  `choose-next!` only choose the first of
-  `(find-next state-map)` (the upcomming tasks)
-  since the workers set the state to `\"working\"`
-  which triggers the next call to `start-next!`."
- 
+  "Gets the `state-vec` and picks the next thing to do.
+  The `ctrl-k`ey is derived from the first map in the
+  the `state-vec`."
   [state-vec]
   (when (vector? state-vec)
-    (let [next-m (find-next state-vec)
+    (let [next-m (next-map state-vec)
           ctrl-k (state-map->ctrl-key (first state-vec))
           defi-k (state-map->definition-key next-m)]
       (cond
@@ -342,7 +289,12 @@
         :run-worker               {:what :work     :k defi-k}))))
 
 (defn start-next!
-  "Side effects all around. "
+  "`start-next!` choose the `k` of the upcomming tasks.
+  Then the `worker` set the state to `\"working\"`
+  which triggers the next call to `start-next!`:
+  parallel tasks are started this way.
+
+  Side effects all around. "
   [state-vec]
   (when (vector? state-vec)
     (let [{what :what
@@ -378,18 +330,16 @@
 ;; status 
 ;;------------------------------
 (defn cont-status
-  "Return the state map for the `i`th
+  "Return the `state-vec` for the `i`th
   container."
   [mp-id i]
   (ks->state-vec (k->state-ks (st/cont-state-path mp-id i))))
 
 (defn defins-status
-  "Return the `state-map` for the `i`th
+  "Return the `state-vec` for the `i`th
   definition*s* structure."
   [mp-id i]
-  (->> (st/defins-state-path mp-id i)
-       (k->state-ks)
-       (ks->state-vec)))
+  (ks->state-vec (k->state-ks (st/defins-state-path mp-id i))))
 
 ;;------------------------------
 ;; dispatch

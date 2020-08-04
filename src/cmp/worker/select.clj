@@ -83,21 +83,37 @@
                       :run   (log/debug "run callback for" ctrl-k)
                       :ready (do
                                (log/debug "ready callback for" ctrl-k)
-                               (Thread/sleep mtp)
-                               (st/set-val! state-k "executed") 
+                               (when state-k
+                                 (Thread/sleep mtp)
+                                 (st/set-val! state-k "executed")) 
                                (st/de-register! mp-id struct no-idx func level))
                       :error (do
                                (log/error "error callback for" ctrl-k)
-                               (Thread/sleep mtp)
-                               (st/set-val! state-k "error"))))]
+                               (when state-k
+                                 (Thread/sleep mtp)
+                                 (st/set-val! state-k "error")))))]
     (st/register! mp-id struct no-idx func callback level)
     (st/set-val! ctrl-k "run")))
+
+(defn cond-key->cond-map
+  [k]
+  (when k
+    {:mp-name (st/key->mp-id k)
+     :struct (st/key->struct k)
+     :no-idx (st/key->no-idx k)
+     :cond-expr (st/key->val k)}))
+
+(defn ks->cond-vec
+  [ks]
+  (when ks
+    (mapv cond-key->cond-map ks)))
 
 (defn select-definition!
   "Selects and runs a `Definition` from the `Definitions`
   section of the current `mp`. 
   
   ```clojure
+  (ns cmp.worker.select)
   (select-definition! {:Action select
                        :TaskName Common-select_definition,
                        :DefinitionClass wait} )
@@ -115,6 +131,9 @@
   (Thread/sleep mtp)
   (let [pat   (u/vec->key [mp-id "definitions" "*" "class"])
         ks    (sort (st/filter-keys-where-val pat cls))]
+    (prn (ks->cond-vec ks))
+    ;; cond-vec mit ersetzten exchange values erzeugen
+    ;; und side effect frei untersuchen
     (if-let [k (first (filter conds-match? ks))]
       (start-defins! k state-key)
       (do
