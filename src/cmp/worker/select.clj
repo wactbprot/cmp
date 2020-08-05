@@ -34,7 +34,7 @@
   (let [mp-id (st/key->mp-id k)
         m     (st/key->val    k)
         p     (:ExchangePath m)
-        a     (str (exch/comp-val mp-id p))
+        a     (str (exch/comp-val! mp-id p))
         b     (str (:Value m))]
     (condp = (keyword (:Methode m))
       :eq (= a b)
@@ -96,21 +96,66 @@
     (st/set-val! ctrl-k "run")))
 
 (defn cond-key->cond-map
+  "Builds a `cond`ition`-map` belonging to the
+  key  `k`. Replaces the compare value fetched
+  from the exchange interface by means of the
+  `exch/comp-val!`-function.
+
+  Example:
+  ```clojure
+  (cond-key->cond-map \"ref@definitions@1@cond@0\")
+  ;; {:mp-name \"ref\",
+  ;;  :struct \"definitions\",
+  ;;  :no-idx 1,
+  ;;  :no-jdy 0,
+  ;;  :comp-value \"Pa\",
+  ;;  :meth \"eq\",
+  ;;  :exch-value \"Pa\"}
+
+  ;; where:
+
+  (st/key->val \"ref@definitions@1@cond@0\")
+  ;;{:ExchangePath \"A.Unit\", :Methode \"eq\", :Value \"Pa\"}
+
+  ;; and:
+
+  (st/key->val \"ref@exchange@A\")
+  ;; {:Unit \"Pa\", :Value 100}
+  ```
+  "
+  [k]
+  (let [mp-name   (st/key->mp-id k)
+        val-map   (st/key->val k)
+        exch-path (:ExchangePath val-map)
+        exch-val  (exch/comp-val! mp-name exch-path)]
+    {:mp-name    mp-name
+     :struct     (st/key->struct k)
+     :no-idx     (st/key->no-idx k)
+     :no-jdy     (st/key->no-jdx k)
+     :comp-value (:Value val-map)
+     :meth       (:Methode val-map)
+     :exch-value exch-val}))
+
+(defn class-key->cond-keys
   [k]
   (when k
-    {:mp-name (st/key->mp-id k)
-     :struct (st/key->struct k)
-     :no-idx (st/key->no-idx k)
-     :cond-expr (st/key->val k)}))
+    (let [mp-id   (st/key->mp-id k)
+          struct  (st/key->struct k)
+          no-idx  (st/key->no-idx k)
+          cond-k  (st/defins-cond-path mp-id no-idx)]
+      (st/key->keys cond-k))))
 
-(defn ks->cond-vec
-  [ks]
-  (when ks
-    (mapv cond-key->cond-map ks)))
+(defn class->class-keys
+  "Returns the keys where the class is `cls`."
+  [mp-id cls]
+  (let [pat (st/defins-class-path mp-id "*")]
+    (st/filter-keys-where-val pat cls)))
 
 (defn select-definition!
   "Selects and runs a `Definition` from the `Definitions`
-  section of the current `mp`. 
+  section of the current `mp`. Builds a `cond`ition`-map`
+  (analog to the `state-map`) in order to avoid the
+  spreading of side effects and easy testing.
   
   ```clojure
   (ns cmp.worker.select)
@@ -129,13 +174,10 @@
   (st/set-val! state-key "working")
   (log/debug "start with select, already set " state-key  " working")
   (Thread/sleep mtp)
-  (let [pat   (u/vec->key [mp-id "definitions" "*" "class"])
-        ks    (sort (st/filter-keys-where-val pat cls))]
-    (prn (ks->cond-vec ks))
-    ;; cond-vec mit ersetzten exchange values erzeugen
-    ;; und side effect frei untersuchen
-    (if-let [k (first (filter conds-match? ks))]
-      (start-defins! k state-key)
-      (do
-        (log/error "nothing match")
-        (st/set-val! state-key "error")))))
+  (let [cond-vec (mapv
+                  (fn [ks]
+                    (mapv cond-key->cond-map ks)) 
+                       (mapv class-key->cond-keys
+                             (class->class-keys mp-id cls)))]
+    (println cond-vec)
+  ))

@@ -163,6 +163,13 @@
     (if-let [n (nth (string/split k u/re-sep) 4 nil)]
       (Integer/parseInt  n))))
 
+(defn key->no-jdx
+  "The 4th position at definitions
+  has nothing todo with `seq-idx`. Hence
+  a fn-rename"
+  [k]
+  (key->seq-idx k))
+
 (defn key->par-idx
   "Returns an integer corresponding to
   the givens key parallel index."
@@ -241,8 +248,10 @@
    (u/vec->key [(defins-prefix mp-id) i "state" j k])))
 
 (defn defins-cond-path
-  [mp-id i j]
-  (u/vec->key [(defins-prefix mp-id) i "cond" j]))
+  ([mp-id i]
+  (u/vec->key [(defins-prefix mp-id) i "cond"]))
+  ([mp-id i j]
+  (u/vec->key [(defins-prefix mp-id) i "cond" j])))
 
 (defn defins-ctrl-path
   [mp-id i]

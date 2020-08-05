@@ -113,7 +113,7 @@
                 036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:ExchangePath&nbsp;m)
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;(exch&#x2F;comp-val&nbsp;mp-id&nbsp;p))
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;(exch&#x2F;comp-val!&nbsp;mp-id&nbsp;p))
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
                 038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;(:Value&nbsp;m))]
@@ -299,133 +299,259 @@
                 098&nbsp;&nbsp;(defn&nbsp;cond-key-&gt;cond-map
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                099&nbsp;&nbsp;&nbsp;&nbsp;[k]
+                099&nbsp;&nbsp;&nbsp;&nbsp;&quot;Builds&nbsp;a&nbsp;`cond`ition`-map`&nbsp;belonging&nbsp;to&nbsp;the
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                100&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;k
+<span class="not-tracked" title="0 out of 0 forms covered">
+                100&nbsp;&nbsp;&nbsp;&nbsp;key&nbsp;&nbsp;`k`.&nbsp;Replaces&nbsp;the&nbsp;compare&nbsp;value&nbsp;fetched
                 </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
-                101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:mp-name&nbsp;(st&#x2F;key-&gt;mp-id&nbsp;k)
+<span class="not-tracked" title="0 out of 0 forms covered">
+                101&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;the&nbsp;exchange&nbsp;interface&nbsp;by&nbsp;means&nbsp;of&nbsp;the
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:struct&nbsp;(st&#x2F;key-&gt;struct&nbsp;k)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                103&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:no-idx&nbsp;(st&#x2F;key-&gt;no-idx&nbsp;k)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                104&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:cond-expr&nbsp;(st&#x2F;key-&gt;val&nbsp;k)}))
+<span class="not-tracked" title="0 out of 0 forms covered">
+                102&nbsp;&nbsp;&nbsp;&nbsp;`exch&#x2F;comp-val!`-function.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                105&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                106&nbsp;&nbsp;(defn&nbsp;ks-&gt;cond-vec
+                103&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                107&nbsp;&nbsp;&nbsp;&nbsp;[ks]
+                104&nbsp;&nbsp;&nbsp;&nbsp;Example:
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                105&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                106&nbsp;&nbsp;&nbsp;&nbsp;(cond-key-&gt;cond-map&nbsp;\&quot;ref@definitions@1@cond@0\&quot;)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                107&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:mp-name&nbsp;\&quot;ref\&quot;,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                108&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:struct&nbsp;\&quot;definitions\&quot;,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                109&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:no-idx&nbsp;1,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                110&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:no-jdy&nbsp;0,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                111&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:comp-value&nbsp;\&quot;Pa\&quot;,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                112&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:meth&nbsp;\&quot;eq\&quot;,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                113&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:exch-value&nbsp;\&quot;Pa\&quot;}
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                114&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                115&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;where:
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                116&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                117&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;\&quot;ref@definitions@1@cond@0\&quot;)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                118&nbsp;&nbsp;&nbsp;&nbsp;;;{:ExchangePath&nbsp;\&quot;A.Unit\&quot;,&nbsp;:Methode&nbsp;\&quot;eq\&quot;,&nbsp;:Value&nbsp;\&quot;Pa\&quot;}
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                119&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                120&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;and:
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                121&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                122&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;\&quot;ref@exchange@A\&quot;)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                123&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:Unit&nbsp;\&quot;Pa\&quot;,&nbsp;:Value&nbsp;100}
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                124&nbsp;&nbsp;&nbsp;&nbsp;```
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                125&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                126&nbsp;&nbsp;&nbsp;&nbsp;[k]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                127&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[mp-name&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;mp-id&nbsp;k)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                108&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;ks
+                128&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val-map&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                129&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exch-path&nbsp;(:ExchangePath&nbsp;val-map)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                109&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;cond-key-&gt;cond-map&nbsp;ks)))
+                130&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exch-val&nbsp;&nbsp;(exch&#x2F;comp-val!&nbsp;mp-name&nbsp;exch-path)]
                 </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                110&nbsp;&nbsp;
+<span class="not-covered" title="0 out of 9 forms covered">
+                131&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:mp-name&nbsp;&nbsp;&nbsp;&nbsp;mp-name
                 </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                111&nbsp;&nbsp;(defn&nbsp;select-definition!
+<span class="not-covered" title="0 out of 3 forms covered">
+                132&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:struct&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;struct&nbsp;k)
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                112&nbsp;&nbsp;&nbsp;&nbsp;&quot;Selects&nbsp;and&nbsp;runs&nbsp;a&nbsp;`Definition`&nbsp;from&nbsp;the&nbsp;`Definitions`
+<span class="not-covered" title="0 out of 3 forms covered">
+                133&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:no-idx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;no-idx&nbsp;k)
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                113&nbsp;&nbsp;&nbsp;&nbsp;section&nbsp;of&nbsp;the&nbsp;current&nbsp;`mp`.&nbsp;
+<span class="not-covered" title="0 out of 3 forms covered">
+                134&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:no-jdy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;no-jdx&nbsp;k)
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                114&nbsp;&nbsp;&nbsp;&nbsp;
+<span class="not-covered" title="0 out of 3 forms covered">
+                135&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:comp-value&nbsp;(:Value&nbsp;val-map)
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                115&nbsp;&nbsp;&nbsp;&nbsp;```clojure
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                116&nbsp;&nbsp;&nbsp;&nbsp;(ns&nbsp;cmp.worker.select)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                117&nbsp;&nbsp;&nbsp;&nbsp;(select-definition!&nbsp;{:Action&nbsp;select
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                118&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:TaskName&nbsp;Common-select_definition,
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                119&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:DefinitionClass&nbsp;wait}&nbsp;)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                120&nbsp;&nbsp;&nbsp;&nbsp;```
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                121&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;more&nbsp;than&nbsp;one&nbsp;than&nbsp;one&nbsp;of&nbsp;the&nbsp;definitions&nbsp;condition&nbsp;match
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                122&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;first&nbsp;is&nbsp;used:
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                123&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                124&nbsp;&nbsp;&nbsp;&nbsp;```clojure
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                125&nbsp;&nbsp;&nbsp;&nbsp;(first&nbsp;(filter&nbsp;conds-match?&nbsp;match-ks))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                126&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;ref@definitions@1@class
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                127&nbsp;&nbsp;&nbsp;&nbsp;```&quot;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                128&nbsp;&nbsp;&nbsp;&nbsp;[{mp-id&nbsp;:MpName&nbsp;cls&nbsp;:DefinitionClass&nbsp;state-key&nbsp;:StateKey}]
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                129&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;working&quot;)
-                </span><br/>
-<span class="not-covered" title="0 out of 17 forms covered">
-                130&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;start&nbsp;with&nbsp;select,&nbsp;already&nbsp;set&nbsp;&quot;&nbsp;state-key&nbsp;&nbsp;&quot;&nbsp;working&quot;)
-                </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
-                131&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;mtp)
-                </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
-                132&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[pat&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[mp-id&nbsp;&quot;definitions&quot;&nbsp;&quot;*&quot;&nbsp;&quot;class&quot;])
-                </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
-                133&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ks&nbsp;&nbsp;&nbsp;&nbsp;(sort&nbsp;(st&#x2F;filter-keys-where-val&nbsp;pat&nbsp;cls))]
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                134&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(prn&nbsp;(ks-&gt;cond-vec&nbsp;ks))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                135&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;cond-vec&nbsp;mit&nbsp;ersetzten&nbsp;exchange&nbsp;values&nbsp;erzeugen
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                136&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;und&nbsp;side&nbsp;effect&nbsp;frei&nbsp;untersuchen
-                </span><br/>
-<span class="not-covered" title="0 out of 11 forms covered">
-                137&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[k&nbsp;(first&nbsp;(filter&nbsp;conds-match?&nbsp;ks))]
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                138&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start-defins!&nbsp;k&nbsp;state-key)
+<span class="not-covered" title="0 out of 3 forms covered">
+                136&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:meth&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:Methode&nbsp;val-map)
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                139&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
+                137&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:exch-value&nbsp;exch-val}))
                 </span><br/>
-<span class="not-covered" title="0 out of 15 forms covered">
-                140&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;nothing&nbsp;match&quot;)
+<span class="blank" title="0 out of 0 forms covered">
+                138&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                139&nbsp;&nbsp;(defn&nbsp;class-key-&gt;cond-keys
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                140&nbsp;&nbsp;&nbsp;&nbsp;[k]
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                141&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;k
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                141&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;error&quot;)))))
+                142&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[mp-id&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;mp-id&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                143&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct&nbsp;&nbsp;(st&#x2F;key-&gt;struct&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                144&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no-idx&nbsp;&nbsp;(st&#x2F;key-&gt;no-idx&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                145&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cond-k&nbsp;&nbsp;(st&#x2F;defins-cond-path&nbsp;mp-id&nbsp;no-idx)]
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                146&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;keys&nbsp;cond-k))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                147&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                148&nbsp;&nbsp;(defn&nbsp;class-&gt;class-keys
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                149&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;keys&nbsp;where&nbsp;the&nbsp;class&nbsp;is&nbsp;`cls`.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                150&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;cls]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                151&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[pat&nbsp;(st&#x2F;defins-class-path&nbsp;mp-id&nbsp;&quot;*&quot;)]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                152&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;filter-keys-where-val&nbsp;pat&nbsp;cls)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                153&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                154&nbsp;&nbsp;(defn&nbsp;select-definition!
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                155&nbsp;&nbsp;&nbsp;&nbsp;&quot;Selects&nbsp;and&nbsp;runs&nbsp;a&nbsp;`Definition`&nbsp;from&nbsp;the&nbsp;`Definitions`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                156&nbsp;&nbsp;&nbsp;&nbsp;section&nbsp;of&nbsp;the&nbsp;current&nbsp;`mp`.&nbsp;Builds&nbsp;a&nbsp;`cond`ition`-map`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                157&nbsp;&nbsp;&nbsp;&nbsp;(analog&nbsp;to&nbsp;the&nbsp;`state-map`)&nbsp;in&nbsp;order&nbsp;to&nbsp;avoid&nbsp;the
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                158&nbsp;&nbsp;&nbsp;&nbsp;spreading&nbsp;of&nbsp;side&nbsp;effects&nbsp;and&nbsp;easy&nbsp;testing.
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                159&nbsp;&nbsp;&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                160&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                161&nbsp;&nbsp;&nbsp;&nbsp;(ns&nbsp;cmp.worker.select)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                162&nbsp;&nbsp;&nbsp;&nbsp;(select-definition!&nbsp;{:Action&nbsp;select
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                163&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:TaskName&nbsp;Common-select_definition,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                164&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:DefinitionClass&nbsp;wait}&nbsp;)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                165&nbsp;&nbsp;&nbsp;&nbsp;```
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                166&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;more&nbsp;than&nbsp;one&nbsp;than&nbsp;one&nbsp;of&nbsp;the&nbsp;definitions&nbsp;condition&nbsp;match
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                167&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;first&nbsp;is&nbsp;used:
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                168&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                169&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                170&nbsp;&nbsp;&nbsp;&nbsp;(first&nbsp;(filter&nbsp;conds-match?&nbsp;match-ks))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                171&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;ref@definitions@1@class
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                172&nbsp;&nbsp;&nbsp;&nbsp;```&quot;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                173&nbsp;&nbsp;&nbsp;&nbsp;[{mp-id&nbsp;:MpName&nbsp;cls&nbsp;:DefinitionClass&nbsp;state-key&nbsp;:StateKey}]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                174&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;state-key&nbsp;&quot;working&quot;)
+                </span><br/>
+<span class="not-covered" title="0 out of 17 forms covered">
+                175&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;start&nbsp;with&nbsp;select,&nbsp;already&nbsp;set&nbsp;&quot;&nbsp;state-key&nbsp;&nbsp;&quot;&nbsp;working&quot;)
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                176&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;mtp)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                177&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[cond-vec&nbsp;(mapv
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                178&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[ks]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                179&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;cond-key-&gt;cond-map&nbsp;ks))&nbsp;
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                180&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;class-key-&gt;cond-keys
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                181&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(class-&gt;class-keys&nbsp;mp-id&nbsp;cls)))]
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                182&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(println&nbsp;cond-vec)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                183&nbsp;&nbsp;&nbsp;&nbsp;))
                 </span><br/>
  </body>
 </html>

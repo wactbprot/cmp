@@ -3,8 +3,6 @@
             [cmp.exchange :refer :all]
             [cmp.st-mem :as st]))
 
-
-
 (deftest stop-if-i
   (testing "StopIf"
     (st/set-val! "test@exchange@A" {:B "ok"})

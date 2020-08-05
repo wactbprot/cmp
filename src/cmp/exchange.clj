@@ -34,28 +34,17 @@
   (if-let [x (second (string/split s (re-pattern "\\.")))] 
     (keyword x)))
 
-(defn exch-val
-  "Returns the value from the exchange interface.
-  Respects the case where the given  `s` is non trivial."  
-  [mp-id s]
-  (let [kw  (key->kw s)
-        k   (exch-key mp-id s)
-        val (st/key->val k)]
-    (if kw
-      (kw val)
-      val)))
-
-(defn comp-val
+(defn comp-val!
   "Returns the *compare value* belonging to a `mp-id`
   and an ExchangePath `k`. Gets the  *keyword* `kw`
   from `k` if `k` looks like this: `aaa.bbb`. If `kw`
   is not `nil` it is used to extract the related value.
 
   ```clojure
-  (comp-val \"ref\" \"A.Unit\")
+  (comp-val! \"ref\" \"A.Unit\")
   ;; \"Pa\"
   ;; or:
-  (comp-val \"devhub\" \"Vraw_block1\")
+  (comp-val! \"devhub\" \"Vraw_block1\")
   ;; [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]
   ```"
   [mp-id p]
@@ -103,7 +92,7 @@
   [mp-id m]
   (when (and (string? mp-id) (map? m))
     (u/apply-to-map-values
-     (fn [v] (exch-val mp-id v))
+     (fn [v] (comp-val! mp-id v))
      m)))
 
 (defn to!
@@ -140,7 +129,7 @@
   "Checks a certain exchange endpoint to evaluate
   to true"
   [mp-id k]
-  (contains? #{"ok" :ok "true" true "jo!"} (exch-val mp-id k)))
+  (contains? #{"ok" :ok "true" true "jo!"} (comp-val! mp-id k)))
 
 (defn stop-if
   "Checks if the exchange path given with `:MpName`
