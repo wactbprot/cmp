@@ -15,54 +15,16 @@
 (defn cond-match?
   "Tests a single condition of the form defined in
   the `definitions` section.
-  
-  **Example**
-  
-  Condition maps `m` looks like this:
-  
+
+  Example:
   ```clojure
-  (u/json->map (st/key->val \"ref@definitions@0@cond@0\"))
-  ;;
-  ;; {
-  ;;  :ExchangePath \"A.Unit\" ; the value under ref@exchange@A/Unit
-  ;;  :Methode \"eq\"          ; should be equal to
-  ;;  :Value \"Pa\"            ; Pa
-  ;; }
   ```
   "
-  [k]
-  (let [mp-id (st/key->mp-id k)
-        m     (st/key->val    k)
-        p     (:ExchangePath m)
-        a     (str (exch/comp-val! mp-id p))
-        b     (str (:Value m))]
-    (condp = (keyword (:Methode m))
-      :eq (= a b)
-      :lt (< (read-string a) (read-string b))
-      :gt (> (read-string a) (read-string b)))))
-
-(defn conds-match?
-  "Gathers all information for the given
-  definitions key comparison and checks
-  all of the found conditions.
-  
-  ```clojure
-  (conds-match? \"ref@definitions@0@class\")
-  ;; false
-  (conds-match? \"ref@definitions@1@class\")
-  ;; true
-
-  ```
-  "
-  [k]
-  (let [mp-id    (st/key->mp-id k)
-        no-idx   (st/key->no-idx k)
-        pat      (u/vec->key [mp-id "definitions" no-idx "cond@*"])
-        cond-ks  (st/pat->keys pat)
-        match-ks (filter cond-match? cond-ks)] 
-    (=
-     (count cond-ks)
-     (count match-ks))))
+  [l m r]
+  (condp = m
+      :eq (= l r)
+      :lt (< (read-string (str l)) (read-string (str r)))
+      :gt (> (read-string (str l)) (read-string (str r)))))
 
 (defn start-defins!
   "Starts the matching `definitions` structure. `register`s
@@ -124,17 +86,20 @@
   ```
   "
   [k]
-  (let [mp-name   (st/key->mp-id k)
-        val-map   (st/key->val k)
-        exch-path (:ExchangePath val-map)
-        exch-val  (exch/comp-val! mp-name exch-path)]
-    {:mp-name    mp-name
-     :struct     (st/key->struct k)
-     :no-idx     (st/key->no-idx k)
-     :no-jdy     (st/key->no-jdx k)
-     :comp-value (:Value val-map)
-     :meth       (:Methode val-map)
-     :exch-value exch-val}))
+  (let [mp-name     (st/key->mp-id k)
+        val-map     (st/key->val k)
+        exch-path   (:ExchangePath val-map)
+        left-val    (exch/comp-val! mp-name exch-path)
+        meth        (keyword (:Methode val-map))
+        right-val   (:Value val-map)]
+    {:mp-name     mp-name
+     :struct      (st/key->struct k)
+     :no-idx      (st/key->no-idx k)
+     :no-jdy      (st/key->no-jdx k)
+     :right-value right-val
+     :meth        meth
+     :left-value  left-val
+     :cond-match (cond-match? left-val meth right-val)}))
 
 (defn class-key->cond-keys
   [k]
@@ -156,10 +121,12 @@
   section of the current `mp`. Builds a `cond`ition`-map`
   (analog to the `state-map`) in order to avoid the
   spreading of side effects and easy testing.
-  
+
+  Example:
   ```clojure
   (ns cmp.worker.select)
-  (select-definition! {:Action select
+  (select-definition! {:MpName ref
+                       :Action select
                        :TaskName Common-select_definition,
                        :DefinitionClass wait} )
   ```
@@ -179,5 +146,5 @@
                     (mapv cond-key->cond-map ks)) 
                        (mapv class-key->cond-keys
                              (class->class-keys mp-id cls)))]
-    (println cond-vec)
+    cond-vec
   ))
