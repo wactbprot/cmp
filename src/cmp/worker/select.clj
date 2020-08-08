@@ -141,10 +141,6 @@
   (st/set-val! state-key "working")
   (log/debug "start with select, already set " state-key  " working")
   (Thread/sleep mtp)
-  (let [cond-vec (mapv
-                  (fn [ks]
-                    (mapv cond-key->cond-map ks)) 
-                       (mapv class-key->cond-keys
-                             (class->class-keys mp-id cls)))]
-    cond-vec
-  ))
+  (let [cond-keys (mapv class-key->cond-keys (class->class-keys mp-id cls))
+        cond-vec  (mapv (fn [ks] (mapv cond-key->cond-map ks)) cond-keys)]
+    cond-vec))
