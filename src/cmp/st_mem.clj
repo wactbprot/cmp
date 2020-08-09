@@ -124,7 +124,9 @@
 
   "
   [k]
-  (when k
+  (when (not
+         (and (string? k)
+              (empty? k)))
     (nth (string/split k u/re-sep) 0 nil)))
 
 (defn key->struct
@@ -177,6 +179,30 @@
   (when k
     (if-let [n (nth (string/split k u/re-sep) 5 nil)]
       (Integer/parseInt  n))))
+
+(defn key->key-map
+  "Turns a key into a map.
+  
+  Todo:
+  use this concept everywhere!
+  
+  Example:
+  ```clojure
+  (key->key-map \"\") 
+  ;;{:mp-id nil,
+  ;; :struct nil,
+  ;; :no-idx nil,
+  ;; :func nil,
+  ;; :seq-idx nil,
+  ;; :par-idx nil}
+  ```"
+  [k]
+  {:mp-id       (key->mp-id  k)
+   :struct      (key->struct k)
+   :no-idx      (key->no-idx k)
+   :func        (key->func k)
+   :seq-idx     (key->seq-idx k)
+   :par-idx     (key->par-idx k)})
 
 ;;------------------------------
 ;; exchange

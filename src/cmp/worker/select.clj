@@ -21,10 +21,23 @@
   ```
   "
   [l m r]
-  (condp = m
+  (condp = (keyword m)
       :eq (= l r)
       :lt (< (read-string (str l)) (read-string (str r)))
       :gt (> (read-string (str l)) (read-string (str r)))))
+
+(defn conds-match?
+  "Checks if `:cond-match` in  every map
+  in the `cond`ition-`vec`tor `v` is true."
+  [v]
+  (every? true? (map :cond-match v)))
+
+(defn filter-match
+  "Checks if `:cond-match` in  every map
+  in the `cond`ition-`vec`tor `v` is true."
+  [v]
+  (when (conds-match? v)
+    (first v)))
 
 (defn start-defins!
   "Starts the matching `definitions` structure. `register`s
@@ -86,20 +99,13 @@
   ```
   "
   [k]
-  (let [mp-name     (st/key->mp-id k)
+  (let [key-map     (st/key->key-map k)
         val-map     (st/key->val k)
-        exch-path   (:ExchangePath val-map)
-        left-val    (exch/comp-val! mp-name exch-path)
-        meth        (keyword (:Methode val-map))
+        left-val    (exch/comp-val! (:mp-id key-map) (:ExchangePath val-map))
+        meth        (:Methode val-map)
         right-val   (:Value val-map)]
-    {:mp-name     mp-name
-     :struct      (st/key->struct k)
-     :no-idx      (st/key->no-idx k)
-     :no-jdy      (st/key->no-jdx k)
-     :right-value right-val
-     :meth        meth
-     :left-value  left-val
-     :cond-match (cond-match? left-val meth right-val)}))
+    (assoc
+     key-map :cond-match (cond-match? left-val meth right-val))))
 
 (defn class-key->cond-keys
   [k]
@@ -139,8 +145,6 @@
   ```" 
   [{mp-id :MpName cls :DefinitionClass state-key :StateKey}]
   (st/set-val! state-key "working")
-  (log/debug "start with select, already set " state-key  " working")
-  (Thread/sleep mtp)
   (let [cond-keys (mapv class-key->cond-keys (class->class-keys mp-id cls))
         cond-vec  (mapv (fn [ks] (mapv cond-key->cond-map ks)) cond-keys)]
-    cond-vec))
+    (first (remove nil? (map filter-match cond-vec)))))
