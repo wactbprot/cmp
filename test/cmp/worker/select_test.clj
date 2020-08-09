@@ -24,4 +24,6 @@
     (is (false? (cond-match? 1 "lt" 1))
         "return false")
     (is (true? (cond-match? 1 :eq 1))
+        "return true")
+    (is (true? (cond-match? 1 :gt 0))
         "return true")))
