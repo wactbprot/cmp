@@ -8,11 +8,11 @@
 
 (def conn (cfg/st-conn (cfg/config)))
 (def db (cfg/st-db (cfg/config)))
+(def mtp (cfg/min-task-period (cfg/config)))
 
 ;;------------------------------
 ;; store
 ;;------------------------------
-
 (defn set-val!
   "Sets the value `v` for the key `k`."
   [k v]
@@ -32,7 +32,7 @@
 (defn pat->keys
   "Get all keys matching  the given pattern `pat`."
   [pat]
-  (wcar conn  (car/keys pat)))
+  (wcar conn (car/keys pat)))
 
 (defn key->keys
   "Get all keys matching  `k*`."
@@ -42,7 +42,6 @@
 ;;------------------------------
 ;; set state
 ;;------------------------------
-(def mtp (cfg/min-task-period (cfg/config)))
 (defn set-state!
   "Function is used by the workers."
   [k state]
@@ -50,7 +49,6 @@
              (keyword? state))
     (Thread/sleep mtp)
     (set-val! k (name state))))
-
 
 ;;------------------------------
 ;; del
@@ -121,8 +119,8 @@
   ;; devs@container@0@response@0@0
   ```
   "
-  [state-key]
-  (u/replace-key-at-level 3 state-key "response"))
+  [k]
+  (u/replace-key-at-level 3 k "response"))
 
 ;;------------------------------
 ;; key arithmetic
@@ -137,9 +135,9 @@
 
   "
   [k]
-  (when (not
-         (and (string? k)
-              (empty? k)))
+  (when (and
+         (string? k)
+         (not (empty? k)))
     (nth (string/split k u/re-sep) 0 nil)))
 
 (defn key->struct
@@ -152,14 +150,14 @@
   * container
   "
   [k]
-  (when k
+  (when (string? k)
     (nth (string/split k u/re-sep) 1 nil)))
 
 (defn key->no-idx
   "Returns an integer corresponding to the
   given key `container` or `definitions` index."
   [k]
-  (when k
+  (when (string? k)
     (if-let [n (nth (string/split k u/re-sep) 2 nil)]
       (Integer/parseInt n))))
 
@@ -167,14 +165,14 @@
   "Returns the name of the `func`tion
   for the given key."
   [k]
-  (when k
+  (when (string? k)
     (nth (string/split k u/re-sep) 3 nil)))
 
 (defn key->seq-idx
   "Returns an integer corresponding to
   the givens key sequential index."
   [k]
-  (when k
+  (when (string? k)
     (if-let [n (nth (string/split k u/re-sep) 4 nil)]
       (Integer/parseInt  n))))
 
@@ -189,7 +187,7 @@
   "Returns an integer corresponding to
   the givens key parallel index."
   [k]
-  (when k
+  (when (string? k)
     (if-let [n (nth (string/split k u/re-sep) 5 nil)]
       (Integer/parseInt  n))))
 
@@ -210,20 +208,22 @@
   ;; :par-idx nil}
   ```"
   [k]
-  {:mp-id       (key->mp-id  k)
-   :struct      (key->struct k)
-   :no-idx      (key->no-idx k)
-   :func        (key->func k)
-   :seq-idx     (key->seq-idx k)
-   :par-idx     (key->par-idx k)})
-
+  (when (string? k)
+    {:mp-id       (key->mp-id   k)
+     :struct      (key->struct  k)
+     :no-idx      (key->no-idx  k)
+     :func        (key->func    k)
+     :seq-idx     (key->seq-idx k)
+     :par-idx     (key->par-idx k)}))
+  
 ;;------------------------------
 ;; exchange
 ;;------------------------------
 (defn exch-prefix
   "Returns the `exchange` prefix."
   [mp-id]
-  (u/vec->key [mp-id "exchange"]))
+  (when (string? mp-id)
+  (u/vec->key [mp-id "exchange"])))
 
 (defn exch-path
   "Returns the `exchange` path (key)."

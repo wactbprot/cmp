@@ -1,8 +1,7 @@
 (ns cmp.worker.select
   ^{:author "wactbprot"
     :doc "Worker selects a definition from the same `mp-id` 
-          by evaluating the related conditions.
-         "}
+          by evaluating the related conditions."}
   (:require [taoensso.timbre :as log]
             [clojure.string :as string]
             [cmp.st-mem :as st]
@@ -16,6 +15,8 @@
 
   Example:
   ```clojure
+  (cond-match? 10 :gt 1)
+  ;; true
   ```
   "
   [l m r]
@@ -99,11 +100,12 @@
   "Turns a `class-key` into `cond-keys`."
   [k]
   (when k
-    (let [key-map (st/key->key-map k)
-          cond-key  (st/defins-cond-path (:mp-id key-map) (:no-idx key-map))]
-      (st/key->keys cond-key))))
+    (let [key-map (st/key->key-map k)]
+      (st/key->keys (st/defins-cond-path
+                      (:mp-id  key-map)
+                      (:no-idx key-map))))))
 
-(defn class->class-keys
+(defn class-keys
   "Returns the keys where the class is `cls`."
   [mp-id cls]
   (let [pat (st/defins-class-path mp-id "*")]
@@ -141,7 +143,7 @@
   [{mp-id :MpName cls :DefinitionClass state-key :StateKey}]
   (st/set-state! state-key :working)
   (let [cond-keys (mapv class-key->cond-keys
-                        (class->class-keys mp-id cls))
+                        (class-keys mp-id cls))
         cond-vec  (mapv (fn [ks] (mapv cond-key->cond-map ks))
                         cond-keys)]
     (if-let [match-map (first (remove nil?
