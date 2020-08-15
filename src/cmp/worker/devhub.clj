@@ -11,27 +11,26 @@
             [cmp.worker.pre-script :as ps]
             [taoensso.timbre :as timbre]))
 
-
-(def mtp (cfg/min-task-period (cfg/config)))
 (def post-header (cfg/post-header (cfg/config)))
 (def dev-hub-url (cfg/dev-hub-url (cfg/config)))
-
 
 (defn resolve-pre-script
   "Checks if the task has a `:PreScript` (name of the script to run)
   and an `:Input` key. If not, `task` is returned."
   [task]
-  (if-let [script-name (keyword (:PreScript task))]
-    (if-let [input (:PreInput task)]
-      (condp = script-name
-        :set_valve_pos (ps/set-valve-pos task)
-        :get_valve_pos (ps/get-valve-pos task)
-        (do
-          (log/error "script: " script-name " not implemented")
-          (when-let [state-key (:StateKey task)]
-            (st/set-val! state-key "error"))))
-      task)
-    task))
+  (let [{script-name :PreScript
+         input       :PreInput
+         state-key   :StateKey} task]
+    (if (string? script-name)
+      (if (string? input)
+        (condp = (keyword script-name)
+          :set_valve_pos (ps/set-valve-pos task)
+          :get_valve_pos (ps/get-valve-pos task)
+          (do
+            (log/error "script: " script-name " not implemented")
+            (st/set-state! state-key :error)))
+        task)
+      task)))
   
 (defn devhub!
   "Param is called `pre-task` because some tasks come with a
@@ -44,9 +43,7 @@
   ```"
   [pre-task]
   (let [state-key (:StateKey pre-task)]
-    (when state-key
-      (Thread/sleep mtp)
-      (st/set-val! state-key "working"))
+    (st/set-state! state-key :working)
     (if-let [task (resolve-pre-script pre-task)]
       (let [req  (assoc post-header :body (u/map->json task))
             url  dev-hub-url]
@@ -56,12 +53,8 @@
             (let [res (http/post url req)]
               (resp/check res task state-key))
             (catch Exception e
-              (when state-key
-                (Thread/sleep mtp)
-                (st/set-val! state-key "error"))
+              (st/set-state! state-key :error)
               (log/error "request failed")))))
-        (do 
-          (log/error (str "failed to exec task at: " state-key))
-          (when state-key
-            (Thread/sleep mtp)
-            (st/set-val! state-key "error"))))))
+      (do 
+        (log/error (str "failed to exec task at: " state-key))
+        (st/set-state! state-key :error)))))

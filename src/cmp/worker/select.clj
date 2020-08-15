@@ -10,8 +10,6 @@
             [cmp.utils :as u]
             [cmp.config :as cfg]))
 
-(def mtp (cfg/min-task-period (cfg/config)))
-
 (defn cond-match?
   "Tests a single condition of the form defined in
   the `definitions` section.
@@ -36,39 +34,29 @@
   "Checks if `:cond-match` in  every map
   in the `cond`ition-`vec`tor `v` is true."
   [v]
-  (when (conds-match? v)
-    (first v)))
+  (when (conds-match? v) (first v)))
 
 (defn start-defins!
   "Starts the matching `definitions` structure. `register`s
   a level b callback. Sets the state of the calling element to `executed`
-  if the `ctrl`  turns to ready (or error if error).
-
-  "          
-  [match-k state-k]
-  (log/debug "start definitions struct " match-k)
-  (let [struct   "definitions"
+  if the `ctrl`  turns to ready (or error if error)."          
+  [{mp-id :mp-id  no-idx :no-idx state-key :StateKey}]
+  (let [ctrl-key (st/defins-ctrl-path mp-id no-idx)
+        struct   "definitions"
         func     "ctrl"
-        mp-id    (st/key->mp-id state-k)
-        no-idx   (st/key->no-idx match-k)
-        ctrl-k   (st/defins-ctrl-path mp-id no-idx)
         level    "b"
-        callback  (fn [msg]
-                    (condp = (keyword (st/key->val ctrl-k))
-                      :run   (log/debug "run callback for" ctrl-k)
+        callback  (fn [_]
+                    (condp = (keyword (st/key->val ctrl-key))
+                      :run   (log/debug "run callback for" ctrl-key)
                       :ready (do
-                               (log/debug "ready callback for" ctrl-k)
-                               (when state-k
-                                 (Thread/sleep mtp)
-                                 (st/set-val! state-k "executed")) 
+                               (log/debug "ready callback for" ctrl-key)
+                               (st/set-state! state-key :executed) 
                                (st/de-register! mp-id struct no-idx func level))
                       :error (do
-                               (log/error "error callback for" ctrl-k)
-                               (when state-k
-                                 (Thread/sleep mtp)
-                                 (st/set-val! state-k "error")))))]
+                               (log/error "error callback for" ctrl-key)
+                               (st/set-state! state-key :error))))]
     (st/register! mp-id struct no-idx func callback level)
-    (st/set-val! ctrl-k "run")))
+    (st/set-state! ctrl-key :run)))
 
 (defn cond-key->cond-map
   "Builds a `cond`ition`-map` belonging to the
@@ -108,13 +96,12 @@
      key-map :cond-match (cond-match? left-val meth right-val))))
 
 (defn class-key->cond-keys
+  "Turns a `class-key` into `cond-keys`."
   [k]
   (when k
-    (let [mp-id   (st/key->mp-id k)
-          struct  (st/key->struct k)
-          no-idx  (st/key->no-idx k)
-          cond-k  (st/defins-cond-path mp-id no-idx)]
-      (st/key->keys cond-k))))
+    (let [key-map (st/key->key-map k)
+          cond-key  (st/defins-cond-path (:mp-id key-map) (:no-idx key-map))]
+      (st/key->keys cond-key))))
 
 (defn class->class-keys
   "Returns the keys where the class is `cls`."
@@ -135,6 +122,14 @@
                        :Action select
                        :TaskName Common-select_definition,
                        :DefinitionClass wait} )
+  ;; match map:
+  {:mp-id ref,
+  :struct definitions
+  :no-idx 1,
+  :func cond
+  :seq-idx 1,
+  :par-idx nil,
+  :cond-match true}
   ```
   If more than one than one of the definitions condition match
   the first is used:
@@ -144,7 +139,13 @@
   ;; ref@definitions@1@class
   ```" 
   [{mp-id :MpName cls :DefinitionClass state-key :StateKey}]
-  (st/set-val! state-key "working")
-  (let [cond-keys (mapv class-key->cond-keys (class->class-keys mp-id cls))
-        cond-vec  (mapv (fn [ks] (mapv cond-key->cond-map ks)) cond-keys)]
-    (first (remove nil? (map filter-match cond-vec)))))
+  (st/set-state! state-key :working)
+  (let [cond-keys (mapv class-key->cond-keys
+                        (class->class-keys mp-id cls))
+        cond-vec  (mapv (fn [ks] (mapv cond-key->cond-map ks))
+                        cond-keys)]
+    (if-let [match-map (first (remove nil?
+                                      (map filter-match
+                                           cond-vec)))]
+      (start-defins! (assoc :StateKey state-key match-map))
+      (st/set-state! state-key :error))))

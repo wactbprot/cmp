@@ -40,6 +40,19 @@
   (pat->keys (u/vec->key [k "*"])))
 
 ;;------------------------------
+;; set state
+;;------------------------------
+(def mtp (cfg/min-task-period (cfg/config)))
+(defn set-state!
+  "Function is used by the workers."
+  [k state]
+  (when (and (string? k)
+             (keyword? state))
+    (Thread/sleep mtp)
+    (set-val! k (name state))))
+
+
+;;------------------------------
 ;; del
 ;;------------------------------
 (defn del-key!
