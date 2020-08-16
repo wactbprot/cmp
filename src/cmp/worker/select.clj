@@ -88,13 +88,12 @@
   ```
   "
   [k]
-  (let [key-map     (st/key->key-map k)
-        val-map     (st/key->val k)
-        left-val    (exch/comp-val! (:mp-id key-map) (:ExchangePath val-map))
-        meth        (:Methode val-map)
-        right-val   (:Value val-map)]
-    (assoc
-     key-map :cond-match (cond-match? left-val meth right-val))))
+  (let [key-map   (st/key->key-map k)
+        val-map   (st/key->val k)
+        left-val  (exch/comp-val! (:mp-id key-map) (:ExchangePath val-map))
+        meth      (:Methode val-map)
+        right-val (:Value val-map)]
+    (assoc key-map :cond-match (cond-match? left-val meth right-val))))
 
 (defn class-key->cond-keys
   "Turns a `class-key` into `cond-keys`."

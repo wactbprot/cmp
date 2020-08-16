@@ -1,6 +1,6 @@
 (ns cmp.worker.devhub
   ^{:author "wactbprot"
-    :doc "devhub worker."}
+    :doc "The devhub worker."}
   (:require [clj-http.client :as http]
             [clojure.core.async :as a]
             [cmp.config :as cfg]
@@ -8,8 +8,7 @@
             [cmp.st-mem :as st]
             [cmp.utils :as u]
             [taoensso.timbre :as log]
-            [cmp.worker.pre-script :as ps]
-            [taoensso.timbre :as timbre]))
+            [cmp.worker.pre-script :as ps]))
 
 (def post-header (cfg/post-header (cfg/config)))
 (def dev-hub-url (cfg/dev-hub-url (cfg/config)))
@@ -22,7 +21,7 @@
          input       :PreInput
          state-key   :StateKey} task]
     (if (string? script-name)
-      (if (string? input)
+      (if (map? input)
         (condp = (keyword script-name)
           :set_valve_pos (ps/set-valve-pos task)
           :get_valve_pos (ps/get-valve-pos task)

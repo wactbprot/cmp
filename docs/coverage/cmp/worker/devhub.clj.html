@@ -11,7 +11,7 @@
                 002&nbsp;&nbsp;&nbsp;&nbsp;^{:author&nbsp;&quot;wactbprot&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:doc&nbsp;&quot;devhub&nbsp;worker.&quot;}
+                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:doc&nbsp;&quot;The&nbsp;devhub&nbsp;worker.&quot;}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[clj-http.client&nbsp;:as&nbsp;http]
@@ -35,154 +35,151 @@
                 010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[taoensso.timbre&nbsp;:as&nbsp;log]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.worker.pre-script&nbsp;:as&nbsp;ps]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[taoensso.timbre&nbsp;:as&nbsp;timbre]))
+                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.worker.pre-script&nbsp;:as&nbsp;ps]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                013&nbsp;&nbsp;
+                012&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                014&nbsp;&nbsp;(def&nbsp;post-header&nbsp;(cfg&#x2F;post-header&nbsp;(cfg&#x2F;config)))
+                013&nbsp;&nbsp;(def&nbsp;post-header&nbsp;(cfg&#x2F;post-header&nbsp;(cfg&#x2F;config)))
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                015&nbsp;&nbsp;(def&nbsp;dev-hub-url&nbsp;(cfg&#x2F;dev-hub-url&nbsp;(cfg&#x2F;config)))
+                014&nbsp;&nbsp;(def&nbsp;dev-hub-url&nbsp;(cfg&#x2F;dev-hub-url&nbsp;(cfg&#x2F;config)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                016&nbsp;&nbsp;
+                015&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                017&nbsp;&nbsp;(defn&nbsp;resolve-pre-script
+                016&nbsp;&nbsp;(defn&nbsp;resolve-pre-script
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                018&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;the&nbsp;task&nbsp;has&nbsp;a&nbsp;`:PreScript`&nbsp;(name&nbsp;of&nbsp;the&nbsp;script&nbsp;to&nbsp;run)
+                017&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;the&nbsp;task&nbsp;has&nbsp;a&nbsp;`:PreScript`&nbsp;(name&nbsp;of&nbsp;the&nbsp;script&nbsp;to&nbsp;run)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                019&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;an&nbsp;`:Input`&nbsp;key.&nbsp;If&nbsp;not,&nbsp;`task`&nbsp;is&nbsp;returned.&quot;
+                018&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;an&nbsp;`:Input`&nbsp;key.&nbsp;If&nbsp;not,&nbsp;`task`&nbsp;is&nbsp;returned.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                020&nbsp;&nbsp;&nbsp;&nbsp;[task]
+                019&nbsp;&nbsp;&nbsp;&nbsp;[task]
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                021&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{script-name&nbsp;:PreScript
+                020&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{script-name&nbsp;:PreScript
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:PreInput
+                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:PreInput
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key&nbsp;&nbsp;&nbsp;:StateKey}&nbsp;task]
+                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key&nbsp;&nbsp;&nbsp;:StateKey}&nbsp;task]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(string?&nbsp;script-name)
+                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(string?&nbsp;script-name)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(string?&nbsp;input)
+                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(map?&nbsp;input)
                 </span><br/>
-<span class="not-covered" title="0 out of 15 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(keyword&nbsp;script-name)
+<span class="partial" title="10 out of 15 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(keyword&nbsp;script-name)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:set_valve_pos&nbsp;(ps&#x2F;set-valve-pos&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:set_valve_pos&nbsp;(ps&#x2F;set-valve-pos&nbsp;task)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:get_valve_pos&nbsp;(ps&#x2F;get-valve-pos&nbsp;task)
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:get_valve_pos&nbsp;(ps&#x2F;get-valve-pos&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
                 </span><br/>
 <span class="not-covered" title="0 out of 17 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;script:&nbsp;&quot;&nbsp;script-name&nbsp;&quot;&nbsp;not&nbsp;implemented&quot;)
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;script:&nbsp;&quot;&nbsp;script-name&nbsp;&quot;&nbsp;not&nbsp;implemented&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error)))
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
+                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error)))
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                034&nbsp;&nbsp;&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                035&nbsp;&nbsp;(defn&nbsp;devhub!
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                036&nbsp;&nbsp;&nbsp;&nbsp;&quot;Param&nbsp;is&nbsp;called&nbsp;`pre-task`&nbsp;because&nbsp;some&nbsp;tasks&nbsp;come&nbsp;with&nbsp;a
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                037&nbsp;&nbsp;&nbsp;&nbsp;`:PreScript`&nbsp;which&nbsp;has&nbsp;to&nbsp;be&nbsp;executed&nbsp;in&nbsp;order&nbsp;to&nbsp;complete
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                038&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;task&nbsp;(sometimes&nbsp;the&nbsp;`:Value`&nbsp;is&nbsp;computed&nbsp;by&nbsp;the
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                039&nbsp;&nbsp;&nbsp;&nbsp;`:PreScript`).
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                040&nbsp;&nbsp;&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                041&nbsp;&nbsp;&nbsp;&nbsp;```clojure
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(devhub!&nbsp;{:Action&nbsp;\&quot;TCP\&quot;&nbsp;:Port&nbsp;23&nbsp;:Host&nbsp;\&quot;localhost\&quot;&nbsp;:Value&nbsp;\&quot;Hi!\&quot;})
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                043&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                044&nbsp;&nbsp;&nbsp;&nbsp;[pre-task]
+                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                033&nbsp;&nbsp;&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                034&nbsp;&nbsp;(defn&nbsp;devhub!
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;&quot;Param&nbsp;is&nbsp;called&nbsp;`pre-task`&nbsp;because&nbsp;some&nbsp;tasks&nbsp;come&nbsp;with&nbsp;a
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;`:PreScript`&nbsp;which&nbsp;has&nbsp;to&nbsp;be&nbsp;executed&nbsp;in&nbsp;order&nbsp;to&nbsp;complete
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                037&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;task&nbsp;(sometimes&nbsp;the&nbsp;`:Value`&nbsp;is&nbsp;computed&nbsp;by&nbsp;the
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                038&nbsp;&nbsp;&nbsp;&nbsp;`:PreScript`).
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                039&nbsp;&nbsp;&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                040&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(devhub!&nbsp;{:Action&nbsp;\&quot;TCP\&quot;&nbsp;:Port&nbsp;23&nbsp;:Host&nbsp;\&quot;localhost\&quot;&nbsp;:Value&nbsp;\&quot;Hi!\&quot;})
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                042&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                043&nbsp;&nbsp;&nbsp;&nbsp;[pre-task]
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                045&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[state-key&nbsp;(:StateKey&nbsp;pre-task)]
+                044&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[state-key&nbsp;(:StateKey&nbsp;pre-task)]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:working)
+                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:working)
                 </span><br/>
 <span class="not-covered" title="0 out of 9 forms covered">
-                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[task&nbsp;(resolve-pre-script&nbsp;pre-task)]
+                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[task&nbsp;(resolve-pre-script&nbsp;pre-task)]
                 </span><br/>
 <span class="not-covered" title="0 out of 9 forms covered">
-                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[req&nbsp;&nbsp;(assoc&nbsp;post-header&nbsp;:body&nbsp;(u&#x2F;map-&gt;json&nbsp;task))
+                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[req&nbsp;&nbsp;(assoc&nbsp;post-header&nbsp;:body&nbsp;(u&#x2F;map-&gt;json&nbsp;task))
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;dev-hub-url]
+                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;dev-hub-url]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;try&nbsp;to&nbsp;send&nbsp;req&nbsp;to:&nbsp;&quot;&nbsp;url)
+                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;try&nbsp;to&nbsp;send&nbsp;req&nbsp;to:&nbsp;&quot;&nbsp;url)
                 </span><br/>
 <span class="not-covered" title="0 out of 149 forms covered">
-                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a&#x2F;go
+                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a&#x2F;go
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try
+                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[res&nbsp;(http&#x2F;post&nbsp;url&nbsp;req)]
+                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[res&nbsp;(http&#x2F;post&nbsp;url&nbsp;req)]
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(resp&#x2F;check&nbsp;res&nbsp;task&nbsp;state-key))
+                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(resp&#x2F;check&nbsp;res&nbsp;task&nbsp;state-key))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
+                054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                056&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error)
+                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error)
                 </span><br/>
 <span class="not-covered" title="0 out of 15 forms covered">
-                057&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;request&nbsp;failed&quot;)))))
+                056&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;request&nbsp;failed&quot;)))))
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                058&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do&nbsp;
+                057&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do&nbsp;
                 </span><br/>
 <span class="not-covered" title="0 out of 18 forms covered">
-                059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;(str&nbsp;&quot;failed&nbsp;to&nbsp;exec&nbsp;task&nbsp;at:&nbsp;&quot;&nbsp;state-key))
+                058&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;(str&nbsp;&quot;failed&nbsp;to&nbsp;exec&nbsp;task&nbsp;at:&nbsp;&quot;&nbsp;state-key))
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error)))))
+                059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error)))))
                 </span><br/>
  </body>
 </html>

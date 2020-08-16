@@ -26,7 +26,7 @@
   "
   [body task state-key]
   (if-let [err (:error body)]
-    (throw (Exception. (str "response: " body " at " state-key)))
+    (log/error (str "response: " body " at " state-key))
     (let [resp-key (st/state-key->response-key state-key)
           to-exch  (:ToExchange body)
           results  (:Result body) 
@@ -37,24 +37,12 @@
       (let [res-exch  (exch/to! mp-id to-exch)
             res-doc   (doc/store! mp-id results doc-path)]
         (cond
-          (:error res-exch) (do
-                              (Thread/sleep mtp)
-                              (st/set-val! state-key "error")
-                              (throw (Exception. (str "error on exch/to! at: " state-key))))
-          (:error res-doc)  (do
-                              (Thread/sleep mtp)
-                              (st/set-val! state-key "error")
-                              (throw (Exception. (str "error on doc/store! at: " state-key))))
+          (:error res-exch) (st/set-state! state-key :error)
+          (:error res-doc)  (st/set-state! state-key :error)
           (and
            (:ok res-exch)     
-           (:ok res-doc))   (do
-                              (Thread/sleep mtp)
-                              (st/set-val! state-key "executed")
-                              (log/info "response handeled for: " state-key))
-          :unexpected       (do
-                              (Thread/sleep mtp)
-                              (st/set-val! state-key "error")
-                              (throw (Exception. (str "unexpected behaviour at: " state-key )))))))))
+           (:ok res-doc))  (st/set-state! state-key :executed)
+          :unexpected      (st/set-state! state-key :error))))))
 
 ;;------------------------------
 ;; check
@@ -67,9 +55,6 @@
     (if-let [body (u/val->clj (:body res))]
       (if (< status 400) 
         (dispatch body task state-key) 
-        (throw (Exception. (str "request for: " state-key
-                                " failed with status: " status))))            
-       (throw (Exception. (str "body can not be parsed for: "
-                              state-key))))
-    (throw (Exception. (str "no status in header for: "
-                            state-key)))))
+        (log/error "request for: " state-key" failed with status: " status))            
+      (log/error "body can not be parsed for: " state-key))
+    (log/error "no status in header for: " state-key)))
