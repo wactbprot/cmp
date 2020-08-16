@@ -34,17 +34,17 @@
   (if-let [x (second (string/split s (re-pattern "\\.")))] 
     (keyword x)))
 
-(defn comp-val!
+(defn read!
   "Returns the *compare value* belonging to a `mp-id`
   and an ExchangePath `k`. Gets the  *keyword* `kw`
   from `k` if `k` looks like this: `aaa.bbb`. If `kw`
   is not `nil` it is used to extract the related value.
 
   ```clojure
-  (comp-val! \"ref\" \"A.Unit\")
+  (read! \"ref\" \"A.Unit\")
   ;; \"Pa\"
   ;; or:
-  (comp-val! \"devhub\" \"Vraw_block1\")
+  (read! \"devhub\" \"Vraw_block1\")
   ;; [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]
   ```"
   [mp-id p]
@@ -92,7 +92,7 @@
   [mp-id m]
   (when (and (string? mp-id) (map? m))
     (u/apply-to-map-values
-     (fn [v] (comp-val! mp-id v))
+     (fn [v] (read! mp-id v))
      m)))
 
 (defn to!
@@ -129,7 +129,7 @@
   "Checks a certain exchange endpoint to evaluate
   to true"
   [mp-id k]
-  (contains? #{"ok" :ok "true" true "jo!"} (comp-val! mp-id k)))
+  (contains? #{"ok" :ok "true" true "jo!"} (read! mp-id k)))
 
 (defn stop-if
   "Checks if the exchange path given with `:MpName`

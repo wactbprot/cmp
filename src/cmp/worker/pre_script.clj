@@ -107,8 +107,6 @@
         v-pos      (kw-v vpos)
         new-adr    (kw-v adr)
         new-state  (assoc v-blk v-pos val-oc)]
-    (prn "..............:::::::::")
-    (prn opc)
     (assoc
      (dissoc task
              :PreScript

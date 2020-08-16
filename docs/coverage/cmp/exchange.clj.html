@@ -113,7 +113,7 @@
                 036&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                037&nbsp;&nbsp;(defn&nbsp;comp-val!
+                037&nbsp;&nbsp;(defn&nbsp;read!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 038&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;*compare&nbsp;value*&nbsp;belonging&nbsp;to&nbsp;a&nbsp;`mp-id`
@@ -134,7 +134,7 @@
                 043&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                044&nbsp;&nbsp;&nbsp;&nbsp;(comp-val!&nbsp;\&quot;ref\&quot;&nbsp;\&quot;A.Unit\&quot;)
+                044&nbsp;&nbsp;&nbsp;&nbsp;(read!&nbsp;\&quot;ref\&quot;&nbsp;\&quot;A.Unit\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 045&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;Pa\&quot;
@@ -143,7 +143,7 @@
                 046&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;or:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                047&nbsp;&nbsp;&nbsp;&nbsp;(comp-val!&nbsp;\&quot;devhub\&quot;&nbsp;\&quot;Vraw_block1\&quot;)
+                047&nbsp;&nbsp;&nbsp;&nbsp;(read!&nbsp;\&quot;devhub\&quot;&nbsp;\&quot;Vraw_block1\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 048&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;[1&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0]
@@ -287,7 +287,7 @@
                 094&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;apply-to-map-values
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                095&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[v]&nbsp;(comp-val!&nbsp;mp-id&nbsp;v))
+                095&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[v]&nbsp;(read!&nbsp;mp-id&nbsp;v))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
                 096&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m)))
@@ -398,7 +398,7 @@
                 131&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;k]
                 </span><br/>
 <span class="covered" title="12 out of 12 forms covered">
-                132&nbsp;&nbsp;&nbsp;&nbsp;(contains?&nbsp;#{&quot;ok&quot;&nbsp;:ok&nbsp;&quot;true&quot;&nbsp;true&nbsp;&quot;jo!&quot;}&nbsp;(comp-val!&nbsp;mp-id&nbsp;k)))
+                132&nbsp;&nbsp;&nbsp;&nbsp;(contains?&nbsp;#{&quot;ok&quot;&nbsp;:ok&nbsp;&quot;true&quot;&nbsp;true&nbsp;&quot;jo!&quot;}&nbsp;(read!&nbsp;mp-id&nbsp;k)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 133&nbsp;&nbsp;

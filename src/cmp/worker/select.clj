@@ -63,7 +63,7 @@
   "Builds a `cond`ition`-map` belonging to the
   key  `k`. Replaces the compare value fetched
   from the exchange interface by means of the
-  `exch/comp-val!`-function.
+  `exch/read!`-function.
 
   Example:
   ```clojure
@@ -90,7 +90,7 @@
   [k]
   (let [key-map   (st/key->key-map k)
         val-map   (st/key->val k)
-        left-val  (exch/comp-val! (:mp-id key-map) (:ExchangePath val-map))
+        left-val  (exch/read! (:mp-id key-map) (:ExchangePath val-map))
         meth      (:Methode val-map)
         right-val (:Value val-map)]
     (assoc key-map :cond-match (cond-match? left-val meth right-val))))
