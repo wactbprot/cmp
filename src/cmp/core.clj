@@ -88,8 +88,8 @@
     :c-ctrl   (st/key->val (st/cont-ctrl-path mp-id i))}))
 
 (defn cs-info
-  "The pattern `@meta@name` is used to find all
-   `mp-id`s loaded and available at the short term memory."
+  "Returns info  about the containers of
+  the mpd with the id `mp-id`."
   ([]
    (cs-info (deref current-mp-id)))
   ([mp-id]
