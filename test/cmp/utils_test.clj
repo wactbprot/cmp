@@ -33,8 +33,18 @@
     (is (nil? (replace-key-at-level 10 "kkk@kkk" "aaa")) 
         "return nil if l > count split of key")))
 
-
 (deftest doc->safe-doc-i
   (testing "Substitude @ by % (i)"
     (is (= {:a "%kk"} (doc->safe-doc {:a "@kk"})) 
         "basic functionality")))
+
+(deftest short-string-i
+  (testing "cuts a string (i)"
+    (is (= "aaa" (short-string "aaa")) 
+        "cuts a short string")
+    (is (nil? (short-string nil)) 
+        "dont crash on nil")
+    (is (= "" (short-string "")) 
+        "cuts an empty string")
+    (is (= "..." (short-string "a" 0)) 
+        "adds dots if shorten")))

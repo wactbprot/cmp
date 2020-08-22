@@ -57,12 +57,45 @@
 ;; info
 ;;------------------------------
 (defn m-info
+  "Returns a info map about the mpd with the id `mp-id`."
+  ([]
+   (m-info (deref current-mp-id)))
+  ([mp-id]
+   {:mp-descr   (u/short-string (st/key->val (st/meta-descr-path mp-id)))
+    :mp-std     (st/key->val (st/meta-std-path mp-id))
+    :mp-ncont   (st/key->val (st/meta-ncont-path mp-id))
+    :mp-ndefins (st/key->val (st/meta-ndefins-path mp-id))}))
+
+(defn ms-info
   "The pattern `*@meta@name` is used to find all
-   mp-names available at short term memory."  
+   `mp-id`s loaded and available at the short term memory."
   []
-  (run! prn
-        (map st/key->mp-id
-             (st/pat->keys "*@meta@name"))))
+  (pp/print-table
+   (mapv (fn [k] (m-info (st/key->mp-id k)))
+         (st/pat->keys "*@meta@name"))))
+
+(defn c-info
+  "Returns a info map about the `i`th container of
+  the mpd with the id `mp-id`."
+  ([]
+   (c-info (deref current-mp-id) 0))
+  ([i]
+   (c-info (deref current-mp-id) i))
+  ([mp-id i]
+   {:c-no-idx i
+    :c-title  (st/key->val (st/cont-title-path mp-id i))
+    :c-descr  (u/short-string (st/key->val (st/cont-descr-path mp-id i)))
+    :c-ctrl   (st/key->val (st/cont-ctrl-path mp-id i))}))
+
+(defn cs-info
+  "The pattern `@meta@name` is used to find all
+   `mp-id`s loaded and available at the short term memory."
+  ([]
+   (cs-info (deref current-mp-id)))
+  ([mp-id]
+   (pp/print-table
+    (mapv (fn [k] (c-info mp-id (st/key->no-idx k)))
+          (sort (st/pat->keys (st/cont-title-path mp-id "*")))))))
 
 (defn l-info
   "Returns a list with the currently registered listener

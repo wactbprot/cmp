@@ -1,11 +1,11 @@
-;; ## Reference measurement program definition
+;; Reference measurement program definition
 {:_id "mpd-ref",
  :_rev "6-b4475e103286fba67eb4ad849270841d",
  :Mp
  {
   :Date [{:Type "created", :Value "2020-01-11"}],
   :Name "wait",
-  :Description "Simple measurement programm definition (mpd).",
+  :Description "Simple measurement programm definition (mpd) which serves as a reference for documentation  and testing.",
   :Standard "NN"
   ;; Endpoint for exchanging data and information.
   ;; Internal and external use is intendet. 
@@ -70,7 +70,38 @@
     [[{:TaskName "Common-run_mp",
        :Replace {:%conttitle "multiple wait tasks"
                  :%mpdef "ref" }}]]}
-   ],
+   {:Description "Test modbus action with prescript (get)"
+    :Ctrl "void"
+    :Title "modbus get test"
+    :Element ["*"]
+    :Definition [
+                 [{:TaskName "VS_NEW_SE3-get_valve_pos",
+                   :Replace {:%valve "V1"}}]
+                 [{:TaskName "VS_NEW_SE3-get_valve_pos",
+                   :Replace {:%valve "V2"}}]]
+    }
+   {:Description "Test modbus action with prescript (set)"
+    :Ctrl "void"
+    :Title "modbus set test"
+    :Element ["*"]
+    :Definition [
+                 [{:TaskName "VS_NEW_SE3-set_valve_pos",
+                   :Replace {:%valve "V1",
+                             :%should "close"}}]
+                 [{:TaskName "Common-wait"
+                   :Replace {:%waittime 3000}}]
+                 [{:TaskName "VS_NEW_SE3-set_valve_pos",
+                   :Replace {:%valve "V1",
+                             :%should "open"}}]]
+    }
+    {:Description "Test TCP action."
+    :Ctrl "void"
+    :Title "TCP test with result set."
+    :Element ["*"]
+    :Definition [
+                 [{:TaskName "MKS_SRG_3-read_out",
+                   :Replace {:%docpath "Measurement.Values.Pressure"}}]
+                 ]}],
   ;; Definitions section
   :Definitions
   [;; Several definitions with the same

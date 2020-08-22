@@ -85,6 +85,20 @@
   ([d]
    (str (tm-c/to-long d))))
 
+(defn short-string
+  "Short a `string` `s` to `n` or `45` chars.
+  Returns `nil` is `s` is not a `string`."
+  ([s]
+   (when (string? s)
+     (short-string s 45)))
+  ([s n]
+   (when (string? s)
+     (let [l (count s)]
+       (if (<  l n)
+         s
+         (str (subs s 0 n) "..."))))))
+
+
 ;;------------------------------
 ;; mp-id
 ;;------------------------------
