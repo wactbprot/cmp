@@ -38,14 +38,13 @@
   "Provides a storing place for the current mp-id
   for convenience. Due to this atom the `(build)`,
   `(check)` or `(start)` function needs no argument." 
-  (atom nil))
+  (atom "ref"))
 
 (defn workon!
   "Sets the mpd to work on (see [[current-mp-id]]).
   
   Usage:
-  
-  ```clojure
+    ```clojure
   (workon! 'se3-calib')
   (deref current-mp-id)
   ```
@@ -61,7 +60,8 @@
   ([]
    (m-info (deref current-mp-id)))
   ([mp-id]
-   {:mp-descr   (u/short-string (st/key->val (st/meta-descr-path mp-id)))
+   {:mp-id      mp-id
+    :mp-descr   (u/short-string (st/key->val (st/meta-descr-path mp-id)))
     :mp-std     (st/key->val (st/meta-std-path mp-id))
     :mp-ncont   (st/key->val (st/meta-ncont-path mp-id))
     :mp-ndefins (st/key->val (st/meta-ndefins-path mp-id))}))
@@ -440,7 +440,7 @@
    (let [state-key  (u/vec->key[mp-id struct i "state" j k])
          meta-task  (task/gen-meta-task x)]
      (task/assemble meta-task mp-id state-key))))
-  
+ 
 (defn t-build-edn
   "Stores the `task` slurped from the files
   configured in `resources/config.edn`.

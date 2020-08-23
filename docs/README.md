@@ -121,91 +121,6 @@ overview. Commands in `(ns cmp.core)` have the following prefixes:
 - `p-start-table (cmp.core) <f>`
 - `p-stop-table (cmp.core) <f>`
 
-
-## reference mpd
-
-Find a documented reference measurement program definition (`mpd`) in
-[edn-format](https://github.com/edn-format/edn) at
-[mpd-ref.edn](./mpd-ref.edn). 
-
-
-Build `mpd` provided by *cmp* in `edn`-format with:
-
-```clojure
-(m-build-edn)
-```
-
-## tasks
-
-Build or refresh tasks with:
-
-```clojure
-(t-refresh)
-```
-
-Build `tasks` provided by *cmp* in `edn`-format with:
-
-```clojure
-(t-build-edn)
-```
-
-`(t-table)` overview of all tasks loaded in short term memory.
-The table may be filtered:
-
-![cmp](./t-table.png)
-
-
-
-## start mpd
-
-```clojure
-(workon! "ref")
-(m-start)
-```
-
-## run container
-
-Run the first *container* with:
-
-```clojure
-(c-run 0)
-;; same as:
-(ctrl 0 "run")
-```
-
-## go on
-
-Use the build-in `(doc x)` function (e.g. `(doc t-build)`) for further
-details.
-
-```clojure
-(doc t-build)
--------------------------
-cmp.core/t-build
-([])
-  Builds the `tasks` endpoint. At
-  runtime all `tasks` are provided by
-  `st-mem`
-```
-
-Use the build-in `(dir cmp.core)` function to get a list of all
-functions in this namespace.
-
-## documents
-
-To add or rm documents for storing data in use `(d-add mp-id doc-id)`,
-`(d-rm mp-id doc-id)`.  If `(->mp-id)` is set (by `(workon mp-id)`)
-`(d-add doc-id)`, `(d-rm doc-id)` is sufficient.
-
-```clojure
-(d-add "cal-2020-se3-kk-11111_0002")
-;; hiob DEBUG [cmp.lt-mem:14] - try to get document
-;;             with id: cal-2020-se3-kk-11111_0002
-;; "OK"
-(d-ids)
-;; (cal-2020-se3-kk-11111_0001 cal-2020-se3-kk-11111_0002)
-```
-
 # Clojure
 
 * [cheatsheet](https://clojure.org/api/cheatsheet)
@@ -261,6 +176,12 @@ in the root directory of *cmp*.
 
 ```shell
 $ cd path/to/cmp
+```
+
+## build example session
+
+```shell
+$ lein marg resources/example-session.clj
 ```
 
 ## documentation
