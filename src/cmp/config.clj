@@ -7,8 +7,8 @@
 
 (defn lt-conn
   [c]
-  (let [usr (System/getenv "CMPUSR")
-        pwd (System/getenv "CMPPWD")]
+  (let [usr (System/getenv "CAL_USR")
+        pwd (System/getenv "CAL_PWD")]
     (if (and usr pwd)
       (str (:lt-prot c)"://"usr":"pwd"@"(:lt-srv c)":"(:lt-port c)"/"(:lt-db c))
       (str (:lt-prot c)"://"(:lt-srv c)":"(:lt-port c)"/"(:lt-db c)))))

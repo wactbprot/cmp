@@ -20,34 +20,76 @@
 ;;`workon!`
 
 ;; Clojures `doc`-function may be used to read the
-;; funtions documentation:
+;; functions documentation:
 
 (doc c-info)
 
-;; ;`cmp.core/c-info`
-;; ;
-;; ;`([] [i] [mp-id i])`
-;; ;
-;; ; Returns a info map about the `i`th container of
-;; ; the mpd with the id `mp-id`.
+;; returning:
 
+;; >`cmp.core/c-info`
+;; >
+;; >`([] [i] [mp-id i])`
+;; >
+;; > Returns a info map about the `i`th container of
+;; > the mpd with the id `mp-id`.
 
 
 ;;## The reference definition mpd-ref.edn
 
 ;; On a fresh system try to
-;; build and load the **reference** measurement
-;; program definition `ref`.
-
-;; This definition is stored in edn format
-;; (see [mpd-ref.edn](../resources/mpd-ref.edn).
-;; The function
+;; load and build the **reference** measurement
+;; program definition called `ref`.
+;; `ref` is stored in [edn format](https://github.com/edn-format/edn)
+;; at [resources/mpd-ref.edn](../resources/mpd-ref.edn).
+;; The function:
 
 (m-build-edn)
 
-;; loads and builds the mpd(s) defined in the cmp
+;; **build**s the mpd(s) defined in the cmp
 ;; configuration file [resources/config.edn](../resources/config.edn)
-;; under the keyword `:edn-mpds`.
+;; (see  keyword `:edn-mpds`). The build process embeds the data
+;; structure in a fast key-value-store **kvs** (here [redis](https://redis.io)).
+;; This kvs is called **short term memory (stm)**.
+
+;; The kvs may be inspected  by graphical frontends
+;; (see *redis gui* section of [cmp docu](https://wactbprot.github.io/cmp/))
+;; by cli or by the function:
+
+(st/key->keys "ref")
+
+;; returning:
+["ref@meta@descr"
+ "ref@container@0@state@1@1"
+ "ref@exchange@A"
+ "ref@container@1@definition@0@0"
+ "ref@definitions@1@definition@0@0"
+ "ref@container@2@definition@0@0"
+ "ref@definitions@2@definition@0@0"
+ "ref@definitions@2@ctrl"
+ "ref@container@0@definition@2@0"
+ "ref@definitions@0@definition@0@0"
+ "ref@definitions@0@descr"
+ "ref@container@3@state@0@0"
+ "ref@definitions@2@class"
+ "ref@container@0@definition@0@0"
+ "ref@container@0@state@0@0"
+ "..."]
+
+(st/key->val "ref@definitions@0@cond@0")
+
+;; returning:
+{:ExchangePath "A.Unit", :Methode "eq", :Value "Pa"}
+
+(st/pat->keys "ref@container@0@state*")
+
+;; returning:
+["ref@container@0@state@1@1"
+ "ref@container@0@state@0@0"
+ "ref@container@0@state@2@0"
+ "ref@container@0@state@1@2"
+ "ref@container@0@state@1@0"
+ "ref@container@0@state@1@3"
+ "ref@container@0@state@0@1"]
 
 ;;## Set the definition to work on
 
@@ -55,15 +97,12 @@
 ;; need the `id` of the mpd to work on.
 
 ;; After
-
 (workon! "ref")
 
 ;; the command
-
 (c-info "ref" 1)
 
 ;; is the same as
-
 (c-info 1)
 
 ;; `(workon! "ref")` stores the `mp-id` argument in
@@ -76,7 +115,8 @@
 ;; may be skiped for most of the `cmp.core` functions.
 
 (m-info)
-;; returns
+
+;; returns:
 {:mp-id "ref"
  :mp-descr "Simple measurement programm definition (mpd) ..."
  :mp-std "NN"
@@ -84,22 +124,29 @@
  :mp-ndefins 3}
 
 ;;## Build the tasks
-
-;; to be continued
-
-;;cut from README:
-
-;;---------8<------------
-
-;;## tasks
 ;;
-;;Build or refresh tasks with:
+;; The mpd building block is the **task**. Tasks are stored in the stm too.
+;; This means that
+;; they can be modified during runtime (a desperately
+;; needed but missing [ssmp](https://github.com/wactbprot/ssmp)-feature) 
+;; Simply run
+
+(t-refresh)
+(count (st/pat->keys "tasks*"))
+;; result at the moment:
+229
+
+(st/key->val (first (st/pat->keys "tasks*")))
+;; returns:
+{:TaskName "SE1_ATMION-degas",
+ :Action "TCP",
+ :Host "%host",
+ :Port "%port",
+ :Values {:on "SDG1, 1%CR", :off "SDG1, 0%CR"},
+ :Defaults {:%host "e75437", :%port "5302", :%CR "\r"}}
+
 ;;
-;;```clojure
-;;(t-refresh)
-;;```
-;;
-;;Build `tasks` provided by *cmp* in `edn`-format with:
+;; Build `tasks` provided by *cmp* in `edn`-format with:
 ;;
 ;;```clojure
 ;;(t-build-edn)
