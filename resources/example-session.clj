@@ -145,17 +145,17 @@
  :Values {:on "SDG1, 1%CR", :off "SDG1, 0%CR"},
  :Defaults {:%host "e75437", :%port "5302", :%CR "\r"}}
 
-;;
-;; Build `tasks` provided by *cmp* in `edn`-format with:
-;;
-;;```clojure
-;;(t-build-edn)
-;;```
+
+;; ------------8<----------------------
+
 ;;
 ;;`(t-table)` overview of all tasks loaded in short term memory.
 ;;The table may be filtered:
-;;
-;;![cmp](./t-table.png)
+
+(t-table)
+
+(t-table :Action "TCP")
+
 ;;
 ;;
 ;;
