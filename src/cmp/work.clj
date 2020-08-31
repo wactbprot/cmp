@@ -7,6 +7,7 @@
             [cmp.exchange :as exch]
             [cmp.worker.wait :refer [wait!]]
             [cmp.worker.run-mp :refer [run-mp!]]
+            [cmp.worker.read-exchange :refer [read-exchange!]]
             [cmp.worker.write-exchange :refer [write-exchange!]]
             [cmp.worker.select :refer [select-definition!]]
             [cmp.worker.devhub :refer [devhub!]]
@@ -40,30 +41,39 @@
     x))
 
 ;;------------------------------
+;;  future registry 
+;;------------------------------
+(defonce future-reg (atom {}))
+
+(defn start!
+  [worker task]
+  (prn task)
+  (swap! future-reg assoc
+         (:StateKey task) (future (worker task))))
+
+;;------------------------------
 ;;  dispatch 
 ;;------------------------------
 (defn dispatch
   [task]
-  (let [state-key (:StateKey task)
-        action (keyword (:Action task))]
-    (condp = action
-      :select         (a/go (select-definition! task))
-      :runMp          (a/go (run-mp!            task))
-      :writeExchange  (a/go (write-exchange!    task))
-      :wait           (a/go (wait!              task))
-      :MODBUS         (a/go (devhub!            task))
-      :TCP            (a/go (devhub!            task))
-      :VXI11          (a/go (devhub!            task))
-      :EXECUTE        (a/go (devhub!            task))
-      (when state-key
-        (log/error "unknown action in task:" task)
-        (st/set-val! state-key "error")))))
+  (condp = (keyword (:Action task))
+    :select         (start! select-definition! task)
+    :runMp          (start! run-mp!            task)
+    :writeExchange  (start! write-exchange!    task)
+    :readExchange   (start! read-exchange!     task)
+    :wait           (start! wait!              task)
+    :MODBUS         (start! devhub!            task)
+    :TCP            (start! devhub!            task)
+    :VXI11          (start! devhub!            task)
+    :EXECUTE        (start! devhub!            task)
+    (st/set-state! (:StateKey task) :error (str "No worker for action: " (:Action task)))))
 
 ;;------------------------------
 ;; check
 ;;------------------------------
 (defn check
-  "Gets the task. Handles the `:RunIf` and `:StopIf`.
+  "Gets the task. Handles the `:RunIf` and `:StopIf`
+  cases.
 
   ```clojure
   (dispatch {:Action \"wait\" :WaitTime 1000 :StateKey \"testpath\"})
@@ -73,14 +83,12 @@
         state-key (:StateKey task)
         run-if    (:RunIf    task)
         stop-if   (:StopIf   task)]
-    (Thread/sleep mtp)
     (if (nil? run-if)
       (if (nil? stop-if)
         (dispatch task) ;; no run-if or stop-if
         (if (exch/stop-if task)
-          (st/set-val! state-key "executed") ;; stop
+          (st/set-state! state-key :executed "state set by stop-if") 
           (dispatch task))) ;; don't stop
       (if (exch/run-if task)
-        (dispatch task) ;; exec
-        (st/set-val! state-key "ready") ;; don't exec but trigger re-eval
-        ))))
+        (dispatch task) ;; run
+        (st/set-state! state-key :ready "state set by run-if")))))

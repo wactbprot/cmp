@@ -44,13 +44,20 @@
 ;;------------------------------
 (defn set-state!
   "Function is used by the workers to set state.
-  The state is set with the delay `mtp`."
-  [k state]
-  (when (and (string? k)
-             (keyword? state))
+  The state is set with the delay `mtp`. An optional
+  log message may be provided."
+  ([k state msg]
+   (condp = state
+     :error (log/error msg)
+     :ready (log/info msg)
+     (log/debug msg))
+   (set-state! k state))
+  ([k state]
+   (when (and (string? k)
+              (keyword? state))
     (Thread/sleep mtp)
     (set-val! k (name state))
-    (log/debug "wrote new state: " state " to: " k)))
+    (log/debug "wrote new state: " state " to: " k))))
 
 ;;------------------------------
 ;; del

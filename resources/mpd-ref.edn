@@ -11,7 +11,7 @@
   ;; Internal and external use is intendet. 
   :Exchange {
              ;; one level deep nested values ..
-             :A {:Unit "Pa", :Value 100}
+             :A {:Type "ref" :Unit "Pa", :Value 100.0 }
              ;; .. or flat values are valid
              :B "token"}
   :Container
@@ -101,6 +101,15 @@
     :Definition [
                  [{:TaskName "MKS_SRG_3-read_out",
                    :Replace {:%docpath "Measurement.Values.Pressure"}}]
+                 ]}
+   {:Description "Test read_exchange action."
+    :Ctrl "void"
+    :Title "read-exchange."
+    :Element ["*"]
+    :Definition [
+                 [{:TaskName "Common-simple_read_element"
+                   :Replace {:%docpath "Measurement.Values.Pressure"
+                             :%exchpath "A"}}]
                  ]}],
   ;; Definitions section
   :Definitions
