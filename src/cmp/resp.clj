@@ -1,16 +1,12 @@
 (ns cmp.resp
   ^{:author "wactbprot"
     :doc "Catches responses and dispatchs."}
-  (:require [clojure.core.async :as a]
-            [cmp.config :as cfg]
-            [cmp.exchange :as exch]
+  (:require [cmp.exchange :as exch]
             [cmp.doc :as doc]
             [cmp.lt-mem :as lt]
             [cmp.st-mem :as st]
             [cmp.utils :as u]
             [taoensso.timbre :as log]))
-
-(def mtp (cfg/min-task-period (cfg/config)))
 
 (defn dispatch
   "Dispatches responds from outer space.

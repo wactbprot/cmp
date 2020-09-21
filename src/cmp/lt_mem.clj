@@ -1,6 +1,5 @@
 (ns cmp.lt-mem
-  (:require [clojure.core.async :as a]
-            [clojure.string :as string]
+  (:require [clojure.string :as string]
             [com.ashafa.clutch :as couch]
             [cmp.config :as cfg]
             [taoensso.timbre :as log]))

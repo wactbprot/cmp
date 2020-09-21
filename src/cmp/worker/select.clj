@@ -141,6 +141,7 @@
   ```" 
   [{mp-id :MpName cls :DefinitionClass state-key :StateKey}]
   (st/set-state! state-key :working)
+  
   (let [cond-keys (mapv class-key->cond-keys
                         (class-keys mp-id cls))
         cond-vec  (mapv (fn [ks] (mapv cond-key->cond-map ks))
@@ -148,5 +149,5 @@
     (if-let [match-map (first (remove nil?
                                       (map filter-match
                                            cond-vec)))]
-      (start-defins! (assoc :StateKey state-key match-map))
+      (start-defins! (assoc match-map :StateKey state-key))
       (st/set-state! state-key :error))))

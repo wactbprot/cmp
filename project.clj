@@ -4,7 +4,6 @@
   program definitions (mpd) written in clojure."
   :url "https://github.com/wactbprot/cmp"
   :dependencies [[org.clojure/clojure "1.10.1"]
-                 [org.clojure/core.async "0.4.490"]
                  [com.taoensso/carmine "2.19.1"]
                  [com.ashafa/clutch "0.4.0"]
                  [clj-time "0.15.0"]
