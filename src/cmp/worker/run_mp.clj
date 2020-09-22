@@ -15,7 +15,6 @@
         level     "b"
         callback  (fn [msg]
                     (condp = (keyword (st/key->val ctrl-k))
-                      :run   (log/debug "run callback for" ctrl-k)
                       :ready (do
                                (log/debug "ready callback for" ctrl-k)
                                (st/set-state! state-k :executed)
@@ -24,7 +23,8 @@
                                (log/debug "de-registered" mp struct i func level ))
                       :error (do
                                (log/error "error callback for" ctrl-k)
-                               (st/set-state! state-k :error))))]
+                               (st/set-state! state-k :error))
+                      (log/debug "run callback for" ctrl-k)))]
     (st/register! mp struct i func callback level)
     (st/set-state! ctrl-k :run)))
 

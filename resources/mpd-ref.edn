@@ -62,7 +62,7 @@
     [[{:TaskName "Common-select_definition",
        :Replace {:%definitionclass "wait"}}]]}
    ;; fourth container
-   {:Description "Run a mpd. Here ref (itself) first container.",
+   {:Description "Run a mpd (first container of ref).",
     :Ctrl "void",
     :Title "run 1st container",
     :Element ["*"],

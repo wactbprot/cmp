@@ -239,13 +239,12 @@
         cmd      (ctrl-k->cmd ctrl-k)]
     (log/info "all done at: " k "ctrl interface cmd is: " cmd)
     (condp = cmd
-      :run (do
-             (de-observe! ctrl-k)
-             (st/set-val! ctrl-k "ready"))
-      :mon (do
-             (de-observe! ctrl-k)
-             (st/set-val! ctrl-k "mon"))
-      (log/info "default condp branch in all-exec fn of " k ))))
+      :mon   (do
+               (de-observe! ctrl-k)
+               (st/set-val! ctrl-k "mon"))
+      (do (de-observe! ctrl-k)
+          (st/set-val! ctrl-k "ready")
+          (log/info "default condp branch in all-exec fn of " k )))))
 
 ;;------------------------------
 ;; choose and start next task
