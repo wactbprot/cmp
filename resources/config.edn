@@ -27,7 +27,7 @@
                         :socket-timeout 600000      ;; 10 min
                         :connection-timeout 600000  ;; 10 min 
                         :accept :json}
- :json-api-hub-url "http://localhost:50005"
+ :json-api-url "http://localhost:50005"
  }
 
  

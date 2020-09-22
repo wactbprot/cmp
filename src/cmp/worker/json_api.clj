@@ -24,6 +24,7 @@
          path :RequestPath} task]
     (st/set-state! state-key :working)
     (let [url (str (cfg/json-api-url (cfg/config)) "/" path)]
+      (prn url)
       (if (nil? value)
         (try
           (resp/check (http/get url)  task state-key)

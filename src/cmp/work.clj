@@ -4,6 +4,7 @@
   (:require [taoensso.timbre :as log]
             [cmp.st-mem :as st]
             [cmp.exchange :as exch]
+            [cmp.worker.json-api :refer [json-api!]]
             [cmp.worker.wait :refer [wait!]]
             [cmp.worker.run-mp :refer [run-mp!]]
             [cmp.worker.read-exchange :refer [read-exchange!]]
@@ -60,6 +61,7 @@
     :writeExchange  (start! write-exchange!    task)
     :readExchange   (start! read-exchange!     task)
     :wait           (start! wait!              task)
+    :Anselm         (start! json-api!          task)
     :MODBUS         (start! devhub!            task)
     :TCP            (start! devhub!            task)
     :VXI11          (start! devhub!            task)
