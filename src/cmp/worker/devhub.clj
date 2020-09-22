@@ -40,7 +40,7 @@
   (let [state-key (:StateKey pre-task)]
     (st/set-state! state-key :working)
     (if-let [task (resolve-pre-script pre-task)]
-      (let [req  (assoc (cfg/post-header (cfg/config))
+      (let [req  (assoc (cfg/dev-hub-post-header (cfg/config))
                         :body
                         (u/map->json task))
             url  (cfg/dev-hub-url (cfg/config))]

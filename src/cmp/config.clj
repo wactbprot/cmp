@@ -33,11 +33,19 @@
   [c]
   (:min-task-period c))
 
-(defn post-header
+(defn dev-hub-post-header
   [c]
-  (:post-header c))
+  (:dev-hub-post-header c))
+
+(defn json-api-post-header
+  [c]
+  (:json-api-post-header c))
 
 (defn dev-hub-url
   [c]
   (:dev-hub-url c))
+
+(defn json-api-url
+  [c]
+  (:json-api-url c))
 
