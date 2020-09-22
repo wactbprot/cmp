@@ -239,12 +239,15 @@
         cmd      (ctrl-k->cmd ctrl-k)]
     (log/info "all done at: " k "ctrl interface cmd is: " cmd)
     (condp = cmd
-      :run (do
-             (de-observe! ctrl-k)
-             (st/set-val! ctrl-k "ready"))
-      :mon (do
-             (de-observe! ctrl-k)
-             (st/set-val! ctrl-k "mon"))
+      :ready (do
+               (de-observe! ctrl-k)
+               (st/set-val! ctrl-k "ready"))
+      :run   (do
+               (de-observe! ctrl-k)
+               (st/set-val! ctrl-k "ready"))
+      :mon   (do
+               (de-observe! ctrl-k)
+               (st/set-val! ctrl-k "mon"))
       (log/info "default condp branch in all-exec fn of " k ))))
 
 ;;------------------------------
