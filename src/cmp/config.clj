@@ -37,15 +37,15 @@
   [c]
   (:dev-hub-post-header c))
 
-(defn json-api-post-header
+(defn anselm-post-header
   [c]
-  (:json-api-post-header c))
+  (:anselm-post-header c))
 
 (defn dev-hub-url
   [c]
   (:dev-hub-url c))
 
-(defn json-api-url
+(defn anselm-url
   [c]
-  (:json-api-url c))
+  (:anselm-url c))
 

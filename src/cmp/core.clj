@@ -400,6 +400,8 @@
   "
   ([name]
    (t-run name "core" "test" 0 0 0))
+  ([name mp-id]
+   (t-run name mp-id "test" 0 0 0))
   ([name mp-id struct i j k]
    (let [func       "response"
          state-key  (u/vec->key[mp-id struct i "state" j k])
