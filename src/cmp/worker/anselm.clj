@@ -1,4 +1,4 @@
-(ns cmp.worker.json-api
+(ns cmp.worker.anselm
   ^{:author "wactbprot"
     :doc "Worker to interact with a json api."}
   (:require [clj-http.client :as http]
@@ -10,24 +10,16 @@
 
 
 (defn url
-  [{action :Action state-key :StateKey path :RequestPath}]
-  (condp = (keyword action)
-    :Anselm (str (cfg/anselm-url (cfg/config)) "/" path)
-    (do
-      (st/set-state! state-key :error)
-      (log/error "unknown action for json-api! (url)"))))
-
+  [{path :RequestPath}]
+  (str (cfg/anselm-url (cfg/config)) "/" path))
+  
 (defn req
   [{action :Action state-key :StateKey value :Value}]
-  (condp = (keyword action)
-    :Anselm (assoc (cfg/anselm-post-header (cfg/config))
-                   :body
-                   (u/map->json value))  
-    (do
-      (st/set-state! state-key :error)
-      (log/error "unknown action for json-api! (req)"))))
+  (assoc (cfg/anselm-post-header (cfg/config))
+         :body
+         (u/map->json value)))
 
-(defn json-api!
+(defn anselm!
   "Interacts with a json api.
   
   ```clojure

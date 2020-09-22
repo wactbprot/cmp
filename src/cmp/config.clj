@@ -48,4 +48,3 @@
 (defn anselm-url
   [c]
   (:anselm-url c))
-

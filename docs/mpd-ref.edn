@@ -13,7 +13,11 @@
              ;; one level deep nested values ..
              :A {:Type "ref" :Unit "Pa", :Value 100.0 }
              ;; .. or flat values are valid
-             :B "token"}
+             :B "token"
+             ;; 
+             :Target_pressure {:Selected 1 :Unit "Pa"}
+             }
+
   :Container
   [
    ;; Containers are fixed sequences of things to do. 
@@ -104,13 +108,20 @@
                  ]}
    {:Description "Test read_exchange action."
     :Ctrl "void"
-    :Title "read-exchange."
+    :Title "read exchange."
     :Element ["*"]
     :Definition [
                  [{:TaskName "Common-simple_read_element"
                    :Replace {:%docpath "Measurement.Values.Pressure"
                              :%exchpath "A"}}]
-                 ]}],
+                 ]}
+   {:Description "Test json api request."
+    :Ctrl "void"
+    :Title "json api (Anselm)."
+    :Element ["*"]
+    :Definition [
+                 [{:TaskName "Common-anselm_get_dut_max"}]
+                 ]}]
   ;; Definitions section
   :Definitions
   [;; Several definitions with the same
