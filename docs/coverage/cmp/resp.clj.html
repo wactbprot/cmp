@@ -76,7 +76,7 @@
 <span class="not-covered" title="0 out of 8 forms covered">
                 024&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[err&nbsp;(:error&nbsp;body)]
                 </span><br/>
-<span class="not-covered" title="0 out of 20 forms covered">
+<span class="not-covered" title="0 out of 21 forms covered">
                 025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;(str&nbsp;&quot;response:&nbsp;&quot;&nbsp;body&nbsp;&quot;&nbsp;at&nbsp;&quot;&nbsp;state-key))
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
@@ -94,7 +94,7 @@
 <span class="not-covered" title="0 out of 3 forms covered">
                 030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id&nbsp;&nbsp;&nbsp;&nbsp;(:MpName&nbsp;task)]
                 </span><br/>
-<span class="not-covered" title="0 out of 16 forms covered">
+<span class="not-covered" title="0 out of 17 forms covered">
                 031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;write&nbsp;response&nbsp;body&nbsp;to:&nbsp;&quot;&nbsp;resp-key)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
@@ -157,19 +157,19 @@
 <span class="not-covered" title="0 out of 10 forms covered">
                 051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[body&nbsp;(u&#x2F;val-&gt;clj&nbsp;(:body&nbsp;res))]
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
+<span class="not-covered" title="0 out of 4 forms covered">
                 052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(&lt;&nbsp;status&nbsp;400)&nbsp;
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
                 053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dispatch&nbsp;body&nbsp;task&nbsp;state-key)&nbsp;
                 </span><br/>
-<span class="not-covered" title="0 out of 18 forms covered">
+<span class="not-covered" title="0 out of 19 forms covered">
                 054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;request&nbsp;for:&nbsp;&quot;&nbsp;state-key&quot;&nbsp;failed&nbsp;with&nbsp;status:&nbsp;&quot;&nbsp;status))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
-<span class="not-covered" title="0 out of 16 forms covered">
+<span class="not-covered" title="0 out of 17 forms covered">
                 055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;body&nbsp;can&nbsp;not&nbsp;be&nbsp;parsed&nbsp;for:&nbsp;&quot;&nbsp;state-key))
                 </span><br/>
-<span class="not-covered" title="0 out of 16 forms covered">
+<span class="not-covered" title="0 out of 17 forms covered">
                 056&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;no&nbsp;status&nbsp;in&nbsp;header&nbsp;for:&nbsp;&quot;&nbsp;state-key)))
                 </span><br/>
  </body>

@@ -1,11 +1,16 @@
 (ns cmp.config
-  (:require [aero.core :as aero]))
+  (:require [clojure.edn :as edn]))
 
 (defn config
-  []
-  (aero/read-config  "resources/config.edn"))
-
-(defn lt-conn
+  "Reads a `edn` configuration in file `f`." 
+  ([]
+   (config "resources/config.edn"))
+   ([f]
+    (-> f
+       slurp
+       edn/read-string)))
+  
+  (defn lt-conn
   [c]
   (let [usr (System/getenv "CAL_USR")
         pwd (System/getenv "CAL_PWD")]

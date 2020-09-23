@@ -1,19 +1,14 @@
-
-(defproject cmp "0.10.0"
+(defproject cmp "0.11.0"
   :description "A study of an interpreter for measurement 
   program definitions (mpd) written in clojure."
   :url "https://github.com/wactbprot/cmp"
   :dependencies [[org.clojure/clojure "1.10.1"]
-                 [com.taoensso/carmine "2.19.1"]
+                 [com.taoensso/carmine "3.0.0"]
                  [com.ashafa/clutch "0.4.0"]
                  [clj-time "0.15.0"]
                  [org.clojure/data.json "0.2.6"]
-                 [com.taoensso/timbre "4.10.0"]
-                 [aero "1.1.3"]
+                 [com.taoensso/timbre "5.0.0"]
                  [clj-http "3.10.0"]
-                 [biz.paluch.logging/logstash-gelf "1.12.0"]
-                 [ch.qos.logback/logback-classic "1.0.1"]
-                 [org.graylog2/gelfclient "1.4.1"]
                  [clojang/codox-theme "0.2.0-SNAPSHOT"]
                  ]
   :main ^:skip-aot cmp.core
