@@ -44,52 +44,88 @@
                 013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
                 </span><br/>
 <span class="not-covered" title="0 out of 17 forms covered">
-                014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;catch&nbsp;error&nbsp;on&nbsp;attempt&nbsp;to&nbsp;get&nbsp;doc:&nbsp;&quot;&nbsp;id))))
+                014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;catch&nbsp;error&nbsp;on&nbsp;attempt&nbsp;to&nbsp;get&nbsp;doc:&nbsp;&quot;&nbsp;id&nbsp;)
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;(.getMessage&nbsp;e)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                015&nbsp;&nbsp;
+                016&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                016&nbsp;&nbsp;(defn&nbsp;put-doc
+                017&nbsp;&nbsp;(defn&nbsp;put-doc
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;&quot;Saves&nbsp;a&nbsp;document&nbsp;to&nbsp;the&nbsp;long&nbsp;term&nbsp;memory.&quot;
+                018&nbsp;&nbsp;&nbsp;&nbsp;&quot;Saves&nbsp;a&nbsp;document&nbsp;to&nbsp;the&nbsp;long&nbsp;term&nbsp;memory.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                018&nbsp;&nbsp;&nbsp;&nbsp;[doc]
+                019&nbsp;&nbsp;&nbsp;&nbsp;[doc]
                 </span><br/>
 <span class="not-covered" title="0 out of 19 forms covered">
-                019&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;try&nbsp;to&nbsp;save&nbsp;document&nbsp;with&nbsp;id:&nbsp;&quot;&nbsp;(:_id&nbsp;doc))
+                020&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;try&nbsp;to&nbsp;save&nbsp;document&nbsp;with&nbsp;id:&nbsp;&quot;&nbsp;(:_id&nbsp;doc))
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                020&nbsp;&nbsp;&nbsp;&nbsp;(try
+                021&nbsp;&nbsp;&nbsp;&nbsp;(try
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(couch&#x2F;put-document&nbsp;(cfg&#x2F;lt-conn&nbsp;(cfg&#x2F;config))&nbsp;doc)
+                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(couch&#x2F;put-document&nbsp;(cfg&#x2F;lt-conn&nbsp;(cfg&#x2F;config))&nbsp;doc)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
+                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;catch&nbsp;error&nbsp;on&nbsp;attempt&nbsp;to&nbsp;put&nbsp;doc&quot;))))
+                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;catch&nbsp;error&nbsp;on&nbsp;attempt&nbsp;to&nbsp;put&nbsp;doc&quot;)
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;(.getMessage&nbsp;e)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                024&nbsp;&nbsp;
+                026&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                025&nbsp;&nbsp;(defn&nbsp;all-tasks
+                027&nbsp;&nbsp;(defn&nbsp;rev-refresh
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;all&nbsp;tasks.&quot;
+                028&nbsp;&nbsp;&nbsp;&nbsp;&quot;Refreshs&nbsp;the&nbsp;revision&nbsp;`_rev`&nbsp;of&nbsp;the&nbsp;document&nbsp;if
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;[]
+                029&nbsp;&nbsp;&nbsp;&nbsp;it&nbsp;exist.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;[doc]
+                </span><br/>
+<span class="not-covered" title="0 out of 10 forms covered">
+                031&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[db-doc&nbsp;(id-&gt;doc&nbsp;(:_id&nbsp;doc))]&nbsp;
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;doc
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:_rev
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:_rev&nbsp;db-doc))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                036&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                037&nbsp;&nbsp;(defn&nbsp;all-tasks
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                038&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;all&nbsp;tasks.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                039&nbsp;&nbsp;&nbsp;&nbsp;[]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                028&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;get&nbsp;tasks&nbsp;from&nbsp;ltm&quot;)
+                040&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;get&nbsp;tasks&nbsp;from&nbsp;ltm&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;(couch&#x2F;get-view&nbsp;(cfg&#x2F;lt-conn&nbsp;(cfg&#x2F;config))&nbsp;&quot;dbmp&quot;&nbsp;&quot;tasks&quot;))
+                041&nbsp;&nbsp;&nbsp;&nbsp;(couch&#x2F;get-view&nbsp;(cfg&#x2F;lt-conn&nbsp;(cfg&#x2F;config))&nbsp;&quot;dbmp&quot;&nbsp;&quot;tasks&quot;))
                 </span><br/>
  </body>
 </html>

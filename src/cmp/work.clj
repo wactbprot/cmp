@@ -4,16 +4,18 @@
   (:require [taoensso.timbre :as log]
             [cmp.st-mem :as st]
             [cmp.exchange :as exch]
-            [cmp.worker.anselm :refer [anselm!]]
-            [cmp.worker.wait :refer [wait!]]
-            [cmp.worker.run-mp :refer [run-mp!]]
-            [cmp.worker.read-exchange :refer [read-exchange!]]
-            [cmp.worker.write-exchange :refer [write-exchange!]]
-            [cmp.worker.select :refer [select-definition!]]
-            [cmp.worker.devhub :refer [devhub!]]
             [cmp.task :as tsk]
             [cmp.config :as cfg]
-            [cmp.utils :as u]))
+            [cmp.utils :as u]
+            [cmp.worker.anselm         :refer [anselm!]]
+            [cmp.worker.gen-db-doc     :refer [gen-db-doc!]]
+            [cmp.worker.replicate-db   :refer [replicate!]]
+            [cmp.worker.wait           :refer [wait!]]
+            [cmp.worker.run-mp         :refer [run-mp!]]
+            [cmp.worker.read-exchange  :refer [read-exchange!]]
+            [cmp.worker.write-exchange :refer [write-exchange!]]
+            [cmp.worker.select         :refer [select-definition!]]
+            [cmp.worker.devhub         :refer [devhub!]]))
 
 (def mtp (cfg/min-task-period (cfg/config)))
 
@@ -61,6 +63,8 @@
     :writeExchange  (start! write-exchange!    task)
     :readExchange   (start! read-exchange!     task)
     :wait           (start! wait!              task)
+    :genDbDoc       (start! gen-db-doc!        task)
+    :replicateDB    (start! replicate!         task)
     :Anselm         (start! anselm!            task)
     :MODBUS         (start! devhub!            task)
     :TCP            (start! devhub!            task)
