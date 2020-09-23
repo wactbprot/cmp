@@ -37,11 +37,11 @@
 <span class="covered" title="1 out of 1 forms covered">
                 011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;edn&#x2F;read-string)))
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                012&nbsp;&nbsp;&nbsp;&nbsp;
+<span class="blank" title="0 out of 0 forms covered">
+                012&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                013&nbsp;&nbsp;&nbsp;&nbsp;(defn&nbsp;lt-conn
+                013&nbsp;&nbsp;(defn&nbsp;lt-url
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 014&nbsp;&nbsp;&nbsp;&nbsp;[c]
@@ -55,95 +55,95 @@
 <span class="not-covered" title="0 out of 7 forms covered">
                 017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;usr&nbsp;pwd)
                 </span><br/>
-<span class="not-covered" title="0 out of 21 forms covered">
-                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;(:lt-prot&nbsp;c)&quot;:&#x2F;&#x2F;&quot;usr&quot;:&quot;pwd&quot;@&quot;(:lt-srv&nbsp;c)&quot;:&quot;(:lt-port&nbsp;c)&quot;&#x2F;&quot;(:lt-db&nbsp;c))
-                </span><br/>
 <span class="not-covered" title="0 out of 17 forms covered">
-                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;(:lt-prot&nbsp;c)&quot;:&#x2F;&#x2F;&quot;(:lt-srv&nbsp;c)&quot;:&quot;(:lt-port&nbsp;c)&quot;&#x2F;&quot;(:lt-db&nbsp;c)))))
+                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;(:lt-prot&nbsp;c)&quot;:&#x2F;&#x2F;&quot;usr&quot;:&quot;pwd&quot;@&quot;(:lt-srv&nbsp;c)&quot;:&quot;(:lt-port&nbsp;c))
+                </span><br/>
+<span class="not-covered" title="0 out of 13 forms covered">
+                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;(:lt-prot&nbsp;c)&quot;:&#x2F;&#x2F;&quot;(:lt-srv&nbsp;c)&quot;:&quot;(:lt-port&nbsp;c)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 020&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                021&nbsp;&nbsp;(defn&nbsp;st-conn
+                021&nbsp;&nbsp;(defn&nbsp;lt-conn
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 022&nbsp;&nbsp;&nbsp;&nbsp;[c]
                 </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;(:st-conn&nbsp;c))
+<span class="not-covered" title="0 out of 9 forms covered">
+                023&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;(lt-url&nbsp;c)&nbsp;&quot;&#x2F;&quot;(:lt-db&nbsp;c)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 024&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                025&nbsp;&nbsp;(defn&nbsp;st-db
+                025&nbsp;&nbsp;(defn&nbsp;st-conn
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 026&nbsp;&nbsp;&nbsp;&nbsp;[c]
                 </span><br/>
-<span class="covered" title="7 out of 7 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;(get-in&nbsp;c&nbsp;[:st-conn&nbsp;:spec&nbsp;:db]))
+<span class="covered" title="3 out of 3 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;(:st-conn&nbsp;c))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 028&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                029&nbsp;&nbsp;(defn&nbsp;edn-tasks
+                029&nbsp;&nbsp;(defn&nbsp;st-db
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 030&nbsp;&nbsp;&nbsp;&nbsp;[c]
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;(:edn-tasks&nbsp;c))
+<span class="covered" title="7 out of 7 forms covered">
+                031&nbsp;&nbsp;&nbsp;&nbsp;(get-in&nbsp;c&nbsp;[:st-conn&nbsp;:spec&nbsp;:db]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 032&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                033&nbsp;&nbsp;(defn&nbsp;edn-mpds
+                033&nbsp;&nbsp;(defn&nbsp;edn-tasks
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 034&nbsp;&nbsp;&nbsp;&nbsp;[c]
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                035&nbsp;&nbsp;&nbsp;&nbsp;(:edn-mpds&nbsp;c))
+                035&nbsp;&nbsp;&nbsp;&nbsp;(:edn-tasks&nbsp;c))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 036&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                037&nbsp;&nbsp;(defn&nbsp;min-task-period
+                037&nbsp;&nbsp;(defn&nbsp;edn-mpds
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 038&nbsp;&nbsp;&nbsp;&nbsp;[c]
                 </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                039&nbsp;&nbsp;&nbsp;&nbsp;(:min-task-period&nbsp;c))
+<span class="not-covered" title="0 out of 3 forms covered">
+                039&nbsp;&nbsp;&nbsp;&nbsp;(:edn-mpds&nbsp;c))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 040&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                041&nbsp;&nbsp;(defn&nbsp;dev-hub-post-header
+                041&nbsp;&nbsp;(defn&nbsp;min-task-period
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 042&nbsp;&nbsp;&nbsp;&nbsp;[c]
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                043&nbsp;&nbsp;&nbsp;&nbsp;(:dev-hub-post-header&nbsp;c))
+<span class="covered" title="3 out of 3 forms covered">
+                043&nbsp;&nbsp;&nbsp;&nbsp;(:min-task-period&nbsp;c))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 044&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                045&nbsp;&nbsp;(defn&nbsp;anselm-post-header
+                045&nbsp;&nbsp;(defn&nbsp;json-post-header
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 046&nbsp;&nbsp;&nbsp;&nbsp;[c]
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                047&nbsp;&nbsp;&nbsp;&nbsp;(:anselm-post-header&nbsp;c))
+                047&nbsp;&nbsp;&nbsp;&nbsp;(:json-post-header&nbsp;c))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 048&nbsp;&nbsp;

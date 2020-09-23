@@ -9,14 +9,18 @@
     (-> f
        slurp
        edn/read-string)))
-  
-  (defn lt-conn
+
+(defn lt-url
   [c]
   (let [usr (System/getenv "CAL_USR")
         pwd (System/getenv "CAL_PWD")]
     (if (and usr pwd)
-      (str (:lt-prot c)"://"usr":"pwd"@"(:lt-srv c)":"(:lt-port c)"/"(:lt-db c))
-      (str (:lt-prot c)"://"(:lt-srv c)":"(:lt-port c)"/"(:lt-db c)))))
+      (str (:lt-prot c)"://"usr":"pwd"@"(:lt-srv c)":"(:lt-port c))
+      (str (:lt-prot c)"://"(:lt-srv c)":"(:lt-port c)))))
+
+(defn lt-conn
+  [c]
+  (str (lt-url c) "/"(:lt-db c)))
 
 (defn st-conn
   [c]
@@ -38,13 +42,9 @@
   [c]
   (:min-task-period c))
 
-(defn dev-hub-post-header
+(defn json-post-header
   [c]
-  (:dev-hub-post-header c))
-
-(defn anselm-post-header
-  [c]
-  (:anselm-post-header c))
+  (:json-post-header c))
 
 (defn dev-hub-url
   [c]

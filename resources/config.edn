@@ -16,17 +16,13 @@
  ;; in order to give the keyspace notif
  ;; a chance to find the next to start
  :min-task-period 50
- :dev-hub-post-header {:content-type :json
+ :json-post-header {:content-type :json
                        :socket-timeout 600000      ;; 10 min
                        :connection-timeout 600000  ;; 10 min 
                        :accept :json}
  :dev-hub-url "http://e75455:55555"
  ;; :dev-hub-url "http://localhost:8008"
  ;; :dev-hub-url "http://a73436:55555"
- :anselm-post-header {:content-type :json
-                      :socket-timeout 600000      ;; 10 min
-                      :connection-timeout 600000  ;; 10 min 
-                      :accept :json}
  :anselm-url "http://localhost:50005"
  }
 

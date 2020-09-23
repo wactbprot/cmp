@@ -1,4 +1,4 @@
-(ns cmp.core
+ (ns cmp.core
   ^{:author "wactbprot"
     :doc "Provides the api of cmp. `(start)`, `(stop)` etc. 
           are intended for **repl** use only. Graphical user 

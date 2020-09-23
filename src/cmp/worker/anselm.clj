@@ -15,7 +15,7 @@
   
 (defn req
   [{action :Action state-key :StateKey value :Value}]
-  (assoc (cfg/anselm-post-header (cfg/config))
+  (assoc (cfg/json-post-header (cfg/config))
          :body
          (u/map->json value)))
 
