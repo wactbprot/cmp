@@ -1,6 +1,6 @@
 (ns cmp.worker.gen-db-doc
   ^{:author "wactbprot"
-    :doc "Worker to replicate a couchdb database."}
+    :doc "Worker to create database documents."}
   (:require [clj-http.client :as http]
             [cmp.config :as cfg]
             [cmp.resp :as resp]
@@ -11,7 +11,7 @@
 
 
 (defn gen-db-doc!
-  "Generates a couchdb database document from the value.
+  "Generates a couchdb document from the value.
 
   ```clojure
   (t-assemble \"SE3_state-gen_state_doc\")
