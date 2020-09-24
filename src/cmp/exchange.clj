@@ -21,17 +21,31 @@
   (st/exch-path mp-id
    (first (string/split s (re-pattern "\\.")))))
 
-(defn key->kw
+(defn key->second-kw
   "Returns the keyword or nil.
 
   ```clojure
-  (key->kw \"foo\" )
+  (key->second-kw \"foo\" )
   ;; nil
-  (key->kw \"foo.bar\" )
+  (key->second-kw \"foo.bar\" )
   ;; :bar
   ```"  
   [s]
   (if-let [x (second (string/split s (re-pattern "\\.")))] 
+    (keyword x)))
+
+
+(defn key->first-kw
+  "Returns the keyword or nil.
+
+  ```clojure
+  (key->second-kw \"foo\" )
+  ;; nil
+  (key->second-kw \"foo.bar\" )
+  ;; :bar
+  ```"  
+  [s]
+  (if-let [x (first (string/split s (re-pattern "\\.")))] 
     (keyword x)))
 
 (defn read!
@@ -49,7 +63,7 @@
   ```"
   [mp-id p]
   (let [k (exch-key mp-id p)]
-    (if-let [kw  (key->kw p)]
+    (if-let [kw  (key->second-kw p)]
       (kw (st/key->val k))
       (st/key->val k))))
   
@@ -95,6 +109,32 @@
      (fn [v] (read! mp-id v))
      m)))
 
+(defn enclose-map
+  "Encloses the given map `m` with respect to the path `p`.
+
+  Example:
+  ```clojure
+  (enclose-map {:gg \"ff\"} \"mm.ll\")
+  ;; gives:
+  ;; {:mm {:ll {:gg \"ff\"}}}
+
+  (enclose-map {:gg \"ff\"} \"mm\")
+  ;; gives:
+  ;; {:mm {:gg \"ff\"}}
+
+  (enclose-map {:gg \"ff\"} nil)
+  ;; gives:
+  ;; {:gg \"ff\"}
+  ```
+  "
+  [m p]
+  (if (nil? p)
+    m
+    (let [a (key->first-kw p)]
+      (if-let [b (key->second-kw p)]
+        {a {b m}}
+        {a m}))))
+
 (defn to!
   "Writes `m` to the exchange interface.
   The first level keys of `m` are used
@@ -102,28 +142,34 @@
   storing process (e.g. \"OK\") is converted
   to a `keyword`. After storing the amounts
   of `:OK` is compared to `(count m)`.
-  
+
+  Example:
   ```clojure
   {:A 1
    :B 2}
   ```
   Stores the value `1` under the key
   `<mp-id>@exchange@A` and a `2` under
-  `<mp-id>@exchange@B`."
-  [mp-id m]
+  `<mp-id>@exchange@B`.
+
+  If a path `p` is given the `enclose-map` function
+  respects `p`.
+  "
+  ([mp-id m p]
+   (to! mp-id (enclose-map m p)))
+  ([mp-id m]
   (if (string? mp-id)
     (if (map? m)
-      (let [n   (count m)
-            res (map
+      (let [res (map
                  (fn [[k v]]
                    (keyword
                     (st/set-val! (st/exch-path mp-id (name k)) v)))
                  m)]
-        (if (= n (:OK (frequencies res)))
+        (if (= (count m) (:OK (frequencies res)))
           {:ok true}
-          {:error "not all write procs succeed"}))
+          {:error "not all write processes succeed"}))
       {:ok true})
-    {:error "mp-id must be a string"}))
+    {:error "mp-id must be a string"})))
 
 (defn ok?
   "Checks a certain exchange endpoint to evaluate

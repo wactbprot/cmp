@@ -25,6 +25,20 @@
     (is (= "aaa" (st/key->val (st/exch-path "test" "B")))
         "stores string")))
 
+(deftest to-ii
+  (testing "to! with simple path"
+    (to! "test" {:B "aaa"} "dd")
+    (is (= {:B "aaa"}  (st/key->val (st/exch-path "test" "dd")))
+        "stores string under path "))
+  (testing "to! with double path"
+    (to! "test" {:B "aaa"} "dd.ff")
+    (is (= {:ff {:B "aaa"}}  (st/key->val (st/exch-path "test" "dd")))
+        "stores string under path "))
+  (testing "to! with nil path"
+    (to! "test" {:B "aaa"} nil)
+    (is (= "aaa"  (st/key->val (st/exch-path "test" "B")))
+        "don't crash ")))
+
 (deftest from-i
   (testing "from!"
     (st/set-val! "test@exchange@C" {:D "ok"})
@@ -35,7 +49,7 @@
 
 (deftest key->kw-i
   (testing "key->kw"
-    (is (= :B (key->kw "A.B"))
+    (is (= :B (key->second-kw "A.B"))
         "returns kw")
-    (is (nil?  (key->kw "A"))
+    (is (nil?  (key->second-kw "A"))
         "returns kw")))

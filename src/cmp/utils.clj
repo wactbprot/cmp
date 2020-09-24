@@ -58,8 +58,11 @@
 (defn get-date-object []
   (tm/now))
 
-(defn get-date [d]
-  (tm-f/unparse date-f d))
+(defn get-date 
+  ([]
+   (get-date (get-date-object)))
+  ([d]
+   (tm-f/unparse date-f d)))
 
 (defn get-hour [d]
   (tm-f/unparse hour-f d))

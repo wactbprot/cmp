@@ -8,14 +8,17 @@
             [cmp.config :as cfg]
             [cmp.utils :as u]
             [cmp.worker.anselm         :refer [anselm!]]
+            [cmp.worker.devhub         :refer [devhub!]]
             [cmp.worker.gen-db-doc     :refer [gen-db-doc!]]
-            [cmp.worker.replicate-db   :refer [replicate!]]
-            [cmp.worker.wait           :refer [wait!]]
-            [cmp.worker.run-mp         :refer [run-mp!]]
+            [cmp.worker.get-date       :refer [get-date!]]
+            [cmp.worker.get-time       :refer [get-time!]]
             [cmp.worker.read-exchange  :refer [read-exchange!]]
-            [cmp.worker.write-exchange :refer [write-exchange!]]
+            [cmp.worker.replicate-db   :refer [replicate!]]
+            [cmp.worker.run-mp         :refer [run-mp!]]
             [cmp.worker.select         :refer [select-definition!]]
-            [cmp.worker.devhub         :refer [devhub!]]))
+            [cmp.worker.wait           :refer [wait!]]
+            [cmp.worker.write-exchange :refer [write-exchange!]]
+            ))
 
 (def mtp (cfg/min-task-period (cfg/config)))
 
@@ -63,6 +66,8 @@
     :writeExchange  (start! write-exchange!    task)
     :readExchange   (start! read-exchange!     task)
     :wait           (start! wait!              task)
+    :getDate        (start! get-date!          task)
+    :getTime        (start! get-time!          task)
     :genDbDoc       (start! gen-db-doc!        task)
     :replicateDB    (start! replicate!         task)
     :Anselm         (start! anselm!            task)

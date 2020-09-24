@@ -104,7 +104,7 @@
     :Element ["*"]
     :Definition [
                  [{:TaskName "MKS_SRG_3-read_out",
-                   :Replace {:%docpath "Measurement.Values.Pressure"}}]
+                   :Replace {:%docpath "Calibration.Measurement.Values.Pressure"}}]
                  ]}
    {:Description "Test read_exchange action."
     :Ctrl "void"
@@ -115,12 +115,24 @@
                    :Replace {:%docpath "Measurement.Values.Pressure"
                              :%exchpath "A"}}]
                  ]}
-   {:Description "Test json api request."
+   {:Description "Test anselm request."
     :Ctrl "void"
-    :Title "json api (Anselm)."
+    :Title "anselm."
     :Element ["*"]
     :Definition [
                  [{:TaskName "Common-anselm_get_dut_max"}]
+                 ]}
+   {:Description "Test date and time and the ability to parallel write to database docs."
+    :Ctrl "void"
+    :Title "date & time"
+    :Element ["*"]
+    :Definition [
+                 [{:TaskName "Common-get_date"
+                   :Replace {:%docpath "Calibration.Measurement.Date"
+                             :%type "cmp-test"}}
+                  {:TaskName "Common-get_time"
+                   :Replace {:%docpath "Calibration.Measurement.AuxValues.Time"
+                             :%type "cmp-test"}}]
                  ]}]
   ;; Definitions section
   :Definitions

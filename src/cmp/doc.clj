@@ -8,8 +8,9 @@
             [cmp.st-mem :as st]
             [cmp.utils :as u]
             [clojure.string :as string]
-            [taoensso.timbre :as timbre]))
+            [taoensso.timbre :as log]))
 
+(def doc-lock (Object.))
 
 (defn doc->version
   "Returns the version of the document as
@@ -18,12 +19,10 @@
   (if-let [v (first (string/split rev  #"-"))]
     (Integer/parseInt v)))
 
-
 (defn doc->id
   "Returns the id of the document."
   [{id :_id}]
   id)
-
 
 ;;------------------------------
 ;; extract doc info
@@ -79,7 +78,7 @@
     (let [k    (st/id-path mpd-id id)
           info (doc-info doc (base-info doc))]
       (st/set-val! k info))
-    (timbre/error "no doc added")))
+    (log/error "no doc added")))
 
 ;;------------------------------
 ;; rm
@@ -192,20 +191,19 @@
              (string? doc-path)
              (vector? results))
       (let [ids (ids mp-id)]
-        (if (= 0 (count ids))
+        (if (empty? ids)
           {:ok true :warn "no documents loaded"}
           (let [res (map
                      (fn [id]
-                       (let [in-doc  (lt/id->doc id)
-                             doc     (store-results in-doc results doc-path)
-                             out-doc (lt/put-doc doc)]
-                         (if (= (doc->version out-doc)
-                                (+ 1 (doc->version in-doc)))
-                           :ok
-                           :error)))
+                       (locking doc-lock
+                         (log/debug "lock doc id: " id)
+                         (let [in-doc  (lt/id->doc id)
+                               doc     (store-results in-doc results doc-path)
+                               out-doc (lt/put-doc doc)]
+                           (log/debug "release lock for id: " id))))
                      ids)]
             (if-let [n-err (:error (frequencies res))]
               {:error "got " n-err " during attempt to store results"}
-            {:ok true}))))
+              {:ok true}))))
       {:error "wrong store! input"})
     {:ok true}))

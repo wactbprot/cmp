@@ -15,9 +15,9 @@
   (st/key->val \"ref@exchange@b\")
   ;; 2
   ```"
-  [{val :Value mp-id :MpName state-key :StateKey}]
+  [{val :Value mp-id :MpName state-key :StateKey exch-path :ExchangePath}]
   (st/set-state! state-key :working)
-  (let [res (exch/to! mp-id val)]
+  (let [res (exch/to! mp-id val exch-path)]
     (cond
       (:error res) (do
                      (st/set-state! state-key :error)
