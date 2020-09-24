@@ -22,7 +22,9 @@
   "
   [body task state-key]
   (if-let [err (:error body)]
-    (log/error (str "response: " body " at " state-key))
+    (do
+      (log/error (str "response: " body " at " state-key))
+      (st/set-state! state-key :error))
     (let [resp-key (st/state-key->response-key state-key)
           to-exch  (:ToExchange body)
           results  (:Result body) 
