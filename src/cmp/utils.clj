@@ -6,6 +6,8 @@
             [clj-time.coerce :as tm-c]
             [clojure.data.json :as json]))
 
+(def ok-set #{"ok" :ok "true" true "yo!"})
+
 (def sep
   "Short-term-database (st) path seperator.
   Must not be a regex operator (like `.` or `|`)"

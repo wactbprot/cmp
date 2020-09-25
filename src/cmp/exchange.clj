@@ -175,7 +175,7 @@
   "Checks a certain exchange endpoint to evaluate
   to true"
   [mp-id k]
-  (contains? #{"ok" :ok "true" true "jo!"} (read! mp-id k)))
+  (contains? u/ok-set (read! mp-id k)))
 
 (defn stop-if
   "Checks if the exchange path given with `:MpName`

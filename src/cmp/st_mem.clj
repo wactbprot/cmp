@@ -226,6 +226,14 @@
      :par-idx     (key->par-idx k)}))
   
 ;;------------------------------
+;; message
+;;------------------------------
+(defn message-path
+  "Returns the `message` path."
+  [mp-id struct no-idx]
+  (u/vec->key [mp-id struct no-idx "message"]))
+
+;;------------------------------
 ;; exchange
 ;;------------------------------
 (defn exch-prefix
