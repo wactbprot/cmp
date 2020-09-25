@@ -103,6 +103,13 @@
          s
          (str (subs s 0 n) "..."))))))
 
+(defn lp
+  "Left pad the given number. Default is 5."
+  ([i]
+   (lp i 5))
+  ([i n]
+  (format (str "%0" n "d") i)))
+
 
 ;;------------------------------
 ;; mp-id

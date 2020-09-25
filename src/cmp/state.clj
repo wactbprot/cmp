@@ -172,8 +172,7 @@
   step `i-1` (`(dec i)`) of `m`."
   [m i]
   (all-executed?
-   (seq-idx->all-par m (dec i))))
-
+   (seq-idx->all-par m (u/lp (dec i)))))
 
 ;;------------------------------
 ;; ready!
@@ -198,24 +197,7 @@
   (st/de-register! (st/key->mp-id k)
                    (st/key->struct k)
                    (st/key->no-idx k)
-                   "state")
-  (ready! k))
-
-;;------------------------------
-;; suspend!
-;;------------------------------
-(defn suspend!
-  "Simply de-registers the `state` listener
-  without changing (e.g. ready!) the state interface.
-  The de-register pattern is derived
-  from the key  `k` (may be the
-  `ctrl-key` or `state-key`)."
-  [k]
-  (let [state-ks (k->state-ks k)]
-    (st/de-register! (st/key->mp-id k)
-                     (st/key->struct k)
-                     (st/key->no-idx k)
-                     "state")))
+                   "state"))
 
 ;;------------------------------
 ;; set value at ctrl-path 
@@ -241,8 +223,10 @@
     (condp = cmd
       :mon   (do
                (de-observe! ctrl-k)
+               (ready! ctrl-k)
                (st/set-val! ctrl-k "mon"))
       (do (de-observe! ctrl-k)
+          (ready! ctrl-k)
           (st/set-val! ctrl-k "ready")
           (log/info "default condp branch in all-exec fn of " k )))))
 
@@ -264,13 +248,14 @@
               {:seq-idx 3, :par-idx 1, :state :ready}])
   ;; cmp.state> {:seq-idx 3, :par-idx 1, :state :ready}
   ```"
-  [m]
-  (when-let [next-m (next-ready m)]
+  [v]
+  (when-let [next-m (next-ready v)]
     (when-let [i (:seq-idx next-m)]
-      (when (or
-             (zero? i)
-             (predecessor-executed? m i))
-        next-m))))
+      (let [i (Integer/parseInt i)]
+        (when (or
+               (zero? i)
+               (predecessor-executed? v i))
+          next-m)))))
 
 (defn choose-next
   "Gets the `state-vec` and picks the next thing to do.
@@ -349,7 +334,11 @@
   (condp = (keyword cmd)
     :run     (observe!    k)
     :mon     (observe!    k)
-    :stop    (de-observe! k)
-    :reset   (ready!      k)
-    :suspend (suspend!    k)
+    :stop    (do
+               (de-observe! k)
+               (ready!      k))
+    :reset   (do
+               (de-observe! k)
+               (ready!      k))
+    :suspend (de-observe! k)
     (log/info  "default case state dispach function" )))

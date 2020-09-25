@@ -167,8 +167,7 @@
   given key `container` or `definitions` index."
   [k]
   (when (string? k)
-    (if-let [n (nth (string/split k u/re-sep) 2 nil)]
-      (Integer/parseInt n))))
+    (nth (string/split k u/re-sep) 2 nil)))
 
 (defn key->func
   "Returns the name of the `func`tion
@@ -182,8 +181,7 @@
   the givens key sequential index."
   [k]
   (when (string? k)
-    (if-let [n (nth (string/split k u/re-sep) 4 nil)]
-      (Integer/parseInt  n))))
+    (nth (string/split k u/re-sep) 4 nil)))
 
 (defn key->no-jdx
   "The 4th position at definitions
@@ -197,8 +195,7 @@
   the givens key parallel index."
   [k]
   (when (string? k)
-    (if-let [n (nth (string/split k u/re-sep) 5 nil)]
-      (Integer/parseInt  n))))
+    (nth (string/split k u/re-sep) 5 nil)))
 
 (defn key->key-map
   "Turns a key into a map.
@@ -231,7 +228,7 @@
 (defn message-path
   "Returns the `message` path."
   [mp-id struct no-idx]
-  (u/vec->key [mp-id struct no-idx "message"]))
+  (u/vec->key [mp-id struct (u/lp no-idx) "message"]))
 
 ;;------------------------------
 ;; exchange
@@ -257,31 +254,31 @@
 
 (defn cont-title-path
   [mp-id i]
-  (u/vec->key [(cont-prefix mp-id) i  "title"]))
+  (u/vec->key [(cont-prefix mp-id) (u/lp i)  "title"]))
 
 (defn cont-descr-path
   [mp-id i]
-  (u/vec->key [(cont-prefix mp-id) i  "descr"]))
+  (u/vec->key [(cont-prefix mp-id) (u/lp i)  "descr"]))
 
 (defn cont-ctrl-path
   [mp-id i]
-  (u/vec->key [(cont-prefix mp-id) i  "ctrl"]))
+  (u/vec->key [(cont-prefix mp-id) (u/lp i)  "ctrl"]))
 
 (defn cont-elem-path
   [mp-id i]
-  (u/vec->key [(cont-prefix mp-id) i  "elem"]))
+  (u/vec->key [(cont-prefix mp-id) (u/lp i)  "elem"]))
 
 (defn cont-defin-path
   ([mp-id i]
-   (u/vec->key [(cont-prefix mp-id) i "definition"]))
+   (u/vec->key [(cont-prefix mp-id) (u/lp i) "definition"]))
   ([mp-id i j k]
-   (u/vec->key [(cont-prefix mp-id) i "definition" j k])))
+   (u/vec->key [(cont-prefix mp-id) (u/lp i) "definition" (u/lp j) (u/lp k)])))
 
 (defn cont-state-path
   ([mp-id i]
-   (u/vec->key [(cont-prefix mp-id) i  "state"]))
+   (u/vec->key [(cont-prefix mp-id) (u/lp i)  "state"]))
   ([mp-id i j k]
-   (u/vec->key [(cont-prefix mp-id) i  "state" j k])))
+   (u/vec->key [(cont-prefix mp-id) (u/lp i)  "state" (u/lp j) (u/lp k)])))
 
 ;;------------------------------
 ;; definitions path
@@ -293,33 +290,33 @@
 
 (defn defins-defin-path
   ([mp-id i]
-   (u/vec->key [(defins-prefix mp-id) i "definition"]))
+   (u/vec->key [(defins-prefix mp-id) (u/lp i) "definition"]))
   ([mp-id i j k]
-  (u/vec->key [(defins-prefix mp-id) i "definition" j k])))
+  (u/vec->key [(defins-prefix mp-id) (u/lp i) "definition" (u/lp j) (u/lp k)])))
 
 (defn defins-state-path
   ([mp-id i]
-   (u/vec->key [(defins-prefix mp-id) i "state"]))
+   (u/vec->key [(defins-prefix mp-id) (u/lp i) "state"]))
   ([mp-id i j k]
-   (u/vec->key [(defins-prefix mp-id) i "state" j k])))
+   (u/vec->key [(defins-prefix mp-id) (u/lp i) "state" (u/lp j) (u/lp k)])))
 
 (defn defins-cond-path
   ([mp-id i]
-  (u/vec->key [(defins-prefix mp-id) i "cond"]))
+  (u/vec->key [(defins-prefix mp-id) (u/lp i) "cond"]))
   ([mp-id i j]
-  (u/vec->key [(defins-prefix mp-id) i "cond" j])))
+  (u/vec->key [(defins-prefix mp-id) (u/lp i) "cond" (u/lp j)])))
 
 (defn defins-ctrl-path
   [mp-id i]
-  (u/vec->key [(defins-prefix mp-id) i "ctrl"]))
+  (u/vec->key [(defins-prefix mp-id) (u/lp i) "ctrl"]))
 
 (defn defins-descr-path
   [mp-id i]
-  (u/vec->key [(defins-prefix mp-id) i "descr"]))
+  (u/vec->key [(defins-prefix mp-id) (u/lp i) "descr"]))
 
 (defn defins-class-path
   [mp-id i]
-  (u/vec->key [(defins-prefix mp-id) i "class"]))
+  (u/vec->key [(defins-prefix mp-id) (u/lp i) "class"]))
 
 ;;------------------------------
 ;; id path and pat
