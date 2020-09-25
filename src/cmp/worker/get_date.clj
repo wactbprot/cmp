@@ -8,7 +8,6 @@
             [cmp.utils :as u]
             [taoensso.timbre :as log]))
 
-
 (defn get-date!
   "Generates a Date object and stores it under the path
   `DocPath`.

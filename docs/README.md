@@ -1,10 +1,11 @@
-# Documentation
+# documentation
 
 * [API](./api)
+* [example session](./uberdoc.html)
 * [coverage](./coverage)
 * [namespaces](./graph.png)
 
-# Installation
+# installation
 
 ## Leiningen on Ubuntu
 
@@ -26,112 +27,30 @@ zypper in  leiningen
 git clone https://github.com/wactbprot/cmp.git
 cd cmp
 lein deps
-lein repl ## output should look like this:
-```
-
-```clojure
-;;  nREPL server started on port 41649 on host 127.0.0.1 - nrepl://127.0.0.1:41649
-;;  REPL-y 0.4.3, nREPL 0.6.0
-;;  Clojure 1.10.1
-;;  OpenJDK 64-Bit Server VM 11.0.7+10-post-Ubuntu-2ubuntu219.10
-;;      Docs: (doc function-name-here)
-;;            (find-doc "part-of-name-here")
-;;    Source: (source function-name-here)
-;;   Javadoc: (javadoc java-object-or-class-here)
-;;      Exit: Control+D or (exit) or (quit)
-;;   Results: Stored in vars *1, *2, *3, an exception in *e
- 
-;;  cmp.core=> (doc t-run)
-;;  -------------------------
-;;  cmp.core/t-run
-;;  ([name] [name mp-id struct i j k])
-;;    Runs the task with the given name (from stm).
-;;    If only the name is provided, results are stored
-;;    under  `core@test@0@response@0@0`.
-;;  
-;;    If  `mp-id`, `struct`, `i`, `j` and  `k` is given,
-;;    the results are written to `<mp-id@<struct>@<i>@response@<j>@<k>`.
-;;    A listener at this key triggers a `callback` which de-registers
-;;    and closes the listener. The callback also gets the value of 
-;;    the key (`<mp-id@<struct>@<i>@response@<j>@<k>`) and pretty
-;;    prints it.
-;;    
-;;    Example:
-;;    ```clojure
-;;    (t-run "DKM_PPC4_DMM-read_temp")
-;;    ;;
-;;    ;; {:t_start 1588071759882,
-;;    ;; :t_stop 1588071768996,
-;;    ;; :Result
-;;    ;; [{:Type dkmppc4,
-;;    ;;  :Value 24.297828639,
-;;    ;;  :Unit C,
-;;    ;;  :SdValue 0.0013625169107,
-;;    ;;  :N 10}]}
-;;    ```
-;;  
-;;    Debug
-;;    ```clojure
-;;    @st/listeners
-;;    (st/de-register! "core" "test" 0 "response")
-;;    ```
-;;    
-;;  nil
-;;  cmp.core=> 
-
+lein repl 
 ```
 
 # Usage
 
 User interaction with **cmp** is **REPL only**. The `core`
-namespace is the entry point. Use `(dir cmp.core)` to get an
-overview. Commands in `(ns cmp.core)` have the following prefixes:
+namespace is the entry point. Use `(dir cmp.core)` or 
+take a look at [the api](./api) to get an overview. 
 
-* `t-` ... **tasks**
-- `t-build (cmp.core) <f>`
-- `t-build-edn (cmp.core) <f>`
-- `t-clear (cmp.core) <f>`
-- `t-refresh (cmp.core) <f>`
+See [example session](./uberdoc.html) on how to proceed.
 
-* `m-` ... **mpd**
-- `m-build (cmp.core) <f>`
-- `m-build-edn (cmp.core) <f>`
-- `m-clear (cmp.core) <f>`
-- `m-info (cmp.core) <f>`
-- `m-start (cmp.core) <f>`
-- `m-stop (cmp.core) <f>`
 
-* `d-` ... **documents**
-- `d-add (cmp.core) <f>`
-- `d-ids (cmp.core) <f>`
-- `d-rm (cmp.core) <f>`
-
-* `c-` ... **container**
-- `c-reset (cmp.core) <f>`
-- `c-run (cmp.core) <f>`
-- `c-status (cmp.core) <f>`
-- `c-stop (cmp.core) <f> `
-- `c-suspend (cmp.core) <f>`
-
-* `n-` ... **definitions**
-- `n-status (cmp.core) <f>`
-
-* `p-` ... **pubsub table** (start in a second repl)
-- `p-clear-table (cmp.core) <f>`
-- `p-start-table (cmp.core) <f>`
-- `p-stop-table (cmp.core) <f>`
-
-# Clojure
+# links
+## Clojure
 
 * [cheatsheet](https://clojure.org/api/cheatsheet)
 * [clojure-style-guide](https://github.com/bbatsov/clojure-style-guide)
 * [eastwood (linter)](https://github.com/jonase/eastwood)
 
-# Redis
+## Redis
 
 All of the `mp` state is kept in a [redis](https://redis.io) database.
 
-## config
+### config
 
 Since version 0.3.0 *cmp* relies on
 [Keyspace Notifications](https://redis.io/topics/notifications).
@@ -158,7 +77,7 @@ $ sudo systemctl restart redis.service
 $ sudo systemctl status redis.service
 ```
 
-## redis gui
+### redis gui
 
 * [RedisDesktopManager](https://github.com/uglide/RedisDesktopManager)
   `sudo snap install redis-desktop-manager`
