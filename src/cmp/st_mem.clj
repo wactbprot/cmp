@@ -474,19 +474,28 @@
                     (gen-listener mp-id struct no func cb!)))}
        {:ok true :warn "already registered"}))))
 
-
 (defn de-register!
   "De-registers the listener with the
   key `mp-id` in the `listeners` atom."
   ([mp-id struct no func]
    (de-register! mp-id struct no func "a"))
   ([mp-id struct no func level]
-   (let [reg-key (reg-key mp-id struct no func level)]
-     (if (registered? reg-key)
+   (let [k (reg-key mp-id struct no func level)]
+     (if (registered? k)
        (do
          (log/debug "de-register:" reg-key)
-         (close-listener! ((deref listeners) reg-key))
-         {:ok (map?
-               (swap! listeners dissoc
-                      reg-key))})
+         (close-listener! ((deref listeners) k))
+         {:ok (map? (swap! listeners dissoc k))})
        {:ok true :warn "not registered"}))))
+
+(defn clean-register!
+  "Closes and `de-registers!`  all `listeners`
+  belonging to `mp-id` ."
+  [mp-id]
+  (map (fn [[k v]]
+         (if (string/starts-with? k mp-id)
+           (do
+             (close-listener! v)
+             {:ok (map? (swap! listeners dissoc k))})
+           {:ok true :reason "unrelated"}))
+       (deref listeners)))

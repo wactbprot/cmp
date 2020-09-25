@@ -11,9 +11,9 @@
   Continues if message is replaced by the string `ok`
   
   ```clojure
-  (message! {:Message \"cmp?\" :MpName \"ref\" :StateKey \ref@container})
+  (message! {:Message \"cmp?\" :MpName \"ref\" :StateKey \"ref@container@10@state@0@0\"})
   ;;
-  (st/key->val \"ref@container@message\")
+  (st/key->val \"ref@container@10@message\")
   ;; cmp?
   ```"
   [{msg :Message mp-id :MpName state-key :StateKey}]
