@@ -123,7 +123,80 @@
              {:seq-idx 3, :par-idx 1, :state :executed}]))
         "last step")))
 
-
+(deftest next-map-ii
+  (testing " returns (ii) with string keys"
+    (is (= {:seq-idx "000", :par-idx "000", :state :ready}
+           (next-map
+            [{:seq-idx "000", :par-idx "000", :state :ready}
+             {:seq-idx "000", :par-idx "001", :state :ready}
+             {:seq-idx "001", :par-idx "000", :state :ready}
+             {:seq-idx "002", :par-idx "000", :state :ready}
+             {:seq-idx "003", :par-idx "000", :state :ready}
+             {:seq-idx "003", :par-idx "001", :state :ready}]))
+        "starts first par step")
+    (is (= {:seq-idx "000", :par-idx "001", :state :ready}
+           (next-map
+            [{:seq-idx "000", :par-idx "000", :state :working}
+             {:seq-idx "000", :par-idx "001", :state :ready}
+             {:seq-idx "001", :par-idx "000", :state :ready}
+             {:seq-idx "002", :par-idx "000", :state :ready}
+             {:seq-idx "003", :par-idx "000", :state :ready}
+             {:seq-idx "003", :par-idx "001", :state :ready}]))
+        "second par step")
+    (is (nil?
+         (next-map
+          [{:seq-idx "000", :par-idx "000", :state :working}
+           {:seq-idx "000", :par-idx "001", :state :working}
+           {:seq-idx "001", :par-idx "000", :state :ready}
+           {:seq-idx "002", :par-idx "000", :state :ready}
+           {:seq-idx "003", :par-idx "000", :state :ready}
+           {:seq-idx "003", :par-idx "001", :state :ready}]))
+        "nothing to do (nil is returned)")
+    (is (= {:seq-idx "000", :par-idx "001", :state :ready}
+           (next-map
+            [{:seq-idx "000", :par-idx "000", :state :error}
+             {:seq-idx "000", :par-idx "001", :state :ready}
+             {:seq-idx "001", :par-idx "000", :state :ready}
+             {:seq-idx "002", :par-idx "000", :state :ready}
+             {:seq-idx "003", :par-idx "000", :state :ready}
+             {:seq-idx "003", :par-idx "001", :state :ready}]))
+        "second par step (error is filtered by choose-next)")
+    (is (nil?
+         (next-map
+          [{:seq-idx "000", :par-idx "000", :state :executed}
+           {:seq-idx "000", :par-idx "001", :state :working}
+           {:seq-idx "001", :par-idx "000", :state :ready}
+           {:seq-idx "002", :par-idx "000", :state :ready}
+           {:seq-idx "003", :par-idx "000", :state :ready}
+           {:seq-idx "003", :par-idx "001", :state :ready}]))
+        "nothing should be done on error (nil is returned)")
+    (is (= {:seq-idx "001", :par-idx "000", :state :ready}
+           (next-map
+            [{:seq-idx "000", :par-idx "000", :state :executed}
+             {:seq-idx "000", :par-idx "001", :state :executed}
+             {:seq-idx "001", :par-idx "000", :state :ready}
+             {:seq-idx "002", :par-idx "000", :state :ready}
+             {:seq-idx "003", :par-idx "000", :state :ready}
+             {:seq-idx "003", :par-idx "001", :state :ready}]))
+        "nothing should be done on error (nil is returned)")
+    (is (= {:seq-idx "003", :par-idx "001", :state :ready}
+           (next-map
+            [{:seq-idx "000", :par-idx "000", :state :executed}
+             {:seq-idx "000", :par-idx "001", :state :executed}
+             {:seq-idx "001", :par-idx "000", :state :executed}
+             {:seq-idx "002", :par-idx "000", :state :executed}
+             {:seq-idx "003", :par-idx "000", :state :working}
+             {:seq-idx "003", :par-idx "001", :state :ready}]))
+        "last step")
+    (is (nil?
+           (next-map
+            [{:seq-idx "0", :par-idx "0", :state :executed}
+             {:seq-idx "0", :par-idx "1", :state :executed}
+             {:seq-idx "1", :par-idx "0", :state :executed}
+             {:seq-idx "2", :par-idx "0", :state :executed}
+             {:seq-idx "3", :par-idx "0", :state :executed}
+             {:seq-idx "3", :par-idx "1", :state :executed}]))
+        "last step")))
 
 
 (deftest choose-next-i
@@ -157,4 +230,94 @@
         "nop.")
     (is (= :work
            (:what (choose-next [{:seq-idx 0, :par-idx 0, :state :ready}])))
+        "work.")))
+
+
+(deftest choose-next-ii
+  (testing "choose next thing to do (ii) with string keys."
+    (is (= :error
+           (:what (choose-next [{:seq-idx "000", :par-idx "000", :state :error}])))
+        "error.")
+    (is (= :error
+           (:what (choose-next [{:seq-idx "000", :par-idx "000", :state :error}
+                                {:seq-idx "000", :par-idx "001", :state :working}
+                                {:seq-idx "001", :par-idx "000", :state :ready}
+                                {:seq-idx "002", :par-idx "000", :state :ready}])))
+        "error first position.")
+    (is (= :error
+           (:what (choose-next [{:seq-idx "000", :par-idx "000", :state :working}
+                                {:seq-idx "000", :par-idx "001", :state :error}
+                                {:seq-idx "001", :par-idx "000", :state :ready}
+                                {:seq-idx "002", :par-idx "000", :state :ready}])))
+        "error second position.")
+    (is (= :error
+           (:what (choose-next [{:seq-idx "000", :par-idx "000", :state :working}
+                                {:seq-idx "000", :par-idx "001", :state :working}
+                                {:seq-idx "001", :par-idx "000", :state :ready}
+                                {:seq-idx "002", :par-idx "000", :state :error}])))
+        "error last position.")
+    (is (= :all-exec
+           (:what (choose-next [{:seq-idx "000", :par-idx "000", :state :executed}])))
+        "all done.")
+    (is (= :nop
+           (:what (choose-next [{:seq-idx "000", :par-idx "000", :state :working}])))
+        "nop.")
+    (is (= :work
+           (:what (choose-next [{:seq-idx "000", :par-idx "000", :state :ready}])))
+        "work.")
+    (is (= :all-exec
+           (:what (choose-next [{:seq-idx "000", :par-idx "000", :state :executed}])))
+        "all done.")
+    (is (= "@@009@definition@000@000"
+           (:k (choose-next [{:no-idx "000" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "001" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "002" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "003" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "004" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "005" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "006" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "007" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "008" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "009" :seq-idx "000", :par-idx "000", :state :ready}
+                             {:no-idx "010" :seq-idx "000", :par-idx "000", :state :ready}])))
+        "work.")
+    (is (= "@@010@definition@000@000"
+           (:k (choose-next [{:no-idx "000" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "001" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "002" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "003" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "004" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "005" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "006" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "007" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "008" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "009" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "010" :seq-idx "000", :par-idx "000", :state :ready}])))
+        "work.")
+    (is (= "@@003@definition@000@000"
+           (:k (choose-next [{:no-idx "000" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "001" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "002" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "003" :seq-idx "000", :par-idx "000", :state :ready}
+                             {:no-idx "004" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "005" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "006" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "007" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "008" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "009" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "010" :seq-idx "000", :par-idx "000", :state :ready}])))
+        "work.")
+    (is (= "@@003@definition@000@001"
+           (:k (choose-next [{:no-idx "000" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "001" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "002" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "003" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "003" :seq-idx "000", :par-idx "001", :state :ready}
+                             {:no-idx "004" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "005" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "006" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "007" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "008" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "009" :seq-idx "000", :par-idx "000", :state :executed}
+                             {:no-idx "010" :seq-idx "000", :par-idx "000", :state :ready}])))
         "work.")))

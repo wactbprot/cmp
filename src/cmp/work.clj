@@ -12,6 +12,7 @@
             [cmp.worker.gen-db-doc     :refer [gen-db-doc!]]
             [cmp.worker.get-date       :refer [get-date!]]
             [cmp.worker.get-time       :refer [get-time!]]
+            [cmp.worker.message        :refer [message!]]
             [cmp.worker.read-exchange  :refer [read-exchange!]]
             [cmp.worker.replicate-db   :refer [replicate!]]
             [cmp.worker.run-mp         :refer [run-mp!]]
@@ -68,6 +69,7 @@
     :wait           (start! wait!              task)
     :getDate        (start! get-date!          task)
     :getTime        (start! get-time!          task)
+    :message        (start! message!          task)
     :genDbDoc       (start! gen-db-doc!        task)
     :replicateDB    (start! replicate!         task)
     :Anselm         (start! anselm!            task)

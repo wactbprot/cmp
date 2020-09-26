@@ -6,6 +6,8 @@
             [clj-time.coerce :as tm-c]
             [clojure.data.json :as json]))
 
+(def ok-set #{"ok" :ok "true" true "yo!"})
+
 (def sep
   "Short-term-database (st) path seperator.
   Must not be a regex operator (like `.` or `|`)"
@@ -101,6 +103,36 @@
          s
          (str (subs s 0 n) "..."))))))
 
+(defn lp
+  "Left pad the given number. Default is 5."
+  ([i]
+   (lp i 5))
+  ([i n]
+  (format (str "%0" n "d") i)))
+
+(defn ensure-int
+  "Ensures `i` to be integer. Returns 0 as default.
+
+  ```clojure
+  (u/ensure-int 100)
+  ;; 100
+  (u/ensure-int \"w\")
+  ;; 0
+  (u/ensure-int \"00\")
+  ;; 0
+  (u/ensure-int \"10\")
+  ;; 10
+  (u/ensure-int true)
+  ;; 0
+  ```
+  "
+  [i]
+  (if (integer? i)
+    i
+    (try
+      (Integer/parseInt i)
+      (catch Exception e
+        0))))
 
 ;;------------------------------
 ;; mp-id

@@ -8,7 +8,6 @@
             [cmp.utils :as u]
             [taoensso.timbre :as log]))
 
-
 (defn get-date!
   "Generates a Date object and stores it under the path
   `DocPath`.
@@ -33,12 +32,8 @@
     (let [res [{:Type type :Value (u/get-date)}]
           ret (doc/store! mp-id res doc-path)]
       (cond
-        (:error ret) (do
-                       (log/error "failed to write time stamp")
-                       (log/error ret)
-                       (st/set-state! state-key :error))
-        (:ok    ret) (st/set-state! state-key :executed)
-        :unexpected  (do
-                       (log/error "unexpected return value")
-                       (log/error ret)
-                       (st/set-state! state-key :error))))))
+        (:ok    ret) (st/set-state! state-key :executed "get date executed")
+        (:error ret) (st/set-state! state-key :error (str "failed to write time stamp"
+                                                          ret))
+        :unexpected  (st/set-state! state-key :error (str "unexpected return value"
+                                                            ret))))))

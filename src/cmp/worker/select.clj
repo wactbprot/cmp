@@ -50,12 +50,9 @@
                     (condp = (keyword (st/key->val ctrl-key))
                       :run   (log/debug "run callback for" ctrl-key)
                       :ready (do
-                               (log/debug "ready callback for" ctrl-key)
-                               (st/set-state! state-key :executed) 
+                               (st/set-state! state-key :executed (str "ready callback for" ctrl-key)) 
                                (st/de-register! mp-id struct no-idx func level))
-                      :error (do
-                               (log/error "error callback for" ctrl-key)
-                               (st/set-state! state-key :error))))]
+                      :error (st/set-state! state-key :error (str "error callback for" ctrl-key))))]
     (st/register! mp-id struct no-idx func callback level)
     (st/set-state! ctrl-key :run)))
 

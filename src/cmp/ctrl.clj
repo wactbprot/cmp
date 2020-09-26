@@ -28,7 +28,8 @@
   the system will no longer react on changes
   at the `ctrl` interface."
   [mp-id]
-  (st/de-register! mp-id "*" "*" "ctrl"))
+  (st/de-register! mp-id "*" "*" "ctrl")
+  (st/clean-register! mp-id))
 
 ;;------------------------------
 ;; start
@@ -39,7 +40,4 @@
   becomes the listeners `cb!`." 
   [mp-id]
   (log/info "register ctrl listener for: " mp-id)
-  (let [cb! (fn [msg]
-                   (dispatch
-                    (st/msg->key msg)))]
-   (st/register! mp-id "*" "*" "ctrl" cb!)))
+  (st/register! mp-id "*" "*" "ctrl" (fn [msg] (dispatch (st/msg->key msg)))))

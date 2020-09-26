@@ -495,12 +495,12 @@
   ;; or
   (workon! mpid)
   (m-clear)
-  
   ```"
   ([]
    (m-clear (deref current-mp-id)))
   ([mp-id]
    (m-stop mp-id)
+   (st/clean-register! mp-id)
    (st/clear mp-id)))
 
 ;;------------------------------

@@ -26,12 +26,12 @@
   "Builds a `state-map` by means of the key structure
   and `st/key->val`. "
   [k]
-  {:mp-name (st/key->mp-id k)
-   :struct (st/key->struct k)
-   :no-idx (st/key->no-idx k)
-   :seq-idx (st/key->seq-idx k)
-   :par-idx (st/key->par-idx k)
-   :state (keyword (st/key->val k))})
+  {:mp-name (st/key->mp-id        k)
+   :struct  (st/key->struct       k)
+   :no-idx  (st/key->no-idx       k)
+   :seq-idx (st/key->seq-idx      k)
+   :par-idx (st/key->par-idx      k)
+   :state   (keyword (st/key->val k))})
 
 (defn ks->state-vec
   "Builds the state map `m` belonging to a key set `ks`.
@@ -147,10 +147,8 @@
 (defn all-executed?
   "Checks if all entries of map `m`
   are executed"
-  [m]
-  (=
-   (count m)
-   (count (all-executed m))))
+  [v]
+  (= (count v) (count (all-executed v))))
 
 (defn errors?
   "Checks if there are any errors in the map `m`."
@@ -167,13 +165,36 @@
       {}
       (first am))))
 
+(defn predecessor
+  "Calculates the predecessor step depending on the `i` type.
+
+  Example:
+  ```clojure
+  (predecessor 1)
+  ;; 0
+  
+  (predecessor \"1\")
+  ;; \"0\"
+
+  (predecessor \"001\")
+  ;; \"000\"
+
+  (predecessor \"010\")
+  ;; \"009\"
+  
+  ```
+  "
+  [i]
+  (cond
+    (integer? i) (dec i)
+    (string?  i) (u/lp (dec (u/ensure-int i)) (count i))))
+
 (defn predecessor-executed?
   "Checks if `all-executed?` in the
   step `i-1` (`(dec i)`) of `m`."
-  [m i]
+  [v i]
   (all-executed?
-   (seq-idx->all-par m (dec i))))
-
+   (seq-idx->all-par v (predecessor i))))
 
 ;;------------------------------
 ;; ready!
@@ -198,24 +219,7 @@
   (st/de-register! (st/key->mp-id k)
                    (st/key->struct k)
                    (st/key->no-idx k)
-                   "state")
-  (ready! k))
-
-;;------------------------------
-;; suspend!
-;;------------------------------
-(defn suspend!
-  "Simply de-registers the `state` listener
-  without changing (e.g. ready!) the state interface.
-  The de-register pattern is derived
-  from the key  `k` (may be the
-  `ctrl-key` or `state-key`)."
-  [k]
-  (let [state-ks (k->state-ks k)]
-    (st/de-register! (st/key->mp-id k)
-                     (st/key->struct k)
-                     (st/key->no-idx k)
-                     "state")))
+                   "state"))
 
 ;;------------------------------
 ;; set value at ctrl-path 
@@ -241,8 +245,10 @@
     (condp = cmd
       :mon   (do
                (de-observe! ctrl-k)
+               (ready! ctrl-k)
                (st/set-val! ctrl-k "mon"))
       (do (de-observe! ctrl-k)
+          (ready! ctrl-k)
           (st/set-val! ctrl-k "ready")
           (log/info "default condp branch in all-exec fn of " k )))))
 
@@ -263,29 +269,30 @@
               {:seq-idx 3, :par-idx 0, :state :working}
               {:seq-idx 3, :par-idx 1, :state :ready}])
   ;; cmp.state> {:seq-idx 3, :par-idx 1, :state :ready}
-  ```"
-  [m]
-  (when-let [next-m (next-ready m)]
+  ```
+  "
+  [v]
+  (when-let [next-m (next-ready v)]
     (when-let [i (:seq-idx next-m)]
       (when (or
-             (zero? i)
-             (predecessor-executed? m i))
+             (zero? (u/ensure-int i))
+             (predecessor-executed? v i))
         next-m))))
 
 (defn choose-next
-  "Gets the `state-vec` and picks the next thing to do.
+  "Gets the state vector `v` and picks the next thing to do.
   The `ctrl-k`ey is derived from the first map in the
-  the `state-vec`."
-  [state-vec]
-  (when (vector? state-vec)
-    (let [next-m (next-map state-vec)
-          ctrl-k (state-map->ctrl-key (first state-vec))
-          defi-k (state-map->definition-key next-m)]
+  the `v`."
+  [v]
+  (when (vector? v)
+    (let [m      (next-map v)
+          ctrl-k (state-map->ctrl-key (first v))
+          defi-k (state-map->definition-key m)]
       (cond
-        (errors?       state-vec) {:what :error    :k ctrl-k}
-        (all-executed? state-vec) {:what :all-exec :k ctrl-k}
-        (nil?          next-m)    {:what :nop      :k ctrl-k}
-        :run-worker               {:what :work     :k defi-k}))))
+        (errors?       v) {:what :error    :k ctrl-k}
+        (all-executed? v) {:what :all-exec :k ctrl-k}
+        (nil?          m) {:what :nop      :k ctrl-k}
+        :run-worker       {:what :work     :k defi-k}))))
 
 (defn start-next!
   "`start-next!` choose the `k` of the upcomming tasks.
@@ -294,10 +301,10 @@
   parallel tasks are started this way.
 
   Side effects all around. "
-  [state-vec]
-  (when (vector? state-vec)
+  [v]
+  (when (vector? v)
     (let [{what :what
-           k    :k} (choose-next state-vec)]
+           k    :k} (choose-next v)]
       (condp = what
         :error    (error! k)
         :all-exec (all-exec! k)
@@ -349,7 +356,11 @@
   (condp = (keyword cmd)
     :run     (observe!    k)
     :mon     (observe!    k)
-    :stop    (de-observe! k)
-    :reset   (ready!      k)
-    :suspend (suspend!    k)
+    :stop    (do
+               (de-observe! k)
+               (ready!      k))
+    :reset   (do
+               (de-observe! k)
+               (ready!      k))
+    :suspend (de-observe! k)
     (log/info  "default case state dispach function" )))

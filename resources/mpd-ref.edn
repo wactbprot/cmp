@@ -17,7 +17,9 @@
              ;; 
              :Target_pressure {:Selected 1 :Unit "Pa"}
              }
-
+  ;; -------------------------------------------------------
+  ;; container section
+  ;; -------------------------------------------------------
   :Container
   [
    ;; Containers are fixed sequences of things to do. 
@@ -133,8 +135,18 @@
                   {:TaskName "Common-get_time"
                    :Replace {:%docpath "Calibration.Measurement.AuxValues.Time"
                              :%type "cmp-test"}}]
+                 ]}
+   {:Description "Message test."
+    :Ctrl "void"
+    :Title "message"
+    :Element ["*"]
+    :Definition [
+                 [{:TaskName "Common-message"
+                   :Replace {:%message "cmp?"}}]
                  ]}]
+  ;; -------------------------------------------------------
   ;; Definitions section
+  ;; -------------------------------------------------------
   :Definitions
   [;; Several definitions with the same
    ;; class (here wait) are possible.

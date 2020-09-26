@@ -41,12 +41,9 @@
       (cond
         (or
          (:error ret-doc)
-         (:error ret-exch)) (do
-                              (log/error "failed to write time stamp")
-                              (log/error ret-doc)
-                              (log/error ret-exch)
-                              (st/set-state! state-key :error))
+         (:error ret-exch)) (st/set-state! state-key :error (str "failed to write time stamp"
+                                                                 ret-doc ret-exch))
         (and
          (:ok ret-doc)
-         (:ok ret-exch))    (st/set-state! state-key :executed)
-        :unexpected         (st/set-state! state-key :error)))))
+         (:ok ret-exch))    (st/set-state! state-key :executed "get time executed")
+        :unexpected         (st/set-state! state-key :error "unexpected return value")))))
