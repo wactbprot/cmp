@@ -134,11 +134,13 @@
   ([i]
    (pad-ok? i (cfg/key-pad-length (cfg/config))))
   ([i n]
-   (if (or (= i "*") 
-           (and (string? i)
-                (= n (count i))))
-     true
-     false)))
+   (cond
+     (= i "*")         true 
+     (and
+      (string? i)
+      (= n (count i))) true
+     :else             false)))
+
 
 (defn lp
   "Left pad the given number if it is not a
