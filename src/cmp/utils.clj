@@ -104,7 +104,6 @@
          s
          (str (subs s 0 n) "..."))))))
    
-
 (defn ensure-int
   "Ensures `i` to be integer. Returns 0 as default.
 
