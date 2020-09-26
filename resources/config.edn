@@ -9,6 +9,9 @@
  ;; short term memory: redis
  :st-conn {:pool {}
            :spec {:host "127.0.0.1" :port 6379 :db 0}}
+ ;; for order or sorting reasons
+ ;; idx, jdx and kdx are padded
+ :key-pad-length 3
  :edn-tasks ["resources/task-modbus-set.edn"
              "resources/task-modbus-get.edn"]
  :edn-mpds ["resources/mpd-ref.edn"]

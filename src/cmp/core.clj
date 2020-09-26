@@ -82,10 +82,10 @@
   ([i]
    (c-info (deref current-mp-id) i))
   ([mp-id i]
-   {:c-no-idx i
-    :c-title  (st/key->val (st/cont-title-path mp-id i))
-    :c-descr  (u/short-string (st/key->val (st/cont-descr-path mp-id i)))
-    :c-ctrl   (st/key->val (st/cont-ctrl-path mp-id i))}))
+     {:c-no-idx (u/lp i) 
+      :c-title  (st/key->val    (st/cont-title-path mp-id (u/lp i)))
+      :c-descr  (u/short-string (st/key->val (st/cont-descr-path mp-id (u/lp i))))
+      :c-ctrl   (st/key->val    (st/cont-ctrl-path mp-id (u/lp i)))}))
 
 (defn cs-info
   "Returns info  about the containers of
@@ -113,7 +113,7 @@
   ([i]
    (c-status (deref current-mp-id) i))
   ([mp-id i]
-   (pp/print-table (state/cont-status mp-id i))))
+   (pp/print-table (state/cont-status mp-id (u/lp i)))))
 
 (defn n-status
   "Returns  defi**n**itions status.
@@ -122,7 +122,7 @@
   ([i]
    (n-status (deref current-mp-id) i))
   ([mp-id i]
-   (pp/print-table (state/defins-status mp-id i))))
+   (pp/print-table (state/defins-status mp-id (u/lp i)))))
 
 ;;------------------------------
 ;; build mpd
@@ -280,7 +280,7 @@
   ([i cmd]
    (set-ctrl (deref current-mp-id) i cmd))
   ([mp-id i cmd]
-   (st/set-val! (st/cont-ctrl-path  mp-id i) cmd)))
+   (st/set-val! (st/cont-ctrl-path  mp-id (u/lp i)) cmd)))
 
 (defn c-run
   "Shortcut to push a `run` to the control
@@ -292,7 +292,7 @@
   "Shortcut to push a `mon` to the control
   interface of  mp container `i`."
   [i]
-  (set-ctrl @current-mp-id i "mon"))
+  (set-ctrl (deref current-mp-id) i "mon"))
 
 (defn c-stop
   "Shortcut to push a `stop` to the control
@@ -353,7 +353,7 @@
   ([kw v mp-id]
    (t-table  kw v mp-id "test" 0 0 0))
   ([kw v mp-id struct i j k]
-   (let [state-key (u/vec->key [mp-id struct i "state" j k])]
+   (let [state-key (u/vec->key [mp-id struct (u/lp i) "state" (u/lp j) (u/lp k)])]
      (pp/print-table
       (filter some?
               (into []
@@ -377,6 +377,8 @@
   and closes the listener. The callback also gets the value of 
   the key (`<mp-id@<struct>@<i>@response@<j>@<k>`) and pretty
   prints it.
+
+  REVIEW (function is way to large)
   
   Example:
   ```clojure
@@ -403,17 +405,20 @@
   ([name mp-id]
    (t-run name mp-id "test" 0 0 0))
   ([name mp-id struct i j k]
-   (let [func       "response"
-         state-key  (u/vec->key[mp-id struct i "state" j k])
-         resp-key   (u/vec->key[mp-id struct i func j k])
+   (let [i          (u/lp i)
+         j          (u/lp j)
+         k          (u/lp k)
+         func       "response"
+         state-key  (u/vec->key [mp-id struct i "state" j k])
+         resp-key   (u/vec->key [mp-id struct i func    j k])
          meta-task  (task/gen-meta-task name)
          task       (task/assemble meta-task mp-id state-key)]
      (when (task/dev-action? task)
        (timbre/info "task dispached, wait for response...")
        (st/register! mp-id struct i func (fn [msg]
-                                           (when-let [k (st/msg->key msg)]
+                                           (when-let [result-key (st/msg->key msg)]
                                              (st/de-register! mp-id struct i func)
-                                             (pp/pprint (st/key->val k))))))
+                                             (pp/pprint (st/key->val result-key))))))
      (work/check task))))
 
 (defn t-raw
@@ -439,7 +444,10 @@
   ([x mp-id]
    (t-assemble x mp-id "test" 0 0 0))
   ([x mp-id struct i j k]
-   (let [state-key  (u/vec->key[mp-id struct i "state" j k])
+   (let [i          (u/lp i)
+         j          (u/lp j)
+         k          (u/lp k)
+         state-key  (u/vec->key[mp-id struct i "state" j k])
          meta-task  (task/gen-meta-task x)]
      (task/assemble meta-task mp-id state-key))))
  
@@ -555,7 +563,8 @@
   ([mp-id struct i]
    (p-start-table mp-id struct i "*"))
   ([mp-id struct i func]
-   (let [cb! (fn  [msg]
+   (let [i   (u/lp i)
+         cb! (fn [msg]
                (let [d   (u/get-date-object)
                      k   (st/msg->key msg)
                      val (st/key->val k)]
@@ -584,4 +593,4 @@
    (p-stop-table mp-id struct i "*"))
   ([mp-id struct i func]
    (p-clear-table)
-   (st/de-register! mp-id struct i func)))
+   (st/de-register! mp-id struct (u/lp i) func)))

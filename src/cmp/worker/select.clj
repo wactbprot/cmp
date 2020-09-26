@@ -112,7 +112,7 @@
   section of the current `mp`. Builds a `cond`ition`-map`
   (analog to the `state-map`) in order to avoid the
   spreading of side effects and easy testing.
-
+  
   Example:
   ```clojure
   (ns cmp.worker.select)
@@ -147,4 +147,4 @@
                                       (map filter-match
                                            cond-vec)))]
       (start-defins! (assoc match-map :StateKey state-key))
-      (st/set-state! state-key :error))))
+      (st/set-state! state-key :error "no matching definition"))))

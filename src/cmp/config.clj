@@ -26,6 +26,10 @@
   [c]
   (:st-conn c))
 
+(defn key-pad-length
+  [c]
+  (:key-pad-length c))
+
 (defn st-db
   [c]
   (get-in c [:st-conn :spec :db]))

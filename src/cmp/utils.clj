@@ -4,6 +4,7 @@
             [clj-time.core :as tm]
             [clj-time.format :as tm-f]
             [clj-time.coerce :as tm-c]
+            [cmp.config :as cfg]
             [clojure.data.json :as json]))
 
 (def ok-set #{"ok" :ok "true" true "yo!"})
@@ -102,13 +103,7 @@
        (if (<  l n)
          s
          (str (subs s 0 n) "..."))))))
-
-(defn lp
-  "Left pad the given number. Default is 5."
-  ([i]
-   (lp i 5))
-  ([i n]
-  (format (str "%0" n "d") i)))
+   
 
 (defn ensure-int
   "Ensures `i` to be integer. Returns 0 as default.
@@ -134,6 +129,47 @@
       (catch Exception e
         0))))
 
+(defn pad-ok?
+  "Checks if the padding of `i` is ok.
+  `\"*\"` serves pattern matching."
+  ([i]
+   (pad-ok? i (cfg/key-pad-length (cfg/config))))
+  ([i n]
+   (if (or (= i "*") 
+           (and (string? i)
+                (= n (count i))))
+     true
+     false)))
+
+(defn lp
+  "Left pad the given number if it is not a
+  string. Default is `(cfg/key-pad-length (cfg/config))`.
+
+  Example:
+  ```clojure
+   (u/lp 2)
+  ;; \"002\"
+  (u/lp \"02\")
+  ;; \"002\"
+  (u/lp 2)
+  ;; \"002\"
+  (u/lp true)
+  ;; \"000\"
+  (u/lp \"003\")
+  ;; \"003\"
+  (u/lp \"000003\")
+  ;; \"003\"
+  ```
+  "
+  ([i]
+   (if (pad-ok? i)
+     i
+     (lp (ensure-int i) 3)))
+  ([i n]
+   (if (pad-ok? i)
+     i
+     (format (str "%0" n "d") (ensure-int i)))))
+
 ;;------------------------------
 ;; mp-id
 ;;------------------------------
@@ -146,9 +182,9 @@
   ```clojure
   (u/main-path \"aa\")
   ;; \"aa\"
-  cmp.core> (u/main-path \"aa-bbb\")
+  (u/main-path \"aa-bbb\")
   ;; \"aa-bbb\"
-  cmp.core> (u/main-path \"aa-bbb-lll\")
+  (u/main-path \"aa-bbb-lll\")
   ;; \"aa-bbb-lll\"
   ```
   "
