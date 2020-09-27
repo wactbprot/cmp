@@ -4,10 +4,10 @@
 * [example session](./uberdoc.html)
 * [coverage](./coverage)
 * [namespaces](./graph.png)
-
+* [config.edn](../resources/config.edn)
 # installation
 
-## Leiningen on Ubuntu
+## Leiningen on Ubuntu 
 
 ```shell
 sudo apt install leiningen
@@ -21,7 +21,7 @@ zypper ref devel_languages_clojure
 zypper in  leiningen
 ```
 
-## cmp from git repo
+## cmp from git repo 
 
 ```shell
 git clone https://github.com/wactbprot/cmp.git
