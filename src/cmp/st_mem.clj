@@ -32,7 +32,7 @@
 (defn pat->keys
   "Get all keys matching  the given pattern `pat`."
   [pat]
-  (wcar conn (car/keys pat)))
+  (sort (wcar conn (car/keys pat))))
 
 (defn key->keys
   "Get all keys matching  `k*`."

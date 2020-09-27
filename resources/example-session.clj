@@ -42,8 +42,7 @@
 
 ;;## The reference definition mpd-ref.edn
 
-;; On a fresh system try to
-;; load and build the **ref**erence measurement
+;; On a fresh system load and build a **ref**erence measurement
 ;; program definition called `ref`.
 ;; `ref` is stored in [edn format](https://github.com/edn-format/edn)
 ;; at [resources/mpd-ref.edn](../resources/mpd-ref.edn).
@@ -61,44 +60,104 @@
 ;; (see *redis gui* section of [cmp docu](https://wactbprot.github.io/cmp/))
 ;; by cli or by the function:
 
-(st/key->keys "ref")
+(st/pat->keys "ref*")
 
-;; returning:
-["ref@meta@descr"
- "ref@container@0@state@1@1"
- "ref@exchange@A"
- "ref@container@1@definition@0@0"
- "ref@definitions@1@definition@0@0"
- "ref@container@2@definition@0@0"
- "ref@definitions@2@definition@0@0"
- "ref@definitions@2@ctrl"
- "ref@container@0@definition@2@0"
- "ref@definitions@0@definition@0@0"
- "ref@definitions@0@descr"
- "ref@container@3@state@0@0"
- "ref@definitions@2@class"
- "ref@container@0@definition@0@0"
- "ref@container@0@state@0@0"
- "..."]
+;; =>
+("ref@container@000@ctrl"
+ "ref@container@000@definition@000@000"
+ "ref@container@000@definition@000@001"
+ "ref@container@000@definition@001@000"
+ "ref@container@000@definition@001@001"
+ "ref@container@000@definition@001@002"
+ "ref@container@000@definition@001@003"
+ "ref@container@000@definition@002@000"
+ "ref@container@000@descr"
+ "ref@container@000@elem"
+ "ref@container@000@state@000@000"
+ "ref@container@000@state@000@001"
+ "ref@container@000@state@001@000"
+ "ref@container@000@state@001@001"
+ "ref@container@000@state@001@002"
+ "ref@container@000@state@001@003"
+ "ref@container@000@state@002@000"
+ "ref@container@000@title"
+ "ref@container@001@ctrl"; ... and so on
+ )
 
-(st/key->val "ref@definitions@0@cond@0")
+(count
+ (st/pat->keys "ref*"))
 
-;; returning:
-{:ExchangePath "A.Unit", :Methode "eq", :Value "Pa"}
+;; =>
+121
 
-(st/pat->keys "ref@container@0@state*")
+;; The value of a key (e.g. `ref@definitions@000@cond@000`)
+;; can be accessed by:
 
-;; returning:
-["ref@container@0@state@1@1"
- "ref@container@0@state@0@0"
- "ref@container@0@state@2@0"
- "ref@container@0@state@1@2"
- "ref@container@0@state@1@0"
- "ref@container@0@state@1@3"
- "ref@container@0@state@0@1"]
+(st/key->val "ref@definitions@000@cond@000")
+
+;; =>
+{:ExchangePath "A.Unit" :Methode "eq" :Value "Pa"}
+
+;;## key pattern
+;; The function `pat->keys` in the `st_mem` namespace
+;; (imported `:as st`) alows to find a key subset:
+
+(st/pat->keys "ref@*@*@descr")
+;; =>
+("ref@container@000@descr"
+ "ref@container@001@descr"
+ "ref@container@002@descr"
+ "ref@container@003@descr"
+ "ref@container@004@descr"
+ "ref@container@005@descr"
+ "ref@container@006@descr"
+ "ref@container@007@descr"
+ "ref@container@008@descr"
+ "ref@container@009@descr"
+ "ref@container@010@descr"
+ "ref@definitions@000@descr"
+ "ref@definitions@001@descr"
+ "ref@definitions@002@descr")
+;; access the values by:
+(map
+ st/key->val
+ (st/pat->keys "ref@*@*@descr"))
+;; =>
+("Container just waits parallel and sequential."
+ "Container with one task only"
+ "Show case select feature"
+ "Run a mpd (first container of ref)."
+ "Test modbus action with prescript (get)"
+ "Test modbus action with prescript (set)"
+ "Test TCP action."
+ "Test read_exchange action."
+ "Test anselm request."
+ "Test date and time and the ability to parallel write to database docs."
+ "Message test."
+ "waits 1 and 2s\n"
+ "waits 3 and 4s\n"
+ "waits 4 and 5s\n")
+;; or use:
+(cs-info)
+;; =>
+"
+| :c-no-idx |                   :c-title |                                         :c-descr | :c-ctrl |
+|-----------+----------------------------+--------------------------------------------------+---------|
+|       000 |        multiple wait tasks | Container just waits parallel and sequential.... |   ready |
+|       001 | container with single task |                     Container with one task only |   ready |
+|       002 |  choose definition, run it |                         Show case select feature |   ready |
+|       003 |          run 1st container |              Run a mpd (first container of ref). |   ready |
+|       004 |            modbus get test |          Test modbus action with prescript (get) |    void |
+|       005 |            modbus set test |          Test modbus action with prescript (set) |    void |
+|       006 |  TCP test with result set. |                                 Test TCP action. |    void |
+|       007 |             read exchange. |                       Test read_exchange action. |   ready |
+|       008 |                    anselm. |                             Test anselm request. |    void |
+|       009 |                date & time | Test date and time and the ability to paralle... |    void |
+|       010 |                    message |                                    Message test. |    void |
+"
+;; for a nice formated table.
 
 ;;## Set the definition to work on
-
 ;; Most api functions in the `cmp.core` namespace
 ;; need the `id` of the mpd to work on.
 
@@ -122,7 +181,7 @@
 
 (m-info)
 
-;; returns:
+;;=>
 {:mp-id "ref"
  :mp-descr "Simple measurement programm definition (mpd) ..."
  :mp-std "NN"
@@ -130,20 +189,22 @@
  :mp-ndefins 3}
 
 ;;## Build the tasks
-;;
 ;; The mpd building block is the **task**. Tasks are stored in the stm too.
-;; This means that
-;; they can be modified during runtime (a desperately
+;; This means that they can be modified during runtime (a desperately
 ;; needed but missing [ssmp](https://github.com/wactbprot/ssmp)-feature) 
-;; Simply run
+;; Run
 
 (t-refresh)
-(count (st/pat->keys "tasks*"))
-;; result at the moment:
+;; The the available tasks are saved under the key prefix `tasks`
+(count
+ (st/pat->keys "tasks*"))
+;;=>
 229
 
-(st/key->val (first (st/pat->keys "tasks*")))
-;; returns:
+(st/key->val
+ (first
+  (st/pat->keys "tasks*")))
+;;=>
 {:TaskName "SE1_ATMION-degas",
  :Action "TCP",
  :Host "%host",
@@ -151,67 +212,83 @@
  :Values {:on "SDG1, 1%CR", :off "SDG1, 0%CR"},
  :Defaults {:%host "e75437", :%port "5302", :%CR "\r"}}
 
-
-;; ------------8<----------------------
-
 ;;
-;;`(t-table)` overview of all tasks loaded in short term memory.
-;;The table may be filtered:
+;;`(t-table)` delivers a overview table of all tasks
+;; This table may be filtered:
 
 (t-table)
 
+"
+| :Action |                         :TaskName |                                :stm-key |
+|---------+-----------------------------------+-----------------------------------------|
+|     TCP |                 BO_CE3-device_ini |                 tasks@BO_CE3-device_ini |
+|     TCP |                   BO_CE3-get_info |                   tasks@BO_CE3-get_info |
+|     TCP |           Corvus_1-check_position |           tasks@Corvus_1-check_position |
+|     TCP |                     Corvus_1-exec |                     tasks@Corvus_1-exec |
+|     TCP |                 Corvus_1-is_ready |                 tasks@Corvus_1-is_ready |
+|     TCP |                Corvus_2-close_dvg |                tasks@Corvus_2-close_dvg |
+|     TCP |           Corvus_2-displacer_exec |           tasks@Corvus_2-displacer_exec |
+|     TCP |       Corvus_2-displacer_position |       tasks@Corvus_2-displacer_position |
+|     TCP |        Corvus_2-displacer_sz_exec |        tasks@Corvus_2-displacer_sz_exec |
+|     TCP |    Corvus_2-displacer_sz_position |    tasks@Corvus_2-displacer_sz_position |
+|     TCP |             Corvus_2-dvg_position |             tasks@Corvus_2-dvg_position |
+|     TCP |                 Corvus_2-is_ready |                 tasks@Corvus_2-is_ready |
+|     TCP |                 Corvus_2-open_dvg |                 tasks@Corvus_2-open_dvg |
+|     TCP |                        DCF77-exec |                        tasks@DCF77-exec |
+...
+"
+
 (t-table :Action "TCP")
 
-;;
-;;
-;;
+"
+|  :Action |               :TaskName |                      :stm-key |
+|----------+-------------------------+-------------------------------|
+| genDbDoc | SE3_state-gen_state_doc | tasks@SE3_state-gen_state_doc |
+"
+
 ;;## start mpd
-;;
-;;```clojure
-;;(workon! "ref")
-;;(m-start)
-;;```
-;;
+;;In order to make cmp react on commands, appearing
+;; at the containers ctrl endpoint use
+
+(workon! "ref")
+(m-start)
+
 ;;## run container
 ;;
 ;;Run the first *container* with:
+
+(set-ctrl "ref" 0 "run")
+;;=>
+" OK
+log => INFO [cmp.ctrl:17] - ctrl dispatch call for path:  ref@container@000@ctrl
+log => INFO [cmp.state:323] - register start-next! callback and start-next!
+log => INFO [cmp.st-mem:381] - subscribed to  __keyspace@0*__:ref@container@000@state*
+log => DEBUG [cmp.st-mem:60] - wrote new state:  :working  to:  ref@container@000@state@000@000
+log => DEBUG [cmp.st-mem:60] - wrote new state:  :working  to:  ref@container@000@state@000@001
+log => DEBUG [cmp.state:236] - nop! for:  ref@container@000@ctrl
+...
+"
+
+;; or:
+(c-run 0)
+;;## documents 
 ;;
-;;```clojure
-;;(c-run 0)
-;;;; same as:
-;;(ctrl 0 "run")
-;;```
-;;
-;;## go on
-;;
-;;Use the build-in `(doc x)` function (e.g. `(doc t-build)`) for further
-;;details.
-;;
-;;```clojure
-;;(doc t-build)
-;;-------------------------
-;;cmp.core/t-build
-;;([])
-;;  Builds the `tasks` endpoint. At
-;;  runtime all `tasks` are provided by
-;;  `st-mem`
-;;```
-;;
-;;Use the build-in `(dir cmp.core)` function to get a list of all
-;;functions in this namespace.
-;;
-;;## documents
-;;
-;;To add or rm documents for storing data in use `(d-add mp-id doc-id)`,
-;;`(d-rm mp-id doc-id)`.  If `(->mp-id)` is set (by `(workon mp-id)`)
+;; To add or remove documents for storing data in use `(d-add mp-id doc-id)`,
+;;`(d-rm mp-id doc-id)`. Again, if `@current-mp-id` is set (by `(workon! mp-id)`)
 ;;`(d-add doc-id)`, `(d-rm doc-id)` is sufficient.
 ;;
-;;```clojure
-;;(d-add "cal-2020-se3-kk-11111_0002")
-;;;; hiob DEBUG [cmp.lt-mem:14] - try to get document
-;;;;             with id: cal-2020-se3-kk-11111_0002
-;;;; "OK"
-;;(d-ids)
-;;;; (cal-2020-se3-kk-11111_0001 cal-2020-se3-kk-11111_0002)
-;;```
-;;
+
+(d-add "cal-2020-se3-kk-11111_0002")
+;;=>
+"
+log => DEBUG [cmp.lt-mem:14] - try to get document with id: cal-2020-se3-kk-11111_0002
+"
+
+(d-ids)
+;;=>
+("cal-2020-se3-kk-11111_0001")
+
+(d-rm "cal-2020-se3-kk-11111_0002")
+(d-ids)
+;;=>
+()
