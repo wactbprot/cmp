@@ -4,7 +4,9 @@
 * [example session](./uberdoc.html)
 * [coverage](./coverage)
 * [namespaces](./graph.png)
-* [config.edn](../resources/config.edn)
+* [config.edn](./resources/config.edn.html)
+* [mpd-ref.edn](./resources/mpd-ref.edn.html)
+
 # installation
 
 ## Leiningen on Ubuntu 
