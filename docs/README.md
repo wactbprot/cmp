@@ -8,7 +8,6 @@
 * [mpd-ref.edn](./resources/mpd-ref.edn.html)
 
 # installation
-
 ## Leiningen on Ubuntu 
 
 ```shell
