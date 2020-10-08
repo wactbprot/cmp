@@ -1,47 +1,12 @@
 (ns cmp.task
   ^{:author "wactbprot"
-    :doc "Spec for tasks."}
-  (:require [clojure.spec.alpha :as s]
-            [taoensso.timbre :as log]
-            [clojure.walk :as w]
+    :doc "Handling of tasks."}
+  (:require [taoensso.timbre :as log]
             [clojure.string :as string]
             [cmp.utils :as u]
-            [cmp.doc :as d]
             [cmp.exchange :as exch]
             [cmp.lt-mem :as lt]
             [cmp.st-mem :as st]))
-
-
-(s/def ::TaskName string?)
-(s/def ::Action string?)
-(s/def ::Replace map?)
-(s/def ::Use map?)
-(s/def ::Host string?)
-(s/def ::Port string?)
-(s/def ::Value string?)
-(s/def ::DocPath string?)
-(s/def ::proto-task (s/keys :req-un [::TaskName]
-                            :opt-un [::Replace ::Use]))
-(s/def ::task (s/keys :req-un [::TaskName ::Action]))
-(s/def ::tcp-task (s/keys :req-un [::TaskName ::Host ::Port]
-                          :opt-un [::DocPath]))
-
-(defn task?
-  "Checks the task structure against a spec."
-  [m]
-  (if (nil? m)
-    (throw (Exception. "task is nil"))
-    (condp :Action m
-      "TCP"    (s/valid? ::tcp-task m)
-      :default (s/valid? ::task m))))
-
-(defn proto-task?
-  [x]
-  (s/valid? ::proto-task x))
-
-(defn meta-task?
-  [x]
-  (task? (:Task x)))
 
 ;;------------------------------
 ;; action(s)(?)--> solve with spec!!

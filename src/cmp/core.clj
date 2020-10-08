@@ -11,7 +11,6 @@
             [cmp.config :as cfg]
             [cmp.build :as build]
             [cmp.task :as task]
-            [cmp.check :as chk]
             [cmp.ctrl :as ctrl]
             [cmp.state :as state]
             [cmp.work :as work]
@@ -190,34 +189,6 @@
    (d-ids (deref current-mp-id)))
   ([mp-id]
    (doc/ids mp-id)))
-
-;;------------------------------
-;; check mp tasks
-;;------------------------------
-(defn check
-  "
-  REVIEW
-  
-  Check the tasks of the `container` and
-  `definitions` structure. *cmp* does not preload
-  the tasks, they are loaded from the `lt-mem`
-  during runtime."
-  ([]
-   (check (deref current-mp-id)))
-  ([mp-id]
-   (let [p         (u/main-path mp-id)
-         k-ncont   (st/meta-ncont-path p)
-         n-cont    (st/key->val k-ncont)
-         k-ndefins (st/meta-ndefins-path p)
-         n-defins  (st/key->val k-ndefins)]
-     (run!
-      (fn [i]
-        (chk/struct-tasks (st/cont-defin-path p i)))
-      (range n-cont))
-     (run!
-      (fn [i]
-        (chk/struct-tasks (st/defins-defin-path p i)))
-      (range n-defins)))))
 
 ;;------------------------------
 ;; start observing mp
