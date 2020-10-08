@@ -68,34 +68,19 @@
       (st/key->val k))))
   
 (defn from!
-  "Builds a map by replacing the values of the input map.
+  "Builds a map by replacing the values of the input map `m`.
   The replacements are gathered from the `exchange` interface
   with the keys: `<mp-id>@exchange@<input-map-value>`
 
-  Example key: `devhub@exchange@Vraw_block1`
-  Example value: `[
-                  1,0,1,0,
-                  0,0,0,0,
-                  0,0,0,0,
-                  1,0,0,0,
-                  0,0,0,0,
-                  0,0,1,0
-                  ]`
-  Return: `{:%stateblock1 [
-                  1,0,1,0,
-                  0,0,0,0,
-                  0,0,0,0,
-                  1,0,0,0,
-                  0,0,0,0,
-                  0,0,1,0
-                  ]}` 
+  The example key: `ref@exchange@Vraw_block1` with the example value:
+  `[1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]` should return:
+  `{:%stateblock1 [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]}` 
+
+  
   ```clojure
-  (from! \"devhub\" {
-                    :%stateblock1 \"Vraw_block1\"
-                    :%stateblock2 \"Vraw_block2\"
-                    :%stateblock3 \"Vraw_block3\"
-                    :%stateblock4 \"Vraw_block4\"
-                    })
+  (from! \"ref\" {:%stateblock1 \"Vraw_block1\"})
+  ;; =>
+  ;; {:%stateblock1 [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]}
   ```
   
   **Todo**

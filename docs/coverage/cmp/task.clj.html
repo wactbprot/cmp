@@ -263,7 +263,7 @@
                 086&nbsp;&nbsp;&nbsp;&nbsp;&quot;Applies&nbsp;the&nbsp;generated&nbsp;function&nbsp;&nbsp;`f`&nbsp;to&nbsp;the
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                087&nbsp;&nbsp;&nbsp;&nbsp;values&nbsp;`v`&nbsp;of&nbsp;the&nbsp;of&nbsp;the&nbsp;`task`&nbsp;map.&nbsp;`f`s&nbsp;input&nbsp;is&nbsp;`v`.
+                087&nbsp;&nbsp;&nbsp;&nbsp;values&nbsp;`v`&nbsp;of&nbsp;the&nbsp;`task`&nbsp;map.&nbsp;`f`s&nbsp;input&nbsp;is&nbsp;`v`.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 088&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;`m`&nbsp;has&nbsp;a&nbsp;key&nbsp;`v`&nbsp;the&nbsp;value&nbsp;of&nbsp;this&nbsp;key&nbsp;is&nbsp;returned.
@@ -283,22 +283,22 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 093&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;task]
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 094&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[nm&nbsp;(u&#x2F;apply-to-map-keys&nbsp;name&nbsp;m)
                 </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
+<span class="covered" title="1 out of 1 forms covered">
                 095&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f&nbsp;(fn&nbsp;[v]
                 </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
+<span class="covered" title="8 out of 8 forms covered">
                 096&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[r&nbsp;(get&nbsp;nm&nbsp;&nbsp;v)]
                 </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                097&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r
+<span class="covered" title="9 out of 9 forms covered">
+                097&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(map?&nbsp;r)&nbsp;(u&#x2F;apply-to-map-keys&nbsp;keyword&nbsp;r)&nbsp;r)
                 </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
+<span class="covered" title="1 out of 1 forms covered">
                 098&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v))]
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 099&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;apply-to-map-values&nbsp;f&nbsp;task)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -727,14 +727,14 @@
 <span class="not-covered" title="0 out of 3 forms covered">
                 241&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exch-map&nbsp;(:FromExchange&nbsp;db-task)
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                242&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dissoc&nbsp;db-task
+<span class="not-tracked" title="0 out of 0 forms covered">
+                242&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dissoc&nbsp;db-task
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                243&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:FromExchange
+                243&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:FromExchange
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                244&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:Replace)
+                244&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:Replace)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
                 245&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from-map&nbsp;(exch&#x2F;from!&nbsp;mp-id&nbsp;exch-map)]
@@ -743,28 +743,31 @@
                 246&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                247&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;task
+                247&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;db-task
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                248&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(merge-use-map&nbsp;use-map)
+                248&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(merge-use-map&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;use-map)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
                 249&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(inner-replace-map&nbsp;from-map)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                250&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;replace)
+                250&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;from-map)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                251&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;defaults)
+                251&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;replace)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                252&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;defaults)
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                252&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;globals))
+                253&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;globals))
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                253&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:MpName&nbsp;&nbsp;&nbsp;&nbsp;mp-id
+                254&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:MpName&nbsp;&nbsp;&nbsp;&nbsp;mp-id
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                254&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:StateKey&nbsp;&nbsp;state-key)))
+                255&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:StateKey&nbsp;&nbsp;state-key)))
                 </span><br/>
  </body>
 </html>

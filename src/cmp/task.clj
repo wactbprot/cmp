@@ -84,7 +84,7 @@
 
 (defn inner-replace-map
   "Applies the generated function  `f` to the
-  values `v` of the of the `task` map. `f`s input is `v`.
+  values `v` of the `task` map. `f`s input is `v`.
   If `m` has a key `v` the value of this key is returned.
   If `m` has no key `v` the `v` returned.
   This kind of replacement is used during the
@@ -94,7 +94,7 @@
   (let [nm (u/apply-to-map-keys name m)
         f (fn [v]
             (if-let [r (get nm  v)]
-              r
+              (if (map? r) (u/apply-to-map-keys keyword r) r)
               v))]
     (u/apply-to-map-values f task)))
 
@@ -239,14 +239,15 @@
         defaults (:Defaults     meta-task)
         globals  (:Globals      meta-task)
         exch-map (:FromExchange db-task)
-        task     (dissoc db-task
-                         :FromExchange
-                         :Replace)
+        ;task     (dissoc db-task
+        ;                 :FromExchange
+        ;                 :Replace)
         from-map (exch/from! mp-id exch-map)]
     (assoc 
-     (->> task
-          (merge-use-map use-map)
+     (->> db-task
+          (merge-use-map     use-map)
           (inner-replace-map from-map)
+          (outer-replace-map from-map)
           (outer-replace-map replace)
           (outer-replace-map defaults)
           (outer-replace-map globals))

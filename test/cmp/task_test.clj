@@ -9,7 +9,8 @@
         "%month" "55",
         "%day" "66",
         "%time" "00"
-        "%motor" 1})
+        "%motor" 1
+        })
 
 (deftest outer-replace-map-i
   (testing "replace strings"
@@ -60,3 +61,43 @@
            (:Foo (:Value (outer-replace-map d {:TaskName "foo"
                                                :Value {:Foo "%%time%"}}))))
         "nested % kept")))
+
+
+(deftest inner-replace-map-i
+  (testing "replace clj values"
+    (is (= [1 2 3]
+           (:Value (inner-replace-map {:%vec [1 2 3]} {:TaskName "foo"
+                                                      :Value "%vec"})))
+        "vector")
+    (is (= {:a 100}
+           (:Value (inner-replace-map {:%vec {:a 100}} {:TaskName "foo"
+                                                        :Value "%vec"})))
+        "map")
+    (is (= true
+           (:Value (inner-replace-map {:%vec true} {:TaskName "foo"
+                                                        :Value "%vec"})))
+        "bool")
+    (is (= '(1 2 3)
+           (:Value (inner-replace-map {:%vec '(1 2 3)} {:TaskName "foo"
+                                                        :Value "%vec"})))
+        "list")))
+
+(deftest inner-replace-map-ii
+  (testing "replace clj values (this case shoult be handled by outer-replace)"
+    (is (= "%%vec"
+           (:Value (inner-replace-map {:%vec [1 2 3]} {:TaskName "foo"
+                                                      :Value "%%vec"})))
+        "only if isolated ")
+    (is (= "%%vec"
+           (:Value (inner-replace-map {:%vec {:a 100}} {:TaskName "foo"
+                                                        :Value "%%vec"})))
+        "map")
+    (is (= "%%vec"
+           (:Value (inner-replace-map {:%vec true} {:TaskName "foo"
+                                                        :Value "%%vec"})))
+        "bool")
+    (is (= "%%vec"
+           (:Value (inner-replace-map {:%vec '(1 2 3)} {:TaskName "foo"
+                                                        :Value "%%vec"})))
+        "list")))
+
