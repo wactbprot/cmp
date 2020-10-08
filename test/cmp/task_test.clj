@@ -63,6 +63,13 @@
         "nested % kept")))
 
 
+(deftest outer-replace-map-iii
+  (testing "nil case"
+    (is (= "%%vec"
+           (:Value (outer-replace-map nil {:TaskName "foo"
+                                           :Value "%%vec"})))
+        "don't crash")))
+
 (deftest inner-replace-map-i
   (testing "replace clj values"
     (is (= [1 2 3]
@@ -101,6 +108,13 @@
                                                         :Value "%%vec"})))
         "list")))
 
+(deftest inner-replace-map-iii
+  (testing "nil case"
+    (is (= "%%vec"
+           (:Value (inner-replace-map nil {:TaskName "foo"
+                                           :Value "%%vec"})))
+        "don't crash")))
+
 (def t {:Port "1234",
         :TaskName "FM3_1000T-device_ini",
         :Values
@@ -120,3 +134,13 @@
     (is (= "1234"
            (:Port (merge-use-map nil t)))
         "nil case")))
+
+
+(deftest proto-task-i
+  (testing "nil case"
+    (is (= {:TaskName "foo"}
+           (proto-task "foo"))
+        "works")
+    (is (= {:TaskName "foo"}
+           (proto-task {:TaskName "foo"}))
+        "works")))

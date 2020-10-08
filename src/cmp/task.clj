@@ -8,9 +8,6 @@
             [cmp.lt-mem :as lt]
             [cmp.st-mem :as st]))
 
-;;------------------------------
-;; action(s)(?)--> solve with spec!!
-;;------------------------------
 (defn action-eq
   "A `=` partial on the `task` `:Action`."
   [task]
@@ -22,12 +19,12 @@
   * :MODBUS
   * :VXI11
   * :TCP
-  * :UDP 
+  * :UDP
+  * :EXECUTE  
   "
   [task]
   {:pre [(map? task)]}
-  (let []
-  (some (action-eq task) [:MODBUS :VXI11 :TCP :UDP])))
+  (some (action-eq task) [:MODBUS :VXI11 :TCP :UDP :EXECUTE]))
 
 ;;------------------------------
 ;; globals
@@ -144,7 +141,7 @@
                   (keys m))))
     task))
 
-(defn ensure-proto-task
+(defn proto-task
   "Returns x if it is not a string."
   [x]
   (if (string? x)
@@ -193,18 +190,18 @@
   (gen-meta-task {:TaskName \"Common-wait\" :Replace {\"%waittime\" 10}})
   ```"
   [x]
-  (let  [proto-task (ensure-proto-task x)
-         task-name  (:TaskName proto-task)
+  (let  [proto      (proto-task x)
+         task-name  (:TaskName proto)
          db-task    (merge
                      (->> ["tasks" task-name]
                           u/vec->key
                           st/key->val)
-                     proto-task)]
+                     proto)]
     {:Task          (dissoc db-task :Defaults) 
-     :Use           (:Use proto-task)
+     :Use           (:Use proto)
      :Globals       (globals)
      :Defaults      (:Defaults db-task)
-     :Replace       (:Replace proto-task)}))
+     :Replace       (:Replace proto)}))
 
 (defn assemble
   "Assembles the `task` from the given
@@ -218,10 +215,10 @@
   `assoc`s the structs afterwards.
 
   ```clojure
-  (def proto-task {:TaskName \"Common-wait\"
+  (def proto {:TaskName \"Common-wait\"
                     :Replace {\"%waittime\" 10}})
   (assemble
-    (gen-meta-task proto-task \"ref\" \"ref@container@0@state@0@0\"))
+    (gen-meta-task proto \"ref\" \"ref@container@0@state@0@0\"))
   ;; {:Action  \"wait\",
   ;;  :Comment  \"Ready in  10 ms\",
   ;;  :TaskName \"Common-wait\",
