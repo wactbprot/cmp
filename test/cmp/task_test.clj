@@ -101,3 +101,22 @@
                                                         :Value "%%vec"})))
         "list")))
 
+(def t {:Port "1234",
+        :TaskName "FM3_1000T-device_ini",
+        :Values
+        {:unit_mbar "a",
+         :unit_pascal "b",
+         :no_aver "c",
+         :high_res "d"}
+        :Action "TCP",
+        :PostProcessing ["ToExchange={'%exchpath':_x == null};"],
+        :MpName "core"})
+
+(deftest merge-use-map-i
+  (testing "merge a Use map"
+    (is (= "b"
+           (:Value (merge-use-map {:Values  "unit_pascal"} t)))
+        "vector")
+    (is (= "1234"
+           (:Port (merge-use-map nil t)))
+        "nil case")))
