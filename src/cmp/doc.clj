@@ -10,8 +10,6 @@
             [clojure.string :as string]
             [taoensso.timbre :as log]))
 
-(def doc-lock (Object.))
-
 (defn doc->version
   "Returns the version of the document as
   an integer value:"
@@ -169,6 +167,10 @@
    (fn [doc m] (store-result doc m path))
    doc res-vec))
 
+;;------------------------------
+;; store with doc-lock
+;;------------------------------
+(def doc-lock (Object.))
 (defn store!
   "Stores the `results` vector under
   the `doc-path` of every document loaded
