@@ -327,15 +327,15 @@
    (let [state-key (u/vec->key [mp-id struct (u/lp i) "state" (u/lp j) (u/lp k)])]
      (pp/print-table
       (filter some?
-              (into []
-                    (map (fn [k]
-                           (let [name      (st/key->struct k)
-                                 meta-task (task/gen-meta-task name)
-                                 task      (task/assemble meta-task mp-id state-key)
-                                 value     (kw task)]
-                             (if (and value (or (= value v) (= :all v)))
-                               {kw value :TaskName name :stm-key k} )))
-                         (st/key->keys "tasks"))))))))
+              (mapv (fn [k]
+                      (let [name      (st/key->struct k)
+                            meta-task (task/gen-meta-task name)
+                            task      (task/assemble meta-task mp-id state-key)
+                            value     (kw task)]
+                        (if (and value (or (= value v) (= :all v)))
+                          {kw value :TaskName name :stm-key k} )))
+                    (st/key->keys "tasks")))))))
+
 
 (defn t-run
   "Runs the task with the given name (from stm).
@@ -565,3 +565,50 @@
   ([mp-id struct i func]
    (p-clear-table)
    (st/de-register! mp-id struct (u/lp i) func)))
+
+;;------------------------------
+;; Exchange table
+;;------------------------------
+(defn e-table
+  "Pretty prints a key-value table of the `exchange`-interface
+  of the mpd with the id `mp-id`.
+
+  Example output:
+  ```
+  |                                :key |                                            :value |
+  |-------------------------------------+---------------------------------------------------|
+  |          se3-cmp_valves@exchange@V1 |                                         {:Bool 1} |
+  |         se3-cmp_valves@exchange@V10 |                                         {:Bool 1} |
+  |         se3-cmp_valves@exchange@V11 |                                         {:Bool 0} |
+  |         se3-cmp_valves@exchange@V12 |                                         {:Bool 0} |
+  |         se3-cmp_valves@exchange@V13 |                                         {:Bool 1} |
+  |         se3-cmp_valves@exchange@V14 |                                         {:Bool 1} |
+  |         se3-cmp_valves@exchange@V15 |                                         {:Bool 0} |
+  |         se3-cmp_valves@exchange@V16 |                                         {:Bool 0} |
+  |         se3-cmp_valves@exchange@V17 |                                         {:Bool 1} |
+  |         se3-cmp_valves@exchange@V18 |                                         {:Bool 1} |
+  |         se3-cmp_valves@exchange@V19 |                                         {:Bool 0} |
+  |          se3-cmp_valves@exchange@V2 |                                         {:Bool 1} |
+  |         se3-cmp_valves@exchange@V20 |                                         {:Bool 0} |
+  |          se3-cmp_valves@exchange@V3 |                                         {:Bool 1} |
+  |          se3-cmp_valves@exchange@V4 |                                         {:Bool 1} |
+  |          se3-cmp_valves@exchange@V5 |                                         {:Bool 0} |
+  |          se3-cmp_valves@exchange@V6 |                                         {:Bool 1} |
+  |          se3-cmp_valves@exchange@V7 |                                         {:Bool 0} |
+  |          se3-cmp_valves@exchange@V8 |                                         {:Bool 0} |
+  |          se3-cmp_valves@exchange@V9 |                                         {:Bool 1} |
+  | se3-cmp_valves@exchange@Vraw_block1 | [1 0 1 0 1 0 1 0 0 0 1 0 0 0 0 0 0 0 1 0 1 0 0 0] |
+  | se3-cmp_valves@exchange@Vraw_block2 | [0 0 1 0 0 0 0 0 0 0 1 0 1 0 0 0 1 0 1 0 0 0 0 0] |
+  | se3-cmp_valves@exchange@Vraw_block3 | [0 0 1 0 1 0 0 0 1 0 1 0 0 0 0 0 1 1 0 0 0 0 0 0] |
+  | se3-cmp_valves@exchange@Vraw_block4 | [1 0 1 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0] |
+  | se3-cmp_valves@exchange@Vraw_block5 | [1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0] |
+  ```
+  "
+  ([]
+   (e-table  (deref current-mp-id)))
+  ([mp-id]
+   (pp/print-table
+    (mapv (fn [k]
+            {:key k :value (st/key->val k)})
+          (st/key->keys (st/exch-prefix mp-id))))))
+
