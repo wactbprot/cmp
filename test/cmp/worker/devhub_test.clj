@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [cmp.worker.devhub :refer :all]))
 
-(def task  {:TaskName "VS_NEW_SE3-set_valve_pos"
+(def task  {:TaskName "VS_CMP_SE3-set_valve_pos"
             :Comment "Setzt die Ventilposition."
             :Action "MODBUS"
             :StateKey "example@container@0@state@0@1"

@@ -3,6 +3,34 @@
     :doc "prescripts."}
   (:require [taoensso.timbre :as timbre]))
 
+(defn get-switch-pos
+  "Get the valve switch position.
+
+  ```javascript
+  var wa = {'E1':45395, 'E2':45395, 'E3':45395, 'E4':45395,
+            'E5':45397, 'E6':45397, 'E7':45397, 'E8':45397,
+            'E9':45399, 'E10':45399, 'E11':45399, 'E12':45399,
+            'E13':45401, 'E14':45401, 'E15':45401, 'E16':45401,
+            'E17':45403, 'E18':45403, 'E19':45403, 'E20':45403
+  };
+  var ad = wa['%switch'];
+  var ret = {'Address':ad}; ret;],
+  ```"
+  [task]
+  (let [input (:PreInput task)
+        adr {:E1  45395 :E2  45395 :E3  45395 :E4  45395
+             :E5  45397 :E6  45397 :E7  45397 :E8  45397
+             :E9  45399 :E10 45399 :E11 45399 :E12 45399
+             :E13 45401 :E14 45401 :E15 45401 :E16 45401
+             :E17 45403 :E18 45403 :E19 45403 :E20 45403}
+        kw   (keyword (:switch  input))]
+    (assoc
+     (dissoc task
+             :PreScript
+             :PreInput)
+     :Address (kw adr))))
+
+
 (defn get-valve-pos
   "Get the valve position.
 
@@ -23,13 +51,12 @@
              :V9  45411 :V10 45411 :V11 45411 :V12 45411
              :V13 45413 :V14 45413 :V15 45413 :V16 45413
              :V17 45415 :V18 45415 :V19 45415 :V20 45415}
-        kw-v       (keyword (:valve  input))
-        new-adr    (kw-v adr)]
+        kw-v (keyword (:valve  input))]
     (assoc
      (dissoc task
              :PreScript
              :PreInput)
-     :Address new-adr)))
+     :Address (kw-v adr))))
 
 
 (defn set-valve-pos
