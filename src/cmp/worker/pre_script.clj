@@ -106,38 +106,40 @@
   ```  
   "
   [task]
-  (let [input (:PreInput task)
-        blk  {:V1  1     :V2  1     :V3  1     :V4  1 
-              :V5  2     :V6  2     :V7  2     :V8  2 
-              :V9  3     :V10 3     :V11 3     :V12 3
-              :V13 4     :V14 4     :V15 4     :V16 4
-              :V17 5     :V18 5     :V19 5     :V20 5}
-        vpos {:V1  0     :V2  2     :V3  4     :V4  6 
-              :V5  0     :V6  2     :V7  4     :V8  6 
-              :V9  0     :V10 2     :V11 4     :V12 6
-              :V13 0     :V14 2     :V15 4     :V16 6
-              :V17 0     :V18 1     :V19 2     :V20 3}
-        adr  {:V1  40003 :V2  40003 :V3  40003 :V4  40003
-              :V5  40004 :V6  40004 :V7  40004 :V8  40004 
-              :V9  40005 :V10 40005 :V11 40005 :V12 40005
-              :V13 40006 :V14 40006 :V15 40006 :V16 40006
-              :V17 40007 :V18 40007 :V19 40007 :V20 40007}
-        opc  {:open 1    :close 0}
-        kw-should  (keyword (:should input))
-        kw-v       (keyword (:valve  input))
-        blks       [(:stateblock1 input)
-                    (:stateblock2 input)
-                    (:stateblock3 input)
-                    (:stateblock4 input)]
-        val-oc     (kw-should opc)
-        v-blk      (nth blks (kw-v blk))
-        v-pos      (kw-v vpos)
-        new-adr    (kw-v adr)
-        new-state  (assoc v-blk v-pos val-oc)]
-    (assoc
-     (dissoc task
-             :PreScript
-             :PreInput)
-     :Address new-adr
-     :Value new-state)))
+ 
+  (let [{should :should 
+         valve  :valve
+         blk1   :stateblock1
+         blk2   :stateblock2
+         blk3   :stateblock3
+         blk4   :stateblock4
+         blk5   :stateblock5} (:PreInput task)]
+    (let [blk  {:V1  0     :V2  0     :V3  0     :V4  0 
+                :V5  1     :V6  1     :V7  1     :V8  1 
+                :V9  2     :V10 2     :V11 2     :V12 2
+                :V13 3     :V14 3     :V15 3     :V16 3
+                :V17 4     :V18 4     :V19 4     :V20 4}
+          vpos {:V1  0     :V2  2     :V3  4     :V4  6 
+                :V5  0     :V6  2     :V7  4     :V8  6 
+                :V9  0     :V10 2     :V11 4     :V12 6
+                :V13 0     :V14 2     :V15 4     :V16 6
+                :V17 0     :V18 1     :V19 2     :V20 3}
+          adr  {:V1  40003 :V2  40003 :V3  40003 :V4  40003
+                :V5  40004 :V6  40004 :V7  40004 :V8  40004 
+                :V9  40005 :V10 40005 :V11 40005 :V12 40005
+                :V13 40006 :V14 40006 :V15 40006 :V16 40006
+                :V17 40007 :V18 40007 :V19 40007 :V20 40007}
+          valve-kw   (keyword valve)
+          v-pos      (valve-kw vpos)
+          new-adr    (valve-kw adr)
+          blks       [blk1 blk2 blk3 blk4 blk5]
+          val-oc     ((keyword should) {:open 1 :close 0})
+          v-blk      (nth blks (valve-kw blk))
+          new-state  (assoc v-blk v-pos val-oc)]
+      (assoc
+       (dissoc task
+               :PreScript
+               :PreInput)
+       :Address new-adr
+       :Value new-state))))
 
