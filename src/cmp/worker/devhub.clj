@@ -19,8 +19,9 @@
     (if (string? script-name)
       (if (map? input)
         (condp = (keyword script-name)
-          :set_valve_pos (ps/set-valve-pos task)
-          :get_valve_pos (ps/get-valve-pos task)
+          :set_valve_pos  (ps/set-valve-pos task)
+          :get_valve_pos  (ps/get-valve-pos task)
+          :get_switch_pos (ps/get-switch-pos task)
           (do
             (log/error "script: " script-name " not implemented")
             (st/set-state! state-key :error)))

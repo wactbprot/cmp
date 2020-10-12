@@ -23,10 +23,12 @@
     (log/warn "no key given")))
 
 (defn set-same-val!
-  "Sets the given values (`val`) for all keys (`ks`)."
+  "Sets the given `val` for all keys `ks` with the
+  delay `mtp`."
   [ks v]
   (run!
-   (fn [k] (set-val! k v))
+   (fn [k]
+     (set-val! k v))
    ks))
 
 (defn pat->keys
@@ -44,8 +46,7 @@
 ;;------------------------------
 (defn set-state!
   "Function is used by the workers to set state.
-  The state is set with the delay `mtp`. An optional
-  log message may be provided."
+  An optional log message may be provided."
   ([k state msg]
    (condp = state
      :error (log/error msg)
@@ -55,7 +56,6 @@
   ([k state]
    (when (and (string? k)
               (keyword? state))
-    (Thread/sleep mtp)
     (set-val! k (name state))
     (log/debug "wrote new state: " state " to: " k))))
 

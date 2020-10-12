@@ -188,10 +188,10 @@
   (store! \"devs\" results doc-path)
   ```"  
   [mp-id results doc-path]
-  (if results
+
+  (if (vector? results)
     (if (and (string? mp-id)
-             (string? doc-path)
-             (vector? results))
+             (string? doc-path))
       (let [ids (ids mp-id)]
         (if (empty? ids)
           {:ok true :warn "no documents loaded"}
