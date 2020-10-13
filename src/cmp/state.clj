@@ -202,8 +202,8 @@
 (defn ready! 
   "Sets all states (the state interface) to ready."
   [k]
-  (st/set-same-val! (k->state-ks k) "ready")
-  (st/set-val! (k->ctrl-k k) "ready"))
+  (st/set-val! (k->ctrl-k k) "ready")
+  (st/set-same-val! (k->state-ks k) "ready"))
 
 ;;------------------------------
 ;; stop

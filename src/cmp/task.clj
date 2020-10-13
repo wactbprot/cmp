@@ -244,7 +244,6 @@
      (->> db-task
           (merge-use-map     use-map)
           (inner-replace-map from-map)
-          (outer-replace-map from-map)
           (outer-replace-map replace)
           (outer-replace-map defaults)
           (outer-replace-map globals))

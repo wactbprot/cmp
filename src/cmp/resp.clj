@@ -35,12 +35,12 @@
       (let [res-exch  (exch/to! mp-id to-exch)
             res-doc   (doc/store! mp-id results doc-path)]
         (cond
-          (:error res-exch) (st/set-state! state-key :error)
-          (:error res-doc)  (st/set-state! state-key :error)
+          (:error res-exch) (st/set-state! state-key :error (str "error at exchange cond: " res-exch))
+          (:error res-doc)  (st/set-state! state-key :error (str "error at document cond: " res-doc))
           (and
            (:ok res-exch)     
            (:ok res-doc))  (st/set-state! state-key :executed)
-          :unexpected      (st/set-state! state-key :error))))))
+          :unexpected      (st/set-state! state-key :error "unexpected response"))))))
 
 ;;------------------------------
 ;; check
