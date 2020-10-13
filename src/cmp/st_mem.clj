@@ -131,6 +131,19 @@
   [k]
   (u/replace-key-at-level 3 k "response"))
 
+(defn state-key->request-key
+  "Turns the given `state-key` into a
+  `request-key` This key is used to store the assembled
+  task right before it is started off.
+
+  ```clojure
+  (state-key->response-key \"devs@container@0@state@0@0\")
+  ;; devs@container@0@response@0@0
+  ```
+  "
+  [k]
+  (u/replace-key-at-level 3 k "request"))
+
 ;;------------------------------
 ;; key arithmetic
 ;;------------------------------

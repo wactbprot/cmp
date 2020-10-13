@@ -37,19 +37,19 @@
    (devhub! {:Action \"TCP\" :Port 23 :Host \"localhost\" :Value \"Hi!\"})
   ```"
   [pre-task]
-  (let [state-key (:StateKey pre-task)]
+  (let [state-key   (:StateKey pre-task)]
     (st/set-state! state-key :working)
-    (if-let [task (resolve-pre-script pre-task)]
-      (let [req  (assoc (cfg/json-post-header (cfg/config))
-                        :body
-                        (u/map->json task))
-            url  (cfg/dev-hub-url (cfg/config))]
-        (log/debug "try to send req to: " url)
-        (try
-            (resp/check (http/post url req)  task state-key)
-          (catch Exception e
-            (st/set-state! state-key :error)
-            (log/error "request failed"))))
-      (do 
-        (log/error (str "error on attempt to resolve prescripts at: " state-key))
-        (st/set-state! state-key :error)))))
+    (let [request-key (st/state-key->request-key state-key)
+          task        (resolve-pre-script pre-task)
+          json-task   (u/map->json task)
+          req         (assoc (cfg/json-post-header (cfg/config)) :body json-task)
+          url         (cfg/dev-hub-url (cfg/config))]
+      (log/debug "try to send req to: " url)
+      (st/set-val! request-key json-task)
+      (log/debug "stored json task to: " request-key)
+      (try
+        (resp/check (http/post url req) task state-key)
+        (catch Exception e
+          (st/set-state! state-key :error)
+          (log/error "request failed"))))))
+  

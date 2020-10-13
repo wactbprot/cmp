@@ -32,8 +32,8 @@
   :RequestPath \"dut_max\"})
   ```"
   [task]
-  (let [{value     :Value
-         state-key :StateKey} task]
+  (let [{value       :Value
+         state-key   :StateKey} task]
     (st/set-state! state-key :working)
     (if (nil? value)
       (try ; get
