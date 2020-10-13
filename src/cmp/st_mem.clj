@@ -392,7 +392,7 @@
   [[kind l1 l2 l3]]
   (condp = (keyword kind)
     :pmessage   (second (string/split l2 #":"))
-    :psubscribe (log/info "subscribed to " l1)
+    :psubscribe (log/debug "subscribed to " l1)
     (log/warn "received" kind l1 l2 l3)))
 
 (defn subs-pat

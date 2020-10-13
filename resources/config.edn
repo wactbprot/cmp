@@ -17,13 +17,13 @@
              "resources/task-modbus-get-switch.edn"]
  :edn-mpds ["resources/mpd-ref.edn"]
  ;; a task schould at least take 10ms
- ;; in order to give the keyspace notif
+ ;; in order to give the keyspace notification
  ;; a chance to find the next to start
- :min-task-period 50
+ :min-task-period 100
  :json-post-header {:content-type :json
-                       :socket-timeout 600000      ;; 10 min
-                       :connection-timeout 600000  ;; 10 min 
-                       :accept :json}
+                    :socket-timeout 600000      ;; 10 min
+                    :connection-timeout 600000  ;; 10 min 
+                    :accept :json}
  ;; :dev-hub-url "http://e75455:55555"
  ;; :dev-hub-url "http://localhost:8008"
  ;; :dev-hub-url "http://a73436:55555"
