@@ -56,8 +56,9 @@
   ([k state]
    (when (and (string? k)
               (keyword? state))
-    (set-val! k (name state))
-    (log/debug "wrote new state: " state " to: " k))))
+     (Thread/sleep mtp)
+     (set-val! k (name state))
+     (log/debug "wrote new state: " state " to: " k))))
 
 ;;------------------------------
 ;; del

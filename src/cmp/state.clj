@@ -354,13 +354,13 @@
   "Dispaches depending on `cmd`."
   [k cmd]
   (condp = (keyword cmd)
-    :run     (observe!    k)
-    :mon     (observe!    k)
+    :run     (observe! k)
+    :mon     (observe! k)
     :stop    (do
                (de-observe! k)
-               (ready!      k))
+               (ready! k))
     :reset   (do
                (de-observe! k)
-               (ready!      k))
+               (ready! k))
     :suspend (de-observe! k)
     (log/info  "default case state dispach function" )))
