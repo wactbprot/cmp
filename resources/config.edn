@@ -1,4 +1,3 @@
-;; https://github.com/edn-format/edn
 {
  ;; long term memory: couchdb
  :lt-srv "127.0.0.1"
@@ -19,16 +18,15 @@
  ;; a task schould at least take 10ms
  ;; in order to give the keyspace notification
  ;; a chance to find the next to start
- :min-task-period 80
+ :min-task-period 100
  :json-post-header {:content-type :json
-                    :socket-timeout 600000      ;; 10 min
-                    :connection-timeout 600000  ;; 10 min 
+                    :socket-timeout 600000 ;; 10 min
+                    :connection-timeout 600000
                     :accept :json}
  ;; :dev-hub-url "http://e75455:55555"
  ;; :dev-hub-url "http://localhost:8008"
  ;; :dev-hub-url "http://a73436:55555"
  :dev-hub-url "http://localhost:55555"
- :anselm-url "http://localhost:50005"
- }
+ :anselm-url "http://localhost:50005"}
 
  
