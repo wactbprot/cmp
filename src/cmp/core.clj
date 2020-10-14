@@ -1,21 +1,21 @@
  (ns cmp.core
   ^{:author "wactbprot"
-    :doc "Provides the api of cmp. `(start)`, `(stop)` etc. 
+    :doc "Provides the api of cmp. `(m-start)`, `(m-stop)` etc. 
           are intended for **repl** use only. Graphical user 
           interfaces should attache to the **short term memory**."}
-  (:require [cmp.lt-mem :as lt]
-            [cmp.st-mem :as st]
-            [clojure.pprint :as pp]
-            [cmp.utils :as u]
-            [cmp.doc :as doc]
-            [cmp.config :as cfg]
-            [cmp.build :as build]
-            [cmp.task :as task]
-            [cmp.ctrl :as ctrl]
-            [cmp.state :as state]
-            [cmp.work :as work]
-            [cmp.log :as log]
-            [taoensso.timbre :as timbre]))
+   (:require [cmp.build       :as build]
+             [cmp.config      :as cfg]
+             [cmp.ctrl        :as ctrl]
+             [cmp.doc         :as doc]
+             [cmp.log         :as log]
+             [cmp.lt-mem      :as lt]
+             [cmp.st-mem      :as st]
+             [clojure.pprint  :as pp]
+             [cmp.state       :as state]
+             [cmp.task        :as task]
+             [taoensso.timbre :as timbre]
+             [cmp.utils       :as u]
+             [cmp.work        :as work]))
 
 ;;------------------------------
 ;; current-mp-id atom and workon
@@ -60,19 +60,25 @@
    (mapv (fn [k] (m-info (st/key->mp-id k)))
          (st/pat->keys "*@meta@name"))))
 
+(defn c-data
+  "Returns a  map about the `i`th container of
+  the mpd with the id `mp-id`."
+  [mp-id i]
+  {:c-no-idx (u/lp i) 
+   :c-title  (st/key->val    (st/cont-title-path mp-id (u/lp i)))
+   :c-descr  (u/short-string (st/key->val (st/cont-descr-path mp-id (u/lp i))))
+   :c-ctrl   (st/key->val    (st/cont-ctrl-path mp-id (u/lp i)))})
+
 (defn c-info
-  "Returns a info map about the `i`th container of
+  "Returns info  about the container `i` of
   the mpd with the id `mp-id`."
   ([]
    (c-info (deref current-mp-id) 0))
   ([i]
    (c-info (deref current-mp-id) i))
   ([mp-id i]
-     {:c-no-idx (u/lp i) 
-      :c-title  (st/key->val    (st/cont-title-path mp-id (u/lp i)))
-      :c-descr  (u/short-string (st/key->val (st/cont-descr-path mp-id (u/lp i))))
-      :c-ctrl   (st/key->val    (st/cont-ctrl-path mp-id (u/lp i)))}))
-
+   (pp/print-table [(c-data mp-id i)])))
+   
 (defn cs-info
   "Returns info  about the containers of
   the mpd with the id `mp-id`."
@@ -80,15 +86,21 @@
    (cs-info (deref current-mp-id)))
   ([mp-id]
    (pp/print-table
-    (mapv (fn [k] (c-info mp-id (st/key->no-idx k)))
-          (sort (st/pat->keys (st/cont-title-path mp-id "*")))))))
+    (mapv
+     (fn [k] (c-data mp-id (st/key->no-idx k)))
+     (sort (st/pat->keys (st/cont-title-path mp-id "*")))))))
 
 (defn l-info
-  "Returns a list with the currently registered listener
+  "Returns a table with the currently registered listener
   patterns."
   []
-  (run! prn
-        (keys (deref st/listeners))))
+  (pp/print-table [(deref st/listeners)]))
+
+
+(defn w-info
+  "Returns a table with the currently registered worker futures."
+  []
+  (pp/print-table [(deref work/future-reg)]))
 
 ;;------------------------------
 ;; status (stat)
