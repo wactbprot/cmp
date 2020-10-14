@@ -185,13 +185,12 @@
 
   (def doc-path  \"Calibration.Measurement.Values.Pressure\")  
 
-  (store! \"devs\" results doc-path)
+  (store! \"ref\" results doc-path)
   ```"  
   [mp-id results doc-path]
-
-  (if (vector? results)
-    (if (and (string? mp-id)
-             (string? doc-path))
+  (if (and (string? mp-id)
+           (vector? results)
+           (string? doc-path))
       (let [ids (ids mp-id)]
         (if (empty? ids)
           {:ok true :warn "no documents loaded"}
@@ -207,5 +206,4 @@
             (if-let [n-err (:error (frequencies res))]
               {:error "got " n-err " during attempt to store results"}
               {:ok true}))))
-      {:error "wrong store! input"})
-    {:ok true}))
+    {:ok true :warn "no doc-path or no mp-id or no results"}))

@@ -100,7 +100,7 @@
   "Returns a vector of the `vals`
   behind the keys `ks`."
   [ks]
-  (into [] (map key->val ks)))
+  (mapv key->val ks))
 
 (defn filter-keys-where-val
   "Returns a list of all keys belonging

@@ -18,19 +18,6 @@
             [taoensso.timbre :as timbre]))
 
 ;;------------------------------
-;; log
-;;------------------------------
-(defn log-stop-repl-out!
-  "Stops the println appender."
-  []
-  (log/stop-repl-out))
-
-(defn log-start-repl-out!
-  "Starts the println appender."
-  []
-  (log/start-repl-out))
-
-;;------------------------------
 ;; current-mp-id atom and workon
 ;;------------------------------
 (def current-mp-id
@@ -365,7 +352,7 @@
   ;;  :N 10}]}
   ```
 
-  Debug
+  Debug:
   ```clojure
   @st/listeners
   (st/de-register! \"core\" \"test\" 0 \"response\")
@@ -375,22 +362,52 @@
    (t-run name "core" "test" 0 0 0))
   ([name mp-id]
    (t-run name mp-id "test" 0 0 0))
-  ([name mp-id struct i j k]
-   (let [i          (u/lp i)
-         j          (u/lp j)
-         k          (u/lp k)
+  ([name mp-id struct no-idx seq-idx par-idx]
+   (let [no-idx    (u/lp no-idx)
+         seq-idx   (u/lp seq-idx)
+         par-idx   (u/lp par-idx)
          func       "response"
-         state-key  (u/vec->key [mp-id struct i "state" j k])
-         resp-key   (u/vec->key [mp-id struct i func    j k])
+         state-key  (u/vec->key [mp-id struct no-idx "state" seq-idx par-idx])
+         resp-key   (u/vec->key [mp-id struct no-idx func    seq-idx par-idx])
          meta-task  (task/gen-meta-task name)
          task       (task/assemble meta-task mp-id state-key)]
      (when (task/dev-action? task)
        (timbre/info "task dispached, wait for response...")
-       (st/register! mp-id struct i func (fn [msg]
-                                           (when-let [result-key (st/msg->key msg)]
-                                             (st/de-register! mp-id struct i func)
-                                             (pp/pprint (st/key->val result-key))))))
+       (st/register! mp-id struct no-idx func (fn [msg]
+                                                (when-let [result-key (st/msg->key msg)]
+                                                  (st/de-register! mp-id struct no-idx func)
+                                                  (pp/pprint (st/key->val result-key))))))
      (work/check task))))
+
+(defn t-run-by-key
+  "Calls `t-run` after extracting key info.
+  A call with all all kinds of complete keys `k` is ok.
+  Complete means: the functions:
+  
+  *  `(st/key->mp-id   k)`
+  *  `(st/key->struct  k)`
+  *  `(st/key->no-idx  k)`
+  *  `(st/key->seq-idx k)`
+  *  `(st/key->par-idx k)`
+
+  don't return `nil`.
+  
+  Example:
+  ```clojure
+  (t-run-by-key \"se3-cmp_state@container@006@state@000@000\")
+  ``` 
+  "
+  [k]
+  (let [mp-id     (st/key->mp-id   k)
+        struct    (st/key->struct  k)
+        no-idx    (st/key->no-idx  k)
+        seq-idx   (st/key->seq-idx k)
+        par-idx   (st/key->par-idx k)
+        def-key   (u/vec->key [mp-id struct no-idx "definition" seq-idx par-idx])
+        task-name (:TaskName (st/key->val def-key))]
+    (if task-name
+      (t-run task-name mp-id struct no-idx seq-idx par-idx)
+      (timbre/error (str "no TaskName at key: " k)))))
 
 (defn t-raw
   "Shows the raw task as stored at st-memory" 

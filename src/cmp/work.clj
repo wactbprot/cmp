@@ -52,8 +52,10 @@
   "Starts the worker in a new threat. This means that all workers
   may be single threated."
   [worker task]
-  (swap! future-reg assoc
-         (:StateKey task) (future (worker task))))
+  (let [state-key (:StateKey task)]
+    (swap! future-reg assoc
+           state-key (future (worker task)))
+    (log/debug (str "registered worker @work/future-reg at key: " state-key))))
 
 ;;------------------------------
 ;;  dispatch 
@@ -69,7 +71,7 @@
     :wait           (start! wait!              task)
     :getDate        (start! get-date!          task)
     :getTime        (start! get-time!          task)
-    :message        (start! message!          task)
+    :message        (start! message!           task)
     :genDbDoc       (start! gen-db-doc!        task)
     :replicateDB    (start! replicate!         task)
     :Anselm         (start! anselm!            task)
