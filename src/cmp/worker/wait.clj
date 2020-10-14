@@ -1,9 +1,10 @@
 (ns cmp.worker.wait
   ^{:author "wactbprot"
     :doc "wait worker."}
-  (:require [taoensso.timbre :as timbre]
-            [cmp.st-mem :as st]
-            [cmp.config :as cfg]))
+  (:require [taoensso.timbre :as log]
+            [cmp.st-mem      :as st]
+            [cmp.exchange    :as exch]
+            [cmp.config      :as cfg]))
 
 (def mtp (cfg/min-task-period (cfg/config)))
 (defn wait!
@@ -12,10 +13,12 @@
   ```clojure
   (wait! {:WaitTime 1000})
   ```"
-  [{wait-time :WaitTime state-key :StateKey}]
-  (st/set-state! state-key :working)
-  (let [w (read-string (str wait-time))]
-    (if (< w mtp)
-      (Thread/sleep mtp)
-      (Thread/sleep w))
-    (st/set-state! state-key :executed)))
+  [task]
+  (let [{wait-time :WaitTime
+         state-key :StateKey} task]
+    (st/set-state! state-key :working)
+    (let [w (read-string (str wait-time))]
+      (if (< w mtp)
+        (Thread/sleep mtp)
+        (Thread/sleep w))
+      (st/set-state! state-key (if (exch/stop-if task) :executed :ready) "wait time over"))))

@@ -47,7 +47,10 @@
 
 (defn run-mp!
   "Runs a certain container of a mpd. Task is marked as executed if all
-  tasks in the container are executed."
+  tasks in the container are executed.
+
+  REVIEW:  `run-mp!` does not support the `:StopIf` keyword.
+  "
   [task]
   (let [{cont-title :ContainerTitle
          cont-index :Container

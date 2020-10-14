@@ -9,7 +9,6 @@
             [cmp.utils       :as u]
             [taoensso.timbre :as log]))
 
-
 (defn get-time!
   "Generates a Date object and stores it under the path
   `DocPath`.
@@ -45,5 +44,5 @@
                                                                  ret-doc ret-exch))
         (and
          (:ok ret-doc)
-         (:ok ret-exch))    (st/set-state! state-key :executed "get time executed")
+         (:ok ret-exch))    (st/set-state! state-key (if (exch/stop-if task) :executed :ready) "get time executed")
         :unexpected         (st/set-state! state-key :error "unexpected return value")))))

@@ -9,7 +9,9 @@
     (is (= true (stop-if {:MpName "test" :StopIf "A.B"}))
         "returns true on ok")
     (is (= false (stop-if {:MpName "test" :StopIf "A.C"}))
-        "returns false if not exist")))
+        "returns false if not exist")
+    (is (= true (stop-if {}))
+        "returns false if kw not exist")))
 
 (deftest run-if-i
   (testing "RunIf"
@@ -17,7 +19,9 @@
     (is (= true (run-if {:MpName "test" :RunIf "A.B"}))
         "returns true on ok")
     (is (= false (run-if {:MpName "test" :RunIf "A.C"}))
-        "returns false if not exist")))
+        "returns false if not exist")
+    (is (= true (run-if {}))
+        "returns false if kw not exist")))
 
 (deftest to-i
   (testing "to!"

@@ -166,10 +166,14 @@
   "Checks if the exchange path given with `:MpName`
   and `:StopIf` evaluates to true."
   [{mp-id :MpName k :StopIf}]
-  (ok? mp-id k))
+  (if k
+    (ok? mp-id k)
+    true))
 
 (defn run-if
   "Checks if the  exchange path given with `:MpName`
   and `:RunIf` evaluates to true."
   [{mp-id :MpName k :RunIf}]
-  (ok? mp-id k))
+  (if k
+    (ok? mp-id k)
+    true))

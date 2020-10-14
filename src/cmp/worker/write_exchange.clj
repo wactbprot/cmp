@@ -15,16 +15,14 @@
   (st/key->val \"ref@exchange@b\")
   ;; 2
   ```"
-  [{val :Value mp-id :MpName state-key :StateKey exch-path :ExchangePath}]
+  [task]
+  (let [{val       :Value
+         mp-id     :MpName
+         state-key :StateKey
+         exch-path :ExchangePath} task]
   (st/set-state! state-key :working)
   (let [res (exch/to! mp-id val exch-path)]
     (cond
-      (:error res) (do
-                     (st/set-state! state-key :error)
-                     (log/error "error on attempt to write exchange"))
-      (:ok res)    (do 
-                     (st/set-state! state-key :executed)
-                     (log/info "wrote to exchange"))
-      :default     (do
-                     (st/set-state! state-key :error)
-                     (log/warn "unclear exchange response")))))
+      (:error res) (st/set-state! state-key :error "error on attempt to write exchange")
+      (:ok res)    (st/set-state! state-key (if (exch/stop-if task) :executed :ready) "wrote to exchange")
+      :default     (st/set-state! state-key :error "unclear exchange response")))))

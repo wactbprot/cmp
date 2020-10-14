@@ -1,11 +1,11 @@
 (ns cmp.resp
   ^{:author "wactbprot"
     :doc "Catches responses and dispatchs."}
-  (:require [cmp.exchange :as exch]
-            [cmp.doc :as doc]
-            [cmp.lt-mem :as lt]
-            [cmp.st-mem :as st]
-            [cmp.utils :as u]
+  (:require [cmp.exchange    :as exch]
+            [cmp.doc         :as doc]
+            [cmp.lt-mem      :as lt]
+            [cmp.st-mem      :as st]
+            [cmp.utils       :as u]
             [taoensso.timbre :as log]))
 
 (defn dispatch
@@ -39,7 +39,7 @@
           (:error res-doc)  (st/set-state! state-key :error (str "error at document cond: " res-doc))
           (and
            (:ok res-exch)     
-           (:ok res-doc))  (st/set-state! state-key :executed)
+           (:ok res-doc))  (st/set-state! state-key (if (exch/stop-if task) :executed :ready) "exch and doc ok")
           :unexpected      (st/set-state! state-key :error "unexpected response"))))))
 
 ;;------------------------------

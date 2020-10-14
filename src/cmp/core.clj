@@ -399,7 +399,7 @@
                                                 (when-let [result-key (st/msg->key msg)]
                                                   (st/de-register! mp-id struct no-idx func)
                                                   (pp/pprint (st/key->val result-key))))))
-     (work/check-in task))))
+     (work/check task))))
 
 (defn t-run-by-key
   "Calls `t-run` after extracting key info.

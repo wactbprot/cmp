@@ -135,6 +135,9 @@
   ```clojure
   (first (filter conds-match? match-ks))
   ;; ref@definitions@1@class
+
+  
+  REVIEW:  `select-definition!` does not support the `:StopIf` keyword.
   ```" 
   [{mp-id :MpName cls :DefinitionClass state-key :StateKey}]
   (st/set-state! state-key :working)

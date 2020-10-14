@@ -15,6 +15,8 @@
   ;;
   (st/key->val \"ref@container@10@message\")
   ;; cmp?
+  
+  REVIEW:  `message!` does not support the `:StopIf` keyword.
   ```"
   [{msg :Message mp-id :MpName state-key :StateKey}]
   (st/set-state! state-key :working)

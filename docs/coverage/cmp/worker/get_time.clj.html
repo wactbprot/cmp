@@ -37,119 +37,116 @@
 <span class="blank" title="0 out of 0 forms covered">
                 011&nbsp;&nbsp;
                 </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                012&nbsp;&nbsp;
-                </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                013&nbsp;&nbsp;(defn&nbsp;get-time!
+                012&nbsp;&nbsp;(defn&nbsp;get-time!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                014&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;a&nbsp;Date&nbsp;object&nbsp;and&nbsp;stores&nbsp;it&nbsp;under&nbsp;the&nbsp;path
+                013&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;a&nbsp;Date&nbsp;object&nbsp;and&nbsp;stores&nbsp;it&nbsp;under&nbsp;the&nbsp;path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                015&nbsp;&nbsp;&nbsp;&nbsp;`DocPath`.
+                014&nbsp;&nbsp;&nbsp;&nbsp;`DocPath`.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                016&nbsp;&nbsp;
+                015&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                016&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                018&nbsp;&nbsp;&nbsp;&nbsp;(t-assemble&nbsp;\&quot;Common-get_time\&quot;)
+                017&nbsp;&nbsp;&nbsp;&nbsp;(t-assemble&nbsp;\&quot;Common-get_time\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                019&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:TaskName&nbsp;\&quot;Common-get_time\&quot;,
+                018&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:TaskName&nbsp;\&quot;Common-get_time\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                020&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:Action&nbsp;\&quot;getTime\&quot;,
+                019&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:Action&nbsp;\&quot;getTime\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                021&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:Comment&nbsp;\&quot;Saves&nbsp;a&nbsp;timestamp&nbsp;(path:&nbsp;).\&quot;,
+                020&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:Comment&nbsp;\&quot;Saves&nbsp;a&nbsp;timestamp&nbsp;(path:&nbsp;).\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:DocPath&nbsp;\&quot;\&quot;,
+                021&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:DocPath&nbsp;\&quot;\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:ExchangePath&nbsp;\&quot;Time\&quot;,
+                022&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:ExchangePath&nbsp;\&quot;Time\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                024&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:Type&nbsp;\&quot;%type\&quot;,
+                023&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:Type&nbsp;\&quot;%type\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                025&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:MpName&nbsp;\&quot;core\&quot;,
+                024&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:MpName&nbsp;\&quot;core\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:StateKey&nbsp;\&quot;core@test@0@state@0@0\&quot;}
+                025&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:StateKey&nbsp;\&quot;core@test@0@state@0@0\&quot;}
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                027&nbsp;&nbsp;
+                026&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                028&nbsp;&nbsp;&nbsp;&nbsp;```
+                027&nbsp;&nbsp;&nbsp;&nbsp;```
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                028&nbsp;&nbsp;&nbsp;&nbsp;&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;[task]
+                029&nbsp;&nbsp;&nbsp;&nbsp;[task]
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:Type
+                030&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:Type
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc-path&nbsp;&nbsp;:DocPath
+                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc-path&nbsp;&nbsp;:DocPath
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exch-path&nbsp;:ExchangePath
+                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exch-path&nbsp;:ExchangePath
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key&nbsp;:StateKey
+                033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key&nbsp;:StateKey
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:MpName}&nbsp;&nbsp;task
+                034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:MpName}&nbsp;&nbsp;task
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fb-exch-path&nbsp;&quot;TimeStamp&quot;]
+                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fb-exch-path&nbsp;&quot;TimeStamp&quot;]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:working)
+                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:working)
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[val&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:Type&nbsp;type&nbsp;:Value&nbsp;(u&#x2F;get-time)}
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[val&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:Type&nbsp;type&nbsp;:Value&nbsp;(u&#x2F;get-time)}
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ret-doc&nbsp;&nbsp;(doc&#x2F;store!&nbsp;mp-id&nbsp;[val]&nbsp;doc-path)
+                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ret-doc&nbsp;&nbsp;(doc&#x2F;store!&nbsp;mp-id&nbsp;[val]&nbsp;doc-path)
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ret-exch&nbsp;(exch&#x2F;to!&nbsp;mp-id&nbsp;val&nbsp;(if&nbsp;exch-path&nbsp;exch-path&nbsp;fb-exch-path))]
+                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ret-exch&nbsp;(exch&#x2F;to!&nbsp;mp-id&nbsp;val&nbsp;(if&nbsp;exch-path&nbsp;exch-path&nbsp;fb-exch-path))]
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
+                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(or
+                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(or
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:error&nbsp;ret-doc)
+                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:error&nbsp;ret-doc)
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:error&nbsp;ret-exch))&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;(str&nbsp;&quot;failed&nbsp;to&nbsp;write&nbsp;time&nbsp;stamp&quot;
+                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:error&nbsp;ret-exch))&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;(str&nbsp;&quot;failed&nbsp;to&nbsp;write&nbsp;time&nbsp;stamp&quot;
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ret-doc&nbsp;ret-exch))
+                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ret-doc&nbsp;ret-exch))
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(and
+                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(and
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:ok&nbsp;ret-doc)
+                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:ok&nbsp;ret-doc)
                 </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
-                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:ok&nbsp;ret-exch))&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:executed&nbsp;&quot;get&nbsp;time&nbsp;executed&quot;)
+<span class="not-covered" title="0 out of 11 forms covered">
+                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:ok&nbsp;ret-exch))&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;(if&nbsp;(exch&#x2F;stop-if&nbsp;task)&nbsp;:executed&nbsp;:ready)&nbsp;&quot;get&nbsp;time&nbsp;executed&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:unexpected&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;&quot;unexpected&nbsp;return&nbsp;value&quot;)))))
+                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:unexpected&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;&quot;unexpected&nbsp;return&nbsp;value&quot;)))))
                 </span><br/>
  </body>
 </html>

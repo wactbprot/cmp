@@ -31,6 +31,26 @@
      (set-val! k v))
    ks))
 
+
+;;------------------------------
+;; set state
+;;------------------------------
+(defn set-state!
+  "Function is used by the workers to set state.
+  An optional log message may be provided."
+  ([k state msg]
+   (condp = state
+     :error (log/error msg)
+     :ready (log/info msg)
+     (log/debug msg))
+   (set-state! k state))
+  ([k state]
+   (when (and (string? k)
+              (keyword? state))
+     (Thread/sleep mtp)
+     (set-val! k (name state))
+     (log/debug "wrote new state: " state " to: " k))))
+
 (defn pat->keys
   "Get all keys matching  the given pattern `pat`."
   [pat]

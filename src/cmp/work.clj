@@ -81,9 +81,9 @@
     (st/set-state! (:StateKey task) :error (str "No worker for action: " (:Action task)))))
 
 ;;------------------------------
-;; check
+;; check-in
 ;;------------------------------
-(defn check-in
+(defn check
   "Gets the task. Handles the `:RunIf` and `:StopIf`
   cases.
 
@@ -91,36 +91,7 @@
   (dispatch {:Action \"wait\" :WaitTime 1000 :StateKey \"testpath\"})
   ```"  
   [x]
-  (let [task     (if (string? x) (get-task  x) x)
-        state-key (:StateKey task)
-        run-if    (:RunIf    task)
-        stop-if   (:StopIf   task)]
-    (if (nil? run-if)
-      (if (nil? stop-if)
-        (dispatch task) ;; no run-if or stop-if
-        (if (exch/stop-if task)
-          (st/set-state! state-key :executed "state set by stop-if") 
-          (dispatch task))) ;; don't stop
-      (if (exch/run-if task)
-        (dispatch task) ;; run
-        (st/set-state! state-key :ready "state set by run-if")))))
-
-
-;;------------------------------
-;; check-out
-;;------------------------------
-(defn check-out
-  "Function is used by the workers to set state.
-  An optional log message may be provided."
-  ([k state msg]
-   (condp = state
-     :error (log/error msg)
-     :ready (log/info msg)
-     (log/debug msg))
-   (set-state! k state))
-  ([k state]
-   (when (and (string? k)
-              (keyword? state))
-     (Thread/sleep mtp)
-     (set-val! k (name state))
-     (log/debug "wrote new state: " state " to: " k))))
+  (let [task (if (string? x) (get-task  x) x)]
+    (if (exch/run-if task)
+      (dispatch task) ;; run
+      (st/set-state! (:StateKey task) :ready "state set by run-if"))))

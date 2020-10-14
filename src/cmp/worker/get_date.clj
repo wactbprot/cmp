@@ -1,11 +1,11 @@
 (ns cmp.worker.get-date
   ^{:author "wactbprot"
     :doc "Worker to create a date entry in documents."}
-  (:require [clj-http.client :as http]
-            [cmp.config :as cfg]
-            [cmp.doc :as doc]
-            [cmp.st-mem :as st]
-            [cmp.utils :as u]
+  (:require [cmp.config      :as cfg]
+            [cmp.doc         :as doc]
+            [cmp.st-mem      :as st]
+            [cmp.utils       :as u]
+            [cmp.exchange    :as exch]
             [taoensso.timbre :as log]))
 
 (defn get-date!
@@ -32,8 +32,6 @@
     (let [res [{:Type type :Value (u/get-date)}]
           ret (doc/store! mp-id res doc-path)]
       (cond
-        (:ok    ret) (st/set-state! state-key :executed "get date executed")
-        (:error ret) (st/set-state! state-key :error (str "failed to write time stamp"
-                                                          ret))
-        :unexpected  (st/set-state! state-key :error (str "unexpected return value"
-                                                            ret))))))
+        (:ok    ret) (st/set-state! state-key (if (exch/stop-if task) :executed :ready) "get date executed")
+        (:error ret) (st/set-state! state-key :error (str "failed to write time stamp " ret))
+        :unexpected  (st/set-state! state-key :error (str "unexpected return value " ret))))))
