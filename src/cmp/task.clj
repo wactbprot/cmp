@@ -214,6 +214,9 @@
   
   `assoc`s the structs afterwards.
 
+  TODO:
+  clarify :PreInput
+  
   ```clojure
   (def proto {:TaskName \"Common-wait\"
                     :Replace {\"%waittime\" 10}})
@@ -230,22 +233,20 @@
   ```
   "
   [meta-task mp-id state-key]
-  (let [db-task  (:Task         meta-task)
-        use-map  (:Use          meta-task)
-        replace  (:Replace      meta-task)
-        defaults (:Defaults     meta-task)
-        globals  (:Globals      meta-task)
-        exch-map (:FromExchange db-task)
-        ;task     (dissoc db-task
-        ;                 :FromExchange
-        ;                 :Replace)
-        from-map (exch/from! mp-id exch-map)]
+  (let [db-task   (:Task         meta-task)
+        use-map   (:Use          meta-task)
+        replace   (:Replace      meta-task)
+        defaults  (:Defaults     meta-task)
+        globals   (:Globals      meta-task)
+        exch-map  (:FromExchange db-task)
+        from-map  (exch/from! mp-id exch-map)]
     (assoc 
      (->> db-task
           (merge-use-map     use-map)
           (inner-replace-map from-map)
           (outer-replace-map replace)
           (outer-replace-map defaults)
-          (outer-replace-map globals))
+          (outer-replace-map globals)
+          (outer-replace-map from-map))
      :MpName    mp-id
      :StateKey  state-key)))

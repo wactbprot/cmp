@@ -309,7 +309,7 @@
         :error    (error! k)
         :all-exec (all-exec! k)
         :nop      (nop! k)
-        :work     (work/check k)))))
+        :work     (work/check-in k)))))
       
 ;;------------------------------
 ;; observe!

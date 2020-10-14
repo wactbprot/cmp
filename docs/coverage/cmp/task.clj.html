@@ -653,112 +653,118 @@
                 216&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                217&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                217&nbsp;&nbsp;&nbsp;&nbsp;TODO:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                218&nbsp;&nbsp;&nbsp;&nbsp;(def&nbsp;proto&nbsp;{:TaskName&nbsp;\&quot;Common-wait\&quot;
+                218&nbsp;&nbsp;&nbsp;&nbsp;clarify&nbsp;:PreInput
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                219&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:Replace&nbsp;{\&quot;%waittime\&quot;&nbsp;10}})
+                219&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                220&nbsp;&nbsp;&nbsp;&nbsp;(assemble
+                220&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                221&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gen-meta-task&nbsp;proto&nbsp;\&quot;ref\&quot;&nbsp;\&quot;ref@container@0@state@0@0\&quot;))
+                221&nbsp;&nbsp;&nbsp;&nbsp;(def&nbsp;proto&nbsp;{:TaskName&nbsp;\&quot;Common-wait\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                222&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:Action&nbsp;&nbsp;\&quot;wait\&quot;,
+                222&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:Replace&nbsp;{\&quot;%waittime\&quot;&nbsp;10}})
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                223&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:Comment&nbsp;&nbsp;\&quot;Ready&nbsp;in&nbsp;&nbsp;10&nbsp;ms\&quot;,
+                223&nbsp;&nbsp;&nbsp;&nbsp;(assemble
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                224&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:TaskName&nbsp;\&quot;Common-wait\&quot;,
+                224&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gen-meta-task&nbsp;proto&nbsp;\&quot;ref\&quot;&nbsp;\&quot;ref@container@0@state@0@0\&quot;))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                225&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:WaitTime&nbsp;\&quot;10\&quot;,
+                225&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:Action&nbsp;&nbsp;\&quot;wait\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                226&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:MpName&nbsp;&nbsp;&nbsp;\&quot;ref\&quot;
+                226&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:Comment&nbsp;&nbsp;\&quot;Ready&nbsp;in&nbsp;&nbsp;10&nbsp;ms\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                227&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:StateKey&nbsp;\&quot;ref@container@0@state@0@0\&quot;
+                227&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:TaskName&nbsp;\&quot;Common-wait\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                228&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;...
+                228&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:WaitTime&nbsp;\&quot;10\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                229&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;}
+                229&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:MpName&nbsp;&nbsp;&nbsp;\&quot;ref\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                230&nbsp;&nbsp;&nbsp;&nbsp;```
+                230&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;:StateKey&nbsp;\&quot;ref@container@0@state@0@0\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                231&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                231&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;...
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                232&nbsp;&nbsp;&nbsp;&nbsp;[meta-task&nbsp;mp-id&nbsp;state-key]
+                232&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;}
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                233&nbsp;&nbsp;&nbsp;&nbsp;```
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                234&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                235&nbsp;&nbsp;&nbsp;&nbsp;[meta-task&nbsp;mp-id&nbsp;state-key]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                233&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[db-task&nbsp;&nbsp;(:Task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta-task)
+                236&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[db-task&nbsp;&nbsp;&nbsp;(:Task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta-task)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                234&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;use-map&nbsp;&nbsp;(:Use&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta-task)
+                237&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;use-map&nbsp;&nbsp;&nbsp;(:Use&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta-task)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                235&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace&nbsp;&nbsp;(:Replace&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta-task)
+                238&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace&nbsp;&nbsp;&nbsp;(:Replace&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta-task)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                236&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defaults&nbsp;(:Defaults&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta-task)
+                239&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defaults&nbsp;&nbsp;(:Defaults&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta-task)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                237&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;globals&nbsp;&nbsp;(:Globals&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta-task)
+                240&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;globals&nbsp;&nbsp;&nbsp;(:Globals&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta-task)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                238&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exch-map&nbsp;(:FromExchange&nbsp;db-task)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                239&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dissoc&nbsp;db-task
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                240&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:FromExchange
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                241&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:Replace)
+                241&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exch-map&nbsp;&nbsp;(:FromExchange&nbsp;db-task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                242&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from-map&nbsp;(exch&#x2F;from!&nbsp;mp-id&nbsp;exch-map)]
+                242&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from-map&nbsp;&nbsp;(exch&#x2F;from!&nbsp;mp-id&nbsp;exch-map)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                243&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;
+                243&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(inner-replace-map&nbsp;from-map&nbsp;db-task)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                244&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pre-input&nbsp;(:PreInput&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                245&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                244&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;db-task
+                246&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;task
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                245&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(merge-use-map&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;use-map)
+                247&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(merge-use-map&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;use-map)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                246&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(inner-replace-map&nbsp;from-map)
+                248&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;from-map)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                247&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;from-map)
+                249&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;replace)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                248&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;replace)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                249&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;defaults)
+                250&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;defaults)
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                250&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;globals))
+                251&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(outer-replace-map&nbsp;globals))
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                251&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:MpName&nbsp;&nbsp;&nbsp;&nbsp;mp-id
+                252&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:MpName&nbsp;&nbsp;&nbsp;&nbsp;mp-id
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                252&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:StateKey&nbsp;&nbsp;state-key)))
+                253&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:StateKey&nbsp;&nbsp;state-key
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                254&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:PreInput&nbsp;&nbsp;pre-input)))
                 </span><br/>
  </body>
 </html>

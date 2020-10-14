@@ -47,7 +47,6 @@
 ;;  future registry 
 ;;------------------------------
 (defonce future-reg (atom {}))
-
 (defn start!
   "Starts the worker in a new threat. This means that all workers
   may be single threated."
@@ -84,7 +83,7 @@
 ;;------------------------------
 ;; check
 ;;------------------------------
-(defn check
+(defn check-in
   "Gets the task. Handles the `:RunIf` and `:StopIf`
   cases.
 
@@ -105,3 +104,23 @@
       (if (exch/run-if task)
         (dispatch task) ;; run
         (st/set-state! state-key :ready "state set by run-if")))))
+
+
+;;------------------------------
+;; check-out
+;;------------------------------
+(defn check-out
+  "Function is used by the workers to set state.
+  An optional log message may be provided."
+  ([k state msg]
+   (condp = state
+     :error (log/error msg)
+     :ready (log/info msg)
+     (log/debug msg))
+   (set-state! k state))
+  ([k state]
+   (when (and (string? k)
+              (keyword? state))
+     (Thread/sleep mtp)
+     (set-val! k (name state))
+     (log/debug "wrote new state: " state " to: " k))))

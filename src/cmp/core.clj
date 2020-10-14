@@ -94,14 +94,24 @@
   "Returns a table with the currently registered listener
   patterns."
   []
-  (pp/print-table [(deref st/listeners)]))
-
+  (pp/print-table
+   (mapv
+    (fn [[k v]]
+      {:key k :val v})
+    (deref st/listeners))))
+  
 
 (defn w-info
   "Returns a table with the currently registered worker futures."
-  []
-  (pp/print-table [(deref work/future-reg)]))
-
+  ([]
+   (w-info false))
+  ([deref?]
+   (pp/print-table
+    (mapv
+     (fn [[k v]]
+       {:key k :val (if (nil? (if deref? (deref v) v)) "ok" v)})
+     (deref work/future-reg)))))
+  
 ;;------------------------------
 ;; status (stat)
 ;;------------------------------
@@ -370,18 +380,18 @@
   (st/de-register! \"core\" \"test\" 0 \"response\")
   ```
   "
-  ([name]
-   (t-run name "core" "test" 0 0 0))
-  ([name mp-id]
-   (t-run name mp-id "test" 0 0 0))
-  ([name mp-id struct no-idx seq-idx par-idx]
+  ([t]
+   (t-run t "core" "test" 0 0 0))
+  ([t mp-id]
+   (t-run t mp-id "test" 0 0 0))
+  ([t mp-id struct no-idx seq-idx par-idx]
    (let [no-idx    (u/lp no-idx)
          seq-idx   (u/lp seq-idx)
          par-idx   (u/lp par-idx)
          func       "response"
          state-key  (u/vec->key [mp-id struct no-idx "state" seq-idx par-idx])
          resp-key   (u/vec->key [mp-id struct no-idx func    seq-idx par-idx])
-         meta-task  (task/gen-meta-task name)
+         meta-task  (task/gen-meta-task t)
          task       (task/assemble meta-task mp-id state-key)]
      (when (task/dev-action? task)
        (timbre/info "task dispached, wait for response...")
@@ -389,7 +399,7 @@
                                                 (when-let [result-key (st/msg->key msg)]
                                                   (st/de-register! mp-id struct no-idx func)
                                                   (pp/pprint (st/key->val result-key))))))
-     (work/check task))))
+     (work/check-in task))))
 
 (defn t-run-by-key
   "Calls `t-run` after extracting key info.
@@ -416,9 +426,9 @@
         seq-idx   (st/key->seq-idx k)
         par-idx   (st/key->par-idx k)
         def-key   (u/vec->key [mp-id struct no-idx "definition" seq-idx par-idx])
-        task-name (:TaskName (st/key->val def-key))]
-    (if task-name
-      (t-run task-name mp-id struct no-idx seq-idx par-idx)
+        t         (st/key->val def-key)]
+    (if t
+      (t-run t mp-id struct no-idx seq-idx par-idx)
       (timbre/error (str "no TaskName at key: " k)))))
 
 (defn t-raw
