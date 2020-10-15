@@ -44,12 +44,20 @@
         "don't crash ")))
 
 (deftest from-i
-  (testing "from!"
+  (testing "from! with map"
     (st/set-val! "test@exchange@C" {:D "ok"})
     (is (= {:F "ok"}  (from! "test" {:F "C.D"}))
         "gets and replaces")
     (is (nil? (from! nil {:F "C.D"}))
         "returns nil on missing mp-id")))
+
+(deftest read-i
+  (testing "read! with dot path"
+    (st/set-val! "test@exchange@E.D"  "ok")
+    (is (= "ok"  (read! "test" "E.D"))
+        "gets ok")
+    (is (nil?  (read! "test" "E.F"))
+        "don't crash on nil")))
 
 (deftest key->kw-i
   (testing "key->kw"

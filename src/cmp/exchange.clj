@@ -49,9 +49,11 @@
     (keyword x)))
 
 (defn read!
-  "Returns the *compare value* belonging to a `mp-id`
-  and an ExchangePath `k`. Gets the  *keyword* `kw`
-  from `k` if `k` looks like this: `aaa.bbb`. If `kw`
+  "Returns e.g the *compare value* belonging to a `mp-id`
+  and an ExchangePath `k`. First try is to simply request
+  to `<mp-id>@exchange@<k>`. If this is `nil` Second try
+  is to get the  *keyword* `kw` from `k` if `k` looks like
+  this: `aaa.bbb`. If `kw`
   is not `nil` it is used to extract the related value.
 
   ```clojure
@@ -62,11 +64,15 @@
   ;; [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]
   ```"
   [mp-id p]
-  (let [k (exch-key mp-id p)]
-    (if-let [kw  (key->second-kw p)]
-      (kw (st/key->val k))
-      (st/key->val k))))
-  
+  (let [val-p (st/key->val (st/exch-path mp-id p))]
+    (if (nil? val-p)
+      (let [k     (exch-key mp-id p)
+            val-k (st/key->val k)]
+        (if-let [kw (key->second-kw p)]
+          (kw val-k)
+          val-k))
+      val-p)))
+
 (defn from!
   "Builds a map by replacing the values of the input map `m`.
   The replacements are gathered from the `exchange` interface

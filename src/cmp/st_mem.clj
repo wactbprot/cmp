@@ -41,7 +41,7 @@
   ([k state msg]
    (condp = state
      :error (log/error msg)
-     :ready (log/info msg)
+     :ready (log/debug msg)
      (log/debug msg))
    (set-state! k state))
   ([k state]

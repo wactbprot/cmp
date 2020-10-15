@@ -90,6 +90,10 @@
      (fn [k] (c-data mp-id (st/key->no-idx k)))
      (sort (st/pat->keys (st/cont-title-path mp-id "*")))))))
 
+  
+;;------------------------------
+;; listeners 
+;;------------------------------
 (defn l-info
   "Returns a table with the currently registered listener
   patterns."
@@ -99,8 +103,10 @@
     (fn [[k v]]
       {:key k :val v})
     (deref st/listeners))))
-  
 
+;;------------------------------
+;; worker futures 
+;;------------------------------
 (defn w-info
   "Returns a table with the currently registered worker futures."
   ([]
