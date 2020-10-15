@@ -4,13 +4,13 @@
           are intended for **repl** use only. Graphical user 
           interfaces should attache to the **short term memory**."}
    (:require [cmp.build       :as build]
-             [cmp.config      :as cfg]
              [cmp.ctrl        :as ctrl]
-             [cmp.doc         :as doc]
+             [cmp.config      :as cfg]
+             [cmp.doc         :as d]
              [cmp.log         :as log]
              [cmp.lt-mem      :as lt]
-             [cmp.st-mem      :as st]
              [clojure.pprint  :as pp]
+             [cmp.st-mem      :as st]
              [cmp.state       :as state]
              [cmp.task        :as task]
              [taoensso.timbre :as timbre]
@@ -183,21 +183,21 @@
   ([doc-id]
    (d-add (deref current-mp-id) doc-id))
   ([mp-id doc-id]
-   (doc/add mp-id doc-id)))
+   (d/add mp-id doc-id)))
 
 (defn d-rm
   "Removes a doc from the api."
   ([doc-id]
    (d-rm (deref current-mp-id) doc-id))
   ([mp-id doc-id]
-   (doc/rm mp-id doc-id)))
+   (d/rm mp-id doc-id)))
 
 (defn d-ids
   "Gets a list of ids added."
   ([]
    (d-ids (deref current-mp-id)))
   ([mp-id]
-   (doc/ids mp-id)))
+   (d/ids mp-id)))
 
 ;;------------------------------
 ;; start observing mp

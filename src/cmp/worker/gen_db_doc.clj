@@ -2,11 +2,12 @@
   ^{:author "wactbprot"
     :doc "Worker to create database documents."}
   (:require [clj-http.client :as http]
-            [cmp.config :as cfg]
-            [cmp.resp :as resp]
-            [cmp.st-mem :as st]
-            [cmp.lt-mem :as lt]
-            [cmp.utils :as u]
+            [cmp.config      :as cfg]
+            [cmp.doc         :as d]
+            [cmp.resp        :as resp]
+            [cmp.st-mem      :as st]
+            [cmp.lt-mem      :as lt]
+            [cmp.utils       :as u]
             [taoensso.timbre :as log]))
 
 
@@ -31,14 +32,17 @@
   "
   [task]
   (let [{state-key :StateKey
-         doc       :Value} task]
+         doc       :Value
+         mp-id     :MpName} task]
     (st/set-state! state-key :working)
-    (let [url (str (cfg/lt-conn (cfg/config)) "/" (:_id doc)) 
-          req (assoc (cfg/json-post-header (cfg/config))
-                     :body
-                     (u/map->json (lt/rev-refresh doc)))]
+    (let [doc-id (:_id doc)
+          url    (str (cfg/lt-conn (cfg/config)) "/" doc-id) 
+          req    (assoc (cfg/json-post-header (cfg/config))
+                        :body
+                        (u/map->json (lt/rev-refresh doc)))]
       (try
         (resp/check (http/put url req) task state-key)
+        (d/add mp-id doc-id)
         (catch Exception e
           (st/set-state! state-key :error)
           (log/error "put request to url: " url "failed")
