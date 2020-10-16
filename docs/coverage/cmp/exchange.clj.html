@@ -158,388 +158,406 @@
                 051&nbsp;&nbsp;(defn&nbsp;read!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                052&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;*compare&nbsp;value*&nbsp;belonging&nbsp;to&nbsp;a&nbsp;`mp-id`
+                052&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;e.g&nbsp;the&nbsp;*compare&nbsp;value*&nbsp;belonging&nbsp;to&nbsp;a&nbsp;`mp-id`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                053&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;an&nbsp;ExchangePath&nbsp;`k`.&nbsp;Gets&nbsp;the&nbsp;&nbsp;*keyword*&nbsp;`kw`
+                053&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;an&nbsp;ExchangePath&nbsp;`k`.&nbsp;First&nbsp;try&nbsp;is&nbsp;to&nbsp;simply&nbsp;request
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                054&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;`k`&nbsp;if&nbsp;`k`&nbsp;looks&nbsp;like&nbsp;this:&nbsp;`aaa.bbb`.&nbsp;If&nbsp;`kw`
+                054&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;`&lt;mp-id&gt;@exchange@&lt;k&gt;`.&nbsp;If&nbsp;this&nbsp;is&nbsp;`nil`&nbsp;Second&nbsp;try
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                055&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;not&nbsp;`nil`&nbsp;it&nbsp;is&nbsp;used&nbsp;to&nbsp;extract&nbsp;the&nbsp;related&nbsp;value.
+                055&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;to&nbsp;get&nbsp;the&nbsp;&nbsp;*keyword*&nbsp;`kw`&nbsp;from&nbsp;`k`&nbsp;if&nbsp;`k`&nbsp;looks&nbsp;like
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                056&nbsp;&nbsp;&nbsp;&nbsp;this:&nbsp;`aaa.bbb`.&nbsp;If&nbsp;`kw`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                057&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;not&nbsp;`nil`&nbsp;it&nbsp;is&nbsp;used&nbsp;to&nbsp;extract&nbsp;the&nbsp;related&nbsp;value.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                056&nbsp;&nbsp;
+                058&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                057&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                059&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                058&nbsp;&nbsp;&nbsp;&nbsp;(read!&nbsp;\&quot;ref\&quot;&nbsp;\&quot;A.Unit\&quot;)
+                060&nbsp;&nbsp;&nbsp;&nbsp;(read!&nbsp;\&quot;ref\&quot;&nbsp;\&quot;A.Unit\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                059&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;Pa\&quot;
+                061&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;Pa\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                060&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;or:
+                062&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;or:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                061&nbsp;&nbsp;&nbsp;&nbsp;(read!&nbsp;\&quot;devhub\&quot;&nbsp;\&quot;Vraw_block1\&quot;)
+                063&nbsp;&nbsp;&nbsp;&nbsp;(read!&nbsp;\&quot;devhub\&quot;&nbsp;\&quot;Vraw_block1\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                062&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;[1&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0]
+                064&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;[1&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                063&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                065&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                064&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;p]
+                066&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;p]
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                067&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[val-p&nbsp;(st&#x2F;key-&gt;val&nbsp;(st&#x2F;exch-path&nbsp;mp-id&nbsp;p))]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                068&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(nil?&nbsp;val-p)
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                065&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[k&nbsp;(exch-key&nbsp;mp-id&nbsp;p)]
+                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[k&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(exch-key&nbsp;mp-id&nbsp;p)
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val-k&nbsp;(st&#x2F;key-&gt;val&nbsp;k)]
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                066&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[kw&nbsp;&nbsp;(key-&gt;second-kw&nbsp;p)]
+                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[kw&nbsp;(key-&gt;second-kw&nbsp;p)]
                 </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
-                067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(kw&nbsp;(st&#x2F;key-&gt;val&nbsp;k))
+<span class="covered" title="3 out of 3 forms covered">
+                072&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(kw&nbsp;val-k)
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                068&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;k))))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                069&nbsp;&nbsp;&nbsp;&nbsp;
+<span class="not-covered" title="0 out of 1 forms covered">
+                073&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val-k))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                070&nbsp;&nbsp;(defn&nbsp;from!
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                071&nbsp;&nbsp;&nbsp;&nbsp;&quot;Builds&nbsp;a&nbsp;map&nbsp;by&nbsp;replacing&nbsp;the&nbsp;values&nbsp;of&nbsp;the&nbsp;input&nbsp;map&nbsp;`m`.
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                072&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;replacements&nbsp;are&nbsp;gathered&nbsp;from&nbsp;the&nbsp;`exchange`&nbsp;interface
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                073&nbsp;&nbsp;&nbsp;&nbsp;with&nbsp;the&nbsp;keys:&nbsp;`&lt;mp-id&gt;@exchange@&lt;input-map-value&gt;`
+                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val-p)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                074&nbsp;&nbsp;
+                075&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                076&nbsp;&nbsp;(defn&nbsp;from!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                075&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;example&nbsp;key:&nbsp;`ref@exchange@Vraw_block1`&nbsp;with&nbsp;the&nbsp;example&nbsp;value:
+                077&nbsp;&nbsp;&nbsp;&nbsp;&quot;Builds&nbsp;a&nbsp;map&nbsp;by&nbsp;replacing&nbsp;the&nbsp;values&nbsp;of&nbsp;the&nbsp;input&nbsp;map&nbsp;`m`.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                076&nbsp;&nbsp;&nbsp;&nbsp;`[1&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0]`&nbsp;should&nbsp;return:
+                078&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;replacements&nbsp;are&nbsp;gathered&nbsp;from&nbsp;the&nbsp;`exchange`&nbsp;interface
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                077&nbsp;&nbsp;&nbsp;&nbsp;`{:%stateblock1&nbsp;[1&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0]}`&nbsp;
+                079&nbsp;&nbsp;&nbsp;&nbsp;with&nbsp;the&nbsp;keys:&nbsp;`&lt;mp-id&gt;@exchange@&lt;input-map-value&gt;`
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                078&nbsp;&nbsp;
+                080&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                079&nbsp;&nbsp;&nbsp;&nbsp;
+                081&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;example&nbsp;key:&nbsp;`ref@exchange@Vraw_block1`&nbsp;with&nbsp;the&nbsp;example&nbsp;value:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                080&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                082&nbsp;&nbsp;&nbsp;&nbsp;`[1&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0]`&nbsp;should&nbsp;return:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                081&nbsp;&nbsp;&nbsp;&nbsp;(from!&nbsp;\&quot;ref\&quot;&nbsp;{:%stateblock1&nbsp;\&quot;Vraw_block1\&quot;})
+                083&nbsp;&nbsp;&nbsp;&nbsp;`{:%stateblock1&nbsp;[1&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0]}`&nbsp;
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                082&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;=&gt;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                083&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:%stateblock1&nbsp;[1&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0]}
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                084&nbsp;&nbsp;&nbsp;&nbsp;```
+<span class="blank" title="0 out of 0 forms covered">
+                084&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 085&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                086&nbsp;&nbsp;&nbsp;&nbsp;**Todo**
+                086&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                087&nbsp;&nbsp;&nbsp;&nbsp;(from!&nbsp;\&quot;ref\&quot;&nbsp;{:%stateblock1&nbsp;\&quot;Vraw_block1\&quot;})
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                088&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;=&gt;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                089&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:%stateblock1&nbsp;[1&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;0&nbsp;1&nbsp;0]}
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                090&nbsp;&nbsp;&nbsp;&nbsp;```
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                091&nbsp;&nbsp;&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                092&nbsp;&nbsp;&nbsp;&nbsp;**Todo**
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                087&nbsp;&nbsp;
+                093&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                088&nbsp;&nbsp;&nbsp;&nbsp;Check&nbsp;for&nbsp;non&nbsp;trivial&nbsp;`&lt;input-map-value&gt;`&nbsp;like
+                094&nbsp;&nbsp;&nbsp;&nbsp;Check&nbsp;for&nbsp;non&nbsp;trivial&nbsp;`&lt;input-map-value&gt;`&nbsp;like
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                089&nbsp;&nbsp;&nbsp;&nbsp;`{:%aaa&nbsp;\&quot;bbb.ccc\&quot;}`
+                095&nbsp;&nbsp;&nbsp;&nbsp;`{:%aaa&nbsp;\&quot;bbb.ccc\&quot;}`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                090&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                096&nbsp;&nbsp;&nbsp;&nbsp;&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                091&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;m]
+                097&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;m]
                 </span><br/>
 <span class="covered" title="12 out of 12 forms covered">
-                092&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(and&nbsp;(string?&nbsp;mp-id)&nbsp;(map?&nbsp;m))
+                098&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(and&nbsp;(string?&nbsp;mp-id)&nbsp;(map?&nbsp;m))
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                093&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;apply-to-map-values
+                099&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;apply-to-map-values
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                094&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[v]&nbsp;(read!&nbsp;mp-id&nbsp;v))
+                100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[v]&nbsp;(read!&nbsp;mp-id&nbsp;v))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                095&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m)))
+                101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                096&nbsp;&nbsp;
+                102&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                097&nbsp;&nbsp;(defn&nbsp;enclose-map
+                103&nbsp;&nbsp;(defn&nbsp;enclose-map
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                098&nbsp;&nbsp;&nbsp;&nbsp;&quot;Encloses&nbsp;the&nbsp;given&nbsp;map&nbsp;`m`&nbsp;with&nbsp;respect&nbsp;to&nbsp;the&nbsp;path&nbsp;`p`.
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                099&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                100&nbsp;&nbsp;&nbsp;&nbsp;Example:
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                101&nbsp;&nbsp;&nbsp;&nbsp;```clojure
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                102&nbsp;&nbsp;&nbsp;&nbsp;(enclose-map&nbsp;{:gg&nbsp;\&quot;ff\&quot;}&nbsp;\&quot;mm.ll\&quot;)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                103&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;gives:
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                104&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:mm&nbsp;{:ll&nbsp;{:gg&nbsp;\&quot;ff\&quot;}}}
+                104&nbsp;&nbsp;&nbsp;&nbsp;&quot;Encloses&nbsp;the&nbsp;given&nbsp;map&nbsp;`m`&nbsp;with&nbsp;respect&nbsp;to&nbsp;the&nbsp;path&nbsp;`p`.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 105&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                106&nbsp;&nbsp;&nbsp;&nbsp;(enclose-map&nbsp;{:gg&nbsp;\&quot;ff\&quot;}&nbsp;\&quot;mm\&quot;)
+                106&nbsp;&nbsp;&nbsp;&nbsp;Example:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                107&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;gives:
+                107&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                108&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:mm&nbsp;{:gg&nbsp;\&quot;ff\&quot;}}
+                108&nbsp;&nbsp;&nbsp;&nbsp;(enclose-map&nbsp;{:gg&nbsp;\&quot;ff\&quot;}&nbsp;\&quot;mm.ll\&quot;)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                109&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;gives:
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                110&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:mm&nbsp;{:ll&nbsp;{:gg&nbsp;\&quot;ff\&quot;}}}
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                109&nbsp;&nbsp;
+                111&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                110&nbsp;&nbsp;&nbsp;&nbsp;(enclose-map&nbsp;{:gg&nbsp;\&quot;ff\&quot;}&nbsp;nil)
+                112&nbsp;&nbsp;&nbsp;&nbsp;(enclose-map&nbsp;{:gg&nbsp;\&quot;ff\&quot;}&nbsp;\&quot;mm\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                111&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;gives:
+                113&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;gives:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                112&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:gg&nbsp;\&quot;ff\&quot;}
+                114&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:mm&nbsp;{:gg&nbsp;\&quot;ff\&quot;}}
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                115&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                113&nbsp;&nbsp;&nbsp;&nbsp;```
+                116&nbsp;&nbsp;&nbsp;&nbsp;(enclose-map&nbsp;{:gg&nbsp;\&quot;ff\&quot;}&nbsp;nil)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                114&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                117&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;gives:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                115&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;p]
+                118&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:gg&nbsp;\&quot;ff\&quot;}
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                119&nbsp;&nbsp;&nbsp;&nbsp;```
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                120&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                121&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;p]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                116&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(nil?&nbsp;p)
+                122&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(nil?&nbsp;p)
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                117&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m
+                123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                118&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[a&nbsp;(key-&gt;first-kw&nbsp;p)]
+                124&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[a&nbsp;(key-&gt;first-kw&nbsp;p)]
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                119&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[b&nbsp;(key-&gt;second-kw&nbsp;p)]
+                125&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[b&nbsp;(key-&gt;second-kw&nbsp;p)]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                120&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{a&nbsp;{b&nbsp;m}}
+                126&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{a&nbsp;{b&nbsp;m}}
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                121&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{a&nbsp;m}))))
+                127&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{a&nbsp;m}))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                122&nbsp;&nbsp;
+                128&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                123&nbsp;&nbsp;(defn&nbsp;to!
+                129&nbsp;&nbsp;(defn&nbsp;to!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                124&nbsp;&nbsp;&nbsp;&nbsp;&quot;Writes&nbsp;`m`&nbsp;to&nbsp;the&nbsp;exchange&nbsp;interface.
+                130&nbsp;&nbsp;&nbsp;&nbsp;&quot;Writes&nbsp;`m`&nbsp;to&nbsp;the&nbsp;exchange&nbsp;interface.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                125&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;first&nbsp;level&nbsp;keys&nbsp;of&nbsp;`m`&nbsp;are&nbsp;used
+                131&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;first&nbsp;level&nbsp;keys&nbsp;of&nbsp;`m`&nbsp;are&nbsp;used
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                126&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;the&nbsp;key.&nbsp;The&nbsp;return&nbsp;value&nbsp;of&nbsp;the
+                132&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;the&nbsp;key.&nbsp;The&nbsp;return&nbsp;value&nbsp;of&nbsp;the
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                127&nbsp;&nbsp;&nbsp;&nbsp;storing&nbsp;process&nbsp;(e.g.&nbsp;\&quot;OK\&quot;)&nbsp;is&nbsp;converted
+                133&nbsp;&nbsp;&nbsp;&nbsp;storing&nbsp;process&nbsp;(e.g.&nbsp;\&quot;OK\&quot;)&nbsp;is&nbsp;converted
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                128&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;a&nbsp;`keyword`.&nbsp;After&nbsp;storing&nbsp;the&nbsp;amounts
+                134&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;a&nbsp;`keyword`.&nbsp;After&nbsp;storing&nbsp;the&nbsp;amounts
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                129&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;`:OK`&nbsp;is&nbsp;compared&nbsp;to&nbsp;`(count&nbsp;m)`.
+                135&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;`:OK`&nbsp;is&nbsp;compared&nbsp;to&nbsp;`(count&nbsp;m)`.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                130&nbsp;&nbsp;
+                136&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                131&nbsp;&nbsp;&nbsp;&nbsp;Example:
+                137&nbsp;&nbsp;&nbsp;&nbsp;Example:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                132&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                138&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                133&nbsp;&nbsp;&nbsp;&nbsp;{:A&nbsp;1
+                139&nbsp;&nbsp;&nbsp;&nbsp;{:A&nbsp;1
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                134&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:B&nbsp;2}
+                140&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:B&nbsp;2}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                135&nbsp;&nbsp;&nbsp;&nbsp;```
+                141&nbsp;&nbsp;&nbsp;&nbsp;```
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                136&nbsp;&nbsp;&nbsp;&nbsp;Stores&nbsp;the&nbsp;value&nbsp;`1`&nbsp;under&nbsp;the&nbsp;key
+                142&nbsp;&nbsp;&nbsp;&nbsp;Stores&nbsp;the&nbsp;value&nbsp;`1`&nbsp;under&nbsp;the&nbsp;key
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                137&nbsp;&nbsp;&nbsp;&nbsp;`&lt;mp-id&gt;@exchange@A`&nbsp;and&nbsp;a&nbsp;`2`&nbsp;under
+                143&nbsp;&nbsp;&nbsp;&nbsp;`&lt;mp-id&gt;@exchange@A`&nbsp;and&nbsp;a&nbsp;`2`&nbsp;under
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                138&nbsp;&nbsp;&nbsp;&nbsp;`&lt;mp-id&gt;@exchange@B`.
+                144&nbsp;&nbsp;&nbsp;&nbsp;`&lt;mp-id&gt;@exchange@B`.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                139&nbsp;&nbsp;
+                145&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                140&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;a&nbsp;path&nbsp;`p`&nbsp;is&nbsp;given&nbsp;the&nbsp;`enclose-map`&nbsp;function
+                146&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;a&nbsp;path&nbsp;`p`&nbsp;is&nbsp;given&nbsp;the&nbsp;`enclose-map`&nbsp;function
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                141&nbsp;&nbsp;&nbsp;&nbsp;respects&nbsp;`p`.
+                147&nbsp;&nbsp;&nbsp;&nbsp;respects&nbsp;`p`.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                142&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                148&nbsp;&nbsp;&nbsp;&nbsp;&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                143&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;m&nbsp;p]
+                149&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;m&nbsp;p]
                 </span><br/>
 <span class="covered" title="7 out of 7 forms covered">
-                144&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(to!&nbsp;mp-id&nbsp;(enclose-map&nbsp;m&nbsp;p)))
+                150&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(to!&nbsp;mp-id&nbsp;(enclose-map&nbsp;m&nbsp;p)))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                145&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;m]
+                151&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;m]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                146&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(string?&nbsp;mp-id)
+                152&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(string?&nbsp;mp-id)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                147&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(map?&nbsp;m)
+                153&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(map?&nbsp;m)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                148&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[res&nbsp;(map
+                154&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[res&nbsp;(map
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                149&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[[k&nbsp;v]]
+                155&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[[k&nbsp;v]]
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                150&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(keyword
+                156&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(keyword
                 </span><br/>
 <span class="covered" title="9 out of 9 forms covered">
-                151&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;exch-path&nbsp;mp-id&nbsp;(name&nbsp;k))&nbsp;v)))
+                157&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;exch-path&nbsp;mp-id&nbsp;(name&nbsp;k))&nbsp;v)))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                152&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m)]
+                158&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m)]
                 </span><br/>
 <span class="covered" title="9 out of 9 forms covered">
-                153&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(=&nbsp;(count&nbsp;m)&nbsp;(:OK&nbsp;(frequencies&nbsp;res)))
+                159&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(=&nbsp;(count&nbsp;m)&nbsp;(:OK&nbsp;(frequencies&nbsp;res)))
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                154&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true}
+                160&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true}
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                155&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:error&nbsp;&quot;not&nbsp;all&nbsp;write&nbsp;processes&nbsp;succeed&quot;}))
+                161&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:error&nbsp;&quot;not&nbsp;all&nbsp;write&nbsp;processes&nbsp;succeed&quot;}))
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                156&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true})
+                162&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true})
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                157&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:error&nbsp;&quot;mp-id&nbsp;must&nbsp;be&nbsp;a&nbsp;string&quot;})))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                158&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                159&nbsp;&nbsp;(defn&nbsp;ok?
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                160&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;a&nbsp;certain&nbsp;exchange&nbsp;endpoint&nbsp;to&nbsp;evaluate
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                161&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;true&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                162&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;k]
-                </span><br/>
-<span class="covered" title="7 out of 7 forms covered">
-                163&nbsp;&nbsp;&nbsp;&nbsp;(contains?&nbsp;u&#x2F;ok-set&nbsp;(read!&nbsp;mp-id&nbsp;k)))
+                163&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:error&nbsp;&quot;mp-id&nbsp;must&nbsp;be&nbsp;a&nbsp;string&quot;})))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 164&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                165&nbsp;&nbsp;(defn&nbsp;stop-if
+                165&nbsp;&nbsp;(defn&nbsp;ok?
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                166&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;the&nbsp;exchange&nbsp;path&nbsp;given&nbsp;with&nbsp;`:MpName`
+                166&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;a&nbsp;certain&nbsp;exchange&nbsp;endpoint&nbsp;to&nbsp;evaluate
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                167&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;`:StopIf`&nbsp;evaluates&nbsp;to&nbsp;true.&quot;
+                167&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;true&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                168&nbsp;&nbsp;&nbsp;&nbsp;[{mp-id&nbsp;:MpName&nbsp;k&nbsp;:StopIf}]
+                168&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;k]
                 </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                169&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;k
-                </span><br/>
-<span class="covered" title="4 out of 4 forms covered">
-                170&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ok?&nbsp;mp-id&nbsp;k)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                171&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true))
+<span class="covered" title="7 out of 7 forms covered">
+                169&nbsp;&nbsp;&nbsp;&nbsp;(contains?&nbsp;u&#x2F;ok-set&nbsp;(read!&nbsp;mp-id&nbsp;k)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                172&nbsp;&nbsp;
+                170&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                173&nbsp;&nbsp;(defn&nbsp;run-if
+                171&nbsp;&nbsp;(defn&nbsp;stop-if
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                174&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;the&nbsp;&nbsp;exchange&nbsp;path&nbsp;given&nbsp;with&nbsp;`:MpName`
+                172&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;the&nbsp;exchange&nbsp;path&nbsp;given&nbsp;with&nbsp;`:MpName`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                175&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;`:RunIf`&nbsp;evaluates&nbsp;to&nbsp;true.&quot;
+                173&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;`:StopIf`&nbsp;evaluates&nbsp;to&nbsp;true.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                176&nbsp;&nbsp;&nbsp;&nbsp;[{mp-id&nbsp;:MpName&nbsp;k&nbsp;:RunIf}]
+                174&nbsp;&nbsp;&nbsp;&nbsp;[{mp-id&nbsp;:MpName&nbsp;k&nbsp;:StopIf}]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                177&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;k
+                175&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;k
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                178&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ok?&nbsp;mp-id&nbsp;k)
+                176&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ok?&nbsp;mp-id&nbsp;k)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                179&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true))
+                177&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                178&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                179&nbsp;&nbsp;(defn&nbsp;run-if
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                180&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;the&nbsp;&nbsp;exchange&nbsp;path&nbsp;given&nbsp;with&nbsp;`:MpName`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                181&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;`:RunIf`&nbsp;evaluates&nbsp;to&nbsp;true.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                182&nbsp;&nbsp;&nbsp;&nbsp;[{mp-id&nbsp;:MpName&nbsp;k&nbsp;:RunIf}]
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                183&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;k
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                184&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ok?&nbsp;mp-id&nbsp;k)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                185&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true))
                 </span><br/>
  </body>
 </html>
