@@ -38,7 +38,7 @@
   `m` is introduced in order to keep the functions testable.
 
   
-  ```clojur
+  ```clojure
   (ks->state-vec (k->state-ks \"wait@container@0\"))
   ```" 
   [ks]
@@ -87,8 +87,8 @@
        keyword))
   
 (defn filter-state
-  [m s]
-  (filter (fn [x] (= s (:state x))) m))
+  [v s]
+  (filterv (fn [m] (= s (:state m))) v))
 
 (defn seq-idx->all-par
   "Returns all `par` steps for a given
@@ -108,8 +108,9 @@
   {:seq-idx 4, :par-idx 1, :state :executed}
   {:seq-idx 4, :par-idx 2, :state :ready})
   ```"
-  [m i]
-  (filter (fn [x] (= i (:seq-idx x))) m))
+  [v i]
+  (filterv (fn [m] (= (u/ensure-int i)
+                     (u/ensure-int (:seq-idx m)))) v))
   
 (defn all-error
   "Returns all  steps with the state
@@ -123,6 +124,11 @@
   [m]
   (filter-state m :ready))
 
+(defn all-working
+  "Returns all  steps with the state
+  `:working` for a given state map `m`"
+  [m]
+  (filter-state m :working))
 
 (defn all-executed
   "Returns all-executed entrys of the given `state-map`.
@@ -170,6 +176,12 @@
 
   Example:
   ```clojure
+  (predecessor -10)
+  ;; 0
+  
+  (predecessor 0)
+  ;; 0
+  
   (predecessor 1)
   ;; 0
   
@@ -185,16 +197,27 @@
   ```
   "
   [i]
-  (cond
-    (integer? i) (dec i)
-    (string?  i) (u/lp (dec (u/ensure-int i)) (count i))))
+  (let [int-i (u/ensure-int i)]
+    (if (>= 0 int-i)
+      (cond
+        (integer? i) 0
+        (string?  i) (u/lp 0 (count i)))
+      (cond
+        (integer? i) (dec int-i)
+        (string?  i) (u/lp (dec int-i) (count i))))))
 
 (defn predecessor-executed?
   "Checks if `all-executed?` in the
-  step `i-1` (`(dec i)`) of `m`."
+  steps before  `i` of `v`."
   [v i]
-  (all-executed?
-   (seq-idx->all-par v (predecessor i))))
+  (let [int-i (u/ensure-int i)]
+    (if (< 0 int-i)
+      (every? true? (map
+                     (fn [j]
+                       (all-executed?
+                        (seq-idx->all-par v (predecessor j))))
+                     (range int-i)))
+      true)))
 
 ;;------------------------------
 ;; ready!
