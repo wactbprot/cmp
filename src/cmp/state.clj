@@ -171,41 +171,6 @@
       {}
       (first am))))
 
-(defn predecessor
-  "Calculates the predecessor step depending on the `i` type.
-
-  Example:
-  ```clojure
-  (predecessor -10)
-  ;; 0
-  
-  (predecessor 0)
-  ;; 0
-  
-  (predecessor 1)
-  ;; 0
-  
-  (predecessor \"1\")
-  ;; \"0\"
-
-  (predecessor \"001\")
-  ;; \"000\"
-
-  (predecessor \"010\")
-  ;; \"009\"
-  
-  ```
-  "
-  [i]
-  (let [int-i (u/ensure-int i)]
-    (if (>= 0 int-i)
-      (cond
-        (integer? i) 0
-        (string?  i) (u/lp 0 (count i)))
-      (cond
-        (integer? i) (dec int-i)
-        (string?  i) (u/lp (dec int-i) (count i))))))
-
 (defn predecessor-executed?
   "Checks if `all-executed?` in the
   steps before  `i` of `v`."
@@ -215,7 +180,7 @@
       (every? true? (map
                      (fn [j]
                        (all-executed?
-                        (seq-idx->all-par v (predecessor j))))
+                        (seq-idx->all-par v j)))
                      (range int-i)))
       true)))
 
@@ -325,14 +290,15 @@
 
   Side effects all around. "
   [v]
-  (when (vector? v)
-    (let [{what :what
-           k    :k} (choose-next v)]
-      (condp = what
-        :error    (error! k)
-        :all-exec (all-exec! k)
-        :nop      (nop! k)
-        :work     (work/check k)))))
+  (log/debug "call to start next")
+    (when (vector? v)
+      (let [{what :what
+             k    :k} (choose-next v)]
+        (condp = what
+          :error    (error! k)
+          :all-exec (all-exec! k)
+          :nop      (nop! k)
+          :work     (work/check k)))))
       
 ;;------------------------------
 ;; observe!
@@ -348,10 +314,13 @@
                  (st/key->struct k)
                  (st/key->no-idx k)
                  "state"
-                 (fn [msg] 
-                   (start-next! (ks->state-vec
-                                 (k->state-ks
-                                  (st/msg->key msg))))))
+                 (fn [msg]
+                   (when-let [msg-k (st/msg->key msg)]                   
+                     (log/debug "will call start next from callback")
+                     (start-next! (ks->state-vec
+                                   (k->state-ks
+                                    msg-k))))))
+  (log/debug "will call start first trigger")
   (start-next! (ks->state-vec
                 (k->state-ks k))))
 

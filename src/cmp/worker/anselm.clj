@@ -8,7 +8,6 @@
             [cmp.utils :as u]
             [taoensso.timbre :as log]))
 
-
 (defn url
   "Builds up the url for a `anselm` request."
   [{path :RequestPath}]

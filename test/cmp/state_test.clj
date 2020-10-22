@@ -198,14 +198,31 @@
              {:seq-idx "003", :par-idx "001", :state :ready}]))
         "last step")
     (is (nil?
-           (next-map
-            [{:seq-idx "0", :par-idx "0", :state :executed}
-             {:seq-idx "0", :par-idx "1", :state :executed}
-             {:seq-idx "1", :par-idx "0", :state :executed}
-             {:seq-idx "2", :par-idx "0", :state :executed}
-             {:seq-idx "3", :par-idx "0", :state :executed}
-             {:seq-idx "3", :par-idx "1", :state :executed}]))
-        "last step")))
+         (next-map
+          [{:seq-idx "0", :par-idx "0", :state :executed}
+           {:seq-idx "0", :par-idx "1", :state :executed}
+           {:seq-idx "1", :par-idx "0", :state :executed}
+           {:seq-idx "2", :par-idx "0", :state :executed}
+           {:seq-idx "3", :par-idx "0", :state :executed}
+           {:seq-idx "3", :par-idx "1", :state :executed}]))
+        "last step")
+    (is (nil?
+         (next-map
+          [{:seq-idx "0", :par-idx "0", :state :executed}
+           {:seq-idx "1", :par-idx "0", :state :working}
+           {:seq-idx "2", :par-idx "0", :state :ready}
+           {:seq-idx "3", :par-idx "0", :state :ready}
+           {:seq-idx "4", :par-idx "0", :state :ready}]))
+        "bug test")
+    (is (nil?
+         (next-map
+          [{:seq-idx "0", :par-idx "0", :state :executed}
+           {:seq-idx "0", :par-idx "1", :state :executed}
+           {:seq-idx "1", :par-idx "0", :state :working}
+           {:seq-idx "2", :par-idx "0", :state :ready}
+           {:seq-idx "3", :par-idx "0", :state :ready}
+           {:seq-idx "4", :par-idx "0", :state :ready}]))
+        "bug test")))
 
 
 (deftest choose-next-i

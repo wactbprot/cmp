@@ -47,8 +47,9 @@
   ([k state]
    (when (and (string? k)
               (keyword? state))
-     (Thread/sleep mtp)
+     
      (set-val! k (name state))
+     (when (= state :working) (Thread/sleep mtp))
      (log/debug "wrote new state: " state " to: " k))))
 
 (defn pat->keys
