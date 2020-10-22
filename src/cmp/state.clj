@@ -110,7 +110,7 @@
   ```"
   [v i]
   (filterv (fn [m] (= (u/ensure-int i)
-                     (u/ensure-int (:seq-idx m)))) v))
+                      (u/ensure-int (:seq-idx m)))) v))
   
 (defn all-error
   "Returns all  steps with the state
@@ -144,7 +144,7 @@
 
   (all-executed (seq-idx->all-par m 4))
   ;; gives
-  ;; ({:seq-idx 4, :par-idx 0, :state :executed})
+  ;; [{:seq-idx 4, :par-idx 0, :state :executed}]
 
   ```"
   [m]
@@ -175,13 +175,13 @@
   "Checks if `all-executed?` in the
   steps before  `i` of `v`."
   [v i]
-  (let [int-i (u/ensure-int i)]
-    (if (< 0 int-i)
+  (let [i (u/ensure-int i)]
+    (if (< 0 i)
       (every? true? (map
                      (fn [j]
                        (all-executed?
                         (seq-idx->all-par v j)))
-                     (range int-i)))
+                     (range i)))
       true)))
 
 ;;------------------------------

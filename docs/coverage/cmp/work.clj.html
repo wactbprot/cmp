@@ -166,14 +166,14 @@
 <span class="not-covered" title="0 out of 4 forms covered">
                 054&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[state-key&nbsp;(:StateKey&nbsp;task)]
                 </span><br/>
+<span class="not-covered" title="0 out of 19 forms covered">
+                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;(str&nbsp;&quot;registered&nbsp;worker&nbsp;@work&#x2F;future-reg&nbsp;at&nbsp;key:&nbsp;&quot;&nbsp;state-key))
+                </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;future-reg&nbsp;assoc
+                056&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;future-reg&nbsp;assoc
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                056&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key&nbsp;(future&nbsp;(worker&nbsp;task)))
-                </span><br/>
-<span class="not-covered" title="0 out of 19 forms covered">
-                057&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;(str&nbsp;&quot;registered&nbsp;worker&nbsp;@work&#x2F;future-reg&nbsp;at&nbsp;key:&nbsp;&quot;&nbsp;state-key))))
+                057&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key&nbsp;(future&nbsp;(worker&nbsp;task)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 058&nbsp;&nbsp;

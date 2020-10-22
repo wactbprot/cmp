@@ -52,9 +52,9 @@
   may be single threated."
   [worker task]
   (let [state-key (:StateKey task)]
+    (log/debug (str "registered worker @work/future-reg at key: " state-key))
     (swap! future-reg assoc
-           state-key (future (worker task)))
-    (log/debug (str "registered worker @work/future-reg at key: " state-key))))
+           state-key (future (worker task)))))
 
 ;;------------------------------
 ;;  dispatch 
