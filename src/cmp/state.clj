@@ -10,14 +10,15 @@
 
 
 (defn state-map->definition-key
-  "Converts a `state-map` into the belonging `definition` key."
+  "Converts a `state-map` into the related
+  `definition` key."
   [m]
   (when (map? m)
     (u/vec->key [(:mp-name m) (:struct m) (:no-idx m) "definition"
                  (:seq-idx m) (:par-idx m)])))
 
 (defn state-map->ctrl-key
-  "Converts a `state-map` into the belonging `ctrl` key."
+  "Converts a `state-map` into the related `ctrl` key."
   [m]
   (when (map? m)
     (u/vec->key [(:mp-name m) (:struct m) (:no-idx m) "ctrl"])))
@@ -87,6 +88,7 @@
        keyword))
   
 (defn filter-state
+  "Returns a vector of maps where state is `s`."
   [v s]
   (filterv (fn [m] (= s (:state m))) v))
 
@@ -94,19 +96,15 @@
   "Returns all `par` steps for a given
   state map `m` and `seq-idx`
 
+  Example:
   ```clojure
-  (def m
-  [{:seq-idx 0, :par-idx 0, :state :executed}
-   {:seq-idx 1, :par-idx 0, :state :ready}
-   {:seq-idx 2, :par-idx 0, :state :executed}
-   {:seq-idx 4, :par-idx 0, :state :ready}
-   {:seq-idx 4, :par-idx 1, :state :executed}
-   {:seq-idx 4, :par-idx 2, :state :ready}])
-  
-  (seq-idx->all-par m 4)
-  ({:seq-idx 4, :par-idx 0, :state :ready}
-  {:seq-idx 4, :par-idx 1, :state :executed}
-  {:seq-idx 4, :par-idx 2, :state :ready})
+    (seq-idx->all-par [{:seq-idx 0 :par-idx 0 :state :executed}
+                       {:seq-idx 1 :par-idx 0 :state :ready}
+                       {:seq-idx 1 :par-idx 1 :state :ready}]
+                      1)
+  ;; =>
+  ;; [{:seq-idx 1 :par-idx 0 :state :ready}
+  ;;  {:seq-idx 1 :par-idx 1 :state :ready}]
   ```"
   [v i]
   (filterv (fn [m] (= (u/ensure-int i)
@@ -124,28 +122,17 @@
   [m]
   (filter-state m :ready))
 
-(defn all-working
-  "Returns all  steps with the state
-  `:working` for a given state map `m`"
-  [m]
-  (filter-state m :working))
-
 (defn all-executed
   "Returns all-executed entrys of the given `state-map`.
 
+  Example:
   ```clojure
-  (def m
-  [{:seq-idx 0, :par-idx 0, :state :ready}
-   {:seq-idx 1, :par-idx 0, :state :ready}
-   {:seq-idx 2, :par-idx 0, :state :executed}
-   {:seq-idx 3, :par-idx 0, :state :ready}
-   {:seq-idx 4, :par-idx 0, :state :executed}
-   {:seq-idx 4, :par-idx 0, :state :ready}])
-
-  (all-executed (seq-idx->all-par m 4))
-  ;; gives
-  ;; [{:seq-idx 4, :par-idx 0, :state :executed}]
-
+    (all-executed (seq-idx->all-par
+                      [{:seq-idx 0 :par-idx 0 :state :executed}
+                       {:seq-idx 0 :par-idx 0 :state :ready}]
+                     0))
+  ;; =>
+  ;; [{:seq-idx 0 :par-idx 0 :state :executed}]
   ```"
   [m]
   (filter-state m :executed))
@@ -248,15 +235,17 @@
   "The `next-map` function returns a map containing the next
   step to start. See `cmp.state-test/next-map-i` for examples
   how  `next-map` should work.
-  
+
+  Example:
   ```clojure
-   (next-map [{:seq-idx 0, :par-idx 0, :state :executed}
-              {:seq-idx 0, :par-idx 1, :state :executed}
-              {:seq-idx 1, :par-idx 0, :state :executed}
-              {:seq-idx 2, :par-idx 0, :state :executed}
-              {:seq-idx 3, :par-idx 0, :state :working}
-              {:seq-idx 3, :par-idx 1, :state :ready}])
-  ;; cmp.state> {:seq-idx 3, :par-idx 1, :state :ready}
+   (next-map [{:seq-idx 0 :par-idx 0 :state :executed}
+              {:seq-idx 0 :par-idx 1 :state :executed}
+              {:seq-idx 1 :par-idx 0 :state :executed}
+              {:seq-idx 2 :par-idx 0 :state :executed}
+              {:seq-idx 3 :par-idx 0 :state :working}
+              {:seq-idx 3 :par-idx 1 :state :ready}])
+  ;; =>
+  ;; {:seq-idx 3 :par-idx 1 :state :ready}
   ```
   "
   [v]
@@ -268,7 +257,8 @@
         next-m))))
 
 (defn choose-next
-  "Gets the state vector `v` and picks the next thing to do.
+  "Side effect free for testing purpose; sits infront of [[startt-next!]].
+  Gets the state vector `v` and picks the next thing to do.
   The `ctrl-k`ey is derived from the first map in the
   the `v`."
   [v]
@@ -277,10 +267,10 @@
           ctrl-k (state-map->ctrl-key (first v))
           defi-k (state-map->definition-key m)]
       (cond
-        (errors?       v) {:what :error    :k ctrl-k}
-        (all-executed? v) {:what :all-exec :k ctrl-k}
-        (nil?          m) {:what :nop      :k ctrl-k}
-        :run-worker       {:what :work     :k defi-k}))))
+        (errors?       v) {:what :error    :key ctrl-k}
+        (all-executed? v) {:what :all-exec :key ctrl-k}
+        (nil?          m) {:what :nop      :key ctrl-k}
+        :run-worker       {:what :work     :key defi-k}))))
 
 (defn start-next!
   "`start-next!` choose the `k` of the upcomming tasks.
@@ -293,7 +283,7 @@
   (log/debug "call to start next")
     (when (vector? v)
       (let [{what :what
-             k    :k} (choose-next v)]
+             k    :key} (choose-next v)]
         (condp = what
           :error    (error! k)
           :all-exec (all-exec! k)
