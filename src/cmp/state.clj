@@ -6,109 +6,39 @@
             [cmp.st-mem :as st]
             [cmp.work :as work]            
             [cmp.task :as tsk]
+            [cmp.key-utils :as ku]
             [cmp.utils :as u]))
 
-
-(defn state-map->definition-key
-  "Converts a `state-map` into the related
-  `definition` key."
-  [m]
-  (when (map? m)
-    (u/vec->key [(:mp-name m) (:struct m) (:no-idx m) "definition"
-                 (:seq-idx m) (:par-idx m)])))
-
-(defn state-map->ctrl-key
-  "Converts a `state-map` into the related `ctrl` key."
-  [m]
-  (when (map? m)
-    (u/vec->key [(:mp-name m) (:struct m) (:no-idx m) "ctrl"])))
-
-(defn state-key->state-map
-  "Builds a `state-map` by means of the key structure
-  and `st/key->val`. "
-  [k]
-  {:mp-name (st/key->mp-id        k)
-   :struct  (st/key->struct       k)
-   :no-idx  (st/key->no-idx       k)
-   :seq-idx (st/key->seq-idx      k)
-   :par-idx (st/key->par-idx      k)
-   :state   (keyword (st/key->val k))})
+(defn state-key->state-map  
+  "Builds a `state-map` by means of the `info-map`.
+  The state value is `assoc`ed  afet getting it with
+  `st/key->val`. "
+  [state-key]
+  (assoc (ku/k->info-map state-key)
+         :state (keyword (st/key->val state-key))))
 
 (defn ks->state-vec
   "Builds the state map `m` belonging to a key set `ks`.
   `m` is introduced in order to keep the functions testable.
 
-  
+  Example:
   ```clojure
-  (ks->state-vec (k->state-ks \"wait@container@0\"))
+  (ks->state-vec (k->state-ks \"ref@container@0\"))
   ```" 
   [ks]
   (when ks
     (mapv state-key->state-map ks)))
 
-(defn k->state-ks
-  "Returns the state keys for a given path.
-
-  ```clojure
-  (k->state-ks \"wait@container@0\")
-  ```" 
-  [k]
-  (when k
-    (sort
-     (st/key->keys
-      (u/vec->key [(st/key->mp-id k)
-                   (st/key->struct k)
-                   (st/key->no-idx k)
-                   "state"])))))
-
-(defn k->ctrl-k
-  "Returns the `ctrl`-key for a given key `k`.
-  In other words: ensures k to be a `ctrl-key`.
-
-  ```clojure
-  (k->ctrl-k \"wait@container@0@state@0@0\")
-  ;; \"wait@container@0@ctrl\"
-  (k->ctrl-k
-    (k->ctrl-k
-      (k->ctrl-k \"wait@container@0@state@0@0\")))
-    ;; \"wait@container@0@ctrl\"
-  ```" 
-  [k]
-  (u/vec->key [(st/key->mp-id k)
-               (st/key->struct k)
-               (st/key->no-idx k)
-               "ctrl"]))
-
 (defn ctrl-k->cmd
-  "Gets the `cmd` from the `ctrl-k`."
+  "Gets the `cmd` from the `ctrl-k`. Extracts the `next-ctrl-cmd`
+  and make a keyword out of it."
   [k]
-  (->> k
-       st/key->val
-       u/next-ctrl-cmd
-       keyword))
+  (->> k st/key->val u/next-ctrl-cmd keyword))
   
 (defn filter-state
   "Returns a vector of maps where state is `s`."
   [v s]
   (filterv (fn [m] (= s (:state m))) v))
-
-(defn seq-idx->all-par
-  "Returns all `par` steps for a given
-  state map `m` and `seq-idx`
-
-  Example:
-  ```clojure
-    (seq-idx->all-par [{:seq-idx 0 :par-idx 0 :state :executed}
-                       {:seq-idx 1 :par-idx 0 :state :ready}
-                       {:seq-idx 1 :par-idx 1 :state :ready}]
-                      1)
-  ;; =>
-  ;; [{:seq-idx 1 :par-idx 0 :state :ready}
-  ;;  {:seq-idx 1 :par-idx 1 :state :ready}]
-  ```"
-  [v i]
-  (filterv (fn [m] (= (u/ensure-int i)
-                      (u/ensure-int (:seq-idx m)))) v))
   
 (defn all-error
   "Returns all  steps with the state
@@ -127,7 +57,7 @@
 
   Example:
   ```clojure
-    (all-executed (seq-idx->all-par
+    (all-executed (ku/seq-idx->all-par
                       [{:seq-idx 0 :par-idx 0 :state :executed}
                        {:seq-idx 0 :par-idx 0 :state :ready}]
                      0))
@@ -149,16 +79,12 @@
   (not (empty? (all-error m))))
           
 (defn next-ready
-  "Returns a map with the next
-  step with state `:ready`. Returns an
-  empty map if nothing next"
-  [m]
-  (let [am (all-ready m)]
-    (if (zero? (count am))
-      {}
-      (first am))))
+  "Returns a map (or `nil`) with the next
+  step with state `:ready`."
+  [v]
+  (first (all-ready v)))
 
-(defn predecessor-executed?
+(defn predecessors-executed?
   "Checks if `all-executed?` in the
   steps before  `i` of `v`."
   [v i]
@@ -167,7 +93,7 @@
       (every? true? (map
                      (fn [j]
                        (all-executed?
-                        (seq-idx->all-par v j)))
+                        (ku/seq-idx->all-par v j)))
                      (range i)))
       true)))
 
@@ -177,8 +103,8 @@
 (defn ready! 
   "Sets all states (the state interface) to ready."
   [k]
-  (st/set-val! (k->ctrl-k k) "ready")
-  (st/set-same-val! (k->state-ks k) "ready"))
+  (st/set-val! (ku/k->ctrl-k k) "ready")
+  (st/set-same-val! (ku/k->state-ks k) "ready"))
 
 ;;------------------------------
 ;; stop
@@ -203,7 +129,7 @@
   "Sets the `ctrl` interface to `\"error\"`."
   [k]
   (log/error  "error! for: " k)
-  (st/set-val! (k->ctrl-k k) "error"))
+  (st/set-val! (ku/k->ctrl-k k) "error"))
 
 (defn nop!
   "No operation."
@@ -214,7 +140,7 @@
   "Handles the case where all `state` interfaces
   are `\"executed\"`. Gets the value  the `ctrl`"
   [k]
-  (let [ctrl-k   (k->ctrl-k k)
+  (let [ctrl-k   (ku/k->ctrl-k k)
         cmd      (ctrl-k->cmd ctrl-k)]
     (log/info "all done at: " k "ctrl interface cmd is: " cmd)
     (condp = cmd
@@ -230,7 +156,6 @@
 ;;------------------------------
 ;; choose and start next task
 ;;------------------------------
-
 (defn next-map
   "The `next-map` function returns a map containing the next
   step to start. See `cmp.state-test/next-map-i` for examples
@@ -252,9 +177,12 @@
   (when-let [next-m (next-ready v)]
     (when-let [i (:seq-idx next-m)]
       (when (or (zero? (u/ensure-int i))
-                (predecessor-executed? v i))
+                (predecessors-executed? v i))
         next-m))))
 
+;;------------------------------
+;; start-next(!)
+;;------------------------------
 (defn start-next
   "Side effect free. Makes [[start-next!]] testable.
   Gets the state vector `v` and picks the next thing to do.
@@ -262,8 +190,8 @@
   the `v`."
   [v]
   (let [m      (next-map v)
-        ctrl-k (state-map->ctrl-key (first v))
-        defi-k (state-map->definition-key m)]
+        ctrl-k (ku/info-map->ctrl-key (first v))
+        defi-k (ku/info-map->definition-key m)]
     (cond
       (errors?       v) {:what :error    :key ctrl-k}
       (all-executed? v) {:what :all-exec :key ctrl-k}
@@ -286,7 +214,7 @@
           :all-exec (all-exec!  k)
           :nop      (nop!       k)
           :work     (work/check k)))))
-      
+
 ;;------------------------------
 ;; observe!
 ;;------------------------------
@@ -305,11 +233,11 @@
                    (when-let [msg-k (st/msg->key msg)]                   
                      (log/debug "will call start next from callback")
                      (start-next! (ks->state-vec
-                                   (k->state-ks
+                                   (ku/k->state-ks
                                     msg-k))))))
   (log/debug "will call start first trigger")
   (start-next! (ks->state-vec
-                (k->state-ks k))))
+                (ku/k->state-ks k))))
 
 ;;------------------------------
 ;; status 
@@ -318,13 +246,13 @@
   "Return the `state-vec` for the `i`th
   container."
   [mp-id i]
-  (ks->state-vec (k->state-ks (st/cont-state-path mp-id i))))
+  (ks->state-vec (ku/k->state-ks (st/cont-state-path mp-id i))))
 
 (defn defins-status
   "Return the `state-vec` for the `i`th
   definition*s* structure."
   [mp-id i]
-  (ks->state-vec (k->state-ks (st/defins-state-path mp-id i))))
+  (ks->state-vec (ku/k->state-ks (st/defins-state-path mp-id i))))
 
 ;;------------------------------
 ;; dispatch
