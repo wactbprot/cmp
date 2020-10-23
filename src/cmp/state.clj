@@ -1,7 +1,7 @@
 (ns cmp.state
   ^{:author "wactbprot"
-    :doc "Finds and starts the up comming 
-          tasks of a certain container."}
+    :doc "Finds and starts the up comming tasks of a certain
+          container."}
   (:require [taoensso.timbre :as log]
             [cmp.st-mem :as st]
             [cmp.work :as work]            
@@ -11,8 +11,7 @@
 
 (defn state-key->state-map  
   "Builds a `state-map` by means of the `info-map`.
-  The state value is `assoc`ed  afet getting it with
-  `st/key->val`. "
+  The state value is `assoc`ed afet getting it with `st/key->val`. "
   [state-key]
   (assoc (ku/k->info-map state-key)
          :state (keyword (st/key->val state-key))))
@@ -30,8 +29,8 @@
     (mapv state-key->state-map ks)))
 
 (defn ctrl-k->cmd
-  "Gets the `cmd` from the `ctrl-k`. Extracts the `next-ctrl-cmd`
-  and make a keyword out of it."
+  "Gets the `cmd` from the `ctrl-k`. Extracts the `next-ctrl-cmd` and
+  make a keyword out of it."
   [k]
   (->> k st/key->val u/next-ctrl-cmd keyword))
   
@@ -41,19 +40,19 @@
   (filterv (fn [m] (= s (:state m))) v))
   
 (defn all-error
-  "Returns all  steps with the state
-  `:error` for a given state map `m`"
-  [m]
-  (filter-state m :error))
+  "Returns all steps with the state `:error` for a given state vector
+  `v`"
+  [v]
+  (filter-state v :error))
 
 (defn all-ready
-  "Returns all  steps with the state
-  `:ready` for a given state map `m`"
-  [m]
-  (filter-state m :ready))
+  "Returns all steps with the state `:ready` for a given state vector
+  `v`"
+  [v]
+  (filter-state v :ready))
 
 (defn all-executed
-  "Returns all-executed entrys of the given `state-map`.
+  "Returns all-executed entrys of the given vector `v`.
 
   Example:
   ```clojure
@@ -64,29 +63,27 @@
   ;; =>
   ;; [{:seq-idx 0 :par-idx 0 :state :executed}]
   ```"
-  [m]
-  (filter-state m :executed))
+  [v]
+  (filter-state v :executed))
 
 (defn all-executed?
-  "Checks if all entries of map `m`
-  are executed"
+  "Checks if all entries of map `m` are executed"
   [v]
   (= (count v) (count (all-executed v))))
 
 (defn errors?
-  "Checks if there are any errors in the map `m`."
-  [m]
-  (not (empty? (all-error m))))
+  "Checks if there are any errors in the
+  vector of maps `v`."
+  [v]
+  (not (empty? (all-error v))))
           
 (defn next-ready
-  "Returns a map (or `nil`) with the next
-  step with state `:ready`."
+  "Returns a map (or `nil`) with the next step with state `:ready`."
   [v]
   (first (all-ready v)))
 
 (defn predecessors-executed?
-  "Checks if `all-executed?` in the
-  steps before  `i` of `v`."
+  "Checks if `all-executed?` in the steps before `i` of `v`."
   [v i]
   (let [i (u/ensure-int i)]
     (if (< 0 i)
@@ -110,17 +107,11 @@
 ;; stop
 ;;------------------------------
 (defn de-observe!
-  "Opposite of [[observe!]]:
-  De-registers the `state` listener.
-  The de-register pattern is derived
-  from the key  `k` (may be the
-  `ctrl-key` or `state-key`).
-  Resets the state interface afterwards."
+  "Opposite of [[observe!]]: De-registers the `state` listener.  The
+  de-register pattern is derived from the key `k` (may be the
+  `ctrl-key` or `state-key`).  Resets the state interface afterwards."
   [k]
-  (st/de-register! (st/key->mp-id k)
-                   (st/key->struct k)
-                   (st/key->no-idx k)
-                   "state"))
+  (st/de-register! (st/key->mp-id k) (st/key->struct k) (st/key->no-idx k) "state"))
 
 ;;------------------------------
 ;; set value at ctrl-path 
@@ -137,8 +128,8 @@
   (log/debug "nop! for: " k))
 
 (defn all-exec!
-  "Handles the case where all `state` interfaces
-  are `\"executed\"`. Gets the value  the `ctrl`"
+  "Handles the case where all `state` interfaces are
+  `\"executed\"`. Gets the value the `ctrl`"
   [k]
   (let [ctrl-k   (ku/k->ctrl-k k)
         cmd      (ctrl-k->cmd ctrl-k)]
@@ -157,9 +148,9 @@
 ;; choose and start next task
 ;;------------------------------
 (defn next-map
-  "The `next-map` function returns a map containing the next
-  step to start. See `cmp.state-test/next-map-i` for examples
-  how  `next-map` should work.
+  "The `next-map` function returns a map containing the next step to
+  start. See `cmp.state-test/next-map-i` for examples how `next-map`
+  should work.
 
   Example:
   ```clojure
@@ -200,9 +191,8 @@
 
 (defn start-next!
   "`start-next!` choose the `k` of the upcomming tasks.
-  Then the `worker` set the state to `\"working\"`
-  which triggers the next call to `start-next!`:
-  parallel tasks are started this way.
+  Then the `worker` set the state to `\"working\"` which triggers the
+  next call to `start-next!`: parallel tasks are started this way.
 
   Side effects all around. "
   [v]
@@ -219,38 +209,29 @@
 ;; observe!
 ;;------------------------------
 (defn observe!
-  "Registers a listener with a [[start-next!]] callback.
-  Calls `start-next!` as a first trigger.
-  The register pattern is derived
-  from the key  `k` (`ctrl-key`)."
+  "Registers a listener with a [[start-next!]] callback.  Calls
+  `start-next!` as a first trigger.  The register pattern is derived
+  from the key `k` (`ctrl-key`)."
   [k]
   (log/info "register start-next! callback and start-next!")
-  (st/register!  (st/key->mp-id k)
-                 (st/key->struct k)
-                 (st/key->no-idx k)
-                 "state"
-                 (fn [msg]
-                   (when-let [msg-k (st/msg->key msg)]                   
-                     (log/debug "will call start next from callback")
-                     (start-next! (ks->state-vec
-                                   (ku/k->state-ks
-                                    msg-k))))))
-  (log/debug "will call start first trigger")
-  (start-next! (ks->state-vec
-                (ku/k->state-ks k))))
+  (st/register! (st/key->mp-id k) (st/key->struct k) (st/key->no-idx k) "state"
+                (fn [msg]
+                  (when-let [msg-k (st/msg->key msg)]                   
+                    (log/debug "will call start-next from callback")
+                    (start-next! (ks->state-vec (ku/k->state-ks msg-k))))))
+  (log/debug "will call start-next first trigger")
+  (start-next! (ks->state-vec (ku/k->state-ks k))))
 
 ;;------------------------------
 ;; status 
 ;;------------------------------
 (defn cont-status
-  "Return the `state-vec` for the `i`th
-  container."
+  "Return the `state-vec` for the `i`th container."
   [mp-id i]
   (ks->state-vec (ku/k->state-ks (st/cont-state-path mp-id i))))
 
 (defn defins-status
-  "Return the `state-vec` for the `i`th
-  definition*s* structure."
+  "Return the `state-vec` for the `i`th definition*s* structure."
   [mp-id i]
   (ks->state-vec (ku/k->state-ks (st/defins-state-path mp-id i))))
 
