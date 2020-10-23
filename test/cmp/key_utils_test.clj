@@ -11,11 +11,11 @@
                 "definition" u/sep
                 "d" u/sep
                 "e")
-           (info-map->definition-key {:mp-name "a"
-                                       :struct  "b"
-                                       :no-idx  "c"
-                                       :seq-idx "d"
-                                       :par-idx "e"}))
+           (info-map->definition-key {:mp-id "a"
+                                      :struct  "b"
+                                      :no-idx  "c"
+                                      :seq-idx "d"
+                                      :par-idx "e"}))
         "produced.")
     (is (nil? (info-map->definition-key ""))
         "nil .")))
@@ -26,9 +26,9 @@
                 "b" u/sep
                 "c" u/sep
                 "ctrl")
-           (info-map->ctrl-key {:mp-name "a"
-                                 :struct  "b"
-                                 :no-idx  "c"}))
+           (info-map->ctrl-key {:mp-id "a"
+                                :struct  "b"
+                                :no-idx  "c"}))
         "produced.")
     (is (nil? (info-map->ctrl-key ""))
         "nil .")))

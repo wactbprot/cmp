@@ -87,6 +87,7 @@
   (when (string? k)
     {:mp-id   (key->mp-id   k)
      :struct  (key->struct  k)
+     :func    (key->func    k)
      :no-idx  (key->no-idx  k)
      :seq-idx (key->seq-idx k)
      :par-idx (key->par-idx k)}))
