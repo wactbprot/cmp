@@ -3,6 +3,7 @@
     :doc "run-mp worker."}
   (:require [taoensso.timbre :as log]
             [cmp.st-mem :as st]
+            [cmp.key-utils :as ku]
             [cmp.utils :as u]
             [cmp.config :as cfg]))
 
@@ -39,7 +40,7 @@
         title? (fn [k] (= cont-title (st/key->val k)))]
     (if-let [k (first (filter title? ks))]
       (exec-index {:Mp mp
-                   :Container (st/key->no-idx k)
+                   :Container (ku/key->no-idx k)
                    :StateKey state-key}) 
       (do
         (log/error (str "no container with title: >"cont-title "<"))

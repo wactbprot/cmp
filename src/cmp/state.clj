@@ -13,7 +13,7 @@
   "Builds a `state-map` by means of the `info-map`.
   The state value is `assoc`ed afet getting it with `st/key->val`. "
   [state-key]
-  (assoc (ku/k->info-map state-key)
+  (assoc (ku/key->info-map state-key)
          :state (keyword (st/key->val state-key))))
 
 (defn ks->state-vec
@@ -111,7 +111,7 @@
   de-register pattern is derived from the key `k` (may be the
   `ctrl-key` or `state-key`).  Resets the state interface afterwards."
   [k]
-  (st/de-register! (st/key->mp-id k) (st/key->struct k) (st/key->no-idx k) "state"))
+  (st/de-register! (ku/key->mp-id k) (ku/key->struct k) (ku/key->no-idx k) "state"))
 
 ;;------------------------------
 ;; set value at ctrl-path 
@@ -214,7 +214,7 @@
   from the key `k` (`ctrl-key`)."
   [k]
   (log/info "register start-next! callback and start-next!")
-  (st/register! (st/key->mp-id k) (st/key->struct k) (st/key->no-idx k) "state"
+  (st/register! (ku/key->mp-id k) (ku/key->struct k) (ku/key->no-idx k) "state"
                 (fn [msg]
                   (when-let [msg-k (st/msg->key msg)]                   
                     (log/debug "will call start-next from callback")

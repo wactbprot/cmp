@@ -7,6 +7,7 @@
              [cmp.ctrl        :as ctrl]
              [cmp.config      :as cfg]
              [cmp.doc         :as d]
+             [cmp.key-utils   :as ku]
              [cmp.log         :as log]
              [cmp.lt-mem      :as lt]
              [clojure.pprint  :as pp]
@@ -57,7 +58,7 @@
    `mp-id`s loaded and available at the short term memory."
   []
   (pp/print-table
-   (mapv (fn [k] (m-info (st/key->mp-id k)))
+   (mapv (fn [k] (m-info (ku/key->mp-id k)))
          (st/pat->keys "*@meta@name"))))
 
 (defn c-data
@@ -87,7 +88,7 @@
   ([mp-id]
    (pp/print-table
     (mapv
-     (fn [k] (c-data mp-id (st/key->no-idx k)))
+     (fn [k] (c-data mp-id (ku/key->no-idx k)))
      (sort (st/pat->keys (st/cont-title-path mp-id "*")))))))
 
   
@@ -343,7 +344,7 @@
      (pp/print-table
       (filter some?
               (mapv (fn [k]
-                      (let [name      (st/key->struct k)
+                      (let [name      (ku/key->struct k)
                             meta-task (task/gen-meta-task name)
                             task      (task/assemble meta-task mp-id state-key)
                             value     (kw task)]
@@ -412,11 +413,11 @@
   A call with all all kinds of complete keys `k` is ok.
   Complete means: the functions:
   
-  *  `(st/key->mp-id   k)`
-  *  `(st/key->struct  k)`
-  *  `(st/key->no-idx  k)`
-  *  `(st/key->seq-idx k)`
-  *  `(st/key->par-idx k)`
+  *  `(ku/key->mp-id   k)`
+  *  `(ku/key->struct  k)`
+  *  `(ku/key->no-idx  k)`
+  *  `(ku/key->seq-idx k)`
+  *  `(ku/key->par-idx k)`
 
   don't return `nil`.
   
@@ -426,11 +427,11 @@
   ``` 
   "
   [k]
-  (let [mp-id     (st/key->mp-id   k)
-        struct    (st/key->struct  k)
-        no-idx    (st/key->no-idx  k)
-        seq-idx   (st/key->seq-idx k)
-        par-idx   (st/key->par-idx k)
+  (let [mp-id     (ku/key->mp-id   k)
+        struct    (ku/key->struct  k)
+        no-idx    (ku/key->no-idx  k)
+        seq-idx   (ku/key->seq-idx k)
+        par-idx   (ku/key->par-idx k)
         def-key   (u/vec->key [mp-id struct no-idx "definition" seq-idx par-idx])
         t         (st/key->val def-key)]
     (if t

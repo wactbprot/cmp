@@ -23,14 +23,12 @@
     (log/warn "no key given")))
 
 (defn set-same-val!
-  "Sets the given `val` for all keys `ks` with the
-  delay `mtp`."
+  "Sets the given `val` for all keys `ks` with the delay `mtp`."
   [ks v]
   (run!
    (fn [k]
      (set-val! k v))
    ks))
-
 
 ;;------------------------------
 ;; set state
@@ -75,9 +73,8 @@
   (run! del-key! ks))
 
 (defn clear
-  "Clears the key `x`. If `x` is a vector
-  the function `u/vec->key` is used for
-  the conversion of `x` to a string."
+  "Clears the key `x`. If `x` is a vector the function `u/vec->key` is
+  used for the conversion of `x` to a string."
   [x]
   (condp = (class x)
     String                        (->> x
@@ -92,21 +89,19 @@
 ;; get value(s)
 ;;------------------------------
 (defn key->val
-  "Returns the value for the given key (`k`)
-  and cast it to a clojure type."
+  "Returns the value for the given key (`k`) and cast it to a clojure
+  type."
   [k]
   (u/val->clj (wcar conn (car/get k))))
 
 (defn keys->vals
-  "Returns a vector of the `vals`
-  behind the keys `ks`."
+  "Returns a vector of the `vals` behind the keys `ks`."
   [ks]
   (mapv key->val ks))
 
 (defn filter-keys-where-val
-  "Returns a list of all keys belonging
-  to the pattern `pat` where the value
-  is equal to`x`.
+  "Returns a list of all keys belonging to the pattern `pat` where the
+  value is equal to`x`.
   
   Example:
   ```clojure
@@ -122,8 +117,7 @@
    (pat->keys pat)))
 
 (defn state-key->response-key
-  "Turns the given `state-key` into a
-  `response-key`.
+  "Turns the given `state-key` into a `response-key`.
 
   ```clojure
   (state-key->response-key \"devs@container@0@state@0@0\")
@@ -145,97 +139,6 @@
   "
   [k]
   (u/replace-key-at-level 3 k "request"))
-
-;;------------------------------
-;; key arithmetic
-;;------------------------------
-(defn key->mp-id
-  "Returns the name of the key space for
-  the given key.
-
-  May be:
-  * tasks
-  * <mp-id>
-
-  "
-  [k]
-  (when (and
-         (string? k)
-         (not (empty? k)))
-    (nth (string/split k u/re-sep) 0 nil)))
-
-(defn key->struct
-  "Returns the name of the `struct`ure
-  for the given key.
-
-  May be:
-  * <taskname>
-  * definitions
-  * container
-  "
-  [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 1 nil)))
-
-(defn key->no-idx
-  "Returns an integer corresponding to the
-  given key `container` or `definitions` index."
-  [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 2 nil)))
-
-(defn key->func
-  "Returns the name of the `func`tion
-  for the given key."
-  [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 3 nil)))
-
-(defn key->seq-idx
-  "Returns an integer corresponding to
-  the givens key sequential index."
-  [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 4 nil)))
-
-(defn key->no-jdx
-  "The 4th position at definitions
-  has nothing todo with `seq-idx`. Hence
-  a fn-rename"
-  [k]
-  (key->seq-idx k))
-
-(defn key->par-idx
-  "Returns an integer corresponding to
-  the givens key parallel index."
-  [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 5 nil)))
-
-(defn key->key-map
-  "Turns a key into a map.
-  
-  Todo:
-  use this concept everywhere!
-  
-  Example:
-  ```clojure
-  (key->key-map \"\") 
-  ;;{:mp-id nil,
-  ;; :struct nil,
-  ;; :no-idx nil,
-  ;; :func nil,
-  ;; :seq-idx nil,
-  ;; :par-idx nil}
-  ```"
-  [k]
-  (when (string? k)
-    {:mp-id       (key->mp-id   k)
-     :struct      (key->struct  k)
-     :no-idx      (key->no-idx  k)
-     :func        (key->func    k)
-     :seq-idx     (key->seq-idx k)
-     :par-idx     (key->par-idx k)}))
   
 ;;------------------------------
 ;; message
