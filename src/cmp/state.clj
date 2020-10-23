@@ -251,26 +251,24 @@
   [v]
   (when-let [next-m (next-ready v)]
     (when-let [i (:seq-idx next-m)]
-      (when (or
-             (zero? (u/ensure-int i))
-             (predecessor-executed? v i))
+      (when (or (zero? (u/ensure-int i))
+                (predecessor-executed? v i))
         next-m))))
 
-(defn choose-next
-  "Side effect free for testing purpose; sits infront of [[startt-next!]].
+(defn start-next
+  "Side effect free. Makes [[start-next!]] testable.
   Gets the state vector `v` and picks the next thing to do.
   The `ctrl-k`ey is derived from the first map in the
   the `v`."
   [v]
-  (when (vector? v)
-    (let [m      (next-map v)
-          ctrl-k (state-map->ctrl-key (first v))
-          defi-k (state-map->definition-key m)]
-      (cond
-        (errors?       v) {:what :error    :key ctrl-k}
-        (all-executed? v) {:what :all-exec :key ctrl-k}
-        (nil?          m) {:what :nop      :key ctrl-k}
-        :run-worker       {:what :work     :key defi-k}))))
+  (let [m      (next-map v)
+        ctrl-k (state-map->ctrl-key (first v))
+        defi-k (state-map->definition-key m)]
+    (cond
+      (errors?       v) {:what :error    :key ctrl-k}
+      (all-executed? v) {:what :all-exec :key ctrl-k}
+      (nil?          m) {:what :nop      :key ctrl-k}
+      :run-worker       {:what :work     :key defi-k})))
 
 (defn start-next!
   "`start-next!` choose the `k` of the upcomming tasks.
@@ -282,12 +280,11 @@
   [v]
   (log/debug "call to start next")
     (when (vector? v)
-      (let [{what :what
-             k    :key} (choose-next v)]
+      (let [{what :what k :key} (start-next v)]
         (condp = what
-          :error    (error! k)
-          :all-exec (all-exec! k)
-          :nop      (nop! k)
+          :error    (error!     k)
+          :all-exec (all-exec!  k)
+          :nop      (nop!       k)
           :work     (work/check k)))))
       
 ;;------------------------------
