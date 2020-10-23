@@ -5,6 +5,7 @@
           This may be calibration documents but 
           also measurement docs."}
   (:require [cmp.lt-mem :as lt]
+            [cmp.key-utils :as ku]
             [cmp.st-mem :as st]
             [cmp.utils :as u]
             [clojure.string :as string]
@@ -73,7 +74,7 @@
   "Adds a info map to the short term memory."
   [mpd-id id]
   (if-let [doc (lt/id->doc id)]
-    (let [k    (st/id-path mpd-id id)
+    (let [k    (ku/id-key mpd-id id)
           info (doc-info doc (base-info doc))]
       (st/set-val! k info))
     (log/error "no doc added")))
@@ -84,7 +85,7 @@
 (defn rm
   "Removes the info map from the short term memory."
   [mpd-id id]
-  (st/del-key! (st/id-path mpd-id id)))
+  (st/del-key! (ku/id-key mpd-id id)))
 
 ;;------------------------------
 ;; ids
@@ -103,7 +104,7 @@
   (map
    (fn [k] (u/key-at-level k 2))
    (st/key->keys
-    (st/id-prefix mp-id))))
+    (ku/id-prefix mp-id))))
   
 ;;------------------------------
 ;; data to doc

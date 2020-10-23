@@ -1,6 +1,7 @@
 (ns cmp.exchange-test
   (:require [clojure.test :refer :all]
             [cmp.exchange :refer :all]
+            [cmp.key-utils :as ku]
             [cmp.st-mem :as st]))
 
 (deftest stop-if-i
@@ -26,21 +27,21 @@
 (deftest to-i
   (testing "to!"
     (to! "test" {:B "aaa"})
-    (is (= "aaa" (st/key->val (st/exch-path "test" "B")))
+    (is (= "aaa" (st/key->val (ku/exch-key "test" "B")))
         "stores string")))
 
 (deftest to-ii
   (testing "to! with simple path"
     (to! "test" {:B "aaa"} "dd")
-    (is (= {:B "aaa"}  (st/key->val (st/exch-path "test" "dd")))
+    (is (= {:B "aaa"}  (st/key->val (ku/exch-key "test" "dd")))
         "stores string under path "))
   (testing "to! with double path"
     (to! "test" {:B "aaa"} "dd.ff")
-    (is (= {:ff {:B "aaa"}}  (st/key->val (st/exch-path "test" "dd")))
+    (is (= {:ff {:B "aaa"}}  (st/key->val (ku/exch-key "test" "dd")))
         "stores string under path "))
   (testing "to! with nil path"
     (to! "test" {:B "aaa"} nil)
-    (is (= "aaa"  (st/key->val (st/exch-path "test" "B")))
+    (is (= "aaa"  (st/key->val (ku/exch-key "test" "B")))
         "don't crash ")))
 
 (deftest from-i

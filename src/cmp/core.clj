@@ -48,10 +48,10 @@
    (m-info (deref current-mp-id)))
   ([mp-id]
    {:mp-id      mp-id
-    :mp-descr   (u/short-string (st/key->val (st/meta-descr-path mp-id)))
-    :mp-std     (st/key->val (st/meta-std-path mp-id))
-    :mp-ncont   (st/key->val (st/meta-ncont-path mp-id))
-    :mp-ndefins (st/key->val (st/meta-ndefins-path mp-id))}))
+    :mp-descr   (u/short-string (st/key->val (ku/meta-descr-key mp-id)))
+    :mp-std     (st/key->val (ku/meta-std-key mp-id))
+    :mp-ncont   (st/key->val (ku/meta-ncont-key mp-id))
+    :mp-ndefins (st/key->val (ku/meta-ndefins-key mp-id))}))
 
 (defn ms-info
   "The pattern `*@meta@name` is used to find all
@@ -66,9 +66,9 @@
   the mpd with the id `mp-id`."
   [mp-id i]
   {:c-no-idx (u/lp i) 
-   :c-title  (st/key->val    (st/cont-title-path mp-id (u/lp i)))
-   :c-descr  (u/short-string (st/key->val (st/cont-descr-path mp-id (u/lp i))))
-   :c-ctrl   (st/key->val    (st/cont-ctrl-path mp-id (u/lp i)))})
+   :c-title  (st/key->val    (ku/cont-title-key mp-id (u/lp i)))
+   :c-descr  (u/short-string (st/key->val (ku/cont-descr-key mp-id (u/lp i))))
+   :c-ctrl   (st/key->val    (ku/cont-ctrl-key mp-id (u/lp i)))})
 
 (defn c-info
   "Returns info  about the container `i` of
@@ -89,7 +89,7 @@
    (pp/print-table
     (mapv
      (fn [k] (c-data mp-id (ku/key->no-idx k)))
-     (sort (st/pat->keys (st/cont-title-path mp-id "*")))))))
+     (sort (st/pat->keys (ku/cont-title-key mp-id "*")))))))
 
   
 ;;------------------------------
@@ -267,7 +267,7 @@
   ([i cmd]
    (set-ctrl (deref current-mp-id) i cmd))
   ([mp-id i cmd]
-   (st/set-val! (st/cont-ctrl-path  mp-id (u/lp i)) cmd)))
+   (st/set-val! (ku/cont-ctrl-key  mp-id (u/lp i)) cmd)))
 
 (defn c-run
   "Shortcut to push a `run` to the control
@@ -656,5 +656,5 @@
    (pp/print-table
     (mapv (fn [k]
             {:key k :value (st/key->val k)})
-          (st/key->keys (st/exch-prefix mp-id))))))
+          (st/key->keys (ku/exch-prefix mp-id))))))
 

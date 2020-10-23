@@ -155,16 +155,16 @@
                 050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mp-descr&nbsp;&nbsp;&nbsp;(u&#x2F;short-string&nbsp;(st&#x2F;key-&gt;val&nbsp;(st&#x2F;meta-descr-path&nbsp;mp-id)))
+                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mp-descr&nbsp;&nbsp;&nbsp;(u&#x2F;short-string&nbsp;(st&#x2F;key-&gt;val&nbsp;(ku&#x2F;meta-descr-key&nbsp;mp-id)))
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mp-std&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;(st&#x2F;meta-std-path&nbsp;mp-id))
+                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mp-std&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;(ku&#x2F;meta-std-key&nbsp;mp-id))
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mp-ncont&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;(st&#x2F;meta-ncont-path&nbsp;mp-id))
+                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mp-ncont&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;(ku&#x2F;meta-ncont-key&nbsp;mp-id))
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mp-ndefins&nbsp;(st&#x2F;key-&gt;val&nbsp;(st&#x2F;meta-ndefins-path&nbsp;mp-id))}))
+                054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mp-ndefins&nbsp;(st&#x2F;key-&gt;val&nbsp;(ku&#x2F;meta-ndefins-key&nbsp;mp-id))}))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 055&nbsp;&nbsp;
@@ -209,13 +209,13 @@
                 068&nbsp;&nbsp;&nbsp;&nbsp;{:c-no-idx&nbsp;(u&#x2F;lp&nbsp;i)&nbsp;
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:c-title&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;cont-title-path&nbsp;mp-id&nbsp;(u&#x2F;lp&nbsp;i)))
+                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:c-title&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;cont-title-key&nbsp;mp-id&nbsp;(u&#x2F;lp&nbsp;i)))
                 </span><br/>
 <span class="not-covered" title="0 out of 10 forms covered">
-                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:c-descr&nbsp;&nbsp;(u&#x2F;short-string&nbsp;(st&#x2F;key-&gt;val&nbsp;(st&#x2F;cont-descr-path&nbsp;mp-id&nbsp;(u&#x2F;lp&nbsp;i))))
+                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:c-descr&nbsp;&nbsp;(u&#x2F;short-string&nbsp;(st&#x2F;key-&gt;val&nbsp;(ku&#x2F;cont-descr-key&nbsp;mp-id&nbsp;(u&#x2F;lp&nbsp;i))))
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:c-ctrl&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;cont-ctrl-path&nbsp;mp-id&nbsp;(u&#x2F;lp&nbsp;i)))})
+                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:c-ctrl&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;cont-ctrl-key&nbsp;mp-id&nbsp;(u&#x2F;lp&nbsp;i)))})
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 072&nbsp;&nbsp;
@@ -278,7 +278,7 @@
                 091&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[k]&nbsp;(c-data&nbsp;mp-id&nbsp;(ku&#x2F;key-&gt;no-idx&nbsp;k)))
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                092&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(sort&nbsp;(st&#x2F;pat-&gt;keys&nbsp;(st&#x2F;cont-title-path&nbsp;mp-id&nbsp;&quot;*&quot;)))))))
+                092&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(sort&nbsp;(st&#x2F;pat-&gt;keys&nbsp;(ku&#x2F;cont-title-key&nbsp;mp-id&nbsp;&quot;*&quot;)))))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 093&nbsp;&nbsp;
@@ -812,7 +812,7 @@
                 269&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;i&nbsp;cmd]
                 </span><br/>
 <span class="not-covered" title="0 out of 9 forms covered">
-                270&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(st&#x2F;cont-ctrl-path&nbsp;&nbsp;mp-id&nbsp;(u&#x2F;lp&nbsp;i))&nbsp;cmd)))
+                270&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(ku&#x2F;cont-ctrl-key&nbsp;&nbsp;mp-id&nbsp;(u&#x2F;lp&nbsp;i))&nbsp;cmd)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 271&nbsp;&nbsp;
@@ -1979,7 +1979,7 @@
                 658&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:key&nbsp;k&nbsp;:value&nbsp;(st&#x2F;key-&gt;val&nbsp;k)})
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                659&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;keys&nbsp;(st&#x2F;exch-prefix&nbsp;mp-id))))))
+                659&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;keys&nbsp;(ku&#x2F;exch-prefix&nbsp;mp-id))))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 660&nbsp;&nbsp;

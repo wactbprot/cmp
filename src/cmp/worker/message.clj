@@ -23,7 +23,7 @@
   (st/set-state! state-key :working)
   (let [struct   (ku/key->struct state-key)
         no-idx   (ku/key->no-idx state-key)
-        msg-key  (st/message-path mp-id struct no-idx)
+        msg-key  (ku/key->message-path state-key)
         func     (ku/key->func msg-key)
         level    "a"
         callback (fn [_]

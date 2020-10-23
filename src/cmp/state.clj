@@ -100,7 +100,7 @@
 (defn ready! 
   "Sets all states (the state interface) to ready."
   [k]
-  (st/set-val! (ku/k->ctrl-k k) "ready")
+  (st/set-val! (ku/key->ctrl-key k) "ready")
   (st/set-same-val! (ku/k->state-ks k) "ready"))
 
 ;;------------------------------
@@ -120,7 +120,7 @@
   "Sets the `ctrl` interface to `\"error\"`."
   [k]
   (log/error  "error! for: " k)
-  (st/set-val! (ku/k->ctrl-k k) "error"))
+  (st/set-val! (ku/key->ctrl-key k) "error"))
 
 (defn nop!
   "No operation."
@@ -131,7 +131,7 @@
   "Handles the case where all `state` interfaces are
   `\"executed\"`. Gets the value the `ctrl`"
   [k]
-  (let [ctrl-k   (ku/k->ctrl-k k)
+  (let [ctrl-k   (ku/key->ctrl-key k)
         cmd      (ctrl-k->cmd ctrl-k)]
     (log/info "all done at: " k "ctrl interface cmd is: " cmd)
     (condp = cmd
@@ -228,12 +228,12 @@
 (defn cont-status
   "Return the `state-vec` for the `i`th container."
   [mp-id i]
-  (ks->state-vec (ku/k->state-ks (st/cont-state-path mp-id i))))
+  (ks->state-vec (ku/k->state-ks (ku/cont-state-key mp-id i))))
 
 (defn defins-status
   "Return the `state-vec` for the `i`th definition*s* structure."
   [mp-id i]
-  (ks->state-vec (ku/k->state-ks (st/defins-state-path mp-id i))))
+  (ks->state-vec (ku/k->state-ks (ku/defins-state-key mp-id i))))
 
 ;;------------------------------
 ;; dispatch

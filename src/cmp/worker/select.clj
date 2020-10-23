@@ -43,7 +43,7 @@
   a level b callback. Sets the state of the calling element to `executed`
   if the `ctrl`  turns to ready (or error if error)."          
   [{mp-id :mp-id  no-idx :no-idx state-key :StateKey}]
-  (let [ctrl-key (st/defins-ctrl-path mp-id no-idx)
+  (let [ctrl-key (ku/defins-ctrl-key mp-id no-idx)
         struct   "definitions"
         func     "ctrl"
         level    "b"
@@ -97,12 +97,12 @@
   [k]
   (when k
     (let [m (ku/key->info-map k)]
-      (st/key->keys (st/defins-cond-path (:mp-id m) (:no-idx m))))))
+      (st/key->keys (ku/defins-cond-key (:mp-id m) (:no-idx m))))))
 
 (defn class-keys
   "Returns the keys where the class is `cls`."
   [mp-id cls]
-  (let [pat (st/defins-class-path mp-id "*")]
+  (let [pat (ku/defins-class-key mp-id "*")]
     (st/filter-keys-where-val pat cls)))
 
 (defn select-definition!

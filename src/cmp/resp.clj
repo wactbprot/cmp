@@ -3,6 +3,7 @@
     :doc "Catches responses and dispatchs."}
   (:require [cmp.exchange    :as exch]
             [cmp.doc         :as doc]
+            [cmp.key-utils   :as ku]
             [cmp.lt-mem      :as lt]
             [cmp.st-mem      :as st]
             [cmp.utils       :as u]
@@ -25,7 +26,7 @@
     (do
       (log/error (str "response: " body " at " state-key))
       (st/set-state! state-key :error))
-    (let [resp-key (st/state-key->response-key state-key)
+    (let [resp-key (ku/key->response-key state-key)
           to-exch  (:ToExchange body)
           results  (:Result body) 
           doc-path (:DocPath task)
