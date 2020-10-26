@@ -3,12 +3,13 @@
     :doc "All about key transformation, -arithmetic and -info."}
   (:require [taoensso.timbre :as log]
             [clojure.string  :as string]
-            [cmp.st-mem      :as st]
             [cmp.utils       :as u]))
 
 ;;------------------------------
 ;; key arithmetic
 ;;------------------------------
+
+;; key at position 0
 (defn key->mp-id
   "Returns the name of the key space for the given key.
 
@@ -23,6 +24,7 @@
          (not (empty? k)))
     (nth (string/split k u/re-sep) 0 nil)))
 
+;; key at position 1
 (defn key->struct
   "Returns the name of the `struct`ure for the given key.
   The structure is the name of the key at the second
@@ -39,6 +41,7 @@
   (when (string? k)
     (nth (string/split k u/re-sep) 1 nil)))
 
+;; key at position 2
 (defn key->no-idx
   "Returns the value of the key corresponding to the given key
   `container` or `definitions` index."
@@ -46,6 +49,7 @@
   (when (string? k)
     (nth (string/split k u/re-sep) 2 nil)))
 
+;; key at position 3
 (defn key->func
   "Returns the name of the `func`tion for the given key.
   Possible values are:
@@ -63,6 +67,7 @@
   (when (string? k)
     (nth (string/split k u/re-sep) 3 nil)))
 
+;; key at position 4
 (defn key->seq-idx
   "Returns an integer corresponding to the givens key sequential index."
   [k]
@@ -75,15 +80,18 @@
   [k]
   (key->seq-idx k))
 
+;; key at position 5
 (defn key->par-idx
   "Returns an integer corresponding to the givens key parallel index."
   [k]
   (when (string? k)
     (nth (string/split k u/re-sep) 5 nil)))
 
+;;------------------------------
+;; key info map
+;;------------------------------
 (defn key->info-map
-  "Builds a `info-map` by means of the key structure and
-  `st/key->val`.
+  "Builds a `info-map` out of the key structure.
   
   Example:
   ```clojure
@@ -108,24 +116,13 @@
   "Converts a `state-map` into the related `definition` key."
   [m]
   (when (map? m)
-    (u/vec->key [(:mp-id m) (:struct m) (:no-idx m) "definition"
-                 (:seq-idx m) (:par-idx m)])))
-
-(defn k->state-ks
-  "Returns the state keys for a given path.
-
-  ```clojure
-  (k->state-ks \"wait@container@0\")
-  ```" 
-  [k]
-  (when k
-    (sort
-     (st/key->keys
-      (u/vec->key [(key->mp-id k)
-                   (key->struct k)
-                   (key->no-idx k)
-                   "state"])))))
-
+    (u/vec->key [(:mp-id m)
+                 (:struct m)
+                 (:no-idx m)
+                 "definition"
+                 (:seq-idx m)
+                 (:par-idx m)])))
+ 
 (defn seq-idx->all-par
   "Returns a vector of [[info-maps]] with all `par` steps for a given
   `i`.
@@ -138,6 +135,8 @@
   ;; =>
   ;; [{:seq-idx 1 :par-idx 0 :state :ready}
   ;;  {:seq-idx 1 :par-idx 1 :state :ready}]
+
+  REVIEW: does this function really belong to ku ns?
   ```"
   [v i]
   (filterv (fn [m] (= (u/ensure-int i)

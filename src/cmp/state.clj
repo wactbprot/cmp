@@ -28,6 +28,22 @@
   (when ks
     (mapv state-key->state-map ks)))
 
+
+(defn k->state-ks
+  "Returns the state keys for a given path.
+
+  ```clojure
+  (k->state-ks \"wait@container@0\")
+  ```" 
+  [k]
+  (when k
+    (sort
+     (st/key->keys
+      (u/vec->key [(ku/key->mp-id k)
+                   (ku/key->struct k)
+                   (ku/key->no-idx k)
+                   "state"])))))
+
 (defn ctrl-k->cmd
   "Gets the `cmd` from the `ctrl-k`. Extracts the `next-ctrl-cmd` and
   make a keyword out of it."
@@ -101,7 +117,7 @@
   "Sets all states (the state interface) to ready."
   [k]
   (st/set-val! (ku/key->ctrl-key k) "ready")
-  (st/set-same-val! (ku/k->state-ks k) "ready"))
+  (st/set-same-val! (k->state-ks k) "ready"))
 
 ;;------------------------------
 ;; stop
@@ -218,9 +234,9 @@
                 (fn [msg]
                   (when-let [msg-k (st/msg->key msg)]                   
                     (log/debug "will call start-next from callback")
-                    (start-next! (ks->state-vec (ku/k->state-ks msg-k))))))
+                    (start-next! (ks->state-vec (k->state-ks msg-k))))))
   (log/debug "will call start-next first trigger")
-  (start-next! (ks->state-vec (ku/k->state-ks k))))
+  (start-next! (ks->state-vec (k->state-ks k))))
 
 ;;------------------------------
 ;; status 
@@ -228,12 +244,12 @@
 (defn cont-status
   "Return the `state-vec` for the `i`th container."
   [mp-id i]
-  (ks->state-vec (ku/k->state-ks (ku/cont-state-key mp-id i))))
+  (ks->state-vec (k->state-ks (ku/cont-state-key mp-id i))))
 
 (defn defins-status
   "Return the `state-vec` for the `i`th definition*s* structure."
   [mp-id i]
-  (ks->state-vec (ku/k->state-ks (ku/defins-state-key mp-id i))))
+  (ks->state-vec (k->state-ks (ku/defins-state-key mp-id i))))
 
 ;;------------------------------
 ;; dispatch
@@ -252,3 +268,27 @@
                (ready! k))
     :suspend (de-observe! k)
     (log/info  "default case state dispach function" )))
+
+;;------------------------------
+;; stop
+;;------------------------------
+(defn stop
+  "De-registers the listener for the `ctrl` interfaces of the
+  `mp-id`. After stopping the system will no longer react on changes
+  at the `ctrl` interface."
+  [mp-id]
+  (st/de-register! mp-id "*" "*" "ctrl")
+  (st/clean-register! mp-id))
+
+;;------------------------------
+;; start
+;;------------------------------
+(defn start
+  "Registers a listener for the `ctrl` interface of the entire
+  `mp-id`. The [[dispatch]] function becomes the listeners `cb!`." 
+  [mp-id]
+  (log/info "register ctrl listener for: " mp-id)
+  (st/register! mp-id "*" "*" "ctrl" (fn [msg]
+                                       (when-let [k (st/msg->key msg)]
+                                         (when-let [cmd (u/next-ctrl-cmd (st/key->val k))]
+                                           (dispatch k cmd))))))

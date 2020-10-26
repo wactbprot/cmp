@@ -8,6 +8,11 @@
     (is (nil? (ks->state-vec nil))
         "nil .")))
 
+(deftest k->state-ks-i
+  (testing "a key returns (i)"
+    (is (nil? (k->state-ks nil))
+        "nil .")))
+
 (deftest next-map-i
   (testing " returns (i)"
     (is (nil? (next-map nil))
