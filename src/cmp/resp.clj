@@ -10,29 +10,24 @@
             [taoensso.timbre :as log]))
 
 (defn dispatch
-  "Dispatches responds from outer space.
-  Expected responses are:
+  "Dispatches responds from outer space. Expected responses are:
 
   * Result
   * ToExchange
   * error
 
-  It's maybe a good idea to save the
-  respons body to a key associated to
-  the state key (done).
+  It's maybe a good idea to save the respons body to a key associated
+  to the state key (done).
   "
   [body task state-key]
+  (log/debug "write response body to response key.")
+  (st/set-val! (ku/key->response-key state-key) body)
   (if-let [err (:error body)]
-    (do
-      (log/error (str "response: " body " at " state-key))
-      (st/set-state! state-key :error))
-    (let [resp-key (ku/key->response-key state-key)
-          to-exch  (:ToExchange body)
+    (st/set-state! state-key :error (str "response: " body " at " state-key))
+    (let [to-exch  (:ToExchange body)
           results  (:Result body) 
           doc-path (:DocPath task)
           mp-id    (:MpName task)]
-      (log/debug "write response body to: " resp-key)
-      (st/set-val! resp-key body)
       (let [res-exch  (exch/to! mp-id to-exch)
             res-doc   (doc/store! mp-id results doc-path)]
         (cond
@@ -47,8 +42,8 @@
 ;; check
 ;;------------------------------
 (defn check
-  "Checks a response from outer space.
-  Lookes at the status, parses the body and dispathes."
+  "Checks a response from outer space.  Lookes at the status, parses the
+  body and dispathes."
   [res task state-key]
   (if-let [status (:status res)]
     (if-let [body (u/val->clj (:body res))]

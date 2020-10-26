@@ -25,25 +25,40 @@
 
 (defn key->struct
   "Returns the name of the `struct`ure for the given key.
-
-  May be:
-  * <taskname>
-  * definitions
-  * container
+  The structure is the name of the key at the second
+  position. Possible values are:
+  
+  * `<taskname>`
+  * `definitions`
+  * `container`
+  * `exchange`
+  * `id`
+  * `meta`
   "
   [k]
   (when (string? k)
     (nth (string/split k u/re-sep) 1 nil)))
 
 (defn key->no-idx
-  "Returns an integer corresponding to the given key `container` or
-  `definitions` index."
+  "Returns the value of the key corresponding to the given key
+  `container` or `definitions` index."
   [k]
   (when (string? k)
     (nth (string/split k u/re-sep) 2 nil)))
 
 (defn key->func
-  "Returns the name of the `func`tion for the given key."
+  "Returns the name of the `func`tion for the given key.
+  Possible values are:
+
+  * `ctrl`
+  * `state`
+  * `request`
+  * `response`
+  * `elem`
+  * `decr`
+  * `title`
+  * `definition`
+  "
   [k]
   (when (string? k)
     (nth (string/split k u/re-sep) 3 nil)))
@@ -56,7 +71,7 @@
 
 (defn key->no-jdx
   "The 4th position at definitions has nothing todo with
-  `seq-idx`. Hence a fn-rename"
+  `seq-idx` (function rename)"
   [k]
   (key->seq-idx k))
 
@@ -67,11 +82,8 @@
     (nth (string/split k u/re-sep) 5 nil)))
 
 (defn key->info-map
-  "Builds a `state-map` by means of the key structure and
+  "Builds a `info-map` by means of the key structure and
   `st/key->val`.
-  
-  Todo:
-  use this concept everywhere!
   
   Example:
   ```clojure
