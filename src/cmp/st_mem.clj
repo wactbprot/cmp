@@ -47,7 +47,10 @@
               (keyword? state)) 
      (set-val! k (name state))
      (log/debug "wrote new state: " state " to: " k)
-     (when (= state :working) (Thread/sleep mtp)))))
+     (when (= state :working)
+       (log/debug "just set working state")
+       (Thread/sleep mtp)
+       (log/debug "relaxation time over")))))
 
 (defn pat->keys
   "Get all keys matching  the given pattern `pat`."
