@@ -24,6 +24,19 @@
       (log/error "catch error on attempt to put doc")
       (log/error (.getMessage e)))))
 
+(defn exist?
+  "Returns true if a document with the `id` exists.
+
+  Example:
+  ```clojure
+  (exist? \"foo-bar\")
+  ;; =>
+  ;; false
+  ```
+  "
+  [id]
+  (if (:_id (id->doc id)) true false))
+  
 (defn rev-refresh
   "Refreshs the revision `_rev` of the document if
   it exist."
