@@ -15,7 +15,7 @@
              [cmp.task        :as task]
              [taoensso.timbre :as timbre]
              [cmp.utils       :as u]
-             [cmp.work        :as work]))
+             [cmp.work        :as w]))
 
 ;;------------------------------
 ;; current-mp-id atom and workon
@@ -114,7 +114,7 @@
     (mapv
      (fn [[k v]]
        {:key k :val (if (nil? (if deref? (deref v) v)) "ok" v)})
-     (deref work/future-reg)))))
+     (deref w/future-reg)))))
   
 ;;------------------------------
 ;; status (stat)
@@ -136,11 +136,34 @@
    (pp/print-table (state/defins-status mp-id (u/lp i)))))
 
 ;;------------------------------
+;; start observing mp
+;;------------------------------
+(defn m-start
+  "Registers a listener for the `ctrl` interface of a
+  `mp-id` (see [[workon!]])."
+  ([]
+   (m-start (deref current-mp-id)))
+  ([mp-id]
+   (state/start mp-id)))
+
+;;------------------------------
+;; stop observing 
+;;------------------------------
+(defn m-stop
+  "De-registers the listener for the `ctrl` interface of the given
+  `mp-id` (see [[workon!]])."
+  ([]
+   (m-stop (deref current-mp-id)))
+  ([mp-id]
+   (state/stop mp-id)))
+
+;;------------------------------
 ;; build mpd
 ;;------------------------------
 (defn m-build
   "Loads a mpd from long term memory and builds the short term
-  memory. The `mp-id` may be set with [[workon!]].
+  memory. The `mp-id` may be set with [[workon!]]. [[m-start]] is
+  called after mp is build.
   
   Usage:  
   ```clojure
@@ -158,7 +181,8 @@
         (u/compl-main-path)
         (lt/id->doc)
         (u/doc->safe-doc)
-        (build/store))))
+        (build/store))
+   (m-start mp-id)))
 
 (defn m-build-edn
   "Builds up a the mpds in `edn` format provided by *cmp* (see resources
@@ -200,28 +224,6 @@
    (d-ids (deref current-mp-id)))
   ([mp-id]
    (d/ids mp-id)))
-
-;;------------------------------
-;; start observing mp
-;;------------------------------
-(defn m-start
-  "Registers a listener for the `ctrl` interface of a
-  `mp-id` (see [[workon!]])."
-  ([]
-   (m-start (deref current-mp-id)))
-  ([mp-id]
-   (state/start mp-id)))
-
-;;------------------------------
-;; stop observing 
-;;------------------------------
-(defn m-stop
-  "De-registers the listener for the `ctrl` interface of the given
-  `mp-id` (see [[workon!]])."
-  ([]
-   (m-stop (deref current-mp-id)))
-  ([mp-id]
-   (state/stop mp-id)))
 
 ;;------------------------------
 ;; push ctrl commands
@@ -393,7 +395,7 @@
                                                 (when-let [result-key (st/msg->key msg)]
                                                   (st/de-register! mp-id struct no-idx func)
                                                   (pp/pprint (st/key->val result-key))))))
-     (work/check task))))
+     (w/check task))))
 
 (defn t-run-by-key
   "Calls `t-run` after extracting key info.  A call with all all kinds
@@ -509,8 +511,11 @@
    (m-clear (deref current-mp-id)))
   ([mp-id]
    (m-stop mp-id)
+   (timbre/info "mp stoped")
    (st/clean-register! mp-id)
-   (st/clear mp-id)))
+   (timbre/info "mp de registered")
+   (st/clear mp-id)
+   (timbre/info "mp cleared")))
 
 ;;------------------------------
 ;; p-ubsub events
