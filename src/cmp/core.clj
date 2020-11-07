@@ -1,12 +1,12 @@
  (ns cmp.core
   ^{:author "wactbprot"
-    :doc "Provides the api of cmp. `(m-start)`, `(m-stop)` etc. 
-          are intended for **repl** use only. Graphical user 
-          interfaces should attache to the **short term memory**."}
+    :doc "Provides the api of cmp. `(m-start)`, `(m-stop)` etc.  are
+          intended for **repl** use only. Graphical user interfaces
+          should attache to the **short term memory**."}
    (:require [cmp.build       :as build]
-             [cmp.ctrl        :as ctrl]
              [cmp.config      :as cfg]
              [cmp.doc         :as d]
+             [cmp.key-utils   :as ku]
              [cmp.log         :as log]
              [cmp.lt-mem      :as lt]
              [clojure.pprint  :as pp]
@@ -21,9 +21,9 @@
 ;; current-mp-id atom and workon
 ;;------------------------------
 (def current-mp-id
-  "Provides a storing place for the current mp-id
-  for convenience. Due to this atom the `(build)`,
-  `(check)` or `(start)` function needs no argument." 
+  "Provides a storing place for the current mp-id for convenience. Due
+  to this atom the `(build)`, `(check)` or `(start)` function needs no
+  argument." 
   (atom "ref"))
 
 (defn workon!
@@ -47,31 +47,31 @@
    (m-info (deref current-mp-id)))
   ([mp-id]
    {:mp-id      mp-id
-    :mp-descr   (u/short-string (st/key->val (st/meta-descr-path mp-id)))
-    :mp-std     (st/key->val (st/meta-std-path mp-id))
-    :mp-ncont   (st/key->val (st/meta-ncont-path mp-id))
-    :mp-ndefins (st/key->val (st/meta-ndefins-path mp-id))}))
+    :mp-descr   (u/short-string (st/key->val (ku/meta-descr-key mp-id)))
+    :mp-std     (st/key->val (ku/meta-std-key mp-id))
+    :mp-ncont   (st/key->val (ku/meta-ncont-key mp-id))
+    :mp-ndefins (st/key->val (ku/meta-ndefins-key mp-id))}))
 
 (defn ms-info
-  "The pattern `*@meta@name` is used to find all
-   `mp-id`s loaded and available at the short term memory."
+  "The pattern `*@meta@name` is used to find all `mp-id`s loaded and
+  available at the short term memory."
   []
   (pp/print-table
-   (mapv (fn [k] (m-info (st/key->mp-id k)))
+   (mapv (fn [k] (m-info (ku/key->mp-id k)))
          (st/pat->keys "*@meta@name"))))
 
 (defn c-data
-  "Returns a  map about the `i`th container of
-  the mpd with the id `mp-id`."
+  "Returns a map about the `i`th container of the mpd with the id
+  `mp-id`."
   [mp-id i]
   {:c-no-idx (u/lp i) 
-   :c-title  (st/key->val    (st/cont-title-path mp-id (u/lp i)))
-   :c-descr  (u/short-string (st/key->val (st/cont-descr-path mp-id (u/lp i))))
-   :c-ctrl   (st/key->val    (st/cont-ctrl-path mp-id (u/lp i)))})
+   :c-title  (st/key->val    (ku/cont-title-key mp-id (u/lp i)))
+   :c-descr  (u/short-string (st/key->val (ku/cont-descr-key mp-id (u/lp i))))
+   :c-ctrl   (st/key->val    (ku/cont-ctrl-key mp-id (u/lp i)))})
 
 (defn c-info
-  "Returns info  about the container `i` of
-  the mpd with the id `mp-id`."
+  "Returns info about the container `i` of the mpd with the id
+  `mp-id`."
   ([]
    (c-info (deref current-mp-id) 0))
   ([i]
@@ -80,23 +80,21 @@
    (pp/print-table [(c-data mp-id i)])))
    
 (defn cs-info
-  "Returns info  about the containers of
-  the mpd with the id `mp-id`."
+  "Returns info about the containers of the mpd with the id `mp-id`."
   ([]
    (cs-info (deref current-mp-id)))
   ([mp-id]
    (pp/print-table
     (mapv
-     (fn [k] (c-data mp-id (st/key->no-idx k)))
-     (sort (st/pat->keys (st/cont-title-path mp-id "*")))))))
+     (fn [k] (c-data mp-id (ku/key->no-idx k)))
+     (sort (st/pat->keys (ku/cont-title-key mp-id "*")))))))
 
   
 ;;------------------------------
 ;; listeners 
 ;;------------------------------
 (defn l-info
-  "Returns a table with the currently registered listener
-  patterns."
+  "Returns a table with the currently registered listener patterns."
   []
   (pp/print-table
    (mapv
@@ -122,16 +120,15 @@
 ;; status (stat)
 ;;------------------------------
 (defn c-status
-  "Returns the  **c**ontainer status.
-  Returns the state map for the `i` container."
+  "Returns the **c**ontainer status.  Returns the state map for the `i`
+  container."
   ([i]
    (c-status (deref current-mp-id) i))
   ([mp-id i]
    (pp/print-table (state/cont-status mp-id (u/lp i)))))
 
 (defn n-status
-  "Returns  defi**n**itions status.
-  Returns the `state map` for the `i`
+  "Returns defi**n**itions status. Returns the `state map` for the `i`
   definitions structure."
   ([i]
    (n-status (deref current-mp-id) i))
@@ -142,9 +139,8 @@
 ;; build mpd
 ;;------------------------------
 (defn m-build
-  "Loads a mpd from long term memory and
-  builds the short term memory. The `mp-id`
-  may be set with [[workon!]].  
+  "Loads a mpd from long term memory and builds the short term
+  memory. The `mp-id` may be set with [[workon!]].
   
   Usage:  
   ```clojure
@@ -165,8 +161,8 @@
         (build/store))))
 
 (defn m-build-edn
-  "Builds up a the mpds in `edn` format provided by *cmp*
-  (see resources directory).
+  "Builds up a the mpds in `edn` format provided by *cmp* (see resources
+  directory).
   
   ```clojure
   (m-build-edn \"resources/mpd-devhub.edn\")
@@ -209,36 +205,34 @@
 ;; start observing mp
 ;;------------------------------
 (defn m-start
-  "Registers a listener for the `ctrl`
-  interface of a `mp-id` (see [[workon!]])."
+  "Registers a listener for the `ctrl` interface of a
+  `mp-id` (see [[workon!]])."
   ([]
    (m-start (deref current-mp-id)))
   ([mp-id]
-   (ctrl/start mp-id)))
+   (state/start mp-id)))
 
 ;;------------------------------
 ;; stop observing 
 ;;------------------------------
 (defn m-stop
-  "De-registers the listener for the `ctrl`
-  interface of the given `mp-id` (see [[workon!]])."
+  "De-registers the listener for the `ctrl` interface of the given
+  `mp-id` (see [[workon!]])."
   ([]
    (m-stop (deref current-mp-id)))
   ([mp-id]
-   (ctrl/stop mp-id)))
+   (state/stop mp-id)))
 
 ;;------------------------------
 ;; push ctrl commands
 ;;------------------------------
 (defn set-ctrl
-  "Writes the command string (`cmd`) to the control
-  interface of a `mpd`. If the `mpd` is already
-  started (see [[m-start]]) the next steps work
-  as follows:  `cmd` is written to the short
-  term memory by means of [[cmp.st-mem.set-val!]].
-  The writing process triggers the `registered`
-  `callback` (registered by [[m-start]]). The
-  `callback` cares about the `cmd`.  `cmd`s are:
+  "Writes the command string (`cmd`) to the control interface of a
+  `mpd`. If the `mpd` is already started (see [[m-start]]) the next
+  steps work as follows: `cmd` is written to the short term memory by
+  means of [[cmp.st-mem.set-val!]].  The writing process triggers the
+  `registered` `callback` (registered by [[m-start]]). The `callback`
+  cares about the `cmd`.  `cmd`s are:
   
   * `\"run\"`
   * `\"stop\"`
@@ -260,47 +254,45 @@
 
   **NOTE:**
 
-  `set-ctrl` only writes to the `container` structure.
-  The `definitions` struct should not be started by a
+  `set-ctrl` only writes to the `container` structure.  The
+  `definitions` struct should not be started by a
   user (see [[workon!]])."
   ([i cmd]
    (set-ctrl (deref current-mp-id) i cmd))
   ([mp-id i cmd]
-   (st/set-val! (st/cont-ctrl-path  mp-id (u/lp i)) cmd)))
+   (st/set-val! (ku/cont-ctrl-key  mp-id (u/lp i)) cmd)))
 
 (defn c-run
-  "Shortcut to push a `run` to the control
-  interface of  mp container `i`."
+  "Shortcut to push a `run` to the control interface of mp container
+  `i`."
   [i]
   (set-ctrl (deref current-mp-id) i "run"))
 
 (defn c-mon
-  "Shortcut to push a `mon` to the control
-  interface of  mp container `i`."
+  "Shortcut to push a `mon` to the control interface of mp container
+  `i`."
   [i]
   (set-ctrl (deref current-mp-id) i "mon"))
 
 (defn c-stop
-  "Shortcut to push a `stop` to the control
-  interface of  mp container `i`."
+  "Shortcut to push a `stop` to the control interface of mp container
+  `i`."
   [i]
   (set-ctrl (deref current-mp-id) i "stop"))
 
 (defn c-reset
-  "Shortcut to push a `reset` to the control
-  interface of  mp container `i`. The `reset` cmd
-  **don't**  de-register the `state` listener so
-  that the container starts from the beginning.
-  **reset is a container restart**
+  "Shortcut to push a `reset` to the control interface of mp container
+  `i`. The `reset` cmd **don't** de-register the `state` listener so
+  that the container starts from the beginning.  **reset is a
+  container restart**
   "
   [i]
   (set-ctrl (deref current-mp-id) i "reset"))
 
 (defn c-suspend
-  "Shortcut to push a `suspend` to the control
-  interface of  mp container `i`. The `suspend` cmd
-  de-register the `state` listener and leaves the state
-  as it is.
+  "Shortcut to push a `suspend` to the control interface of mp container
+  `i`. The `suspend` cmd de-register the `state` listener and leaves
+  the state as it is.
   "
   [i]
   (set-ctrl (deref current-mp-id) i "suspend"))
@@ -309,17 +301,14 @@
 ;; tasks
 ;;------------------------------
 (defn t-build
-  "Builds the `tasks` endpoint. At
-  runtime all `tasks` are provided by
-  `st-mem`. The advantage is: tasks
-  can be modified at runtime." 
+  "Builds the `tasks` endpoint. At runtime all `tasks` are provided by
+  `st-mem`. The advantage is: tasks can be modified at runtime." 
   []
   (build/store-tasks (lt/all-tasks)))
 
 (defn t-table
-  "Prints a table of **assembled tasks** stored in
-  **short term memory**. If a `kw` and `val` are given
-  it is used as a filter
+  "Prints a table of **assembled tasks** stored in **short term
+  memory**. If a `kw` and `val` are given it is used as a filter
 
   Example:
   ```clojure
@@ -343,7 +332,7 @@
      (pp/print-table
       (filter some?
               (mapv (fn [k]
-                      (let [name      (st/key->struct k)
+                      (let [name      (ku/key->struct k)
                             meta-task (task/gen-meta-task name)
                             task      (task/assemble meta-task mp-id state-key)
                             value     (kw task)]
@@ -354,17 +343,16 @@
 
 (defn t-run
   "Runs the task with the given name (from stm).
-  If only the name is provided, results are stored
-  under  `core@test@0@response@0@0`.
+  If only the name is provided, results are stored under
+  `core@test@0@response@0@0`.
 
-  If  `mp-id`, `struct`, `i`, `j` and  `k` is given,
-  the results are written to `<mp-id@<struct>@<i>@response@<j>@<k>`.
-  A listener at this key triggers a `cb!` which de-registers
-  and closes the listener. The callback also gets the value of 
-  the key (`<mp-id@<struct>@<i>@response@<j>@<k>`) and pretty
-  prints it.
+  If `mp-id`, `struct`, `i`, `j` and `k` is given, the results are
+  written to `<mp-id@<struct>@<i>@response@<j>@<k>`.  A listener at
+  this key triggers a `cb!` which de-registers and closes the
+  listener. The callback also gets the value of the
+  key (`<mp-id@<struct>@<i>@response@<j>@<k>`) and pretty prints it.
 
-  REVIEW (function is way to large)
+  REVIEW function is way to large
   
   Example:
   ```clojure
@@ -408,15 +396,14 @@
      (work/check task))))
 
 (defn t-run-by-key
-  "Calls `t-run` after extracting key info.
-  A call with all all kinds of complete keys `k` is ok.
-  Complete means: the functions:
+  "Calls `t-run` after extracting key info.  A call with all all kinds
+  of complete keys `k` is ok.  Complete means: the functions:
   
-  *  `(st/key->mp-id   k)`
-  *  `(st/key->struct  k)`
-  *  `(st/key->no-idx  k)`
-  *  `(st/key->seq-idx k)`
-  *  `(st/key->par-idx k)`
+  *  `(ku/key->mp-id   k)`
+  *  `(ku/key->struct  k)`
+  *  `(ku/key->no-idx  k)`
+  *  `(ku/key->seq-idx k)`
+  *  `(ku/key->par-idx k)`
 
   don't return `nil`.
   
@@ -426,11 +413,11 @@
   ``` 
   "
   [k]
-  (let [mp-id     (st/key->mp-id   k)
-        struct    (st/key->struct  k)
-        no-idx    (st/key->no-idx  k)
-        seq-idx   (st/key->seq-idx k)
-        par-idx   (st/key->par-idx k)
+  (let [mp-id     (ku/key->mp-id   k)
+        struct    (ku/key->struct  k)
+        no-idx    (ku/key->no-idx  k)
+        seq-idx   (ku/key->seq-idx k)
+        par-idx   (ku/key->par-idx k)
         def-key   (u/vec->key [mp-id struct no-idx "definition" seq-idx par-idx])
         t         (st/key->val def-key)]
     (if t
@@ -443,11 +430,9 @@
   (st/key->val (u/vec->key ["tasks" s])))
 
 (defn t-assemble
-  "Assembles the task with the given `x`
-  (`TaskName` or
-  `{:TaskName \"task-name\" :Replace {:%waittime 3000}}`).
-  If a `mp-id` (default is `\"core\"`) is given
-  `FromExchange` dependencies may be resolved.
+  "Assembles the task with the given `x` (`TaskName` or `{:TaskName
+  \"task-name\" :Replace {:%waittime 3000}}`).  If a `mp-id` (default
+  is `\"core\"`) is given `FromExchange` dependencies may be resolved.
 
   Example:
   ```clojure
@@ -468,8 +453,8 @@
      (task/assemble meta-task mp-id state-key))))
  
 (defn t-build-edn
-  "Stores the `task` slurped from the files
-  configured in `resources/config.edn`.
+  "Stores the `task` slurped from the files configured in
+  `resources/config.edn`.
 
   Example:
   ```clojure
@@ -532,8 +517,7 @@
 ;;------------------------------
 (def p-table (atom []) )
 (defn p-start-table
-  "Registers a listener. Pretty prints a p-table
-  on events. 
+  "Registers a listener. Pretty prints a p-table on events.
 
   Example:
   ```clojure
@@ -599,8 +583,7 @@
   (reset! p-table []))
 
 (defn p-stop-table
-  "De-registers the pubsub listener.
-  Resets the p-table `atom`."
+  "De-registers the pubsub listener.  Resets the p-table `atom`."
   ([]
    (p-stop-table "*" "*" "*" "*"))
   ([mp-id struct]
@@ -615,8 +598,8 @@
 ;; Exchange table
 ;;------------------------------
 (defn e-table
-  "Pretty prints a key-value table of the `exchange`-interface
-  of the mpd with the id `mp-id`.
+  "Pretty prints a key-value table of the `exchange`-interface of the
+  mpd with the id `mp-id`.
 
   Example output:
   ```
@@ -655,5 +638,5 @@
    (pp/print-table
     (mapv (fn [k]
             {:key k :value (st/key->val k)})
-          (st/key->keys (st/exch-prefix mp-id))))))
+          (st/key->keys (ku/exch-prefix mp-id))))))
 

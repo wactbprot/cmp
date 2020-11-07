@@ -1,8 +1,9 @@
 (ns cmp.build
   ^{:author "wactbprot"
     :doc "Builds up the short term memory with given the `mpd`."}
-  (:require [cmp.utils :as u]
+  (:require [cmp.key-utils :as ku]
             [cmp.st-mem :as st]
+            [cmp.utils :as u]
             [taoensso.timbre :as log]))
 
 ;;------------------------------
@@ -12,12 +13,11 @@
   "Stores the exchange data."
   [p {exchange :Exchange}]
   (doseq [[k v] exchange]
-    (st/set-val! (st/exch-path p (name k)) v)))
+    (st/set-val! (ku/exch-key p (name k)) v)))
 
 ;;------------------------------
 ;; container
 ;;------------------------------
-
 (defn store-defin
   "Stores the definition section."
   [p idx defin]
@@ -27,8 +27,8 @@
       (doall
        (map-indexed
         (fn [kdx ptsk]
-          (st/set-val! (st/cont-defin-path p idx jdx kdx)  ptsk)
-          (st/set-val! (st/cont-state-path p idx jdx kdx) "ready"))
+          (st/set-val! (ku/cont-defin-key p idx jdx kdx)  ptsk)
+          (st/set-val! (ku/cont-state-key p idx jdx kdx) "ready"))
         s)))
     defin)))
 
@@ -39,10 +39,10 @@
           ctrl  :Ctrl
           elem  :Element
           defin :Definition}]           
-  (st/set-val! (st/cont-title-path p idx) title)
-  (st/set-val! (st/cont-descr-path p idx) descr)
-  (st/set-val! (st/cont-ctrl-path p idx) ctrl)
-  (st/set-val! (st/cont-elem-path p idx) elem)
+  (st/set-val! (ku/cont-title-key p idx) title)
+  (st/set-val! (ku/cont-descr-key p idx) descr)
+  (st/set-val! (ku/cont-ctrl-key p idx) ctrl)
+  (st/set-val! (ku/cont-elem-key p idx) elem)
   (store-defin p idx defin))
 
 (defn store-all-container
@@ -66,8 +66,8 @@
       (doall
        (map-indexed
         (fn [kdx ptsk]
-          (st/set-val! (st/defins-defin-path p idx jdx kdx) ptsk)
-          (st/set-val! (st/defins-state-path p idx jdx kdx) "ready"))
+          (st/set-val! (ku/defins-defin-key p idx jdx kdx) ptsk)
+          (st/set-val! (ku/defins-state-key p idx jdx kdx) "ready"))
         s)))
     defin)))
 
@@ -77,7 +77,7 @@
   (doall
    (map-indexed
     (fn [jdx c]
-      (st/set-val! (st/defins-cond-path p idx jdx) c))
+      (st/set-val! (ku/defins-cond-key p idx jdx) c))
         conds)))
 
 (defn store-definitions
@@ -85,15 +85,15 @@
   (second way beside container to provide definitions).
   This includes `DefinitionClass` and `Conditions`."
   [p idx ds]
-  (let [{cls :DefinitionClass
+  (let [{cls   :DefinitionClass
          descr :ShortDescr
          conds :Condition
          defin :Definition} ds]
-    (st/set-val! (st/defins-descr-path p idx) descr)
-    (st/set-val! (st/defins-class-path p idx) cls)
+    (st/set-val! (ku/defins-descr-key p idx) descr)
+    (st/set-val! (ku/defins-class-key p idx) cls)
     (store-conds p idx conds)
     (store-defins p idx defin)
-    (st/set-val! (st/defins-ctrl-path p idx) "ready")))
+    (st/set-val! (ku/defins-ctrl-key p idx) "ready")))
 
 (defn store-all-definitions
   "Triggers the storing of the definition section."
@@ -116,15 +116,15 @@
   * number of definitions
   "
   [p {standard :Standard
-      name :Name
-      descr :Description
-      cont :Container
-      defins :Definitions}]
-  (st/set-val! (st/meta-std-path p) standard)
-  (st/set-val! (st/meta-name-path p) name)
-  (st/set-val! (st/meta-descr-path p) descr)
-  (st/set-val! (st/meta-ndefins-path p) (count defins))
-  (st/set-val! (st/meta-ncont-path p) (count cont)))
+      name     :Name
+      descr    :Description
+      cont     :Container
+      defins   :Definitions}]
+  (st/set-val! (ku/meta-std-key p) standard)
+  (st/set-val! (ku/meta-name-key p) name)
+  (st/set-val! (ku/meta-descr-key p) descr)
+  (st/set-val! (ku/meta-ndefins-key p) (count defins))
+  (st/set-val! (ku/meta-ncont-key p) (count cont)))
 
 ;;------------------------------
 ;; all
@@ -141,15 +141,14 @@
                    (slurp "resources/mpd-ref.edn"))}
   [{id :_id rev :_rev mp :Mp}]
   (let [p (u/main-path id)]
-    (st/clear (st/meta-prefix p))
-    (st/clear (st/exch-prefix p))
-    (st/clear (st/cont-prefix p))
-    (st/clear (st/defins-prefix p))
+    (st/clear (ku/meta-prefix p))
+    (st/clear (ku/exch-prefix p))
+    (st/clear (ku/cont-prefix p))
+    (st/clear (ku/defins-prefix p))
     (store-meta p mp)
     (store-exchange p mp)
     (store-all-container p mp)
     (store-all-definitions p mp)))
-
 
 ;;------------------------------
 ;; tasks

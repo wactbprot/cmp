@@ -23,21 +23,19 @@
     (log/warn "no key given")))
 
 (defn set-same-val!
-  "Sets the given `val` for all keys `ks` with the
-  delay `mtp`."
+  "Sets the given `val` for all keys `ks` with the delay `mtp`."
   [ks v]
   (run!
    (fn [k]
      (set-val! k v))
    ks))
 
-
 ;;------------------------------
 ;; set state
 ;;------------------------------
 (defn set-state!
-  "Function is used by the workers to set state.
-  An optional log message may be provided."
+  "Function is used by the workers to set state. An optional log message
+  may be provided."
   ([k state msg]
    (condp = state
      :error (log/error msg)
@@ -49,7 +47,10 @@
               (keyword? state)) 
      (set-val! k (name state))
      (log/debug "wrote new state: " state " to: " k)
-     (when (= state :working) (Thread/sleep mtp)))))
+     (when (= state :working)
+       (log/debug "just set working state")
+       (Thread/sleep mtp)
+       (log/debug "relaxation time over")))))
 
 (defn pat->keys
   "Get all keys matching  the given pattern `pat`."
@@ -75,9 +76,8 @@
   (run! del-key! ks))
 
 (defn clear
-  "Clears the key `x`. If `x` is a vector
-  the function `u/vec->key` is used for
-  the conversion of `x` to a string."
+  "Clears the key `x`. If `x` is a vector the function `u/vec->key` is
+  used for the conversion of `x` to a string."
   [x]
   (condp = (class x)
     String                        (->> x
@@ -92,21 +92,19 @@
 ;; get value(s)
 ;;------------------------------
 (defn key->val
-  "Returns the value for the given key (`k`)
-  and cast it to a clojure type."
+  "Returns the value for the given key (`k`) and cast it to a clojure
+  type."
   [k]
   (u/val->clj (wcar conn (car/get k))))
 
 (defn keys->vals
-  "Returns a vector of the `vals`
-  behind the keys `ks`."
+  "Returns a vector of the `vals` behind the keys `ks`."
   [ks]
   (mapv key->val ks))
 
 (defn filter-keys-where-val
-  "Returns a list of all keys belonging
-  to the pattern `pat` where the value
-  is equal to`x`.
+  "Returns a list of all keys belonging to the pattern `pat` where the
+  value is equal to`x`.
   
   Example:
   ```clojure
@@ -121,265 +119,12 @@
    (fn [k] (= x (key->val k)))
    (pat->keys pat)))
 
-(defn state-key->response-key
-  "Turns the given `state-key` into a
-  `response-key`.
-
-  ```clojure
-  (state-key->response-key \"devs@container@0@state@0@0\")
-  ;; devs@container@0@response@0@0
-  ```
-  "
-  [k]
-  (u/replace-key-at-level 3 k "response"))
-
-(defn state-key->request-key
-  "Turns the given `state-key` into a
-  `request-key` This key is used to store the assembled
-  task right before it is started off.
-
-  ```clojure
-  (state-key->response-key \"devs@container@0@state@0@0\")
-  ;; devs@container@0@response@0@0
-  ```
-  "
-  [k]
-  (u/replace-key-at-level 3 k "request"))
-
-;;------------------------------
-;; key arithmetic
-;;------------------------------
-(defn key->mp-id
-  "Returns the name of the key space for
-  the given key.
-
-  May be:
-  * tasks
-  * <mp-id>
-
-  "
-  [k]
-  (when (and
-         (string? k)
-         (not (empty? k)))
-    (nth (string/split k u/re-sep) 0 nil)))
-
-(defn key->struct
-  "Returns the name of the `struct`ure
-  for the given key.
-
-  May be:
-  * <taskname>
-  * definitions
-  * container
-  "
-  [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 1 nil)))
-
-(defn key->no-idx
-  "Returns an integer corresponding to the
-  given key `container` or `definitions` index."
-  [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 2 nil)))
-
-(defn key->func
-  "Returns the name of the `func`tion
-  for the given key."
-  [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 3 nil)))
-
-(defn key->seq-idx
-  "Returns an integer corresponding to
-  the givens key sequential index."
-  [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 4 nil)))
-
-(defn key->no-jdx
-  "The 4th position at definitions
-  has nothing todo with `seq-idx`. Hence
-  a fn-rename"
-  [k]
-  (key->seq-idx k))
-
-(defn key->par-idx
-  "Returns an integer corresponding to
-  the givens key parallel index."
-  [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 5 nil)))
-
-(defn key->key-map
-  "Turns a key into a map.
-  
-  Todo:
-  use this concept everywhere!
-  
-  Example:
-  ```clojure
-  (key->key-map \"\") 
-  ;;{:mp-id nil,
-  ;; :struct nil,
-  ;; :no-idx nil,
-  ;; :func nil,
-  ;; :seq-idx nil,
-  ;; :par-idx nil}
-  ```"
-  [k]
-  (when (string? k)
-    {:mp-id       (key->mp-id   k)
-     :struct      (key->struct  k)
-     :no-idx      (key->no-idx  k)
-     :func        (key->func    k)
-     :seq-idx     (key->seq-idx k)
-     :par-idx     (key->par-idx k)}))
-  
-;;------------------------------
-;; message
-;;------------------------------
-(defn message-path
-  "Returns the `message` path."
-  [mp-id struct no-idx]
-  (u/vec->key [mp-id struct (u/lp no-idx) "message"]))
-
-;;------------------------------
-;; exchange
-;;------------------------------
-(defn exch-prefix
-  "Returns the `exchange` prefix."
-  [mp-id]
-  (when (string? mp-id)
-  (u/vec->key [mp-id "exchange"])))
-
-(defn exch-path
-  "Returns the `exchange` path (key)."
-  [mp-id s]
-  (u/vec->key [(exch-prefix mp-id) s]))
-
-;;------------------------------
-;; container path
-;;------------------------------
-(defn cont-prefix
-  "Returns the `container` prefix."
-  [mp-id]
-  (u/vec->key [mp-id "container"]))
-
-(defn cont-title-path
-  [mp-id i]
-  (u/vec->key [(cont-prefix mp-id) (u/lp i)  "title"]))
-
-(defn cont-descr-path
-  [mp-id i]
-  (u/vec->key [(cont-prefix mp-id) (u/lp i)  "descr"]))
-
-(defn cont-ctrl-path
-  [mp-id i]
-  (u/vec->key [(cont-prefix mp-id) (u/lp i)  "ctrl"]))
-
-(defn cont-elem-path
-  [mp-id i]
-  (u/vec->key [(cont-prefix mp-id) (u/lp i)  "elem"]))
-
-(defn cont-defin-path
-  ([mp-id i]
-   (u/vec->key [(cont-prefix mp-id) (u/lp i) "definition"]))
-  ([mp-id i j k]
-   (u/vec->key [(cont-prefix mp-id) (u/lp i) "definition" (u/lp j) (u/lp k)])))
-
-(defn cont-state-path
-  ([mp-id i]
-   (u/vec->key [(cont-prefix mp-id) (u/lp i)  "state"]))
-  ([mp-id i j k]
-   (u/vec->key [(cont-prefix mp-id) (u/lp i)  "state" (u/lp j) (u/lp k)])))
-
-;;------------------------------
-;; definitions path
-;;------------------------------
-(defn defins-prefix
-  "Returns the `definitions` prefix."
-  [mp-id]
-  (u/vec->key [mp-id "definitions"]))
-
-(defn defins-defin-path
-  ([mp-id i]
-   (u/vec->key [(defins-prefix mp-id) (u/lp i) "definition"]))
-  ([mp-id i j k]
-  (u/vec->key [(defins-prefix mp-id) (u/lp i) "definition" (u/lp j) (u/lp k)])))
-
-(defn defins-state-path
-  ([mp-id i]
-   (u/vec->key [(defins-prefix mp-id) (u/lp i) "state"]))
-  ([mp-id i j k]
-   (u/vec->key [(defins-prefix mp-id) (u/lp i) "state" (u/lp j) (u/lp k)])))
-
-(defn defins-cond-path
-  ([mp-id i]
-  (u/vec->key [(defins-prefix mp-id) (u/lp i) "cond"]))
-  ([mp-id i j]
-  (u/vec->key [(defins-prefix mp-id) (u/lp i) "cond" (u/lp j)])))
-
-(defn defins-ctrl-path
-  [mp-id i]
-  (u/vec->key [(defins-prefix mp-id) (u/lp i) "ctrl"]))
-
-(defn defins-descr-path
-  [mp-id i]
-  (u/vec->key [(defins-prefix mp-id) (u/lp i) "descr"]))
-
-(defn defins-class-path
-  [mp-id i]
-  (u/vec->key [(defins-prefix mp-id) (u/lp i) "class"]))
-
-;;------------------------------
-;; id path and pat
-;;------------------------------
-(defn id-prefix
-  "Returns the `id` prefix."
-  [mp-id]
-  (u/vec->key [mp-id "id"]))
-
-(defn id-path
-  "Returns the `id` key."
-  [mp-id id]
-  (u/vec->key [(id-prefix mp-id) id]))
-
-;;------------------------------
-;; meta path
-;;------------------------------
-(defn meta-prefix
-  "Returns the `meta` prefix."
-  [mp-id]
-  (u/vec->key [mp-id "meta"]))
-
-(defn meta-std-path
-  [mp-id]
-  (u/vec->key [(meta-prefix mp-id) "std"]))
-
-(defn meta-name-path
-  [mp-id]
-  (u/vec->key [(meta-prefix mp-id) "name"]))
-
-(defn meta-descr-path
-  [mp-id]
-  (u/vec->key [(meta-prefix mp-id) "descr"]))
-
-(defn meta-ncont-path
-  [mp-id]
-  (u/vec->key [(meta-prefix mp-id) "ncont"]))
-
-(defn meta-ndefins-path
-  [mp-id]
-  (u/vec->key [(meta-prefix mp-id) "ndefins"]))
-
 ;;------------------------------
 ;; keyspace notification
 ;;------------------------------
 (defn msg->key
-  "Extracts the `key` from a published keyspace
-  notification message (`pmessage`).
+  "Extracts the `key` from a published keyspace notification
+  message (`pmessage`).
 
   Example:
   ```clojure
@@ -397,8 +142,7 @@
     (log/warn "received" kind l1 l2 l3)))
 
 (defn subs-pat
-  "Generates subscribe patterns which matches
-  depending on:
+  "Generates subscribe patterns which matches depending on:
   
   **l2**
   
@@ -422,8 +166,8 @@
        u/sep l4 "*"))
 
 (defn gen-listener
-  "Returns a listener for published keyspace
-  notifications. Don't forget to [[close-listener!]]
+  "Returns a listener for published keyspace notifications. Don't forget
+  to [[close-listener!]]
 
   Example:
   ```clojure
@@ -459,8 +203,8 @@
 ;;------------------------------
 (defn reg-key
   "Generates a registration key for the listener atom.
-  The `level` param allows to register more than one
-  listener for one pattern."
+  The `level` param allows to register more than one listener for one
+  pattern."
   [mp-id struct no func level]
   (str mp-id "_" struct "_" no "_" func "_" level))
 
@@ -471,10 +215,9 @@
   (contains? (deref listeners) k))
 
 (defn register!
-  "Generates and registers a  listener under the
-  key `mp-id` in the `listeners` atom.
-  The cb! function dispatches depending on
-  the result."
+  "Generates and registers a listener under the key `mp-id` in the
+  `listeners` atom.  The cb! function dispatches depending on the
+  result."
   ([mp-id struct no func cb!]
    (register! mp-id struct no func cb! "a"))
   ([mp-id struct no func cb! level]
@@ -487,8 +230,8 @@
        {:ok true :warn "already registered"}))))
 
 (defn de-register!
-  "De-registers the listener with the
-  key `mp-id` in the `listeners` atom."
+  "De-registers the listener with the key `mp-id` in the `listeners`
+  atom."
   ([mp-id struct no func]
    (de-register! mp-id struct no func "a"))
   ([mp-id struct no func level]
@@ -501,8 +244,7 @@
        {:ok true :warn "not registered"}))))
 
 (defn clean-register!
-  "Closes and `de-registers!`  all `listeners`
-  belonging to `mp-id` ."
+  "Closes and `de-registers!` all `listeners` belonging to `mp-id` ."
   [mp-id]
   (map (fn [[k v]]
          (if (string/starts-with? k mp-id)

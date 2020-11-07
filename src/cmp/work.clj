@@ -7,6 +7,7 @@
             [cmp.task :as tsk]
             [cmp.config :as cfg]
             [cmp.utils :as u]
+            [cmp.key-utils :as ku]
             [cmp.worker.anselm         :refer [anselm!]]
             [cmp.worker.devhub         :refer [devhub!]]
             [cmp.worker.gen-db-doc     :refer [gen-db-doc!]]
@@ -36,7 +37,7 @@
     (try
       (if-let [proto-task (st/key->val k)]
         (let [meta-task (tsk/gen-meta-task proto-task)
-              mp-id     (st/key->mp-id k)
+              mp-id     (ku/key->mp-id k)
               state-key (u/replace-key-at-level 3 k "state")]
           (tsk/assemble meta-task mp-id state-key)))
       (catch Exception e

@@ -2,6 +2,7 @@
   ^{:author "wactbprot"
     :doc "Handles the access to the exchange interface."}
   (:require [taoensso.timbre :as log]
+            [cmp.key-utils :as ku]
             [clojure.string :as string]
             [cmp.st-mem :as st]
             [cmp.utils :as u]))
@@ -18,7 +19,7 @@
   "
   [mp-id s]
   {:pre [(not (nil? s))]}
-  (st/exch-path mp-id
+  (ku/exch-key mp-id
    (first (string/split s (re-pattern "\\.")))))
 
 (defn key->second-kw
@@ -64,7 +65,7 @@
   ;; [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]
   ```"
   [mp-id p]
-  (let [val-p (st/key->val (st/exch-path mp-id p))]
+  (let [val-p (st/key->val (ku/exch-key mp-id p))]
     (if (nil? val-p)
       (let [k     (exch-key mp-id p)
             val-k (st/key->val k)]
@@ -154,7 +155,7 @@
       (let [res (map
                  (fn [[k v]]
                    (keyword
-                    (st/set-val! (st/exch-path mp-id (name k)) v)))
+                    (st/set-val! (ku/exch-key mp-id (name k)) v)))
                  m)]
         (if (= (count m) (:OK (frequencies res)))
           {:ok true}

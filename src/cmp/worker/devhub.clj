@@ -6,6 +6,7 @@
             [cmp.resp :as resp]
             [cmp.st-mem :as st]
             [cmp.utils :as u]
+            [cmp.key-utils :as ku]
             [taoensso.timbre :as log]
             [cmp.worker.pre-script :as ps]))
 
@@ -40,7 +41,7 @@
   [pre-task]
   (let [state-key   (:StateKey pre-task)]
     (st/set-state! state-key :working)
-    (let [request-key (st/state-key->request-key state-key)
+    (let [request-key (ku/key->request-key state-key)
           task        (resolve-pre-script pre-task)
           json-task   (u/map->json task)
           req         (assoc (cfg/json-post-header (cfg/config)) :body json-task)

@@ -3,6 +3,7 @@
     :doc "run-mp worker."}
   (:require [taoensso.timbre :as log]
             [cmp.st-mem :as st]
+            [cmp.key-utils :as ku]
             [cmp.utils :as u]
             [cmp.config :as cfg]))
 
@@ -10,7 +11,7 @@
   "Registers a level b callback for the `i`th container of the mpd `mp`."
   [{mp :Mp  i :Container state-k :StateKey}]
   (let [mp        (u/main-path mp)
-        ctrl-k    (st/cont-ctrl-path mp i)
+        ctrl-k    (ku/cont-ctrl-key mp i)
         func      "ctrl"
         struct    "container"
         level     "b"
@@ -35,11 +36,11 @@
   and uses the `exec-index` function to register a callback."
   [{mp :Mp cont-title :ContainerTitle state-key :StateKey}]
   (let [mp     (u/main-path mp)
-        ks     (st/pat->keys (st/cont-title-path mp "*" ))
+        ks     (st/pat->keys (ku/cont-title-key mp "*" ))
         title? (fn [k] (= cont-title (st/key->val k)))]
     (if-let [k (first (filter title? ks))]
       (exec-index {:Mp mp
-                   :Container (st/key->no-idx k)
+                   :Container (ku/key->no-idx k)
                    :StateKey state-key}) 
       (do
         (log/error (str "no container with title: >"cont-title "<"))

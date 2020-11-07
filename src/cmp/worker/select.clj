@@ -2,12 +2,13 @@
   ^{:author "wactbprot"
     :doc "Worker selects a definition from the same `mp-id` 
           by evaluating the related conditions."}
-  (:require [taoensso.timbre :as log]
-            [clojure.string :as string]
-            [cmp.st-mem :as st]
-            [cmp.exchange :as exch]
-            [cmp.utils :as u]
-            [cmp.config :as cfg]))
+  (:require [clojure.string  :as string]
+            [cmp.config      :as cfg]
+            [cmp.exchange    :as exch]
+            [cmp.key-utils   :as ku]
+            [cmp.st-mem      :as st]
+            [cmp.utils       :as u]
+            [taoensso.timbre :as log]))
 
 (defn cond-match?
   "Tests a single condition of the form defined in
@@ -42,7 +43,7 @@
   a level b callback. Sets the state of the calling element to `executed`
   if the `ctrl`  turns to ready (or error if error)."          
   [{mp-id :mp-id  no-idx :no-idx state-key :StateKey}]
-  (let [ctrl-key (st/defins-ctrl-path mp-id no-idx)
+  (let [ctrl-key (ku/defins-ctrl-key mp-id no-idx)
         struct   "definitions"
         func     "ctrl"
         level    "b"
@@ -57,9 +58,8 @@
     (st/set-state! ctrl-key :run)))
 
 (defn cond-key->cond-map
-  "Builds a `cond`ition`-map` belonging to the
-  key  `k`. Replaces the compare value fetched
-  from the exchange interface by means of the
+  "Builds a `cond`ition`-map` belonging to the key `k`. Replaces the
+  compare value fetched from the exchange interface by means of the
   `exch/read!`-function.
 
   Example:
@@ -85,7 +85,7 @@
   ```
   "
   [k]
-  (let [key-map   (st/key->key-map k)
+  (let [key-map   (ku/key->info-map k)
         val-map   (st/key->val k)
         left-val  (exch/read! (:mp-id key-map) (:ExchangePath val-map))
         meth      (:Methode val-map)
@@ -96,22 +96,19 @@
   "Turns a `class-key` into `cond-keys`."
   [k]
   (when k
-    (let [key-map (st/key->key-map k)]
-      (st/key->keys (st/defins-cond-path
-                      (:mp-id  key-map)
-                      (:no-idx key-map))))))
+    (let [m (ku/key->info-map k)]
+      (st/key->keys (ku/defins-cond-key (:mp-id m) (:no-idx m))))))
 
 (defn class-keys
   "Returns the keys where the class is `cls`."
   [mp-id cls]
-  (let [pat (st/defins-class-path mp-id "*")]
+  (let [pat (ku/defins-class-key mp-id "*")]
     (st/filter-keys-where-val pat cls)))
 
 (defn select-definition!
-  "Selects and runs a `Definition` from the `Definitions`
-  section of the current `mp`. Builds a `cond`ition`-map`
-  (analog to the `state-map`) in order to avoid the
-  spreading of side effects and easy testing.
+  "Selects and runs a `Definition` from the `Definitions` section of the
+  current `mp`. Builds a `cond`ition`-map` (analog to the `state-map`)
+  in order to avoid the spreading of side effects and easy testing.
   
   Example:
   ```clojure
