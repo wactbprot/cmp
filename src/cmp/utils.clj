@@ -50,40 +50,19 @@
 ;;------------------------------
 ;; date time
 ;;------------------------------
-(def date-f (tm-f/formatters :date))
-(def hour-f (tm-f/formatter "HH"))
-(def min-f (tm-f/formatter "mm"))
-(def sec-f (tm-f/formatter "ss"))
-(def year-f (tm-f/formatter "YYYY"))
-(def month-f (tm-f/formatter "MM"))
-(def day-f (tm-f/formatter "dd"))
-
-(defn get-date-object []
-  (tm/now))
+(defn get-date-object [] (tm/now))
+(defn get-hour [d]  (tm-f/unparse (tm-f/formatter "HH")   d))
+(defn get-min [d]   (tm-f/unparse (tm-f/formatter "mm")   d))
+(defn get-sec [d]   (tm-f/unparse (tm-f/formatter "ss")   d))
+(defn get-day [d]   (tm-f/unparse (tm-f/formatter "dd")   d))
+(defn get-month [d] (tm-f/unparse (tm-f/formatter "MM")   d))
+(defn get-year [d]  (tm-f/unparse (tm-f/formatter "YYYY") d))
 
 (defn get-date 
   ([]
    (get-date (get-date-object)))
   ([d]
-   (tm-f/unparse date-f d)))
-
-(defn get-hour [d]
-  (tm-f/unparse hour-f d))
-
-(defn get-min [d]
-  (tm-f/unparse min-f d))
-
-(defn get-sec [d]
-  (tm-f/unparse sec-f d))
-
-(defn get-day [d]
-  (tm-f/unparse day-f d))
-
-(defn get-month [d]
-  (tm-f/unparse month-f d))
-
-(defn get-year [d]
-  (tm-f/unparse year-f d))
+   (tm-f/unparse (tm-f/formatters :date) d)))
 
 (defn get-time
   ([]
