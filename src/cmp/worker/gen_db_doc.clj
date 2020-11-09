@@ -40,10 +40,12 @@
           req    (assoc (cfg/json-post-header (cfg/config))
                         :body
                         (u/map->json (lt/rev-refresh doc)))]
-      (try
-        (resp/check (http/put url req) task state-key)
-        (d/add mp-id doc-id)
-        (catch Exception e
-          (st/set-state! state-key :error)
-          (log/error "put request to url: " url "failed")
-          (log/error  e))))))
+      (if-not (lt/exist? doc-id)
+        (try
+          (resp/check (http/put url req) task state-key)
+          (d/add mp-id doc-id)
+          (catch Exception e
+            (st/set-state! state-key :error)
+            (log/error "put request to url: " url "failed")
+            (log/error  e)))
+        (st/set-state! state-key :executed "document already exist")))))

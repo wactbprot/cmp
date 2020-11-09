@@ -18,7 +18,7 @@
  ;; a task schould at least take 10ms
  ;; in order to give the keyspace notification
  ;; a chance to find the next to start
- :min-task-period 1000
+ :min-task-period 500
  :json-post-header {:content-type :json
                     :socket-timeout 600000 ;; 10 min
                     :connection-timeout 600000
