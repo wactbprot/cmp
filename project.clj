@@ -1,10 +1,11 @@
-(defproject cmp "0.15.1"
+(defproject cmp "0.16.0"
   :description "A study of an interpreter for measurement 
   program definitions (mpd) written in clojure."
   :url "https://github.com/wactbprot/cmp"
   :dependencies [[org.clojure/clojure                  "1.10.1"]
                  [com.taoensso/carmine                 "3.0.0"]
                  [com.ashafa/clutch                    "0.4.0"]
+                 [cheshire                             "5.10.0"]
                  [org.clojars.wactbprot/vl-data-insert "0.1.1"]
                  [clj-time                             "0.15.0"]
                  [org.clojure/data.json                "0.2.6"]

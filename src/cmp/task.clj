@@ -70,13 +70,9 @@
   "
   [m task]
   (if (map? m)
-    (u/json->map
-     (reduce
-      (fn [s [k v]]
-        (let [pat (re-pattern (name k))
-              r   (u/clj->str-val v)]
-          (string/replace s pat r)))
-      (u/map->json task) m))
+    (u/json->map (reduce
+                  (fn [s [k v]] (string/replace s (re-pattern (name k)) (str v)))
+                  (u/map->json task) m))
     task))
 
 (defn inner-replace-map
@@ -144,9 +140,7 @@
 (defn proto-task
   "Returns x if it is not a string."
   [x]
-  (if (string? x)
-    {:TaskName x}
-    x))
+  (if (string? x) {:TaskName x} x))
 
 (defn gen-meta-task
   "Gathers all information for the given `proto-task` (map).
