@@ -8,7 +8,6 @@
                  [cheshire                             "5.10.0"]
                  [org.clojars.wactbprot/vl-data-insert "0.1.1"]
                  [clj-time                             "0.15.0"]
-                 [org.clojure/data.json                "0.2.6"]
                  [com.taoensso/timbre                  "5.0.0"]
                  [clj-http                             "3.10.0"]
                  [clojang/codox-theme                  "0.2.0-SNAPSHOT"]
