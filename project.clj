@@ -10,8 +10,7 @@
                  [clj-time                             "0.15.0"]
                  [com.taoensso/timbre                  "5.0.0"]
                  [clj-http                             "3.10.0"]
-                 [clojang/codox-theme                  "0.2.0-SNAPSHOT"]
-                 ]
+                 [clojang/codox-theme                  "0.2.0-SNAPSHOT"]]
   :main ^:skip-aot cmp.core
   :target-path "target/%s"
   :plugins [[lein-cloverage  "1.1.2"]
