@@ -48,4 +48,6 @@
             (st/set-state! state-key :error)
             (log/error "put request to url: " url "failed")
             (log/error  e)))
-        (st/set-state! state-key :executed "document already exist")))))
+        (do
+           (d/add mp-id doc-id)
+           (st/set-state! state-key :executed "document already exist, added anyway"))))))
