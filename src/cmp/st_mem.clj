@@ -1,10 +1,11 @@
 (ns cmp.st-mem
-  (:require [taoensso.carmine :as car :refer (wcar)]
-            [cmp.utils :as u]
-            [taoensso.timbre :as log]
-            [clojure.string :as string]
+  (:require [taoensso.carmine  :as car :refer (wcar)]
+            [cmp.utils         :as u]
+            [cheshire.core     :as che]
+            [taoensso.timbre   :as log]
+            [clojure.string    :as string]
             [clojure.data.json :as json]
-            [cmp.config :as cfg]))
+            [cmp.config        :as cfg]))
 
 (def conn (cfg/st-conn (cfg/config)))
 (def db (cfg/st-db (cfg/config)))
@@ -18,17 +19,14 @@
   [k v]
   (if (string? k)
     (if (some? v)
-      (wcar conn (car/set k (u/clj->val v)))
+      (wcar conn (car/set k (che/generate-string v)))
       (log/warn "no value given"))
     (log/warn "no key given")))
 
 (defn set-same-val!
   "Sets the given `val` for all keys `ks` with the delay `mtp`."
   [ks v]
-  (run!
-   (fn [k]
-     (set-val! k v))
-   ks))
+  (run! (fn [k] (set-val! k v)) ks))
 
 ;;------------------------------
 ;; set state
@@ -95,7 +93,7 @@
   "Returns the value for the given key (`k`) and cast it to a clojure
   type."
   [k]
-  (u/val->clj (wcar conn (car/get k))))
+  (che/parse-string (wcar conn (car/get k)) true))
 
 (defn keys->vals
   "Returns a vector of the `vals` behind the keys `ks`."
@@ -115,9 +113,7 @@
   ```
   "
   [pat x]
-  (filter
-   (fn [k] (= x (key->val k)))
-   (pat->keys pat)))
+  (filter (fn [k] (= x (key->val k))) (pat->keys pat)))
 
 ;;------------------------------
 ;; keyspace notification

@@ -1,7 +1,8 @@
 (ns cmp.resp
   ^{:author "wactbprot"
     :doc "Catches responses and dispatchs."}
-  (:require [cmp.exchange    :as exch]
+  (:require [cheshire.core :as che]
+            [cmp.exchange    :as exch]
             [cmp.doc         :as doc]
             [cmp.key-utils   :as ku]
             [cmp.lt-mem      :as lt]
@@ -46,7 +47,7 @@
   body and dispathes."
   [res task state-key]
   (if-let [status (:status res)]
-    (if-let [body (u/val->clj (:body res))]
+    (if-let [body (che/parse-string (:body res))]
       (if (< status 400) 
         (dispatch body task state-key) 
         (log/error "request for: " state-key" failed with status: " status))            
