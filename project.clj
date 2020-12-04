@@ -5,7 +5,7 @@
   :dependencies [[org.clojure/clojure                  "1.10.1"]
                  [com.taoensso/carmine                 "3.0.0"]
                  [com.ashafa/clutch                    "0.4.0"]
-                 [org.clojars.wactbprot/vl-data-insert "0.1.1"]
+                 [org.clojars.wactbprot/vl-data-insert "0.1.3"]
                  [clj-time                             "0.15.0"]
                  [org.clojure/data.json                "0.2.6"]
                  [com.taoensso/timbre                  "5.0.0"]

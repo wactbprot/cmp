@@ -38,7 +38,7 @@
           title :Title
           ctrl  :Ctrl
           elem  :Element
-          defin :Definition}]           
+          defin :Definition}]
   (st/set-val! (ku/cont-title-key p idx) title)
   (st/set-val! (ku/cont-descr-key p idx) descr)
   (st/set-val! (ku/cont-ctrl-key p idx) ctrl)
@@ -57,8 +57,8 @@
 ;; definitions
 ;;------------------------------
 (defn store-defins
-  "Stores the definitions section. Initiates all
-  state keys with `\"ready\"`."
+  "Stores the definitions section. Initiates all state keys with
+  `ready`."
   [p idx defin]
   (doall
    (map-indexed
@@ -82,8 +82,8 @@
 
 (defn store-definitions
   "Stores a definition given in the definition section
-  (second way beside container to provide definitions).
-  This includes `DefinitionClass` and `Conditions`."
+  (second way beside container to provide definitions).  This includes
+  `DefinitionClass` and `Conditions`."
   [p idx ds]
   (let [{cls   :DefinitionClass
          descr :ShortDescr
@@ -132,7 +132,7 @@
 (defn store
   "Triggers the storing of `meta`, `exchange`,
   `container`s etc. to the short term memory.
-  Clears up the fields before. 
+  Clears up the fields before.
   ```clojure
   ;; use metadata example input
   (store ((meta (var store)) :example-input))
@@ -164,7 +164,7 @@
 (defn store-tasks
   "Stores the `task-list` as received
   from `lt-mem`."
-  [task-list]  
+  [task-list]
   (run!
    (fn [{task :value}]
      (store-task task))
