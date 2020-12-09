@@ -19,7 +19,7 @@
   "
   [mp-id s]
   {:pre [(not (nil? s))]}
-  (ku/exch-key mp-id (first (string/split s #"\\."))))
+  (ku/exch-key mp-id (first (string/split s #"\."))))
 
 (defn key->second-kw
   "Returns the keyword or nil.
@@ -31,7 +31,7 @@
   ;; :bar
   ```"  
   [s]
-  (when-let [x (second (string/split s #"\\."))] (keyword x)))
+  (when-let [x (second (string/split s #"\."))] (keyword x)))
 
 
 (defn key->first-kw
@@ -44,7 +44,7 @@
   ;; :bar
   ```"  
   [s]
-  (when-let [x (first (string/split s #"\\."))] (keyword x)))
+  (when-let [x (first (string/split s #"\."))] (keyword x)))
 
 (defn read!
   "Returns e.g the *compare value* belonging to a `mp-id` and an
