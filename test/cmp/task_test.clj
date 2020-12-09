@@ -8,40 +8,40 @@
         "%year" "4444",
         "%month" "55",
         "%day" "66",
-        "%time" "00"
+        "%time" "11"
         "%motor" 1
         })
 
 (deftest outer-replace-map-i
   (testing "replace strings"
-    (is (= "00"
+    (is (= "11"
            (:Value (outer-replace-map d {:TaskName "foo" :Value "%time"})))
         "replaced")
     (is (= "%foo"
            (:Value (outer-replace-map d {:TaskName "foo" :Value "%foo"})))
         "not replaced")
-    (is (= "###00###"
+    (is (= "###11###"
            (:Value (outer-replace-map d {:TaskName "foo" :Value "###%time###"})))
         "replaced if not isolated")
-    (is (= "   00   "
+    (is (= "   11   "
            (:Value (outer-replace-map d {:TaskName "foo" :Value "   %time   "})))
         "whitespaces kept")
-    (is (= "00\n"
+    (is (= "11\n"
            (:Value (outer-replace-map d {:TaskName "foo" :Value "%time\n"})))
         "ctrl-char kept after")
-    (is (= "00\r"
+    (is (= "11\r"
            (:Value (outer-replace-map d {:TaskName "foo" :Value "%time\r"})))
         "ctrl-char kept after")
-    (is (= "\r\t\n00\r\t\n"
+    (is (= "\r\t\n11\r\t\n"
            (:Value (outer-replace-map d {:TaskName "foo" :Value "\r\t\n%time\r\t\n"})))
         "ctrl-char kept after")
-    (is (= "[00]"
+    (is (= "[11]"
            (:Value (outer-replace-map d {:TaskName "foo" :Value "[%time]"})))
         "braces kept")
-    (is (= "([{00}])"
+    (is (= "([{11}])"
            (:Value (outer-replace-map d {:TaskName "foo" :Value "([{%time}])"})))
         "braces kept")
-    (is (= "%00%"
+    (is (= "%11%"
            (:Value (outer-replace-map d {:TaskName "foo" :Value "%%time%"})))
         "% kept")))
 
@@ -57,7 +57,7 @@
                                                     "};"]}))
             1))
         "replaced")
-    (is (= "%00%"
+    (is (= "%11%"
            (:Foo (:Value (outer-replace-map d {:TaskName "foo"
                                                :Value {:Foo "%%time%"}}))))
         "nested % kept")))
