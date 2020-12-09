@@ -19,8 +19,7 @@
   "
   [mp-id s]
   {:pre [(not (nil? s))]}
-  (ku/exch-key mp-id
-   (first (string/split s (re-pattern "\\.")))))
+  (ku/exch-key mp-id (first (string/split s #"\\."))))
 
 (defn key->second-kw
   "Returns the keyword or nil.
@@ -32,8 +31,7 @@
   ;; :bar
   ```"  
   [s]
-  (if-let [x (second (string/split s (re-pattern "\\.")))] 
-    (keyword x)))
+  (when-let [x (second (string/split s #"\\."))] (keyword x)))
 
 
 (defn key->first-kw
@@ -46,15 +44,13 @@
   ;; :bar
   ```"  
   [s]
-  (if-let [x (first (string/split s (re-pattern "\\.")))] 
-    (keyword x)))
+  (when-let [x (first (string/split s #"\\."))] (keyword x)))
 
 (defn read!
-  "Returns e.g the *compare value* belonging to a `mp-id`
-  and an ExchangePath `k`. First try is to simply request
-  to `<mp-id>@exchange@<k>`. If this is `nil` Second try
-  is to get the  *keyword* `kw` from `k` if `k` looks like
-  this: `aaa.bbb`. If `kw`
+  "Returns e.g the *compare value* belonging to a `mp-id` and an
+  ExchangePath `k`. First try is to simply request to
+  `<mp-id>@exchange@<k>`. If this is `nil` Second try is to get the
+  *keyword* `kw` from `k` if `k` looks like this: `aaa.bbb`. If `kw`
   is not `nil` it is used to extract the related value.
 
   ```clojure
@@ -76,12 +72,12 @@
 
 (defn from!
   "Builds a map by replacing the values of the input map `m`.
-  The replacements are gathered from the `exchange` interface
-  with the keys: `<mp-id>@exchange@<input-map-value>`
+  The replacements are gathered from the `exchange` interface with the
+  keys: `<mp-id>@exchange@<input-map-value>`
 
   The example key: `ref@exchange@Vraw_block1` with the example value:
   `[1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]` should return:
-  `{:%stateblock1 [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]}` 
+  `{:%stateblock1 [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]}`
 
   
   ```clojure
@@ -128,12 +124,10 @@
         {a m}))))
 
 (defn to!
-  "Writes `m` to the exchange interface.
-  The first level keys of `m` are used
-  for the key. The return value of the
-  storing process (e.g. \"OK\") is converted
-  to a `keyword`. After storing the amounts
-  of `:OK` is compared to `(count m)`.
+  "Writes `m` to the exchange interface.  The first level keys of `m`
+  are used for the key. The return value of the storing
+  process (e.g. \"OK\") is converted to a `keyword`. After storing the
+  amounts of `:OK` is compared to `(count m)`.
 
   Example:
   ```clojure
@@ -154,8 +148,7 @@
     (if (map? m)
       (let [res (map
                  (fn [[k v]]
-                   (keyword
-                    (st/set-val! (ku/exch-key mp-id (name k)) v)))
+                   (keyword (st/set-val! (ku/exch-key mp-id (name k)) v)))
                  m)]
         (if (= (count m) (:OK (frequencies res)))
           {:ok true}
@@ -170,16 +163,16 @@
   (contains? u/ok-set (read! mp-id k)))
 
 (defn stop-if
-  "Checks if the exchange path given with `:MpName`
-  and `:StopIf` evaluates to true."
+  "Checks if the exchange path given with `:MpName` and `:StopIf`
+  evaluates to true."
   [{mp-id :MpName k :StopIf}]
   (if k
     (ok? mp-id k)
     true))
 
 (defn run-if
-  "Checks if the  exchange path given with `:MpName`
-  and `:RunIf` evaluates to true."
+  "Checks if the exchange path given with `:MpName` and `:RunIf`
+  evaluates to true."
   [{mp-id :MpName k :RunIf}]
   (if k
     (ok? mp-id k)
