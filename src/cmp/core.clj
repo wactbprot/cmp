@@ -475,7 +475,7 @@
 (defn t-clear
   "Function removes all keys starting with `tasks`."  
   []
-  (st/clear "tasks"))
+  (st/clear! "tasks"))
 
 (defn t-refresh
   "Refreshs the `tasks` endpoint.
@@ -514,7 +514,7 @@
    (timbre/info "mp stoped")
    (st/clean-register! mp-id)
    (timbre/info "mp de registered")
-   (st/clear mp-id)
+   (st/clear! mp-id)
    (timbre/info "mp cleared")))
 
 ;;------------------------------

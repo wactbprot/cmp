@@ -141,10 +141,10 @@
                    (slurp "resources/mpd-ref.edn"))}
   [{id :_id rev :_rev mp :Mp}]
   (let [p (u/main-path id)]
-    (st/clear (ku/meta-prefix p))
-    (st/clear (ku/exch-prefix p))
-    (st/clear (ku/cont-prefix p))
-    (st/clear (ku/defins-prefix p))
+    (st/clear! (ku/meta-prefix p))
+    (st/clear! (ku/exch-prefix p))
+    (st/clear! (ku/cont-prefix p))
+    (st/clear! (ku/defins-prefix p))
     (store-meta p mp)
     (store-exchange p mp)
     (store-all-container p mp)
