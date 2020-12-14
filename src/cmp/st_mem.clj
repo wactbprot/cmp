@@ -4,7 +4,6 @@
             [cheshire.core     :as che]
             [taoensso.timbre   :as log]
             [clojure.string    :as string]
-            [clojure.data.json :as json]
             [cmp.config        :as cfg]))
 
 (def conn (cfg/st-conn (cfg/config)))
