@@ -47,7 +47,7 @@
   body and dispathes."
   [res task state-key]
   (if-let [status (:status res)]
-    (if-let [body (che/parse-string (:body res))]
+    (if-let [body (che/decode (:body res) true)]
       (if (< status 400) 
         (dispatch body task state-key) 
         (log/error "request for: " state-key" failed with status: " status))            

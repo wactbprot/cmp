@@ -177,11 +177,7 @@
    (m-build (deref current-mp-id)))
   ([mp-id]
    (timbre/info "build " mp-id)
-   (->> mp-id
-        (u/compl-main-path)
-        (lt/id->doc)
-        (u/doc->safe-doc)
-        (build/store))
+   (->> mp-id u/compl-main-path lt/id->doc u/doc->safe-doc build/store)
    (m-start mp-id)))
 
 (defn m-build-edn
