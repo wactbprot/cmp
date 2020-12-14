@@ -212,7 +212,7 @@
   This should remain as it is.
   "
   [doc]
-  (json->map (string/replace (map->json doc)  #"(@)(\w?)" "%$2")))
+  (json->map (string/replace (map->json doc)  #"(@)([a-zA-Z])" "%$2")))
 
 ;;------------------------------
 ;; ctrl endpoint -> poll and run

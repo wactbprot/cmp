@@ -137,11 +137,8 @@
   ;; use metadata example input
   (store ((meta (var store)) :example-input))
   ```"
-  {:example-input (read-string
-                   (slurp "resources/mpd-ref.edn"))}
   [{id :_id rev :_rev mp :Mp}]
-  (let [p (u/main-path id)]
-    (prn id)
+  (let [p (u/extr-main-path id)]
     (st/clear! (ku/meta-prefix p))
     (st/clear! (ku/exch-prefix p))
     (st/clear! (ku/cont-prefix p))
