@@ -5,6 +5,16 @@
 
 (def k "test")
 
+(deftest get-i
+  (testing "missing key"
+    (is (nil? (key->val "fooo")))
+    "returns nil"))
+
+(deftest set-i
+  (testing "missing val"
+    (is (nil? (set-val! "fooo" nil)))
+    "returns nil"))
+
 (deftest set-get-del-i
   (testing "string"
     (let [v "string"]
@@ -64,7 +74,6 @@
       (del-key! k)
       (is (nil? (key->val k))
           (str "set get " v)))))
-
 
 (deftest set-get-del-vi
   (testing "vec"
