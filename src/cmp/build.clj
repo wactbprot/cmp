@@ -141,6 +141,7 @@
                    (slurp "resources/mpd-ref.edn"))}
   [{id :_id rev :_rev mp :Mp}]
   (let [p (u/main-path id)]
+    (prn id)
     (st/clear! (ku/meta-prefix p))
     (st/clear! (ku/exch-prefix p))
     (st/clear! (ku/cont-prefix p))

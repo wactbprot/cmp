@@ -139,23 +139,22 @@
 ;;------------------------------
 ;; mp-id
 ;;------------------------------
-(defn main-path
+(defn extr-main-path
   "Extracts the main path. Should work on `mpd-aaa-bbb` as well as on
   `aaa-bbb`.
 
   ```clojure
-  (u/main-path \"aa\")
+  (u/extr-main-path \"aa\")
   ;; \"aa\"
-  (u/main-path \"aa-bbb\")
+  (u/extr-main-path \"aa-bbb\")
   ;; \"aa-bbb\"
-  (u/main-path \"aa-bbb-lll\")
+  (u/extr-main-path \"aa-bbb-lll\")
   ;; \"aa-bbb-lll\"
   ```
   "
   [s]
-  (if (string/starts-with? s "mpd-")
-    (second (re-matches  #"^mpd-([a-z0-3\-_]*)$" s))
-    s))
+  (let [p "mpd-"]
+    (if (string/starts-with? s p) (string/replace  s (re-pattern p) ""))))
 
 (defn compl-main-path
   "Completes the main path by padding a `mpd-` in case it is missing.
@@ -213,7 +212,7 @@
   This should remain as it is.
   "
   [doc]
-  (json->map (string/replace (map->json doc)  #"(@)([a-zA-Z]*)" "%$2")))
+  (json->map (string/replace (map->json doc)  #"(@)(\w?)" "%$2")))
 
 ;;------------------------------
 ;; ctrl endpoint -> poll and run
