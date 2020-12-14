@@ -72,18 +72,13 @@
   [ks]
   (run! del-key! ks))
 
-(defn clear
+(defn clear!
   "Clears the key `x`. If `x` is a vector the function `u/vec->key` is
   used for the conversion of `x` to a string."
   [x]
-  (condp = (class x)
-    String                        (->> x
-                                        key->keys
-                                        del-keys!)
-    clojure.lang.PersistentVector (->> x
-                                       u/vec->key
-                                       key->keys
-                                       del-keys!)))
+  (-> (if (vector? x) (u/vec->key x) x)
+      key->keys
+      del-keys!))
 
 ;;------------------------------
 ;; get value(s)

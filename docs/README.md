@@ -3,7 +3,6 @@
 * [API](./api)
 * [example session](./uberdoc.html)
 * [coverage](./coverage)
-* [namespaces](./graph.png)
 * [config.edn](./config.edn.html)
 * [mpd-ref.edn](./mpd-ref.edn.html)
 

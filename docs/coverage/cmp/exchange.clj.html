@@ -68,7 +68,7 @@
                 021&nbsp;&nbsp;&nbsp;&nbsp;{:pre&nbsp;[(not&nbsp;(nil?&nbsp;s))]}
                 </span><br/>
 <span class="covered" title="9 out of 9 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;exch-key&nbsp;mp-id&nbsp;(first&nbsp;(string&#x2F;split&nbsp;s&nbsp;#&quot;\\.&quot;))))
+                022&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;exch-key&nbsp;mp-id&nbsp;(first&nbsp;(string&#x2F;split&nbsp;s&nbsp;#&quot;\.&quot;))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 023&nbsp;&nbsp;
@@ -103,8 +103,8 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 033&nbsp;&nbsp;&nbsp;&nbsp;[s]
                 </span><br/>
-<span class="partial" title="9 out of 15 forms covered">
-                034&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[x&nbsp;(second&nbsp;(string&#x2F;split&nbsp;s&nbsp;#&quot;\\.&quot;))]&nbsp;(keyword&nbsp;x)))
+<span class="covered" title="15 out of 15 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[x&nbsp;(second&nbsp;(string&#x2F;split&nbsp;s&nbsp;#&quot;\.&quot;))]&nbsp;(keyword&nbsp;x)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 035&nbsp;&nbsp;
@@ -143,7 +143,7 @@
                 046&nbsp;&nbsp;&nbsp;&nbsp;[s]
                 </span><br/>
 <span class="covered" title="15 out of 15 forms covered">
-                047&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[x&nbsp;(first&nbsp;(string&#x2F;split&nbsp;s&nbsp;#&quot;\\.&quot;))]&nbsp;(keyword&nbsp;x)))
+                047&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[x&nbsp;(first&nbsp;(string&#x2F;split&nbsp;s&nbsp;#&quot;\.&quot;))]&nbsp;(keyword&nbsp;x)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 048&nbsp;&nbsp;
@@ -205,13 +205,13 @@
 <span class="covered" title="3 out of 3 forms covered">
                 067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val-k&nbsp;(st&#x2F;key-&gt;val&nbsp;k)]
                 </span><br/>
-<span class="partial" title="6 out of 8 forms covered">
+<span class="covered" title="8 out of 8 forms covered">
                 068&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[kw&nbsp;(key-&gt;second-kw&nbsp;p)]
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
+<span class="covered" title="3 out of 3 forms covered">
                 069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(kw&nbsp;val-k)
                 </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
+<span class="not-covered" title="0 out of 1 forms covered">
                 070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val-k))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
@@ -367,10 +367,10 @@
 <span class="covered" title="4 out of 4 forms covered">
                 121&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[a&nbsp;(key-&gt;first-kw&nbsp;p)]
                 </span><br/>
-<span class="partial" title="6 out of 8 forms covered">
+<span class="covered" title="8 out of 8 forms covered">
                 122&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[b&nbsp;(key-&gt;second-kw&nbsp;p)]
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{a&nbsp;{b&nbsp;m}}
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
