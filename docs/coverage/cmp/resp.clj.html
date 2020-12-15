@@ -151,8 +151,8 @@
 <span class="not-covered" title="0 out of 8 forms covered">
                 049&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[status&nbsp;(:status&nbsp;res)]
                 </span><br/>
-<span class="not-covered" title="0 out of 10 forms covered">
-                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[body&nbsp;(che&#x2F;parse-string&nbsp;(:body&nbsp;res))]
+<span class="not-covered" title="0 out of 11 forms covered">
+                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[body&nbsp;(che&#x2F;decode&nbsp;(:body&nbsp;res)&nbsp;true)]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
                 051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(&lt;&nbsp;status&nbsp;400)&nbsp;
