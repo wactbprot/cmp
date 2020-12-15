@@ -12,3 +12,12 @@
         "cuts an empty string")
     (is (= "..." (short-string "a" 0)) 
         "adds dots if shorten")))
+
+(deftest safe-doc-i
+  (testing "cuts a string (i)"
+    (is (= {:a "(@101,102)"} (doc->safe-doc {:a "(@101,102)"})) 
+        "conserves @ infront of numbers")
+    (is (= {:a "foo (@101,102) bar"} (doc->safe-doc {:a "foo (@101,102) bar"})) 
+        "conserves @ infront of numbers")
+    (is (= {:a "%foo (@101,102)%bar"} (doc->safe-doc {:a "@foo (@101,102)%bar"})) 
+        "conserves @ infront of numbers")))
