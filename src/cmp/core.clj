@@ -514,88 +514,6 @@
    (timbre/info "mp cleared")))
 
 ;;------------------------------
-;; p-ubsub events
-;;------------------------------
-(def p-table (atom []) )
-(defn p-start-table
-  "Registers a listener. Pretty prints a p-table on events.
-
-  Example:
-  ```clojure
-  (p-start-table)
-  ;; or
-  (p-start-table \"ref\")
-  ;; or
-  (p-start-table \"ref\" \"*\" \"*\" \"state\")
-  ```
-  Output example:
-  ```
-  | :h | :m | :s |      :meth |                        :k |     :val |
-  |----+----+----+------------+---------------------------+----------|
-  | 12 | 54 | 25 | psubscribe |                           |          |
-  | 12 | 55 | 21 | psubscribe |                           |          |
-  | 12 | 55 | 26 |   pmessage | ref@container@0@state@0@0 |  working |
-  | 12 | 55 | 26 |   pmessage | ref@container@0@state@0@1 |  working |
-  | 12 | 55 | 29 |   pmessage | ref@container@0@state@0@0 | executed |
-  | 12 | 55 | 30 |   pmessage | ref@container@0@state@0@1 | executed |
-  | 12 | 55 | 30 |   pmessage | ref@container@0@state@1@0 |  working |
-  | 12 | 55 | 30 |   pmessage | ref@container@0@state@1@1 |  working |
-  | 12 | 55 | 30 |   pmessage | ref@container@0@state@1@2 |  working |
-  | 12 | 55 | 30 |   pmessage | ref@container@0@state@1@3 |  working |
-  | 12 | 55 | 33 |   pmessage | ref@container@0@state@1@0 | executed |
-  | 12 | 55 | 33 |   pmessage | ref@container@0@state@1@1 | executed |
-  | 12 | 55 | 33 |   pmessage | ref@container@0@state@1@2 | executed |
-  | 12 | 55 | 34 |   pmessage | ref@container@0@state@1@3 | executed |
-  | 12 | 55 | 34 |   pmessage | ref@container@0@state@2@0 |  working |
-  | 12 | 55 | 35 |   pmessage | ref@container@0@state@2@0 | executed |
-  | 12 | 55 | 35 |   pmessage | ref@container@0@state@0@0 |    ready |
-  | 12 | 55 | 35 |   pmessage | ref@container@0@state@0@1 |    ready |
-  | 12 | 55 | 35 |   pmessage | ref@container@0@state@1@0 |    ready |
-  | 12 | 55 | 35 |   pmessage | ref@container@0@state@1@1 |    ready |
-  | 12 | 55 | 35 |   pmessage | ref@container@0@state@1@2 |    ready |
-  | 12 | 55 | 35 |   pmessage | ref@container@0@state@1@3 |    ready |
-  | 12 | 55 | 35 |   pmessage | ref@container@0@state@2@0 |    ready |
-  ```
-  "
-  ([]
-   (p-start-table "*" "*" "*" "*"))
-  ([mp-id struct]
-   (p-start-table mp-id struct "*" "*"))
-  ([mp-id struct i]
-   (p-start-table mp-id struct i "*"))
-  ([mp-id struct i func]
-   (let [i   (u/lp i)
-         cb! (fn [msg]
-               (let [d   (u/get-date-object)
-                     k   (st/msg->key msg)
-                     val (st/key->val k)]
-                 (swap! p-table conj {:h    (u/get-hour d)
-                                      :m    (u/get-min d)
-                                      :s    (u/get-sec d)
-                                      :meth (nth msg 0)
-                                      :k    k
-                                      :val  val })
-                 (pp/print-table (deref p-table))))]
-     (st/register! mp-id struct i func cb!))))
-
-(defn p-clear-table
-  []
-  "Resets the p-table `atom`."
-  (reset! p-table []))
-
-(defn p-stop-table
-  "De-registers the pubsub listener.  Resets the p-table `atom`."
-  ([]
-   (p-stop-table "*" "*" "*" "*"))
-  ([mp-id struct]
-   (p-stop-table mp-id struct "*" "*"))
-  ([mp-id struct i]
-   (p-stop-table mp-id struct i "*"))
-  ([mp-id struct i func]
-   (p-clear-table)
-   (st/de-register! mp-id struct (u/lp i) func)))
-
-;;------------------------------
 ;; Exchange table
 ;;------------------------------
 (defn e-table
@@ -637,7 +555,4 @@
    (e-table  (deref current-mp-id)))
   ([mp-id]
    (pp/print-table
-    (mapv (fn [k]
-            {:key k :value (st/key->val k)})
-          (st/key->keys (ku/exch-prefix mp-id))))))
-
+    (mapv (fn [k] {:key k :value (st/key->val k)}) (st/key->keys (ku/exch-prefix mp-id))))))
