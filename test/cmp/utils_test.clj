@@ -21,3 +21,10 @@
         "conserves @ infront of numbers")
     (is (= {:a "%foo (@101,102)%bar"} (doc->safe-doc {:a "@foo (@101,102)%bar"})) 
         "conserves @ infront of numbers")))
+
+(deftest extr-main-path-i
+  (testing "returns a string (i)"
+    (is (= "aa" (extr-main-path "mpd-aa"))
+        "/wo mpd")
+    (is (= "aa" (extr-main-path "mpd-aa"))
+        "with mpd")))

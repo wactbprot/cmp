@@ -154,7 +154,7 @@
   "
   [s]
   (let [p "mpd-"]
-    (if (string/starts-with? s p) (string/replace  s (re-pattern p) ""))))
+    (if (string/starts-with? s p) (string/replace  s (re-pattern p) "") s)))
 
 (defn compl-main-path
   "Completes the main path by padding a `mpd-` in case it is missing.
