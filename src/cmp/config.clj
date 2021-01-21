@@ -10,12 +10,11 @@
 
 (defn lt-url
   [c]
-  (let [usr (System/getenv "CAL_USR")
-        pwd (System/getenv "CAL_PWD")]
-    (if (and usr pwd)
-      (str (:lt-prot c)"://"usr":"pwd"@"(:lt-srv c)":"(:lt-port c))
-      (str (:lt-prot c)"://"(:lt-srv c)":"(:lt-port c)))))
-
+  (let [usr  (System/getenv "CAL_USR")
+        pwd  (System/getenv "CAL_PWD")
+        cred (when (and usr pwd) (str usr ":" pwd "@"))]
+        (str (:lt-prot c) "://" cred  (:lt-srv c)":"(:lt-port c)))) 
+  
 (defn lt-conn [c] (str (lt-url c) "/"(:lt-db c)))
 
 (defn st-conn [c](:st-conn c))

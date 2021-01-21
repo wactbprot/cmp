@@ -3,19 +3,42 @@
     :doc "Provides the api of cmp. `(m-start)`, `(m-stop)` etc.  are
           intended for **repl** use only. Graphical user interfaces
           should attache to the **short term memory**."}
-   (:require [cmp.build       :as build]
-             [cmp.config      :as cfg]
-             [cmp.doc         :as d]
-             [cmp.key-utils   :as ku]
-             [cmp.log         :as log]
-             [cmp.lt-mem      :as lt]
-             [clojure.pprint  :as pp]
-             [cmp.st-mem      :as st]
-             [cmp.state       :as state]
-             [cmp.task        :as task]
-             [taoensso.timbre :as timbre]
-             [cmp.utils       :as u]
-             [cmp.work        :as w]))
+   (:require [cmp.build                :as build]
+             [cmp.config               :as cfg]
+             [cmp.doc                  :as d]
+             [cmp.key-utils            :as ku]
+             [cmp.log                  :as log]
+             [cmp.lt-mem               :as lt]
+             [com.brunobonacci.mulog   :as mu]
+             [clojure.pprint           :as pp]
+             [cmp.st-mem               :as st]
+             [cmp.state                :as state]
+             [cmp.task                 :as task]
+             [taoensso.timbre          :as timbre]
+             [cmp.utils                :as u]
+             [cmp.work                 :as w]))
+
+;;------------------------------
+;; log system
+;;------------------------------
+(def logger (atom nil))
+
+(defn init-log!
+  [{conf :mulog }]
+  (mu/set-global-context!
+   {:app-name "cmp" })
+  (mu/start-publisher! conf))
+
+(defn stop-log!
+  []
+  (mu/log ::stop)
+  (@logger)
+  (reset! logger nil))
+
+(defn start-log!
+  []
+  (mu/log ::start)
+  (reset! logger (init-log! (cfg/config))))
 
 ;;------------------------------
 ;; current-mp-id atom and workon

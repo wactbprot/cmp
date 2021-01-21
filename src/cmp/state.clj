@@ -3,6 +3,7 @@
     :doc "Finds and starts the up comming tasks of a certain
           container."}
   (:require [taoensso.timbre :as log]
+            [com.brunobonacci.mulog   :as mu]
             [cmp.st-mem :as st]
             [cmp.work :as work]            
             [cmp.task :as tsk]

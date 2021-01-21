@@ -1,4 +1,20 @@
 {
+ :mulog {:type :multi
+         :publishers[
+                     ;; send events to the stdout
+                     ;; {:type :console
+                     ;;  :pretty? true}
+                     ;; send events to a file
+                     ;; {:type :simple-file
+                     ;;  :filename "/tmp/mulog/events.log"}
+                     ;; send events to ELS
+                     {:type :elasticsearch
+                      :url  "http://localhost:9200/"
+                      :els-version  :v7.x
+                      :publish-delay 1000
+                      :data-stream  "devhub-stream"
+                      :name-mangling false
+                      }]}
  ;; long term memory: couchdb
  :lt-srv "127.0.0.1"
  ;;:lt-srv "a73434"

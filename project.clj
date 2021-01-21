@@ -9,6 +9,8 @@
                  [cheshire                             "5.10.0"]
                  [clj-time                             "0.15.0"]
                  [com.taoensso/timbre                  "5.0.0"]
+                 [com.brunobonacci/mulog               "0.6.0"]
+                 [com.brunobonacci/mulog-elasticsearch "0.6.0"]
                  [clj-http                             "3.10.0"]
                  [clojang/codox-theme                  "0.2.0-SNAPSHOT"]]
   :main ^:skip-aot cmp.core
