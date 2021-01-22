@@ -11,883 +11,874 @@
                 002&nbsp;&nbsp;&nbsp;&nbsp;^{:author&nbsp;&quot;wactbprot&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:doc&nbsp;&quot;Finds&nbsp;and&nbsp;starts&nbsp;the&nbsp;up&nbsp;comming&nbsp;tasks&nbsp;of&nbsp;a&nbsp;certain
+                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:doc&nbsp;&quot;Finds&nbsp;and&nbsp;starts&nbsp;the&nbsp;up&nbsp;comming&nbsp;tasks&nbsp;of&nbsp;a&nbsp;certain&nbsp;container.&quot;}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container.&quot;}
+                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[com.brunobonacci.mulog&nbsp;&nbsp;&nbsp;:as&nbsp;mu]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                005&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[taoensso.timbre&nbsp;:as&nbsp;log]
+                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;:as&nbsp;st]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[com.brunobonacci.mulog&nbsp;&nbsp;&nbsp;:as&nbsp;mu]
+                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.work&nbsp;:as&nbsp;work]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;:as&nbsp;st]
+                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.key-utils&nbsp;:as&nbsp;ku]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.work&nbsp;:as&nbsp;work]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.task&nbsp;:as&nbsp;tsk]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.key-utils&nbsp;:as&nbsp;ku]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;:as&nbsp;u]))
+                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;:as&nbsp;u]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                012&nbsp;&nbsp;
+                009&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                013&nbsp;&nbsp;(defn&nbsp;state-key-&gt;state-map&nbsp;&nbsp;
+                010&nbsp;&nbsp;(defn&nbsp;state-key-&gt;state-map&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                014&nbsp;&nbsp;&nbsp;&nbsp;&quot;Builds&nbsp;a&nbsp;`state-map`&nbsp;by&nbsp;means&nbsp;of&nbsp;the&nbsp;`info-map`.
+                011&nbsp;&nbsp;&nbsp;&nbsp;&quot;Builds&nbsp;a&nbsp;`state-map`&nbsp;by&nbsp;means&nbsp;of&nbsp;the&nbsp;`info-map`.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                015&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;state&nbsp;value&nbsp;is&nbsp;`assoc`ed&nbsp;afet&nbsp;getting&nbsp;it&nbsp;with&nbsp;`st&#x2F;key-&gt;val`.&nbsp;&quot;
+                012&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;state&nbsp;value&nbsp;is&nbsp;`assoc`ed&nbsp;afet&nbsp;getting&nbsp;it&nbsp;with&nbsp;`st&#x2F;key-&gt;val`.&nbsp;&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                016&nbsp;&nbsp;&nbsp;&nbsp;[state-key]
+                013&nbsp;&nbsp;&nbsp;&nbsp;[state-key]
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;(ku&#x2F;key-&gt;info-map&nbsp;state-key)
+                014&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;(ku&#x2F;key-&gt;info-map&nbsp;state-key)
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:state&nbsp;(keyword&nbsp;(st&#x2F;key-&gt;val&nbsp;state-key))))
+                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:state&nbsp;(keyword&nbsp;(st&#x2F;key-&gt;val&nbsp;state-key))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                019&nbsp;&nbsp;
+                016&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                020&nbsp;&nbsp;(defn&nbsp;ks-&gt;state-vec
+                017&nbsp;&nbsp;(defn&nbsp;ks-&gt;state-vec
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                021&nbsp;&nbsp;&nbsp;&nbsp;&quot;Builds&nbsp;the&nbsp;state&nbsp;map&nbsp;`m`&nbsp;belonging&nbsp;to&nbsp;a&nbsp;key&nbsp;set&nbsp;`ks`.
+                018&nbsp;&nbsp;&nbsp;&nbsp;&quot;Builds&nbsp;the&nbsp;state&nbsp;map&nbsp;`m`&nbsp;belonging&nbsp;to&nbsp;a&nbsp;key&nbsp;set&nbsp;`ks`.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;`m`&nbsp;is&nbsp;introduced&nbsp;in&nbsp;order&nbsp;to&nbsp;keep&nbsp;the&nbsp;functions&nbsp;testable.
+                019&nbsp;&nbsp;&nbsp;&nbsp;`m`&nbsp;is&nbsp;introduced&nbsp;in&nbsp;order&nbsp;to&nbsp;keep&nbsp;the&nbsp;functions&nbsp;testable.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                023&nbsp;&nbsp;
+                020&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                024&nbsp;&nbsp;&nbsp;&nbsp;Example:
+                021&nbsp;&nbsp;&nbsp;&nbsp;Example:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                025&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                022&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;(ks-&gt;state-vec&nbsp;(k-&gt;state-ks&nbsp;\&quot;ref@container@0\&quot;))
+                023&nbsp;&nbsp;&nbsp;&nbsp;(ks-&gt;state-vec&nbsp;(k-&gt;state-ks&nbsp;\&quot;ref@container@0\&quot;))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;```&quot;&nbsp;
+                024&nbsp;&nbsp;&nbsp;&nbsp;```&quot;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                028&nbsp;&nbsp;&nbsp;&nbsp;[ks]
+                025&nbsp;&nbsp;&nbsp;&nbsp;[ks]
                 </span><br/>
-<span class="partial" title="2 out of 3 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;ks
+<span class="partial" title="2 out of 7 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;ks&nbsp;(mapv&nbsp;state-key-&gt;state-map&nbsp;ks)))
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;state-key-&gt;state-map&nbsp;ks)))
+<span class="blank" title="0 out of 0 forms covered">
+                027&nbsp;&nbsp;
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                028&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                029&nbsp;&nbsp;(defn&nbsp;k-&gt;state-ks
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;state&nbsp;keys&nbsp;for&nbsp;a&nbsp;given&nbsp;path.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 031&nbsp;&nbsp;
                 </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                032&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                033&nbsp;&nbsp;(defn&nbsp;k-&gt;state-ks
+<span class="not-tracked" title="0 out of 0 forms covered">
+                032&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                034&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;state&nbsp;keys&nbsp;for&nbsp;a&nbsp;given&nbsp;path.
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                035&nbsp;&nbsp;
+                033&nbsp;&nbsp;&nbsp;&nbsp;(k-&gt;state-ks&nbsp;\&quot;wait@container@0\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                036&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                034&nbsp;&nbsp;&nbsp;&nbsp;```&quot;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                037&nbsp;&nbsp;&nbsp;&nbsp;(k-&gt;state-ks&nbsp;\&quot;wait@container@0\&quot;)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                038&nbsp;&nbsp;&nbsp;&nbsp;```&quot;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                039&nbsp;&nbsp;&nbsp;&nbsp;[k]
+                035&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="partial" title="2 out of 3 forms covered">
-                040&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;k
+                036&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;k
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(sort
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(sort
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;keys
+                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;keys
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(ku&#x2F;key-&gt;mp-id&nbsp;k)
+                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;vec-&gt;key&nbsp;[(ku&#x2F;key-&gt;mp-id&nbsp;k)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;key-&gt;struct&nbsp;k)
+                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;key-&gt;struct&nbsp;k)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;key-&gt;no-idx&nbsp;k)
+                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;key-&gt;no-idx&nbsp;k)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;state&quot;])))))
+                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;state&quot;])))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                047&nbsp;&nbsp;
+                043&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                048&nbsp;&nbsp;(defn&nbsp;ctrl-k-&gt;cmd
+                044&nbsp;&nbsp;(defn&nbsp;ctrl-k-&gt;cmd
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                049&nbsp;&nbsp;&nbsp;&nbsp;&quot;Gets&nbsp;the&nbsp;`cmd`&nbsp;from&nbsp;the&nbsp;`ctrl-k`.&nbsp;Extracts&nbsp;the&nbsp;`next-ctrl-cmd`&nbsp;and
+                045&nbsp;&nbsp;&nbsp;&nbsp;&quot;Gets&nbsp;the&nbsp;`cmd`&nbsp;from&nbsp;the&nbsp;`ctrl-k`.&nbsp;Extracts&nbsp;the&nbsp;`next-ctrl-cmd`&nbsp;and
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                050&nbsp;&nbsp;&nbsp;&nbsp;make&nbsp;a&nbsp;keyword&nbsp;out&nbsp;of&nbsp;it.&quot;
+                046&nbsp;&nbsp;&nbsp;&nbsp;make&nbsp;a&nbsp;keyword&nbsp;out&nbsp;of&nbsp;it.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                051&nbsp;&nbsp;&nbsp;&nbsp;[k]
+                047&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                052&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;k&nbsp;st&#x2F;key-&gt;val&nbsp;u&#x2F;next-ctrl-cmd&nbsp;keyword))
+                048&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;k&nbsp;st&#x2F;key-&gt;val&nbsp;u&#x2F;next-ctrl-cmd&nbsp;keyword))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                053&nbsp;&nbsp;&nbsp;&nbsp;
+                049&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                054&nbsp;&nbsp;(defn&nbsp;filter-state
+                050&nbsp;&nbsp;(defn&nbsp;filter-state
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                055&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;a&nbsp;vector&nbsp;of&nbsp;maps&nbsp;where&nbsp;state&nbsp;is&nbsp;`s`.&quot;
+                051&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;a&nbsp;vector&nbsp;of&nbsp;maps&nbsp;where&nbsp;state&nbsp;is&nbsp;`s`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                056&nbsp;&nbsp;&nbsp;&nbsp;[v&nbsp;s]
+                052&nbsp;&nbsp;&nbsp;&nbsp;[v&nbsp;s]
                 </span><br/>
 <span class="covered" title="9 out of 9 forms covered">
-                057&nbsp;&nbsp;&nbsp;&nbsp;(filterv&nbsp;(fn&nbsp;[m]&nbsp;(=&nbsp;s&nbsp;(:state&nbsp;m)))&nbsp;v))
+                053&nbsp;&nbsp;&nbsp;&nbsp;(filterv&nbsp;(fn&nbsp;[m]&nbsp;(=&nbsp;s&nbsp;(:state&nbsp;m)))&nbsp;v))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                058&nbsp;&nbsp;&nbsp;&nbsp;
+                054&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                059&nbsp;&nbsp;(defn&nbsp;all-error
+                055&nbsp;&nbsp;(defn&nbsp;all-error
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                060&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;all&nbsp;steps&nbsp;with&nbsp;the&nbsp;state&nbsp;`:error`&nbsp;for&nbsp;a&nbsp;given&nbsp;state&nbsp;vector
+                056&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;all&nbsp;steps&nbsp;with&nbsp;the&nbsp;state&nbsp;`:error`&nbsp;for&nbsp;a&nbsp;given&nbsp;state&nbsp;vector
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                061&nbsp;&nbsp;&nbsp;&nbsp;`v`&quot;
+                057&nbsp;&nbsp;&nbsp;&nbsp;`v`&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                062&nbsp;&nbsp;&nbsp;&nbsp;[v]
+                058&nbsp;&nbsp;&nbsp;&nbsp;[v]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                063&nbsp;&nbsp;&nbsp;&nbsp;(filter-state&nbsp;v&nbsp;:error))
+                059&nbsp;&nbsp;&nbsp;&nbsp;(filter-state&nbsp;v&nbsp;:error))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                064&nbsp;&nbsp;
+                060&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                065&nbsp;&nbsp;(defn&nbsp;all-ready
+                061&nbsp;&nbsp;(defn&nbsp;all-ready
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                066&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;all&nbsp;steps&nbsp;with&nbsp;the&nbsp;state&nbsp;`:ready`&nbsp;for&nbsp;a&nbsp;given&nbsp;state&nbsp;vector
+                062&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;all&nbsp;steps&nbsp;with&nbsp;the&nbsp;state&nbsp;`:ready`&nbsp;for&nbsp;a&nbsp;given&nbsp;state&nbsp;vector
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                067&nbsp;&nbsp;&nbsp;&nbsp;`v`&quot;
+                063&nbsp;&nbsp;&nbsp;&nbsp;`v`&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                068&nbsp;&nbsp;&nbsp;&nbsp;[v]
+                064&nbsp;&nbsp;&nbsp;&nbsp;[v]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                069&nbsp;&nbsp;&nbsp;&nbsp;(filter-state&nbsp;v&nbsp;:ready))
+                065&nbsp;&nbsp;&nbsp;&nbsp;(filter-state&nbsp;v&nbsp;:ready))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                070&nbsp;&nbsp;
+                066&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                071&nbsp;&nbsp;(defn&nbsp;all-executed
+                067&nbsp;&nbsp;(defn&nbsp;all-executed
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                072&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;all-executed&nbsp;entrys&nbsp;of&nbsp;the&nbsp;given&nbsp;vector&nbsp;`v`.
+                068&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;all-executed&nbsp;entrys&nbsp;of&nbsp;the&nbsp;given&nbsp;vector&nbsp;`v`.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                073&nbsp;&nbsp;
+                069&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                074&nbsp;&nbsp;&nbsp;&nbsp;Example:
+                070&nbsp;&nbsp;&nbsp;&nbsp;Example:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                075&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                071&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(all-executed&nbsp;(ku&#x2F;seq-idx-&gt;all-par
+                072&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(all-executed&nbsp;(ku&#x2F;seq-idx-&gt;all-par
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                077&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[{:seq-idx&nbsp;0&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:executed}
+                073&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[{:seq-idx&nbsp;0&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:executed}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                078&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:seq-idx&nbsp;0&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:ready}]
+                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:seq-idx&nbsp;0&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:ready}]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                079&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0))
+                075&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                080&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;=&gt;
+                076&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;=&gt;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                081&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;[{:seq-idx&nbsp;0&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:executed}]
+                077&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;[{:seq-idx&nbsp;0&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:executed}]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                082&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                078&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                083&nbsp;&nbsp;&nbsp;&nbsp;[v]
+                079&nbsp;&nbsp;&nbsp;&nbsp;[v]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                084&nbsp;&nbsp;&nbsp;&nbsp;(filter-state&nbsp;v&nbsp;:executed))
+                080&nbsp;&nbsp;&nbsp;&nbsp;(filter-state&nbsp;v&nbsp;:executed))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                085&nbsp;&nbsp;
+                081&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                086&nbsp;&nbsp;(defn&nbsp;all-executed?
+                082&nbsp;&nbsp;(defn&nbsp;all-executed?
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                087&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;all&nbsp;entries&nbsp;of&nbsp;map&nbsp;`m`&nbsp;are&nbsp;executed&quot;
+                083&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;all&nbsp;entries&nbsp;of&nbsp;map&nbsp;`m`&nbsp;are&nbsp;executed&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                088&nbsp;&nbsp;&nbsp;&nbsp;[v]
+                084&nbsp;&nbsp;&nbsp;&nbsp;[v]
                 </span><br/>
 <span class="covered" title="7 out of 7 forms covered">
-                089&nbsp;&nbsp;&nbsp;&nbsp;(=&nbsp;(count&nbsp;v)&nbsp;(count&nbsp;(all-executed&nbsp;v))))
+                085&nbsp;&nbsp;&nbsp;&nbsp;(=&nbsp;(count&nbsp;v)&nbsp;(count&nbsp;(all-executed&nbsp;v))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                090&nbsp;&nbsp;
+                086&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                091&nbsp;&nbsp;(defn&nbsp;errors?
+                087&nbsp;&nbsp;(defn&nbsp;errors?
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                092&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;there&nbsp;are&nbsp;any&nbsp;errors&nbsp;in&nbsp;the
+                088&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;there&nbsp;are&nbsp;any&nbsp;errors&nbsp;in&nbsp;the
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                093&nbsp;&nbsp;&nbsp;&nbsp;vector&nbsp;of&nbsp;maps&nbsp;`v`.&quot;
+                089&nbsp;&nbsp;&nbsp;&nbsp;vector&nbsp;of&nbsp;maps&nbsp;`v`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                094&nbsp;&nbsp;&nbsp;&nbsp;[v]
+                090&nbsp;&nbsp;&nbsp;&nbsp;[v]
                 </span><br/>
 <span class="covered" title="7 out of 7 forms covered">
-                095&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(empty?&nbsp;(all-error&nbsp;v))))
+                091&nbsp;&nbsp;&nbsp;&nbsp;(not&nbsp;(empty?&nbsp;(all-error&nbsp;v))))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                096&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                092&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                097&nbsp;&nbsp;(defn&nbsp;next-ready
+                093&nbsp;&nbsp;(defn&nbsp;next-ready
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                098&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;a&nbsp;map&nbsp;(or&nbsp;`nil`)&nbsp;with&nbsp;the&nbsp;next&nbsp;step&nbsp;with&nbsp;state&nbsp;`:ready`.&quot;
+                094&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;a&nbsp;map&nbsp;(or&nbsp;`nil`)&nbsp;with&nbsp;the&nbsp;next&nbsp;step&nbsp;with&nbsp;state&nbsp;`:ready`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                099&nbsp;&nbsp;&nbsp;&nbsp;[v]
+                095&nbsp;&nbsp;&nbsp;&nbsp;[v]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                100&nbsp;&nbsp;&nbsp;&nbsp;(first&nbsp;(all-ready&nbsp;v)))
+                096&nbsp;&nbsp;&nbsp;&nbsp;(first&nbsp;(all-ready&nbsp;v)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                101&nbsp;&nbsp;
+                097&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                102&nbsp;&nbsp;(defn&nbsp;predecessors-executed?
+                098&nbsp;&nbsp;(defn&nbsp;predecessors-executed?
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                103&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;`all-executed?`&nbsp;in&nbsp;the&nbsp;steps&nbsp;before&nbsp;`i`&nbsp;of&nbsp;`v`.&quot;
+                099&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;`all-executed?`&nbsp;in&nbsp;the&nbsp;steps&nbsp;before&nbsp;`i`&nbsp;of&nbsp;`v`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                104&nbsp;&nbsp;&nbsp;&nbsp;[v&nbsp;i]
+                100&nbsp;&nbsp;&nbsp;&nbsp;[v&nbsp;i]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                105&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[i&nbsp;(u&#x2F;ensure-int&nbsp;i)]
+                101&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[i&nbsp;(u&#x2F;ensure-int&nbsp;i)]
                 </span><br/>
 <span class="partial" title="4 out of 5 forms covered">
-                106&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(&lt;&nbsp;0&nbsp;i)
+                102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(&lt;&nbsp;0&nbsp;i)
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                107&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(every?&nbsp;true?&nbsp;(map
+                103&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(every?&nbsp;true?&nbsp;(map
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                108&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[j]
+                104&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[j]
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                109&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(all-executed?
+                105&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(all-executed?
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                110&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;seq-idx-&gt;all-par&nbsp;v&nbsp;j)))
+                106&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;seq-idx-&gt;all-par&nbsp;v&nbsp;j)))
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                111&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(range&nbsp;i)))
+                107&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(range&nbsp;i)))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                112&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true)))
+                108&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                113&nbsp;&nbsp;
+                109&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                114&nbsp;&nbsp;;;------------------------------
+                110&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                115&nbsp;&nbsp;;;&nbsp;ready!
+                111&nbsp;&nbsp;;;&nbsp;ready!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                116&nbsp;&nbsp;;;------------------------------
+                112&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                117&nbsp;&nbsp;(defn&nbsp;ready!&nbsp;
+                113&nbsp;&nbsp;(defn&nbsp;ready!&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                118&nbsp;&nbsp;&nbsp;&nbsp;&quot;Sets&nbsp;all&nbsp;states&nbsp;(the&nbsp;state&nbsp;interface)&nbsp;to&nbsp;ready.&quot;
+                114&nbsp;&nbsp;&nbsp;&nbsp;&quot;Sets&nbsp;all&nbsp;states&nbsp;(the&nbsp;state&nbsp;interface)&nbsp;to&nbsp;ready.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                119&nbsp;&nbsp;&nbsp;&nbsp;[k]
+                115&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                120&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(ku&#x2F;key-&gt;ctrl-key&nbsp;k)&nbsp;&quot;ready&quot;)
+                116&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(ku&#x2F;key-&gt;ctrl-key&nbsp;k)&nbsp;&quot;ready&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                121&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-same-val!&nbsp;(k-&gt;state-ks&nbsp;k)&nbsp;&quot;ready&quot;))
+                117&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-same-val!&nbsp;(k-&gt;state-ks&nbsp;k)&nbsp;&quot;ready&quot;))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                122&nbsp;&nbsp;
+                118&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                123&nbsp;&nbsp;;;------------------------------
+                119&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                124&nbsp;&nbsp;;;&nbsp;stop
+                120&nbsp;&nbsp;;;&nbsp;stop
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                125&nbsp;&nbsp;;;------------------------------
+                121&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                126&nbsp;&nbsp;(defn&nbsp;de-observe!
+                122&nbsp;&nbsp;(defn&nbsp;de-observe!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                127&nbsp;&nbsp;&nbsp;&nbsp;&quot;Opposite&nbsp;of&nbsp;[[observe!]]:&nbsp;De-registers&nbsp;the&nbsp;`state`&nbsp;listener.&nbsp;&nbsp;The
+                123&nbsp;&nbsp;&nbsp;&nbsp;&quot;Opposite&nbsp;of&nbsp;[[observe!]]:&nbsp;De-registers&nbsp;the&nbsp;`state`&nbsp;listener.&nbsp;&nbsp;The
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                128&nbsp;&nbsp;&nbsp;&nbsp;de-register&nbsp;pattern&nbsp;is&nbsp;derived&nbsp;from&nbsp;the&nbsp;key&nbsp;`k`&nbsp;(may&nbsp;be&nbsp;the
+                124&nbsp;&nbsp;&nbsp;&nbsp;de-register&nbsp;pattern&nbsp;is&nbsp;derived&nbsp;from&nbsp;the&nbsp;key&nbsp;`k`&nbsp;(may&nbsp;be&nbsp;the
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                129&nbsp;&nbsp;&nbsp;&nbsp;`ctrl-key`&nbsp;or&nbsp;`state-key`).&nbsp;&nbsp;Resets&nbsp;the&nbsp;state&nbsp;interface&nbsp;afterwards.&quot;
+                125&nbsp;&nbsp;&nbsp;&nbsp;`ctrl-key`&nbsp;or&nbsp;`state-key`).&nbsp;&nbsp;Resets&nbsp;the&nbsp;state&nbsp;interface&nbsp;afterwards.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                130&nbsp;&nbsp;&nbsp;&nbsp;[k]
+                126&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                131&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;de-register!&nbsp;(ku&#x2F;key-&gt;mp-id&nbsp;k)&nbsp;(ku&#x2F;key-&gt;struct&nbsp;k)&nbsp;(ku&#x2F;key-&gt;no-idx&nbsp;k)&nbsp;&quot;state&quot;))
+                127&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;de-register!&nbsp;(ku&#x2F;key-&gt;mp-id&nbsp;k)&nbsp;(ku&#x2F;key-&gt;struct&nbsp;k)&nbsp;(ku&#x2F;key-&gt;no-idx&nbsp;k)&nbsp;&quot;state&quot;))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                132&nbsp;&nbsp;
+                128&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                133&nbsp;&nbsp;;;------------------------------
+                129&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                134&nbsp;&nbsp;;;&nbsp;set&nbsp;value&nbsp;at&nbsp;ctrl-path&nbsp;
+                130&nbsp;&nbsp;;;&nbsp;set&nbsp;value&nbsp;at&nbsp;ctrl-path&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                135&nbsp;&nbsp;;;------------------------------
+                131&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                136&nbsp;&nbsp;(defn&nbsp;error!
+                132&nbsp;&nbsp;(defn&nbsp;error!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                137&nbsp;&nbsp;&nbsp;&nbsp;&quot;Sets&nbsp;the&nbsp;`ctrl`&nbsp;interface&nbsp;to&nbsp;`\&quot;error\&quot;`.&quot;
+                133&nbsp;&nbsp;&nbsp;&nbsp;&quot;Sets&nbsp;the&nbsp;`ctrl`&nbsp;interface&nbsp;to&nbsp;`\&quot;error\&quot;`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                138&nbsp;&nbsp;&nbsp;&nbsp;[k]
+                134&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
-<span class="not-covered" title="0 out of 17 forms covered">
-                139&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&nbsp;&quot;error!&nbsp;for:&nbsp;&quot;&nbsp;k)
+<span class="not-covered" title="0 out of 15 forms covered">
+                135&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::error!&nbsp;:error&nbsp;(str&nbsp;&quot;error!&nbsp;for:&nbsp;&quot;&nbsp;k))
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                140&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(ku&#x2F;key-&gt;ctrl-key&nbsp;k)&nbsp;&quot;error&quot;))
+                136&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(ku&#x2F;key-&gt;ctrl-key&nbsp;k)&nbsp;&quot;error&quot;))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                141&nbsp;&nbsp;
+                137&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                142&nbsp;&nbsp;(defn&nbsp;nop!
+                138&nbsp;&nbsp;(defn&nbsp;nop!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                143&nbsp;&nbsp;&nbsp;&nbsp;&quot;No&nbsp;operation.&quot;
+                139&nbsp;&nbsp;&nbsp;&nbsp;&quot;No&nbsp;operation.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                144&nbsp;&nbsp;&nbsp;&nbsp;[k]
+                140&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
-<span class="not-covered" title="0 out of 17 forms covered">
-                145&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;nop!&nbsp;for:&nbsp;&quot;&nbsp;k))
+<span class="not-covered" title="0 out of 14 forms covered">
+                141&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::nop!&nbsp;:message&nbsp;&quot;nop!&quot;&nbsp;:key&nbsp;k))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                146&nbsp;&nbsp;
+                142&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                147&nbsp;&nbsp;(defn&nbsp;all-exec!
+                143&nbsp;&nbsp;(defn&nbsp;all-exec!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                148&nbsp;&nbsp;&nbsp;&nbsp;&quot;Handles&nbsp;the&nbsp;case&nbsp;where&nbsp;all&nbsp;`state`&nbsp;interfaces&nbsp;are
+                144&nbsp;&nbsp;&nbsp;&nbsp;&quot;Handles&nbsp;the&nbsp;case&nbsp;where&nbsp;all&nbsp;`state`&nbsp;interfaces&nbsp;are
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                149&nbsp;&nbsp;&nbsp;&nbsp;`\&quot;executed\&quot;`.&nbsp;Gets&nbsp;the&nbsp;value&nbsp;the&nbsp;`ctrl`&quot;
+                145&nbsp;&nbsp;&nbsp;&nbsp;`\&quot;executed\&quot;`.&nbsp;Gets&nbsp;the&nbsp;value&nbsp;the&nbsp;`ctrl`&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                150&nbsp;&nbsp;&nbsp;&nbsp;[k]
+                146&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                151&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ctrl-k&nbsp;&nbsp;&nbsp;(ku&#x2F;key-&gt;ctrl-key&nbsp;k)
+                147&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ctrl-k&nbsp;&nbsp;&nbsp;(ku&#x2F;key-&gt;ctrl-key&nbsp;k)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                152&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ctrl-k-&gt;cmd&nbsp;ctrl-k)]
+                148&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ctrl-k-&gt;cmd&nbsp;ctrl-k)]
                 </span><br/>
-<span class="not-covered" title="0 out of 19 forms covered">
-                153&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;info&nbsp;&quot;all&nbsp;done&nbsp;at:&nbsp;&quot;&nbsp;k&nbsp;&quot;ctrl&nbsp;interface&nbsp;cmd&nbsp;is:&nbsp;&quot;&nbsp;cmd)
+<span class="not-covered" title="0 out of 16 forms covered">
+                149&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::all-exec!&nbsp;:message&nbsp;&quot;all&nbsp;done&nbsp;at&quot;&nbsp;:key&nbsp;k&nbsp;:command&nbsp;cmd)
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                154&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;cmd
+                150&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;cmd
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                155&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mon&nbsp;&nbsp;&nbsp;(do
+                151&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mon&nbsp;&nbsp;&nbsp;(do
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                156&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(de-observe!&nbsp;ctrl-k)
+                152&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(de-observe!&nbsp;ctrl-k)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                157&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ready!&nbsp;ctrl-k)
+                153&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ready!&nbsp;ctrl-k)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                158&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;ctrl-k&nbsp;&quot;mon&quot;))
+                154&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;ctrl-k&nbsp;&quot;mon&quot;))
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                159&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do&nbsp;(de-observe!&nbsp;ctrl-k)
+                155&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do&nbsp;(de-observe!&nbsp;ctrl-k)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                160&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ready!&nbsp;ctrl-k)
+                156&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ready!&nbsp;ctrl-k)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                161&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;ctrl-k&nbsp;&quot;ready&quot;)
+                157&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;ctrl-k&nbsp;&quot;ready&quot;)
                 </span><br/>
-<span class="not-covered" title="0 out of 17 forms covered">
-                162&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;info&nbsp;&quot;default&nbsp;condp&nbsp;branch&nbsp;in&nbsp;all-exec&nbsp;fn&nbsp;of&nbsp;&quot;&nbsp;k&nbsp;)))))
+<span class="not-covered" title="0 out of 14 forms covered">
+                158&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::all-exec!&nbsp;:message&nbsp;&quot;default&nbsp;branch&nbsp;in&nbsp;all-exec&quot;&nbsp;:key&nbsp;k)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                163&nbsp;&nbsp;
+                159&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                164&nbsp;&nbsp;;;------------------------------
+                160&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                165&nbsp;&nbsp;;;&nbsp;choose&nbsp;and&nbsp;start&nbsp;next&nbsp;task
+                161&nbsp;&nbsp;;;&nbsp;choose&nbsp;and&nbsp;start&nbsp;next&nbsp;task
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                166&nbsp;&nbsp;;;------------------------------
+                162&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                167&nbsp;&nbsp;(defn&nbsp;next-map
+                163&nbsp;&nbsp;(defn&nbsp;next-map
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                168&nbsp;&nbsp;&nbsp;&nbsp;&quot;The&nbsp;`next-map`&nbsp;function&nbsp;returns&nbsp;a&nbsp;map&nbsp;containing&nbsp;the&nbsp;next&nbsp;step&nbsp;to
+                164&nbsp;&nbsp;&nbsp;&nbsp;&quot;The&nbsp;`next-map`&nbsp;function&nbsp;returns&nbsp;a&nbsp;map&nbsp;containing&nbsp;the&nbsp;next&nbsp;step&nbsp;to
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                169&nbsp;&nbsp;&nbsp;&nbsp;start.&nbsp;See&nbsp;`cmp.state-test&#x2F;next-map-i`&nbsp;for&nbsp;examples&nbsp;how&nbsp;`next-map`
+                165&nbsp;&nbsp;&nbsp;&nbsp;start.&nbsp;See&nbsp;`cmp.state-test&#x2F;next-map-i`&nbsp;for&nbsp;examples&nbsp;how&nbsp;`next-map`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                170&nbsp;&nbsp;&nbsp;&nbsp;should&nbsp;work.
+                166&nbsp;&nbsp;&nbsp;&nbsp;should&nbsp;work.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                171&nbsp;&nbsp;
+                167&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                172&nbsp;&nbsp;&nbsp;&nbsp;Example:
+                168&nbsp;&nbsp;&nbsp;&nbsp;Example:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                173&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                169&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                174&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(next-map&nbsp;[{:seq-idx&nbsp;0&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:executed}
+                170&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(next-map&nbsp;[{:seq-idx&nbsp;0&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:executed}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                175&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:seq-idx&nbsp;0&nbsp;:par-idx&nbsp;1&nbsp;:state&nbsp;:executed}
+                171&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:seq-idx&nbsp;0&nbsp;:par-idx&nbsp;1&nbsp;:state&nbsp;:executed}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                176&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:seq-idx&nbsp;1&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:executed}
+                172&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:seq-idx&nbsp;1&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:executed}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                177&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:seq-idx&nbsp;2&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:executed}
+                173&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:seq-idx&nbsp;2&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:executed}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                178&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:seq-idx&nbsp;3&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:working}
+                174&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:seq-idx&nbsp;3&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:working}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                179&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:seq-idx&nbsp;3&nbsp;:par-idx&nbsp;1&nbsp;:state&nbsp;:ready}])
+                175&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:seq-idx&nbsp;3&nbsp;:par-idx&nbsp;1&nbsp;:state&nbsp;:ready}])
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                180&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;=&gt;
+                176&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;=&gt;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                181&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:seq-idx&nbsp;3&nbsp;:par-idx&nbsp;1&nbsp;:state&nbsp;:ready}
+                177&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:seq-idx&nbsp;3&nbsp;:par-idx&nbsp;1&nbsp;:state&nbsp;:ready}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                182&nbsp;&nbsp;&nbsp;&nbsp;```
+                178&nbsp;&nbsp;&nbsp;&nbsp;```
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                183&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                179&nbsp;&nbsp;&nbsp;&nbsp;&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                184&nbsp;&nbsp;&nbsp;&nbsp;[v]
+                180&nbsp;&nbsp;&nbsp;&nbsp;[v]
                 </span><br/>
 <span class="covered" title="9 out of 9 forms covered">
-                185&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[next-m&nbsp;(next-ready&nbsp;v)]
+                181&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[next-m&nbsp;(next-ready&nbsp;v)]
                 </span><br/>
 <span class="covered" title="9 out of 9 forms covered">
-                186&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[i&nbsp;(:seq-idx&nbsp;next-m)]
+                182&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[i&nbsp;(:seq-idx&nbsp;next-m)]
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                187&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(or&nbsp;(zero?&nbsp;(u&#x2F;ensure-int&nbsp;i))
+                183&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(or&nbsp;(zero?&nbsp;(u&#x2F;ensure-int&nbsp;i))
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                188&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(predecessors-executed?&nbsp;v&nbsp;i))
+                184&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(predecessors-executed?&nbsp;v&nbsp;i))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                189&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next-m))))
+                185&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next-m))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                190&nbsp;&nbsp;
+                186&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                191&nbsp;&nbsp;;;------------------------------
+                187&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                192&nbsp;&nbsp;;;&nbsp;start-next(!)
+                188&nbsp;&nbsp;;;&nbsp;start-next(!)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                193&nbsp;&nbsp;;;------------------------------
+                189&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                194&nbsp;&nbsp;(defn&nbsp;start-next
+                190&nbsp;&nbsp;(defn&nbsp;start-next
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                195&nbsp;&nbsp;&nbsp;&nbsp;&quot;Side&nbsp;effect&nbsp;free.&nbsp;Makes&nbsp;[[start-next!]]&nbsp;testable.
+                191&nbsp;&nbsp;&nbsp;&nbsp;&quot;Side&nbsp;effect&nbsp;free.&nbsp;Makes&nbsp;[[start-next!]]&nbsp;testable.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                196&nbsp;&nbsp;&nbsp;&nbsp;Gets&nbsp;the&nbsp;state&nbsp;vector&nbsp;`v`&nbsp;and&nbsp;picks&nbsp;the&nbsp;next&nbsp;thing&nbsp;to&nbsp;do.
+                192&nbsp;&nbsp;&nbsp;&nbsp;Gets&nbsp;the&nbsp;state&nbsp;vector&nbsp;`v`&nbsp;and&nbsp;picks&nbsp;the&nbsp;next&nbsp;thing&nbsp;to&nbsp;do.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                197&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;`ctrl-k`ey&nbsp;is&nbsp;derived&nbsp;from&nbsp;the&nbsp;first&nbsp;map&nbsp;in&nbsp;the
+                193&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;`ctrl-k`ey&nbsp;is&nbsp;derived&nbsp;from&nbsp;the&nbsp;first&nbsp;map&nbsp;in&nbsp;the
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                198&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;`v`.&quot;
+                194&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;`v`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                199&nbsp;&nbsp;&nbsp;&nbsp;[v]
+                195&nbsp;&nbsp;&nbsp;&nbsp;[v]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                200&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(next-map&nbsp;v)
+                196&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(next-map&nbsp;v)
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                201&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl-k&nbsp;(ku&#x2F;info-map-&gt;ctrl-key&nbsp;(first&nbsp;v))
+                197&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl-k&nbsp;(ku&#x2F;info-map-&gt;ctrl-key&nbsp;(first&nbsp;v))
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                202&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defi-k&nbsp;(ku&#x2F;info-map-&gt;definition-key&nbsp;m)]
+                198&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defi-k&nbsp;(ku&#x2F;info-map-&gt;definition-key&nbsp;m)]
                 </span><br/>
 <span class="partial" title="5 out of 6 forms covered">
-                203&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
+                199&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                204&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(errors?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v)&nbsp;{:what&nbsp;:error&nbsp;&nbsp;&nbsp;&nbsp;:key&nbsp;ctrl-k}
+                200&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(errors?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v)&nbsp;{:what&nbsp;:error&nbsp;&nbsp;&nbsp;&nbsp;:key&nbsp;ctrl-k}
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                205&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(all-executed?&nbsp;v)&nbsp;{:what&nbsp;:all-exec&nbsp;:key&nbsp;ctrl-k}
+                201&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(all-executed?&nbsp;v)&nbsp;{:what&nbsp;:all-exec&nbsp;:key&nbsp;ctrl-k}
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                206&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nil?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m)&nbsp;{:what&nbsp;:nop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:key&nbsp;ctrl-k}
+                202&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nil?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m)&nbsp;{:what&nbsp;:nop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:key&nbsp;ctrl-k}
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                207&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:run-worker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:what&nbsp;:work&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:key&nbsp;defi-k})))
+                203&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:run-worker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:what&nbsp;:work&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:key&nbsp;defi-k})))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                208&nbsp;&nbsp;
+                204&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                209&nbsp;&nbsp;(defn&nbsp;start-next!
+                205&nbsp;&nbsp;(defn&nbsp;start-next!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                210&nbsp;&nbsp;&nbsp;&nbsp;&quot;`start-next!`&nbsp;choose&nbsp;the&nbsp;`k`&nbsp;of&nbsp;the&nbsp;upcomming&nbsp;tasks.
+                206&nbsp;&nbsp;&nbsp;&nbsp;&quot;`start-next!`&nbsp;choose&nbsp;the&nbsp;`k`&nbsp;of&nbsp;the&nbsp;upcomming&nbsp;tasks.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                211&nbsp;&nbsp;&nbsp;&nbsp;Then&nbsp;the&nbsp;`worker`&nbsp;set&nbsp;the&nbsp;state&nbsp;to&nbsp;`\&quot;working\&quot;`&nbsp;which&nbsp;triggers&nbsp;the
+                207&nbsp;&nbsp;&nbsp;&nbsp;Then&nbsp;the&nbsp;`worker`&nbsp;set&nbsp;the&nbsp;state&nbsp;to&nbsp;`\&quot;working\&quot;`&nbsp;which&nbsp;triggers&nbsp;the
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                212&nbsp;&nbsp;&nbsp;&nbsp;next&nbsp;call&nbsp;to&nbsp;`start-next!`:&nbsp;parallel&nbsp;tasks&nbsp;are&nbsp;started&nbsp;this&nbsp;way.
+                208&nbsp;&nbsp;&nbsp;&nbsp;next&nbsp;call&nbsp;to&nbsp;`start-next!`:&nbsp;parallel&nbsp;tasks&nbsp;are&nbsp;started&nbsp;this&nbsp;way.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                213&nbsp;&nbsp;
+                209&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                214&nbsp;&nbsp;&nbsp;&nbsp;Side&nbsp;effects&nbsp;all&nbsp;around.&nbsp;&quot;
+                210&nbsp;&nbsp;&nbsp;&nbsp;Side&nbsp;effects&nbsp;all&nbsp;around.&nbsp;&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                215&nbsp;&nbsp;&nbsp;&nbsp;[v]
-                </span><br/>
-<span class="not-covered" title="0 out of 16 forms covered">
-                216&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;call&nbsp;to&nbsp;start&nbsp;next&quot;)
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                217&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(vector?&nbsp;v)
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                218&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{what&nbsp;:what&nbsp;k&nbsp;:key}&nbsp;(start-next&nbsp;v)]
-                </span><br/>
-<span class="not-covered" title="0 out of 29 forms covered">
-                219&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;what
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                220&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:error&nbsp;&nbsp;&nbsp;&nbsp;(error!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;k)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                221&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:all-exec&nbsp;(all-exec!&nbsp;&nbsp;k)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                222&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:nop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nop!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;k)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                223&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:work&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(work&#x2F;check&nbsp;k)))))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                224&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                225&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                226&nbsp;&nbsp;;;&nbsp;observe!
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                227&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                228&nbsp;&nbsp;(defn&nbsp;observe!
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                229&nbsp;&nbsp;&nbsp;&nbsp;&quot;Registers&nbsp;a&nbsp;listener&nbsp;with&nbsp;a&nbsp;[[start-next!]]&nbsp;callback.&nbsp;&nbsp;Calls
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                230&nbsp;&nbsp;&nbsp;&nbsp;`start-next!`&nbsp;as&nbsp;a&nbsp;first&nbsp;trigger.&nbsp;&nbsp;The&nbsp;register&nbsp;pattern&nbsp;is&nbsp;derived
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                231&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;the&nbsp;key&nbsp;`k`&nbsp;(`ctrl-key`).&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                232&nbsp;&nbsp;&nbsp;&nbsp;[k]
-                </span><br/>
-<span class="not-covered" title="0 out of 16 forms covered">
-                233&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;info&nbsp;&quot;register&nbsp;start-next!&nbsp;callback&nbsp;and&nbsp;start-next!&quot;)
+                211&nbsp;&nbsp;&nbsp;&nbsp;[v]
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                234&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;(ku&#x2F;key-&gt;mp-id&nbsp;k)&nbsp;(ku&#x2F;key-&gt;struct&nbsp;k)&nbsp;(ku&#x2F;key-&gt;no-idx&nbsp;k)&nbsp;&quot;state&quot;
+                212&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start-next!&nbsp;:message&nbsp;&quot;call&nbsp;to&nbsp;start&nbsp;next&quot;)
                 </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                235&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[msg]
-                </span><br/>
-<span class="not-covered" title="0 out of 9 forms covered">
-                236&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[msg-k&nbsp;(st&#x2F;msg-&gt;key&nbsp;msg)]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </span><br/>
-<span class="not-covered" title="0 out of 16 forms covered">
-                237&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;will&nbsp;call&nbsp;start-next&nbsp;from&nbsp;callback&quot;)
-                </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                238&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start-next!&nbsp;(ks-&gt;state-vec&nbsp;(k-&gt;state-ks&nbsp;msg-k))))))
-                </span><br/>
-<span class="not-covered" title="0 out of 16 forms covered">
-                239&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;will&nbsp;call&nbsp;start-next&nbsp;first&nbsp;trigger&quot;)
-                </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                240&nbsp;&nbsp;&nbsp;&nbsp;(start-next!&nbsp;(ks-&gt;state-vec&nbsp;(k-&gt;state-ks&nbsp;k))))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                241&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                242&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                243&nbsp;&nbsp;;;&nbsp;status&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                244&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                245&nbsp;&nbsp;(defn&nbsp;cont-status
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                246&nbsp;&nbsp;&nbsp;&nbsp;&quot;Return&nbsp;the&nbsp;`state-vec`&nbsp;for&nbsp;the&nbsp;`i`th&nbsp;container.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                247&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i]
-                </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
-                248&nbsp;&nbsp;&nbsp;&nbsp;(ks-&gt;state-vec&nbsp;(k-&gt;state-ks&nbsp;(ku&#x2F;cont-state-key&nbsp;mp-id&nbsp;i))))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                249&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                250&nbsp;&nbsp;(defn&nbsp;defins-status
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                251&nbsp;&nbsp;&nbsp;&nbsp;&quot;Return&nbsp;the&nbsp;`state-vec`&nbsp;for&nbsp;the&nbsp;`i`th&nbsp;definition*s*&nbsp;structure.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                252&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i]
-                </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
-                253&nbsp;&nbsp;&nbsp;&nbsp;(ks-&gt;state-vec&nbsp;(k-&gt;state-ks&nbsp;(ku&#x2F;defins-state-key&nbsp;mp-id&nbsp;i))))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                254&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                255&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                256&nbsp;&nbsp;;;&nbsp;dispatch
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                257&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                258&nbsp;&nbsp;(defn&nbsp;dispatch
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                259&nbsp;&nbsp;&nbsp;&nbsp;&quot;Dispaches&nbsp;depending&nbsp;on&nbsp;`cmd`.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                260&nbsp;&nbsp;&nbsp;&nbsp;[k&nbsp;cmd]
-                </span><br/>
-<span class="not-covered" title="0 out of 30 forms covered">
-                261&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(keyword&nbsp;cmd)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                262&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:run&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(observe!&nbsp;k)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                263&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(observe!&nbsp;k)
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                264&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:stop&nbsp;&nbsp;&nbsp;&nbsp;(do
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                265&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(de-observe!&nbsp;k)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                266&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ready!&nbsp;k))
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                267&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:reset&nbsp;&nbsp;&nbsp;(do
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                268&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(de-observe!&nbsp;k)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                269&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ready!&nbsp;k))
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                270&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:suspend&nbsp;(de-observe!&nbsp;k)
-                </span><br/>
-<span class="not-covered" title="0 out of 16 forms covered">
-                271&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;info&nbsp;&nbsp;&quot;default&nbsp;case&nbsp;state&nbsp;dispach&nbsp;function&quot;&nbsp;)))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                272&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                273&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                274&nbsp;&nbsp;;;&nbsp;stop
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                275&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                276&nbsp;&nbsp;(defn&nbsp;stop
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                277&nbsp;&nbsp;&nbsp;&nbsp;&quot;De-registers&nbsp;the&nbsp;listener&nbsp;for&nbsp;the&nbsp;`ctrl`&nbsp;interfaces&nbsp;of&nbsp;the
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                278&nbsp;&nbsp;&nbsp;&nbsp;`mp-id`.&nbsp;After&nbsp;stopping&nbsp;the&nbsp;system&nbsp;will&nbsp;no&nbsp;longer&nbsp;react&nbsp;on&nbsp;changes
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                279&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;the&nbsp;`ctrl`&nbsp;interface.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                280&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
-                </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
-                281&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;de-register!&nbsp;mp-id&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;ctrl&quot;)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                282&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clean-register!&nbsp;mp-id))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                283&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                284&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                285&nbsp;&nbsp;;;&nbsp;start
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                286&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                287&nbsp;&nbsp;(defn&nbsp;start
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                288&nbsp;&nbsp;&nbsp;&nbsp;&quot;Registers&nbsp;a&nbsp;listener&nbsp;for&nbsp;the&nbsp;`ctrl`&nbsp;interface&nbsp;of&nbsp;the&nbsp;entire
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                289&nbsp;&nbsp;&nbsp;&nbsp;`mp-id`.&nbsp;The&nbsp;[[dispatch]]&nbsp;function&nbsp;becomes&nbsp;the&nbsp;listeners&nbsp;`cb!`.&quot;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                290&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
-                </span><br/>
-<span class="not-covered" title="0 out of 17 forms covered">
-                291&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;info&nbsp;&quot;register&nbsp;ctrl&nbsp;listener&nbsp;for:&nbsp;&quot;&nbsp;mp-id)
-                </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                292&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;mp-id&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;ctrl&quot;&nbsp;(fn&nbsp;[msg]
-                </span><br/>
-<span class="not-covered" title="0 out of 9 forms covered">
-                293&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[k&nbsp;(st&#x2F;msg-&gt;key&nbsp;msg)]
-                </span><br/>
-<span class="not-covered" title="0 out of 11 forms covered">
-                294&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[cmd&nbsp;(u&#x2F;next-ctrl-cmd&nbsp;(st&#x2F;key-&gt;val&nbsp;k))]
+<span class="not-covered" title="0 out of 5 forms covered">
+                213&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(vector?&nbsp;v)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                295&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dispatch&nbsp;k&nbsp;cmd))))))
+                214&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{what&nbsp;:what&nbsp;k&nbsp;:key}&nbsp;(start-next&nbsp;v)]
+                </span><br/>
+<span class="not-covered" title="0 out of 29 forms covered">
+                215&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;what
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                216&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:error&nbsp;&nbsp;&nbsp;&nbsp;(error!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                217&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:all-exec&nbsp;(all-exec!&nbsp;&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                218&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:nop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nop!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                219&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:work&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(work&#x2F;check&nbsp;k)))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                220&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                221&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                222&nbsp;&nbsp;;;&nbsp;observe!
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                223&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                224&nbsp;&nbsp;(defn&nbsp;observe!
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                225&nbsp;&nbsp;&nbsp;&nbsp;&quot;Registers&nbsp;a&nbsp;listener&nbsp;with&nbsp;a&nbsp;[[start-next!]]&nbsp;callback.&nbsp;&nbsp;Calls
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                226&nbsp;&nbsp;&nbsp;&nbsp;`start-next!`&nbsp;as&nbsp;a&nbsp;first&nbsp;trigger.&nbsp;&nbsp;The&nbsp;register&nbsp;pattern&nbsp;is&nbsp;derived
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                227&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;the&nbsp;key&nbsp;`k`&nbsp;(`ctrl-key`).&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                228&nbsp;&nbsp;&nbsp;&nbsp;[k]
+                </span><br/>
+<span class="not-covered" title="0 out of 14 forms covered">
+                229&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::observe!&nbsp;:message&nbsp;&quot;register,&nbsp;callback&nbsp;and&nbsp;start-next!&quot;&nbsp;:key&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 12 forms covered">
+                230&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;(ku&#x2F;key-&gt;mp-id&nbsp;k)&nbsp;(ku&#x2F;key-&gt;struct&nbsp;k)&nbsp;(ku&#x2F;key-&gt;no-idx&nbsp;k)&nbsp;&quot;state&quot;
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                231&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[msg]
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                232&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[msg-k&nbsp;(st&#x2F;msg-&gt;key&nbsp;msg)]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </span><br/>
+<span class="not-covered" title="0 out of 14 forms covered">
+                233&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::observe&nbsp;:message&nbsp;&quot;will&nbsp;call&nbsp;start-next!&nbsp;from&nbsp;callback&quot;&nbsp;:key&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                234&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start-next!&nbsp;(ks-&gt;state-vec&nbsp;(k-&gt;state-ks&nbsp;msg-k))))))
+                </span><br/>
+<span class="not-covered" title="0 out of 14 forms covered">
+                235&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::observe&nbsp;:message&nbsp;&quot;will&nbsp;call&nbsp;start-next&nbsp;first&nbsp;trigger&quot;&nbsp;:key&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                236&nbsp;&nbsp;&nbsp;&nbsp;(start-next!&nbsp;(ks-&gt;state-vec&nbsp;(k-&gt;state-ks&nbsp;k))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                237&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                238&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                239&nbsp;&nbsp;;;&nbsp;status&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                240&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                241&nbsp;&nbsp;(defn&nbsp;cont-status
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                242&nbsp;&nbsp;&nbsp;&nbsp;&quot;Return&nbsp;the&nbsp;`state-vec`&nbsp;for&nbsp;the&nbsp;`i`th&nbsp;container.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                243&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i]
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                244&nbsp;&nbsp;&nbsp;&nbsp;(ks-&gt;state-vec&nbsp;(k-&gt;state-ks&nbsp;(ku&#x2F;cont-state-key&nbsp;mp-id&nbsp;i))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                245&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                246&nbsp;&nbsp;(defn&nbsp;defins-status
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                247&nbsp;&nbsp;&nbsp;&nbsp;&quot;Return&nbsp;the&nbsp;`state-vec`&nbsp;for&nbsp;the&nbsp;`i`th&nbsp;definition*s*&nbsp;structure.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                248&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i]
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                249&nbsp;&nbsp;&nbsp;&nbsp;(ks-&gt;state-vec&nbsp;(k-&gt;state-ks&nbsp;(ku&#x2F;defins-state-key&nbsp;mp-id&nbsp;i))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                250&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                251&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                252&nbsp;&nbsp;;;&nbsp;dispatch
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                253&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                254&nbsp;&nbsp;(defn&nbsp;dispatch
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                255&nbsp;&nbsp;&nbsp;&nbsp;&quot;Dispaches&nbsp;depending&nbsp;on&nbsp;`cmd`.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                256&nbsp;&nbsp;&nbsp;&nbsp;[k&nbsp;cmd]
+                </span><br/>
+<span class="not-covered" title="0 out of 30 forms covered">
+                257&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(keyword&nbsp;cmd)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                258&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:run&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(observe!&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                259&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(observe!&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                260&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:stop&nbsp;&nbsp;&nbsp;&nbsp;(do
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                261&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(de-observe!&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                262&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ready!&nbsp;k))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                263&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:reset&nbsp;&nbsp;&nbsp;(do
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                264&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(de-observe!&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                265&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ready!&nbsp;k))
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                266&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:suspend&nbsp;(de-observe!&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                267&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::dispatch&nbsp;:message&nbsp;&quot;default&nbsp;case&nbsp;state&nbsp;dispach&nbsp;function&quot;&nbsp;:key&nbsp;k&nbsp;:command&nbsp;cmd)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                268&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                269&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                270&nbsp;&nbsp;;;&nbsp;stop
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                271&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                272&nbsp;&nbsp;(defn&nbsp;stop
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                273&nbsp;&nbsp;&nbsp;&nbsp;&quot;De-registers&nbsp;the&nbsp;listener&nbsp;for&nbsp;the&nbsp;`ctrl`&nbsp;interfaces&nbsp;of&nbsp;the
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                274&nbsp;&nbsp;&nbsp;&nbsp;`mp-id`.&nbsp;After&nbsp;stopping&nbsp;the&nbsp;system&nbsp;will&nbsp;no&nbsp;longer&nbsp;react&nbsp;on&nbsp;changes
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                275&nbsp;&nbsp;&nbsp;&nbsp;at&nbsp;the&nbsp;`ctrl`&nbsp;interface.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                276&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
+                </span><br/>
+<span class="not-covered" title="0 out of 14 forms covered">
+                277&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;deregister&nbsp;and&nbsp;clean&nbsp;ctrl&nbsp;listener&quot;&nbsp;:mp-id&nbsp;mp-id)
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                278&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;de-register!&nbsp;mp-id&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;ctrl&quot;)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                279&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clean-register!&nbsp;mp-id))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                280&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                281&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                282&nbsp;&nbsp;;;&nbsp;start
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                283&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                284&nbsp;&nbsp;(defn&nbsp;start
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                285&nbsp;&nbsp;&nbsp;&nbsp;&quot;Registers&nbsp;a&nbsp;listener&nbsp;for&nbsp;the&nbsp;`ctrl`&nbsp;interface&nbsp;of&nbsp;the&nbsp;entire
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                286&nbsp;&nbsp;&nbsp;&nbsp;`mp-id`.&nbsp;The&nbsp;[[dispatch]]&nbsp;function&nbsp;becomes&nbsp;the&nbsp;listeners&nbsp;`cb!`.&quot;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                287&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
+                </span><br/>
+<span class="not-covered" title="0 out of 14 forms covered">
+                288&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;register&nbsp;ctrl&nbsp;listener&quot;&nbsp;:mp-id&nbsp;mp-id)
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                289&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;mp-id&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;ctrl&quot;&nbsp;(fn&nbsp;[msg]
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                290&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[k&nbsp;(st&#x2F;msg-&gt;key&nbsp;msg)]
+                </span><br/>
+<span class="not-covered" title="0 out of 11 forms covered">
+                291&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[cmd&nbsp;(u&#x2F;next-ctrl-cmd&nbsp;(st&#x2F;key-&gt;val&nbsp;k))]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                292&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dispatch&nbsp;k&nbsp;cmd))))))
                 </span><br/>
  </body>
 </html>

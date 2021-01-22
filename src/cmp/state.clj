@@ -1,12 +1,9 @@
 (ns cmp.state
   ^{:author "wactbprot"
-    :doc "Finds and starts the up comming tasks of a certain
-          container."}
-  (:require [taoensso.timbre :as log]
-            [com.brunobonacci.mulog   :as mu]
+    :doc "Finds and starts the up comming tasks of a certain container."}
+  (:require [com.brunobonacci.mulog   :as mu]
             [cmp.st-mem :as st]
             [cmp.work :as work]            
-            [cmp.task :as tsk]
             [cmp.key-utils :as ku]
             [cmp.utils :as u]))
 
@@ -26,8 +23,7 @@
   (ks->state-vec (k->state-ks \"ref@container@0\"))
   ```" 
   [ks]
-  (when ks
-    (mapv state-key->state-map ks)))
+  (when ks (mapv state-key->state-map ks)))
 
 
 (defn k->state-ks
@@ -136,13 +132,13 @@
 (defn error!
   "Sets the `ctrl` interface to `\"error\"`."
   [k]
-  (log/error  "error! for: " k)
+  (mu/log ::error! :error (str "error! for: " k))
   (st/set-val! (ku/key->ctrl-key k) "error"))
 
 (defn nop!
   "No operation."
   [k]
-  (log/debug "nop! for: " k))
+  (mu/log ::nop! :message "nop!" :key k))
 
 (defn all-exec!
   "Handles the case where all `state` interfaces are
@@ -150,7 +146,7 @@
   [k]
   (let [ctrl-k   (ku/key->ctrl-key k)
         cmd      (ctrl-k->cmd ctrl-k)]
-    (log/info "all done at: " k "ctrl interface cmd is: " cmd)
+    (mu/log ::all-exec! :message "all done at" :key k :command cmd)
     (condp = cmd
       :mon   (do
                (de-observe! ctrl-k)
@@ -159,7 +155,7 @@
       (do (de-observe! ctrl-k)
           (ready! ctrl-k)
           (st/set-val! ctrl-k "ready")
-          (log/info "default condp branch in all-exec fn of " k )))))
+          (mu/log ::all-exec! :message "default branch in all-exec" :key k)))))
 
 ;;------------------------------
 ;; choose and start next task
@@ -213,7 +209,7 @@
 
   Side effects all around. "
   [v]
-  (log/debug "call to start next")
+  (mu/log ::start-next! :message "call to start next")
     (when (vector? v)
       (let [{what :what k :key} (start-next v)]
         (condp = what
@@ -230,13 +226,13 @@
   `start-next!` as a first trigger.  The register pattern is derived
   from the key `k` (`ctrl-key`)."
   [k]
-  (log/info "register start-next! callback and start-next!")
+  (mu/log ::observe! :message "register, callback and start-next!" :key k)
   (st/register! (ku/key->mp-id k) (ku/key->struct k) (ku/key->no-idx k) "state"
                 (fn [msg]
                   (when-let [msg-k (st/msg->key msg)]                   
-                    (log/debug "will call start-next from callback")
+                    (mu/log ::observe :message "will call start-next! from callback" :key k)
                     (start-next! (ks->state-vec (k->state-ks msg-k))))))
-  (log/debug "will call start-next first trigger")
+  (mu/log ::observe :message "will call start-next first trigger" :key k)
   (start-next! (ks->state-vec (k->state-ks k))))
 
 ;;------------------------------
@@ -268,7 +264,7 @@
                (de-observe! k)
                (ready! k))
     :suspend (de-observe! k)
-    (log/info  "default case state dispach function" )))
+    (mu/log ::dispatch :message "default case state dispach function" :key k :command cmd)))
 
 ;;------------------------------
 ;; stop
@@ -278,6 +274,7 @@
   `mp-id`. After stopping the system will no longer react on changes
   at the `ctrl` interface."
   [mp-id]
+  (mu/log ::stop :message "deregister and clean ctrl listener" :mp-id mp-id)
   (st/de-register! mp-id "*" "*" "ctrl")
   (st/clean-register! mp-id))
 
@@ -288,7 +285,7 @@
   "Registers a listener for the `ctrl` interface of the entire
   `mp-id`. The [[dispatch]] function becomes the listeners `cb!`." 
   [mp-id]
-  (log/info "register ctrl listener for: " mp-id)
+  (mu/log ::start :message "register ctrl listener" :mp-id mp-id)
   (st/register! mp-id "*" "*" "ctrl" (fn [msg]
                                        (when-let [k (st/msg->key msg)]
                                          (when-let [cmd (u/next-ctrl-cmd (st/key->val k))]
