@@ -3,7 +3,6 @@
             [cmp.utils               :as u]
             [cheshire.core           :as che]
             [com.brunobonacci.mulog  :as mu]
-            [taoensso.timbre         :as log]
             [clojure.string          :as string]
             [cmp.config              :as cfg]))
 

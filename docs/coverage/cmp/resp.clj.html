@@ -14,28 +14,28 @@
                 003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:doc&nbsp;&quot;Catches&nbsp;responses&nbsp;and&nbsp;dispatchs.&quot;}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[cheshire.core&nbsp;:as&nbsp;che]
+                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[cheshire.core&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;che]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.exchange&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;exch]
+                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.exchange&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;exch]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;doc]
+                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;doc]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.key-utils&nbsp;&nbsp;&nbsp;:as&nbsp;ku]
+                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.key-utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;ku]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.lt-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;lt]
+                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.lt-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;lt]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;st]
+                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;st]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]
+                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[taoensso.timbre&nbsp;:as&nbsp;log]))
+                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[com.brunobonacci.mulog&nbsp;&nbsp;:as&nbsp;mu]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 012&nbsp;&nbsp;
@@ -73,8 +73,8 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 023&nbsp;&nbsp;&nbsp;&nbsp;[body&nbsp;task&nbsp;state-key]
                 </span><br/>
-<span class="not-covered" title="0 out of 16 forms covered">
-                024&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;write&nbsp;response&nbsp;body&nbsp;to&nbsp;response&nbsp;key.&quot;)
+<span class="not-covered" title="0 out of 12 forms covered">
+                024&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::dispatch&nbsp;:message&nbsp;&quot;try&nbsp;to&nbsp;write&nbsp;response&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
                 025&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(ku&#x2F;key-&gt;response-key&nbsp;state-key)&nbsp;body)
@@ -82,23 +82,23 @@
 <span class="not-covered" title="0 out of 8 forms covered">
                 026&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[err&nbsp;(:error&nbsp;body)]
                 </span><br/>
-<span class="not-covered" title="0 out of 10 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;(str&nbsp;&quot;response:&nbsp;&quot;&nbsp;body&nbsp;&quot;&nbsp;at&nbsp;&quot;&nbsp;state-key))
+<span class="not-covered" title="0 out of 5 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;err)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
                 028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[to-exch&nbsp;&nbsp;(:ToExchange&nbsp;body)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;results&nbsp;&nbsp;(:Result&nbsp;body)&nbsp;
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;results&nbsp;&nbsp;(:Result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body)&nbsp;
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc-path&nbsp;(:DocPath&nbsp;task)
+                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc-path&nbsp;(:DocPath&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id&nbsp;&nbsp;&nbsp;&nbsp;(:MpName&nbsp;task)]
+                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id&nbsp;&nbsp;&nbsp;&nbsp;(:MpName&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)]
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[res-exch&nbsp;&nbsp;(exch&#x2F;to!&nbsp;mp-id&nbsp;to-exch)
+                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[res-exch&nbsp;&nbsp;(exch&#x2F;to!&nbsp;&nbsp;&nbsp;mp-id&nbsp;to-exch)
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
                 033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;res-doc&nbsp;&nbsp;&nbsp;(doc&#x2F;store!&nbsp;mp-id&nbsp;results&nbsp;doc-path)]
@@ -106,11 +106,11 @@
 <span class="not-covered" title="0 out of 6 forms covered">
                 034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
                 </span><br/>
-<span class="not-covered" title="0 out of 11 forms covered">
-                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:error&nbsp;res-exch)&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;(str&nbsp;&quot;error&nbsp;at&nbsp;exchange&nbsp;cond:&nbsp;&quot;&nbsp;res-exch))
+<span class="not-covered" title="0 out of 8 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:error&nbsp;res-exch)&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;&quot;error&nbsp;at&nbsp;exchange&quot;)
                 </span><br/>
-<span class="not-covered" title="0 out of 11 forms covered">
-                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:error&nbsp;res-doc)&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;(str&nbsp;&quot;error&nbsp;at&nbsp;document&nbsp;cond:&nbsp;&quot;&nbsp;res-doc))
+<span class="not-covered" title="0 out of 8 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:error&nbsp;res-doc)&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;&quot;error&nbsp;at&nbsp;document&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
                 037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(and
@@ -160,14 +160,14 @@
 <span class="not-covered" title="0 out of 5 forms covered">
                 052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dispatch&nbsp;body&nbsp;task&nbsp;state-key)&nbsp;
                 </span><br/>
-<span class="not-covered" title="0 out of 19 forms covered">
-                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;request&nbsp;for:&nbsp;&quot;&nbsp;state-key&quot;&nbsp;failed&nbsp;with&nbsp;status:&nbsp;&quot;&nbsp;status))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span class="not-covered" title="0 out of 14 forms covered">
+                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::check&nbsp;:error&nbsp;&quot;request&nbsp;for&nbsp;failed&quot;&nbsp;:key&nbsp;&nbsp;state-key&nbsp;))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
-<span class="not-covered" title="0 out of 17 forms covered">
-                054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;body&nbsp;can&nbsp;not&nbsp;be&nbsp;parsed&nbsp;for:&nbsp;&quot;&nbsp;state-key))
+<span class="not-covered" title="0 out of 14 forms covered">
+                054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::check&nbsp;:error&nbsp;&quot;body&nbsp;can&nbsp;not&nbsp;be&nbsp;parsed&quot;&nbsp;:key&nbsp;state-key))
                 </span><br/>
-<span class="not-covered" title="0 out of 17 forms covered">
-                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;no&nbsp;status&nbsp;in&nbsp;header&nbsp;for:&nbsp;&quot;&nbsp;state-key)))
+<span class="not-covered" title="0 out of 14 forms covered">
+                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::check&nbsp;:error&nbsp;&quot;no&nbsp;status&nbsp;in&nbsp;header&quot;&nbsp;:key&nbsp;state-key)))
                 </span><br/>
  </body>
 </html>

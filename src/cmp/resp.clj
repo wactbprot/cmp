@@ -1,14 +1,14 @@
 (ns cmp.resp
   ^{:author "wactbprot"
     :doc "Catches responses and dispatchs."}
-  (:require [cheshire.core :as che]
-            [cmp.exchange    :as exch]
-            [cmp.doc         :as doc]
-            [cmp.key-utils   :as ku]
-            [cmp.lt-mem      :as lt]
-            [cmp.st-mem      :as st]
-            [cmp.utils       :as u]
-            [taoensso.timbre :as log]))
+  (:require [cheshire.core           :as che]
+            [cmp.exchange            :as exch]
+            [cmp.doc                 :as doc]
+            [cmp.key-utils           :as ku]
+            [cmp.lt-mem              :as lt]
+            [cmp.st-mem              :as st]
+            [cmp.utils               :as u]
+            [com.brunobonacci.mulog  :as mu]))
 
 (defn dispatch
   "Dispatches responds from outer space. Expected responses are:
@@ -21,19 +21,19 @@
   to the state key (done).
   "
   [body task state-key]
-  (log/debug "write response body to response key.")
+  (mu/log ::dispatch :message "try to write response")
   (st/set-val! (ku/key->response-key state-key) body)
   (if-let [err (:error body)]
-    (st/set-state! state-key :error (str "response: " body " at " state-key))
+    (st/set-state! state-key :error err)
     (let [to-exch  (:ToExchange body)
-          results  (:Result body) 
-          doc-path (:DocPath task)
-          mp-id    (:MpName task)]
-      (let [res-exch  (exch/to! mp-id to-exch)
+          results  (:Result     body) 
+          doc-path (:DocPath    task)
+          mp-id    (:MpName     task)]
+      (let [res-exch  (exch/to!   mp-id to-exch)
             res-doc   (doc/store! mp-id results doc-path)]
         (cond
-          (:error res-exch) (st/set-state! state-key :error (str "error at exchange cond: " res-exch))
-          (:error res-doc)  (st/set-state! state-key :error (str "error at document cond: " res-doc))
+          (:error res-exch) (st/set-state! state-key :error "error at exchange")
+          (:error res-doc)  (st/set-state! state-key :error "error at document")
           (and
            (:ok res-exch)     
            (:ok res-doc))  (st/set-state! state-key (if (exch/stop-if task) :executed :ready) "exch and doc ok")
@@ -50,6 +50,6 @@
     (if-let [body (che/decode (:body res) true)]
       (if (< status 400) 
         (dispatch body task state-key) 
-        (log/error "request for: " state-key" failed with status: " status))            
-      (log/error "body can not be parsed for: " state-key))
-    (log/error "no status in header for: " state-key)))
+        (mu/log ::check :error "request for failed" :key  state-key ))            
+      (mu/log ::check :error "body can not be parsed" :key state-key))
+    (mu/log ::check :error "no status in header" :key state-key)))
