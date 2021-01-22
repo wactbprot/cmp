@@ -1,10 +1,11 @@
 (ns cmp.st-mem
-  (:require [taoensso.carmine  :as car :refer (wcar)]
-            [cmp.utils         :as u]
-            [cheshire.core     :as che]
-            [taoensso.timbre   :as log]
-            [clojure.string    :as string]
-            [cmp.config        :as cfg]))
+  (:require [taoensso.carmine        :as car :refer (wcar)]
+            [cmp.utils               :as u]
+            [cheshire.core           :as che]
+            [com.brunobonacci.mulog  :as mu]
+            [taoensso.timbre         :as log]
+            [clojure.string          :as string]
+            [cmp.config              :as cfg]))
 
 (def conn (cfg/st-conn (cfg/config)))
 (def db (cfg/st-db (cfg/config)))
@@ -19,8 +20,8 @@
   (if (string? k)
     (if (some? v)
       (wcar conn (car/set k (che/generate-string v)))
-      (log/warn "no value given"))
-    (log/warn "no key given")))
+      (mu/log ::set-val :error "no value given"))
+    (mu/log ::set-val :error "no key given")))
 
 (defn set-same-val!
   "Sets the given `val` for all keys `ks` with the delay `mtp`."
@@ -35,20 +36,23 @@
   may be provided."
   ([k state msg]
    (condp = state
-     :error (log/error msg)
-     :ready (log/debug msg)
-     (log/debug msg))
+     :error (mu/log ::set-state! :error msg)
+     :ready (mu/log ::set-state! :message msg)
+     (mu/log ::set-state! :message msg))
    (set-state! k state))
   ([k state]
    (when (and (string? k)
               (keyword? state)) 
      (set-val! k (name state))
-     (log/debug "wrote new state: " state " to: " k)
+     (mu/log ::set-state! :message "wrote new state" :state state :key k)
      (when (= state :working)
-       (log/debug "just set working state")
+       (::set-state! :message "just set working state")
        (Thread/sleep mtp)
-       (log/debug "relaxation time over")))))
+       (::set-state! :message "relax done")))))
 
+;;------------------------------
+;; get keys
+;;------------------------------
 (defn pat->keys
   "Get all keys matching  the given pattern `pat`."
   [pat]
@@ -128,8 +132,8 @@
   [[kind l1 l2 l3]]
   (condp = (keyword kind)
     :pmessage   (second (string/split l2 #":"))
-    :psubscribe (log/debug "subscribed to " l1)
-    (log/warn "received" kind l1 l2 l3)))
+    :psubscribe (mu/log ::msg->key :message "subscribed to pattern" :key l1)
+    (mu/log ::msg->key :message "received" :key l2 :command l3)))
 
 (defn subs-pat
   "Generates subscribe patterns which matches depending on:
@@ -228,7 +232,7 @@
    (let [k (reg-key mp-id struct no func level)]
      (if (registered? k)
        (do
-         (log/debug "de-register:" reg-key)
+         (mu/log ::de-register! :message "will de-register" :key k)
          (close-listener! ((deref listeners) k))
          {:ok (map? (swap! listeners dissoc k))})
        {:ok true :warn "not registered"}))))
