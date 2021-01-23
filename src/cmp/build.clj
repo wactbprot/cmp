@@ -1,10 +1,10 @@
 (ns cmp.build
   ^{:author "wactbprot"
     :doc "Builds up the short term memory with given the `mpd`."}
-  (:require [cmp.key-utils :as ku]
-            [cmp.st-mem :as st]
-            [cmp.utils :as u]
-            [taoensso.timbre :as log]))
+  (:require [cmp.key-utils           :as ku]
+            [com.brunobonacci.mulog  :as mu]
+            [cmp.st-mem              :as st]
+            [cmp.utils               :as u]))
 
 ;;------------------------------
 ;; exchange

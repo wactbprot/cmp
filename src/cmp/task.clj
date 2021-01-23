@@ -1,14 +1,14 @@
 (ns cmp.task
   ^{:author "wactbprot"
-    :doc "Handling of tasks."}
-  (:require [taoensso.timbre :as log]
-            [clojure.string :as string]
-            [cmp.utils :as u]
-            [cmp.exchange :as exch]
-            [cmp.lt-mem :as lt]
-            [cmp.st-mem :as st]))
+    :doc "Task handling."}
+  (:require [cmp.exchange            :as exch]
+            [cmp.lt-mem              :as lt]
+            [com.brunobonacci.mulog  :as mu]
+            [clojure.string          :as string]
+            [cmp.st-mem              :as st]
+            [cmp.utils               :as u]))
 
-(defn action-eq
+(defn action=
   "A `=` partial on the `task` `:Action`."
   [task]
   {:pre [(map? task)]}
@@ -24,7 +24,7 @@
   "
   [task]
   {:pre [(map? task)]}
-  (some (action-eq task) [:MODBUS :VXI11 :TCP :UDP :EXECUTE]))
+  (some (action= task) [:MODBUS :VXI11 :TCP :UDP :EXECUTE]))
 
 ;;------------------------------
 ;; globals
@@ -35,13 +35,13 @@
 
   ```clojure
   (globals)
-  ;; {\"%hour\" \"14\",
+  ;; {\"%hour\"  \"14\",
   ;; \"%minute\" \"07\",
   ;; \"%second\" \"54\",
-  ;; \"%year\" \"2020\",
-  ;; \"%month\" \"02\",
-  ;; \"%day\" \"02\",
-  ;; \"%time\" \"1580652474824\"}
+  ;; \"%year\"   \"2020\",
+  ;; \"%month\"  \"02\",
+  ;; \"%day\"    \"02\",
+  ;; \"%time\"   \"1580652474824\"}
   ```
   "
   []

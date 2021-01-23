@@ -1,54 +1,66 @@
 (ns cmp.lt-mem
-  (:require [clojure.string :as string]
-            [com.ashafa.clutch :as couch]
-            [cmp.config :as cfg]
-            [taoensso.timbre :as log]))
+  (:require [cmp.config              :as cfg]
+            [com.ashafa.clutch       :as couch]
+            [com.brunobonacci.mulog  :as mu]
+            [clojure.string          :as string]))
 
+(def conn (cfg/lt-conn (cfg/config)))
+
+;;------------------------------
+;; get doc
+;;------------------------------
 (defn id->doc
   "Gets a document from the long term memory."
   [id]
-  (log/debug "try to get document with id: " id)
+  (mu/log ::id->doc :message "try to get document" :doc-id id)
   (try
-    (couch/get-document (cfg/lt-conn (cfg/config)) id)
-    (catch Exception e
-      (log/error "catch error on attempt to get doc: " id )
-      (log/error (.getMessage e)))))
+    (couch/get-document conn id)
+    (catch Exception e (mu/log ::id->doc :error (.getMessage e) :doc-id id))))
 
+;;------------------------------
+;; put doc
+;;------------------------------
 (defn put-doc
-  "Saves a document to the long term memory."
+  "Puts a document to the long term memory."
   [doc]
-  (log/debug "try to save document with id: " (:_id doc))
+  (mu/log ::id->doc :message "try to put document" :doc-id (:_id doc))
   (try
-    (couch/put-document (cfg/lt-conn (cfg/config)) doc)
-    (catch Exception e
-      (log/error "catch error on attempt to put doc")
-      (log/error (.getMessage e)))))
+    (couch/put-document conn doc)
+    (catch Exception e (mu/log ::id->doc :error (.getMessage e) :doc-id (:_id doc)))))
 
+;;------------------------------
+;; tasks
+;;------------------------------
+(defn all-tasks
+  "Returns all tasks.
+  
+  TODO: view names `dbmp` and `tasks` --> conf"
+  []
+  (mu/log ::all-tasks :message "get tasks from ltm")
+  (couch/get-view conn "dbmp" "tasks"))
+
+;;------------------------------
+;; utils
+;;------------------------------
 (defn exist?
-  "Returns true if a document with the `id` exists.
+  "Returns `true` if a document with the `id` exists.
 
+  TODO: HEAD request not entire doc
+  
   Example:
   ```clojure
   (exist? \"foo-bar\")
   ;; =>
   ;; false
-  ```
-  "
+  ```"
   [id]
-  (if (:_id (id->doc id)) true false))
+  (map? (id->doc id)))
   
 (defn rev-refresh
   "Refreshs the revision `_rev` of the document if
   it exist."
   [doc]
   (if-let [db-doc (id->doc (:_id doc))] 
-    (assoc doc
-           :_rev
-           (:_rev db-doc))
+    (assoc doc :_rev (:_rev db-doc))
     doc))
 
-(defn all-tasks
-  "Returns all tasks."
-  []
-  (log/debug "get tasks from ltm")
-  (couch/get-view (cfg/lt-conn (cfg/config)) "dbmp" "tasks"))

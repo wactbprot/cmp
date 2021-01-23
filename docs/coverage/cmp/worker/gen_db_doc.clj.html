@@ -14,154 +14,160 @@
                 003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:doc&nbsp;&quot;Worker&nbsp;to&nbsp;create&nbsp;database&nbsp;documents.&quot;}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[clj-http.client&nbsp;:as&nbsp;http]
+                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[cmp.config&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;cfg]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.config&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;cfg]
+                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;d]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;d]
+                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clj-http.client&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;http]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.resp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;resp]
+                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.lt-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;lt]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;st]
+                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[com.brunobonacci.mulog&nbsp;&nbsp;:as&nbsp;mu]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.lt-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;lt]
+                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.resp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;resp]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]
+                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;st]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[taoensso.timbre&nbsp;:as&nbsp;log]))
+                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 012&nbsp;&nbsp;
                 </span><br/>
+<span class="partial" title="1 out of 9 forms covered">
+                013&nbsp;&nbsp;(defn&nbsp;gen-url&nbsp;[id]&nbsp;(str&nbsp;(cfg&#x2F;lt-conn&nbsp;(cfg&#x2F;config))&nbsp;&quot;&#x2F;&quot;&nbsp;id))
+                </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                013&nbsp;&nbsp;
+                014&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                014&nbsp;&nbsp;(defn&nbsp;gen-db-doc!
+                015&nbsp;&nbsp;(defn&nbsp;gen-req
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                015&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;a&nbsp;couchdb&nbsp;document&nbsp;from&nbsp;the&nbsp;value.
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                016&nbsp;&nbsp;
+                016&nbsp;&nbsp;&nbsp;&nbsp;&quot;Assoc&nbsp;a&nbsp;json&nbsp;version&nbsp;of&nbsp;the&nbsp;doc&nbsp;(with&nbsp;updated&nbsp;revision)&nbsp;as&nbsp;`:body`&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;```clojure
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                018&nbsp;&nbsp;&nbsp;&nbsp;(t-assemble&nbsp;\&quot;SE3_state-gen_state_doc\&quot;)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                019&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:Action&nbsp;\&quot;genDbDoc\&quot;,
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                020&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:Comment&nbsp;\&quot;generates&nbsp;a&nbsp;state&nbsp;doc&nbsp;for&nbsp;storing&nbsp;results\&quot;,
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                021&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:TaskName&nbsp;\&quot;SE3_state-gen_state_doc\&quot;,
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:Value
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:_id&nbsp;\&quot;state-se3_20200923\&quot;,
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                024&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:State
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                025&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:Measurement
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;{:Date&nbsp;[{:Type&nbsp;\&quot;generated\&quot;,&nbsp;:Value&nbsp;\&quot;2020-09-23&nbsp;10:37:28\&quot;}],
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;&nbsp;:AuxValues&nbsp;{},
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                028&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;&nbsp;:Values&nbsp;{}}}},
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:MpName&nbsp;\&quot;core\&quot;,
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:StateKey&nbsp;\&quot;core@test@0@state@0@0\&quot;}
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;```
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                032&nbsp;&nbsp;&nbsp;&nbsp;&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                033&nbsp;&nbsp;&nbsp;&nbsp;[task]
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                034&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{state-key&nbsp;:StateKey
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:Value
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:MpName}&nbsp;task]
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:working)
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[doc-id&nbsp;(:_id&nbsp;doc)
-                </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
-                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;(cfg&#x2F;lt-conn&nbsp;(cfg&#x2F;config))&nbsp;&quot;&#x2F;&quot;&nbsp;doc-id)&nbsp;
+                017&nbsp;&nbsp;&nbsp;&nbsp;[doc]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;req&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;(cfg&#x2F;json-post-header&nbsp;(cfg&#x2F;config))
+                018&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;(cfg&#x2F;json-post-header&nbsp;(cfg&#x2F;config))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:body
+                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:body
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;map-&gt;json&nbsp;(lt&#x2F;rev-refresh&nbsp;doc)))]
+                020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;map-&gt;json&nbsp;(lt&#x2F;rev-refresh&nbsp;doc))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                021&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                022&nbsp;&nbsp;(defn&nbsp;gen-db-doc!
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                023&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;a&nbsp;couchdb&nbsp;document&nbsp;from&nbsp;the&nbsp;value.
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                024&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;(t-assemble&nbsp;\&quot;SE3_state-gen_state_doc\&quot;)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:Action&nbsp;\&quot;genDbDoc\&quot;,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:Comment&nbsp;\&quot;generates&nbsp;a&nbsp;state&nbsp;doc&nbsp;for&nbsp;storing&nbsp;results\&quot;,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:TaskName&nbsp;\&quot;SE3_state-gen_state_doc\&quot;,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:Value
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                031&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:_id&nbsp;\&quot;state-se3_20200923\&quot;,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                032&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:State
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                033&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{:Measurement
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;{:Date&nbsp;[{:Type&nbsp;\&quot;generated\&quot;,&nbsp;:Value&nbsp;\&quot;2020-09-23&nbsp;10:37:28\&quot;}],
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;&nbsp;:AuxValues&nbsp;{},
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;&nbsp;&nbsp;:Values&nbsp;{}}}},
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                037&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:MpName&nbsp;\&quot;core\&quot;,
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                038&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;:StateKey&nbsp;\&quot;core@test@0@state@0@0\&quot;}
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                039&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                040&nbsp;&nbsp;&nbsp;&nbsp;[task]
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                041&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{state-key&nbsp;:StateKey
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:Value
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:MpName}&nbsp;task]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:working)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[doc-id&nbsp;(:_id&nbsp;doc)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;(gen-url&nbsp;doc-id)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;req&nbsp;&nbsp;&nbsp;&nbsp;(gen-req&nbsp;doc)]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(d&#x2F;add&nbsp;mp-id&nbsp;doc-id)
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;(lt&#x2F;exist?&nbsp;doc-id)
+                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;(lt&#x2F;exist?&nbsp;doc-id)
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try
+                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(resp&#x2F;check&nbsp;(http&#x2F;put&nbsp;url&nbsp;req)&nbsp;task&nbsp;state-key)
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(d&#x2F;add&nbsp;mp-id&nbsp;doc-id)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error)
-                </span><br/>
-<span class="not-covered" title="0 out of 18 forms covered">
-                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;put&nbsp;request&nbsp;to&nbsp;url:&nbsp;&quot;&nbsp;url&nbsp;&quot;failed&quot;)
-                </span><br/>
-<span class="not-covered" title="0 out of 16 forms covered">
-                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&nbsp;e)))
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(d&#x2F;add&nbsp;mp-id&nbsp;doc-id)
+                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(resp&#x2F;check&nbsp;(http&#x2F;put&nbsp;url&nbsp;req)&nbsp;task&nbsp;state-key)
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:executed&nbsp;&quot;document&nbsp;already&nbsp;exist,&nbsp;added&nbsp;anyway&quot;))))))
+                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:executed&nbsp;&quot;add&nbsp;doc&nbsp;id&nbsp;endpoint&nbsp;and&nbsp;to&nbsp;lt-mem&quot;)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;(.getMessage&nbsp;e))))
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:executed&nbsp;&quot;add&nbsp;doc&nbsp;id&nbsp;endpoint&quot;)))))
                 </span><br/>
  </body>
 </html>

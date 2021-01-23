@@ -7,7 +7,6 @@
              [cmp.config               :as cfg]
              [cmp.doc                  :as d]
              [cmp.key-utils            :as ku]
-             [cmp.log                  :as log]
              [cmp.lt-mem               :as lt]
              [com.brunobonacci.mulog   :as mu]
              [clojure.pprint           :as pp]

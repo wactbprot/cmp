@@ -1,15 +1,23 @@
 (ns cmp.worker.gen-db-doc
   ^{:author "wactbprot"
     :doc "Worker to create database documents."}
-  (:require [clj-http.client :as http]
-            [cmp.config      :as cfg]
-            [cmp.doc         :as d]
-            [cmp.resp        :as resp]
-            [cmp.st-mem      :as st]
-            [cmp.lt-mem      :as lt]
-            [cmp.utils       :as u]
-            [taoensso.timbre :as log]))
+  (:require [cmp.config              :as cfg]
+            [cmp.doc                 :as d]
+            [clj-http.client         :as http]
+            [cmp.lt-mem              :as lt]
+            [com.brunobonacci.mulog  :as mu]
+            [cmp.resp                :as resp]
+            [cmp.st-mem              :as st]
+            [cmp.utils               :as u]))
 
+(defn gen-url [id] (str (cfg/lt-conn (cfg/config)) "/" id))
+
+(defn gen-req
+  "Assoc a json version of the doc (with updated revision) as `:body`"
+  [doc]
+  (assoc (cfg/json-post-header (cfg/config))
+         :body
+         (u/map->json (lt/rev-refresh doc))))
 
 (defn gen-db-doc!
   "Generates a couchdb document from the value.
@@ -28,26 +36,20 @@
   ;;   :Values {}}}},
   ;; :MpName \"core\",
   ;; :StateKey \"core@test@0@state@0@0\"}
-  ```
-  "
+  ```"
   [task]
   (let [{state-key :StateKey
          doc       :Value
          mp-id     :MpName} task]
     (st/set-state! state-key :working)
     (let [doc-id (:_id doc)
-          url    (str (cfg/lt-conn (cfg/config)) "/" doc-id) 
-          req    (assoc (cfg/json-post-header (cfg/config))
-                        :body
-                        (u/map->json (lt/rev-refresh doc)))]
+          url    (gen-url doc-id)
+          req    (gen-req doc)]
+      (d/add mp-id doc-id)
       (if-not (lt/exist? doc-id)
         (try
           (resp/check (http/put url req) task state-key)
-          (d/add mp-id doc-id)
+          (st/set-state! state-key :executed "add doc id endpoint and to lt-mem")
           (catch Exception e
-            (st/set-state! state-key :error)
-            (log/error "put request to url: " url "failed")
-            (log/error  e)))
-        (do
-           (d/add mp-id doc-id)
-           (st/set-state! state-key :executed "document already exist, added anyway"))))))
+            (st/set-state! state-key :error (.getMessage e))))
+        (st/set-state! state-key :executed "add doc id endpoint")))))

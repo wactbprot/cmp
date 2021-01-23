@@ -3,13 +3,13 @@
     :doc "Handles the documents in which the produced data is stored
           in.  This may be calibration documents but also measurement
           docs."}
-  (:require [cmp.lt-mem          :as lt]
-            [cmp.key-utils       :as ku]
-            [cmp.st-mem          :as st]
-            [cmp.utils           :as u]
-            [vl-data-insert.core :as insert]
-            [clojure.string      :as string]
-            [taoensso.timbre     :as log]))
+  (:require [cmp.lt-mem              :as lt]
+            [cmp.key-utils           :as ku]
+            [cmp.st-mem              :as st]
+            [cmp.utils               :as u]
+            [vl-data-insert.core     :as insert]
+            [clojure.string          :as string]
+            [com.brunobonacci.mulog  :as mu]))
 
 (defn doc->version
   "Returns the version of the document as an integer value:"
@@ -44,25 +44,10 @@
   "Extracts informations about a document depending on the type."
   doc-type)
 
-(defmethod doc-info :Calibration
-  [doc m]
-  (assoc m
-         :doc-type "Calibration"))
-
-(defmethod doc-info :Measurement
-  [doc m]
-  (assoc m
-         :doc-type "Measurement"))
-
-(defmethod doc-info :State
-  [doc m]
-  (assoc m
-         :doc-type "State"))
-
-(defmethod doc-info :default
-  [doc m]
-  (assoc m
-         :doc-type "default"))
+(defmethod doc-info :Calibration [doc m] (assoc m :doc-type "Calibration"))
+(defmethod doc-info :Measurement [doc m] (assoc m :doc-type "Measurement"))
+(defmethod doc-info :State       [doc m] (assoc m :doc-type "State"))
+(defmethod doc-info :default     [doc m] (assoc m :doc-type "default"))
 
 ;;------------------------------
 ;; add
@@ -74,7 +59,7 @@
     (let [k    (ku/id-key mpd-id id)
           info (doc-info doc (base-info doc))]
       (st/set-val! k info))
-    (log/error "no doc added")))
+    (mu/log ::add :error "no info map added" :doc-id id)))
 
 ;;------------------------------
 ;; rm
@@ -82,6 +67,7 @@
 (defn rm
   "Removes the info map from the short term memory."
   [mpd-id id]
+  (mu/log ::add :message "will rm doc info from st-mem" :doc-id id)
   (st/del-key! (ku/id-key mpd-id id)))
 
 ;;------------------------------
@@ -133,11 +119,11 @@
           (let [res (map
                      (fn [id]
                        (locking doc-lock
-                         (log/debug "lock doc id: " id)
+                         (mu/log ::store! :message "lock doc" :doc-id id)
                          (let [in-doc  (lt/id->doc id)
                                doc     (insert/store-results in-doc results doc-path)
                                out-doc (lt/put-doc doc)]
-                           (log/debug "release lock for id: " id))))
+                           (mu/log ::store! :message "release lock" :doc-id id))))
                      ids)]
             (if-let [n-err (:error (frequencies res))]
               {:error "got " n-err " during attempt to store results"}

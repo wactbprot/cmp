@@ -1,12 +1,12 @@
 (ns cmp.worker.anselm
   ^{:author "wactbprot"
     :doc "Worker to interact with a json api."}
-  (:require [clj-http.client :as http]
-            [cmp.config :as cfg]
-            [cmp.resp :as resp]
-            [cmp.st-mem :as st]
-            [cmp.utils :as u]
-            [taoensso.timbre :as log]))
+  (:require [cmp.config             :as cfg]
+            [clj-http.client        :as http]
+            [com.brunobonacci.mulog :as mu]
+            [cmp.resp               :as resp]
+            [cmp.st-mem             :as st]
+            [cmp.utils              :as u]))
 
 (defn url
   "Builds up the url for a `anselm` request."
@@ -34,7 +34,7 @@
   (let [{value       :Value
          state-key   :StateKey} task]
     (st/set-state! state-key :working)
-    (if (nil? value)
+    (if-not value
       (try ; get
         (resp/check (http/get (url task)) task state-key)
         (catch Exception e

@@ -11,31 +11,31 @@
                 002&nbsp;&nbsp;&nbsp;&nbsp;^{:author&nbsp;&quot;wactbprot&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:doc&nbsp;&quot;Handling&nbsp;of&nbsp;tasks.&quot;}
+                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:doc&nbsp;&quot;Task&nbsp;handling.&quot;}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[taoensso.timbre&nbsp;:as&nbsp;log]
+                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[cmp.exchange&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;exch]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.string&nbsp;:as&nbsp;string]
+                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.lt-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;lt]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;:as&nbsp;u]
+                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[com.brunobonacci.mulog&nbsp;&nbsp;:as&nbsp;mu]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.exchange&nbsp;:as&nbsp;exch]
+                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;string]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.lt-mem&nbsp;:as&nbsp;lt]
+                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;st]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;:as&nbsp;st]))
+                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 010&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                011&nbsp;&nbsp;(defn&nbsp;action-eq
+                011&nbsp;&nbsp;(defn&nbsp;action=
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 012&nbsp;&nbsp;&nbsp;&nbsp;&quot;A&nbsp;`=`&nbsp;partial&nbsp;on&nbsp;the&nbsp;`task`&nbsp;`:Action`.&quot;
@@ -83,7 +83,7 @@
                 026&nbsp;&nbsp;&nbsp;&nbsp;{:pre&nbsp;[(map?&nbsp;task)]}
                 </span><br/>
 <span class="not-covered" title="0 out of 11 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;(some&nbsp;(action-eq&nbsp;task)&nbsp;[:MODBUS&nbsp;:VXI11&nbsp;:TCP&nbsp;:UDP&nbsp;:EXECUTE]))
+                027&nbsp;&nbsp;&nbsp;&nbsp;(some&nbsp;(action=&nbsp;task)&nbsp;[:MODBUS&nbsp;:VXI11&nbsp;:TCP&nbsp;:UDP&nbsp;:EXECUTE]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 028&nbsp;&nbsp;
@@ -116,7 +116,7 @@
                 037&nbsp;&nbsp;&nbsp;&nbsp;(globals)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                038&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{\&quot;%hour\&quot;&nbsp;\&quot;14\&quot;,
+                038&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;{\&quot;%hour\&quot;&nbsp;&nbsp;\&quot;14\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 039&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;%minute\&quot;&nbsp;\&quot;07\&quot;,
@@ -125,16 +125,16 @@
                 040&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;%second\&quot;&nbsp;\&quot;54\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                041&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;%year\&quot;&nbsp;\&quot;2020\&quot;,
+                041&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;%year\&quot;&nbsp;&nbsp;&nbsp;\&quot;2020\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                042&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;%month\&quot;&nbsp;\&quot;02\&quot;,
+                042&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;%month\&quot;&nbsp;&nbsp;\&quot;02\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                043&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;%day\&quot;&nbsp;\&quot;02\&quot;,
+                043&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;%day\&quot;&nbsp;&nbsp;&nbsp;&nbsp;\&quot;02\&quot;,
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                044&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;%time\&quot;&nbsp;\&quot;1580652474824\&quot;}
+                044&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;%time\&quot;&nbsp;&nbsp;&nbsp;\&quot;1580652474824\&quot;}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 045&nbsp;&nbsp;&nbsp;&nbsp;```

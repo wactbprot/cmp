@@ -1,11 +1,11 @@
 (ns cmp.exchange
   ^{:author "wactbprot"
     :doc "Handles the access to the exchange interface."}
-  (:require [taoensso.timbre :as log]
-            [cmp.key-utils :as ku]
-            [clojure.string :as string]
-            [cmp.st-mem :as st]
-            [cmp.utils :as u]))
+  (:require [cmp.key-utils          :as ku]
+            [com.brunobonacci.mulog :as mu]
+            [clojure.string         :as string]
+            [cmp.st-mem             :as st]
+            [cmp.utils              :as u]))
 
 (defn exch-key
   "Returns the base key for the exchange path.
@@ -32,7 +32,6 @@
   ```"  
   [s]
   (when-let [x (second (string/split s #"\."))] (keyword x)))
-
 
 (defn key->first-kw
   "Returns the keyword or nil.
@@ -61,14 +60,12 @@
   ;; [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]
   ```"
   [mp-id p]
-  (let [val-p (st/key->val (ku/exch-key mp-id p))]
-    (if (nil? val-p)
-      (let [k     (exch-key mp-id p)
-            val-k (st/key->val k)]
-        (if-let [kw (key->second-kw p)]
-          (kw val-k)
-          val-k))
-      val-p)))
+  (if-let [val-p (st/key->val (ku/exch-key mp-id p))]
+    val-p
+    (let [val-k (st/key->val (exch-key mp-id p))]
+      (if-let [kw (key->second-kw p)]
+        (kw val-k)
+        val-k))))
 
 (defn from!
   "Builds a map by replacing the values of the input map `m`.
@@ -116,7 +113,7 @@
   ```
   "
   [m p]
-  (if (nil? p)
+  (if-not p
     m
     (let [a (key->first-kw p)]
       (if-let [b (key->second-kw p)]
@@ -144,7 +141,7 @@
   ([mp-id m p]
    (to! mp-id (enclose-map m p)))
   ([mp-id m]
-  (if (string? mp-id)
+   (if (string? mp-id)
     (if (map? m)
       (let [res (map
                  (fn [[k v]]

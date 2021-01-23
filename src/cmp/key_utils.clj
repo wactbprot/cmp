@@ -1,8 +1,7 @@
 (ns cmp.key-utils
   ^{:author "wactbprot"
     :doc "All about key transformation, -arithmetic and -info."}
-  (:require [taoensso.timbre :as log]
-            [clojure.string  :as string]
+  (:require [clojure.string  :as string]
             [cmp.utils       :as u]))
 
 ;;------------------------------
@@ -14,14 +13,12 @@
   "Returns the name of the key space for the given key.
 
   May be:
-  * tasks
-  * <mp-id>
+  * `tasks`
+  * `<mp-id>`
 
   "
   [k]
-  (when (and
-         (string? k)
-         (not (empty? k)))
+  (when (and (string? k) (not (empty? k)))
     (nth (string/split k u/re-sep) 0 nil)))
 
 ;; key at position 1
@@ -38,16 +35,14 @@
   * `meta`
   "
   [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 1 nil)))
+  (when (string? k) (nth (string/split k u/re-sep) 1 nil)))
 
 ;; key at position 2
 (defn key->no-idx
   "Returns the value of the key corresponding to the given key
   `container` or `definitions` index."
   [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 2 nil)))
+  (when (string? k) (nth (string/split k u/re-sep) 2 nil)))
 
 ;; key at position 3
 (defn key->func
@@ -64,15 +59,13 @@
   * `definition`
   "
   [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 3 nil)))
+  (when (string? k) (nth (string/split k u/re-sep) 3 nil)))
 
 ;; key at position 4
 (defn key->seq-idx
   "Returns an integer corresponding to the givens key sequential index."
   [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 4 nil)))
+  (when (string? k) (nth (string/split k u/re-sep) 4 nil)))
 
 (defn key->no-jdx
   "The 4th position at definitions has nothing todo with
@@ -84,8 +77,7 @@
 (defn key->par-idx
   "Returns an integer corresponding to the givens key parallel index."
   [k]
-  (when (string? k)
-    (nth (string/split k u/re-sep) 5 nil)))
+  (when (string? k) (nth (string/split k u/re-sep) 5 nil)))
 
 ;;------------------------------
 ;; key info map
@@ -115,13 +107,12 @@
 (defn info-map->definition-key
   "Converts a `state-map` into the related `definition` key."
   [m]
-  (when (map? m)
-    (u/vec->key [(:mp-id m)
-                 (:struct m)
-                 (:no-idx m)
-                 "definition"
-                 (:seq-idx m)
-                 (:par-idx m)])))
+  (when (map? m) (u/vec->key [(:mp-id m)
+                              (:struct m)
+                              (:no-idx m)
+                              "definition"
+                              (:seq-idx m)
+                              (:par-idx m)])))
  
 (defn seq-idx->all-par
   "Returns a vector of [[info-maps]] with all `par` steps for a given
@@ -196,16 +187,18 @@
     ;; \"wait@container@0@ctrl\"
   ```" 
   [k]
-  (u/vec->key [(key->mp-id k)
-               (key->struct k)
-               (key->no-idx k)
-               "ctrl"]))
+  (when (string? k) (u/vec->key [(key->mp-id k)
+                                 (key->struct k)
+                                 (key->no-idx k)
+                                 "ctrl"])))
 
 (defn info-map->ctrl-key
   "Converts a `state-map` into the related `ctrl` key."
   [m]
-  (when (map? m)
-    (u/vec->key [(:mp-id m) (:struct m) (:no-idx m) "ctrl"])))
+  (when (map? m) (u/vec->key [(:mp-id m)
+                              (:struct m)
+                              (:no-idx m)
+                              "ctrl"])))
 
 
 ;;------------------------------
@@ -214,8 +207,7 @@
 (defn exch-prefix
   "Returns the `exchange` prefix."
   [mp-id]
-  (when (string? mp-id)
-  (u/vec->key [mp-id "exchange"])))
+  (when (string? mp-id) (u/vec->key [mp-id "exchange"])))
 
 (defn exch-key
   "Returns the `exchange` path (key)."

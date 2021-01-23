@@ -14,100 +14,88 @@
                 003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:doc&nbsp;&quot;The&nbsp;devhub&nbsp;worker.&quot;}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[clj-http.client&nbsp;:as&nbsp;http]
+                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[cmp.config&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;cfg]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.config&nbsp;:as&nbsp;cfg]
+                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clj-http.client&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;http]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.resp&nbsp;:as&nbsp;resp]
+                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.key-utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;ku]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;:as&nbsp;st]
+                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[com.brunobonacci.mulog&nbsp;&nbsp;:as&nbsp;mu]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;:as&nbsp;u]
+                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.resp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;resp]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.key-utils&nbsp;:as&nbsp;ku]
+                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;st]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[taoensso.timbre&nbsp;:as&nbsp;log]
+                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.worker.pre-script&nbsp;:as&nbsp;ps]))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                012&nbsp;&nbsp;&nbsp;
+                011&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                013&nbsp;&nbsp;(defn&nbsp;devhub!
+                012&nbsp;&nbsp;(defn&nbsp;devhub!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                014&nbsp;&nbsp;&nbsp;&nbsp;&quot;Sends&nbsp;`:Value`&nbsp;to&nbsp;[devhub](https:&#x2F;&#x2F;wactbprot.github.io&#x2F;devhub&#x2F;)&nbsp;which
+                013&nbsp;&nbsp;&nbsp;&nbsp;&quot;Sends&nbsp;`:Value`&nbsp;to&nbsp;[devhub](https:&#x2F;&#x2F;wactbprot.github.io&#x2F;devhub&#x2F;)&nbsp;which
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                015&nbsp;&nbsp;&nbsp;&nbsp;resolves&nbsp;`PreScript`&nbsp;and&nbsp;`PostScript`.
+                014&nbsp;&nbsp;&nbsp;&nbsp;resolves&nbsp;`PreScript`&nbsp;and&nbsp;`PostScript`.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                016&nbsp;&nbsp;&nbsp;&nbsp;
+                015&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                016&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(devhub!&nbsp;{:Action&nbsp;\&quot;TCP\&quot;&nbsp;:Port&nbsp;23&nbsp;:Host&nbsp;\&quot;localhost\&quot;&nbsp;:Value&nbsp;\&quot;Hi!\&quot;})
+                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(devhub!&nbsp;{:Action&nbsp;\&quot;TCP\&quot;&nbsp;:Port&nbsp;23&nbsp;:Host&nbsp;\&quot;localhost\&quot;&nbsp;:Value&nbsp;\&quot;Hi!\&quot;})
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                019&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                018&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                020&nbsp;&nbsp;&nbsp;&nbsp;[task]
+                019&nbsp;&nbsp;&nbsp;&nbsp;[task]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                021&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[state-key&nbsp;(:StateKey&nbsp;task)]
+                020&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[state-key&nbsp;(:StateKey&nbsp;task)]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:working)
+                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:working)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[request-key&nbsp;(ku&#x2F;key-&gt;request-key&nbsp;state-key)
+                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[request-key&nbsp;(ku&#x2F;key-&gt;request-key&nbsp;state-key)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;json-task&nbsp;&nbsp;&nbsp;(u&#x2F;map-&gt;json&nbsp;task)
+                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;json-task&nbsp;&nbsp;&nbsp;(u&#x2F;map-&gt;json&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;req&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;(cfg&#x2F;json-post-header&nbsp;(cfg&#x2F;config))&nbsp;:body&nbsp;json-task)
+                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;req&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;(cfg&#x2F;json-post-header&nbsp;(cfg&#x2F;config))&nbsp;:body&nbsp;json-task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cfg&#x2F;dev-hub-url&nbsp;(cfg&#x2F;config))]
-                </span><br/>
-<span class="not-covered" title="0 out of 17 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;try&nbsp;to&nbsp;send&nbsp;req&nbsp;to:&nbsp;&quot;&nbsp;url)
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cfg&#x2F;dev-hub-url&nbsp;(cfg&#x2F;config))]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;request-key&nbsp;json-task)
-                </span><br/>
-<span class="not-covered" title="0 out of 17 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;debug&nbsp;&quot;stored&nbsp;json&nbsp;task&nbsp;to:&nbsp;&quot;&nbsp;request-key)
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try
-                </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(resp&#x2F;check&nbsp;(http&#x2F;post&nbsp;url&nbsp;req)&nbsp;task&nbsp;state-key)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error)
+                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;request-key&nbsp;json-task)
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(log&#x2F;error&nbsp;&quot;request&nbsp;failed&quot;))))))
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::devhub!&nbsp;:message&nbsp;&quot;stored&nbsp;json&nbsp;task,&nbsp;send&nbsp;req&quot;&nbsp;:key&nbsp;request-key&nbsp;:url&nbsp;url)
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(resp&#x2F;check&nbsp;(http&#x2F;post&nbsp;url&nbsp;req)&nbsp;task&nbsp;state-key)
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;(.getMessage&nbsp;e)))))))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                035&nbsp;&nbsp;&nbsp;&nbsp;
+                031&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
  </body>
 </html>
