@@ -96,14 +96,13 @@
   (first (all-ready v)))
 
 (defn predecessors-executed?
-  "Checks if `all-executed?` in the steps before `i` of `v`."
+  "Checks if the steps of `v` before `i` `all-executed?`. Returns `true`
+  for `i` equal to zero (or negative `i`"
   [v i]
   (let [i (u/ensure-int i)]
-    (if (< 0 i)
+    (if (pos? i)
       (every? true? (map
-                     (fn [j]
-                       (all-executed?
-                        (ku/seq-idx->all-par v j)))
+                     (fn [j] (all-executed? (ku/seq-idx->all-par v j)))
                      (range i)))
       true)))
 
@@ -113,7 +112,7 @@
 (defn ready! 
   "Sets all states (the state interface) to ready."
   [k]
-  (st/set-val! (ku/key->ctrl-key k) "ready")
+  (mu/log ::ready! :message "all states ready" :key k)
   (st/set-same-val! (k->state-ks k) "ready"))
 
 ;;------------------------------
@@ -124,6 +123,7 @@
   de-register pattern is derived from the key `k` (may be the
   `ctrl-key` or `state-key`).  Resets the state interface afterwards."
   [k]
+  (mu/log ::de-observe! :message "de-observe" :key k)
   (st/de-register! (ku/key->mp-id k) (ku/key->struct k) (ku/key->no-idx k) "state"))
 
 ;;------------------------------
@@ -132,21 +132,18 @@
 (defn error!
   "Sets the `ctrl` interface to `\"error\"`."
   [k]
-  (mu/log ::error! :error (str "error! for: " k))
+  (mu/log ::error! :error "will set ctrl itreface to error" :key k)
   (st/set-val! (ku/key->ctrl-key k) "error"))
 
-(defn nop!
-  "No operation."
-  [k]
-  (mu/log ::nop! :message "nop!" :key k))
+(defn nop! [k] (mu/log ::nop! :message "nop!" :key k))
 
 (defn all-exec!
   "Handles the case where all `state` interfaces are
-  `\"executed\"`. Gets the value the `ctrl`"
+  `executed`. Proceeds demanding on the value of the `ctrl` interface"
   [k]
   (let [ctrl-k   (ku/key->ctrl-key k)
         cmd      (ctrl-k->cmd ctrl-k)]
-    (mu/log ::all-exec! :message "all done at" :key k :command cmd)
+    (mu/log ::all-exec! :message "all tasks executed" :key k :command cmd)
     (condp = cmd
       :mon   (do
                (de-observe! ctrl-k)
