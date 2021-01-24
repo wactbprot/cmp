@@ -31,3 +31,4 @@
     (c-run 0)
     (is (= "run" (st/key->val (ku/cont-ctrl-key "ref" 0))))))
 
+(stop-log!)
