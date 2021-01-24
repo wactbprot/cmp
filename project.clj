@@ -1,4 +1,4 @@
-(defproject cmp "0.16.0"
+(defproject cmp "0.17.0"
   :description "A study of an interpreter for measurement 
   program definitions (mpd) written in clojure."
   :url "https://github.com/wactbprot/cmp"
@@ -8,11 +8,10 @@
                  [org.clojars.wactbprot/vl-data-insert "0.1.3"]
                  [cheshire                             "5.10.0"]
                  [clj-time                             "0.15.0"]
-                 [com.taoensso/timbre                  "5.0.0"]
                  [com.brunobonacci/mulog               "0.6.0"]
                  [com.brunobonacci/mulog-elasticsearch "0.6.0"]
                  [clj-http                             "3.10.0"]
-                 [clojang/codox-theme                  "0.2.0-SNAPSHOT"]]
+                 ]
   :main ^:skip-aot cmp.core
   :target-path "target/%s"
   :plugins [[lein-cloverage  "1.1.2"]
@@ -22,13 +21,10 @@
 	    [lein-marginalia "0.9.1"]]
   :cloverage {:low-watermark 30
              :high-watermark 60}
-  ;;  :codox {:themes [:rdash]
-  :codox {:themes [:clojang]
-          :metadata {:doc/format :markdown}
+  :codox {:metadata {:doc/format :markdown}
           :source-uri "https://github.com/wactbprot/cmp/blob/master/{filepath}#L{line}"}
   :ns-graph {:name "cmp"
              :abbrev-ns false
              :source-paths ["src/"]
-             :exclude ["java.*" "clojure.*" "taoensso.timbre"]}
-  ;; :profiles {:uberjar {:aot :all}}
+             :exclude ["java.*" "clojure.*"]}
   )

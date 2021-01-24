@@ -2,13 +2,13 @@
   ^{:author "wactbprot"
     :doc "Worker selects a definition from the same `mp-id` 
           by evaluating the related conditions."}
-  (:require [clojure.string  :as string]
-            [cmp.config      :as cfg]
-            [cmp.exchange    :as exch]
-            [cmp.key-utils   :as ku]
-            [cmp.st-mem      :as st]
-            [cmp.utils       :as u]
-            [taoensso.timbre :as log]))
+  (:require [cmp.config              :as cfg]
+            [cmp.exchange            :as exch]
+            [cmp.key-utils           :as ku]
+            [com.brunobonacci.mulog  :as mu]
+            [cmp.st-mem              :as st]
+            [clojure.string          :as string]
+            [cmp.utils               :as u]))
 
 (defn cond-match?
   "Tests a single condition of the form defined in
@@ -47,14 +47,14 @@
         struct   "definitions"
         func     "ctrl"
         level    "b"
-        callback  (fn [_]
-                    (condp = (keyword (st/key->val ctrl-key))
-                      :run   (log/debug "run callback for" ctrl-key)
-                      :ready (do
-                               (st/set-state! state-key :executed (str "ready callback for" ctrl-key)) 
-                               (st/de-register! mp-id struct no-idx func level))
-                      :error (st/set-state! state-key :error (str "error callback for" ctrl-key))))]
-    (st/register! mp-id struct no-idx func callback level)
+        f        (fn [_]
+                   (condp = (keyword (st/key->val ctrl-key))
+                     :run   (mu/log ::start-defins! :message "run callback for" :key ctrl-key)
+                     :ready (do
+                              (st/set-state! state-key :executed "ready callback") 
+                              (st/de-register! mp-id struct no-idx func level))
+                     :error (st/set-state! state-key :error "error callback for")))]
+    (st/register! mp-id struct no-idx func f level)
     (st/set-state! ctrl-key :run)))
 
 (defn cond-key->cond-map
@@ -82,8 +82,7 @@
 
   (st/key->val \"ref@exchange@A\")
   ;; {:Unit \"Pa\", :Value 100}
-  ```
-  "
+  ``` "
   [k]
   (let [key-map   (ku/key->info-map k)
         val-map   (st/key->val k)
@@ -132,9 +131,6 @@
   ```clojure
   (first (filter conds-match? match-ks))
   ;; ref@definitions@1@class
-
-  
-  REVIEW:  `select-definition!` does not support the `:StopIf` keyword.
   ```" 
   [{mp-id :MpName cls :DefinitionClass state-key :StateKey}]
   (st/set-state! state-key :working)

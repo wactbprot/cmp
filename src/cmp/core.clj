@@ -13,7 +13,6 @@
              [cmp.st-mem               :as st]
              [cmp.state                :as state]
              [cmp.task                 :as task]
-             [taoensso.timbre          :as timbre]
              [cmp.utils                :as u]
              [cmp.work                 :as w]))
 
@@ -198,7 +197,7 @@
   ([]
    (m-build (deref current-mp-id)))
   ([mp-id]
-   (timbre/info "build " mp-id)
+   (println "build " mp-id)
    (->> mp-id u/compl-main-path lt/id->doc u/doc->safe-doc build/store)
    (m-start mp-id)))
 
@@ -213,7 +212,7 @@
   []
   (run!
    (fn [uri]
-     (timbre/info "try to slurp and build: " uri  )
+     (println "try to slurp and build: " uri  )
      (build/store
       (read-string
        (slurp uri))))
@@ -408,7 +407,7 @@
          meta-task  (task/gen-meta-task t)
          task       (task/assemble meta-task mp-id state-key)]
      (when (task/dev-action? task)
-       (timbre/info "task dispached, wait for response...")
+       (println "task dispached, wait for response...")
        (st/register! mp-id struct no-idx func (fn [msg]
                                                 (when-let [result-key (st/msg->key msg)]
                                                   (st/de-register! mp-id struct no-idx func)
@@ -442,7 +441,7 @@
         t         (st/key->val def-key)]
     (if t
       (t-run t mp-id struct no-idx seq-idx par-idx)
-      (timbre/error (str "no TaskName at key: " k)))))
+      (println (str "no TaskName at key: " k)))))
 
 (defn t-raw
   "Shows the raw task as stored at st-memory" 
@@ -483,7 +482,7 @@
   []
   (run!
    (fn [uri]
-     (timbre/info "try to slurp and build: " uri  )
+     (println "try to slurp and build: " uri  )
        (build/store-task
         (read-string
          (slurp uri))))
@@ -504,11 +503,11 @@
   ```
   "
   []
-  (timbre/info "clear tasks")
+  (println "clear tasks")
   (t-clear)
-  (timbre/info "build tasks from db")
+  (println "build tasks from db")
   (t-build)
-  (timbre/info "build edn tasks")
+  (println "build edn tasks")
   (t-build-edn))
 
 ;;------------------------------
@@ -529,11 +528,11 @@
    (m-clear (deref current-mp-id)))
   ([mp-id]
    (m-stop mp-id)
-   (timbre/info "mp stoped")
+   (println "mp stoped")
    (st/clean-register! mp-id)
-   (timbre/info "mp de registered")
+   (println "mp de registered")
    (st/clear! mp-id)
-   (timbre/info "mp cleared")))
+   (println "mp cleared")))
 
 ;;------------------------------
 ;; Exchange table

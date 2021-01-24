@@ -1,10 +1,10 @@
 (ns cmp.worker.write-exchange
   ^{:author "wactbprot"
     :doc "wait worker."}
-  (:require [taoensso.timbre :as log]
-            [cmp.st-mem :as st]
-            [cmp.exchange :as exch]
-            [cmp.config :as cfg]))
+  (:require [cmp.config              :as cfg]
+            [cmp.exchange            :as exch]
+            [com.brunobonacci.mulog  :as mu]
+            [cmp.st-mem              :as st]))
 
 (defn write-exchange!
   "Writes the `:Value` to the exchange.
@@ -16,13 +16,9 @@
   ;; 2
   ```"
   [task]
-  (let [{val       :Value
-         mp-id     :MpName
-         state-key :StateKey
-         exch-path :ExchangePath} task]
+  (let [{val :Value mp-id :MpName state-key :StateKey exch-path :ExchangePath} task]
   (st/set-state! state-key :working)
-  (let [res (exch/to! mp-id val exch-path)]
-    (cond
-      (:error res) (st/set-state! state-key :error "error on attempt to write exchange")
-      (:ok res)    (st/set-state! state-key (if (exch/stop-if task) :executed :ready) "wrote to exchange")
-      :default     (st/set-state! state-key :error "unclear exchange response")))))
+  (let [ret (exch/to! mp-id val exch-path)]
+    (if (:ok ret)
+      (st/set-state! state-key (if (exch/stop-if task) :executed :ready) "wrote to exchange")
+      (st/set-state! state-key :error "error on attempt to write exchange")))))

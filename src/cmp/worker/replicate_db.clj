@@ -1,38 +1,34 @@
 (ns cmp.worker.replicate-db
   ^{:author "wactbprot"
     :doc "Worker to replicate a couchdb database."}
-  (:require [clj-http.client :as http]
-            [cmp.config :as cfg]
-            [cmp.resp :as resp]
-            [cmp.st-mem :as st]
-            [cmp.utils :as u]
-            [taoensso.timbre :as log]))
+  (:require [cmp.config              :as cfg]
+            [clj-http.client         :as http]
+            [com.brunobonacci.mulog  :as mu]
+            [cmp.resp                :as resp]
+            [cmp.st-mem              :as st]
+            [cmp.utils               :as u]))
 
+(defn gen-url [] (str (cfg/lt-url (cfg/config)) "/_replicate"))
+
+(defn gen-req
+  [{s :SourceDB t :TargetDB}]
+  (assoc (cfg/json-post-header (cfg/config))
+         :body (u/map->json {:source s :target t})))
 
 (defn replicate!
-  "Replicate a couchdb database by posting:
+  "Replicate a database (CouchDB) by posting:
 
   ```json
   {
     \"_id\": \"my_rep\",
     \"source\": \"http://myserver.com/foo\",
-    \"target\":  \"http://user:pass@localhost:5984/bar\",
-    \"create_target\":  true,
-    \"continuous\": true
+    \"target\":  \"http://user:pass@localhost:5984/bar\"
   }
   ```
   to the `/_replicate` endpoint."
   [task]
-  (let [{state-key :StateKey
-         source    :SourceDB 
-         target    :TargetDB} task]
+  (let [{state-key :StateKey} task]
     (st/set-state! state-key :working)
-    (let [url (str (cfg/lt-url (cfg/config)) "/_replicate")
-          req (assoc (cfg/json-post-header (cfg/config))
-                     :body
-                     (u/map->json {:source source :target target}))]
-      (try
-        (resp/check (http/post url req) task state-key)
-        (catch Exception e
-          (st/set-state! state-key :error)
-          (log/error "get request to url: " url "failed"))))))
+    (try
+      (resp/check (http/post (gen-url) (gen-req task)) task state-key)
+      (catch Exception e (st/set-state! state-key :error (.getMessage e))))))

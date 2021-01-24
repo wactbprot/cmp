@@ -1,9 +1,9 @@
 (ns cmp.worker.wait
   ^{:author "wactbprot"
     :doc "wait worker."}
-  (:require [taoensso.timbre :as log]
-            [cmp.st-mem      :as st]
-            [cmp.utils :as u]))
+  (:require [com.brunobonacci.mulog  :as mu]
+            [cmp.st-mem              :as st]
+            [cmp.utils               :as u]))
 
 
 (defn wait!

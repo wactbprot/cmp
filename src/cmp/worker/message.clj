@@ -1,24 +1,22 @@
 (ns cmp.worker.message
   ^{:author "wactbprot"
     :doc "message worker."}
-  (:require [taoensso.timbre :as log]
-            [cmp.st-mem :as st]
-            [cmp.key-utils :as ku]
-            [cmp.utils :as u]
-            [cmp.config :as cfg]))
+  (:require [cmp.config              :as cfg]
+            [cmp.key-utils           :as ku]
+            [com.brunobonacci.mulog  :as mu]
+            [cmp.st-mem              :as st]
+            [cmp.utils               :as u]))
 
 (defn message!
-  "Writes a message to the exchange. Continues if message is replaced by
-  the string `ok`
+  "Writes a `:Message` to the exchange interface. Continues if message is replaced by
+  something in the [[u/ok-set]].
   
   ```clojure
   (message! {:Message \"cmp?\" :MpName \"ref\" :StateKey \"ref@container@10@state@0@0\"})
   ;;
   (st/key->val \"ref@container@10@message\")
   ;; cmp?
-  
-  REVIEW:  `message!` does not support the `:StopIf` keyword.
-  ```"
+    ```"
   [{msg :Message mp-id :MpName state-key :StateKey}]
   (st/set-state! state-key :working)
   (let [struct   (ku/key->struct state-key)
