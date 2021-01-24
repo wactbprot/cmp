@@ -50,17 +50,17 @@
     ;; parallel and what sequential.
     :Definition
     [;; First: start a wait task with 3000 ms waittime.
-     ;; At the same time start a wait task with 3000 ms waittime.
-     [{:TaskName "Common-wait", :Replace {:%waittime 3000}}
-      {:TaskName "Common-wait", :Replace {:%waittime 4000}}]
+     ;; At the same time start a wait task with 500 ms waittime.
+     [{:TaskName "Common-wait", :Replace {:%waittime 100}}
+      {:TaskName "Common-wait", :Replace {:%waittime 500}}]
      ;; After first step is executed: start 4 wait tasks 
-     ;; with 3000 ms waittime, step is executed within 3000ms
-     [{:TaskName "Common-wait", :Replace {:%waittime 3000}}
-      {:TaskName "Common-wait", :Replace {:%waittime 3000}}
-      {:TaskName "Common-wait", :Replace {:%waittime 3000}}
-      {:TaskName "Common-wait", :Replace {:%waittime 3000}}]
-     ;; After the second step is executed: wait 1000ms
-     [{:TaskName "Common-wait", :Replace {:%waittime 1000}}]]}
+     ;; with 3000 ms waittime, step is executed within 1000ms
+     [{:TaskName "Common-wait", :Replace {:%waittime 1000}}
+      {:TaskName "Common-wait", :Replace {:%waittime 1000}}
+      {:TaskName "Common-wait", :Replace {:%waittime 1000}}
+      {:TaskName "Common-wait", :Replace {:%waittime 1000}}]
+     ;; After the second step is executed: wait 500ms
+     [{:TaskName "Common-wait", :Replace {:%waittime 500}}]]}
    ;; second container
    {:Description "Container with one task only",
     :Ctrl "void",

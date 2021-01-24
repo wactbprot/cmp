@@ -332,3 +332,10 @@
 (defn meta-ndefins-key
   [mp-id]
   (u/vec->key [(meta-prefix mp-id) "ndefins"]))
+
+;;------------------------------
+;; task
+;;------------------------------
+(defn task-key
+  [task-name]
+  (u/vec->key ["tasks" task-name]))

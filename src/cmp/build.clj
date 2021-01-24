@@ -156,7 +156,7 @@
   `tasks@<TaskName>`."
   [task]
   (st/set-val!
-   (u/vec->key ["tasks" (:TaskName task)])
+   (ku/task-key (:TaskName task))
    (u/doc->safe-doc task)))
 
 (defn store-tasks
