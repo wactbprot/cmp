@@ -112,7 +112,7 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 036&nbsp;&nbsp;&nbsp;&nbsp;([k&nbsp;state&nbsp;msg]
                 </span><br/>
-<span class="not-covered" title="0 out of 13 forms covered">
+<span class="covered" title="13 out of 13 forms covered">
                 037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;state
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
@@ -121,37 +121,37 @@
 <span class="not-covered" title="0 out of 12 forms covered">
                 039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:ready&nbsp;(mu&#x2F;log&nbsp;::set-state!&nbsp;:message&nbsp;msg)
                 </span><br/>
-<span class="not-covered" title="0 out of 12 forms covered">
+<span class="covered" title="12 out of 12 forms covered">
                 040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::set-state!&nbsp;:message&nbsp;msg))
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(set-state!&nbsp;k&nbsp;state))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 042&nbsp;&nbsp;&nbsp;&nbsp;([k&nbsp;state]
                 </span><br/>
-<span class="not-covered" title="0 out of 10 forms covered">
+<span class="partial" title="9 out of 10 forms covered">
                 043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(and&nbsp;(string?&nbsp;k)
                 </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
+<span class="covered" title="2 out of 2 forms covered">
                 044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(keyword?&nbsp;state))&nbsp;
                 </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
+<span class="covered" title="6 out of 6 forms covered">
                 045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(set-val!&nbsp;k&nbsp;(name&nbsp;state))
                 </span><br/>
-<span class="not-covered" title="0 out of 16 forms covered">
+<span class="covered" title="16 out of 16 forms covered">
                 046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::set-state!&nbsp;:message&nbsp;&quot;wrote&nbsp;new&nbsp;state&quot;&nbsp;:state&nbsp;state&nbsp;:key&nbsp;k)
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(=&nbsp;state&nbsp;:working)
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(::set-state!&nbsp;:message&nbsp;&quot;just&nbsp;set&nbsp;working&nbsp;state&quot;)
                 </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
+<span class="covered" title="2 out of 2 forms covered">
                 049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;mtp)
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(::set-state!&nbsp;:message&nbsp;&quot;relax&nbsp;done&quot;)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -397,13 +397,13 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 131&nbsp;&nbsp;&nbsp;&nbsp;[[kind&nbsp;l1&nbsp;l2&nbsp;l3]]
                 </span><br/>
-<span class="not-covered" title="0 out of 15 forms covered">
+<span class="covered" title="15 out of 15 forms covered">
                 132&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(keyword&nbsp;kind)
                 </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
+<span class="covered" title="6 out of 6 forms covered">
                 133&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:pmessage&nbsp;&nbsp;&nbsp;(second&nbsp;(string&#x2F;split&nbsp;l2&nbsp;#&quot;:&quot;))
                 </span><br/>
-<span class="not-covered" title="0 out of 14 forms covered">
+<span class="covered" title="14 out of 14 forms covered">
                 134&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:psubscribe&nbsp;(mu&#x2F;log&nbsp;::msg-&gt;key&nbsp;:message&nbsp;&quot;subscribed&nbsp;to&nbsp;pattern&quot;&nbsp;:key&nbsp;l1)
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
@@ -469,16 +469,16 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 155&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;l2&nbsp;l3&nbsp;l4]
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
+<span class="covered" title="7 out of 7 forms covered">
                 156&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;&quot;__keyspace@&quot;&nbsp;db&nbsp;&quot;*__:&quot;&nbsp;mp-id
                 </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
+<span class="covered" title="2 out of 2 forms covered">
                 157&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u&#x2F;sep&nbsp;l2
                 </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
+<span class="covered" title="2 out of 2 forms covered">
                 158&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u&#x2F;sep&nbsp;l3
                 </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
+<span class="covered" title="2 out of 2 forms covered">
                 159&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u&#x2F;sep&nbsp;l4&nbsp;&quot;*&quot;))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -514,16 +514,16 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 170&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;l2&nbsp;l3&nbsp;l4&nbsp;callback]
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
+<span class="covered" title="7 out of 7 forms covered">
                 171&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[pat&nbsp;(subs-pat&nbsp;mp-id&nbsp;l2&nbsp;l3&nbsp;l4)]
                 </span><br/>
-<span class="not-covered" title="0 out of 10 forms covered">
+<span class="covered" title="10 out of 10 forms covered">
                 172&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(car&#x2F;with-new-pubsub-listener&nbsp;(:spec&nbsp;conn)
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
+<span class="covered" title="3 out of 3 forms covered">
                 173&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{pat&nbsp;callback}
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
+<span class="covered" title="3 out of 3 forms covered">
                 174&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(car&#x2F;psubscribe&nbsp;pat))))&nbsp;&nbsp;
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -562,7 +562,7 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 186&nbsp;&nbsp;&nbsp;&nbsp;[l]
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
+<span class="covered" title="3 out of 3 forms covered">
                 187&nbsp;&nbsp;&nbsp;&nbsp;(car&#x2F;close-listener&nbsp;l))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -646,28 +646,28 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 214&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!]
                 </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
+<span class="covered" title="8 out of 8 forms covered">
                 215&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(register!&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!&nbsp;&quot;a&quot;))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 216&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!&nbsp;level]
                 </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
+<span class="covered" title="8 out of 8 forms covered">
                 217&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[reg-key&nbsp;(reg-key&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;level)]
                 </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
+<span class="covered" title="6 out of 6 forms covered">
                 218&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;(registered?&nbsp;reg-key)
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 219&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 220&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;listeners&nbsp;assoc
                 </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
+<span class="covered" title="1 out of 1 forms covered">
                 221&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reg-key
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
+<span class="covered" title="7 out of 7 forms covered">
                 222&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gen-listener&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!)))}
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
@@ -700,16 +700,16 @@
 <span class="covered" title="4 out of 4 forms covered">
                 232&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(registered?&nbsp;k)
                 </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
+<span class="covered" title="1 out of 1 forms covered">
                 233&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
                 </span><br/>
-<span class="not-covered" title="0 out of 14 forms covered">
+<span class="covered" title="14 out of 14 forms covered">
                 234&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::de-register!&nbsp;:message&nbsp;&quot;will&nbsp;de-register&quot;&nbsp;:key&nbsp;k)
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
+<span class="covered" title="7 out of 7 forms covered">
                 235&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(close-listener!&nbsp;((deref&nbsp;listeners)&nbsp;k))
                 </span><br/>
-<span class="not-covered" title="0 out of 9 forms covered">
+<span class="covered" title="9 out of 9 forms covered">
                 236&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?&nbsp;(swap!&nbsp;listeners&nbsp;dissoc&nbsp;k))})
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
