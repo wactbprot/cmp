@@ -26,8 +26,12 @@
 
 (deftest mpd-ref-container-0-test
   (testing "clear ref-mpd"
-    (m-build-edn)
     (workon! "ref")
+    (m-build-edn)
+    (m-start)
+    (Thread/sleep 500)
     (c-run 0)
-    (is (= "run" (st/key->val (ku/cont-ctrl-key "ref" 0))))))
+    (is (= "run" (st/key->val (ku/cont-ctrl-key "ref" 0))))
+    (Thread/sleep 5000)
+    (is (= "ready" (st/key->val (ku/cont-ctrl-key "ref" 0))))))
 
