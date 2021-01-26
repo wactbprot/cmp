@@ -21,7 +21,7 @@
   to the state key (done).
   "
   [body task state-key]
-  (mu/log ::dispatch :message "try to write response")
+  (mu/log ::dispatch :message "try to write response" :key state-key )
   (st/set-val! (ku/key->response-key state-key) body)
   (if-let [err (:error body)]
     (st/set-state! state-key :error err)

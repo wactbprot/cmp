@@ -23,8 +23,8 @@
           json-task   (u/map->json task)
           req         (assoc (cfg/json-post-header (cfg/config)) :body json-task)
           url         (cfg/dev-hub-url (cfg/config))]
-      (st/set-val! request-key json-task)
-      (mu/log ::devhub! :message "stored json task, send req" :key request-key :url url)
+      (st/set-val! request-key task)
+      (mu/log ::devhub! :message "stored task, send request" :key request-key :url url)
       (try
         (resp/check (http/post url req) task state-key)
         (catch Exception e (st/set-state! state-key :error (.getMessage e)))))))

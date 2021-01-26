@@ -13,7 +13,7 @@
   (let [usr  (System/getenv "CAL_USR")
         pwd  (System/getenv "CAL_PWD")
         cred (when (and usr pwd) (str usr ":" pwd "@"))]
-        (str (:lt-prot c) "://" cred  (:lt-srv c)":"(:lt-port c)))) 
+        (str (:lt-prot c) "://" cred  (:lt-srv c)":"(:lt-port c))) ) 
   
 (defn lt-conn [c] (str (lt-url c) "/"(:lt-db c)))
 
