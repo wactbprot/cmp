@@ -45,12 +45,11 @@
     (let [doc-id (:_id doc)
           url    (gen-url doc-id)
           req    (gen-req doc)]
-      (if-not (lt/exist? doc-id)
+      (when-not (lt/exist? doc-id)
         (try
           (resp/check (http/put url req) task state-key)
           (st/set-state! state-key :executed "add doc id endpoint and to lt-mem")
           (catch Exception e
-            (st/set-state! state-key :error (.getMessage e))))
-        (do
-           (d/add mp-id doc-id)
-           (st/set-state! state-key :executed "add doc id endpoint"))))))
+            (st/set-state! state-key :error (.getMessage e)))))
+      (d/add mp-id doc-id)
+      (st/set-state! state-key :executed "add doc id endpoint"))))
