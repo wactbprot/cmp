@@ -9,7 +9,7 @@
 
 (defn exec-index
   "Registers a level b callback for the `i`th container of the mpd `mp`."
-  [{mp :Mp i :Container state-key :StateKey}]
+  [{mp :Mp i :Container state-key :StateKey cmd :Cmd}]
   (let [mp       (u/extr-main-path mp)
         ctrl-key (ku/cont-ctrl-key mp i)
         func     "ctrl"
@@ -29,7 +29,7 @@
                                  (st/set-state! state-key :error))
                         (mu/log ::exec-index :message "run callback not :ready no :error" :key ctrl-key))))]
     (st/register! mp struct i func f level)
-    (st/set-state! ctrl-key :run)))
+    (st/set-state! ctrl-key (or cmd :run))))
 
 (defn exec-title
   "Searches for the given  `:ContainerTitle`. Extracts the `no-idx`
