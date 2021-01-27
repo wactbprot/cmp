@@ -71,7 +71,7 @@
   "Short a `string` `s` to `n` or `45` chars. Returns `nil` is `s` is
   not a `string`."
   ([s]
-   (when (string? s) (short-string s 45)))
+   (when (string? s) (short-string s 40)))
   ([s n]
    (when (string? s) (if (< (count s) n) s (str (subs s 0 n) "...")))))
    

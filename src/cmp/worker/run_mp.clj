@@ -11,6 +11,7 @@
   "Registers a level b callback for the `i`th container of the mpd `mp`."
   [{mp :Mp i :Container state-key :StateKey cmd :Cmd}]
   (let [mp       (u/extr-main-path mp)
+        cmd      (keyword (or cmd "run"))
         ctrl-key (ku/cont-ctrl-key mp i)
         func     "ctrl"
         struct   "container"
@@ -29,17 +30,17 @@
                                  (st/set-state! state-key :error))
                         (mu/log ::exec-index :message "run callback not :ready no :error" :key ctrl-key))))]
     (st/register! mp struct i func f level)
-    (st/set-state! ctrl-key (or cmd :run))))
+    (st/set-state! ctrl-key cmd)))
 
 (defn exec-title
   "Searches for the given  `:ContainerTitle`. Extracts the `no-idx`
   and uses the `exec-index` function to register a callback."
-  [{mp :Mp cont-title :ContainerTitle state-key :StateKey}]
+  [{mp :Mp cont-title :ContainerTitle state-key :StateKey cmd :Cmd}]
   (let [mp     (u/extr-main-path mp)
         ks     (st/pat->keys (ku/cont-title-key mp "*" ))
         title? (fn [k] (= cont-title (st/key->val k)))]
     (if-let [k (first (filter title? ks))]
-      (exec-index {:Mp mp :Container (ku/key->no-idx k) :StateKey state-key}) 
+      (exec-index {:Mp mp :Container (ku/key->no-idx k) :StateKey state-key cmd :Cmd}) 
       (st/set-state! state-key :error (str "no container with title: >"cont-title "<")))))
 
 (defn run-mp!
