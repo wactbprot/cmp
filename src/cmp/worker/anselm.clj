@@ -25,7 +25,7 @@
   
   ```clojure
   ;; leads to a post req:
-   (json-api! {:Action \"Anselm\" :Value {:DocPath \"Calibration.Measurement.Values.Position\",
+   (anselm! {:Action \"Anselm\" :Value {:DocPath \"Calibration.Measurement.Values.Position\",
                                           :Target_pressure_value 1,
                                           :Target_pressure_unit \"Pa\"}
   :RequestPath \"dut_max\"})
