@@ -1,4 +1,4 @@
- (ns cmp.core
+(ns cmp.core
   ^{:author "wactbprot"
     :doc "Provides the api of cmp. `(m-start)`, `(m-stop)` etc.  are
           intended for **repl** use only. Graphical user interfaces
@@ -14,7 +14,8 @@
              [cmp.state                :as state]
              [cmp.task                 :as task]
              [cmp.utils                :as u]
-             [cmp.work                 :as w]))
+             [cmp.work                 :as w]
+             [portal.api :as p]))
 
 ;;------------------------------
 ;; log system
@@ -44,12 +45,12 @@
 (def current-mp
   "Provides a storing place for the current mp-id for convenience. Due
   to this atom the `(build)`, `(check)` or `(start)` function needs no
-  argument." 
+  argument."
   (atom "ref"))
 
 (defn workon!
   "Sets the mpd to work on (see [[current-mp]]).
-  
+
   Example:
     ```clojure
   (workon! 'se3-calib')
@@ -87,7 +88,7 @@
   ([i]
    (c-data (deref current-mp) i))
   ([mp-id i]
-  {:c-no-idx (u/lp i) 
+  {:c-no-idx (u/lp i)
    :c-title  (st/key->val    (ku/cont-title-key mp-id (u/lp i)))
    :c-descr  (u/short-string (st/key->val (ku/cont-descr-key mp-id (u/lp i))))
    :c-ctrl   (st/key->val    (ku/cont-ctrl-key mp-id (u/lp i)))}))
@@ -102,6 +103,9 @@
   ([mp-id i]
    (pp/print-table [(c-data mp-id i)])))
 
+
+
+
 (defn c-definition
   "Returns info about the definitions of container `i` of the mpd with
   the id `mp-id`."
@@ -110,13 +114,13 @@
   ([i]
    (c-definition (deref current-mp) i))
   ([mp-id i]
-   (let [ks (sort (st/key->keys (ku/cont-defin-key @current-mp 2)))]
+   (let [ks (sort (st/key->keys (ku/cont-defin-key @current-mp i)))]
      (pp/print-table
       (mapv (fn [k] {:TaskName (:TaskName (st/key->val k))
                      :no-idx    (ku/key->no-idx  k)
                      :seq-idx   (ku/key->seq-idx k)
                      :par-idx   (ku/key->par-idx k)}) ks)))))
-  
+
 (defn cs-info
   "Returns info about the containers of the mpd with the id `mp-id`."
   ([]
@@ -126,10 +130,10 @@
     (mapv
      (fn [k] (c-data mp-id (ku/key->no-idx k)))
      (sort (st/pat->keys (ku/cont-title-key mp-id "*")))))))
- 
-  
+
+
 ;;------------------------------
-;; listeners 
+;; listeners
 ;;------------------------------
 (defn l-info
   "Returns a table with the currently registered listener patterns."
@@ -141,7 +145,7 @@
     (deref st/listeners))))
 
 ;;------------------------------
-;; worker futures 
+;; worker futures
 ;;------------------------------
 (defn w-info
   "Returns a table with the currently registered worker futures."
@@ -153,7 +157,7 @@
      (fn [[k v]]
        {:key k :val (if (nil? (if deref? (deref v) v)) "ok" v)})
      (deref w/future-reg)))))
-  
+
 ;;------------------------------
 ;; status (stat)
 ;;------------------------------
@@ -185,7 +189,7 @@
    (state/start mp-id)))
 
 ;;------------------------------
-;; stop observing 
+;; stop observing
 ;;------------------------------
 (defn m-stop
   "De-registers the listener for the `ctrl` interface of the given
@@ -202,8 +206,8 @@
   "Loads a mpd from long term memory and builds the short term
   memory. The `mp-id` may be set with [[workon!]]. [[m-start]] is
   called after mp is build.
-  
-  Usage:  
+
+  Usage:
   ```clojure
   (m-build mpid)
   ;; or
@@ -221,7 +225,7 @@
 (defn m-build-edn
   "Builds up a the mpds in `edn` format provided by *cmp* (see resources
   directory).
-  
+
   ```clojure
   (m-build-edn \"resources/mpd-devhub.edn\")
   ```
@@ -269,7 +273,7 @@
   means of [[cmp.st-mem.set-val!]].  The writing process triggers the
   `registered` `callback` (registered by [[m-start]]). The `callback`
   cares about the `cmd`.  `cmd`s are:
-  
+
   * `\"run\"`
   * `\"stop\"`
   * `\"mon\"`
@@ -338,7 +342,7 @@
 ;;------------------------------
 (defn t-build
   "Builds the `tasks` endpoint. At runtime all `tasks` are provided by
-  `st-mem`. The advantage is: tasks can be modified at runtime." 
+  `st-mem`. The advantage is: tasks can be modified at runtime."
   []
   (build/store-tasks (lt/all-tasks)))
 
@@ -389,7 +393,7 @@
   key (`<mp-id@<struct>@<i>@response@<j>@<k>`) and pretty prints it.
 
   REVIEW function is way to large
-  
+
   Example:
   ```clojure
   (t-run \"DKM_PPC4_DMM-read_temp\")
@@ -434,7 +438,7 @@
 (defn t-run-by-key
   "Calls `t-run` after extracting key info.  A call with all all kinds
   of complete keys `k` is ok.  Complete means: the functions:
-  
+
   *  `(ku/key->mp-id   k)`
   *  `(ku/key->struct  k)`
   *  `(ku/key->no-idx  k)`
@@ -442,11 +446,11 @@
   *  `(ku/key->par-idx k)`
 
   don't return `nil`.
-  
+
   Example:
   ```clojure
   (t-run-by-key \"se3-cmp_state@container@006@state@000@000\")
-  ``` 
+  ```
   "
   [k]
   (let [mp-id     (ku/key->mp-id   k)
@@ -461,7 +465,7 @@
       (println (str "no TaskName at key: " k)))))
 
 (defn t-raw
-  "Shows the raw task as stored at st-memory" 
+  "Shows the raw task as stored at st-memory"
   [s]
   (st/key->val (u/vec->key ["tasks" s])))
 
@@ -487,7 +491,7 @@
          state-key  (u/vec->key[mp-id struct i "state" j k])
          meta-task  (task/gen-meta-task x)]
      (task/assemble meta-task mp-id state-key))))
- 
+
 (defn t-build-edn
   "Stores the `task` slurped from the files configured in
   `resources/config.edn`.
@@ -507,18 +511,17 @@
 
 
 (defn t-clear
-  "Function removes all keys starting with `tasks`."  
+  "Function removes all keys starting with `tasks`."
   []
   (st/clear! "tasks"))
 
 (defn t-refresh
   "Refreshs the `tasks` endpoint.
-  
+
   Example:
   ```clojure
   (t-refresh)
-  ```
-  "
+  ```"
   []
   (println "clear tasks")
   (t-clear)

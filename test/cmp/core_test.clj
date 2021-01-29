@@ -36,7 +36,9 @@
     (m-start)
     (Thread/sleep 100)
     (c-run 0)
-    (is (= "run" (st/key->val (ku/cont-ctrl-key "ref" 0))))
+    (is (= "run" (st/key->val (ku/cont-ctrl-key "ref" 0)))
+        "is running")
     (Thread/sleep 5000)
-    (is (= "ready" (st/key->val (ku/cont-ctrl-key "ref" 0))))))
+    (is (= "ready" (st/key->val (ku/cont-ctrl-key "ref" 0)))
+        "is ready")))
 

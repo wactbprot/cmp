@@ -1,5 +1,5 @@
 (defproject cmp "0.18.0"
-  :description "A study of an interpreter for measurement 
+  :description "A study of an interpreter for measurement
   program definitions (mpd) written in clojure."
   :url "https://github.com/wactbprot/cmp"
   :dependencies [[org.clojure/clojure                  "1.10.1"]
@@ -11,6 +11,7 @@
                  [com.brunobonacci/mulog               "0.6.0"]
                  [com.brunobonacci/mulog-elasticsearch "0.6.0"]
                  [clj-http                             "3.10.0"]
+                 [djblue/portal                        "0.9.0"]
                  ]
   :main ^:skip-aot cmp.core
   :target-path "target/%s"

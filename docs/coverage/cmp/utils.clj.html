@@ -224,7 +224,7 @@
                 073&nbsp;&nbsp;&nbsp;&nbsp;([s]
                 </span><br/>
 <span class="covered" title="9 out of 9 forms covered">
-                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(string?&nbsp;s)&nbsp;(short-string&nbsp;s&nbsp;45)))
+                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(string?&nbsp;s)&nbsp;(short-string&nbsp;s&nbsp;40)))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 075&nbsp;&nbsp;&nbsp;&nbsp;([s&nbsp;n]
@@ -292,407 +292,398 @@
 <span class="covered" title="1 out of 1 forms covered">
                 096&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i
                 </span><br/>
-<span class="partial" title="1 out of 2 forms covered">
-                097&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try
-                </span><br/>
-<span class="covered" title="2 out of 2 forms covered">
-                098&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Integer&#x2F;parseInt&nbsp;i)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                099&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0))))
+<span class="partial" title="3 out of 4 forms covered">
+                097&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try&nbsp;(Integer&#x2F;parseInt&nbsp;i)&nbsp;(catch&nbsp;Exception&nbsp;e&nbsp;0))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                101&nbsp;&nbsp;
+                098&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                102&nbsp;&nbsp;(defn&nbsp;pad-ok?
+                099&nbsp;&nbsp;(defn&nbsp;pad-ok?
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                103&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;the&nbsp;padding&nbsp;of&nbsp;`i`&nbsp;is&nbsp;ok.&nbsp;`\&quot;*\&quot;`&nbsp;serves&nbsp;pattern&nbsp;matching.&quot;
+                100&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;the&nbsp;padding&nbsp;of&nbsp;`i`&nbsp;is&nbsp;ok.&nbsp;`\&quot;*\&quot;`&nbsp;serves&nbsp;pattern&nbsp;matching.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                104&nbsp;&nbsp;&nbsp;&nbsp;([i]
+                101&nbsp;&nbsp;&nbsp;&nbsp;([i]
                 </span><br/>
 <span class="covered" title="7 out of 7 forms covered">
-                105&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pad-ok?&nbsp;i&nbsp;(cfg&#x2F;key-pad-length&nbsp;(cfg&#x2F;config))))
+                102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pad-ok?&nbsp;i&nbsp;(cfg&#x2F;key-pad-length&nbsp;(cfg&#x2F;config))))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                106&nbsp;&nbsp;&nbsp;&nbsp;([i&nbsp;n]
+                103&nbsp;&nbsp;&nbsp;&nbsp;([i&nbsp;n]
                 </span><br/>
 <span class="partial" title="5 out of 6 forms covered">
-                107&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
+                104&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                108&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(=&nbsp;i&nbsp;&quot;*&quot;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true&nbsp;
+                105&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(=&nbsp;i&nbsp;&quot;*&quot;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;true&nbsp;
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                109&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(and
+                106&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(and
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                110&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(string?&nbsp;i)
+                107&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(string?&nbsp;i)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                111&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(=&nbsp;n&nbsp;(count&nbsp;i)))&nbsp;true
+                108&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(=&nbsp;n&nbsp;(count&nbsp;i)))&nbsp;true
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                112&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;false)))
+                109&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;false)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                113&nbsp;&nbsp;
+                110&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                114&nbsp;&nbsp;(defn&nbsp;lp
+                111&nbsp;&nbsp;(defn&nbsp;lp
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                115&nbsp;&nbsp;&nbsp;&nbsp;&quot;Left&nbsp;pad&nbsp;the&nbsp;given&nbsp;number&nbsp;if&nbsp;it&nbsp;is&nbsp;not&nbsp;a&nbsp;string.&nbsp;Default
+                112&nbsp;&nbsp;&nbsp;&nbsp;&quot;Left&nbsp;pad&nbsp;the&nbsp;given&nbsp;number&nbsp;if&nbsp;it&nbsp;is&nbsp;not&nbsp;a&nbsp;string.&nbsp;Default
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                116&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;`(cfg&#x2F;key-pad-length&nbsp;(cfg&#x2F;config))`.
+                113&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;`(cfg&#x2F;key-pad-length&nbsp;(cfg&#x2F;config))`.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                117&nbsp;&nbsp;
+                114&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                118&nbsp;&nbsp;&nbsp;&nbsp;Example:
+                115&nbsp;&nbsp;&nbsp;&nbsp;Example:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                119&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                116&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                120&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;lp&nbsp;2)
+                117&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;lp&nbsp;2)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                121&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;002\&quot;
+                118&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;002\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                122&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;lp&nbsp;\&quot;02\&quot;)
+                119&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;lp&nbsp;\&quot;02\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                123&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;002\&quot;
+                120&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;002\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                124&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;lp&nbsp;2)
+                121&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;lp&nbsp;2)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                125&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;002\&quot;
+                122&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;002\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                126&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;lp&nbsp;true)
+                123&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;lp&nbsp;true)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                127&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;000\&quot;
+                124&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;000\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                128&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;lp&nbsp;\&quot;003\&quot;)
+                125&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;lp&nbsp;\&quot;003\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                129&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;003\&quot;
+                126&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;003\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                130&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;lp&nbsp;\&quot;000003\&quot;)
+                127&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;lp&nbsp;\&quot;000003\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                131&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;003\&quot;
+                128&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;003\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                132&nbsp;&nbsp;&nbsp;&nbsp;```
+                129&nbsp;&nbsp;&nbsp;&nbsp;```
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                133&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                130&nbsp;&nbsp;&nbsp;&nbsp;&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                134&nbsp;&nbsp;&nbsp;&nbsp;([i]
+                131&nbsp;&nbsp;&nbsp;&nbsp;([i]
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                135&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(pad-ok?&nbsp;i)&nbsp;i&nbsp;(lp&nbsp;(ensure-int&nbsp;i)&nbsp;3)))
+                132&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(pad-ok?&nbsp;i)&nbsp;i&nbsp;(lp&nbsp;(ensure-int&nbsp;i)&nbsp;3)))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                136&nbsp;&nbsp;&nbsp;&nbsp;([i&nbsp;n]
+                133&nbsp;&nbsp;&nbsp;&nbsp;([i&nbsp;n]
                 </span><br/>
 <span class="partial" title="14 out of 15 forms covered">
-                137&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(pad-ok?&nbsp;i)&nbsp;i&nbsp;(format&nbsp;(str&nbsp;&quot;%0&quot;&nbsp;n&nbsp;&quot;d&quot;)&nbsp;(ensure-int&nbsp;i)))))
+                134&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(pad-ok?&nbsp;i)&nbsp;i&nbsp;(format&nbsp;(str&nbsp;&quot;%0&quot;&nbsp;n&nbsp;&quot;d&quot;)&nbsp;(ensure-int&nbsp;i)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                138&nbsp;&nbsp;
+                135&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                139&nbsp;&nbsp;;;------------------------------
+                136&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                140&nbsp;&nbsp;;;&nbsp;mp-id
+                137&nbsp;&nbsp;;;&nbsp;mp-id
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                141&nbsp;&nbsp;;;------------------------------
+                138&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                142&nbsp;&nbsp;(defn&nbsp;extr-main-path
+                139&nbsp;&nbsp;(defn&nbsp;extr-main-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                143&nbsp;&nbsp;&nbsp;&nbsp;&quot;Extracts&nbsp;the&nbsp;main&nbsp;path.&nbsp;Should&nbsp;work&nbsp;on&nbsp;`mpd-aaa-bbb`&nbsp;as&nbsp;well&nbsp;as&nbsp;on
+                140&nbsp;&nbsp;&nbsp;&nbsp;&quot;Extracts&nbsp;the&nbsp;main&nbsp;path.&nbsp;Should&nbsp;work&nbsp;on&nbsp;`mpd-aaa-bbb`&nbsp;as&nbsp;well&nbsp;as&nbsp;on
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                144&nbsp;&nbsp;&nbsp;&nbsp;`aaa-bbb`.
+                141&nbsp;&nbsp;&nbsp;&nbsp;`aaa-bbb`.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                145&nbsp;&nbsp;
+                142&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                146&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                143&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                147&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;extr-main-path&nbsp;\&quot;aa\&quot;)
+                144&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;extr-main-path&nbsp;\&quot;aa\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                148&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;aa\&quot;
+                145&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;aa\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                149&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;extr-main-path&nbsp;\&quot;aa-bbb\&quot;)
+                146&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;extr-main-path&nbsp;\&quot;aa-bbb\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                150&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;aa-bbb\&quot;
+                147&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;aa-bbb\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                151&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;extr-main-path&nbsp;\&quot;aa-bbb-lll\&quot;)
+                148&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;extr-main-path&nbsp;\&quot;aa-bbb-lll\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                152&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;aa-bbb-lll\&quot;
+                149&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;aa-bbb-lll\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                153&nbsp;&nbsp;&nbsp;&nbsp;```
+                150&nbsp;&nbsp;&nbsp;&nbsp;```
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                154&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                151&nbsp;&nbsp;&nbsp;&nbsp;&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                155&nbsp;&nbsp;&nbsp;&nbsp;[s]
+                152&nbsp;&nbsp;&nbsp;&nbsp;[s]
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                156&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[p&nbsp;&quot;mpd-&quot;]
+                153&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[p&nbsp;&quot;mpd-&quot;]
                 </span><br/>
 <span class="partial" title="12 out of 13 forms covered">
-                157&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(string&#x2F;starts-with?&nbsp;s&nbsp;p)&nbsp;(string&#x2F;replace&nbsp;&nbsp;s&nbsp;(re-pattern&nbsp;p)&nbsp;&quot;&quot;)&nbsp;s)))
+                154&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(string&#x2F;starts-with?&nbsp;s&nbsp;p)&nbsp;(string&#x2F;replace&nbsp;&nbsp;s&nbsp;(re-pattern&nbsp;p)&nbsp;&quot;&quot;)&nbsp;s)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                158&nbsp;&nbsp;
+                155&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                159&nbsp;&nbsp;(defn&nbsp;compl-main-path
+                156&nbsp;&nbsp;(defn&nbsp;compl-main-path
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                160&nbsp;&nbsp;&nbsp;&nbsp;&quot;Completes&nbsp;the&nbsp;main&nbsp;path&nbsp;by&nbsp;padding&nbsp;a&nbsp;`mpd-`&nbsp;in&nbsp;case&nbsp;it&nbsp;is&nbsp;missing.
+                157&nbsp;&nbsp;&nbsp;&nbsp;&quot;Completes&nbsp;the&nbsp;main&nbsp;path&nbsp;by&nbsp;padding&nbsp;a&nbsp;`mpd-`&nbsp;in&nbsp;case&nbsp;it&nbsp;is&nbsp;missing.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                161&nbsp;&nbsp;&nbsp;&nbsp;
+                158&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                162&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                159&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                163&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;compl-main-path&nbsp;\&quot;aaa\&quot;)
+                160&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;compl-main-path&nbsp;\&quot;aaa\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                164&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;mpd-aaa\&quot;
+                161&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;mpd-aaa\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                165&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;compl-main-path&nbsp;\&quot;mpd-aaa\&quot;)
+                162&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;compl-main-path&nbsp;\&quot;mpd-aaa\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                166&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;mpd-aaa\&quot;
+                163&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;\&quot;mpd-aaa\&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                167&nbsp;&nbsp;&nbsp;&nbsp;```
+                164&nbsp;&nbsp;&nbsp;&nbsp;```
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                168&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                165&nbsp;&nbsp;&nbsp;&nbsp;&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                169&nbsp;&nbsp;&nbsp;&nbsp;[s]
+                166&nbsp;&nbsp;&nbsp;&nbsp;[s]
                 </span><br/>
 <span class="not-covered" title="0 out of 10 forms covered">
-                170&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(string&#x2F;starts-with?&nbsp;s&nbsp;&quot;mpd-&quot;)&nbsp;s&nbsp;(str&nbsp;&quot;mpd-&quot;&nbsp;s)))
+                167&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(string&#x2F;starts-with?&nbsp;s&nbsp;&quot;mpd-&quot;)&nbsp;s&nbsp;(str&nbsp;&quot;mpd-&quot;&nbsp;s)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                171&nbsp;&nbsp;
+                168&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                172&nbsp;&nbsp;;;------------------------------
+                169&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                173&nbsp;&nbsp;
+                170&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                174&nbsp;&nbsp;(defn&nbsp;apply-to-map-values
+                171&nbsp;&nbsp;(defn&nbsp;apply-to-map-values
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                175&nbsp;&nbsp;&nbsp;&nbsp;&quot;Applies&nbsp;function&nbsp;`f`&nbsp;to&nbsp;the&nbsp;values&nbsp;of&nbsp;the&nbsp;map&nbsp;`m`.&quot;
+                172&nbsp;&nbsp;&nbsp;&nbsp;&quot;Applies&nbsp;function&nbsp;`f`&nbsp;to&nbsp;the&nbsp;values&nbsp;of&nbsp;the&nbsp;map&nbsp;`m`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                176&nbsp;&nbsp;&nbsp;&nbsp;[f&nbsp;m]
+                173&nbsp;&nbsp;&nbsp;&nbsp;[f&nbsp;m]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                177&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;{}
+                174&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;{}
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                178&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[[k&nbsp;v]]
+                175&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[[k&nbsp;v]]
                 </span><br/>
 <span class="partial" title="3 out of 4 forms covered">
-                179&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
+                176&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
                 </span><br/>
 <span class="covered" title="9 out of 9 forms covered">
-                180&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map?&nbsp;v)&nbsp;[k&nbsp;(apply-to-map-values&nbsp;f&nbsp;v)]
+                177&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map?&nbsp;v)&nbsp;[k&nbsp;(apply-to-map-values&nbsp;f&nbsp;v)]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                181&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:default&nbsp;[k&nbsp;(f&nbsp;v)]))
+                178&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:default&nbsp;[k&nbsp;(f&nbsp;v)]))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                182&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m)))
+                179&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                183&nbsp;&nbsp;
+                180&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                184&nbsp;&nbsp;(defn&nbsp;apply-to-map-keys
+                181&nbsp;&nbsp;(defn&nbsp;apply-to-map-keys
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                185&nbsp;&nbsp;&nbsp;&nbsp;&quot;Applies&nbsp;function&nbsp;`f`&nbsp;to&nbsp;the&nbsp;keys&nbsp;of&nbsp;the&nbsp;map&nbsp;`m`.&quot;
+                182&nbsp;&nbsp;&nbsp;&nbsp;&quot;Applies&nbsp;function&nbsp;`f`&nbsp;to&nbsp;the&nbsp;keys&nbsp;of&nbsp;the&nbsp;map&nbsp;`m`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                186&nbsp;&nbsp;&nbsp;&nbsp;[f&nbsp;m]
+                183&nbsp;&nbsp;&nbsp;&nbsp;[f&nbsp;m]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                187&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;{}
+                184&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;{}
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                188&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[[k&nbsp;v]]
+                185&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[[k&nbsp;v]]
                 </span><br/>
 <span class="partial" title="3 out of 4 forms covered">
-                189&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
+                186&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                190&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map?&nbsp;v)&nbsp;[(f&nbsp;k)&nbsp;(apply-to-map-keys&nbsp;f&nbsp;v)]
+                187&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map?&nbsp;v)&nbsp;[(f&nbsp;k)&nbsp;(apply-to-map-keys&nbsp;f&nbsp;v)]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                191&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:default&nbsp;[(f&nbsp;k)&nbsp;v]))
+                188&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:default&nbsp;[(f&nbsp;k)&nbsp;v]))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                192&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m)))
+                189&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m)))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                193&nbsp;&nbsp;;;------------------------------
+                190&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                194&nbsp;&nbsp;;;&nbsp;doc,&nbsp;json,&nbsp;map
+                191&nbsp;&nbsp;;;&nbsp;doc,&nbsp;json,&nbsp;map
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                195&nbsp;&nbsp;;;------------------------------
+                192&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                196&nbsp;&nbsp;(defn&nbsp;map-&gt;json
+                193&nbsp;&nbsp;(defn&nbsp;map-&gt;json
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                197&nbsp;&nbsp;&nbsp;&nbsp;&quot;Transforms&nbsp;a&nbsp;hash-map&nbsp;&nbsp;to&nbsp;a&nbsp;json&nbsp;string&quot;
+                194&nbsp;&nbsp;&nbsp;&nbsp;&quot;Transforms&nbsp;a&nbsp;hash-map&nbsp;&nbsp;to&nbsp;a&nbsp;json&nbsp;string&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                198&nbsp;&nbsp;&nbsp;&nbsp;[m]
+                195&nbsp;&nbsp;&nbsp;&nbsp;[m]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                199&nbsp;&nbsp;&nbsp;&nbsp;(che&#x2F;generate-string&nbsp;m))
+                196&nbsp;&nbsp;&nbsp;&nbsp;(che&#x2F;generate-string&nbsp;m))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                200&nbsp;&nbsp;
+                197&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                201&nbsp;&nbsp;(defn&nbsp;json-&gt;map
+                198&nbsp;&nbsp;(defn&nbsp;json-&gt;map
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                202&nbsp;&nbsp;&nbsp;&nbsp;&quot;Transforms&nbsp;a&nbsp;json&nbsp;object&nbsp;to&nbsp;a&nbsp;map.&quot;
+                199&nbsp;&nbsp;&nbsp;&nbsp;&quot;Transforms&nbsp;a&nbsp;json&nbsp;object&nbsp;to&nbsp;a&nbsp;map.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                203&nbsp;&nbsp;&nbsp;&nbsp;[j]
+                200&nbsp;&nbsp;&nbsp;&nbsp;[j]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                204&nbsp;&nbsp;&nbsp;&nbsp;(che&#x2F;parse-string&nbsp;j&nbsp;true))
+                201&nbsp;&nbsp;&nbsp;&nbsp;(che&#x2F;parse-string&nbsp;j&nbsp;true))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                205&nbsp;&nbsp;
+                202&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                206&nbsp;&nbsp;(defn&nbsp;doc-&gt;safe-doc
+                203&nbsp;&nbsp;(defn&nbsp;doc-&gt;safe-doc
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                207&nbsp;&nbsp;&nbsp;&nbsp;&quot;Replaces&nbsp;all&nbsp;of&nbsp;the&nbsp;`@`-signs&nbsp;(if&nbsp;followed&nbsp;by&nbsp;letters&nbsp;1)
+                204&nbsp;&nbsp;&nbsp;&nbsp;&quot;Replaces&nbsp;all&nbsp;of&nbsp;the&nbsp;`@`-signs&nbsp;(if&nbsp;followed&nbsp;by&nbsp;letters&nbsp;1)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                208&nbsp;&nbsp;&nbsp;&nbsp;by&nbsp;a&nbsp;`%`-sign&nbsp;&nbsp;because&nbsp;`:%kw`&nbsp;is&nbsp;a&nbsp;valid&nbsp;keyword&nbsp;but&nbsp;`:@kw`&nbsp;not
+                205&nbsp;&nbsp;&nbsp;&nbsp;by&nbsp;a&nbsp;`%`-sign&nbsp;&nbsp;because&nbsp;`:%kw`&nbsp;is&nbsp;a&nbsp;valid&nbsp;keyword&nbsp;but&nbsp;`:@kw`&nbsp;not
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                209&nbsp;&nbsp;&nbsp;&nbsp;(or&nbsp;at&nbsp;least&nbsp;problematic).
+                206&nbsp;&nbsp;&nbsp;&nbsp;(or&nbsp;at&nbsp;least&nbsp;problematic).
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                210&nbsp;&nbsp;
+                207&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                211&nbsp;&nbsp;&nbsp;&nbsp;1)&nbsp;There&nbsp;are&nbsp;devices&nbsp;annotating&nbsp;channeles&nbsp;by&nbsp;`(@101:105)`.
+                208&nbsp;&nbsp;&nbsp;&nbsp;1)&nbsp;There&nbsp;are&nbsp;devices&nbsp;annotating&nbsp;channeles&nbsp;by&nbsp;`(@101:105)`.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                212&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;should&nbsp;remain&nbsp;as&nbsp;it&nbsp;is.
+                209&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;should&nbsp;remain&nbsp;as&nbsp;it&nbsp;is.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                213&nbsp;&nbsp;&nbsp;&nbsp;&quot;
+                210&nbsp;&nbsp;&nbsp;&nbsp;&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                214&nbsp;&nbsp;&nbsp;&nbsp;[doc]
+                211&nbsp;&nbsp;&nbsp;&nbsp;[doc]
                 </span><br/>
 <span class="covered" title="9 out of 9 forms covered">
-                215&nbsp;&nbsp;&nbsp;&nbsp;(json-&gt;map&nbsp;(string&#x2F;replace&nbsp;(map-&gt;json&nbsp;doc)&nbsp;&nbsp;#&quot;(@)([a-zA-Z])&quot;&nbsp;&quot;%$2&quot;)))
+                212&nbsp;&nbsp;&nbsp;&nbsp;(json-&gt;map&nbsp;(string&#x2F;replace&nbsp;(map-&gt;json&nbsp;doc)&nbsp;&nbsp;#&quot;(@)([a-zA-Z])&quot;&nbsp;&quot;%$2&quot;)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                216&nbsp;&nbsp;
+                213&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                217&nbsp;&nbsp;;;------------------------------
+                214&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                218&nbsp;&nbsp;;;&nbsp;ctrl&nbsp;endpoint&nbsp;-&gt;&nbsp;poll&nbsp;and&nbsp;run
+                215&nbsp;&nbsp;;;&nbsp;ctrl&nbsp;endpoint&nbsp;-&gt;&nbsp;poll&nbsp;and&nbsp;run
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                219&nbsp;&nbsp;;;------------------------------
+                216&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                220&nbsp;&nbsp;(defn&nbsp;next-ctrl-cmd
+                217&nbsp;&nbsp;(defn&nbsp;next-ctrl-cmd
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                221&nbsp;&nbsp;&nbsp;&nbsp;&quot;Extracts&nbsp;next&nbsp;command.
+                218&nbsp;&nbsp;&nbsp;&nbsp;&quot;Extracts&nbsp;next&nbsp;command.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                222&nbsp;&nbsp;
+                219&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                223&nbsp;&nbsp;&nbsp;&nbsp;#TODO:&nbsp;&nbsp;Enable&nbsp;kind&nbsp;of&nbsp;programming&nbsp;like&nbsp;provided&nbsp;in&nbsp;ssmp:
+                220&nbsp;&nbsp;&nbsp;&nbsp;#TODO:&nbsp;&nbsp;Enable&nbsp;kind&nbsp;of&nbsp;programming&nbsp;like&nbsp;provided&nbsp;in&nbsp;ssmp:
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                224&nbsp;&nbsp;
+                221&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                225&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`load;run;stop`&nbsp;--&gt;&nbsp;`[load,&nbsp;run,&nbsp;stop]`
+                222&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`load;run;stop`&nbsp;--&gt;&nbsp;`[load,&nbsp;run,&nbsp;stop]`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                226&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`load;2:run,stop`&nbsp;--&gt;&nbsp;&nbsp;`[load,&nbsp;run,&nbsp;stop,&nbsp;run,&nbsp;stop]`&quot;
+                223&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`load;2:run,stop`&nbsp;--&gt;&nbsp;&nbsp;`[load,&nbsp;run,&nbsp;stop,&nbsp;run,&nbsp;stop]`&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                227&nbsp;&nbsp;&nbsp;&nbsp;[s]
+                224&nbsp;&nbsp;&nbsp;&nbsp;[s]
                 </span><br/>
 <span class="partial" title="3 out of 5 forms covered">
-                228&nbsp;&nbsp;&nbsp;&nbsp;(cond
+                225&nbsp;&nbsp;&nbsp;&nbsp;(cond
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                229&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nil?&nbsp;s)&nbsp;:stop
+                226&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nil?&nbsp;s)&nbsp;:stop
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                230&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:default&nbsp;(first&nbsp;(string&#x2F;split&nbsp;s&nbsp;#&quot;,&quot;))))
+                227&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:default&nbsp;(first&nbsp;(string&#x2F;split&nbsp;s&nbsp;#&quot;,&quot;))))
                 </span><br/>
  </body>
 </html>
