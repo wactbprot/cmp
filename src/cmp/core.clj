@@ -101,7 +101,22 @@
    (c-info (deref current-mp) i))
   ([mp-id i]
    (pp/print-table [(c-data mp-id i)])))
-   
+
+(defn c-definition
+  "Returns info about the definitions of container `i` of the mpd with
+  the id `mp-id`."
+  ([]
+   (c-definition (deref current-mp) 0))
+  ([i]
+   (c-definition (deref current-mp) i))
+  ([mp-id i]
+   (let [ks (sort (st/key->keys (ku/cont-defin-key @current-mp 2)))]
+     (pp/print-table
+      (mapv (fn [k] {:TaskName (:TaskName (st/key->val k))
+                     :no-idx    (ku/key->no-idx  k)
+                     :seq-idx   (ku/key->seq-idx k)
+                     :par-idx   (ku/key->par-idx k)}) ks)))))
+  
 (defn cs-info
   "Returns info about the containers of the mpd with the id `mp-id`."
   ([]
@@ -111,7 +126,7 @@
     (mapv
      (fn [k] (c-data mp-id (ku/key->no-idx k)))
      (sort (st/pat->keys (ku/cont-title-key mp-id "*")))))))
-
+ 
   
 ;;------------------------------
 ;; listeners 

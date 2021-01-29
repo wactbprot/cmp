@@ -12,7 +12,7 @@
                       :url  "http://localhost:9200/"
                       :els-version  :v7.x
                       :publish-delay 1000
-                      :data-stream  "devhub-stream"
+                      :data-stream  "vl-log-stream"
                       :name-mangling false
                       }]}
  ;; long term memory: couchdb
@@ -31,10 +31,13 @@
              "resources/task-modbus-get-valve.edn"
              "resources/task-modbus-get-switch.edn"]
  :edn-mpds ["resources/mpd-ref.edn"]
- ;; a task schould at least take 10ms
- ;; in order to give the keyspace notification
- ;; a chance to find the next to start
+ ;; a task should at least take 10ms
+ ;; in order to give the keyspace notification listener
+ ;; a chance to find the `next-to-start` task
  :min-task-period 500
+ ;; If the stop-if flag is false the next attempt is triggert
+ ;; by writing a `:ready`-state. Delaying this relaxes the system  
+ :stop-if-delay 1000
  :json-post-header {:content-type :json
                     :socket-timeout 600000 ;; 10 min
                     :connection-timeout 600000

@@ -34,3 +34,5 @@
 (defn dev-hub-url [c] (:dev-hub-url c))
 
 (defn anselm-url [c] (:anselm-url c))
+
+(defn stop-if-delay [c] (:stop-if-delay c))

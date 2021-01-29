@@ -21,7 +21,7 @@
             [cmp.worker.wait           :refer [wait!]]
             [cmp.worker.write-exchange :refer [write-exchange!]]))
 
-(def mtp (cfg/min-task-period (cfg/config)))
+
 
 ;;------------------------------
 ;; task 
@@ -85,14 +85,16 @@
 ;; check-in
 ;;------------------------------
 (defn check
-  "Gets the task. Handles the `:RunIf` and `:StopIf` cases.
+  "Gets the task. Handles the `:RunIf` case. The `:StopIf` case is
+  handeled by the workers after processing the task.
 
-  Example:
-  ```clojure
+  Example: ```clojure
   (dispatch {:Action \"wait\" :WaitTime 1000 :StateKey \"testpath\"})
   ```"  
   [x]
   (let [task (if (string? x) (get-task x) x)]
     (if (exch/run-if task)
       (dispatch task)
-      (st/set-state! (:StateKey task) :ready "state set by run-if"))))
+      (do
+        (Thread/sleep (cfg/stop-if-delay (cfg/config)))
+        (st/set-state! (:StateKey task) :ready "state set by run-if")))))
