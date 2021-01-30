@@ -269,7 +269,7 @@
                 088&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                089&nbsp;&nbsp;&nbsp;&nbsp;(map
+                089&nbsp;&nbsp;&nbsp;&nbsp;(mapv
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
                 090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[k]&nbsp;(u&#x2F;key-at-level&nbsp;k&nbsp;2))
@@ -287,115 +287,151 @@
                 094&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                095&nbsp;&nbsp;;;&nbsp;store&nbsp;with&nbsp;doc-lock
+                095&nbsp;&nbsp;;;&nbsp;renew
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 096&nbsp;&nbsp;;;------------------------------
                 </span><br/>
-<span class="covered" title="2 out of 2 forms covered">
-                097&nbsp;&nbsp;(def&nbsp;doc-lock&nbsp;(Object.))
-                </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                098&nbsp;&nbsp;(defn&nbsp;store!
+                097&nbsp;&nbsp;(defn&nbsp;renew
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                099&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;the&nbsp;`results`&nbsp;vector&nbsp;under&nbsp;the&nbsp;`doc-path`&nbsp;of&nbsp;every&nbsp;document
+                098&nbsp;&nbsp;&nbsp;&nbsp;&quot;Renew&nbsp;the&nbsp;id&nbsp;interface&nbsp;with&nbsp;the&nbsp;give&nbsp;ids-vector&nbsp;`v`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                100&nbsp;&nbsp;&nbsp;&nbsp;loaded&nbsp;at&nbsp;the&nbsp;given&nbsp;`mp-id`.&nbsp;Checks&nbsp;if&nbsp;the&nbsp;version&nbsp;of&nbsp;each&nbsp;document
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                101&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;`+1`.&nbsp;&nbsp;Returns&nbsp;`{:ok&nbsp;true}`&nbsp;or&nbsp;`{:error&nbsp;&lt;problem&gt;}`.
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                102&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                103&nbsp;&nbsp;&nbsp;&nbsp;Example:
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                104&nbsp;&nbsp;&nbsp;&nbsp;```clojure
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                105&nbsp;&nbsp;&nbsp;&nbsp;(def&nbsp;results&nbsp;[{:Type&nbsp;\&quot;cmp-test\&quot;&nbsp;:Unit&nbsp;\&quot;Pa\&quot;&nbsp;:Value&nbsp;1}
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                106&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:Type&nbsp;\&quot;cmp-test2\&quot;&nbsp;:Unit&nbsp;\&quot;Pa\&quot;&nbsp;:Value&nbsp;2}])
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                107&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                108&nbsp;&nbsp;&nbsp;&nbsp;(def&nbsp;doc-path&nbsp;&nbsp;\&quot;Calibration.Measurement.Values.Pressure\&quot;)&nbsp;&nbsp;
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                109&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                110&nbsp;&nbsp;&nbsp;&nbsp;(store!&nbsp;\&quot;ref\&quot;&nbsp;results&nbsp;doc-path)
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                111&nbsp;&nbsp;&nbsp;&nbsp;```&quot;&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                112&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;results&nbsp;doc-path]
-                </span><br/>
-<span class="not-covered" title="0 out of 13 forms covered">
-                113&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(string?&nbsp;mp-id)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                114&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(vector?&nbsp;results)
-                </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
-                115&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(string?&nbsp;doc-path))
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                116&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ids&nbsp;(ids&nbsp;mp-id)]
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                117&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;ids)
+                099&nbsp;&nbsp;&nbsp;&nbsp;[mpd-id&nbsp;v]
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                118&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;no&nbsp;documents&nbsp;loaded&quot;}
+                100&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(vector?&nbsp;v)
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                119&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[res&nbsp;(map
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                120&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[id]
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                121&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(locking&nbsp;doc-lock
-                </span><br/>
-<span class="not-covered" title="0 out of 14 forms covered">
-                122&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::store!&nbsp;:message&nbsp;&quot;lock&nbsp;doc&quot;&nbsp;:doc-id&nbsp;id)
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[in-doc&nbsp;&nbsp;(lt&#x2F;id-&gt;doc&nbsp;id)
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                124&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(insert&#x2F;store-results&nbsp;in-doc&nbsp;results&nbsp;doc-path)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                125&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-doc&nbsp;(lt&#x2F;put-doc&nbsp;doc)]
-                </span><br/>
-<span class="not-covered" title="0 out of 14 forms covered">
-                126&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::store!&nbsp;:message&nbsp;&quot;release&nbsp;lock&quot;&nbsp;:doc-id&nbsp;id))))
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                127&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ids)]
+<span class="not-covered" title="0 out of 12 forms covered">
+                101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::refresh&nbsp;:message&nbsp;&quot;will&nbsp;refresh&nbsp;ids&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 10 forms covered">
-                128&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[n-err&nbsp;(:error&nbsp;(frequencies&nbsp;res))]
+                102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;(fn&nbsp;[id]&nbsp;(rm&nbsp;mpd-id&nbsp;id))&nbsp;(ids&nbsp;mpd-id))
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                129&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:error&nbsp;&quot;got&nbsp;&quot;&nbsp;n-err&nbsp;&quot;&nbsp;during&nbsp;attempt&nbsp;to&nbsp;store&nbsp;results&quot;}
+<span class="not-covered" title="0 out of 8 forms covered">
+                103&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;(fn&nbsp;[id]&nbsp;(add&nbsp;mpd-id&nbsp;id))&nbsp;v))
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                130&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true}))))
+                104&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true})
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                105&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                106&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                107&nbsp;&nbsp;;;&nbsp;store&nbsp;with&nbsp;doc-lock
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                108&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="2 out of 2 forms covered">
+                109&nbsp;&nbsp;(def&nbsp;doc-lock&nbsp;(Object.))
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                110&nbsp;&nbsp;(defn&nbsp;store!
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                111&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;the&nbsp;`results`&nbsp;vector&nbsp;under&nbsp;the&nbsp;`doc-path`&nbsp;of&nbsp;every&nbsp;document
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                112&nbsp;&nbsp;&nbsp;&nbsp;loaded&nbsp;at&nbsp;the&nbsp;given&nbsp;`mp-id`.&nbsp;Checks&nbsp;if&nbsp;the&nbsp;version&nbsp;of&nbsp;each&nbsp;document
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                113&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;`+1`.&nbsp;&nbsp;Returns&nbsp;`{:ok&nbsp;true}`&nbsp;or&nbsp;`{:error&nbsp;&lt;problem&gt;}`.
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                114&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                115&nbsp;&nbsp;&nbsp;&nbsp;Example:
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                116&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                117&nbsp;&nbsp;&nbsp;&nbsp;(def&nbsp;results&nbsp;[{:Type&nbsp;\&quot;cmp-test\&quot;&nbsp;:Unit&nbsp;\&quot;Pa\&quot;&nbsp;:Value&nbsp;1}
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                118&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:Type&nbsp;\&quot;cmp-test2\&quot;&nbsp;:Unit&nbsp;\&quot;Pa\&quot;&nbsp;:Value&nbsp;2}])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                119&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                120&nbsp;&nbsp;&nbsp;&nbsp;(def&nbsp;doc-path&nbsp;&nbsp;\&quot;Calibration.Measurement.Values.Pressure\&quot;)&nbsp;&nbsp;
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                121&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                122&nbsp;&nbsp;&nbsp;&nbsp;(store!&nbsp;\&quot;ref\&quot;&nbsp;results&nbsp;doc-path)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                123&nbsp;&nbsp;&nbsp;&nbsp;```&quot;&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                124&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;results&nbsp;doc-path]
+                </span><br/>
+<span class="not-covered" title="0 out of 13 forms covered">
+                125&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;(string?&nbsp;mp-id)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                126&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(vector?&nbsp;results)
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                127&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(string?&nbsp;doc-path))
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                128&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ids&nbsp;(ids&nbsp;mp-id)]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                129&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;ids)
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                131&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;no&nbsp;doc-path&nbsp;or&nbsp;no&nbsp;mp-id&nbsp;or&nbsp;no&nbsp;results&quot;}))
+                130&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;no&nbsp;documents&nbsp;loaded&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                131&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[res&nbsp;(map
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                132&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[id]
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                133&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(locking&nbsp;doc-lock
+                </span><br/>
+<span class="not-covered" title="0 out of 14 forms covered">
+                134&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::store!&nbsp;:message&nbsp;&quot;lock&nbsp;doc&quot;&nbsp;:doc-id&nbsp;id)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                135&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[in-doc&nbsp;&nbsp;(lt&#x2F;id-&gt;doc&nbsp;id)
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                136&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(insert&#x2F;store-results&nbsp;in-doc&nbsp;results&nbsp;doc-path)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                137&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out-doc&nbsp;(lt&#x2F;put-doc&nbsp;doc)]
+                </span><br/>
+<span class="not-covered" title="0 out of 14 forms covered">
+                138&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::store!&nbsp;:message&nbsp;&quot;release&nbsp;lock&quot;&nbsp;:doc-id&nbsp;id))))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                139&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ids)]
+                </span><br/>
+<span class="not-covered" title="0 out of 10 forms covered">
+                140&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[n-err&nbsp;(:error&nbsp;(frequencies&nbsp;res))]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                141&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:error&nbsp;&quot;got&nbsp;&quot;&nbsp;n-err&nbsp;&quot;&nbsp;during&nbsp;attempt&nbsp;to&nbsp;store&nbsp;results&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                142&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true}))))
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                143&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;no&nbsp;doc-path&nbsp;or&nbsp;no&nbsp;mp-id&nbsp;or&nbsp;no&nbsp;results&quot;}))
                 </span><br/>
  </body>
 </html>
