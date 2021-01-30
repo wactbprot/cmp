@@ -14,11 +14,11 @@
 (dir cmp.core)
 
 ;; =>
-;;`c-info`
+;;`c-data`
 ;;`c-mon`
 ;;`c-reset`
 ;;`c-run`
-;;`c-status`
+;;`c-stat`
 ;;`c-stop`
 ;;`c-suspend`
 ;;`check`
@@ -27,7 +27,7 @@
 
 ;; Use `(doc c-info)` or `(doc c-mon)` etc to explore the functions
 
-(doc c-info)
+(doc c-data)
 
 ;; =>
 ;; >`cmp.core/c-info`
@@ -137,25 +137,6 @@
  "waits 1 and 2s\n"
  "waits 3 and 4s\n"
  "waits 4 and 5s\n")
-;; or use:
-(cs-info)
-;; =>
-"
-| :c-no-idx |                   :c-title |                                         :c-descr | :c-ctrl |
-|-----------+----------------------------+--------------------------------------------------+---------|
-|       000 |        multiple wait tasks | Container just waits parallel and sequential.... |   ready |
-|       001 | container with single task |                     Container with one task only |   ready |
-|       002 |  choose definition, run it |                         Show case select feature |   ready |
-|       003 |          run 1st container |              Run a mpd (first container of ref). |   ready |
-|       004 |            modbus get test |          Test modbus action with prescript (get) |    void |
-|       005 |            modbus set test |          Test modbus action with prescript (set) |    void |
-|       006 |  TCP test with result set. |                                 Test TCP action. |    void |
-|       007 |             read exchange. |                       Test read_exchange action. |   ready |
-|       008 |                    anselm. |                             Test anselm request. |    void |
-|       009 |                date & time | Test date and time and the ability to paralle... |    void |
-|       010 |                    message |                                    Message test. |    void |
-"
-;; for a nice formated table.
 
 ;;## Set the definition to work on
 ;; Most api functions in the `cmp.core` namespace
@@ -165,10 +146,10 @@
 (workon! "ref")
 
 ;; the command
-(c-info "ref" 1)
+(c-data "ref" 1)
 
 ;; is the same as
-(c-info 1)
+(c-data 1)
 
 ;; `(workon! "ref")` stores the `mp-id` argument in
 ;; an `atom` called `current-mp-id`
@@ -179,7 +160,7 @@
 ;; With a defined `current-mp-id`, the  `mp-id` argument
 ;; may be skiped for most of the `cmp.core` functions.
 
-(m-info)
+(m-data)
 
 ;;=>
 {:mp-id "ref"
@@ -212,44 +193,6 @@
  :Values {:on "SDG1, 1%CR", :off "SDG1, 0%CR"},
  :Defaults {:%host "e75437", :%port "5302", :%CR "\r"}}
 
-;;
-;;`(t-table)` delivers a overview table of all tasks
-;; This table may be filtered:
-
-(t-table)
-
-"
-| :Action |                         :TaskName |                                :stm-key |
-|---------+-----------------------------------+-----------------------------------------|
-|     TCP |                 BO_CE3-device_ini |                 tasks@BO_CE3-device_ini |
-|     TCP |                   BO_CE3-get_info |                   tasks@BO_CE3-get_info |
-|     TCP |           Corvus_1-check_position |           tasks@Corvus_1-check_position |
-|     TCP |                     Corvus_1-exec |                     tasks@Corvus_1-exec |
-|     TCP |                 Corvus_1-is_ready |                 tasks@Corvus_1-is_ready |
-|     TCP |                Corvus_2-close_dvg |                tasks@Corvus_2-close_dvg |
-|     TCP |           Corvus_2-displacer_exec |           tasks@Corvus_2-displacer_exec |
-|     TCP |       Corvus_2-displacer_position |       tasks@Corvus_2-displacer_position |
-|     TCP |        Corvus_2-displacer_sz_exec |        tasks@Corvus_2-displacer_sz_exec |
-|     TCP |    Corvus_2-displacer_sz_position |    tasks@Corvus_2-displacer_sz_position |
-|     TCP |             Corvus_2-dvg_position |             tasks@Corvus_2-dvg_position |
-|     TCP |                 Corvus_2-is_ready |                 tasks@Corvus_2-is_ready |
-|     TCP |                 Corvus_2-open_dvg |                 tasks@Corvus_2-open_dvg |
-|     TCP |                        DCF77-exec |                        tasks@DCF77-exec |
-...
-"
-
-(t-table :Action "TCP")
-
-"
-|  :Action |               :TaskName |                      :stm-key |
-|----------+-------------------------+-------------------------------|
-| genDbDoc | SE3_state-gen_state_doc | tasks@SE3_state-gen_state_doc |
-"
-
-;;## start mpd
-;;In order to make cmp react on commands, appearing
-;; at the containers ctrl endpoint use
-
 (workon! "ref")
 (m-start)
 
@@ -258,16 +201,6 @@
 ;;Run the first *container* with:
 
 (set-ctrl "ref" 0 "run")
-;;=>
-" OK
-log => INFO [cmp.ctrl:17] - ctrl dispatch call for path:  ref@container@000@ctrl
-log => INFO [cmp.state:323] - register start-next! callback and start-next!
-log => INFO [cmp.st-mem:381] - subscribed to  __keyspace@0*__:ref@container@000@state*
-log => DEBUG [cmp.st-mem:60] - wrote new state:  :working  to:  ref@container@000@state@000@000
-log => DEBUG [cmp.st-mem:60] - wrote new state:  :working  to:  ref@container@000@state@000@001
-log => DEBUG [cmp.state:236] - nop! for:  ref@container@000@ctrl
-...
-"
 
 ;; or:
 (c-run 0)

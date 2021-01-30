@@ -9,7 +9,7 @@
              [cmp.key-utils            :as ku]
              [cmp.lt-mem               :as lt]
              [com.brunobonacci.mulog   :as mu]
-             [clojure.pprint           :as pp]
+             [portal.api               :as p]
              [cmp.st-mem               :as st]
              [cmp.state                :as state]
              [cmp.task                 :as task]
@@ -51,21 +51,20 @@
   "Sets the mpd to work on (see [[current-mp]]).
   
   Example:
-    ```clojure
+  ```clojure
   (workon! 'se3-calib')
   (deref current-mp)
-  ```
-  "
+  ```"
   [mp-id]
   (reset! current-mp mp-id))
 
 ;;------------------------------
 ;; info
 ;;------------------------------
-(defn m-info
+(defn m-data
   "Returns a info map about the mpd with the id `mp-id`."
   ([]
-   (m-info (deref current-mp)))
+   (m-data (deref current-mp)))
   ([mp-id]
    {:mp-id      mp-id
     :mp-descr   (u/short-string (st/key->val (ku/meta-descr-key mp-id)))
@@ -73,13 +72,12 @@
     :mp-ncont   (st/key->val (ku/meta-ncont-key mp-id))
     :mp-ndefins (st/key->val (ku/meta-ndefins-key mp-id))}))
 
-(defn ms-info
+(defn ms-data
   "The pattern `*@meta@name` is used to find all `mp-id`s loaded and
   available at the short term memory."
   []
-  (pp/print-table
-   (mapv (fn [k] (m-info (ku/key->mp-id k)))
-         (st/pat->keys "*@meta@name"))))
+  (mapv (fn [k] (m-data (ku/key->mp-id k)))
+        (st/pat->keys "*@meta@name")))
 
 (defn c-data
   "Returns a map about the `i`th container of the mpd with the id
@@ -92,72 +90,54 @@
    :c-descr  (u/short-string (st/key->val (ku/cont-descr-key mp-id (u/lp i))))
    :c-ctrl   (st/key->val    (ku/cont-ctrl-key mp-id (u/lp i)))}))
 
-(defn c-info
-  "Returns info about the container `i` of the mpd with the id
-  `mp-id`."
-  ([]
-   (c-info (deref current-mp) 0))
+
+;;------------------------------
+;; status (stat)
+;;------------------------------
+(defn c-stat
+  "Returns the **c**ontainer status.  Returns the state map for the `i`
+  container."
   ([i]
-   (c-info (deref current-mp) i))
+   (c-stat (deref current-mp) i))
   ([mp-id i]
-   (pp/print-table [(c-data mp-id i)])))
-   
-(defn cs-info
+   (state/cont-status mp-id (u/lp i))))
+
+(defn n-stat
+  "Returns defi**n**itions status. Returns the `state map` for the `i`
+  definitions structure."
+  ([i]
+   (n-stat (deref current-mp) i))
+  ([mp-id i]
+   (state/defins-status mp-id (u/lp i))))
+
+(defn cs-data
   "Returns info about the containers of the mpd with the id `mp-id`."
   ([]
-   (cs-info (deref current-mp)))
+   (cs-data (deref current-mp)))
   ([mp-id]
-   (pp/print-table
-    (mapv
-     (fn [k] (c-data mp-id (ku/key->no-idx k)))
-     (sort (st/pat->keys (ku/cont-title-key mp-id "*")))))))
+   (mapv
+    (fn [k] (c-data mp-id (ku/key->no-idx k)))
+    (sort (st/pat->keys (ku/cont-title-key mp-id "*"))))))
 
   
 ;;------------------------------
 ;; listeners 
 ;;------------------------------
-(defn l-info
+(defn l-data
   "Returns a table with the currently registered listener patterns."
   []
-  (pp/print-table
-   (mapv
-    (fn [[k v]]
-      {:key k :val v})
-    (deref st/listeners))))
+  (mapv (fn [[k v]] {:key k :val v}) (deref st/listeners)))
 
 ;;------------------------------
 ;; worker futures 
 ;;------------------------------
-(defn w-info
-  "Returns a table with the currently registered worker futures."
+(defn w-data
+  "Returns data about the currently registered worker futures."
   ([]
-   (w-info false))
+   (w-data false))
   ([deref?]
-   (pp/print-table
-    (mapv
-     (fn [[k v]]
-       {:key k :val (if (nil? (if deref? (deref v) v)) "ok" v)})
-     (deref w/future-reg)))))
+   (mapv (fn [[k v]] {:key k :val (if (if deref? (deref v) v) "ok" v)}) (deref w/future-reg))))
   
-;;------------------------------
-;; status (stat)
-;;------------------------------
-(defn c-status
-  "Returns the **c**ontainer status.  Returns the state map for the `i`
-  container."
-  ([i]
-   (c-status (deref current-mp) i))
-  ([mp-id i]
-   (pp/print-table (state/cont-status mp-id (u/lp i)))))
-
-(defn n-status
-  "Returns defi**n**itions status. Returns the `state map` for the `i`
-  definitions structure."
-  ([i]
-   (n-status (deref current-mp) i))
-  ([mp-id i]
-   (pp/print-table (state/defins-status mp-id (u/lp i)))))
-
 ;;------------------------------
 ;; start observing mp
 ;;------------------------------
@@ -327,39 +307,38 @@
   []
   (build/store-tasks (lt/all-tasks)))
 
-(defn t-table
-  "Prints a table of **assembled tasks** stored in **short term
+(defn t-data
+  "Returns a vector of **assembled tasks** stored in **short term
   memory**. If a `kw` and `val` are given it is used as a filter
 
   Example:
   ```clojure
-  (t-table)
+  (t-data)
   ;; same as
-  (t-table :Action :all)
+  (t-data :Action :all)
   ;;
-  (t-table :Action \"TCP\")
+  (t-data :Action \"TCP\")
   ;;
-  (t-table :Port \"23\" \"ref\")
+  (t-data :Port \"23\" \"ref\")
   ```
   . "
   ([]
-   (t-table  :Action :all "core" "test" 0 0 0))
+   (t-data  :Action :all "core" "test" 0 0 0))
   ([kw v]
-   (t-table  kw v "core" "test" 0 0 0))
+   (t-data  kw v "core" "test" 0 0 0))
   ([kw v mp-id]
-   (t-table  kw v mp-id "test" 0 0 0))
+   (t-data  kw v mp-id "test" 0 0 0))
   ([kw v mp-id struct i j k]
    (let [state-key (u/vec->key [mp-id struct (u/lp i) "state" (u/lp j) (u/lp k)])]
-     (pp/print-table
-      (filter some?
-              (mapv (fn [k]
-                      (let [name      (ku/key->struct k)
-                            meta-task (task/gen-meta-task name)
-                            task      (task/assemble meta-task mp-id state-key)
-                            value     (kw task)]
-                        (if (and value (or (= value v) (= :all v)))
-                          {kw value :TaskName name :stm-key k} )))
-                    (st/key->keys "tasks")))))))
+     (filter some?
+             (mapv (fn [k]
+                     (let [name      (ku/key->struct k)
+                           meta-task (task/gen-meta-task name)
+                           task      (task/assemble meta-task mp-id state-key)
+                           value     (kw task)]
+                       (if (and value (or (= value v) (= :all v)))
+                         {kw value :TaskName name :stm-key k} )))
+                   (st/key->keys "tasks"))))))
 
 
 (defn t-run
@@ -413,7 +392,7 @@
        (st/register! mp-id struct no-idx func (fn [msg]
                                                 (when-let [result-key (st/msg->key msg)]
                                                   (st/de-register! mp-id struct no-idx func)
-                                                  (pp/pprint (st/key->val result-key))))))
+                                                  (st/key->val result-key)))))
      (w/check task))))
 
 (defn t-run-by-key
@@ -518,43 +497,11 @@
 ;;------------------------------
 ;; Exchange table
 ;;------------------------------
-(defn e-table
-  "Pretty prints a key-value table of the `exchange`-interface of the
+(defn e-data
+  "Returns a vector of the `exchange`-interface data of the
   mpd with the id `mp-id`.
-
-  Example output:
-  ```
-  |                                :key |                                            :value |
-  |-------------------------------------+---------------------------------------------------|
-  |          se3-cmp_valves@exchange@V1 |                                         {:Bool 1} |
-  |         se3-cmp_valves@exchange@V10 |                                         {:Bool 1} |
-  |         se3-cmp_valves@exchange@V11 |                                         {:Bool 0} |
-  |         se3-cmp_valves@exchange@V12 |                                         {:Bool 0} |
-  |         se3-cmp_valves@exchange@V13 |                                         {:Bool 1} |
-  |         se3-cmp_valves@exchange@V14 |                                         {:Bool 1} |
-  |         se3-cmp_valves@exchange@V15 |                                         {:Bool 0} |
-  |         se3-cmp_valves@exchange@V16 |                                         {:Bool 0} |
-  |         se3-cmp_valves@exchange@V17 |                                         {:Bool 1} |
-  |         se3-cmp_valves@exchange@V18 |                                         {:Bool 1} |
-  |         se3-cmp_valves@exchange@V19 |                                         {:Bool 0} |
-  |          se3-cmp_valves@exchange@V2 |                                         {:Bool 1} |
-  |         se3-cmp_valves@exchange@V20 |                                         {:Bool 0} |
-  |          se3-cmp_valves@exchange@V3 |                                         {:Bool 1} |
-  |          se3-cmp_valves@exchange@V4 |                                         {:Bool 1} |
-  |          se3-cmp_valves@exchange@V5 |                                         {:Bool 0} |
-  |          se3-cmp_valves@exchange@V6 |                                         {:Bool 1} |
-  |          se3-cmp_valves@exchange@V7 |                                         {:Bool 0} |
-  |          se3-cmp_valves@exchange@V8 |                                         {:Bool 0} |
-  |          se3-cmp_valves@exchange@V9 |                                         {:Bool 1} |
-  | se3-cmp_valves@exchange@Vraw_block1 | [1 0 1 0 1 0 1 0 0 0 1 0 0 0 0 0 0 0 1 0 1 0 0 0] |
-  | se3-cmp_valves@exchange@Vraw_block2 | [0 0 1 0 0 0 0 0 0 0 1 0 1 0 0 0 1 0 1 0 0 0 0 0] |
-  | se3-cmp_valves@exchange@Vraw_block3 | [0 0 1 0 1 0 0 0 1 0 1 0 0 0 0 0 1 1 0 0 0 0 0 0] |
-  | se3-cmp_valves@exchange@Vraw_block4 | [1 0 1 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0] |
-  | se3-cmp_valves@exchange@Vraw_block5 | [1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0] |
-  ```
-  "
+  ```"
   ([]
-   (e-table  (deref current-mp)))
+   (e-data  (deref current-mp)))
   ([mp-id]
-   (pp/print-table
-    (mapv (fn [k] {:key k :value (st/key->val k)}) (st/key->keys (ku/exch-prefix mp-id))))))
+   (mapv (fn [k] {:key k :value (st/key->val k)}) (st/key->keys (ku/exch-prefix mp-id)))))
