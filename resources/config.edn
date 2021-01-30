@@ -43,4 +43,6 @@
  :dev-hub-url "http://localhost:9009"
  ;; :dev-hub-url "http://a73436:55555"
  ;; :dev-hub-url "http://localhost:55555"
- :anselm-url "http://localhost:50005"}
+ ;; :anselm-url "http://localhost:50005"
+ :anselm-url "http://localhost:8009"
+ }

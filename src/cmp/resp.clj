@@ -15,26 +15,30 @@
 
   * Result
   * ToExchange
+  * ids
   * error
-
+  
   It's maybe a good idea to save the respons body to a key associated
   to the state key (done).
   "
   [body task state-key]
-  (mu/log ::dispatch :message "try to write response")
+  (mu/log ::dispatch :message "try to write response" :key state-key )
   (st/set-val! (ku/key->response-key state-key) body)
   (if-let [err (:error body)]
     (st/set-state! state-key :error err)
     (let [to-exch  (:ToExchange body)
-          results  (:Result     body) 
+          results  (:Result     body)
+          ids      (:ids        body)
           doc-path (:DocPath    task)
           mp-id    (:MpName     task)]
-      (let [res-exch  (exch/to!   mp-id to-exch)
+      (let [res-ids   (doc/renew  mp-id ids)
+            res-exch  (exch/to!   mp-id to-exch)
             res-doc   (doc/store! mp-id results doc-path)]
         (cond
           (:error res-exch) (st/set-state! state-key :error "error at exchange")
           (:error res-doc)  (st/set-state! state-key :error "error at document")
           (and
+           (:ok res-ids)
            (:ok res-exch)     
            (:ok res-doc))  (st/set-state! state-key (if (exch/stop-if task) :executed :ready) "exch and doc ok")
           :unexpected      (st/set-state! state-key :error "unexpected response"))))))

@@ -86,10 +86,22 @@
   ;; (cal-2018-ce3-kk-75003_0002)
   ```"
   [mp-id]
-  (map
+  (mapv
    (fn [k] (u/key-at-level k 2))
    (st/key->keys
     (ku/id-prefix mp-id))))
+
+;;------------------------------
+;; renew
+;;------------------------------
+(defn renew
+  "Renew the id interface with the give ids-vector `v`."
+  [mpd-id v]
+  (when (vector? v)
+    (mu/log ::refresh :message "will refresh ids")
+    (mapv (fn [id] (rm mpd-id id)) (ids mpd-id))
+    (mapv (fn [id] (add mpd-id id)) v))
+  {:ok true})
 
 ;;------------------------------
 ;; store with doc-lock
