@@ -82,42 +82,41 @@
 (defn c-data
   "Returns a map about the `i`th container of the mpd with the id
   `mp-id`."
+  ([]
+   (c-data (deref current-mp) 0))
   ([i]
    (c-data (deref current-mp) i))
   ([mp-id i]
-  {:c-no-idx (u/lp i) 
-   :c-title  (st/key->val    (ku/cont-title-key mp-id (u/lp i)))
-   :c-descr  (u/short-string (st/key->val (ku/cont-descr-key mp-id (u/lp i))))
-   :c-ctrl   (st/key->val    (ku/cont-ctrl-key mp-id (u/lp i)))}))
-
-;;------------------------------
-;; status (stat)
-;;------------------------------
-(defn c-stat
-  "Returns the **c**ontainer status.  Returns the state map for the `i`
-  container."
+   (let [idx (u/lp i)]
+     {:c-no-idx idx 
+      :c-title  (st/key->val (ku/cont-title-key mp-id idx))
+      :c-descr  (st/key->val (ku/cont-descr-key mp-id idx))
+      :c-ctrl   (st/key->val (ku/cont-ctrl-key mp-id idx))
+      :c-status (state/cont-status mp-id idx)})))
+  
+(defn n-data
+  "Returns a map about the `i`th defi**n**itions of the mpd with the id
+  `mp-id`."
+  ([]
+   (c-data (deref current-mp) 0))
   ([i]
-   (c-stat (deref current-mp) i))
+   (c-data (deref current-mp) i))
   ([mp-id i]
-   (state/cont-status mp-id (u/lp i))))
-
-(defn n-stat
-  "Returns defi**n**itions status. Returns the `state map` for the `i`
-  definitions structure."
-  ([i]
-   (n-stat (deref current-mp) i))
-  ([mp-id i]
-   (state/defins-status mp-id (u/lp i))))
+   (let [idx (u/lp i)]
+     {:n-no-idx  idx
+      :n-title  (st/key->val (ku/defins-class-key mp-id idx))
+      :n-descr  (st/key->val (ku/defins-descr-key mp-id idx))
+      :n-ctrl   (st/key->val (ku/defins-ctrl-key mp-id idx))
+      :n-status (state/defins-status mp-id idx)})))
 
 (defn cs-data
   "Returns info about the containers of the mpd with the id `mp-id`."
   ([]
    (cs-data (deref current-mp)))
   ([mp-id]
-   (mapv
-    (fn [k] (c-data mp-id (ku/key->no-idx k)))
-    (sort (st/pat->keys (ku/cont-title-key mp-id "*"))))))
-  
+   (mapv (fn [k] (c-data mp-id (ku/key->no-idx k)))
+         (sort (st/pat->keys (ku/cont-title-key mp-id "*"))))))
+
 ;;------------------------------
 ;; listeners 
 ;;------------------------------
@@ -134,8 +133,10 @@
   ([]
    (w-data false))
   ([deref?]
-   (mapv (fn [[k v]] {:key k :val (if (if deref? (deref v) v) "ok" v)}) (deref w/future-reg))))
-  
+   (mapv (fn [[k v]]
+           {:key k :val (if (if deref? (deref v) v) "ok" v)})
+         (deref w/future-reg))))
+
 ;;------------------------------
 ;; start observing mp
 ;;------------------------------
@@ -354,7 +355,7 @@
   ;;  :SdValue 0.0013625169107,
   ;;  :N 10}]}
   ```
-
+  
   Debug:
   ```clojure
   @st/listeners
@@ -485,4 +486,6 @@
   ([]
    (e-data  (deref current-mp)))
   ([mp-id]
-   (mapv (fn [k] {:key k :value (st/key->val k)}) (st/key->keys (ku/exch-prefix mp-id)))))
+   (mapv (fn [k]
+           {:key k :value (st/key->val k)})
+         (st/key->keys (ku/exch-prefix mp-id)))))
