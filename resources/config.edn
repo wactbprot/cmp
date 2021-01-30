@@ -27,9 +27,6 @@
  ;; for order or sorting reasons
  ;; idx, jdx and kdx are padded
  :key-pad-length 3
- :edn-tasks ["resources/task-modbus-set-valve.edn"
-             "resources/task-modbus-get-valve.edn"
-             "resources/task-modbus-get-switch.edn"]
  :edn-mpds ["resources/mpd-ref.edn"]
  ;; a task schould at least take 10ms
  ;; in order to give the keyspace notification

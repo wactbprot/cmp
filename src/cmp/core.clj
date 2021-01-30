@@ -472,24 +472,6 @@
          state-key  (u/vec->key[mp-id struct i "state" j k])
          meta-task  (task/gen-meta-task x)]
      (task/assemble meta-task mp-id state-key))))
- 
-(defn t-build-edn
-  "Stores the `task` slurped from the files configured in
-  `resources/config.edn`.
-
-  Example:
-  ```clojure
-  (t-build-edn)
-  ```"
-  []
-  (run!
-   (fn [uri]
-     (println "try to slurp and build: " uri  )
-       (build/store-task
-        (read-string
-         (slurp uri))))
-     (cfg/edn-tasks (cfg/config))))
-
 
 (defn t-clear
   "Function removes all keys starting with `tasks`."  
@@ -502,15 +484,12 @@
   Example:
   ```clojure
   (t-refresh)
-  ```
-  "
+  ```"
   []
   (println "clear tasks")
   (t-clear)
   (println "build tasks from db")
-  (t-build)
-  (println "build edn tasks")
-  (t-build-edn))
+  (t-build))
 
 ;;------------------------------
 ;; clear mpd
