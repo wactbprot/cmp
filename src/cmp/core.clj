@@ -90,7 +90,6 @@
    :c-descr  (u/short-string (st/key->val (ku/cont-descr-key mp-id (u/lp i))))
    :c-ctrl   (st/key->val    (ku/cont-ctrl-key mp-id (u/lp i)))}))
 
-
 ;;------------------------------
 ;; status (stat)
 ;;------------------------------
@@ -118,7 +117,6 @@
    (mapv
     (fn [k] (c-data mp-id (ku/key->no-idx k)))
     (sort (st/pat->keys (ku/cont-title-key mp-id "*"))))))
-
   
 ;;------------------------------
 ;; listeners 
@@ -189,16 +187,12 @@
   
   ```clojure
   (m-build-edn \"resources/mpd-devhub.edn\")
-  ```
-  "
+  ```"
   []
-  (run!
-   (fn [uri]
-     (println "try to slurp and build: " uri  )
-     (build/store
-      (read-string
-       (slurp uri))))
-   (cfg/edn-mpds (cfg/config))))
+  (run! (fn [uri]
+          (println "try to slurp and build: " uri)
+          (-> uri slurp read-string build/store))
+        (cfg/edn-mpds (cfg/config))))
 
 ;;------------------------------
 ;; documents
@@ -261,7 +255,7 @@
   ([i cmd]
    (set-ctrl (deref current-mp) i cmd))
   ([mp-id i cmd]
-   (st/set-val! (ku/cont-ctrl-key  mp-id (u/lp i)) cmd)))
+   (st/set-val! (ku/cont-ctrl-key mp-id (u/lp i)) cmd)))
 
 (defn c-run
   "Shortcut to push a `run` to the control interface of mp container
@@ -285,16 +279,14 @@
   "Shortcut to push a `reset` to the control interface of mp container
   `i`. The `reset` cmd **don't** de-register the `state` listener so
   that the container starts from the beginning.  **reset is a
-  container restart**
-  "
+  container restart**"
   [i]
   (set-ctrl (deref current-mp) i "reset"))
 
 (defn c-suspend
   "Shortcut to push a `suspend` to the control interface of mp container
   `i`. The `suspend` cmd de-register the `state` listener and leaves
-  the state as it is.
-  "
+  the state as it is."
   [i]
   (set-ctrl (deref current-mp) i "suspend"))
 
@@ -307,7 +299,7 @@
   []
   (build/store-tasks (lt/all-tasks)))
 
-(defn t-data
+(defn ts-data
   "Returns a vector of **assembled tasks** stored in **short term
   memory**. If a `kw` and `val` are given it is used as a filter
 
@@ -320,26 +312,21 @@
   (t-data :Action \"TCP\")
   ;;
   (t-data :Port \"23\" \"ref\")
-  ```
-  . "
+  ```"
   ([]
-   (t-data  :Action :all "core" "test" 0 0 0))
+   (ts-data  :Action :all "core" "test" 0 0 0))
   ([kw v]
-   (t-data  kw v "core" "test" 0 0 0))
+   (ts-data  kw v "core" "test" 0 0 0))
   ([kw v mp-id]
-   (t-data  kw v mp-id "test" 0 0 0))
+   (ts-data  kw v mp-id "test" 0 0 0))
   ([kw v mp-id struct i j k]
    (let [state-key (u/vec->key [mp-id struct (u/lp i) "state" (u/lp j) (u/lp k)])]
-     (filter some?
-             (mapv (fn [k]
-                     (let [name      (ku/key->struct k)
-                           meta-task (task/gen-meta-task name)
-                           task      (task/assemble meta-task mp-id state-key)
-                           value     (kw task)]
-                       (if (and value (or (= value v) (= :all v)))
-                         {kw value :TaskName name :stm-key k} )))
-                   (st/key->keys "tasks"))))))
-
+     (filter some? (mapv (fn [k]
+                           (let [m (task/assemble (task/gen-meta-task (ku/key->struct k)) mp-id state-key)
+                                 x (kw m)]
+                             (when (and x (or (= x v) (= :all v)))
+                               (assoc m :stm-key k))))
+                         (st/key->keys (ku/task-prefix)))))))
 
 (defn t-run
   "Runs the task with the given name (from stm).
@@ -372,8 +359,7 @@
   ```clojure
   @st/listeners
   (st/de-register! \"core\" \"test\" 0 \"response\")
-  ```
-  "
+  ```"
   ([t]
    (t-run t "core" "test" 0 0 0))
   ([t mp-id]
@@ -410,8 +396,7 @@
   Example:
   ```clojure
   (t-run-by-key \"se3-cmp_state@container@006@state@000@000\")
-  ``` 
-  "
+  ```"
   [k]
   (let [mp-id     (ku/key->mp-id   k)
         struct    (ku/key->struct  k)
@@ -427,7 +412,7 @@
 (defn t-raw
   "Shows the raw task as stored at st-memory" 
   [s]
-  (st/key->val (u/vec->key ["tasks" s])))
+  (st/key->val (ku/task-key s)))
 
 (defn t-assemble
   "Assembles the task with the given `x` (`TaskName` or `{:TaskName
@@ -438,24 +423,20 @@
   ```clojure
   (t-assemble {:TaskName \"Common-wait\"
            :Replace {\"%waittime\" 3000}})
-  ```
-  "
+  ```"
   ([x]
    (t-assemble x "core" "test" 0 0 0))
   ([x mp-id]
    (t-assemble x mp-id "test" 0 0 0))
   ([x mp-id struct i j k]
-   (let [i          (u/lp i)
-         j          (u/lp j)
-         k          (u/lp k)
-         state-key  (u/vec->key[mp-id struct i "state" j k])
+   (let [state-key  (u/vec->key[mp-id struct (u/lp i) "state" (u/lp j) (u/lp k)])
          meta-task  (task/gen-meta-task x)]
      (task/assemble meta-task mp-id state-key))))
 
 (defn t-clear
   "Function removes all keys starting with `tasks`."  
   []
-  (st/clear! "tasks"))
+  (st/clear! (ku/task-prefix)))
 
 (defn t-refresh
   "Refreshs the `tasks` endpoint.
