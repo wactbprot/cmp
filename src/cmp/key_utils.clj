@@ -7,21 +7,22 @@
 ;;------------------------------
 ;; key arithmetic
 ;;------------------------------
-
+;;------------------------------
 ;; key at position 0
+;;------------------------------
 (defn key->mp-id
   "Returns the name of the key space for the given key.
 
   May be:
   * `tasks`
-  * `<mp-id>`
-
-  "
+  * `<mp-id>`"
   [k]
   (when (and (string? k) (not (empty? k)))
     (nth (string/split k u/re-sep) 0 nil)))
 
+;;------------------------------
 ;; key at position 1
+;;------------------------------
 (defn key->struct
   "Returns the name of the `struct`ure for the given key.
   The structure is the name of the key at the second
@@ -37,14 +38,18 @@
   [k]
   (when (string? k) (nth (string/split k u/re-sep) 1 nil)))
 
+;;------------------------------
 ;; key at position 2
+;;------------------------------
 (defn key->no-idx
   "Returns the value of the key corresponding to the given key
   `container` or `definitions` index."
   [k]
   (when (string? k) (nth (string/split k u/re-sep) 2 nil)))
 
+;;------------------------------
 ;; key at position 3
+;;------------------------------
 (defn key->func
   "Returns the name of the `func`tion for the given key.
   Possible values are:
@@ -56,12 +61,13 @@
   * `elem`
   * `decr`
   * `title`
-  * `definition`
-  "
+  * `definition`"
   [k]
   (when (string? k) (nth (string/split k u/re-sep) 3 nil)))
 
+;;------------------------------
 ;; key at position 4
+;;------------------------------
 (defn key->seq-idx
   "Returns an integer corresponding to the givens key sequential index."
   [k]
@@ -73,7 +79,9 @@
   [k]
   (key->seq-idx k))
 
+;;------------------------------
 ;; key at position 5
+;;------------------------------
 (defn key->par-idx
   "Returns an integer corresponding to the givens key parallel index."
   [k]
@@ -107,13 +115,9 @@
 (defn info-map->definition-key
   "Converts a `state-map` into the related `definition` key."
   [m]
-  (when (map? m) (u/vec->key [(:mp-id m)
-                              (:struct m)
-                              (:no-idx m)
-                              "definition"
-                              (:seq-idx m)
-                              (:par-idx m)])))
- 
+  (when (map? m)
+    (u/vec->key [(:mp-id m) (:struct m) (:no-idx m) "definition" (:seq-idx m) (:par-idx m)])))
+
 (defn seq-idx->all-par
   "Returns a vector of [[info-maps]] with all `par` steps for a given
   `i`.
@@ -140,8 +144,7 @@
   ```clojure
   (key->response-key \"ref@container@0@state@0@0\")
   ;; devs@container@0@response@0@0
-  ```
-  "
+  ```"
   [k]
   (u/replace-key-at-level 3 k "response"))
 
@@ -153,11 +156,9 @@
   ```clojure
   (key->response-key \"ref@container@0@state@0@0\")
   ;; devs@container@0@response@0@0
-  ```
-  "
+  ```"
   [k]
   (u/replace-key-at-level 3 k "request"))
-
 
 ;;------------------------------
 ;; message
@@ -165,11 +166,8 @@
 (defn key->message-path
   "Returns the `message` path."
   [k]
-  (u/vec->key [(key->mp-id k)
-               (key->struct k)
-               (key->no-idx k)
-               "message"]))
-
+  (when (string? k)
+    (u/vec->key [(key->mp-id k) (key->struct k) (key->no-idx k) "message"])))
 
 ;;------------------------------
 ;; ctrl-key
@@ -187,57 +185,34 @@
     ;; \"wait@container@0@ctrl\"
   ```" 
   [k]
-  (when (string? k) (u/vec->key [(key->mp-id k)
-                                 (key->struct k)
-                                 (key->no-idx k)
-                                 "ctrl"])))
+  (when (string? k)
+    (u/vec->key [(key->mp-id k) (key->struct k) (key->no-idx k) "ctrl"])))
 
 (defn info-map->ctrl-key
   "Converts a `state-map` into the related `ctrl` key."
   [m]
-  (when (map? m) (u/vec->key [(:mp-id m)
-                              (:struct m)
-                              (:no-idx m)
-                              "ctrl"])))
-
+  (when (map? m)
+    (u/vec->key [(:mp-id m) (:struct m) (:no-idx m) "ctrl"])))
 
 ;;------------------------------
 ;; exchange
 ;;------------------------------
-(defn exch-prefix
-  "Returns the `exchange` prefix."
-  [mp-id]
-  (when (string? mp-id) (u/vec->key [mp-id "exchange"])))
+(defn exch-prefix [mp-id] (when (string? mp-id) (u/vec->key [mp-id "exchange"])))
 
-(defn exch-key
-  "Returns the `exchange` path (key)."
-  [mp-id s]
-  (u/vec->key [(exch-prefix mp-id) s]))
-
+(defn exch-key   [mp-id s] (u/vec->key [(exch-prefix mp-id) s]))
 
 ;;------------------------------
 ;; container path
 ;;------------------------------
-(defn cont-prefix
-  "Returns the `container` prefix."
-  [mp-id]
-  (u/vec->key [mp-id "container"]))
+(defn cont-prefix    [mp-id] (u/vec->key [mp-id "container"]))
 
-(defn cont-title-key
-  [mp-id i]
-  (u/vec->key [(cont-prefix mp-id) (u/lp i)  "title"]))
+(defn cont-title-key [mp-id i] (u/vec->key [(cont-prefix mp-id) (u/lp i)  "title"]))
 
-(defn cont-descr-key
-  [mp-id i]
-  (u/vec->key [(cont-prefix mp-id) (u/lp i)  "descr"]))
+(defn cont-descr-key [mp-id i] (u/vec->key [(cont-prefix mp-id) (u/lp i)  "descr"]))
 
-(defn cont-ctrl-key
-  [mp-id i]
-  (u/vec->key [(cont-prefix mp-id) (u/lp i)  "ctrl"]))
+(defn cont-ctrl-key  [mp-id i] (u/vec->key [(cont-prefix mp-id) (u/lp i)  "ctrl"]))
 
-(defn cont-elem-key
-  [mp-id i]
-  (u/vec->key [(cont-prefix mp-id) (u/lp i)  "elem"]))
+(defn cont-elem-key  [mp-id i] (u/vec->key [(cont-prefix mp-id) (u/lp i)  "elem"]))
 
 (defn cont-defin-key
   ([mp-id i]
@@ -255,10 +230,7 @@
 ;;------------------------------
 ;; definitions path
 ;;------------------------------
-(defn defins-prefix
-  "Returns the `definitions` prefix."
-  [mp-id]
-  (u/vec->key [mp-id "definitions"]))
+(defn defins-prefix [mp-id] (u/vec->key [mp-id "definitions"]))
 
 (defn defins-defin-key
   ([mp-id i]
@@ -278,64 +250,38 @@
   ([mp-id i j]
   (u/vec->key [(defins-prefix mp-id) (u/lp i) "cond" (u/lp j)])))
 
-(defn defins-ctrl-key
-  [mp-id i]
-  (u/vec->key [(defins-prefix mp-id) (u/lp i) "ctrl"]))
+(defn defins-ctrl-key  [mp-id i] (u/vec->key [(defins-prefix mp-id) (u/lp i) "ctrl"]))
 
-(defn defins-descr-key
-  [mp-id i]
-  (u/vec->key [(defins-prefix mp-id) (u/lp i) "descr"]))
+(defn defins-descr-key [mp-id i] (u/vec->key [(defins-prefix mp-id) (u/lp i) "descr"]))
 
-(defn defins-class-key
-  [mp-id i]
-  (u/vec->key [(defins-prefix mp-id) (u/lp i) "class"]))
+(defn defins-class-key [mp-id i] (u/vec->key [(defins-prefix mp-id) (u/lp i) "class"]))
 
 
 ;;------------------------------
 ;; id key
 ;;------------------------------
-(defn id-prefix
-  "Returns the `id` prefix."
-  [mp-id]
-  (u/vec->key [mp-id "id"]))
+(defn id-prefix [mp-id] (u/vec->key [mp-id "id"]))
 
-(defn id-key
-  "Returns the `id` key."
-  [mp-id id]
-  (u/vec->key [(id-prefix mp-id) id]))
-
+(defn id-key [mp-id id] (u/vec->key [(id-prefix mp-id) id]))
 
 ;;------------------------------
 ;; meta path
 ;;------------------------------
-(defn meta-prefix
-  "Returns the `meta` prefix."
-  [mp-id]
-  (u/vec->key [mp-id "meta"]))
+(defn meta-prefix      [mp-id] (u/vec->key [mp-id "meta"]))
 
-(defn meta-std-key
-  [mp-id]
-  (u/vec->key [(meta-prefix mp-id) "std"]))
+(defn meta-std-key     [mp-id] (u/vec->key [(meta-prefix mp-id) "std"]))
 
-(defn meta-name-key
-  [mp-id]
-  (u/vec->key [(meta-prefix mp-id) "name"]))
+(defn meta-name-key    [mp-id] (u/vec->key [(meta-prefix mp-id) "name"]))
 
-(defn meta-descr-key
-  [mp-id]
-  (u/vec->key [(meta-prefix mp-id) "descr"]))
+(defn meta-descr-key   [mp-id] (u/vec->key [(meta-prefix mp-id) "descr"]))
 
-(defn meta-ncont-key
-  [mp-id]
-  (u/vec->key [(meta-prefix mp-id) "ncont"]))
+(defn meta-ncont-key   [mp-id] (u/vec->key [(meta-prefix mp-id) "ncont"]))
 
-(defn meta-ndefins-key
-  [mp-id]
-  (u/vec->key [(meta-prefix mp-id) "ndefins"]))
+(defn meta-ndefins-key [mp-id] (u/vec->key [(meta-prefix mp-id) "ndefins"]))
 
 ;;------------------------------
 ;; task
 ;;------------------------------
-(defn task-key
-  [task-name]
-  (u/vec->key ["tasks" task-name]))
+(defn task-prefix [] "tasks")
+
+(defn task-key [task-name] (u/vec->key ["tasks" task-name]))
