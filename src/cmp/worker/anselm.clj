@@ -31,15 +31,14 @@
   :RequestPath \"dut_max\"})
   ```"
   [task]
-  (let [{value       :Value
-         state-key   :StateKey} task]
+  (let [{value :Value state-key :StateKey} task]
     (st/set-state! state-key :working)
     (if-not value
       (try ; get
         (resp/check (http/get (url task)) task state-key)
         (catch Exception e
-          (st/set-state! state-key :error (str "get request to url: " url " failed"))))
+          (st/set-state! state-key :error "get request failed")))
       (try ; post
         (resp/check (http/post (url task) (req task)) task state-key)
         (catch Exception e
-          (st/set-state! state-key :error "post request to url: " url " failed"))))))
+          (st/set-state! state-key :error "post request to failed"))))))

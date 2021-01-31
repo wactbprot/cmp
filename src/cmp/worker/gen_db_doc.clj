@@ -38,9 +38,7 @@
   ;; :StateKey \"core@test@0@state@0@0\"}
   ```"
   [task]
-  (let [{state-key :StateKey
-         doc       :Value
-         mp-id     :MpName} task]
+  (let [{state-key :StateKey doc :Value mp-id :MpName} task]
     (st/set-state! state-key :working)
     (let [doc-id (:_id doc)
           url    (gen-url doc-id)
