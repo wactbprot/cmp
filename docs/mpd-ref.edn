@@ -78,47 +78,13 @@
     [[{:TaskName "Common-run_mp",
        :Replace {:%conttitle "multiple wait tasks"
                  :%mpdef "ref" }}]]}
-   {:Description "Test modbus action with prescript (get)"
-    :Ctrl "void"
-    :Title "modbus get test"
-    :Element ["*"]
-    :Definition [
-                 [{:TaskName "VS_NEW_SE3-get_valve_pos",
-                   :Replace {:%valve "V1"}}]
-                 [{:TaskName "VS_NEW_SE3-get_valve_pos",
-                   :Replace {:%valve "V2"}}]]
-    }
-   {:Description "Test modbus action with prescript (set)"
-    :Ctrl "void"
-    :Title "modbus set test"
-    :Element ["*"]
-    :Definition [
-                 [{:TaskName "VS_NEW_SE3-set_valve_pos",
-                   :Replace {:%valve "V1",
-                             :%should "close"}}]
-                 [{:TaskName "Common-wait"
-                   :Replace {:%waittime 3000}}]
-                 [{:TaskName "VS_NEW_SE3-set_valve_pos",
-                   :Replace {:%valve "V1",
-                             :%should "open"}}]]
-    }
-    {:Description "Test TCP action."
-    :Ctrl "void"
-    :Title "TCP test with result set."
-    :Element ["*"]
-    :Definition [
-                 [{:TaskName "MKS_SRG_3-read_out",
-                   :Replace {:%docpath "Calibration.Measurement.Values.Pressure"}}]
-                 ]}
    {:Description "Test read_exchange action."
     :Ctrl "void"
     :Title "read exchange."
     :Element ["*"]
-    :Definition [
-                 [{:TaskName "Common-simple_read_element"
+    :Definition [[{:TaskName "Common-simple_read_element"
                    :Replace {:%docpath "Measurement.Values.Pressure"
-                             :%exchpath "A"}}]
-                 ]}
+                             :%exchpath "A"}}]]}
    {:Description "Test anselm request."
     :Ctrl "void"
     :Title "anselm."
@@ -130,8 +96,7 @@
     :Ctrl "void"
     :Title "date & time"
     :Element ["*"]
-    :Definition [
-                 [{:TaskName "Common-get_date"
+    :Definition [[{:TaskName "Common-get_date"
                    :Replace {:%docpath "Calibration.Measurement.Date"
                              :%type "cmp-test"}}
                   {:TaskName "Common-get_time"
@@ -142,9 +107,8 @@
     :Ctrl "void"
     :Title "message"
     :Element ["*"]
-    :Definition [
-                 [{:TaskName "Common-message"
-                   :Replace {:%message "cmp?"}}]
+    :Definition [[{:TaskName "Common-message"
+                   :Replace {:%message "cmp"}}]
                  ]}]
   ;; -------------------------------------------------------
   ;; Definitions section
