@@ -23,7 +23,7 @@
   ;; :StateKey \"core@test@0@state@0@0\"}
   ``` "
   [task]
-  (let [{type :Type doc-path :DocPath exch-path :ExchangePath state-key :StateKey mp-id :MpName}  task]
+  (let [{type :Type doc-path :DocPath exch-path :ExchangePath state-key :StateKey mp-id :MpName} task]
     (st/set-state! state-key :working)
     (let [val  {:Type type :Value (u/get-time)}
           ret  (doc/store! mp-id [val] doc-path)]

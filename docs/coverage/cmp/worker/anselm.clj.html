@@ -106,50 +106,47 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 034&nbsp;&nbsp;&nbsp;&nbsp;[task]
                 </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                035&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{value&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:Value
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key&nbsp;&nbsp;&nbsp;:StateKey}&nbsp;task
+<span class="not-covered" title="0 out of 2 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{value&nbsp;:Value&nbsp;state-key&nbsp;:StateKey}&nbsp;task
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request-key&nbsp;(ku&#x2F;key-&gt;request-key&nbsp;state-key)]
+                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request-key&nbsp;(ku&#x2F;key-&gt;request-key&nbsp;state-key)]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:working)
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:working)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;request-key&nbsp;task)
+                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;request-key&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 14 forms covered">
-                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::anselm!&nbsp;:message&nbsp;&quot;stored&nbsp;request,&nbsp;send&nbsp;request&quot;&nbsp;:key&nbsp;request-key)
+                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::anselm!&nbsp;:message&nbsp;&quot;stored&nbsp;request,&nbsp;send&nbsp;request&quot;&nbsp;:key&nbsp;request-key)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;value
+                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;value
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try&nbsp;;&nbsp;get
+                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try&nbsp;;&nbsp;get
                 </span><br/>
 <span class="not-covered" title="0 out of 9 forms covered">
-                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(resp&#x2F;check&nbsp;(http&#x2F;get&nbsp;(url&nbsp;task))&nbsp;task&nbsp;state-key)
+                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(resp&#x2F;check&nbsp;(http&#x2F;get&nbsp;(url&nbsp;task))&nbsp;task&nbsp;state-key)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
+                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
                 </span><br/>
-<span class="not-covered" title="0 out of 9 forms covered">
-                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;(str&nbsp;&quot;get&nbsp;request&nbsp;to&nbsp;url:&nbsp;&quot;&nbsp;url&nbsp;&quot;&nbsp;failed&quot;))))
+<span class="not-covered" title="0 out of 5 forms covered">
+                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;&quot;get&nbsp;request&nbsp;failed&quot;)))
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try&nbsp;;&nbsp;post
+                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try&nbsp;;&nbsp;post
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(resp&#x2F;check&nbsp;(http&#x2F;post&nbsp;(url&nbsp;task)&nbsp;(req&nbsp;task))&nbsp;task&nbsp;state-key)
+                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(resp&#x2F;check&nbsp;(http&#x2F;post&nbsp;(url&nbsp;task)&nbsp;(req&nbsp;task))&nbsp;task&nbsp;state-key)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
+                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;&quot;post&nbsp;request&nbsp;to&nbsp;url:&nbsp;&quot;&nbsp;url&nbsp;&quot;&nbsp;failed&quot;))))))
+<span class="not-covered" title="0 out of 5 forms covered">
+                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;&quot;post&nbsp;request&nbsp;to&nbsp;failed&quot;))))))
                 </span><br/>
  </body>
 </html>

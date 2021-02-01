@@ -9,7 +9,7 @@
              [cmp.key-utils            :as ku]
              [cmp.lt-mem               :as lt]
              [com.brunobonacci.mulog   :as mu]
-             [clojure.pprint           :as pp]
+             [portal.api               :as p]
              [cmp.st-mem               :as st]
              [cmp.state                :as state]
              [cmp.task                 :as task]
@@ -52,21 +52,20 @@
   "Sets the mpd to work on (see [[current-mp]]).
 
   Example:
-    ```clojure
+  ```clojure
   (workon! 'se3-calib')
   (deref current-mp)
-  ```
-  "
+  ```"
   [mp-id]
   (reset! current-mp mp-id))
 
 ;;------------------------------
 ;; info
 ;;------------------------------
-(defn m-info
+(defn m-data
   "Returns a info map about the mpd with the id `mp-id`."
   ([]
-   (m-info (deref current-mp)))
+   (m-data (deref current-mp)))
   ([mp-id]
    {:mp-id      mp-id
     :mp-descr   (u/short-string (st/key->val (ku/meta-descr-key mp-id)))
@@ -74,108 +73,69 @@
     :mp-ncont   (st/key->val (ku/meta-ncont-key mp-id))
     :mp-ndefins (st/key->val (ku/meta-ndefins-key mp-id))}))
 
-(defn ms-info
+(defn ms-data
   "The pattern `*@meta@name` is used to find all `mp-id`s loaded and
   available at the short term memory."
   []
-  (pp/print-table
-   (mapv (fn [k] (m-info (ku/key->mp-id k)))
-         (st/pat->keys "*@meta@name"))))
+  (mapv (fn [k] (m-data (ku/key->mp-id k)))
+        (st/pat->keys "*@meta@name")))
 
 (defn c-data
   "Returns a map about the `i`th container of the mpd with the id
   `mp-id`."
+  ([]
+   (c-data (deref current-mp) 0))
   ([i]
    (c-data (deref current-mp) i))
   ([mp-id i]
-  {:c-no-idx (u/lp i)
-   :c-title  (st/key->val    (ku/cont-title-key mp-id (u/lp i)))
-   :c-descr  (u/short-string (st/key->val (ku/cont-descr-key mp-id (u/lp i))))
-   :c-ctrl   (st/key->val    (ku/cont-ctrl-key mp-id (u/lp i)))}))
-
-(defn c-info
-  "Returns info about the container `i` of the mpd with the id
+   (let [idx (u/lp i)]
+     {:c-no-idx idx 
+      :c-title  (st/key->val (ku/cont-title-key mp-id idx))
+      :c-descr  (st/key->val (ku/cont-descr-key mp-id idx))
+      :c-ctrl   (st/key->val (ku/cont-ctrl-key mp-id idx))
+      :c-status (state/cont-status mp-id idx)})))
+  
+(defn n-data
+  "Returns a map about the `i`th defi**n**itions of the mpd with the id
   `mp-id`."
   ([]
-   (c-info (deref current-mp) 0))
+   (c-data (deref current-mp) 0))
   ([i]
-   (c-info (deref current-mp) i))
+   (c-data (deref current-mp) i))
   ([mp-id i]
-   (pp/print-table [(c-data mp-id i)])))
+   (let [idx (u/lp i)]
+     {:n-no-idx  idx
+      :n-title  (st/key->val (ku/defins-class-key mp-id idx))
+      :n-descr  (st/key->val (ku/defins-descr-key mp-id idx))
+      :n-ctrl   (st/key->val (ku/defins-ctrl-key mp-id idx))
+      :n-status (state/defins-status mp-id idx)})))
 
-
-
-
-(defn c-definition
-  "Returns info about the definitions of container `i` of the mpd with
-  the id `mp-id`."
-  ([]
-   (c-definition (deref current-mp) 0))
-  ([i]
-   (c-definition (deref current-mp) i))
-  ([mp-id i]
-   (let [ks (sort (st/key->keys (ku/cont-defin-key @current-mp i)))]
-     (pp/print-table
-      (mapv (fn [k] {:TaskName (:TaskName (st/key->val k))
-                     :no-idx    (ku/key->no-idx  k)
-                     :seq-idx   (ku/key->seq-idx k)
-                     :par-idx   (ku/key->par-idx k)}) ks)))))
-
-(defn cs-info
+(defn cs-data
   "Returns info about the containers of the mpd with the id `mp-id`."
   ([]
-   (cs-info (deref current-mp)))
+   (cs-data (deref current-mp)))
   ([mp-id]
-   (pp/print-table
-    (mapv
-     (fn [k] (c-data mp-id (ku/key->no-idx k)))
-     (sort (st/pat->keys (ku/cont-title-key mp-id "*")))))))
-
-
+   (mapv (fn [k] (c-data mp-id (ku/key->no-idx k)))
+         (sort (st/pat->keys (ku/cont-title-key mp-id "*"))))))
 ;;------------------------------
 ;; listeners
 ;;------------------------------
-(defn l-info
+(defn l-data
   "Returns a table with the currently registered listener patterns."
   []
-  (pp/print-table
-   (mapv
-    (fn [[k v]]
-      {:key k :val v})
-    (deref st/listeners))))
+  (mapv (fn [[k v]] {:key k :val v}) (deref st/listeners)))
 
 ;;------------------------------
 ;; worker futures
 ;;------------------------------
-(defn w-info
-  "Returns a table with the currently registered worker futures."
+(defn w-data
+  "Returns data about the currently registered worker futures."
   ([]
-   (w-info false))
+   (w-data false))
   ([deref?]
-   (pp/print-table
-    (mapv
-     (fn [[k v]]
-       {:key k :val (if (nil? (if deref? (deref v) v)) "ok" v)})
-     (deref w/future-reg)))))
-
-;;------------------------------
-;; status (stat)
-;;------------------------------
-(defn c-status
-  "Returns the **c**ontainer status.  Returns the state map for the `i`
-  container."
-  ([i]
-   (c-status (deref current-mp) i))
-  ([mp-id i]
-   (pp/print-table (state/cont-status mp-id (u/lp i)))))
-
-(defn n-status
-  "Returns defi**n**itions status. Returns the `state map` for the `i`
-  definitions structure."
-  ([i]
-   (n-status (deref current-mp) i))
-  ([mp-id i]
-   (pp/print-table (state/defins-status mp-id (u/lp i)))))
+   (mapv (fn [[k v]]
+           {:key k :val (if (if deref? (deref v) v) "ok" v)})
+         (deref w/future-reg))))
 
 ;;------------------------------
 ;; start observing mp
@@ -228,16 +188,12 @@
 
   ```clojure
   (m-build-edn \"resources/mpd-devhub.edn\")
-  ```
-  "
+  ```"
   []
-  (run!
-   (fn [uri]
-     (println "try to slurp and build: " uri  )
-     (build/store
-      (read-string
-       (slurp uri))))
-   (cfg/edn-mpds (cfg/config))))
+  (run! (fn [uri]
+          (println "try to slurp and build: " uri)
+          (-> uri slurp read-string build/store))
+        (cfg/edn-mpds (cfg/config))))
 
 ;;------------------------------
 ;; documents
@@ -300,7 +256,7 @@
   ([i cmd]
    (set-ctrl (deref current-mp) i cmd))
   ([mp-id i cmd]
-   (st/set-val! (ku/cont-ctrl-key  mp-id (u/lp i)) cmd)))
+   (st/set-val! (ku/cont-ctrl-key mp-id (u/lp i)) cmd)))
 
 (defn c-run
   "Shortcut to push a `run` to the control interface of mp container
@@ -324,16 +280,14 @@
   "Shortcut to push a `reset` to the control interface of mp container
   `i`. The `reset` cmd **don't** de-register the `state` listener so
   that the container starts from the beginning.  **reset is a
-  container restart**
-  "
+  container restart**"
   [i]
   (set-ctrl (deref current-mp) i "reset"))
 
 (defn c-suspend
   "Shortcut to push a `suspend` to the control interface of mp container
   `i`. The `suspend` cmd de-register the `state` listener and leaves
-  the state as it is.
-  "
+  the state as it is."
   [i]
   (set-ctrl (deref current-mp) i "suspend"))
 
@@ -346,40 +300,34 @@
   []
   (build/store-tasks (lt/all-tasks)))
 
-(defn t-table
-  "Prints a table of **assembled tasks** stored in **short term
+(defn ts-data
+  "Returns a vector of **assembled tasks** stored in **short term
   memory**. If a `kw` and `val` are given it is used as a filter
 
   Example:
   ```clojure
-  (t-table)
+  (t-data)
   ;; same as
-  (t-table :Action :all)
+  (t-data :Action :all)
   ;;
-  (t-table :Action \"TCP\")
+  (t-data :Action \"TCP\")
   ;;
-  (t-table :Port \"23\" \"ref\")
-  ```
-  . "
+  (t-data :Port \"23\" \"ref\")
+  ```"
   ([]
-   (t-table  :Action :all "core" "test" 0 0 0))
+   (ts-data  :Action :all "core" "test" 0 0 0))
   ([kw v]
-   (t-table  kw v "core" "test" 0 0 0))
+   (ts-data  kw v "core" "test" 0 0 0))
   ([kw v mp-id]
-   (t-table  kw v mp-id "test" 0 0 0))
+   (ts-data  kw v mp-id "test" 0 0 0))
   ([kw v mp-id struct i j k]
    (let [state-key (u/vec->key [mp-id struct (u/lp i) "state" (u/lp j) (u/lp k)])]
-     (pp/print-table
-      (filter some?
-              (mapv (fn [k]
-                      (let [name      (ku/key->struct k)
-                            meta-task (task/gen-meta-task name)
-                            task      (task/assemble meta-task mp-id state-key)
-                            value     (kw task)]
-                        (if (and value (or (= value v) (= :all v)))
-                          {kw value :TaskName name :stm-key k} )))
-                    (st/key->keys "tasks")))))))
-
+     (filter some? (mapv (fn [k]
+                           (let [m (task/assemble (task/gen-meta-task (ku/key->struct k)) mp-id state-key)
+                                 x (kw m)]
+                             (when (and x (or (= x v) (= :all v)))
+                               (assoc m :stm-key k))))
+                         (st/key->keys (ku/task-prefix)))))))
 
 (defn t-run
   "Runs the task with the given name (from stm).
@@ -407,13 +355,12 @@
   ;;  :SdValue 0.0013625169107,
   ;;  :N 10}]}
   ```
-
+  
   Debug:
   ```clojure
   @st/listeners
   (st/de-register! \"core\" \"test\" 0 \"response\")
-  ```
-  "
+  ```"
   ([t]
    (t-run t "core" "test" 0 0 0))
   ([t mp-id]
@@ -432,7 +379,7 @@
        (st/register! mp-id struct no-idx func (fn [msg]
                                                 (when-let [result-key (st/msg->key msg)]
                                                   (st/de-register! mp-id struct no-idx func)
-                                                  (pp/pprint (st/key->val result-key))))))
+                                                  (st/key->val result-key)))))
      (w/check task))))
 
 (defn t-run-by-key
@@ -450,8 +397,7 @@
   Example:
   ```clojure
   (t-run-by-key \"se3-cmp_state@container@006@state@000@000\")
-  ```
-  "
+  ```"
   [k]
   (let [mp-id     (ku/key->mp-id   k)
         struct    (ku/key->struct  k)
@@ -467,7 +413,7 @@
 (defn t-raw
   "Shows the raw task as stored at st-memory"
   [s]
-  (st/key->val (u/vec->key ["tasks" s])))
+  (st/key->val (ku/task-key s)))
 
 (defn t-assemble
   "Assembles the task with the given `x` (`TaskName` or `{:TaskName
@@ -478,42 +424,20 @@
   ```clojure
   (t-assemble {:TaskName \"Common-wait\"
            :Replace {\"%waittime\" 3000}})
-  ```
-  "
+  ```"
   ([x]
    (t-assemble x "core" "test" 0 0 0))
   ([x mp-id]
    (t-assemble x mp-id "test" 0 0 0))
   ([x mp-id struct i j k]
-   (let [i          (u/lp i)
-         j          (u/lp j)
-         k          (u/lp k)
-         state-key  (u/vec->key[mp-id struct i "state" j k])
+   (let [state-key  (u/vec->key[mp-id struct (u/lp i) "state" (u/lp j) (u/lp k)])
          meta-task  (task/gen-meta-task x)]
      (task/assemble meta-task mp-id state-key))))
-
-(defn t-build-edn
-  "Stores the `task` slurped from the files configured in
-  `resources/config.edn`.
-
-  Example:
-  ```clojure
-  (t-build-edn)
-  ```"
-  []
-  (run!
-   (fn [uri]
-     (println "try to slurp and build: " uri  )
-       (build/store-task
-        (read-string
-         (slurp uri))))
-     (cfg/edn-tasks (cfg/config))))
-
-
+  
 (defn t-clear
   "Function removes all keys starting with `tasks`."
   []
-  (st/clear! "tasks"))
+  (st/clear! (ku/task-prefix)))
 
 (defn t-refresh
   "Refreshs the `tasks` endpoint.
@@ -526,9 +450,7 @@
   (println "clear tasks")
   (t-clear)
   (println "build tasks from db")
-  (t-build)
-  (println "build edn tasks")
-  (t-build-edn))
+  (t-build))
 
 ;;------------------------------
 ;; clear mpd
@@ -557,43 +479,13 @@
 ;;------------------------------
 ;; Exchange table
 ;;------------------------------
-(defn e-table
-  "Pretty prints a key-value table of the `exchange`-interface of the
+(defn e-data
+  "Returns a vector of the `exchange`-interface data of the
   mpd with the id `mp-id`.
-
-  Example output:
-  ```
-  |                                :key |                                            :value |
-  |-------------------------------------+---------------------------------------------------|
-  |          se3-cmp_valves@exchange@V1 |                                         {:Bool 1} |
-  |         se3-cmp_valves@exchange@V10 |                                         {:Bool 1} |
-  |         se3-cmp_valves@exchange@V11 |                                         {:Bool 0} |
-  |         se3-cmp_valves@exchange@V12 |                                         {:Bool 0} |
-  |         se3-cmp_valves@exchange@V13 |                                         {:Bool 1} |
-  |         se3-cmp_valves@exchange@V14 |                                         {:Bool 1} |
-  |         se3-cmp_valves@exchange@V15 |                                         {:Bool 0} |
-  |         se3-cmp_valves@exchange@V16 |                                         {:Bool 0} |
-  |         se3-cmp_valves@exchange@V17 |                                         {:Bool 1} |
-  |         se3-cmp_valves@exchange@V18 |                                         {:Bool 1} |
-  |         se3-cmp_valves@exchange@V19 |                                         {:Bool 0} |
-  |          se3-cmp_valves@exchange@V2 |                                         {:Bool 1} |
-  |         se3-cmp_valves@exchange@V20 |                                         {:Bool 0} |
-  |          se3-cmp_valves@exchange@V3 |                                         {:Bool 1} |
-  |          se3-cmp_valves@exchange@V4 |                                         {:Bool 1} |
-  |          se3-cmp_valves@exchange@V5 |                                         {:Bool 0} |
-  |          se3-cmp_valves@exchange@V6 |                                         {:Bool 1} |
-  |          se3-cmp_valves@exchange@V7 |                                         {:Bool 0} |
-  |          se3-cmp_valves@exchange@V8 |                                         {:Bool 0} |
-  |          se3-cmp_valves@exchange@V9 |                                         {:Bool 1} |
-  | se3-cmp_valves@exchange@Vraw_block1 | [1 0 1 0 1 0 1 0 0 0 1 0 0 0 0 0 0 0 1 0 1 0 0 0] |
-  | se3-cmp_valves@exchange@Vraw_block2 | [0 0 1 0 0 0 0 0 0 0 1 0 1 0 0 0 1 0 1 0 0 0 0 0] |
-  | se3-cmp_valves@exchange@Vraw_block3 | [0 0 1 0 1 0 0 0 1 0 1 0 0 0 0 0 1 1 0 0 0 0 0 0] |
-  | se3-cmp_valves@exchange@Vraw_block4 | [1 0 1 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0] |
-  | se3-cmp_valves@exchange@Vraw_block5 | [1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0] |
-  ```
-  "
+  ```"
   ([]
-   (e-table  (deref current-mp)))
+   (e-data  (deref current-mp)))
   ([mp-id]
-   (pp/print-table
-    (mapv (fn [k] {:key k :value (st/key->val k)}) (st/key->keys (ku/exch-prefix mp-id))))))
+   (mapv (fn [k]
+           {:key k :value (st/key->val k)})
+         (st/key->keys (ku/exch-prefix mp-id)))))

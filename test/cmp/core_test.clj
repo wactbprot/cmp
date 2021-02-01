@@ -19,13 +19,14 @@
 (deftest mpd-ref-build-clear-build-test
   (testing "clear ref-mpd"
     (m-build-edn)
-    (Thread/sleep 100)
+    (Thread/sleep 200)
     (is (pos? (count (st/pat->keys "ref*"))))
     (m-clear "ref")
-    (Thread/sleep 100)
+    (Thread/sleep 300)
+    (prn (st/pat->keys "ref*"))
     (is (zero? (count (st/pat->keys "ref*"))))
     (m-build-edn)
-    (Thread/sleep 100)
+    (Thread/sleep 200)
     (is (pos? (count (st/pat->keys "ref*"))))))
 
 (deftest mpd-ref-container-0-test
@@ -36,9 +37,44 @@
     (m-start)
     (Thread/sleep 100)
     (c-run 0)
-    (is (= "run" (st/key->val (ku/cont-ctrl-key "ref" 0)))
-        "is running")
-    (Thread/sleep 5000)
-    (is (= "ready" (st/key->val (ku/cont-ctrl-key "ref" 0)))
-        "is ready")))
+    (is (= "run" (st/key->val (ku/cont-ctrl-key "ref" 0))))
+    (Thread/sleep 3000)
+    (is (= "ready" (st/key->val (ku/cont-ctrl-key "ref" 0))))))
 
+(deftest mpd-ref-container-1-test
+  (testing "clear ref-mpd"
+    (workon! "ref")
+    (m-build-edn)
+    (Thread/sleep 100)
+    (m-start)
+    (Thread/sleep 100)
+    (c-run 1)
+    (is (= "run" (st/key->val (ku/cont-ctrl-key "ref" 1))))
+    (Thread/sleep 2000)
+    (is (= "ready" (st/key->val (ku/cont-ctrl-key "ref" 1))))))
+
+(deftest mpd-ref-container-2-test
+  (testing "select ref-mpd"
+    (workon! "ref")
+    (m-build-edn)
+    (Thread/sleep 100)
+    (m-start)
+    (Thread/sleep 100)
+    (c-run 2)
+    (is (= "run" (st/key->val (ku/cont-ctrl-key "ref" 2))))
+    (Thread/sleep 2000)
+    (is (= "ready" (st/key->val (ku/cont-ctrl-key "ref" 2))))))
+
+(deftest mpd-ref-container-3-test
+  (testing "runMp ref-mpd"
+    (workon! "ref")
+    (m-build-edn)
+    (Thread/sleep 100)
+    (m-start)
+    (Thread/sleep 100)
+    (c-run 3)
+    (is (= "run" (st/key->val (ku/cont-ctrl-key "ref" 3))))
+    (Thread/sleep 3000)
+    (is (= "ready" (st/key->val (ku/cont-ctrl-key "ref" 3))))))
+
+(stop-log!)

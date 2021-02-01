@@ -44,17 +44,13 @@
       (st/set-state! state-key :error (str "no container with title: >"cont-title "<")))))
 
 (defn run-mp!
-  "Runs a certain container of a mpd. Task is marked as executed if all
-  tasks in the container are executed.
-
-  REVIEW:  `run-mp!` does not support the `:StopIf` keyword.
-  "
+  "Runs a certain container of a `mpd`. `:ContainerTitle` is prefered
+  over `:Container` if both are given. The `task` is marked as
+  `:executed` if all tasks in the container are executed."
   [task]
-  (let [{cont-title :ContainerTitle
-         cont-index :Container
-         state-key  :StateKey} task]
+  (let [{title :ContainerTitle index :Container state-key :StateKey} task]
     (st/set-state! state-key :working)
     (cond
-      (not (nil? cont-title)) (exec-title task)
-      (not (nil? cont-index)) (exec-index task)
-      :not-found (st/set-state! state-key :error))))
+      title (exec-title task)
+      index (exec-index task)
+      :not-found (st/set-state! state-key :error "neither title nor index"))))

@@ -36,8 +36,20 @@ User interaction with **cmp** is **REPL only**. The `core`
 namespace is the entry point. Use `(dir cmp.core)` or 
 take a look at [the api](./api) to get an overview. 
 
-See [example session](./uberdoc.html) on how to proceed.
+Since 0.20.0 the pp-table concept is dropped. The data browser 
+[portal](https://github.com/djblue/portal) seems to be the
+way to go.
 
+ToDo: write a new [example session](./uberdoc.html) on how to proceed.
+
+## portal
+
+* https://github.com/djblue/portal
+
+```clojure
+(def portal (p/open))
+(tap> (c-data))
+```
 
 # links
 ## Clojure
@@ -73,7 +85,7 @@ and restart the service:
 # restart
 $ sudo systemctl restart redis.service
 
-# check state
+# check status
 $ sudo systemctl status redis.service
 ```
 
@@ -131,10 +143,4 @@ Example `utils-tests`:
 
 ```shell
 $ lein cloverage
-```
-
-## ns-graph
-
-```shell
-$ lein ns-graph
 ```
