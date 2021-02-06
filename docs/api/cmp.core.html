@@ -25,7 +25,7 @@
 <p>The <code>mp-id</code> parameter may be give directly</p>
 <pre><code class="clojure">(set-ctrl "ref" "run")
 </code></pre>
-<p>or is derived from <code>(deref current-mp)</code> <a href="null">workon "ref"</a>.</p>
+<p>or is derived from <code>@current-mp</code> <a href="null">workon "ref"</a>.</p>
 <pre><code class="clojure">(workon! "ref"=
 (set-ctrl "run")
 </code></pre>
@@ -79,5 +79,5 @@
 </code></pre></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/core.clj#L303">view source</a></div></div><div class="public anchor" id="var-w-data"><h3>w-data</h3><div class="usage"><code>(w-data)</code><code>(w-data deref?)</code></div><div class="doc"><div class="markdown"><p>Returns data about the currently registered worker futures.</p></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/core.clj#L131">view source</a></div></div><div class="public anchor" id="var-workon.21"><h3>workon!</h3><div class="usage"><code>(workon! mp-id)</code></div><div class="doc"><div class="markdown"><p>Sets the mpd to work on (see <a href="cmp.core.html#var-current-mp">current-mp</a>).</p>
 <p>Example:</p>
 <pre><code class="clojure">(workon! 'se3-calib')
-(deref current-mp)
+@current-mp
 </code></pre></div></div><div class="src-link"><a href="https://github.com/wactbprot/cmp/blob/master/src/cmp/core.clj#L51">view source</a></div></div></div></body></html>

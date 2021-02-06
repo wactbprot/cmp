@@ -54,7 +54,7 @@
   Example:
   ```clojure
   (workon! 'se3-calib')
-  (deref current-mp)
+  @current-mp
   ```"
   [mp-id]
   (reset! current-mp mp-id))
@@ -65,7 +65,7 @@
 (defn m-data
   "Returns a info map about the mpd with the id `mp-id`."
   ([]
-   (m-data (deref current-mp)))
+   (m-data @current-mp))
   ([mp-id]
    {:mp-id      mp-id
     :mp-descr   (u/short-string (st/key->val (ku/meta-descr-key mp-id)))
@@ -84,9 +84,9 @@
   "Returns a map about the `i`th container of the mpd with the id
   `mp-id`."
   ([]
-   (c-data (deref current-mp) 0))
+   (c-data @current-mp 0))
   ([i]
-   (c-data (deref current-mp) i))
+   (c-data @current-mp i))
   ([mp-id i]
    (let [idx (u/lp i)]
      {:c-no-idx idx 
@@ -99,9 +99,9 @@
   "Returns a map about the `i`th defi**n**itions of the mpd with the id
   `mp-id`."
   ([]
-   (c-data (deref current-mp) 0))
+   (c-data @current-mp 0))
   ([i]
-   (c-data (deref current-mp) i))
+   (c-data @current-mp i))
   ([mp-id i]
    (let [idx (u/lp i)]
      {:n-no-idx  idx
@@ -113,7 +113,7 @@
 (defn cs-data
   "Returns info about the containers of the mpd with the id `mp-id`."
   ([]
-   (cs-data (deref current-mp)))
+   (cs-data @current-mp))
   ([mp-id]
    (mapv (fn [k] (c-data mp-id (ku/key->no-idx k)))
          (sort (st/pat->keys (ku/cont-title-key mp-id "*"))))))
@@ -144,7 +144,7 @@
   "Registers a listener for the `ctrl` interface of a
   `mp-id` (see [[workon!]])."
   ([]
-   (m-start (deref current-mp)))
+   (m-start @current-mp))
   ([mp-id]
    (state/start mp-id)))
 
@@ -155,7 +155,7 @@
   "De-registers the listener for the `ctrl` interface of the given
   `mp-id` (see [[workon!]])."
   ([]
-   (m-stop (deref current-mp)))
+   (m-stop @current-mp))
   ([mp-id]
    (state/stop mp-id)))
 
@@ -176,10 +176,10 @@
   (m-build)
   ```"
   ([]
-   (m-build (deref current-mp)))
+   (m-build @current-mp))
   ([mp-id]
    (println "build " mp-id)
-   (->> mp-id u/compl-main-path lt/id->doc u/doc->safe-doc build/store)
+   (->> mp-id u/compl-main-path lt/get-doc u/doc->safe-doc build/store)
    (m-start mp-id)))
 
 (defn m-build-edn
@@ -201,21 +201,21 @@
 (defn d-add
   "Adds a doc to the api to store the resuls in."
   ([doc-id]
-   (d-add (deref current-mp) doc-id))
+   (d-add @current-mp doc-id))
   ([mp-id doc-id]
    (d/add mp-id doc-id)))
 
 (defn d-rm
   "Removes a doc from the api."
   ([doc-id]
-   (d-rm (deref current-mp) doc-id))
+   (d-rm @current-mp doc-id))
   ([mp-id doc-id]
    (d/rm mp-id doc-id)))
 
 (defn d-ids
   "Gets a list of ids added."
   ([]
-   (d-ids (deref current-mp)))
+   (d-ids @current-mp))
   ([mp-id]
    (d/ids mp-id)))
 
@@ -240,7 +240,7 @@
   ```clojure
   (set-ctrl \"ref\" \"run\")
   ```
-  or is derived from `(deref current-mp)` [[workon \"ref\"]].
+  or is derived from `@current-mp` [[workon \"ref\"]].
 
 
   ```clojure
@@ -254,7 +254,7 @@
   `definitions` struct should not be started by a
   user (see [[workon!]])."
   ([i cmd]
-   (set-ctrl (deref current-mp) i cmd))
+   (set-ctrl @current-mp i cmd))
   ([mp-id i cmd]
    (st/set-val! (ku/cont-ctrl-key mp-id (u/lp i)) cmd)))
 
@@ -262,19 +262,19 @@
   "Shortcut to push a `run` to the control interface of mp container
   `i`."
   [i]
-  (set-ctrl (deref current-mp) i "run"))
+  (set-ctrl @current-mp i "run"))
 
 (defn c-mon
   "Shortcut to push a `mon` to the control interface of mp container
   `i`."
   [i]
-  (set-ctrl (deref current-mp) i "mon"))
+  (set-ctrl @current-mp i "mon"))
 
 (defn c-stop
   "Shortcut to push a `stop` to the control interface of mp container
   `i`."
   [i]
-  (set-ctrl (deref current-mp) i "stop"))
+  (set-ctrl @current-mp i "stop"))
 
 (defn c-reset
   "Shortcut to push a `reset` to the control interface of mp container
@@ -282,14 +282,14 @@
   that the container starts from the beginning.  **reset is a
   container restart**"
   [i]
-  (set-ctrl (deref current-mp) i "reset"))
+  (set-ctrl @current-mp i "reset"))
 
 (defn c-suspend
   "Shortcut to push a `suspend` to the control interface of mp container
   `i`. The `suspend` cmd de-register the `state` listener and leaves
   the state as it is."
   [i]
-  (set-ctrl (deref current-mp) i "suspend"))
+  (set-ctrl @current-mp i "suspend"))
 
 ;;------------------------------
 ;; tasks
@@ -467,7 +467,7 @@
   (m-clear)
   ```"
   ([]
-   (m-clear (deref current-mp)))
+   (m-clear @current-mp))
   ([mp-id]
    (m-stop mp-id)
    (println "mp stoped")
@@ -484,7 +484,7 @@
   mpd with the id `mp-id`.
   ```"
   ([]
-   (e-data  (deref current-mp)))
+   (e-data  @current-mp))
   ([mp-id]
    (mapv (fn [k]
            {:key k :value (st/key->val k)})
