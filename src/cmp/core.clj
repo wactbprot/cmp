@@ -321,7 +321,7 @@
   ([kw v mp-id]
    (ts-data  kw v mp-id "test" 0 0 0))
   ([kw v mp-id struct i j k]
-   (let [state-key (u/vec->key [mp-id struct (u/lp i) "state" (u/lp j) (u/lp k)])]
+   (let [state-key (ku/vec->key [mp-id struct (u/lp i) "state" (u/lp j) (u/lp k)])]
      (filter some? (mapv (fn [k]
                            (let [m (task/assemble (task/gen-meta-task (ku/key->struct k)) mp-id state-key)
                                  x (kw m)]
@@ -370,8 +370,8 @@
          seq-idx   (u/lp seq-idx)
          par-idx   (u/lp par-idx)
          func       "response"
-         state-key  (u/vec->key [mp-id struct no-idx "state" seq-idx par-idx])
-         resp-key   (u/vec->key [mp-id struct no-idx func    seq-idx par-idx])
+         state-key  (ku/vec->key [mp-id struct no-idx "state" seq-idx par-idx])
+         resp-key   (ku/vec->key [mp-id struct no-idx func    seq-idx par-idx])
          meta-task  (task/gen-meta-task t)
          task       (task/assemble meta-task mp-id state-key)]
      (when (task/dev-action? task)
@@ -404,7 +404,7 @@
         no-idx    (ku/key->no-idx  k)
         seq-idx   (ku/key->seq-idx k)
         par-idx   (ku/key->par-idx k)
-        def-key   (u/vec->key [mp-id struct no-idx "definition" seq-idx par-idx])
+        def-key   (ku/vec->key [mp-id struct no-idx "definition" seq-idx par-idx])
         t         (st/key->val def-key)]
     (if t
       (t-run t mp-id struct no-idx seq-idx par-idx)
@@ -430,7 +430,7 @@
   ([x mp-id]
    (t-assemble x mp-id "test" 0 0 0))
   ([x mp-id struct i j k]
-   (let [state-key  (u/vec->key[mp-id struct (u/lp i) "state" (u/lp j) (u/lp k)])
+   (let [state-key  (ku/vec->key [mp-id struct (u/lp i) "state" (u/lp j) (u/lp k)])
          meta-task  (task/gen-meta-task x)]
      (task/assemble meta-task mp-id state-key))))
 

@@ -1,5 +1,6 @@
 (ns cmp.st-mem-test
   (:require [clojure.test :refer :all]
+            [cmp.key-utils :as ku]
             [cmp.utils :as u]
             [cmp.st-mem :refer :all]))
 
@@ -88,7 +89,7 @@
 (deftest clear-i
   (testing "vec"
     (let [v  1
-          kk (u/vec->key [k k])]
+          kk (ku/vec->key [k k])]
       (set-val! kk v) 
       (is (= v (key->val kk))
           (str "set get " v))

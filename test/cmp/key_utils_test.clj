@@ -5,11 +5,11 @@
 
 (deftest info-map->definition-key-i
   (testing "key transform. (i)"
-    (is (= (str "a" u/sep
-                "b" u/sep
-                "c" u/sep
-                "definition" u/sep
-                "d" u/sep
+    (is (= (str "a" sep
+                "b" sep
+                "c" sep
+                "definition" sep
+                "d" sep
                 "e")
            (info-map->definition-key {:mp-id "a"
                                       :struct  "b"
@@ -22,9 +22,9 @@
 
 (deftest info-map->ctrl-key-i
   (testing "a key transform. (i)"
-    (is (= (str "a" u/sep
-                "b" u/sep
-                "c" u/sep
+    (is (= (str "a" sep
+                "b" sep
+                "c" sep
                 "ctrl")
            (info-map->ctrl-key {:mp-id "a"
                                 :struct  "b"

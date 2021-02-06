@@ -36,10 +36,10 @@
   (when k
     (sort
      (st/key->keys
-      (u/vec->key [(ku/key->mp-id k)
-                   (ku/key->struct k)
-                   (ku/key->no-idx k)
-                   "state"])))))
+      (ku/vec->key [(ku/key->mp-id k)
+                    (ku/key->struct k)
+                    (ku/key->no-idx k)
+                    "state"])))))
 
 (defn ctrl-k->cmd
   "Gets the `cmd` from the `ctrl-k`. Extracts the `next-ctrl-cmd` and

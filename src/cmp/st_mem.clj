@@ -1,9 +1,10 @@
 (ns cmp.st-mem
   (:require [taoensso.carmine        :as car :refer (wcar)]
-            [cmp.utils               :as u]
+            [cmp.key-utils           :as ku]
             [cheshire.core           :as che]
             [com.brunobonacci.mulog  :as mu]
             [clojure.string          :as string]
+            [cmp.utils               :as u]
             [cmp.config              :as cfg]))
 
 (def conn (cfg/st-conn (cfg/config)))
@@ -60,7 +61,7 @@
 (defn key->keys
   "Get all keys matching  `k*`."
   [k]
-  (pat->keys (u/vec->key [k "*"])))
+  (pat->keys (ku/vec->key [k "*"])))
 
 ;;------------------------------
 ;; del
@@ -76,10 +77,10 @@
   (run! del-key! ks))
 
 (defn clear!
-  "Clears the key `x`. If `x` is a vector the function `u/vec->key` is
+  "Clears the key `x`. If `x` is a vector the function `ku/vec->key` is
   used for the conversion of `x` to a string."
   [x]
-  (-> (if (vector? x) (u/vec->key x) x)
+  (-> (if (vector? x) (ku/vec->key x) x)
       key->keys
       del-keys!))
 
@@ -154,9 +155,9 @@
   "
   [mp-id l2 l3 l4]
   (str "__keyspace@" db "*__:" mp-id
-       u/sep l2
-       u/sep l3
-       u/sep l4 "*"))
+       ku/sep l2
+       ku/sep l3
+       ku/sep l4 "*"))
 
 (defn gen-listener
   "Returns a listener for published keyspace notifications. Don't forget

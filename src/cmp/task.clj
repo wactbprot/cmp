@@ -3,6 +3,7 @@
     :doc "Task handling."}
   (:require [cmp.exchange            :as exch]
             [cmp.lt-mem              :as lt]
+            [cmp.key-utils           :as ku]
             [com.brunobonacci.mulog  :as mu]
             [clojure.string          :as string]
             [cmp.st-mem              :as st]
@@ -188,7 +189,7 @@
          task-name  (:TaskName proto)
          db-task    (merge
                      (->> ["tasks" task-name]
-                          u/vec->key
+                          ku/vec->key
                           st/key->val)
                      proto)]
     {:Task          (dissoc db-task :Defaults) 

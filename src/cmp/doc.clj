@@ -81,7 +81,7 @@
   ;; (cal-2018-ce3-kk-75003_0002)
   ```"
   [mp-id]
-  (mapv (fn [k] (u/key-at-level k 2))
+  (mapv (fn [k] (ku/key-at-level k 2))
         (st/key->keys (ku/id-prefix mp-id))))
 
 ;;------------------------------
