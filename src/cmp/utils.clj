@@ -59,10 +59,7 @@
   [i]
   (if (integer? i)
     i
-    (try
-      (Integer/parseInt i)
-      (catch Exception e
-        0))))
+    (try (Integer/parseInt i) (catch Exception e 0))))
 
 (defn pad-ok?
   "Checks if the padding of `i` is ok. `\"*\"` serves pattern matching."

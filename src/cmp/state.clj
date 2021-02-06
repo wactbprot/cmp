@@ -203,17 +203,16 @@
   "`start-next!` choose the `k` of the upcomming tasks.
   Then the `worker` set the state to `\"working\"` which triggers the
   next call to `start-next!`: parallel tasks are started this way.
-
+  
   Side effects all around. "
   [v]
-  (mu/log ::start-next! :message "call to start next")
-    (when (vector? v)
-      (let [{what :what k :key} (start-next v)]
-        (condp = what
-          :error    (error!     k)
-          :all-exec (all-exec!  k)
-          :nop      (nop!       k)
-          :work     (work/check k)))))
+  (when (vector? v)
+    (let [{what :what k :key} (start-next v)]
+      (condp = what
+        :error    (error!     k)
+        :all-exec (all-exec!  k)
+        :nop      (nop!       k)
+        :work     (work/check k)))))
 
 ;;------------------------------
 ;; observe!
@@ -227,7 +226,6 @@
   (st/register! (ku/key->mp-id k) (ku/key->struct k) (ku/key->no-idx k) "state"
                 (fn [msg]
                   (when-let [msg-k (st/msg->key msg)]                   
-                    (mu/log ::observe :message "will call start-next! from callback" :key k)
                     (start-next! (ks->state-vec (k->state-ks msg-k))))))
   (mu/log ::observe :message "will call start-next first trigger" :key k)
   (start-next! (ks->state-vec (k->state-ks k))))

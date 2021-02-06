@@ -73,230 +73,230 @@
 <span class="blank" title="0 out of 0 forms covered">
                 023&nbsp;&nbsp;
                 </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
-                024&nbsp;&nbsp;(def&nbsp;mtp&nbsp;(cfg&#x2F;min-task-period&nbsp;(cfg&#x2F;config)))
+<span class="not-tracked" title="0 out of 0 forms covered">
+                024&nbsp;&nbsp;;;------------------------------
                 </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                025&nbsp;&nbsp;
+<span class="not-tracked" title="0 out of 0 forms covered">
+                025&nbsp;&nbsp;;;&nbsp;task&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 026&nbsp;&nbsp;;;------------------------------
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                027&nbsp;&nbsp;;;&nbsp;task&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                028&nbsp;&nbsp;;;------------------------------
-                </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                029&nbsp;&nbsp;(defn&nbsp;get-task
+                027&nbsp;&nbsp;(defn&nbsp;get-task
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;assembled&nbsp;`task`&nbsp;for&nbsp;the&nbsp;given&nbsp;key&nbsp;`k`&nbsp;related&nbsp;to&nbsp;the
+                028&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;assembled&nbsp;`task`&nbsp;for&nbsp;the&nbsp;given&nbsp;key&nbsp;`k`&nbsp;related&nbsp;to&nbsp;the
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;`proto-task`.&nbsp;Since&nbsp;the&nbsp;functions&nbsp;in&nbsp;the&nbsp;`cmp.task`&nbsp;namespace&nbsp;are
+                029&nbsp;&nbsp;&nbsp;&nbsp;`proto-task`.&nbsp;Since&nbsp;the&nbsp;functions&nbsp;in&nbsp;the&nbsp;`cmp.task`&nbsp;namespace&nbsp;are
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                032&nbsp;&nbsp;&nbsp;&nbsp;(kept)&nbsp;independent&nbsp;from&nbsp;the&nbsp;tasks&nbsp;position,&nbsp;this&nbsp;info&nbsp;(`:StateKey`
+                030&nbsp;&nbsp;&nbsp;&nbsp;(kept)&nbsp;independent&nbsp;from&nbsp;the&nbsp;tasks&nbsp;position,&nbsp;this&nbsp;info&nbsp;(`:StateKey`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                033&nbsp;&nbsp;&nbsp;&nbsp;holds&nbsp;the&nbsp;position&nbsp;of&nbsp;the&nbsp;task)&nbsp;have&nbsp;to&nbsp;be&nbsp;`assoc`ed
+                031&nbsp;&nbsp;&nbsp;&nbsp;holds&nbsp;the&nbsp;position&nbsp;of&nbsp;the&nbsp;task)&nbsp;have&nbsp;to&nbsp;be&nbsp;`assoc`ed
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                034&nbsp;&nbsp;&nbsp;&nbsp;(done&nbsp;in&nbsp;`tsk&#x2F;assemble`).&quot;&nbsp;
+                032&nbsp;&nbsp;&nbsp;&nbsp;(done&nbsp;in&nbsp;`tsk&#x2F;assemble`).&quot;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                035&nbsp;&nbsp;&nbsp;&nbsp;[k]
+                033&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                036&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[state-key&nbsp;(ku&#x2F;replace-key-at-level&nbsp;3&nbsp;k&nbsp;&quot;state&quot;)]
+                034&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[state-key&nbsp;(ku&#x2F;replace-key-at-level&nbsp;3&nbsp;k&nbsp;&quot;state&quot;)]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try&nbsp;(let&nbsp;[proto-task&nbsp;(st&#x2F;key-&gt;val&nbsp;k)
+                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try&nbsp;(let&nbsp;[proto-task&nbsp;(st&#x2F;key-&gt;val&nbsp;k)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta-task&nbsp;&nbsp;(tsk&#x2F;gen-meta-task&nbsp;proto-task)
+                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta-task&nbsp;&nbsp;(tsk&#x2F;gen-meta-task&nbsp;proto-task)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;key-&gt;mp-id&nbsp;k)]
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;key-&gt;mp-id&nbsp;k)]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(tsk&#x2F;assemble&nbsp;meta-task&nbsp;mp-id&nbsp;state-key))
+                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(tsk&#x2F;assemble&nbsp;meta-task&nbsp;mp-id&nbsp;state-key))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
+                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;(.getMessage&nbsp;e))))))
+                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;(.getMessage&nbsp;e))))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                043&nbsp;&nbsp;
+                041&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                042&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                043&nbsp;&nbsp;;;&nbsp;&nbsp;future&nbsp;registry&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 044&nbsp;&nbsp;;;------------------------------
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                045&nbsp;&nbsp;;;&nbsp;&nbsp;future&nbsp;registry&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                046&nbsp;&nbsp;;;------------------------------
-                </span><br/>
 <span class="partial" title="9 out of 10 forms covered">
-                047&nbsp;&nbsp;(defonce&nbsp;future-reg&nbsp;(atom&nbsp;{}))
+                045&nbsp;&nbsp;(defonce&nbsp;future-reg&nbsp;(atom&nbsp;{}))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                048&nbsp;&nbsp;(defn&nbsp;start!
+                046&nbsp;&nbsp;(defn&nbsp;start!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                049&nbsp;&nbsp;&nbsp;&nbsp;&quot;Starts&nbsp;the&nbsp;worker&nbsp;in&nbsp;a&nbsp;new&nbsp;threat.&nbsp;This&nbsp;means&nbsp;that&nbsp;all&nbsp;workers
+                047&nbsp;&nbsp;&nbsp;&nbsp;&quot;Starts&nbsp;the&nbsp;worker&nbsp;in&nbsp;a&nbsp;new&nbsp;threat.&nbsp;This&nbsp;means&nbsp;that&nbsp;all&nbsp;workers
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                050&nbsp;&nbsp;&nbsp;&nbsp;may&nbsp;be&nbsp;single&nbsp;threated.&quot;
+                048&nbsp;&nbsp;&nbsp;&nbsp;may&nbsp;be&nbsp;single&nbsp;threated.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                051&nbsp;&nbsp;&nbsp;&nbsp;[worker&nbsp;task]
+                049&nbsp;&nbsp;&nbsp;&nbsp;[worker&nbsp;task]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                052&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[state-key&nbsp;(:StateKey&nbsp;task)]
+                050&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[state-key&nbsp;(:StateKey&nbsp;task)]
                 </span><br/>
 <span class="covered" title="14 out of 14 forms covered">
-                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start!&nbsp;:message&nbsp;&quot;registered&nbsp;worker&quot;&nbsp;:key&nbsp;state-key)
+                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start!&nbsp;:message&nbsp;&quot;registered&nbsp;worker&quot;&nbsp;:key&nbsp;state-key)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;future-reg&nbsp;assoc
+                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;future-reg&nbsp;assoc
                 </span><br/>
 <span class="covered" title="7 out of 7 forms covered">
-                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key&nbsp;(future&nbsp;(worker&nbsp;task)))))
+                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key&nbsp;(future&nbsp;(worker&nbsp;task)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                056&nbsp;&nbsp;
+                054&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                055&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                056&nbsp;&nbsp;;;&nbsp;&nbsp;dispatch&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 057&nbsp;&nbsp;;;------------------------------
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                058&nbsp;&nbsp;;;&nbsp;&nbsp;dispatch&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                059&nbsp;&nbsp;;;------------------------------
-                </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                060&nbsp;&nbsp;(defn&nbsp;dispatch
+                058&nbsp;&nbsp;(defn&nbsp;dispatch
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                061&nbsp;&nbsp;&nbsp;&nbsp;&quot;Dispatch&nbsp;depending&nbsp;on&nbsp;the&nbsp;`:Action`.&quot;
+                059&nbsp;&nbsp;&nbsp;&nbsp;&quot;Dispatch&nbsp;depending&nbsp;on&nbsp;the&nbsp;`:Action`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                062&nbsp;&nbsp;&nbsp;&nbsp;[task]
+                060&nbsp;&nbsp;&nbsp;&nbsp;[task]
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                063&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[action&nbsp;&nbsp;&nbsp;&nbsp;(keyword&nbsp;(:Action&nbsp;task))
+                061&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[action&nbsp;&nbsp;&nbsp;&nbsp;(keyword&nbsp;(:Action&nbsp;task))
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                064&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key&nbsp;(:StateKey&nbsp;task)]
+                062&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-key&nbsp;(:StateKey&nbsp;task)]
                 </span><br/>
 <span class="covered" title="14 out of 14 forms covered">
-                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::dispatch&nbsp;:message&nbsp;&quot;dispatch&nbsp;task&quot;&nbsp;:key&nbsp;state-key)
+                063&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::dispatch&nbsp;:message&nbsp;&quot;dispatch&nbsp;task&quot;&nbsp;:key&nbsp;state-key)
                 </span><br/>
 <span class="partial" title="28 out of 78 forms covered">
-                066&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;action
+                064&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;action
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:select&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;select-definition!&nbsp;task)
+                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:select&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;select-definition!&nbsp;task)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                068&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:runMp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;run-mp!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
+                066&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:runMp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;run-mp!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:writeExchange&nbsp;&nbsp;(start!&nbsp;write-exchange!&nbsp;&nbsp;&nbsp;&nbsp;task)
+                067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:writeExchange&nbsp;&nbsp;(start!&nbsp;write-exchange!&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:readExchange&nbsp;&nbsp;&nbsp;(start!&nbsp;read-exchange!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
+                068&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:readExchange&nbsp;&nbsp;&nbsp;(start!&nbsp;read-exchange!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:wait&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;wait!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
+                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:wait&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;wait!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                072&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:getDate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;get-date!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
+                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:getDate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;get-date!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                073&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:getTime&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;get-time!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
+                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:getTime&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;get-time!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:message&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;message!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
+                072&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:message&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;message!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                075&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:genDbDoc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;gen-db-doc!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
+                073&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:genDbDoc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;gen-db-doc!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:replicateDB&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;replicate!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
+                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:replicateDB&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;replicate!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                077&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:Anselm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;anselm!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
+                075&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:Anselm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;anselm!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                078&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:MODBUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;devhub!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
+                076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:MODBUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;devhub!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                079&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:TCP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;devhub!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
+                077&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:TCP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;devhub!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:VXI11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;devhub!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
+                078&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:VXI11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;devhub!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                081&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:EXECUTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;devhub!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
+                079&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:EXECUTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start!&nbsp;devhub!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                082&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;&quot;No&nbsp;worker&nbsp;for&nbsp;action&quot;))))
+                080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;&quot;No&nbsp;worker&nbsp;for&nbsp;action&quot;))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                083&nbsp;&nbsp;
+                081&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                082&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                083&nbsp;&nbsp;;;&nbsp;check-in
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 084&nbsp;&nbsp;;;------------------------------
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                085&nbsp;&nbsp;;;&nbsp;check-in
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                086&nbsp;&nbsp;;;------------------------------
-                </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                087&nbsp;&nbsp;(defn&nbsp;check
+                085&nbsp;&nbsp;(defn&nbsp;check
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                088&nbsp;&nbsp;&nbsp;&nbsp;&quot;Gets&nbsp;the&nbsp;task.&nbsp;Handles&nbsp;the&nbsp;`:RunIf`&nbsp;and&nbsp;`:StopIf`&nbsp;cases.
+                086&nbsp;&nbsp;&nbsp;&nbsp;&quot;Gets&nbsp;the&nbsp;task.&nbsp;Handles&nbsp;the&nbsp;`:RunIf`&nbsp;case.&nbsp;The&nbsp;`:StopIf`&nbsp;case&nbsp;is
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                087&nbsp;&nbsp;&nbsp;&nbsp;handeled&nbsp;by&nbsp;the&nbsp;workers&nbsp;after&nbsp;processing&nbsp;the&nbsp;task.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                089&nbsp;&nbsp;
+                088&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                090&nbsp;&nbsp;&nbsp;&nbsp;Example:
+                089&nbsp;&nbsp;&nbsp;&nbsp;Example:&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                091&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                090&nbsp;&nbsp;&nbsp;&nbsp;(dispatch&nbsp;{:Action&nbsp;\&quot;wait\&quot;&nbsp;:WaitTime&nbsp;1000&nbsp;:StateKey&nbsp;\&quot;testpath\&quot;})
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                092&nbsp;&nbsp;&nbsp;&nbsp;(dispatch&nbsp;{:Action&nbsp;\&quot;wait\&quot;&nbsp;:WaitTime&nbsp;1000&nbsp;:StateKey&nbsp;\&quot;testpath\&quot;})
+                091&nbsp;&nbsp;&nbsp;&nbsp;```&quot;&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                093&nbsp;&nbsp;&nbsp;&nbsp;```&quot;&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                094&nbsp;&nbsp;&nbsp;&nbsp;[x]
+                092&nbsp;&nbsp;&nbsp;&nbsp;[x]
                 </span><br/>
 <span class="partial" title="8 out of 9 forms covered">
-                095&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[task&nbsp;(if&nbsp;(string?&nbsp;x)&nbsp;(get-task&nbsp;x)&nbsp;x)]
+                093&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[task&nbsp;(if&nbsp;(string?&nbsp;x)&nbsp;(get-task&nbsp;x)&nbsp;x)]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                096&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(exch&#x2F;run-if&nbsp;task)
+                094&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(exch&#x2F;run-if&nbsp;task)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                097&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dispatch&nbsp;task)
+                095&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(dispatch&nbsp;task)
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                096&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                097&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;(cfg&#x2F;stop-if-delay&nbsp;(cfg&#x2F;config)))
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                098&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;(:StateKey&nbsp;task)&nbsp;:ready&nbsp;&quot;state&nbsp;set&nbsp;by&nbsp;run-if&quot;))))
+                098&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;(:StateKey&nbsp;task)&nbsp;:ready&nbsp;&quot;state&nbsp;set&nbsp;by&nbsp;run-if&quot;)))))
                 </span><br/>
  </body>
 </html>

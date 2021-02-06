@@ -41,7 +41,6 @@
     (Thread/sleep 3000)
     (is (= "ready" (st/key->val (ku/cont-ctrl-key "ref" 0))))))
 
-
 (deftest mpd-ref-container-1-test
   (testing "clear ref-mpd"
     (workon! "ref")

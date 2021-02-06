@@ -1,4 +1,4 @@
- (ns cmp.core
+(ns cmp.core
   ^{:author "wactbprot"
     :doc "Provides the api of cmp. `(m-start)`, `(m-stop)` etc.  are
           intended for **repl** use only. Graphical user interfaces
@@ -14,7 +14,8 @@
              [cmp.state                :as state]
              [cmp.task                 :as task]
              [cmp.utils                :as u]
-             [cmp.work                 :as w]))
+             [cmp.work                 :as w]
+             [portal.api :as p]))
 
 ;;------------------------------
 ;; log system
@@ -44,12 +45,12 @@
 (def current-mp
   "Provides a storing place for the current mp-id for convenience. Due
   to this atom the `(build)`, `(check)` or `(start)` function needs no
-  argument." 
+  argument."
   (atom "ref"))
 
 (defn workon!
   "Sets the mpd to work on (see [[current-mp]]).
-  
+
   Example:
   ```clojure
   (workon! 'se3-calib')
@@ -116,9 +117,8 @@
   ([mp-id]
    (mapv (fn [k] (c-data mp-id (ku/key->no-idx k)))
          (sort (st/pat->keys (ku/cont-title-key mp-id "*"))))))
-
 ;;------------------------------
-;; listeners 
+;; listeners
 ;;------------------------------
 (defn l-data
   "Returns a table with the currently registered listener patterns."
@@ -126,7 +126,7 @@
   (mapv (fn [[k v]] {:key k :val v}) (deref st/listeners)))
 
 ;;------------------------------
-;; worker futures 
+;; worker futures
 ;;------------------------------
 (defn w-data
   "Returns data about the currently registered worker futures."
@@ -149,7 +149,7 @@
    (state/start mp-id)))
 
 ;;------------------------------
-;; stop observing 
+;; stop observing
 ;;------------------------------
 (defn m-stop
   "De-registers the listener for the `ctrl` interface of the given
@@ -166,8 +166,8 @@
   "Loads a mpd from long term memory and builds the short term
   memory. The `mp-id` may be set with [[workon!]]. [[m-start]] is
   called after mp is build.
-  
-  Usage:  
+
+  Usage:
   ```clojure
   (m-build mpid)
   ;; or
@@ -185,7 +185,7 @@
 (defn m-build-edn
   "Builds up a the mpds in `edn` format provided by *cmp* (see resources
   directory).
-  
+
   ```clojure
   (m-build-edn \"resources/mpd-devhub.edn\")
   ```"
@@ -229,7 +229,7 @@
   means of [[cmp.st-mem.set-val!]].  The writing process triggers the
   `registered` `callback` (registered by [[m-start]]). The `callback`
   cares about the `cmd`.  `cmd`s are:
-  
+
   * `\"run\"`
   * `\"stop\"`
   * `\"mon\"`
@@ -296,7 +296,7 @@
 ;;------------------------------
 (defn t-build
   "Builds the `tasks` endpoint. At runtime all `tasks` are provided by
-  `st-mem`. The advantage is: tasks can be modified at runtime." 
+  `st-mem`. The advantage is: tasks can be modified at runtime."
   []
   (build/store-tasks (lt/all-tasks)))
 
@@ -341,7 +341,7 @@
   key (`<mp-id@<struct>@<i>@response@<j>@<k>`) and pretty prints it.
 
   REVIEW function is way to large
-  
+
   Example:
   ```clojure
   (t-run \"DKM_PPC4_DMM-read_temp\")
@@ -385,7 +385,7 @@
 (defn t-run-by-key
   "Calls `t-run` after extracting key info.  A call with all all kinds
   of complete keys `k` is ok.  Complete means: the functions:
-  
+
   *  `(ku/key->mp-id   k)`
   *  `(ku/key->struct  k)`
   *  `(ku/key->no-idx  k)`
@@ -393,7 +393,7 @@
   *  `(ku/key->par-idx k)`
 
   don't return `nil`.
-  
+
   Example:
   ```clojure
   (t-run-by-key \"se3-cmp_state@container@006@state@000@000\")
@@ -411,7 +411,7 @@
       (println (str "no TaskName at key: " k)))))
 
 (defn t-raw
-  "Shows the raw task as stored at st-memory" 
+  "Shows the raw task as stored at st-memory"
   [s]
   (st/key->val (ku/task-key s)))
 
@@ -433,15 +433,15 @@
    (let [state-key  (ku/vec->key [mp-id struct (u/lp i) "state" (u/lp j) (u/lp k)])
          meta-task  (task/gen-meta-task x)]
      (task/assemble meta-task mp-id state-key))))
-
+  
 (defn t-clear
-  "Function removes all keys starting with `tasks`."  
+  "Function removes all keys starting with `tasks`."
   []
   (st/clear! (ku/task-prefix)))
 
 (defn t-refresh
   "Refreshs the `tasks` endpoint.
-  
+
   Example:
   ```clojure
   (t-refresh)
