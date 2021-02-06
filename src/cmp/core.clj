@@ -78,7 +78,7 @@
   available at the short term memory."
   []
   (mapv (fn [k] (m-data (ku/key->mp-id k)))
-        (st/pat->keys "*@meta@name")))
+        (st/pat->keys (ku/meta-name-key "*"))))
 
 (defn c-data
   "Returns a map about the `i`th container of the mpd with the id
@@ -182,18 +182,16 @@
    (->> mp-id u/compl-main-path lt/get-doc u/doc->safe-doc build/store)
    (m-start mp-id)))
 
-(defn m-build-edn
+(defn m-build-ref
   "Builds up a the mpds in `edn` format provided by *cmp* (see resources
-  directory).
-
-  ```clojure
-  (m-build-edn \"resources/mpd-devhub.edn\")
-  ```"
+  directory)."
   []
-  (run! (fn [uri]
-          (println "try to slurp and build: " uri)
-          (-> uri slurp read-string build/store))
-        (cfg/edn-mpds (cfg/config))))
+  (println "try to slurp and build ref")
+  (let [mp    (-> (cfg/ref-mpd (cfg/config)) slurp read-string)
+        mp-id (u/extr-main-path (:_id mp))]
+    (build/store mp)
+    (workon! mp-id)
+    (m-start)))
 
 ;;------------------------------
 ;; documents
@@ -300,140 +298,6 @@
   []
   (build/store-tasks (lt/all-tasks)))
 
-(defn ts-data
-  "Returns a vector of **assembled tasks** stored in **short term
-  memory**. If a `kw` and `val` are given it is used as a filter
-
-  Example:
-  ```clojure
-  (t-data)
-  ;; same as
-  (t-data :Action :all)
-  ;;
-  (t-data :Action \"TCP\")
-  ;;
-  (t-data :Port \"23\" \"ref\")
-  ```"
-  ([]
-   (ts-data  :Action :all "core" "test" 0 0 0))
-  ([kw v]
-   (ts-data  kw v "core" "test" 0 0 0))
-  ([kw v mp-id]
-   (ts-data  kw v mp-id "test" 0 0 0))
-  ([kw v mp-id struct i j k]
-   (let [state-key (ku/vec->key [mp-id struct (u/lp i) "state" (u/lp j) (u/lp k)])]
-     (filter some? (mapv (fn [k]
-                           (let [m (task/assemble (task/gen-meta-task (ku/key->struct k)) mp-id state-key)
-                                 x (kw m)]
-                             (when (and x (or (= x v) (= :all v)))
-                               (assoc m :stm-key k))))
-                         (st/key->keys (ku/task-prefix)))))))
-
-(defn t-run
-  "Runs the task with the given name (from stm).
-  If only the name is provided, results are stored under
-  `core@test@0@response@0@0`.
-
-  If `mp-id`, `struct`, `i`, `j` and `k` is given, the results are
-  written to `<mp-id@<struct>@<i>@response@<j>@<k>`.  A listener at
-  this key triggers a `cb!` which de-registers and closes the
-  listener. The callback also gets the value of the
-  key (`<mp-id@<struct>@<i>@response@<j>@<k>`) and pretty prints it.
-
-  REVIEW function is way to large
-
-  Example:
-  ```clojure
-  (t-run \"DKM_PPC4_DMM-read_temp\")
-  ;;
-  ;; {:t_start 1588071759882,
-  ;; :t_stop 1588071768996,
-  ;; :Result
-  ;; [{:Type dkmppc4,
-  ;;  :Value 24.297828639,
-  ;;  :Unit C,
-  ;;  :SdValue 0.0013625169107,
-  ;;  :N 10}]}
-  ```
-  
-  Debug:
-  ```clojure
-  @st/listeners
-  (st/de-register! \"core\" \"test\" 0 \"response\")
-  ```"
-  ([t]
-   (t-run t "core" "test" 0 0 0))
-  ([t mp-id]
-   (t-run t mp-id "test" 0 0 0))
-  ([t mp-id struct no-idx seq-idx par-idx]
-   (let [no-idx    (u/lp no-idx)
-         seq-idx   (u/lp seq-idx)
-         par-idx   (u/lp par-idx)
-         func       "response"
-         state-key  (ku/vec->key [mp-id struct no-idx "state" seq-idx par-idx])
-         resp-key   (ku/vec->key [mp-id struct no-idx func    seq-idx par-idx])
-         meta-task  (task/gen-meta-task t)
-         task       (task/assemble meta-task mp-id state-key)]
-     (when (task/dev-action? task)
-       (println "task dispached, wait for response...")
-       (st/register! mp-id struct no-idx func (fn [msg]
-                                                (when-let [result-key (st/msg->key msg)]
-                                                  (st/de-register! mp-id struct no-idx func)
-                                                  (st/key->val result-key)))))
-     (w/check task))))
-
-(defn t-run-by-key
-  "Calls `t-run` after extracting key info.  A call with all all kinds
-  of complete keys `k` is ok.  Complete means: the functions:
-
-  *  `(ku/key->mp-id   k)`
-  *  `(ku/key->struct  k)`
-  *  `(ku/key->no-idx  k)`
-  *  `(ku/key->seq-idx k)`
-  *  `(ku/key->par-idx k)`
-
-  don't return `nil`.
-
-  Example:
-  ```clojure
-  (t-run-by-key \"se3-cmp_state@container@006@state@000@000\")
-  ```"
-  [k]
-  (let [mp-id     (ku/key->mp-id   k)
-        struct    (ku/key->struct  k)
-        no-idx    (ku/key->no-idx  k)
-        seq-idx   (ku/key->seq-idx k)
-        par-idx   (ku/key->par-idx k)
-        def-key   (ku/vec->key [mp-id struct no-idx "definition" seq-idx par-idx])
-        t         (st/key->val def-key)]
-    (if t
-      (t-run t mp-id struct no-idx seq-idx par-idx)
-      (println (str "no TaskName at key: " k)))))
-
-(defn t-raw
-  "Shows the raw task as stored at st-memory"
-  [s]
-  (st/key->val (ku/task-key s)))
-
-(defn t-assemble
-  "Assembles the task with the given `x` (`TaskName` or `{:TaskName
-  \"task-name\" :Replace {:%waittime 3000}}`).  If a `mp-id` (default
-  is `\"core\"`) is given `FromExchange` dependencies may be resolved.
-
-  Example:
-  ```clojure
-  (t-assemble {:TaskName \"Common-wait\"
-           :Replace {\"%waittime\" 3000}})
-  ```"
-  ([x]
-   (t-assemble x "core" "test" 0 0 0))
-  ([x mp-id]
-   (t-assemble x mp-id "test" 0 0 0))
-  ([x mp-id struct i j k]
-   (let [state-key  (ku/vec->key [mp-id struct (u/lp i) "state" (u/lp j) (u/lp k)])
-         meta-task  (task/gen-meta-task x)]
-     (task/assemble meta-task mp-id state-key))))
-  
 (defn t-clear
   "Function removes all keys starting with `tasks`."
   []

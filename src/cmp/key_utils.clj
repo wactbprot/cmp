@@ -222,6 +222,11 @@
   (when (string? k)
     (vec->key [(key->mp-id k) (key->struct k) (key->no-idx k) "ctrl"])))
 
+;;------------------------------
+;; key->definition-key
+;;------------------------------
+(defn key->definition-key [k] (replace-key-at-level 3 k "definition"))
+
 (defn info-map->ctrl-key
   "Converts a `state-map` into the related `ctrl` key."
   [m]

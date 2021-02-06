@@ -23,7 +23,7 @@
 
 (defn st-db [c] (get-in c [:st-conn :spec :db]))
 
-(defn edn-mpds [c] (:edn-mpds c))
+(defn ref-mpd [c] (:ref-mpd c))
 
 (defn min-task-period [c] (:min-task-period c))
 
