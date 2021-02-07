@@ -265,7 +265,6 @@
   ([mp-id i j k]
    (vec->key [(cont-prefix mp-id) (u/lp i)  "state" (u/lp j) (u/lp k)])))
 
-
 ;;------------------------------
 ;; definitions path
 ;;------------------------------
@@ -295,6 +294,10 @@
 
 (defn defins-class-key [mp-id i] (vec->key [(defins-prefix mp-id) (u/lp i) "class"]))
 
+;;------------------------------
+;; state key for different structs
+;;------------------------------
+(defn struct-state-key [mp-id struct i] (vec->key [mp-id struct (u/lp i)  "state"]))
 
 ;;------------------------------
 ;; id key
