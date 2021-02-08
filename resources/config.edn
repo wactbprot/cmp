@@ -15,6 +15,8 @@
                       :data-stream  "vl-log-stream"
                       :name-mangling false
                       }]}
+ ;; rest api server
+ :api {:port 8010}
  ;; long term memory: couchdb
  :lt-srv "127.0.0.1"
  ;;:lt-srv "a73434"

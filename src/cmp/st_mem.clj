@@ -194,7 +194,7 @@
   The `level` param allows to register more than one listener for one
   pattern."
   [mp-id struct no func level]
-  (str mp-id "_" struct "_" no "_" func "_" level))
+  (ku/vec->key  [mp-id struct no func level]))
 
 (defn registered?
   "Checks if a `listener` is registered under

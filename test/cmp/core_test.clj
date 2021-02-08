@@ -19,10 +19,10 @@
 (deftest mpd-ref-build-clear-build-test
   (testing "clear ref-mpd"
     (m-build-ref)
-    (Thread/sleep 200)
+    (Thread/sleep 300)
     (is (pos? (count (st/pat->keys "ref*"))))
     (m-clear "ref")
-    (Thread/sleep 300)
+    (Thread/sleep 200)
     (prn (st/pat->keys "ref*"))
     (is (zero? (count (st/pat->keys "ref*"))))
     (m-build-ref)

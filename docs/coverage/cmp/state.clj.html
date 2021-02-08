@@ -392,13 +392,13 @@
                 129&nbsp;&nbsp;(defn&nbsp;error!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                130&nbsp;&nbsp;&nbsp;&nbsp;&quot;Sets&nbsp;the&nbsp;`ctrl`&nbsp;interface&nbsp;to&nbsp;`\&quot;error\&quot;`.&quot;
+                130&nbsp;&nbsp;&nbsp;&nbsp;&quot;Sets&nbsp;the&nbsp;`ctrl`&nbsp;interface&nbsp;to&nbsp;`\&quot;error\&quot;`.&nbsp;Function&nbsp;does&nbsp;not&nbsp;de-observe!.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 131&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="not-covered" title="0 out of 14 forms covered">
-                132&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::error!&nbsp;:error&nbsp;&quot;will&nbsp;set&nbsp;ctrl&nbsp;itreface&nbsp;to&nbsp;error&quot;&nbsp;:key&nbsp;k)
+                132&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::error!&nbsp;:error&nbsp;&quot;will&nbsp;set&nbsp;ctrl&nbsp;interface&nbsp;to&nbsp;error&quot;&nbsp;:key&nbsp;k)
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
                 133&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(ku&#x2F;key-&gt;ctrl-key&nbsp;k)&nbsp;&quot;error&quot;))
@@ -407,7 +407,7 @@
                 134&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="15 out of 15 forms covered">
-                135&nbsp;&nbsp;(defn&nbsp;nop!&nbsp;[k]&nbsp;(mu&#x2F;log&nbsp;::nop!&nbsp;:message&nbsp;&quot;nop!&quot;&nbsp;:key&nbsp;k))
+                135&nbsp;&nbsp;(defn&nbsp;nop!&nbsp;[k]&nbsp;(mu&#x2F;log&nbsp;::nop!&nbsp;:message&nbsp;&quot;no&nbsp;operation&quot;&nbsp;:key&nbsp;k))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 136&nbsp;&nbsp;

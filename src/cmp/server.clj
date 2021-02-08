@@ -8,7 +8,9 @@
             [compojure.core           :refer :all]
             [compojure.handler        :as handler]
             [org.httpkit.server       :refer [run-server]]
-            [ring.middleware.json     :as middleware]))
+            [ring.middleware.json     :as middleware]
+            [ring.util.response       :as res]
+            ))
 
 (def conf (c/config))
 
@@ -17,8 +19,9 @@
 (defonce logger (atom nil))
 
 (defroutes app-routes
-  (GET "/listeners"          [:as req]     (a/listeners conf req))
-  (route/not-found (v/not-found)))
+  (GET "/config"    []        (res/response conf))
+  (GET "/listeners" [:as req] (res/response (a/listeners conf req)))
+  (route/not-found            (res/response {:error "not found"})))
 
 (def app
   (-> (handler/site app-routes)
@@ -38,9 +41,8 @@
 
 (defn start []
   (reset! logger (init-log! conf))
-  (pp/pprint conf)
   (mu/log ::start :message "start cmp rest api")
-  (reset! server (run-server app {:port 8010})))
+  (reset! server (run-server app (:api conf))))
 
 
 (defn -main [& args]
