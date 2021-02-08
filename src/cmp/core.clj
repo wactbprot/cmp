@@ -88,12 +88,14 @@
   ([i]
    (c-data (deref current-mp) i))
   ([mp-id i]
-   (let [idx (u/lp i)]
-     {:c-no-idx idx 
-      :c-title  (st/key->val (ku/cont-title-key mp-id idx))
-      :c-descr  (st/key->val (ku/cont-descr-key mp-id idx))
-      :c-ctrl   (st/key->val (ku/cont-ctrl-key mp-id idx))
-      :c-status (state/cont-status mp-id idx)})))
+   (let [idx      (u/lp i)
+         state-ks (st/key->keys (ku/cont-state-key mp-id idx))
+         defin-ks (st/key->keys (ku/cont-defin-key mp-id idx))]
+     (mapv (fn [sk dk] {:state-val (st/key->val sk)
+                        :state-key sk
+                        :defin-val (st/key->val dk)
+                        :defin-key dk})
+           state-ks defin-ks))))
   
 (defn n-data
   "Returns a map about the `i`th defi**n**itions of the mpd with the id

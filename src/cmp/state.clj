@@ -130,12 +130,12 @@
 ;; set value at ctrl-path 
 ;;------------------------------
 (defn error!
-  "Sets the `ctrl` interface to `\"error\"`."
+  "Sets the `ctrl` interface to `\"error\"`. Function does not de-observe!."
   [k]
-  (mu/log ::error! :error "will set ctrl itreface to error" :key k)
+  (mu/log ::error! :error "will set ctrl interface to error" :key k)
   (st/set-val! (ku/key->ctrl-key k) "error"))
 
-(defn nop! [k] (mu/log ::nop! :message "nop!" :key k))
+(defn nop! [k] (mu/log ::nop! :message "no operation" :key k))
 
 (defn all-exec!
   "Handles the case where all `state` interfaces are

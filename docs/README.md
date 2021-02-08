@@ -48,6 +48,7 @@ ToDo: write a new [example session](./uberdoc.html) on how to proceed.
 
 ```clojure
 (def portal (p/open))
+(add-tap #'p/submit)
 (tap> (c-data))
 ```
 

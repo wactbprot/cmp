@@ -40,7 +40,7 @@
         ks     (st/pat->keys (ku/cont-title-key mp "*" ))
         title? (fn [k] (= cont-title (st/key->val k)))]
     (if-let [k (first (filter title? ks))]
-      (exec-index {:Mp mp :Container (ku/key->no-idx k) :StateKey state-key cmd :Cmd}) 
+      (exec-index {:Mp mp :Container (ku/key->no-idx k) :StateKey state-key :Cmd cmd}) 
       (st/set-state! state-key :error (str "no container with title: >"cont-title "<")))))
 
 (defn run-mp!
