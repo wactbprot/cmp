@@ -21,5 +21,15 @@
   ```"
   [conf req]
   (let [ls @st/listeners]
-    (mapv (fn [k] {:reg-key k
-                   :id      (get-in ls [k :id])}) (keys ls))))
+    (mapv (fn [k] {:reg-key k  :id (get-in ls [k :id])}) (keys ls))))
+
+
+(defn tasks
+  "Returns the `tasks` available at `st-mem`.
+
+  Example:
+  ```clojure
+  (tasks {} {})
+  ```"
+  [conf req]
+  (mapv st/key->val (st/key->keys (ku/task-prefix))))
