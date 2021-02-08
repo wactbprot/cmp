@@ -13,10 +13,10 @@
 (defn dispatch
   "Dispatches responds from outer space. Expected responses are:
 
-  * Result
-  * ToExchange
-  * ids
-  * error
+  * Result ... data will be stored in long term memory 
+  * ToExchange ... data goes to exchange interface
+  * ids ... renew the active documents 
+  * error ... state will be set to error, processing stops 
   
   It's maybe a good idea to save the respons body to a key associated
   to the state key (done).

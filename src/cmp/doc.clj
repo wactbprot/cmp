@@ -49,7 +49,7 @@
 (defn add
   "Adds a info map to the short term memory."
   [mpd-id id]
-  (if-let [doc (lt/id->doc id)]
+  (if-let [doc (lt/get-doc id)]
     (let [k    (ku/id-key mpd-id id)
           info (doc-info doc (base-info doc))]
       (mu/log ::add :message "will add doc info" :doc-id id :key k)
@@ -81,7 +81,7 @@
   ;; (cal-2018-ce3-kk-75003_0002)
   ```"
   [mp-id]
-  (mapv (fn [k] (u/key-at-level k 2))
+  (mapv (fn [k] (ku/key-at-level k 2))
         (st/key->keys (ku/id-prefix mp-id))))
 
 ;;------------------------------
@@ -122,7 +122,7 @@
         (let [res (map (fn [id]
                          (locking doc-lock
                            (mu/log ::store! :message "lock doc" :doc-id id)
-                           (let [in-doc  (lt/id->doc id)
+                           (let [in-doc  (lt/get-doc id)
                                  doc     (insert/store-results in-doc results doc-path)
                                  out-doc (lt/put-doc doc)]
                              (mu/log ::store! :message "release lock" :doc-id id))))

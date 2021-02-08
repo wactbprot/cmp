@@ -38,7 +38,7 @@
                 011&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                012&nbsp;&nbsp;(defn&nbsp;id-&gt;doc
+                012&nbsp;&nbsp;(defn&nbsp;get-doc&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 013&nbsp;&nbsp;&nbsp;&nbsp;&quot;Gets&nbsp;a&nbsp;document&nbsp;from&nbsp;the&nbsp;long&nbsp;term&nbsp;memory.&quot;
@@ -47,7 +47,7 @@
                 014&nbsp;&nbsp;&nbsp;&nbsp;[id]
                 </span><br/>
 <span class="not-covered" title="0 out of 14 forms covered">
-                015&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::id-&gt;doc&nbsp;:message&nbsp;&quot;try&nbsp;to&nbsp;get&nbsp;document&quot;&nbsp;:doc-id&nbsp;id)
+                015&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::get-doc&nbsp;:message&nbsp;&quot;try&nbsp;to&nbsp;get&nbsp;document&quot;&nbsp;:doc-id&nbsp;id)
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
                 016&nbsp;&nbsp;&nbsp;&nbsp;(try
@@ -56,7 +56,7 @@
                 017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(couch&#x2F;get-document&nbsp;conn&nbsp;id)
                 </span><br/>
 <span class="not-covered" title="0 out of 14 forms covered">
-                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e&nbsp;(mu&#x2F;log&nbsp;::id-&gt;doc&nbsp;:error&nbsp;(.getMessage&nbsp;e)&nbsp;:doc-id&nbsp;id))))
+                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e&nbsp;(mu&#x2F;log&nbsp;::get-doc&nbsp;:error&nbsp;(.getMessage&nbsp;e)&nbsp;:doc-id&nbsp;id))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 019&nbsp;&nbsp;
@@ -80,7 +80,7 @@
                 025&nbsp;&nbsp;&nbsp;&nbsp;[doc]
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::id-&gt;doc&nbsp;:message&nbsp;&quot;try&nbsp;to&nbsp;put&nbsp;document&quot;&nbsp;:doc-id&nbsp;(:_id&nbsp;doc))
+                026&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::put-doc&nbsp;:message&nbsp;&quot;try&nbsp;to&nbsp;put&nbsp;document&quot;&nbsp;:doc-id&nbsp;(:_id&nbsp;doc))
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
                 027&nbsp;&nbsp;&nbsp;&nbsp;(try
@@ -89,7 +89,7 @@
                 028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(couch&#x2F;put-document&nbsp;conn&nbsp;doc)
                 </span><br/>
 <span class="not-covered" title="0 out of 16 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e&nbsp;(mu&#x2F;log&nbsp;::id-&gt;doc&nbsp;:error&nbsp;(.getMessage&nbsp;e)&nbsp;:doc-id&nbsp;(:_id&nbsp;doc)))))
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e&nbsp;(mu&#x2F;log&nbsp;::put-doc&nbsp;:error&nbsp;(.getMessage&nbsp;e)&nbsp;:doc-id&nbsp;(:_id&nbsp;doc)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 030&nbsp;&nbsp;
@@ -173,7 +173,7 @@
                 056&nbsp;&nbsp;&nbsp;&nbsp;[id]
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                057&nbsp;&nbsp;&nbsp;&nbsp;(map?&nbsp;(id-&gt;doc&nbsp;id)))
+                057&nbsp;&nbsp;&nbsp;&nbsp;(map?&nbsp;(get-doc&nbsp;id)))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 058&nbsp;&nbsp;&nbsp;&nbsp;
@@ -191,7 +191,7 @@
                 062&nbsp;&nbsp;&nbsp;&nbsp;[doc]
                 </span><br/>
 <span class="not-covered" title="0 out of 10 forms covered">
-                063&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[db-doc&nbsp;(id-&gt;doc&nbsp;(:_id&nbsp;doc))]&nbsp;
+                063&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[db-doc&nbsp;(get-doc&nbsp;(:_id&nbsp;doc))]&nbsp;
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
                 064&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;doc&nbsp;:_rev&nbsp;(:_rev&nbsp;db-doc))

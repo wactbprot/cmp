@@ -36,10 +36,7 @@
   (when k
     (sort
      (st/key->keys
-      (u/vec->key [(ku/key->mp-id k)
-                   (ku/key->struct k)
-                   (ku/key->no-idx k)
-                   "state"])))))
+      (ku/struct-state-key (ku/key->mp-id k) (ku/key->struct k) (ku/key->no-idx k))))))
 
 (defn ctrl-k->cmd
   "Gets the `cmd` from the `ctrl-k`. Extracts the `next-ctrl-cmd` and
@@ -96,8 +93,8 @@
   (first (all-ready v)))
 
 (defn predecessors-executed?
-  "Checks if the steps of `v` before `i` `all-executed?`. Returns `true`
-  for `i` equal to zero (or negative `i`"
+  "Checks if the steps of `v` before `i` are `all-executed?`. Returns
+  `true` for `i` equal to zero (or negative `i`)"
   [v i]
   (let [i (u/ensure-int i)]
     (if (pos? i)
@@ -218,9 +215,10 @@
 ;; observe!
 ;;------------------------------
 (defn observe!
-  "Registers a listener with a [[start-next!]] callback.  Calls
-  `start-next!` as a first trigger.  The register pattern is derived
-  from the key `k` (`ctrl-key`)."
+  "Registers a listener for the `state`-interface of a `container` or
+  `definitions` struct. [[start-next!]] is the callback of this
+  listener. The register pattern is derived from the key
+  `k` (`ctrl-key`)."
   [k]
   (mu/log ::observe! :message "register, callback and start-next!" :key k)
   (st/register! (ku/key->mp-id k) (ku/key->struct k) (ku/key->no-idx k) "state"
@@ -244,10 +242,16 @@
   (ks->state-vec (k->state-ks (ku/defins-state-key mp-id i))))
 
 ;;------------------------------
+;; ctrl interface
+;;------------------------------
+;;------------------------------
 ;; dispatch
 ;;------------------------------
 (defn dispatch
-  "Dispaches depending on `cmd`."
+  "`observe!`s or `de-observe!`s depending on `cmd`. If an `:error`
+  occurs the system is kept running (no `de-observe`). So, no restart
+  is necessary. Just fix the problem and set the corresponding state
+  from `:error` to `ready` and the processing goes on."
   [k cmd]
   (condp = (keyword cmd)
     :run     (observe! k)
@@ -259,15 +263,16 @@
                (de-observe! k)
                (ready! k))
     :suspend (de-observe! k)
-    (mu/log ::dispatch :message "default case state dispach function" :key k :command cmd)))
+    :error   (mu/log ::dispatch :error "at ctrl interface" :key k :command cmd)
+    (mu/log ::dispatch :message "default case ctrl dispach function" :key k :command cmd)))
 
 ;;------------------------------
 ;; stop
 ;;------------------------------
 (defn stop
   "De-registers the listener for the `ctrl` interfaces of the
-  `mp-id`. After stopping the system will no longer react on changes
-  at the `ctrl` interface."
+  `mp-id`. After stopping, the system will no longer react on
+  changes (write events) at the `ctrl` interface."
   [mp-id]
   (mu/log ::stop :message "deregister and clean ctrl listener" :mp-id mp-id)
   (st/de-register! mp-id "*" "*" "ctrl")

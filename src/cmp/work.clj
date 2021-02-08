@@ -31,7 +31,7 @@
   holds the position of the task) have to be `assoc`ed
   (done in `tsk/assemble`)." 
   [k]
-  (let [state-key (u/replace-key-at-level 3 k "state")]
+  (let [state-key (ku/replace-key-at-level 3 k "state")]
     (try (let [proto-task (st/key->val k)
                meta-task  (tsk/gen-meta-task proto-task)
                mp-id      (ku/key->mp-id k)]

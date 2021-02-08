@@ -9,13 +9,13 @@
 ;;------------------------------
 ;; get doc
 ;;------------------------------
-(defn id->doc
+(defn get-doc 
   "Gets a document from the long term memory."
   [id]
-  (mu/log ::id->doc :message "try to get document" :doc-id id)
+  (mu/log ::get-doc :message "try to get document" :doc-id id)
   (try
     (couch/get-document conn id)
-    (catch Exception e (mu/log ::id->doc :error (.getMessage e) :doc-id id))))
+    (catch Exception e (mu/log ::get-doc :error (.getMessage e) :doc-id id))))
 
 ;;------------------------------
 ;; put doc
@@ -23,10 +23,10 @@
 (defn put-doc
   "Puts a document to the long term memory."
   [doc]
-  (mu/log ::id->doc :message "try to put document" :doc-id (:_id doc))
+  (mu/log ::put-doc :message "try to put document" :doc-id (:_id doc))
   (try
     (couch/put-document conn doc)
-    (catch Exception e (mu/log ::id->doc :error (.getMessage e) :doc-id (:_id doc)))))
+    (catch Exception e (mu/log ::put-doc :error (.getMessage e) :doc-id (:_id doc)))))
 
 ;;------------------------------
 ;; tasks
@@ -54,13 +54,13 @@
   ;; false
   ```"
   [id]
-  (map? (id->doc id)))
+  (map? (get-doc id)))
   
 (defn rev-refresh
   "Refreshs the revision `_rev` of the document if
   it exist."
   [doc]
-  (if-let [db-doc (id->doc (:_id doc))] 
+  (if-let [db-doc (get-doc (:_id doc))] 
     (assoc doc :_rev (:_rev db-doc))
     doc))
 

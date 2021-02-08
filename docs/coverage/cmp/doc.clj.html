@@ -158,7 +158,7 @@
                 051&nbsp;&nbsp;&nbsp;&nbsp;[mpd-id&nbsp;id]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                052&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[doc&nbsp;(lt&#x2F;id-&gt;doc&nbsp;id)]
+                052&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[doc&nbsp;(lt&#x2F;get-doc&nbsp;id)]
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
                 053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[k&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;id-key&nbsp;mpd-id&nbsp;id)
@@ -254,7 +254,7 @@
                 083&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                084&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;(fn&nbsp;[k]&nbsp;(u&#x2F;key-at-level&nbsp;k&nbsp;2))
+                084&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;(fn&nbsp;[k]&nbsp;(ku&#x2F;key-at-level&nbsp;k&nbsp;2))
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
                 085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;keys&nbsp;(ku&#x2F;id-prefix&nbsp;mp-id))))
@@ -377,7 +377,7 @@
                 124&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::store!&nbsp;:message&nbsp;&quot;lock&nbsp;doc&quot;&nbsp;:doc-id&nbsp;id)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                125&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[in-doc&nbsp;&nbsp;(lt&#x2F;id-&gt;doc&nbsp;id)
+                125&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[in-doc&nbsp;&nbsp;(lt&#x2F;get-doc&nbsp;id)
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
                 126&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(insert&#x2F;store-results&nbsp;in-doc&nbsp;results&nbsp;doc-path)

@@ -9,41 +9,6 @@
 
 (def ok-set #{"ok" :ok "true" true "yo!"})
 
-(def sep
-  "Short-term-database (st) path seperator.
-  Must not be a regex operator (like `.` or `|`)"
-  "@")
-
-(def re-sep
-  "The regex version of the seperator."
-  (re-pattern sep))
-
-(defn vec->key
-  "Joins the vec to a key."
-  [p]
-  (string/join sep p))
-
-(defn replace-key-at-level
-  "Generates a new key by replacing an old key `k` at the given position
-  `l` with the given string `r`.
-
-  REVIEW The key levels should have a name or keyword.  Passing
-  integers (`l`) is unimaginative.
-  "
-  [l k r]
-  {:pre [(string? k)
-         (int? l)
-         (string? r)]}
-  (let [v (string/split k re-sep)]
-    (when (< l (count v)) (vec->key (assoc v l r)))))
-
-(defn key-at-level
-  "Returns the value of the key `k` at the level `l`."
-  [k l]
-  {:pre [(string? k)
-         (int? l)] }
-  (nth (string/split k re-sep) l nil))
-
 ;;------------------------------
 ;; date time
 ;;------------------------------
