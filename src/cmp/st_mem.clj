@@ -36,19 +36,13 @@
   may be provided."
   ([k state msg]
    (condp = state
-     :error (mu/log ::set-state! :error msg)
-     :ready (mu/log ::set-state! :message msg)
-     (mu/log ::set-state! :message msg))
+     :error (mu/log ::set-state! :error msg :command state :key k)
+     (mu/log ::set-state! :message msg :command state :key k))
    (set-state! k state))
   ([k state]
-   (when (and (string? k)
-              (keyword? state)) 
+   (when (and (string? k) (keyword? state)) 
      (set-val! k (name state))
-     (mu/log ::set-state! :message "wrote new state" :state state :key k)
-     (when (= state :working)
-       (::set-state! :message "just set working state")
-       (Thread/sleep mtp)
-       (::set-state! :message "relax done")))))
+     (when (= state :working) (Thread/sleep mtp)))))
 
 ;;------------------------------
 ;; get keys
