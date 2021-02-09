@@ -197,9 +197,7 @@
   (ku/vec->key  [mp-id struct no func level]))
 
 (defn reg-map
-  "Generates a registration key for the listener atom.
-  The `level` param allows to register more than one listener for one
-  pattern."
+  "Generates a map from the `reg-key`."
   [k]
   {:mp-id   (ku/key->mp-id   k)
    :struct  (ku/key->struct  k)

@@ -10,6 +10,7 @@
                  [clj-time                             "0.15.0"]
                  [compojure                            "1.6.1"]
                  [http-kit                             "2.5.0"]
+                 [hiccup                               "1.0.5"]
                  [ring/ring-defaults                   "0.3.2"]
                  [ring/ring-core                       "1.7.1"]
                  [ring/ring-devel                      "1.7.1"]

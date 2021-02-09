@@ -58,8 +58,9 @@ curl -H "$H" -X GET http://localhost:8010/listeners
 ##	...]
 ```
 
-## container title
+## container
 
+There are several endpoints working in the same way as the following.
 
 Returns a vector of objects containing the key-value pairs of all `mp` (here `ref`) container titles.
 
@@ -72,4 +73,16 @@ curl -H "$H" -X GET http://localhost:8010/ref/container/title
 ##    "value": "multiple wait tasks"
 ##  },
 ##  ...]
+```
+
+```shell
+curl -H "$H" -X GET http://localhost:8010/ref/container/descr
+```
+
+```shell
+curl -H "$H" -X GET http://localhost:8010/ref/container/ctrl
+```
+
+```shell
+curl -H "$H" -X GET http://localhost:8010/ref/container/elem
 ```

@@ -17,6 +17,9 @@
                       }]}
  ;; rest api server
  :api {:port 8010}
+ ;; integrated ui
+ :ui {:page-title "UI-CMP"
+      }
  ;; long term memory: couchdb
  :lt-srv "127.0.0.1"
  ;;:lt-srv "a73434"
