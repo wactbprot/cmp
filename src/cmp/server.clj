@@ -19,10 +19,11 @@
 (defonce logger (atom nil))
 
 (defroutes app-routes
-  (GET "/config"    []        (res/response conf))
-  (GET "/listeners" [:as req] (res/response (a/listeners conf req)))
-  (GET "/tasks"     [:as req] (res/response (a/tasks     conf req)))
-  (route/not-found            (res/response {:error "not found"})))
+  (GET "/config"                 []        (res/response conf))
+  (GET "/listeners"              [:as req] (res/response (a/listeners conf req)))
+  (GET "/tasks"                  [:as req] (res/response (a/tasks     conf req)))
+  (GET "/:mp-id/container/title" [mp-id :as req] (res/response (a/container-title conf req mp-id)))
+  (route/not-found (res/response {:error "not found"})))
 
 (def app
   (-> (handler/site app-routes)

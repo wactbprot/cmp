@@ -73,7 +73,7 @@
 <span class="covered" title="12 out of 12 forms covered">
                 023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::set-val&nbsp;:error&nbsp;&quot;no&nbsp;value&nbsp;given&quot;))
                 </span><br/>
-<span class="covered" title="12 out of 12 forms covered">
+<span class="not-covered" title="0 out of 12 forms covered">
                 024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::set-val&nbsp;:error&nbsp;&quot;no&nbsp;key&nbsp;given&quot;)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -599,139 +599,172 @@
                 198&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                199&nbsp;&nbsp;(defn&nbsp;registered?
+                199&nbsp;&nbsp;(defn&nbsp;reg-map
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                200&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;a&nbsp;`listener`&nbsp;is&nbsp;registered&nbsp;under
+                200&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;a&nbsp;registration&nbsp;key&nbsp;for&nbsp;the&nbsp;listener&nbsp;atom.
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                201&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;`listeners`-atom.&quot;
+                201&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;`level`&nbsp;param&nbsp;allows&nbsp;to&nbsp;register&nbsp;more&nbsp;than&nbsp;one&nbsp;listener&nbsp;for&nbsp;one
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                202&nbsp;&nbsp;&nbsp;&nbsp;[k]
-                </span><br/>
-<span class="covered" title="6 out of 6 forms covered">
-                203&nbsp;&nbsp;&nbsp;&nbsp;(contains?&nbsp;(deref&nbsp;listeners)&nbsp;k))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                204&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                205&nbsp;&nbsp;(defn&nbsp;register!
+                202&nbsp;&nbsp;&nbsp;&nbsp;pattern.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                206&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;and&nbsp;registers&nbsp;a&nbsp;listener&nbsp;under&nbsp;the&nbsp;key&nbsp;`mp-id`&nbsp;in&nbsp;the
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                207&nbsp;&nbsp;&nbsp;&nbsp;`listeners`&nbsp;atom.&nbsp;&nbsp;The&nbsp;cb!&nbsp;function&nbsp;dispatches&nbsp;depending&nbsp;on&nbsp;the
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                208&nbsp;&nbsp;&nbsp;&nbsp;result.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                209&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!]
-                </span><br/>
-<span class="covered" title="8 out of 8 forms covered">
-                210&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(register!&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!&nbsp;&quot;a&quot;))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                211&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!&nbsp;level]
-                </span><br/>
-<span class="covered" title="8 out of 8 forms covered">
-                212&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[reg-key&nbsp;(reg-key&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;level)]
-                </span><br/>
-<span class="covered" title="6 out of 6 forms covered">
-                213&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;(registered?&nbsp;reg-key)
-                </span><br/>
-<span class="covered" title="4 out of 4 forms covered">
-                214&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?
-                </span><br/>
-<span class="covered" title="4 out of 4 forms covered">
-                215&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;listeners&nbsp;assoc
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                216&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reg-key
-                </span><br/>
-<span class="covered" title="7 out of 7 forms covered">
-                217&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gen-listener&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!)))}
-                </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
-                218&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;already&nbsp;registered&quot;}))))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                219&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                220&nbsp;&nbsp;(defn&nbsp;de-register!
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                221&nbsp;&nbsp;&nbsp;&nbsp;&quot;De-registers&nbsp;the&nbsp;listener&nbsp;with&nbsp;the&nbsp;key&nbsp;`mp-id`&nbsp;in&nbsp;the&nbsp;`listeners`
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                222&nbsp;&nbsp;&nbsp;&nbsp;atom.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                223&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;struct&nbsp;no&nbsp;func]
-                </span><br/>
-<span class="covered" title="7 out of 7 forms covered">
-                224&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(de-register!&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;&quot;a&quot;))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                225&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;level]
-                </span><br/>
-<span class="covered" title="8 out of 8 forms covered">
-                226&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[k&nbsp;(reg-key&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;level)]
-                </span><br/>
-<span class="covered" title="4 out of 4 forms covered">
-                227&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(registered?&nbsp;k)
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                228&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
-                </span><br/>
-<span class="covered" title="14 out of 14 forms covered">
-                229&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::de-register!&nbsp;:message&nbsp;&quot;will&nbsp;de-register&quot;&nbsp;:key&nbsp;k)
-                </span><br/>
-<span class="covered" title="7 out of 7 forms covered">
-                230&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(close-listener!&nbsp;((deref&nbsp;listeners)&nbsp;k))
-                </span><br/>
-<span class="covered" title="9 out of 9 forms covered">
-                231&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?&nbsp;(swap!&nbsp;listeners&nbsp;dissoc&nbsp;k))})
-                </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
-                232&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;not&nbsp;registered&quot;}))))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                233&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                234&nbsp;&nbsp;(defn&nbsp;clean-register!
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                235&nbsp;&nbsp;&nbsp;&nbsp;&quot;Closes&nbsp;and&nbsp;`de-registers!`&nbsp;all&nbsp;`listeners`&nbsp;belonging&nbsp;to&nbsp;`mp-id`&nbsp;.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                236&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
-                </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                237&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[[k&nbsp;v]]
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                238&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(string&#x2F;starts-with?&nbsp;k&nbsp;mp-id)
-                </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
-                239&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                240&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(close-listener!&nbsp;v)
+                203&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="not-covered" title="0 out of 9 forms covered">
-                241&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?&nbsp;(swap!&nbsp;listeners&nbsp;dissoc&nbsp;k))})
+                204&nbsp;&nbsp;&nbsp;&nbsp;{:mp-id&nbsp;&nbsp;&nbsp;(ku&#x2F;key-&gt;mp-id&nbsp;&nbsp;&nbsp;k)
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                242&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:reason&nbsp;&quot;unrelated&quot;}))
+<span class="not-covered" title="0 out of 3 forms covered">
+                205&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:struct&nbsp;&nbsp;(ku&#x2F;key-&gt;struct&nbsp;&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                206&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:no-idx&nbsp;&nbsp;(ku&#x2F;key-&gt;no-idx&nbsp;&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                207&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:func&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;key-&gt;func&nbsp;&nbsp;&nbsp;&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                208&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:level&nbsp;&nbsp;&nbsp;(ku&#x2F;key-&gt;level&nbsp;&nbsp;&nbsp;k)})
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                209&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                210&nbsp;&nbsp;(defn&nbsp;registered?
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                211&nbsp;&nbsp;&nbsp;&nbsp;&quot;Checks&nbsp;if&nbsp;a&nbsp;`listener`&nbsp;is&nbsp;registered&nbsp;under
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                212&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;`listeners`-atom.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                213&nbsp;&nbsp;&nbsp;&nbsp;[k]
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                214&nbsp;&nbsp;&nbsp;&nbsp;(contains?&nbsp;(deref&nbsp;listeners)&nbsp;k))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                215&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                216&nbsp;&nbsp;(defn&nbsp;register!
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                217&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;and&nbsp;registers&nbsp;a&nbsp;listener&nbsp;under&nbsp;the&nbsp;key&nbsp;`mp-id`&nbsp;in&nbsp;the
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                218&nbsp;&nbsp;&nbsp;&nbsp;`listeners`&nbsp;atom.&nbsp;&nbsp;The&nbsp;cb!&nbsp;function&nbsp;dispatches&nbsp;depending&nbsp;on&nbsp;the
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                219&nbsp;&nbsp;&nbsp;&nbsp;result.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                220&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!]
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                221&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(register!&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!&nbsp;&quot;a&quot;))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                222&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!&nbsp;level]
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                223&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[reg-key&nbsp;(reg-key&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;level)]
+                </span><br/>
+<span class="covered" title="6 out of 6 forms covered">
+                224&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-not&nbsp;(registered?&nbsp;reg-key)
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                225&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                226&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;listeners&nbsp;assoc
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                227&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reg-key
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                228&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(gen-listener&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;cb!)))}
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                229&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;already&nbsp;registered&quot;}))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                230&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                231&nbsp;&nbsp;(defn&nbsp;de-register!
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                232&nbsp;&nbsp;&nbsp;&nbsp;&quot;De-registers&nbsp;the&nbsp;listener&nbsp;with&nbsp;the&nbsp;key&nbsp;`mp-id`&nbsp;in&nbsp;the&nbsp;`listeners`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                233&nbsp;&nbsp;&nbsp;&nbsp;atom.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                234&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;struct&nbsp;no&nbsp;func]
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                235&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(de-register!&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;&quot;a&quot;))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                236&nbsp;&nbsp;&nbsp;&nbsp;([mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;level]
+                </span><br/>
+<span class="covered" title="8 out of 8 forms covered">
+                237&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[k&nbsp;(reg-key&nbsp;mp-id&nbsp;struct&nbsp;no&nbsp;func&nbsp;level)]
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                238&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(registered?&nbsp;k)
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                239&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
+                </span><br/>
+<span class="covered" title="14 out of 14 forms covered">
+                240&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::de-register!&nbsp;:message&nbsp;&quot;will&nbsp;de-register&quot;&nbsp;:key&nbsp;k)
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                241&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(close-listener!&nbsp;((deref&nbsp;listeners)&nbsp;k))
+                </span><br/>
+<span class="covered" title="9 out of 9 forms covered">
+                242&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?&nbsp;(swap!&nbsp;listeners&nbsp;dissoc&nbsp;k))})
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                243&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:warn&nbsp;&quot;not&nbsp;registered&quot;}))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                244&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                245&nbsp;&nbsp;(defn&nbsp;clean-register!
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                246&nbsp;&nbsp;&nbsp;&nbsp;&quot;Closes&nbsp;and&nbsp;`de-registers!`&nbsp;all&nbsp;`listeners`&nbsp;belonging&nbsp;to&nbsp;`mp-id`&nbsp;.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                247&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                243&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(deref&nbsp;listeners)))
+                248&nbsp;&nbsp;&nbsp;&nbsp;(map&nbsp;(fn&nbsp;[[k&nbsp;v]]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                249&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(string&#x2F;starts-with?&nbsp;k&nbsp;mp-id)
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                250&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(do
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                251&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(close-listener!&nbsp;v)
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                252&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;(map?&nbsp;(swap!&nbsp;listeners&nbsp;dissoc&nbsp;k))})
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                253&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true&nbsp;:reason&nbsp;&quot;unrelated&quot;}))
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                254&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(deref&nbsp;listeners)))
                 </span><br/>
  </body>
 </html>

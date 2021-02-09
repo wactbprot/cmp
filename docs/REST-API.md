@@ -26,18 +26,23 @@ listeners. A registered listener is necessary for a running mp.
 ```shell
 curl -H "$H" -X GET http://localhost:8010/listeners
 ## =>
-## [{"reg-key":"ref@*@*@ctrl@a","id":"82f57e39-6eac-4d73-b0d2-b913403a6d60"}]
+## [{:mp-id "ref",
+##   :struct "*",
+##   :no-idx "*",
+##   :func "ctrl",
+##   :level "a",
+##   :listener-id "82f57e39-6eac-4d73-b0d2-b913403a6d60"}]
 ```
-
 
 ## tasks
 
-Returns a vector of objects containing the tasks available for cmp.
+Returns a vector of objects containing the key-value pairs of all tasks available for cmp.
 
 ```shell
 curl -H "$H" -X GET http://localhost:8010/listeners
 ## =>
-## [
+## [{:key "tasks@1000T_4038-ctrl_pfill",
+##   :value
 ##  {
 ##    "Port": "%port",
 ##    "NoLog": true,
@@ -51,4 +56,20 @@ curl -H "$H" -X GET http://localhost:8010/listeners
 ##      }
 ##    },
 ##	...]
+```
+
+## container title
+
+
+Returns a vector of objects containing the key-value pairs of all `mp` (here `ref`) container titles.
+
+```shell
+curl -H "$H" -X GET http://localhost:8010/ref/container/title
+##=>
+##[
+##  {
+##    "key": "ref@container@000@title",
+##    "value": "multiple wait tasks"
+##  },
+##  ...]
 ```

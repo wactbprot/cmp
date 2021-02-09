@@ -110,8 +110,12 @@
   (when (string? k) (nth (string/split k re-sep) 4 nil)))
 
 (defn key->no-jdx
-  "The 4th position at definitions has nothing todo with
-  `seq-idx` (function rename)"
+  "The 4th position at `definitions` keys."
+  [k]
+  (key->seq-idx k))
+
+(defn key->level
+  "The 4th position at listener `reg` keys."
   [k]
   (key->seq-idx k))
 

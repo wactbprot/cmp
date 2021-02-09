@@ -10,7 +10,7 @@
             [cmp.utils               :as u]
             [com.brunobonacci.mulog  :as mu]))
 
-
+(defn kv [k] {:key k :value (st/key->val k)})
 
 (defn listeners
   "Returns the `reg-key` and the `id` of the running listeners.
@@ -21,15 +21,26 @@
   ```"
   [conf req]
   (let [ls @st/listeners]
-    (mapv (fn [k] {:reg-key k  :id (get-in ls [k :id])}) (keys ls))))
-
+    (mapv (fn [k] (assoc (st/reg-map k) :listener-id (get-in ls [k :id]))) (keys ls))))
 
 (defn tasks
-  "Returns the `tasks` available at `st-mem`.
+  "Returns the `tasks` `key`-`value` pairs available at `st-mem`.
 
   Example:
   ```clojure
   (tasks {} {})
   ```"
   [conf req]
-  (mapv st/key->val (st/key->keys (ku/task-prefix))))
+  (mapv kv (st/key->keys (ku/task-prefix))))
+
+(defn container-title
+  "Returns the `container-title` `key`-`value` pairs.
+  
+  Example:
+  ```clojure
+  (container-title {} {} \"ref\")
+  ```"
+  [conf req mp-id]
+  (mapv kv (st/pat->keys (ku/cont-title-key mp-id "*"))))
+  
+
