@@ -1,0 +1,68 @@
+<html>
+ <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="../../coverage.css"/>  <title> cmp/ui/core.clj </title>
+ </head>
+ <body>
+<span class="covered" title="1 out of 1 forms covered">
+                001&nbsp;&nbsp;(ns&nbsp;cmp.ui.core
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                002&nbsp;&nbsp;&nbsp;&nbsp;(:require
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[hiccup.form&nbsp;:as&nbsp;hf]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[hiccup.page&nbsp;:as&nbsp;hp]))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                005&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                006&nbsp;&nbsp;(defn&nbsp;page-header
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                007&nbsp;&nbsp;&nbsp;&nbsp;[conf]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                008&nbsp;&nbsp;&nbsp;&nbsp;[:head
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:title&nbsp;(:page-title&nbsp;conf)]
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-css&nbsp;&quot;&#x2F;css&#x2F;bulma.css&quot;)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-css&nbsp;&quot;&#x2F;css&#x2F;all.css&quot;)])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                012&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                013&nbsp;&nbsp;(defn&nbsp;index
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                014&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;body]
+                </span><br/>
+<span class="not-covered" title="0 out of 158 forms covered">
+                015&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;html5
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(page-header&nbsp;conf)
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:body&nbsp;body
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;jquery-3.5.1.min.js&quot;)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;ws.js&quot;)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;main.js&quot;)]))
+                </span><br/>
+ </body>
+</html>

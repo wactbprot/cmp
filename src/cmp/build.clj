@@ -130,19 +130,10 @@
 ;; all
 ;;------------------------------
 (defn store
-  "Triggers the storing of `meta`, `exchange`,
-  `container`s etc. to the short term memory.
-  Clears up the fields before.
-  ```clojure
-  ;; use metadata example input
-  (store ((meta (var store)) :example-input))
-  ```"
+  "Triggers the storing of `meta`, `exchange`, `container`s etc. to the
+  short term memory."
   [{id :_id rev :_rev mp :Mp}]
   (let [p (u/extr-main-path id)]
-    (st/clear! (ku/meta-prefix p))
-    (st/clear! (ku/exch-prefix p))
-    (st/clear! (ku/cont-prefix p))
-    (st/clear! (ku/defins-prefix p))
     (store-meta p mp)
     (store-exchange p mp)
     (store-all-container p mp)
@@ -152,18 +143,14 @@
 ;; tasks
 ;;------------------------------
 (defn store-task
-  "Stores the given `task` unter the path
-  `tasks@<TaskName>`."
+  "Stores the given `task` unter the path `tasks@<TaskName>`."
   [task]
-  (st/set-val!
-   (ku/task-key (:TaskName task))
-   (u/doc->safe-doc task)))
+  (st/set-val! (ku/task-key (:TaskName task)) (u/doc->safe-doc task)))
 
 (defn store-tasks
   "Stores the `task-list` as received
   from `lt-mem`."
   [task-list]
   (run!
-   (fn [{task :value}]
-     (store-task task))
+   (fn [{task :value}] (store-task task))
    task-list))

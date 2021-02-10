@@ -165,11 +165,11 @@
 ;; build mpd
 ;;------------------------------
 (defn m-build
-  "Loads a mpd from long term memory and builds the short term
-  memory. The `mp-id` may be set with [[workon!]]. [[m-start]] is
-  called after mp is build.
+  "Loads a mpd from long term memory and builds up a `st-mem` version of
+  it. The `mp-id` may be set with [[workon!]]. [[m-start]] is called
+  after mp is build.
 
-  Usage:
+  Example:
   ```clojure
   (m-build mpid)
   ;; or
@@ -180,19 +180,30 @@
   ([]
    (m-build @current-mp))
   ([mp-id]
+   (println "stop " mp-id)
+   (m-stop mp-id)
+   (println "clear " mp-id)
+   (st/clear! mp-id)
    (println "build " mp-id)
    (->> mp-id u/compl-main-path lt/get-doc u/doc->safe-doc build/store)
+   (println "start " mp-id)
    (m-start mp-id)))
 
 (defn m-build-ref
-  "Builds up a the mpds in `edn` format provided by *cmp* (see resources
-  directory)."
+  "Builds up the `ref`erence mpd provided in `edn` format in the
+  resources folder."
   []
   (println "try to slurp and build ref")
   (let [mp    (-> (cfg/ref-mpd (cfg/config)) slurp read-string)
         mp-id (u/extr-main-path (:_id mp))]
+    (println "stop " mp-id)
+    (m-stop mp-id)
+    (println "clear " mp-id)
+    (st/clear! mp-id)
+    (println "build " mp-id)
     (build/store mp)
     (workon! mp-id)
+    (println "start " mp-id)
     (m-start)))
 
 ;;------------------------------

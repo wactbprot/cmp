@@ -401,115 +401,76 @@
                 132&nbsp;&nbsp;(defn&nbsp;store
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                133&nbsp;&nbsp;&nbsp;&nbsp;&quot;Triggers&nbsp;the&nbsp;storing&nbsp;of&nbsp;`meta`,&nbsp;`exchange`,
+                133&nbsp;&nbsp;&nbsp;&nbsp;&quot;Triggers&nbsp;the&nbsp;storing&nbsp;of&nbsp;`meta`,&nbsp;`exchange`,&nbsp;`container`s&nbsp;etc.&nbsp;to&nbsp;the
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                134&nbsp;&nbsp;&nbsp;&nbsp;`container`s&nbsp;etc.&nbsp;to&nbsp;the&nbsp;short&nbsp;term&nbsp;memory.
+                134&nbsp;&nbsp;&nbsp;&nbsp;short&nbsp;term&nbsp;memory.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                135&nbsp;&nbsp;&nbsp;&nbsp;Clears&nbsp;up&nbsp;the&nbsp;fields&nbsp;before.
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                136&nbsp;&nbsp;&nbsp;&nbsp;```clojure
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                137&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;use&nbsp;metadata&nbsp;example&nbsp;input
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                138&nbsp;&nbsp;&nbsp;&nbsp;(store&nbsp;((meta&nbsp;(var&nbsp;store))&nbsp;:example-input))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                139&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                140&nbsp;&nbsp;&nbsp;&nbsp;[{id&nbsp;:_id&nbsp;rev&nbsp;:_rev&nbsp;mp&nbsp;:Mp}]
+                135&nbsp;&nbsp;&nbsp;&nbsp;[{id&nbsp;:_id&nbsp;rev&nbsp;:_rev&nbsp;mp&nbsp;:Mp}]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                141&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[p&nbsp;(u&#x2F;extr-main-path&nbsp;id)]
-                </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
-                142&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clear!&nbsp;(ku&#x2F;meta-prefix&nbsp;p))
-                </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
-                143&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clear!&nbsp;(ku&#x2F;exch-prefix&nbsp;p))
-                </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
-                144&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clear!&nbsp;(ku&#x2F;cont-prefix&nbsp;p))
-                </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
-                145&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clear!&nbsp;(ku&#x2F;defins-prefix&nbsp;p))
+                136&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[p&nbsp;(u&#x2F;extr-main-path&nbsp;id)]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                146&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-meta&nbsp;p&nbsp;mp)
+                137&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-meta&nbsp;p&nbsp;mp)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                147&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-exchange&nbsp;p&nbsp;mp)
+                138&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-exchange&nbsp;p&nbsp;mp)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                148&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-all-container&nbsp;p&nbsp;mp)
+                139&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-all-container&nbsp;p&nbsp;mp)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                149&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-all-definitions&nbsp;p&nbsp;mp)))
+                140&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-all-definitions&nbsp;p&nbsp;mp)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                150&nbsp;&nbsp;
+                141&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                151&nbsp;&nbsp;;;------------------------------
+                142&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                152&nbsp;&nbsp;;;&nbsp;tasks
+                143&nbsp;&nbsp;;;&nbsp;tasks
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                153&nbsp;&nbsp;;;------------------------------
+                144&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                154&nbsp;&nbsp;(defn&nbsp;store-task
+                145&nbsp;&nbsp;(defn&nbsp;store-task
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                155&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;the&nbsp;given&nbsp;`task`&nbsp;unter&nbsp;the&nbsp;path
+                146&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;the&nbsp;given&nbsp;`task`&nbsp;unter&nbsp;the&nbsp;path&nbsp;`tasks@&lt;TaskName&gt;`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                156&nbsp;&nbsp;&nbsp;&nbsp;`tasks@&lt;TaskName&gt;`.&quot;
+                147&nbsp;&nbsp;&nbsp;&nbsp;[task]
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                157&nbsp;&nbsp;&nbsp;&nbsp;[task]
-                </span><br/>
-<span class="covered" title="2 out of 2 forms covered">
-                158&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!
-                </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
-                159&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;task-key&nbsp;(:TaskName&nbsp;task))
-                </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                160&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;doc-&gt;safe-doc&nbsp;task)))
+<span class="covered" title="10 out of 10 forms covered">
+                148&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(ku&#x2F;task-key&nbsp;(:TaskName&nbsp;task))&nbsp;(u&#x2F;doc-&gt;safe-doc&nbsp;task)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                161&nbsp;&nbsp;
+                149&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                162&nbsp;&nbsp;(defn&nbsp;store-tasks
+                150&nbsp;&nbsp;(defn&nbsp;store-tasks
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                163&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;the&nbsp;`task-list`&nbsp;as&nbsp;received
+                151&nbsp;&nbsp;&nbsp;&nbsp;&quot;Stores&nbsp;the&nbsp;`task-list`&nbsp;as&nbsp;received
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                164&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;`lt-mem`.&quot;
+                152&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;`lt-mem`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                165&nbsp;&nbsp;&nbsp;&nbsp;[task-list]
+                153&nbsp;&nbsp;&nbsp;&nbsp;[task-list]
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                166&nbsp;&nbsp;&nbsp;&nbsp;(run!
+                154&nbsp;&nbsp;&nbsp;&nbsp;(run!
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                155&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[{task&nbsp;:value}]&nbsp;(store-task&nbsp;task))
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                167&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[{task&nbsp;:value}]
-                </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                168&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(store-task&nbsp;task))
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                169&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task-list))
+                156&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task-list))
                 </span><br/>
  </body>
 </html>
