@@ -56,7 +56,9 @@
 (defn container-descr [conf req mp-id] (mapv kv (st/pat->keys (ku/cont-descr-key mp-id "*"))))
 
 (defn container-ctrl  [conf req mp-id] (mapv kv (st/pat->keys (ku/cont-ctrl-key mp-id "*"))))
+
 (defn container-state [conf req mp-id] (mapv kv (st/pat->keys (ku/cont-state-key mp-id "*" "*" "*" ))))
+(defn container-definition [conf req mp-id] (mapv kv (st/pat->keys (ku/cont-defin-key mp-id "*" "*" "*" ))))
 
 (defn mp-meta         [conf req mp-id] (mapv kv (st/key->keys (ku/meta-prefix mp-id))))
 

@@ -8,11 +8,25 @@
 ;;------------------------------
 ;; table funs
 ;;------------------------------
+(defmulti td-value  (fn [m kw] (name kw)))
+
+(defmethod td-value "mp-id" [m kw] [:i (kw m)])
+
+(defmethod td-value "value"
+  [m kw]
+  (if-let [x (kw m)]
+    (cond
+      (string? x) [:i x]
+      (map?    x) (into [:ul] (mapv (fn [[k v]] [:li [:b k] (str v)]) m)))
+    [:span "/"]))
+
+;(defmethod td-value :default [m kw]  [:b (kw m)])
+
 (defn kw-head [m] (keys (first m)))
 
 (defn t-head  [kws] (into [:thead] (mapv (fn [x] [:th x]) kws))) 
 
-(defn td      [m kws] (mapv (fn [kw] [:td (kw m)]) kws))
+(defn td      [m kws] (mapv (fn [kw] [:td (td-value m kw)]) kws))
 
 (defn t-row   [m kws] (mapv (fn [x]  (into [:tr] (td x kws))) m))
 

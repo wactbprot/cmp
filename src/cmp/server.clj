@@ -23,19 +23,25 @@
 (defonce logger (atom nil))
 
 (defroutes app-routes
-  (GET "/config"                    []              (res/response conf))
-  (GET "/listeners"                 [:as req]       (res/response (a/listeners conf req)))
+  (GET "/config"                      []           (res/response conf))
+  (GET "/listeners"                   [:as req]    (res/response (a/listeners conf req)))
+  (GET "/tasks"                       [:as req]    (res/response (a/tasks     conf req)))
+  
+  (GET "/:mp/meta"                    [mp :as req] (res/response (a/mp-meta   conf req mp)))
+  (GET "/:mp/container/title"         [mp :as req] (res/response (a/container-title conf req mp)))
 
-  (GET "/tasks"                     [:as req]       (res/response (a/tasks     conf req)))
-  (GET "/:mp/meta"               [mp :as req] (res/response (a/mp-meta   conf req mp)))
-  (GET "/:mp/container/title"    [mp :as req] (res/response (a/container-title conf req mp)))
-
-  (GET "/ui/listeners"              [:as req]       (uil/view conf (a/listeners conf req)))
-  (GET "/ui/:mp/meta"            [mp :as req] (uim/view conf (a/mp-meta   conf req mp)))
-  (GET "/ui/:mp/container/title" [mp :as req] (uic/view conf (a/container-title conf req mp)))
-  (GET "/ui/:mp/container/descr" [mp :as req] (uic/view conf (a/container-descr conf req mp)))
-  (GET "/ui/:mp/container/ctrl" [mp :as req] (uic/view conf (a/container-ctrl conf req mp)))
-  (GET "/ui/:mp/container/state" [mp :as req] (uic/view conf (a/container-state conf req mp)))
+  (GET "/ui/listeners"                   [:as req] (uil/view conf (a/listeners conf req)))
+  (GET "/ui/:mp/meta"                 [mp :as req] (uim/view conf (a/mp-meta   conf req mp)))
+  (GET "/ui/:mp/container/title"      [mp :as req] (uic/view conf
+                                                             (a/container-title conf req mp)))
+  (GET "/ui/:mp/container/descr"      [mp :as req] (uic/view conf
+                                                             (a/container-descr conf req mp)))
+  (GET "/ui/:mp/container/ctrl"       [mp :as req] (uic/view conf
+                                                             (a/container-ctrl conf req mp)))
+  (GET "/ui/:mp/container/state"      [mp :as req] (uic/view conf
+                                                             (a/container-state conf req mp)))
+  (GET "/ui/:mp/container/definition" [mp :as req] (uic/view conf
+                                                             (a/container-definition conf req mp)))
 
   (GET "/ws"                     [:as req] (ws/main  conf req))
   
