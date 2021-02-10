@@ -180,14 +180,15 @@
   ([]
    (m-build @current-mp))
   ([mp-id]
+   (workon! mp-id)
    (println "stop " mp-id)
-   (m-stop mp-id)
+   (m-stop)
    (println "clear " mp-id)
    (st/clear! mp-id)
    (println "build " mp-id)
    (->> mp-id u/compl-main-path lt/get-doc u/doc->safe-doc build/store)
    (println "start " mp-id)
-   (m-start mp-id)))
+   (m-start)))
 
 (defn m-build-ref
   "Builds up the `ref`erence mpd provided in `edn` format in the
@@ -196,13 +197,13 @@
   (println "try to slurp and build ref")
   (let [mp    (-> (cfg/ref-mpd (cfg/config)) slurp read-string)
         mp-id (u/extr-main-path (:_id mp))]
+    (workon! mp-id)
     (println "stop " mp-id)
-    (m-stop mp-id)
+    (m-stop)
     (println "clear " mp-id)
     (st/clear! mp-id)
     (println "build " mp-id)
     (build/store mp)
-    (workon! mp-id)
     (println "start " mp-id)
     (m-start)))
 
