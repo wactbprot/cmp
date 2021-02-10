@@ -23,12 +23,13 @@
 (defroutes app-routes
   (GET "/config"                 []        (res/response conf))
   (GET "/listeners"              [:as req] (res/response (a/listeners conf req)))
-  (GET "/ui/listeners"           [:as req] (res/response (uil/view conf (a/listeners conf req))))
+  (GET "/ui/listeners"           [:as req] (uil/view conf (a/listeners conf req)))
   (GET "/tasks"                  [:as req] (res/response (a/tasks     conf req)))
   (GET "/:mp-id/container/title" [mp-id :as req] (res/response (a/container-title conf req mp-id)))
 
-  (GET "/ws"                     [:as req] (ws/main  conf req))  
-
+  (GET "/ws"                     [:as req] (ws/main  conf req))
+  
+  (route/resources "/")
   (route/not-found (res/response {:error "not found"})))
 
 (def app

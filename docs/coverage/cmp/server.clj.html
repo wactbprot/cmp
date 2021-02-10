@@ -79,8 +79,8 @@
 <span class="partial" title="5 out of 14 forms covered">
                 025&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;listeners&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(res&#x2F;response&nbsp;(a&#x2F;listeners&nbsp;conf&nbsp;req)))
                 </span><br/>
-<span class="partial" title="5 out of 17 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;listeners&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(res&#x2F;response&nbsp;(uil&#x2F;view&nbsp;conf&nbsp;(a&#x2F;listeners&nbsp;conf&nbsp;req))))
+<span class="partial" title="5 out of 15 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;listeners&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uil&#x2F;view&nbsp;conf&nbsp;(a&#x2F;listeners&nbsp;conf&nbsp;req)))
                 </span><br/>
 <span class="partial" title="5 out of 14 forms covered">
                 027&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;tasks&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(res&#x2F;response&nbsp;(a&#x2F;tasks&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conf&nbsp;req)))
@@ -92,91 +92,94 @@
                 029&nbsp;&nbsp;
                 </span><br/>
 <span class="partial" title="5 out of 12 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ws&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(ws&#x2F;main&nbsp;&nbsp;conf&nbsp;req))&nbsp;&nbsp;
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                031&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="7 out of 7 forms covered">
-                032&nbsp;&nbsp;&nbsp;&nbsp;(route&#x2F;not-found&nbsp;(res&#x2F;response&nbsp;{:error&nbsp;&quot;not&nbsp;found&quot;})))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                033&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                034&nbsp;&nbsp;(def&nbsp;app
-                </span><br/>
-<span class="covered" title="4 out of 4 forms covered">
-                035&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&nbsp;(handler&#x2F;site&nbsp;app-routes)
-                </span><br/>
-<span class="covered" title="5 out of 5 forms covered">
-                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(middleware&#x2F;wrap-json-body&nbsp;{:keywords?&nbsp;true})
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;middleware&#x2F;wrap-json-response))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                038&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                039&nbsp;&nbsp;(defn&nbsp;init-log!
+                030&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ws&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(ws&#x2F;main&nbsp;&nbsp;conf&nbsp;req))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                040&nbsp;&nbsp;&nbsp;&nbsp;[{conf&nbsp;:mulog&nbsp;}]
+                031&nbsp;&nbsp;&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                032&nbsp;&nbsp;&nbsp;&nbsp;(route&#x2F;resources&nbsp;&quot;&#x2F;&quot;)
+                </span><br/>
+<span class="covered" title="7 out of 7 forms covered">
+                033&nbsp;&nbsp;&nbsp;&nbsp;(route&#x2F;not-found&nbsp;(res&#x2F;response&nbsp;{:error&nbsp;&quot;not&nbsp;found&quot;})))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                034&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                035&nbsp;&nbsp;(def&nbsp;app
+                </span><br/>
+<span class="covered" title="4 out of 4 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&nbsp;(handler&#x2F;site&nbsp;app-routes)
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(middleware&#x2F;wrap-json-body&nbsp;{:keywords?&nbsp;true})
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;middleware&#x2F;wrap-json-response))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                039&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                040&nbsp;&nbsp;(defn&nbsp;init-log!
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                041&nbsp;&nbsp;&nbsp;&nbsp;[{conf&nbsp;:mulog&nbsp;}]
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                041&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;set-global-context!&nbsp;{:app-name&nbsp;&quot;cmp&quot;})
+                042&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;set-global-context!&nbsp;{:app-name&nbsp;&quot;cmp&quot;})
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                042&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;start-publisher!&nbsp;conf))
+                043&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;start-publisher!&nbsp;conf))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                043&nbsp;&nbsp;
+                044&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                044&nbsp;&nbsp;(defn&nbsp;stop&nbsp;[]
+                045&nbsp;&nbsp;(defn&nbsp;stop&nbsp;[]
                 </span><br/>
 <span class="not-covered" title="0 out of 11 forms covered">
-                045&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;@server&nbsp;(@server&nbsp;:timeout&nbsp;100)
+                046&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;@server&nbsp;(@server&nbsp;:timeout&nbsp;100)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@logger)
+                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@logger)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;logger&nbsp;nil)
+                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;logger&nbsp;nil)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;server&nbsp;nil)))
+                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;server&nbsp;nil)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                049&nbsp;&nbsp;
+                050&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                050&nbsp;&nbsp;(defn&nbsp;start&nbsp;[]
+                051&nbsp;&nbsp;(defn&nbsp;start&nbsp;[]
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                051&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;logger&nbsp;(init-log!&nbsp;conf))
+                052&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;logger&nbsp;(init-log!&nbsp;conf))
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                052&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;start&nbsp;cmp&nbsp;rest&nbsp;api&quot;)
+                053&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;start&nbsp;cmp&nbsp;rest&nbsp;api&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 9 forms covered">
-                053&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;server&nbsp;(run-server&nbsp;app&nbsp;(:api&nbsp;conf))))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                054&nbsp;&nbsp;
+                054&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;server&nbsp;(run-server&nbsp;app&nbsp;(:api&nbsp;conf))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 055&nbsp;&nbsp;
                 </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                056&nbsp;&nbsp;
+                </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                056&nbsp;&nbsp;(defn&nbsp;-main&nbsp;[&amp;&nbsp;args]
+                057&nbsp;&nbsp;(defn&nbsp;-main&nbsp;[&amp;&nbsp;args]
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                057&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;call&nbsp;-main&quot;)
+                058&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;call&nbsp;-main&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                058&nbsp;&nbsp;&nbsp;&nbsp;(start))
+                059&nbsp;&nbsp;&nbsp;&nbsp;(start))
                 </span><br/>
  </body>
 </html>

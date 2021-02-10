@@ -19,6 +19,7 @@
  :api {:port 8010}
  ;; integrated ui
  :ui {:page-title "UI-CMP"
+      :main-title "UI-CMP"
       }
  ;; long term memory: couchdb
  :lt-srv "127.0.0.1"

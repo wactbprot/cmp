@@ -41,28 +41,70 @@
                 012&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                013&nbsp;&nbsp;(defn&nbsp;index
+                013&nbsp;&nbsp;(defn&nbsp;index-title
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                014&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;body]
+                014&nbsp;&nbsp;&nbsp;&nbsp;[conf]
                 </span><br/>
-<span class="not-covered" title="0 out of 158 forms covered">
-                015&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;html5
+<span class="not-covered" title="0 out of 5 forms covered">
+                015&nbsp;&nbsp;&nbsp;&nbsp;[:section&nbsp;{:class&nbsp;&quot;hero&nbsp;is-info&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;hero-body&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;container&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:h1&nbsp;{:class&nbsp;&quot;title&quot;}&nbsp;(:main-title&nbsp;conf)]
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:h2&nbsp;{:class&nbsp;&quot;subtitle&quot;}&nbsp;&quot;###&quot;]]]])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                020&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                021&nbsp;&nbsp;(defn&nbsp;index
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                022&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;body]
+                </span><br/>
+<span class="not-covered" title="0 out of 230 forms covered">
+                023&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;html5
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(page-header&nbsp;conf)
+                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(page-header&nbsp;conf)
                 </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:body&nbsp;body
+<span class="not-tracked" title="0 out of 0 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:body
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(index-title&nbsp;conf)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:section&nbsp;{:class&nbsp;&quot;section&quot;}
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;container&nbsp;content&quot;}
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;box&quot;}
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;columns&quot;}
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;jquery-3.5.1.min.js&quot;)
+                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body]]]]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;ws.js&quot;)
+                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;jquery-3.5.1.min.js&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;main.js&quot;)]))
+                033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;ws.js&quot;)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;main.js&quot;)]))
                 </span><br/>
  </body>
 </html>
