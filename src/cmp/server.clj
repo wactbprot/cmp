@@ -6,6 +6,8 @@
             [cmp.config               :as c]
             [cmp.api                  :as a]
             [cmp.ui.listener          :as uil]
+            [cmp.ui.container         :as uic]
+            [cmp.ui.mp-meta           :as uim]
             [cmp.ui.ws                :as ws]
             [compojure.core           :refer :all]
             [compojure.handler        :as handler]
@@ -21,11 +23,19 @@
 (defonce logger (atom nil))
 
 (defroutes app-routes
-  (GET "/config"                 []        (res/response conf))
-  (GET "/listeners"              [:as req] (res/response (a/listeners conf req)))
-  (GET "/ui/listeners"           [:as req] (uil/view conf (a/listeners conf req)))
-  (GET "/tasks"                  [:as req] (res/response (a/tasks     conf req)))
-  (GET "/:mp-id/container/title" [mp-id :as req] (res/response (a/container-title conf req mp-id)))
+  (GET "/config"                    []              (res/response conf))
+  (GET "/listeners"                 [:as req]       (res/response (a/listeners conf req)))
+
+  (GET "/tasks"                     [:as req]       (res/response (a/tasks     conf req)))
+  (GET "/:mp/meta"               [mp :as req] (res/response (a/mp-meta   conf req mp)))
+  (GET "/:mp/container/title"    [mp :as req] (res/response (a/container-title conf req mp)))
+
+  (GET "/ui/listeners"              [:as req]       (uil/view conf (a/listeners conf req)))
+  (GET "/ui/:mp/meta"            [mp :as req] (uim/view conf (a/mp-meta   conf req mp)))
+  (GET "/ui/:mp/container/title" [mp :as req] (uic/view conf (a/container-title conf req mp)))
+  (GET "/ui/:mp/container/descr" [mp :as req] (uic/view conf (a/container-descr conf req mp)))
+  (GET "/ui/:mp/container/ctrl" [mp :as req] (uic/view conf (a/container-ctrl conf req mp)))
+  (GET "/ui/:mp/container/state" [mp :as req] (uic/view conf (a/container-state conf req mp)))
 
   (GET "/ws"                     [:as req] (ws/main  conf req))
   
@@ -51,7 +61,7 @@
 (defn start []
   (reset! logger (init-log! conf))
   (mu/log ::start :message "start cmp rest api")
-  (reset! server (run-server app (:api conf))))
+  (reset! server (run-server #'app (:api conf))))
 
 
 (defn -main [& args]

@@ -1,4 +1,4 @@
-(ns cmp.ui.listener
+(ns cmp.ui.mp-meta
   (:require
      [cmp.ui.core :as ui]))
 

@@ -10,7 +10,7 @@
             [cmp.utils               :as u]
             [com.brunobonacci.mulog  :as mu]))
 
-(defn kv [k] {:key k :value (st/key->val k)})
+(defn kv [k] (assoc (ku/key->info-map k) :value (st/key->val k)))
 
 ;;------------------------------
 ;; listeners 
@@ -24,7 +24,7 @@
   ```"
   [conf req]
   (let [ls @st/listeners]
-    (mapv (fn [k] (assoc (st/reg-map k) :listener-id (get-in ls [k :id]))) (keys ls))))
+    (mapv (fn [k] (assoc (ku/key->reg-map k) :listener-id (get-in ls [k :id]))) (keys ls))))
 
 ;;------------------------------
 ;; tasks
@@ -56,7 +56,7 @@
 (defn container-descr [conf req mp-id] (mapv kv (st/pat->keys (ku/cont-descr-key mp-id "*"))))
 
 (defn container-ctrl  [conf req mp-id] (mapv kv (st/pat->keys (ku/cont-ctrl-key mp-id "*"))))
+(defn container-state [conf req mp-id] (mapv kv (st/pat->keys (ku/cont-state-key mp-id "*" "*" "*" ))))
 
-(defn container-elem  [conf req mp-id] (mapv kv (st/pat->keys (ku/cont-elem-key mp-id "*"))))
-
+(defn mp-meta         [conf req mp-id] (mapv kv (st/key->keys (ku/meta-prefix mp-id))))
 

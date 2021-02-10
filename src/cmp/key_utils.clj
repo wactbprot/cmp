@@ -152,11 +152,22 @@
      :seq-idx (key->seq-idx k)
      :par-idx (key->par-idx k)}))
 
+
 (defn info-map->definition-key
   "Converts a `state-map` into the related `definition` key."
   [m]
   (when (map? m)
     (vec->key [(:mp-id m) (:struct m) (:no-idx m) "definition" (:seq-idx m) (:par-idx m)])))
+
+
+(defn key->reg-map
+  "Generates a map from the `reg-key`."
+  [k]
+  {:mp-id   (key->mp-id   k)
+   :struct  (key->struct  k)
+   :no-idx  (key->no-idx  k)
+   :func    (key->func    k)
+   :level   (key->level   k)})
 
 (defn seq-idx->all-par
   "Returns a vector of [[info-maps]] with all `par` steps for a given

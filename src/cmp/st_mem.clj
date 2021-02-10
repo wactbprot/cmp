@@ -196,15 +196,6 @@
   [mp-id struct no func level]
   (ku/vec->key  [mp-id struct no func level]))
 
-(defn reg-map
-  "Generates a map from the `reg-key`."
-  [k]
-  {:mp-id   (ku/key->mp-id   k)
-   :struct  (ku/key->struct  k)
-   :no-idx  (ku/key->no-idx  k)
-   :func    (ku/key->func    k)
-   :level   (ku/key->level   k)})
-
 (defn registered?
   "Checks if a `listener` is registered under
   the `listeners`-atom."

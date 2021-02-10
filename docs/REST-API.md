@@ -57,6 +57,13 @@ curl -H "$H" -X GET http://localhost:8010/listeners
 ##    },
 ##	...]
 ```
+## meta
+
+Returns `meta`information about the `mp`. 
+
+```shell
+curl -H "$H" -X GET http://localhost:8010/ref/meta
+```
 
 ## container
 
