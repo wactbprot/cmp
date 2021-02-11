@@ -5,7 +5,7 @@
   :dependencies [[org.clojure/clojure                  "1.10.2"]
                  [com.taoensso/carmine                 "3.0.0"]
                  [com.ashafa/clutch                    "0.4.0"]
-                 [org.clojars.wactbprot/vl-data-insert "0.1.3"]
+                 [org.clojars.wactbprot/vl-data-insert "0.2.1"]
                  [cheshire                             "5.10.0"]
                  [clj-time                             "0.15.0"]
                  [compojure                            "1.6.1"]
