@@ -1,36 +1,60 @@
 (ns cmp.ui.core
   (:require
      [hiccup.form :as hf]
-     [hiccup.page :as hp]))
+     [hiccup.page :as hp]
+     [cheshire.core           :as che]
+     ))
 
 (defn empty-msg [s] [:span {:class "tag is-info"} s])
 
 ;;------------------------------
-;; table funs
+;; table cell funs
 ;;------------------------------
-(defmulti td-value  (fn [m kw] (name kw)))
+(defmulti td-value  (fn [m kw] kw))
 
-(defmethod td-value "mp-id" [m kw] [:i (kw m)])
+(defmethod td-value :mp-id    [m kw] [:i (kw m)])
 
-(defmethod td-value "value"
+(defmethod td-value :no-idx   [m kw] [:i (kw m)])
+
+(defmethod td-value :par-idx  [m kw] [:i (kw m)])
+
+(defmethod td-value :seq-idx  [m kw] [:i (kw m)])
+
+(defmethod td-value :level    [m kw] [:i (kw m)])
+
+(defmethod td-value :struct   [m kw] [:b (kw m)])
+
+(defmethod td-value :func     [m kw] [:b (kw m)])
+
+(defmethod td-value :TaskName [m kw] [:span {:class "tag"} m])
+
+(defmethod td-value :Replace  [m kw] [:pre (che/encode m {:pretty true})])
+
+(defmethod td-value :Use      [m kw] [:pre(che/encode m {:pretty true})])
+
+(defmethod td-value :default
   [m kw]
   (if-let [x (kw m)]
     (cond
-      (string? x) [:i x]
-      (map?    x) (into [:ul] (mapv (fn [[k v]] [:li [:b k] (str v)]) m)))
-    [:span "/"]))
+      (boolean? x) [:b x]
+      (string? x)  [:i x]
+      (map?    x)  (into [:ul] (mapv (fn [[k v]] [:li [:span (td-value v k)]]) x)))
+    [:span  {:class "tag"} "::"]))
 
-;(defmethod td-value :default [m kw]  [:b (kw m)])
-
+;;------------------------------
+;; table funs
+;;------------------------------
 (defn kw-head [m] (keys (first m)))
 
 (defn t-head  [kws] (into [:thead] (mapv (fn [x] [:th x]) kws))) 
 
 (defn td      [m kws] (mapv (fn [kw] [:td (td-value m kw)]) kws))
 
-(defn t-row   [m kws] (mapv (fn [x]  (into [:tr] (td x kws))) m))
+(defn t-row   [m kws] (mapv (fn [x] (prn kws) (into [:tr] (td x kws))) m))
 
-(defn t-base  [kws]   [:table {:class "table"} (t-head kws)])
+(defn t-base  [kws]
+  [:table {:class "table is-hoverable is-fullwidth"}
+   (t-head kws)])
 
 (defn table
   [conf data]
