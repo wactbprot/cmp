@@ -10,7 +10,7 @@
             [cmp.utils               :as u]
             [com.brunobonacci.mulog  :as mu]))
 
-(defn kv [k] (assoc (ku/key->info-map k) :value (st/key->val k)))
+(defn kv [k] (assoc (ku/key->info-map k) :value (st/key->val k) :key k))
 
 ;;------------------------------
 ;; listeners 

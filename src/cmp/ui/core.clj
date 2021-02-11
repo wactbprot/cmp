@@ -30,14 +30,19 @@
 
 (defmethod td-value :Replace  [m kw] [:pre (che/encode m {:pretty true})])
 
-(defmethod td-value :Use      [m kw] [:pre(che/encode m {:pretty true})])
+(defmethod td-value :Use      [m kw] [:pre (che/encode m {:pretty true})])
+
+(defmethod td-value :key
+  [m kw]
+  [:span {:class "icon"}
+   [:a  {:class "is-link fas fa-key" :title (kw m)}]])
 
 (defmethod td-value :default
   [m kw]
   (if-let [x (kw m)]
     (cond
       (boolean? x) [:b x]
-      (string? x)  [:i x]
+      (string? x)  [:i {:id (:key m)} x]
       (map?    x)  (into [:ul] (mapv (fn [[k v]] [:li [:span (td-value v k)]]) x)))
     [:span  {:class "tag"} "::"]))
 
@@ -50,7 +55,7 @@
 
 (defn td      [m kws] (mapv (fn [kw] [:td (td-value m kw)]) kws))
 
-(defn t-row   [m kws] (mapv (fn [x] (prn kws) (into [:tr] (td x kws))) m))
+(defn t-row   [m kws] (mapv (fn [x] (into [:tr] (td x kws))) m))
 
 (defn t-base  [kws]
   [:table {:class "table is-hoverable is-fullwidth"}
