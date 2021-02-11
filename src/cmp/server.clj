@@ -9,6 +9,7 @@
             [cmp.ui.container         :as uic]
             [cmp.ui.mp-meta           :as uim]
             [cmp.ui.ws                :as ws]
+            [cmp.st-mem               :as st] 
             [compojure.core           :refer :all]
             [compojure.handler        :as handler]
             [org.httpkit.server       :refer [run-server]]
@@ -55,6 +56,14 @@
       (middleware/wrap-json-body {:keywords? true})
       middleware/wrap-json-response))
 
+(defn init-ws!
+  [conf]
+  (st/register! "*" "*" "*" "*"  (fn [msg]
+                                   (when (st/msg->key msg)
+                                     (prn msg)
+                                     (ws/send-to-ws-clients conf msg)))) "c")
+  
+
 (defn init-log!
   [{conf :mulog }]
   (mu/set-global-context! {:app-name "cmp"})
@@ -67,6 +76,7 @@
         (reset! server nil)))
 
 (defn start []
+  (init-ws! conf)
   (reset! logger (init-log! conf))
   (mu/log ::start :message "start cmp rest api")
   (reset! server (run-server #'app (:api conf))))

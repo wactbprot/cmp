@@ -7,6 +7,6 @@ ws.onopen = function (event) {
 ws.onmessage = function (event) {
     var data =JSON.parse(event.data);
     if(data) {
-	$("#device-stdout_"+ data.row).val(JSON.stringify(data, null, 2));
+	console.log(data);
     }
 }

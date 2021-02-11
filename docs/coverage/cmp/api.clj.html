@@ -40,8 +40,8 @@
 <span class="blank" title="0 out of 0 forms covered">
                 012&nbsp;&nbsp;
                 </span><br/>
-<span class="partial" title="1 out of 10 forms covered">
-                013&nbsp;&nbsp;(defn&nbsp;kv&nbsp;[k]&nbsp;(assoc&nbsp;(ku&#x2F;key-&gt;info-map&nbsp;k)&nbsp;:value&nbsp;(st&#x2F;key-&gt;val&nbsp;k)))
+<span class="partial" title="1 out of 12 forms covered">
+                013&nbsp;&nbsp;(defn&nbsp;kv&nbsp;[k]&nbsp;(assoc&nbsp;(ku&#x2F;key-&gt;info-map&nbsp;k)&nbsp;:value&nbsp;(st&#x2F;key-&gt;val&nbsp;k)&nbsp;:key&nbsp;k))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 014&nbsp;&nbsp;
@@ -178,17 +178,23 @@
 <span class="partial" title="1 out of 10 forms covered">
                 058&nbsp;&nbsp;(defn&nbsp;container-ctrl&nbsp;&nbsp;[conf&nbsp;req&nbsp;mp-id]&nbsp;(mapv&nbsp;kv&nbsp;(st&#x2F;pat-&gt;keys&nbsp;(ku&#x2F;cont-ctrl-key&nbsp;mp-id&nbsp;&quot;*&quot;))))
                 </span><br/>
-<span class="partial" title="1 out of 12 forms covered">
-                059&nbsp;&nbsp;(defn&nbsp;container-state&nbsp;[conf&nbsp;req&nbsp;mp-id]&nbsp;(mapv&nbsp;kv&nbsp;(st&#x2F;pat-&gt;keys&nbsp;(ku&#x2F;cont-state-key&nbsp;mp-id&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;))))
-                </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                060&nbsp;&nbsp;
+                059&nbsp;&nbsp;
                 </span><br/>
-<span class="partial" title="1 out of 9 forms covered">
-                061&nbsp;&nbsp;(defn&nbsp;mp-meta&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;req&nbsp;mp-id]&nbsp;(mapv&nbsp;kv&nbsp;(st&#x2F;key-&gt;keys&nbsp;(ku&#x2F;meta-prefix&nbsp;mp-id))))
+<span class="partial" title="1 out of 12 forms covered">
+                060&nbsp;&nbsp;(defn&nbsp;container-state&nbsp;[conf&nbsp;req&nbsp;mp-id]&nbsp;(mapv&nbsp;kv&nbsp;(st&#x2F;pat-&gt;keys&nbsp;(ku&#x2F;cont-state-key&nbsp;mp-id&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;))))
+                </span><br/>
+<span class="partial" title="1 out of 12 forms covered">
+                061&nbsp;&nbsp;(defn&nbsp;container-definition&nbsp;[conf&nbsp;req&nbsp;mp-id]&nbsp;(mapv&nbsp;kv&nbsp;(st&#x2F;pat-&gt;keys&nbsp;(ku&#x2F;cont-defin-key&nbsp;mp-id&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 062&nbsp;&nbsp;
+                </span><br/>
+<span class="partial" title="1 out of 9 forms covered">
+                063&nbsp;&nbsp;(defn&nbsp;mp-meta&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;req&nbsp;mp-id]&nbsp;(mapv&nbsp;kv&nbsp;(st&#x2F;key-&gt;keys&nbsp;(ku&#x2F;meta-prefix&nbsp;mp-id))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                064&nbsp;&nbsp;
                 </span><br/>
  </body>
 </html>

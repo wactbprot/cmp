@@ -35,7 +35,7 @@
 (defmethod td-value :key
   [m kw]
   [:span {:class "icon"}
-   [:a  {:class "is-link fas fa-key" :title (kw m)}]])
+   [:a  {:class "copy is-link fas fa-key"}]])
 
 (defmethod td-value :default
   [m kw]
