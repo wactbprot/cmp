@@ -3,11 +3,19 @@
 }
 
 .ready {
-    color: #D7DF01;
+    color: #1F85DE;
+}
+
+.void {
+    color: #1F85DE;
 }
 
 .working {
-    color: #f0ad4e;
+    color: #DE8B1F;
+}
+
+.mon {
+    color: #DE8B1F;
 }
 
 .error {

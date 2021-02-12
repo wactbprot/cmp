@@ -13,14 +13,29 @@
 
 (defn mp-id-link [m] [:a {:href (str  "/ui/" (:mp-id m) "/meta")} (:mp-id m)])
 
-(defn state-link [m] [:a {:href (str  "/ui/" (:mp-id m) "/container/state")} "s"])
+(defn state-link
+  ([m]
+   (state-link m false))
+  ([m i]
+  [:span {:class "icon"}
+   [:a  {:class "is-link fas fa-cogs"
+         :href (str  "/ui/" (:mp-id m) (str "/container/state" (when i (str "/" i))))}]]))
 
-(defn ctrl-link [m] [:a {:href (str  "/ui/" (:mp-id m) "/container/ctrl")} "c"])
+(defn ctrl-link
+  ([m]
+   (ctrl-link m false))
+  ([m i]
+   [:span {:class "icon"}
+     [:a  {:class "far fa-play-circle"
+           :href (str  "/ui/" (:mp-id m) (str "/container/ctrl" (when i (str "/" i))))}]]))
 
-(defn definition-link [m] [:a {:href (str  "/ui/" (:mp-id m) "/container/definition")} "d"])
-
-
-(defn container-link [m] )
+(defn definition-link
+  ([m]
+   (definition-link m false))
+  ([m i]
+   [:span {:class "icon"}
+    [:a  {:class "is-link far fa-folder"
+          :href (str  "/ui/" (:mp-id m)  (str "/container/definition" (when i (str "/" i))))}]]))
 
 ;;------------------------------
 ;; table cell funs
@@ -29,7 +44,12 @@
 
 (defmethod td-value :mp-id    [m kw] [:b (mp-id-link m)])
 
-(defmethod td-value :no-idx   [m kw] [:i (kw m)])
+(defmethod td-value :no-idx   [m kw]
+    [m kw]
+  [:b (:no-idx m)
+   [:span  {:class "tag"} (state-link m (:no-idx m))]
+   [:span  {:class "tag"} (ctrl-link m (:no-idx m))]
+   [:span  {:class "tag"} (definition-link m (:no-idx m))]])
 
 (defmethod td-value :par-idx  [m kw] [:i (kw m)])
 
@@ -39,7 +59,10 @@
 
 (defmethod td-value :struct
   [m kw]
-  [:span "container (" (state-link m) "," (ctrl-link m)  "," (definition-link m) ")"])
+  [:span "container"
+   [:span  {:class "tag"} (state-link m)]
+   [:span  {:class "tag"} (ctrl-link m)]
+   [:span  {:class "tag"} (definition-link m)]])
 
 (defmethod td-value :func     [m kw] [:i (kw m)])
 
@@ -59,7 +82,7 @@
   (if-let [x (kw m)]
     (cond
       (boolean? x) [:b x]
-      (string? x)  [:i {:id (make-selectable (:key m))} x]
+      (string? x)  [:b {:id (make-selectable (:key m))} x]
       (map?    x)  (into [:ul] (mapv (fn [[k v]] [:li [:span (td-value v k)]]) x)))
     [:span  {:class "tag"} "::"]))
 
