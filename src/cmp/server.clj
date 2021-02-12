@@ -5,6 +5,7 @@
             [com.brunobonacci.mulog   :as mu]
             [cmp.config               :as c]
             [cmp.api                  :as a]
+            [cmp.ui.core              :as ui]
             [cmp.ui.listener          :as uil]
             [cmp.ui.container         :as uic]
             [cmp.ui.mp-meta           :as uim]
@@ -56,13 +57,13 @@
       (middleware/wrap-json-body {:keywords? true})
       middleware/wrap-json-response))
 
-(defn init-ws!
+(defn start-ws!
   [conf]
   (st/register! "*" "*" "*" "*"  (fn [msg]
-                                   (when (st/msg->key msg)
-                                     (prn msg)
-                                     (ws/send-to-ws-clients conf msg)))) "c")
+                                   (when-let [k (st/msg->key msg)]
+                                     (ws/send-to-ws-clients conf {:key (ui/make-selectable k) :value (st/key->val k)}))) "c"))
   
+(defn stop-ws! [conf] (st/de-register! "*" "*" "*" "*"  "c"))
 
 (defn init-log!
   [{conf :mulog }]
@@ -70,13 +71,14 @@
   (mu/start-publisher! conf))
 
 (defn stop []
+  (stop-ws! conf)
   (when @server (@server :timeout 100)
         (@logger)
         (reset! logger nil)
         (reset! server nil)))
 
 (defn start []
-  (init-ws! conf)
+  (start-ws! conf)
   (reset! logger (init-log! conf))
   (mu/log ::start :message "start cmp rest api")
   (reset! server (run-server #'app (:api conf))))

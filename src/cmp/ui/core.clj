@@ -1,12 +1,15 @@
 (ns cmp.ui.core
   (:require
-     [hiccup.form :as hf]
-     [hiccup.page :as hp]
-     [cheshire.core           :as che]
+     [hiccup.form    :as hf]
+     [hiccup.page    :as hp]
+     [cmp.key-utils  :as ku]
+     [clojure.string :as string]
+     [cheshire.core  :as che]
      ))
 
 (defn empty-msg [s] [:span {:class "tag is-info"} s])
 
+(defn make-selectable [k] (string/replace k ku/re-sep "_")) 
 ;;------------------------------
 ;; table cell funs
 ;;------------------------------
@@ -35,14 +38,14 @@
 (defmethod td-value :key
   [m kw]
   [:span {:class "icon"}
-   [:a  {:class "copy is-link fas fa-key"}]])
+   [:a  {:class "copy is-link fas fa-key" :data-copy (kw m)}]])
 
 (defmethod td-value :default
   [m kw]
   (if-let [x (kw m)]
     (cond
       (boolean? x) [:b x]
-      (string? x)  [:i {:id (:key m)} x]
+      (string? x)  [:i {:id (make-selectable (:key m))} x]
       (map?    x)  (into [:ul] (mapv (fn [[k v]] [:li [:span (td-value v k)]]) x)))
     [:span  {:class "tag"} "::"]))
 
