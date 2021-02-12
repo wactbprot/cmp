@@ -9,13 +9,25 @@
 
 (defn empty-msg [s] [:span {:class "tag is-info"} s])
 
-(defn make-selectable [k] (string/replace k ku/re-sep "_")) 
+(defn make-selectable [k] (string/replace k ku/re-sep "_"))
+
+(defn mp-id-link [m] [:a {:href (str  "/ui/" (:mp-id m) "/meta")} (:mp-id m)])
+
+(defn state-link [m] [:a {:href (str  "/ui/" (:mp-id m) "/container/state")} "s"])
+
+(defn ctrl-link [m] [:a {:href (str  "/ui/" (:mp-id m) "/container/ctrl")} "c"])
+
+(defn definition-link [m] [:a {:href (str  "/ui/" (:mp-id m) "/container/definition")} "d"])
+
+
+(defn container-link [m] )
+
 ;;------------------------------
 ;; table cell funs
 ;;------------------------------
 (defmulti td-value  (fn [m kw] kw))
 
-(defmethod td-value :mp-id    [m kw] [:i (kw m)])
+(defmethod td-value :mp-id    [m kw] [:b (mp-id-link m)])
 
 (defmethod td-value :no-idx   [m kw] [:i (kw m)])
 
@@ -25,9 +37,11 @@
 
 (defmethod td-value :level    [m kw] [:i (kw m)])
 
-(defmethod td-value :struct   [m kw] [:b (kw m)])
+(defmethod td-value :struct
+  [m kw]
+  [:span "container (" (state-link m) "," (ctrl-link m)  "," (definition-link m) ")"])
 
-(defmethod td-value :func     [m kw] [:b (kw m)])
+(defmethod td-value :func     [m kw] [:i (kw m)])
 
 (defmethod td-value :TaskName [m kw] [:span {:class "tag"} m])
 
@@ -38,7 +52,7 @@
 (defmethod td-value :key
   [m kw]
   [:span {:class "icon"}
-   [:a  {:class "copy is-link fas fa-key" :data-copy (kw m)}]])
+   [:a  {:class "copy is-link fas fa-key" :data-copy (kw m) :title (str "click to console.log: " (kw m))}]])
 
 (defmethod td-value :default
   [m kw]
@@ -52,7 +66,9 @@
 ;;------------------------------
 ;; table funs
 ;;------------------------------
-(defn kw-head [m] (keys (first m)))
+(defn kw-head [m]
+  ;; (keys (first m))
+  [:mp-id :struct :func :no-idx :value :key])
 
 (defn t-head  [kws] (into [:thead] (mapv (fn [x] [:th x]) kws))) 
 
@@ -78,7 +94,8 @@
   [:head
    [:title (:page-title conf)]
    (hp/include-css "/css/bulma.css")
-   (hp/include-css "/css/all.css")])
+   (hp/include-css "/css/all.css")
+   (hp/include-css "/css/ui.css")])
 
 (defn index-title
   [conf]

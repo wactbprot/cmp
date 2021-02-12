@@ -1,0 +1,15 @@
+.executed {
+    color: #5FB404;
+}
+
+.ready {
+    color: #D7DF01;
+}
+
+.working {
+    color: #f0ad4e;
+}
+
+.error {
+    color:#d9534f;
+}

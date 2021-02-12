@@ -4,13 +4,16 @@ ws.onopen = function (event) {
    ws.send(JSON.stringify({"ok":true})); 
 };
 
-var set_value = function(k, v){
-    $("#"+k).text(v);
+var set_value_and_class = function(k, v){
+    var $k = $("#"+k);
+    $k.removeClass();
+    $k.addClass(v);
+    $k.text(v);
 }
 
 ws.onmessage = function (event) {
     var data =JSON.parse(event.data);
     if(data.key && data.value) {
-	set_value(data.key, data.value);
+	set_value_and_class(data.key, data.value);
     }
 }

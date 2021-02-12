@@ -42,11 +42,18 @@
                                                              (a/container-descr conf req mp)))
   (GET "/ui/:mp/container/ctrl"       [mp :as req] (uic/view conf
                                                              (a/container-ctrl conf req mp)))
+  (GET "/ui/:mp/container/ctrl/:idx"       [idx mp :as req] (uic/view conf
+                                                             (a/container-ctrl conf req mp idx)))
   (GET "/ui/:mp/container/state"      [mp :as req] (uic/view conf
                                                              (a/container-state conf req mp)))
+   (GET "/ui/:mp/container/state/:idx"     [idx mp :as req] (uic/view conf
+                                                             (a/container-state conf req mp idx)))
   (GET "/ui/:mp/container/definition" [mp :as req] (uic/view conf
                                                              (a/container-definition conf req mp)))
+  (GET "/ui/:mp/container/definition/:idx" [idx mp :as req] (uic/view conf
+                                                             (a/container-definition conf req mp idx)))
 
+  
   (GET "/ws"                     [:as req] (ws/main  conf req))
   
   (route/resources "/")
