@@ -23,298 +23,433 @@
                 006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.string&nbsp;:as&nbsp;string]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cheshire.core&nbsp;&nbsp;:as&nbsp;che]
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))
+                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cheshire.core&nbsp;&nbsp;:as&nbsp;che]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                009&nbsp;&nbsp;
+                008&nbsp;&nbsp;
                 </span><br/>
 <span class="partial" title="1 out of 7 forms covered">
-                010&nbsp;&nbsp;(defn&nbsp;empty-msg&nbsp;[s]&nbsp;[:span&nbsp;{:class&nbsp;&quot;tag&nbsp;is-info&quot;}&nbsp;s])
+                009&nbsp;&nbsp;(defn&nbsp;empty-msg&nbsp;[s]&nbsp;[:span&nbsp;{:class&nbsp;&quot;tag&nbsp;is-info&quot;}&nbsp;s])
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                011&nbsp;&nbsp;
+                010&nbsp;&nbsp;
                 </span><br/>
 <span class="partial" title="1 out of 6 forms covered">
-                012&nbsp;&nbsp;(defn&nbsp;make-selectable&nbsp;[k]&nbsp;(string&#x2F;replace&nbsp;k&nbsp;ku&#x2F;re-sep&nbsp;&quot;_&quot;))&nbsp;
+                011&nbsp;&nbsp;(defn&nbsp;make-selectable&nbsp;[k]&nbsp;(string&#x2F;replace&nbsp;k&nbsp;ku&#x2F;re-sep&nbsp;&quot;_&quot;))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                012&nbsp;&nbsp;
+                </span><br/>
+<span class="partial" title="1 out of 15 forms covered">
+                013&nbsp;&nbsp;(defn&nbsp;mp-id-link&nbsp;[m]&nbsp;[:a&nbsp;{:href&nbsp;(str&nbsp;&nbsp;&quot;&#x2F;ui&#x2F;&quot;&nbsp;(:mp-id&nbsp;m)&nbsp;&quot;&#x2F;meta&quot;)}&nbsp;(:mp-id&nbsp;m)])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                014&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                015&nbsp;&nbsp;(defn&nbsp;state-link
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                013&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                014&nbsp;&nbsp;;;&nbsp;table&nbsp;cell&nbsp;funs
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                015&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="partial" title="2 out of 3 forms covered">
-                016&nbsp;&nbsp;(defmulti&nbsp;td-value&nbsp;&nbsp;(fn&nbsp;[m&nbsp;kw]&nbsp;kw))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                017&nbsp;&nbsp;
-                </span><br/>
-<span class="partial" title="3 out of 8 forms covered">
-                018&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:mp-id&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;kw]&nbsp;[:i&nbsp;(kw&nbsp;m)])
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                019&nbsp;&nbsp;
-                </span><br/>
-<span class="partial" title="3 out of 8 forms covered">
-                020&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:no-idx&nbsp;&nbsp;&nbsp;[m&nbsp;kw]&nbsp;[:i&nbsp;(kw&nbsp;m)])
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                021&nbsp;&nbsp;
-                </span><br/>
-<span class="partial" title="3 out of 8 forms covered">
-                022&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:par-idx&nbsp;&nbsp;[m&nbsp;kw]&nbsp;[:i&nbsp;(kw&nbsp;m)])
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                023&nbsp;&nbsp;
-                </span><br/>
-<span class="partial" title="3 out of 8 forms covered">
-                024&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:seq-idx&nbsp;&nbsp;[m&nbsp;kw]&nbsp;[:i&nbsp;(kw&nbsp;m)])
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                025&nbsp;&nbsp;
-                </span><br/>
-<span class="partial" title="3 out of 8 forms covered">
-                026&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:level&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;kw]&nbsp;[:i&nbsp;(kw&nbsp;m)])
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                027&nbsp;&nbsp;
-                </span><br/>
-<span class="partial" title="3 out of 8 forms covered">
-                028&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:struct&nbsp;&nbsp;&nbsp;[m&nbsp;kw]&nbsp;[:b&nbsp;(kw&nbsp;m)])
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                029&nbsp;&nbsp;
-                </span><br/>
-<span class="partial" title="3 out of 8 forms covered">
-                030&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:func&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;kw]&nbsp;[:b&nbsp;(kw&nbsp;m)])
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                031&nbsp;&nbsp;
-                </span><br/>
-<span class="partial" title="3 out of 9 forms covered">
-                032&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:TaskName&nbsp;[m&nbsp;kw]&nbsp;[:span&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;m])
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                033&nbsp;&nbsp;
-                </span><br/>
-<span class="partial" title="3 out of 11 forms covered">
-                034&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:Replace&nbsp;&nbsp;[m&nbsp;kw]&nbsp;[:pre&nbsp;(che&#x2F;encode&nbsp;m&nbsp;{:pretty&nbsp;true})])
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                035&nbsp;&nbsp;
-                </span><br/>
-<span class="partial" title="3 out of 11 forms covered">
-                036&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:Use&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;kw]&nbsp;[:pre&nbsp;(che&#x2F;encode&nbsp;m&nbsp;{:pretty&nbsp;true})])
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                037&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                038&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:key
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                039&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;kw]
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                040&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;{:class&nbsp;&quot;icon&quot;}
-                </span><br/>
-<span class="not-covered" title="0 out of 9 forms covered">
-                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:a&nbsp;&nbsp;{:class&nbsp;&quot;copy&nbsp;is-link&nbsp;fas&nbsp;fa-key&quot;&nbsp;:data-copy&nbsp;(kw&nbsp;m)}]])
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                042&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                043&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:default
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                044&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;kw]
-                </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
-                045&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[x&nbsp;(kw&nbsp;m)]
+                016&nbsp;&nbsp;&nbsp;&nbsp;([m]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
+                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(state-link&nbsp;m&nbsp;false))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                018&nbsp;&nbsp;&nbsp;&nbsp;([m&nbsp;i]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                019&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;{:class&nbsp;&quot;icon&quot;}
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(boolean?&nbsp;x)&nbsp;[:b&nbsp;x]
+                020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:a&nbsp;&nbsp;{:class&nbsp;&quot;is-link&nbsp;fas&nbsp;fa-cogs&quot;
                 </span><br/>
-<span class="not-covered" title="0 out of 13 forms covered">
-                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(string?&nbsp;x)&nbsp;&nbsp;[:i&nbsp;{:id&nbsp;(make-selectable&nbsp;(:key&nbsp;m))}&nbsp;x]
-                </span><br/>
-<span class="not-covered" title="0 out of 19 forms covered">
-                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map?&nbsp;&nbsp;&nbsp;&nbsp;x)&nbsp;&nbsp;(into&nbsp;[:ul]&nbsp;(mapv&nbsp;(fn&nbsp;[[k&nbsp;v]]&nbsp;[:li&nbsp;[:span&nbsp;(td-value&nbsp;v&nbsp;k)]])&nbsp;x)))
-                </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
-                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;&quot;::&quot;]))
+<span class="not-covered" title="0 out of 16 forms covered">
+                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:href&nbsp;(str&nbsp;&nbsp;&quot;&#x2F;ui&#x2F;&quot;&nbsp;(:mp-id&nbsp;m)&nbsp;(str&nbsp;&quot;&#x2F;container&#x2F;state&quot;&nbsp;(when&nbsp;i&nbsp;(str&nbsp;&quot;&#x2F;&quot;&nbsp;i))))}]]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                051&nbsp;&nbsp;
+                022&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                023&nbsp;&nbsp;(defn&nbsp;ctrl-link
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                052&nbsp;&nbsp;;;------------------------------
+                024&nbsp;&nbsp;&nbsp;&nbsp;([m]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ctrl-link&nbsp;m&nbsp;false))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                053&nbsp;&nbsp;;;&nbsp;table&nbsp;funs
+                026&nbsp;&nbsp;&nbsp;&nbsp;([m&nbsp;i]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;{:class&nbsp;&quot;icon&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:a&nbsp;&nbsp;{:class&nbsp;&quot;far&nbsp;fa-play-circle&quot;
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:href&nbsp;(str&nbsp;&nbsp;&quot;&#x2F;ui&#x2F;&quot;&nbsp;(:mp-id&nbsp;m)&nbsp;(str&nbsp;&quot;&#x2F;container&#x2F;ctrl&quot;&nbsp;(when&nbsp;i&nbsp;(str&nbsp;&quot;&#x2F;&quot;&nbsp;i))))}]]))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                030&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                031&nbsp;&nbsp;(defn&nbsp;definition-link
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                054&nbsp;&nbsp;;;------------------------------
+                032&nbsp;&nbsp;&nbsp;&nbsp;([m]
                 </span><br/>
-<span class="partial" title="1 out of 6 forms covered">
-                055&nbsp;&nbsp;(defn&nbsp;kw-head&nbsp;[m]&nbsp;(keys&nbsp;(first&nbsp;m)))
+<span class="not-covered" title="0 out of 4 forms covered">
+                033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(definition-link&nbsp;m&nbsp;false))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;([m&nbsp;i]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;{:class&nbsp;&quot;icon&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:a&nbsp;&nbsp;{:class&nbsp;&quot;is-link&nbsp;far&nbsp;fa-folder&quot;
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:href&nbsp;(str&nbsp;&nbsp;&quot;&#x2F;ui&#x2F;&quot;&nbsp;(:mp-id&nbsp;m)&nbsp;&nbsp;(str&nbsp;&quot;&#x2F;container&#x2F;definition&quot;&nbsp;(when&nbsp;i&nbsp;(str&nbsp;&quot;&#x2F;&quot;&nbsp;i))))}]]))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                038&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                039&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                040&nbsp;&nbsp;;;&nbsp;table&nbsp;cell&nbsp;funs
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                041&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="partial" title="2 out of 3 forms covered">
+                042&nbsp;&nbsp;(defmulti&nbsp;td-value&nbsp;&nbsp;(fn&nbsp;[m&nbsp;kw]&nbsp;kw))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                043&nbsp;&nbsp;
+                </span><br/>
+<span class="partial" title="3 out of 8 forms covered">
+                044&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:mp-id&nbsp;[m&nbsp;kw]&nbsp;[:b&nbsp;(mp-id-link&nbsp;m)])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                045&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                046&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:no-idx&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                047&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;kw]
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                048&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;&nbsp;&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;(:no-idx&nbsp;m)
+                </span><br/>
+<span class="not-covered" title="0 out of 11 forms covered">
+                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;(state-link&nbsp;m&nbsp;(:no-idx&nbsp;m))]
+                </span><br/>
+<span class="not-covered" title="0 out of 11 forms covered">
+                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;(ctrl-link&nbsp;m&nbsp;(:no-idx&nbsp;m))]
+                </span><br/>
+<span class="not-covered" title="0 out of 11 forms covered">
+                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;(definition-link&nbsp;m&nbsp;(:no-idx&nbsp;m))]])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                052&nbsp;&nbsp;
+                </span><br/>
+<span class="partial" title="3 out of 8 forms covered">
+                053&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:par-idx&nbsp;[m&nbsp;kw]&nbsp;[:i&nbsp;(kw&nbsp;m)])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                054&nbsp;&nbsp;
+                </span><br/>
+<span class="partial" title="3 out of 8 forms covered">
+                055&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:seq-idx&nbsp;[m&nbsp;kw]&nbsp;[:i&nbsp;(kw&nbsp;m)])
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 056&nbsp;&nbsp;
                 </span><br/>
-<span class="partial" title="1 out of 12 forms covered">
-                057&nbsp;&nbsp;(defn&nbsp;t-head&nbsp;&nbsp;[kws]&nbsp;(into&nbsp;[:thead]&nbsp;(mapv&nbsp;(fn&nbsp;[x]&nbsp;[:th&nbsp;x])&nbsp;kws)))&nbsp;
+<span class="partial" title="3 out of 8 forms covered">
+                057&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:level&nbsp;[m&nbsp;kw]&nbsp;[:i&nbsp;(kw&nbsp;m)])
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 058&nbsp;&nbsp;
                 </span><br/>
-<span class="partial" title="1 out of 11 forms covered">
-                059&nbsp;&nbsp;(defn&nbsp;td&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;kws]&nbsp;(mapv&nbsp;(fn&nbsp;[kw]&nbsp;[:td&nbsp;(td-value&nbsp;m&nbsp;kw)])&nbsp;kws))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                060&nbsp;&nbsp;
-                </span><br/>
-<span class="partial" title="1 out of 13 forms covered">
-                061&nbsp;&nbsp;(defn&nbsp;t-row&nbsp;&nbsp;&nbsp;[m&nbsp;kws]&nbsp;(mapv&nbsp;(fn&nbsp;[x]&nbsp;(into&nbsp;[:tr]&nbsp;(td&nbsp;x&nbsp;kws)))&nbsp;m))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                062&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                063&nbsp;&nbsp;(defn&nbsp;t-base&nbsp;&nbsp;[kws]
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                064&nbsp;&nbsp;&nbsp;&nbsp;[:table&nbsp;{:class&nbsp;&quot;table&nbsp;is-hoverable&nbsp;is-fullwidth&quot;}
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(t-head&nbsp;kws)])
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                066&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                067&nbsp;&nbsp;(defn&nbsp;table
+<span class="covered" title="3 out of 3 forms covered">
+                059&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:struct
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                068&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;data]
+                060&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;kw]
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
-                069&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;data)&nbsp;(empty-msg&nbsp;&quot;no&nbsp;table&nbsp;data&quot;)
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[h&nbsp;(kw-head&nbsp;data)]
-                </span><br/>
-<span class="not-covered" title="0 out of 9 forms covered">
-                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;(t-base&nbsp;h)&nbsp;(t-row&nbsp;data&nbsp;h)))))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                072&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                073&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                074&nbsp;&nbsp;;;&nbsp;page&nbsp;funs
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                075&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                076&nbsp;&nbsp;(defn&nbsp;page-header
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                077&nbsp;&nbsp;&nbsp;&nbsp;[conf]
-                </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
-                078&nbsp;&nbsp;&nbsp;&nbsp;[:head
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                079&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:title&nbsp;(:page-title&nbsp;conf)]
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-css&nbsp;&quot;&#x2F;css&#x2F;bulma.css&quot;)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                081&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-css&nbsp;&quot;&#x2F;css&#x2F;all.css&quot;)])
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                082&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                083&nbsp;&nbsp;(defn&nbsp;index-title
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                084&nbsp;&nbsp;&nbsp;&nbsp;[conf]
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                085&nbsp;&nbsp;&nbsp;&nbsp;[:section&nbsp;{:class&nbsp;&quot;hero&nbsp;is-info&quot;}
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;hero-body&quot;}
-                </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
-                087&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;container&quot;}
+<span class="not-covered" title="0 out of 6 forms covered">
+                061&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;&nbsp;&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;&quot;container&quot;
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                088&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:h1&nbsp;{:class&nbsp;&quot;title&quot;}&nbsp;(:main-title&nbsp;conf)]
+                062&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;(state-link&nbsp;m)]
                 </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
-                089&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:h2&nbsp;{:class&nbsp;&quot;subtitle&quot;}&nbsp;&quot;###&quot;]]]])
+<span class="not-covered" title="0 out of 8 forms covered">
+                063&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;(ctrl-link&nbsp;m)]
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                064&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;(definition-link&nbsp;m)]])
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                090&nbsp;&nbsp;
+                065&nbsp;&nbsp;
                 </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                091&nbsp;&nbsp;(defn&nbsp;index
+<span class="covered" title="3 out of 3 forms covered">
+                066&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:func
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                092&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;body]
+                067&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;kw]
                 </span><br/>
-<span class="not-covered" title="0 out of 230 forms covered">
-                093&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;html5
+<span class="not-covered" title="0 out of 8 forms covered">
+                068&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;(kw&nbsp;m)])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                069&nbsp;&nbsp;
+                </span><br/>
+<span class="partial" title="3 out of 9 forms covered">
+                070&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:TaskName&nbsp;[m&nbsp;kw]&nbsp;[:span&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;m])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                071&nbsp;&nbsp;
+                </span><br/>
+<span class="partial" title="3 out of 11 forms covered">
+                072&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:Replace&nbsp;[m&nbsp;kw]&nbsp;[:pre&nbsp;(che&#x2F;encode&nbsp;m&nbsp;{:pretty&nbsp;true})])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                073&nbsp;&nbsp;
+                </span><br/>
+<span class="partial" title="3 out of 11 forms covered">
+                074&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:Use&nbsp;[m&nbsp;kw]&nbsp;[:pre&nbsp;(che&#x2F;encode&nbsp;m&nbsp;{:pretty&nbsp;true})])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                075&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                076&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:key
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                077&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;kw]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                078&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;{:class&nbsp;&quot;icon&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                079&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:a&nbsp;&nbsp;{:class&nbsp;&quot;copy&nbsp;is-link&nbsp;fas&nbsp;fa-key&quot;&nbsp;:data-copy&nbsp;(kw&nbsp;m)&nbsp;:title&nbsp;(str&nbsp;&quot;click&nbsp;to&nbsp;console.log:&nbsp;&quot;&nbsp;(kw&nbsp;m))}]])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                080&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="3 out of 3 forms covered">
+                081&nbsp;&nbsp;(defmethod&nbsp;td-value&nbsp;:default
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                082&nbsp;&nbsp;&nbsp;&nbsp;[m&nbsp;kw]
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                083&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[x&nbsp;(kw&nbsp;m)]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                094&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(page-header&nbsp;conf)
+                084&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                095&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:body
+<span class="not-covered" title="0 out of 9 forms covered">
+                085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(boolean?&nbsp;x)&nbsp;[:div&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;x]
+                </span><br/>
+<span class="not-covered" title="0 out of 15 forms covered">
+                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(string?&nbsp;x)&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;tag&quot;&nbsp;:id&nbsp;(make-selectable&nbsp;(:key&nbsp;m))}&nbsp;x]
+                </span><br/>
+<span class="not-covered" title="0 out of 19 forms covered">
+                087&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(map?&nbsp;&nbsp;&nbsp;&nbsp;x)&nbsp;&nbsp;(into&nbsp;[:ul]&nbsp;(mapv&nbsp;(fn&nbsp;[[k&nbsp;v]]&nbsp;[:li&nbsp;[:span&nbsp;(td-value&nbsp;v&nbsp;k)]])&nbsp;x)))
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                096&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(index-title&nbsp;conf)
+                088&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;&quot;::&quot;]))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                089&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                097&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:section&nbsp;{:class&nbsp;&quot;section&quot;}
+                090&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                098&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;container&nbsp;content&quot;}
+                091&nbsp;&nbsp;;;&nbsp;table&nbsp;funs
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                099&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;box&quot;}
+                092&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                093&nbsp;&nbsp;(defn&nbsp;kw-head&nbsp;[m]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;columns&quot;}
+                094&nbsp;&nbsp;&nbsp;&nbsp;;;&nbsp;(keys&nbsp;(first&nbsp;m))
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                095&nbsp;&nbsp;&nbsp;&nbsp;[:key&nbsp;:mp-id&nbsp;:struct&nbsp;:func&nbsp;:no-idx&nbsp;:value])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                096&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                097&nbsp;&nbsp;(defn&nbsp;t-head
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                098&nbsp;&nbsp;&nbsp;&nbsp;[kws]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                099&nbsp;&nbsp;&nbsp;&nbsp;(into
+                </span><br/>
+<span class="not-covered" title="0 out of 15 forms covered">
+                100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;[:thead]&nbsp;(mapv&nbsp;(fn&nbsp;[x]&nbsp;[:col&nbsp;{:class&nbsp;(name&nbsp;x)}])&nbsp;kws))
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;(fn&nbsp;[x]&nbsp;[:th&nbsp;x])&nbsp;kws)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                102&nbsp;&nbsp;
+                </span><br/>
+<span class="partial" title="1 out of 11 forms covered">
+                103&nbsp;&nbsp;(defn&nbsp;td&nbsp;[m&nbsp;kws]&nbsp;(mapv&nbsp;(fn&nbsp;[kw]&nbsp;[:td&nbsp;(td-value&nbsp;m&nbsp;kw)])&nbsp;kws))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                104&nbsp;&nbsp;
+                </span><br/>
+<span class="partial" title="1 out of 13 forms covered">
+                105&nbsp;&nbsp;(defn&nbsp;t-row&nbsp;[m&nbsp;kws]&nbsp;(mapv&nbsp;(fn&nbsp;[x]&nbsp;(into&nbsp;[:tr&nbsp;]&nbsp;(td&nbsp;x&nbsp;kws)))&nbsp;m))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                106&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                107&nbsp;&nbsp;(defn&nbsp;t-base&nbsp;[kws]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                108&nbsp;&nbsp;&nbsp;&nbsp;[:table&nbsp;{:class&nbsp;&quot;table&nbsp;is-hoverable&nbsp;is-fullwidth&nbsp;fixed&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                109&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(t-head&nbsp;kws)])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                110&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                111&nbsp;&nbsp;(defn&nbsp;table
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                112&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;data]
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                113&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(empty?&nbsp;data)&nbsp;(empty-msg&nbsp;&quot;no&nbsp;table&nbsp;data&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body]]]]
+                114&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[h&nbsp;(kw-head&nbsp;data)]
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                115&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;(t-base&nbsp;h)&nbsp;(t-row&nbsp;data&nbsp;h)))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                116&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                117&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                118&nbsp;&nbsp;;;&nbsp;page&nbsp;funs
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                119&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                120&nbsp;&nbsp;(defn&nbsp;page-header
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                121&nbsp;&nbsp;&nbsp;&nbsp;[conf]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                122&nbsp;&nbsp;&nbsp;&nbsp;[:head
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:title&nbsp;(:page-title&nbsp;conf)]
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                124&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-css&nbsp;&quot;&#x2F;css&#x2F;bulma.css&quot;)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                125&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-css&nbsp;&quot;&#x2F;css&#x2F;all.css&quot;)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                126&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-css&nbsp;&quot;&#x2F;css&#x2F;ui.css&quot;)])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                127&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                128&nbsp;&nbsp;(defn&nbsp;index-title
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                129&nbsp;&nbsp;&nbsp;&nbsp;[conf]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                130&nbsp;&nbsp;&nbsp;&nbsp;[:section&nbsp;{:class&nbsp;&quot;hero&nbsp;is-info&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                131&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;hero-body&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                132&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;container&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                133&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:h1&nbsp;{:class&nbsp;&quot;title&quot;}&nbsp;(:main-title&nbsp;conf)]
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                134&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:h2&nbsp;{:class&nbsp;&quot;subtitle&quot;}&nbsp;&quot;###&quot;]]]])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                135&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                136&nbsp;&nbsp;(defn&nbsp;index
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                137&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;body]
+                </span><br/>
+<span class="not-covered" title="0 out of 230 forms covered">
+                138&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;html5
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;jquery-3.5.1.min.js&quot;)
+                139&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(page-header&nbsp;conf)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                140&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:body
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                141&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(index-title&nbsp;conf)
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                142&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:section&nbsp;{:class&nbsp;&quot;section&quot;}
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                143&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;container&nbsp;content&quot;}
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                144&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;box&quot;}
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                145&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;columns&quot;}
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                103&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;ws.js&quot;)
+                146&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body]]]]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                104&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;main.js&quot;)]))
+                147&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;jquery-3.5.1.min.js&quot;)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                148&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;ws.js&quot;)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                149&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(hp&#x2F;include-js&nbsp;&quot;&#x2F;js&#x2F;main.js&quot;)]))
                 </span><br/>
  </body>
 </html>

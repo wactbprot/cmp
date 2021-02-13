@@ -1,13 +1,13 @@
 var ws = new WebSocket("ws://127.0.0.1:8010/ws")
 
 ws.onopen = function (event) {
-   ws.send(JSON.stringify({"ok":true})); 
+   ws.send(JSON.stringify({"ok":true}));
 };
 
 var set_value_and_class = function(k, v){
     var $k = $("#"+k);
     $k.removeClass();
-    $k.addClass(v);
+    $k.addClass("tag " + v);
     $k.text(v);
 }
 
