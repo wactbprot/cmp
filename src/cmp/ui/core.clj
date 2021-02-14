@@ -91,8 +91,9 @@
 ;; table funs
 ;;------------------------------
 (defn kw-head [m]
-  ;; (keys (first m))
-  [:key :mp-id :struct :func :no-idx :value])
+  (keys (first m))
+  ;; [:key :mp-id :struct :func :no-idx :value]
+  )
 
 (defn t-head
   [kws]
@@ -109,10 +110,11 @@
    (t-head kws)])
 
 (defn table
-  [conf data]
-  (if (empty? data) (empty-msg "no table data")
-      (let [h (kw-head data)]
-        (into (t-base h) (t-row data h)))))
+  ([conf data]
+   (table conf data (kw-head data)]) 
+  ([conf data head]
+   (if (empty? data) (empty-msg "no table data")
+       (into (t-base head) (t-row data head)))))
 
 ;;------------------------------
 ;; page funs
