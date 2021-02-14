@@ -131,10 +131,10 @@
    [:div {:class "hero-body"}
       [:div {:class "container"}
        [:h1 {:class "title"} (:main-title conf)]
-       [:h2 {:class "subtitle"} "###"]]]])
+       [:h2 {:class "subtitle"}]]]])
 
 (defn index
-  [conf body]
+  [{conf :ui} body]
   (hp/html5
    (page-header conf)
    [:body
