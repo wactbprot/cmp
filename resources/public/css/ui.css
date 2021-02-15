@@ -29,3 +29,15 @@ col.value {
 col.key {
     width:10px;
 }
+
+col.mon {
+    width:10px;
+}
+
+col.stop {
+    width:10px;
+}
+
+col.run {
+    width:10px;
+}

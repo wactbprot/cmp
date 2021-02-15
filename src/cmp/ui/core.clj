@@ -36,6 +36,22 @@
     [:a  {:class "is-link far fa-folder"
           :href (str  "/ui/" (:mp-id m)  (str "/container/definition" (when i (str "/" i))))}]]))
 
+(defn post-url [m] (str (:mp-id m) "/container"))
+
+(defn button
+  [m kw cls]
+  (let [ds "button is-small is-light setter "
+        cs (condp = cls
+             :ok    "is-success"
+             :warn  "is-warning"
+             :error "is-danger"
+             "is-primary")]
+    [:button {:class (str ds cs)
+              :data-value (kw m)
+              :data-url (post-url m)
+              :data-key (:key m)}
+     (kw m)]))
+
 ;;------------------------------
 ;; table cell funs
 ;;------------------------------
@@ -46,9 +62,17 @@
 (defmethod td-value :no-idx 
   [m kw]
   [:span   {:class "tag"} (:no-idx m)
+   [:span  {:class "tag"} (definition-link m (:no-idx m))]
    [:span  {:class "tag"} (state-link m (:no-idx m))]
-   [:span  {:class "tag"} (ctrl-link m (:no-idx m))]
-   [:span  {:class "tag"} (definition-link m (:no-idx m))]])
+   [:span  {:class "tag"} (ctrl-link m (:no-idx m))]])
+
+(defmethod td-value :run [m kw] (button m kw :ok))
+(defmethod td-value :stop [m kw] (button m kw :warn))
+(defmethod td-value :mon [m kw] (button m kw :warn))
+(defmethod td-value :ready [m kw] (button m kw :ok))
+(defmethod td-value :working [m kw] (button m kw :warn))
+(defmethod td-value :executed [m kw] (button m kw :ok))
+
 
 (defmethod td-value :par-idx [m kw] [:i (kw m)])
 
@@ -59,13 +83,11 @@
 (defmethod td-value :struct
   [m kw]
   [:span   {:class "tag"} "container"
+   [:span  {:class "tag"} (definition-link m)]
    [:span  {:class "tag"} (state-link m)]
-   [:span  {:class "tag"} (ctrl-link m)]
-   [:span  {:class "tag"} (definition-link m)]])
+   [:span  {:class "tag"} (ctrl-link m)]])
 
-(defmethod td-value :func
-  [m kw]
-  [:span {:class "tag"} (kw m)])
+(defmethod td-value :func [m kw] [:span {:class "tag"} (kw m)])
 
 (defmethod td-value :TaskName [m kw] [:span {:class "tag"} m])
 

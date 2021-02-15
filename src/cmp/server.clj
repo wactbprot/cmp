@@ -32,7 +32,9 @@
   (GET "/:mp/meta"                    [mp :as req] (res/response (a/mp-meta   conf req mp)))
   (GET "/:mp/container/title"         [mp :as req] (res/response (a/container-title conf req mp)))
 
-  (GET "/ui/listeners"                   [:as req] (uil/view conf (a/listeners conf req)))
+  (GET "/ui/listeners"                    [:as req] (uil/view conf (a/listeners conf req)))
+
+  (POST "/:mp/container"                  [:as req] (res/response (a/set-val! conf req)))
 
   (GET "/ui/:mp/meta"                 [mp :as req] (uim/view conf
                                                              (a/mp-meta conf req mp)))
@@ -40,13 +42,13 @@
                                                              (a/container-title conf req mp)))
   (GET "/ui/:mp/container/descr"      [mp :as req] (uic/view conf
                                                              (a/container-descr conf req mp)))
-  (GET "/ui/:mp/container/ctrl"       [mp :as req] (uic/view conf
+  (GET "/ui/:mp/container/ctrl"       [mp :as req] (uic/view-ctrl conf
                                                              (a/container-ctrl conf req mp)))
-  (GET "/ui/:mp/container/ctrl/:idx"       [idx mp :as req] (uic/view conf
+  (GET "/ui/:mp/container/ctrl/:idx"       [idx mp :as req] (uic/view-ctrl conf
                                                              (a/container-ctrl conf req mp idx)))
-  (GET "/ui/:mp/container/state"      [mp :as req] (uic/view conf
+  (GET "/ui/:mp/container/state"      [mp :as req] (uic/view-state conf
                                                              (a/container-state conf req mp)))
-   (GET "/ui/:mp/container/state/:idx"     [idx mp :as req] (uic/view conf
+  (GET "/ui/:mp/container/state/:idx"     [idx mp :as req] (uic/view-state conf
                                                              (a/container-state conf req mp idx)))
   (GET "/ui/:mp/container/definition" [mp :as req] (uic/view conf
                                                              (a/container-definition conf req mp)))
