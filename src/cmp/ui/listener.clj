@@ -12,14 +12,13 @@
    
    [:div {:class "card-content"}
     [:div {:class "media-content"}
-     [:p {:class "title is-4"} "Listener"]
-     [:p {:class "subtitle is-8"}  [:b "Measurement Prog.: "] (:mp-id data)]
-     [:p {:class "subtitle is-8"}  [:b "Level: "] (:level data)]
-     [:p {:class "subtitle is-8"}  [:b "Pattern: "] (:key data)]
-     [:p {:class "subtitle is-8"}  [:b "Id: "] (:listener-id data)]]]
+     [:p {:class "title is-8"} "Listener"]]
    
-   [:div {:class "content"}
-    [:p (str "reigistered listener for measurement definition " (:mp-id data) "is running") ]]]])
+    [:div {:class "content"}
+     [:p {:class " is-8"}  [:b "Measurement Prog.: "] (:mp-id data)]
+     [:p {:class " is-8"}  [:b "Level: "] (:level data)]
+     [:p {:class " is-8"}  [:b "Pattern: "] (:key data)]
+     [:p {:class " is-8"}  [:b "Id: "] (:listener-id data)]]]]])
 
 (defn view [conf data]
   (prn data)
