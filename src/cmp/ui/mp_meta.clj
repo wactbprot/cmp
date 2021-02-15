@@ -4,4 +4,5 @@
 
 (defn view
   [conf data]
+  (prn data)
   (ui/index conf (ui/table conf data [:key :mp-id :struct :no-idx :value])))

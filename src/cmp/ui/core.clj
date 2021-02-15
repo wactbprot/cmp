@@ -18,7 +18,7 @@
   ([m i]
   [:span {:class "icon"}
    [:a  {:class "is-link fas fa-cogs"
-         :href (str  "/ui/" (:mp-id m) (str "/container/state" (when i (str "/" i))))}]]))
+         :href (str  "/ui/" (:mp-id m) "/" (:struct m) "/state" (when i (str "/" i)))}]]))
 
 (defn ctrl-link
   ([m]
@@ -26,7 +26,7 @@
   ([m i]
    [:span {:class "icon"}
      [:a  {:class "far fa-play-circle"
-           :href (str  "/ui/" (:mp-id m) (str "/container/ctrl" (when i (str "/" i))))}]]))
+           :href (str  "/ui/" (:mp-id m) "/" (:struct m)  "/ctrl" (when i (str "/" i)))}]]))
 
 (defn definition-link
   ([m]
@@ -34,7 +34,7 @@
   ([m i]
    [:span {:class "icon"}
     [:a  {:class "is-link far fa-folder"
-          :href (str  "/ui/" (:mp-id m)  (str "/container/definition" (when i (str "/" i))))}]]))
+          :href (str  "/ui/" (:mp-id m) "/" (:struct m) "/definition" (when i (str "/" i)))}]]))
 
 (defn post-url [m] (str (:mp-id m) "/container"))
 
@@ -82,7 +82,7 @@
 
 (defmethod td-value :struct
   [m kw]
-  [:span   {:class "tag"} "container"
+  [:span   {:class "tag"} (:struct m)
    [:span  {:class "tag"} (definition-link m)]
    [:span  {:class "tag"} (state-link m)]
    [:span  {:class "tag"} (ctrl-link m)]])
@@ -105,6 +105,7 @@
   (if-let [x (kw m)]
     (cond
       (boolean? x) [:div {:class "tag"} x]
+      (number? x)  [:div {:class "tag"} x]
       (string? x)  [:div {:class "tag" :id (make-selectable (:key m))} x]
       (map?    x)  (into [:ul] (mapv (fn [[k v]] [:li [:span (td-value v k)]]) x)))
     [:span  {:class "tag"} "::"]))
@@ -115,25 +116,25 @@
 (defn kw-head [m] (keys (first m)))
 
 (defn t-head
-  [kws]
+  [conf kws]
   (into
    (into [:thead] (mapv (fn [x] [:col {:class (name x)}]) kws))
-   (mapv (fn [x] [:th x]) kws)))
+   (mapv (fn [x] [:th (or (get-in conf [:ui :trans x]) x)]) kws)))
 
 (defn td [m kws] (mapv (fn [kw] [:td (td-value m kw)]) kws))
 
 (defn t-row [m kws] (mapv (fn [x] (into [:tr ] (td x kws))) m))
 
-(defn t-base [kws]
+(defn t-base [conf kws]
   [:table {:class "table is-hoverable is-fullwidth fixed"}
-   (t-head kws)])
+   (t-head conf kws)])
 
 (defn table
   ([conf data]
    (table conf data (kw-head data))) 
   ([conf data head]
    (if (empty? data) (empty-msg "no table data")
-       (into (t-base head) (t-row data head)))))
+       (into (t-base conf head) (t-row data head)))))
 
 ;;------------------------------
 ;; page funs

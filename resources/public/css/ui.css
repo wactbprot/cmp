@@ -41,3 +41,20 @@ col.stop {
 col.run {
     width:10px;
 }
+
+col.executed {
+    width:10px;
+}
+
+col.working {
+    width:10px;
+}
+
+col.ready {
+    width:10px;
+}
+
+
+col.func {
+    width:100px;
+}

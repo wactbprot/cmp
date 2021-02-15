@@ -20,6 +20,17 @@
  ;; integrated ui
  :ui {:page-title "UI-CMP"
       :main-title "UI-CMP"
+      :trans {:struct "Structure (container/definitions)"
+              :func "Function (state/ctrl)"
+              :mp-id "Meas.-Prog."
+              :no-idx "Container No."
+              :run ""
+              :mon ""
+              :ready ""
+              :stop ""
+              :executed ""
+              :working ""
+              :value "current value"}
       }
  ;; long term memory: couchdb
  :lt-srv "127.0.0.1"

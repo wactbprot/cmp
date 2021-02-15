@@ -38,10 +38,7 @@
 
   (GET "/ui/:mp/meta"                 [mp :as req] (uim/view conf
                                                              (a/mp-meta conf req mp)))
-  (GET "/ui/:mp/container/title"      [mp :as req] (uic/view conf
-                                                             (a/container-title conf req mp)))
-  (GET "/ui/:mp/container/descr"      [mp :as req] (uic/view conf
-                                                             (a/container-descr conf req mp)))
+
   (GET "/ui/:mp/container/ctrl"       [mp :as req] (uic/view-ctrl conf
                                                              (a/container-ctrl conf req mp)))
   (GET "/ui/:mp/container/ctrl/:idx"       [idx mp :as req] (uic/view-ctrl conf
@@ -54,6 +51,19 @@
                                                              (a/container-definition conf req mp)))
   (GET "/ui/:mp/container/definition/:idx" [idx mp :as req] (uic/view conf
                                                              (a/container-definition conf req mp idx)))
+  
+  (GET "/ui/:mp/definitions/ctrl"       [mp :as req] (uic/view-ctrl conf
+                                                             (a/definitions-ctrl conf req mp)))
+  (GET "/ui/:mp/definitions/ctrl/:idx"       [idx mp :as req] (uic/view-ctrl conf
+                                                             (a/definitions-ctrl conf req mp idx)))
+  (GET "/ui/:mp/definitions/state"      [mp :as req] (uic/view-state conf
+                                                             (a/definitions-state conf req mp)))
+  (GET "/ui/:mp/definitions/state/:idx"     [idx mp :as req] (uic/view-state conf
+                                                             (a/definitions-state conf req mp idx)))
+  (GET "/ui/:mp/definitions/definition" [mp :as req] (uic/view conf
+                                                             (a/definitions-definition conf req mp)))
+  (GET "/ui/:mp/definitions/definition/:idx" [idx mp :as req] (uic/view conf
+                                                             (a/definitions-definition conf req mp idx)))
 
   
   (GET "/ws"                     [:as req] (ws/main  conf req))

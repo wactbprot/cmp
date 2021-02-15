@@ -48,19 +48,7 @@
 ;;------------------------------
 ;; container
 ;;------------------------------
-(defn container-title
-  "Returns the `container-title` `key`-`value` pairs.
-  
-  Example:
-  ```clojure
-  (container-title {} {} \"ref\")
-  ```"
-  [conf req mp-id]
-  (mapv kv (st/pat->keys (ku/cont-title-key mp-id "*"))))
-  
 (defn mp-meta [conf req mp-id] (mapv kv (st/key->keys (ku/meta-prefix mp-id))))
-
-(defn container-descr [conf req mp-id] (mapv kv (st/pat->keys (ku/cont-descr-key mp-id "*"))))
 
 (defn container-ctrl 
   ([conf req mp-id]
@@ -84,6 +72,37 @@
   ([conf req mp-id no-idx]
    (mapv kv (st/pat->keys (ku/cont-defin-key mp-id no-idx "*" "*" )))))
 
+;;------------------------------
+;; definitions
+;;------------------------------
+(defn mp-meta [conf req mp-id] (mapv kv (st/key->keys (ku/meta-prefix mp-id))))
+
+(defn definitions-ctrl 
+  ([conf req mp-id]
+   (definitions-ctrl conf req mp-id "*"))
+  ([conf req mp-id no-idx]
+   (mapv
+    (fn [k] (kv k {:run "run" :mon "mon" :stop "stop"}))
+    (st/pat->keys (ku/defins-ctrl-key mp-id no-idx)))))
+
+(defn definitions-state
+  ([conf req mp-id]
+   (definitions-state conf req mp-id "*"))
+  ([conf req mp-id no-idx]
+   (mapv
+    (fn [k] (kv k {:ready "ready" :working "working" :executed "executed"}))
+    (st/pat->keys (ku/defins-state-key mp-id no-idx "*" "*" )))))
+
+(defn definitions-definition
+  ([conf req mp-id]
+   (definitions-definition conf req mp-id "*"))
+  ([conf req mp-id no-idx]
+   (mapv kv (st/pat->keys (ku/defins-defin-key mp-id no-idx "*" "*" )))))
+
+
+;;------------------------------
+;; set value to st-mem
+;;------------------------------
 (defn set-val!
   [conf req]
   (let [k (get-in req [:body :key])
