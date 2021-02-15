@@ -8,7 +8,7 @@
 
 (defn empty-msg [s] [:span {:class "tag is-info"} s])
 
-(defn make-selectable [k] (string/replace k ku/re-sep "_"))
+(defn make-selectable [k] (when (string? k) (string/replace k ku/re-sep "_")))
 
 (defn mp-id-link [m] [:a {:href (str  "/ui/" (:mp-id m) "/meta")} (:mp-id m)])
 
@@ -90,10 +90,7 @@
 ;;------------------------------
 ;; table funs
 ;;------------------------------
-(defn kw-head [m]
-  (keys (first m))
-  ;; [:key :mp-id :struct :func :no-idx :value]
-  )
+(defn kw-head [m] (keys (first m)))
 
 (defn t-head
   [kws]
@@ -111,7 +108,7 @@
 
 (defn table
   ([conf data]
-   (table conf data (kw-head data)]) 
+   (table conf data (kw-head data))) 
   ([conf data head]
    (if (empty? data) (empty-msg "no table data")
        (into (t-base head) (t-row data head)))))

@@ -24,7 +24,7 @@
   ```"
   [conf req]
   (let [ls @st/listeners]
-    (mapv (fn [k] (assoc (ku/key->reg-map k) :listener-id (get-in ls [k :id]))) (keys ls))))
+    (mapv (fn [k] (assoc (ku/key->reg-map k) :key k :listener-id (get-in ls [k :id]))) (keys ls))))
 
 ;;------------------------------
 ;; tasks
