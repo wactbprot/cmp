@@ -20,23 +20,25 @@
       [:span {:class cl} "level: "  (:level data)]]]))
 
 (defn card
-  [conf data]
+  [conf m]
   [:div {:class "content"}
   [:div {:class "card"}
    [:div {:class "card-image"}
     [:figure {:class "image is-3by1"}
-     (img conf data)]
+     (img conf m)]
    
    [:div {:class "card-content"}
     [:div {:class "content"}
-     [:p {:class " is-8"}  [:b "Measurement Prog.: "] (:mp-id data)]
-     (label conf data)]]]]])
+     [:p {:class " is-8"}  [:b "Measurement Prog.: "] (ui/mp-id-link m)]
+     (label conf m)]]]]])
 
 (defn view [conf data]
-  (let [a (filter (fn [d] (= "a" (:level d))) data)
-        b (filter (fn [d] (= "b" (:level d))) data)
-        c (filter (fn [d] (= "c" (:level d))) data)]
+  (let [a (filter (fn [d] (= "ctrl" (:func d))) data)
+        b (filter (fn [d] (= "state" (:func d))) data)
+        c (filter (fn [d] (= "c" (:level d))) data)
+        ]
     (ui/index conf (into [:div {:class "columns"}]
                          [(into [:div {:class "column"}] (map (fn [l] (card conf l)) a))
                           (into [:div {:class "column"}] (map (fn [l] (card conf l)) b))
-                          (into [:div {:class "column"}] (map (fn [l] (card conf l)) c))]))))
+                          (into [:div {:class "column"}] (map (fn [l] (card conf l)) c))
+                          ]))))
