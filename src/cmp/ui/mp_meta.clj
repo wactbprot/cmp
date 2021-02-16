@@ -38,4 +38,5 @@
 
 (defn view
   [conf data mp]
+   (prn data)
   (ui/index conf (card conf data) mp))

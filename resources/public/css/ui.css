@@ -23,7 +23,7 @@
 }
 
 col.value {
-    width:100px;
+    width:200px;
 }
 
 col.key {
@@ -54,7 +54,14 @@ col.ready {
     width:10px;
 }
 
-
 col.func {
+    width:100px;
+}
+
+col.struct {
+    width:100px;
+}
+
+col.no-idx {
     width:100px;
 }

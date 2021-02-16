@@ -4,12 +4,12 @@
 
 (defn view-ctrl
   [conf data mp]
-  (ui/index conf (ui/table conf data [:key :mp-id :struct :func :no-idx :value :run :stop :mon]) mp))
+  (ui/index conf (ui/table conf data [:key  :struct :func :no-idx :value :run :stop :mon]) mp))
 
 (defn view-state
   [conf data mp]
-  (ui/index conf (ui/table conf data [:key :mp-id :struct :func :no-idx :value :ready :working :executed]) mp))
+  (ui/index conf (ui/table conf data [:key  :struct :func :no-idx :value :ready :working :executed]) mp))
 
 (defn view
   [conf data mp]
-  (ui/index conf (ui/table conf data [:key :mp-id :struct :func :no-idx :value]) mp))
+  (ui/index conf (ui/table conf data [:key  :struct :func :no-idx :value]) mp))
