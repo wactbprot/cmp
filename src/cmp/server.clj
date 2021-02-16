@@ -31,23 +31,23 @@
   (GET "/:mp/meta"              [mp :as req] (res/response (a/mp-meta   conf req mp)))
   
   (GET "/ui/listeners"             [:as req] (uil/view conf (a/listeners conf req)))
-  (GET "/ui/:mp/meta"           [mp :as req] (uim/view conf (a/mp-meta conf req mp)))
+  (GET "/ui/:mp/meta"           [mp :as req] (uim/view conf (a/mp-meta conf req mp) mp))
 
   (POST "/:mp/container"           [:as req] (res/response (a/set-val! conf req)))
   
-  (GET "/ui/:mp/container/ctrl"                  [mp :as req] (uic/view-ctrl  conf (a/container-ctrl conf req mp)))
-  (GET "/ui/:mp/container/state"                 [mp :as req] (uic/view-state conf (a/container-state conf req mp)))
-  (GET "/ui/:mp/container/definition"            [mp :as req] (uic/view       conf (a/container-definition conf req mp)))
-  (GET "/ui/:mp/container/state/:idx"        [idx mp :as req] (uic/view-state conf (a/container-state conf req mp idx)))
-  (GET "/ui/:mp/container/ctrl/:idx"         [idx mp :as req] (uic/view-ctrl  conf (a/container-ctrl conf req mp idx)))
-  (GET "/ui/:mp/container/definition/:idx"   [idx mp :as req] (uic/view       conf (a/container-definition conf req mp idx)))
+  (GET "/ui/:mp/container/ctrl"                  [mp :as req] (uic/view-ctrl  conf (a/container-ctrl conf req mp) mp))
+  (GET "/ui/:mp/container/state"                 [mp :as req] (uic/view-state conf (a/container-state conf req mp) mp))
+  (GET "/ui/:mp/container/definition"            [mp :as req] (uic/view       conf (a/container-definition conf req mp) mp))
+  (GET "/ui/:mp/container/state/:idx"        [idx mp :as req] (uic/view-state conf (a/container-state conf req mp idx) mp))
+  (GET "/ui/:mp/container/ctrl/:idx"         [idx mp :as req] (uic/view-ctrl  conf (a/container-ctrl conf req mp idx) mp))
+  (GET "/ui/:mp/container/definition/:idx"   [idx mp :as req] (uic/view       conf (a/container-definition conf req mp idx) mp))
   
-  (GET "/ui/:mp/definitions/ctrl"                [mp :as req] (uic/view-ctrl  conf (a/definitions-ctrl conf req mp)))
-  (GET "/ui/:mp/definitions/state"               [mp :as req] (uic/view-state conf (a/definitions-state conf req mp)))
-  (GET "/ui/:mp/definitions/definition"          [mp :as req] (uic/view       conf (a/definitions-definition conf req mp)))
-  (GET "/ui/:mp/definitions/state/:idx"      [idx mp :as req] (uic/view-state conf (a/definitions-state conf req mp idx)))
-  (GET "/ui/:mp/definitions/ctrl/:idx"       [idx mp :as req] (uic/view-ctrl  conf (a/definitions-ctrl conf req mp idx)))
-  (GET "/ui/:mp/definitions/definition/:idx" [idx mp :as req] (uic/view       conf (a/definitions-definition conf req mp idx)))
+  (GET "/ui/:mp/definitions/ctrl"                [mp :as req] (uic/view-ctrl  conf (a/definitions-ctrl conf req mp) mp))
+  (GET "/ui/:mp/definitions/state"               [mp :as req] (uic/view-state conf (a/definitions-state conf req mp) mp))
+  (GET "/ui/:mp/definitions/definition"          [mp :as req] (uic/view       conf (a/definitions-definition conf req mp) mp))
+  (GET "/ui/:mp/definitions/state/:idx"      [idx mp :as req] (uic/view-state conf (a/definitions-state conf req mp idx) mp))
+  (GET "/ui/:mp/definitions/ctrl/:idx"       [idx mp :as req] (uic/view-ctrl  conf (a/definitions-ctrl conf req mp idx) mp))
+  (GET "/ui/:mp/definitions/definition/:idx" [idx mp :as req] (uic/view       conf (a/definitions-definition conf req mp idx) mp))
 
   
   (GET "/ws"                     [:as req] (ws/main  conf req))

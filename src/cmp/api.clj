@@ -46,10 +46,21 @@
   (mapv kv (st/key->keys (ku/task-prefix))))
 
 ;;------------------------------
+;; mp info
+;;------------------------------
+(defn mp-meta
+  [conf req mp-id]
+  {:mp-id mp-id
+   :descr   (st/key->val (ku/meta-descr-key   mp-id))
+   :name    (st/key->val (ku/meta-name-key    mp-id))
+   :ncont   (st/key->val (ku/meta-ncont-key   mp-id))
+   :ndefins (st/key->val (ku/meta-ndefins-key mp-id))
+   :std     (st/key->val (ku/meta-std-key     mp-id))
+   })
+
+;;------------------------------
 ;; container
 ;;------------------------------
-(defn mp-meta [conf req mp-id] (mapv kv (st/key->keys (ku/meta-prefix mp-id))))
-
 (defn container-ctrl 
   ([conf req mp-id]
    (container-ctrl conf req mp-id "*"))

@@ -10,6 +10,8 @@
 
 (defn make-selectable [k] (when (string? k) (string/replace k ku/re-sep "_")))
 
+(defn img [conf m rel] [:img {:src (str rel "img/" (get-in conf [:ui :img (keyword (:mp-id m))] "default.jpg"))}])
+
 ;;------------------------------
 ;; links
 ;;------------------------------
@@ -153,24 +155,44 @@
    (hp/include-css "/css/all.css")
    (hp/include-css "/css/ui.css")])
 
+(defn index-head-top
+  [conf mp-id]
+  [:div {:class "hero-head"}
+   [:a {:class "navbar-item is-link fas fa-link is-small" :href "http://localhost:8009"} "DevProxy"]
+   [:a {:class "navbar-item is-link fas fa-link is-small" :href "http://localhost:8081"} "Redis"]
+   [:a {:class "navbar-item is-link fas fa-link is-small" :href "http://localhost:5601/app/discover"} "Kibana"]])
+
+(defn index-head-body
+  [conf mp-id]
+  [:div {:class "hero-body"}
+   [:div {:class "container"}
+    [:h1 {:class "title"} (:main-title conf)]
+    [:h2 {:class "subtitle"} (when mp-id (str "Programm: " mp-id))]]])
+
+(defn index-head-bottom
+  [conf mp-id]
+  [:nav {:class "tabs is-boxed is-fullwidth"}
+   [:div {:class "navbar-end"}
+    [:a {:class "is-link navbar-item" :href "/ui/listeners"} "Listeners"]]])
+
 (defn index-title
-  [conf]
+  [conf mp-id]
   [:section {:class "hero is-info"}
-   [:div {:class "hero-body"}
-      [:div {:class "container"}
-       [:h1 {:class "title"} (:main-title conf)]
-       [:h2 {:class "subtitle"}]]]])
+   (index-head-top conf mp-id)
+   (index-head-body conf mp-id)
+   (index-head-bottom  conf mp-id)])
 
 (defn index
-  [{conf :ui} body]
-  (hp/html5
-   (page-header conf)
-   [:body
-    (index-title conf)
-    [:section {:class "section"}
-     [:div {:class "container content"}
-      [:div {:class "box"}
-        body]]]
-    (hp/include-js "/js/jquery-3.5.1.min.js")
-    (hp/include-js "/js/ws.js")
-    (hp/include-js "/js/main.js")]))
+  ([conf body]
+   (index conf body nil)) 
+  ([{conf :ui} body mp-id]
+   (hp/html5
+    (page-header conf)
+    [:body
+     (index-title conf mp-id)
+     [:section {:class "section"}
+      [:div {:class "container content"}
+       [:div {:class "box"} body]]]
+     (hp/include-js "/js/jquery-3.5.1.min.js")
+     (hp/include-js "/js/ws.js")
+     (hp/include-js "/js/main.js")])))
