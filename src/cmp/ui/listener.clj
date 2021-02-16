@@ -10,7 +10,7 @@
             :c "tag is-info is-light")
         cf (condp = (keyword (:func m))
              :ctrl "tag is-dark"
-             :state "tag is-light"
+             :state "tag is-info"
              "tag is-light")]
     [:div {:class "control"}
      [:div {:class "tags has-addons"}
