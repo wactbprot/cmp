@@ -10,32 +10,34 @@
 
 (defn make-selectable [k] (when (string? k) (string/replace k ku/re-sep "_")))
 
+;;------------------------------
+;; links
+;;------------------------------
 (defn mp-id-link [m] [:a {:href (str  "/ui/" (:mp-id m) "/meta")} (:mp-id m)])
+
+(defn href [m p i] (str  "/ui/" (:mp-id m) "/" (:struct m) p (when i (str "/" i))))
 
 (defn state-link
   ([m]
    (state-link m false))
   ([m i]
-  [:span {:class "icon"}
-   [:a  {:class "is-link fas fa-cogs"
-         :href (str  "/ui/" (:mp-id m) "/" (:struct m) "/state" (when i (str "/" i)))}]]))
+  [:span {:class "icon"} [:a  {:class "is-link fas fa-cogs" :href (href m "/state" i)}]]))
 
 (defn ctrl-link
   ([m]
    (ctrl-link m false))
   ([m i]
-   [:span {:class "icon"}
-     [:a  {:class "far fa-play-circle"
-           :href (str  "/ui/" (:mp-id m) "/" (:struct m)  "/ctrl" (when i (str "/" i)))}]]))
+   [:span {:class "icon"} [:a  {:class "far fa-play-circle" :href (href m "/ctrl" i)}]]))
 
 (defn definition-link
   ([m]
    (definition-link m false))
   ([m i]
-   [:span {:class "icon"}
-    [:a  {:class "is-link far fa-folder"
-          :href (str  "/ui/" (:mp-id m) "/" (:struct m) "/definition" (when i (str "/" i)))}]]))
+   [:span {:class "icon"} [:a {:class "is-link far fa-folder" :href (href m "/definition" i)}]]))
 
+;;------------------------------
+;; return data from client
+;;------------------------------
 (defn post-url [m] (str (:mp-id m) "/container"))
 
 (defn button
@@ -67,12 +69,16 @@
    [:span  {:class "tag"} (ctrl-link m (:no-idx m))]])
 
 (defmethod td-value :run [m kw] (button m kw :ok))
-(defmethod td-value :stop [m kw] (button m kw :warn))
-(defmethod td-value :mon [m kw] (button m kw :warn))
-(defmethod td-value :ready [m kw] (button m kw :ok))
-(defmethod td-value :working [m kw] (button m kw :warn))
-(defmethod td-value :executed [m kw] (button m kw :ok))
 
+(defmethod td-value :stop [m kw] (button m kw :warn))
+
+(defmethod td-value :mon [m kw] (button m kw :warn))
+
+(defmethod td-value :ready [m kw] (button m kw :ok))
+
+(defmethod td-value :working [m kw] (button m kw :warn))
+
+(defmethod td-value :executed [m kw] (button m kw :ok))
 
 (defmethod td-value :par-idx [m kw] [:i (kw m)])
 
@@ -164,8 +170,7 @@
     [:section {:class "section"}
      [:div {:class "container content"}
       [:div {:class "box"}
-       [:div {:class "columns"}
-        body]]]]
+        body]]]
     (hp/include-js "/js/jquery-3.5.1.min.js")
     (hp/include-js "/js/ws.js")
     (hp/include-js "/js/main.js")]))

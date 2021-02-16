@@ -31,6 +31,12 @@
               :executed ""
               :working ""
               :value "current value"}
+      ;; place images in resources/public/img
+      :img {:se3-servo "servo.jpg"
+            :se3-cmp_valves "valve.jpg"
+            :se3-cmp_state "state.jpg"
+            :ref "ref.jpg"
+            }
       }
  ;; long term memory: couchdb
  :lt-srv "127.0.0.1"
