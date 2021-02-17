@@ -17,6 +17,12 @@
                       }]}
  ;; rest api server
  :api {:port 8010}
+ :build-on-start ["se3-servo"
+                  "se3-cmp_valves"
+                  "se3-cmp_state"
+                  "se3-cmp_direct"
+                  "se3-cmp_calib"
+                  ]
  ;; integrated ui
  :ui {:page-title "UI-CMP"
       :main-title "UI-CMP"

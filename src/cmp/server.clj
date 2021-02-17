@@ -9,7 +9,6 @@
             [cmp.ui.listener          :as uil]
             [cmp.ui.container         :as uic]
             [cmp.ui.mp-meta           :as uim]
-            [cmp.ui.docs              :as uid]
             [cmp.ui.ws                :as ws]
             [cmp.st-mem               :as st] 
             [compojure.core           :refer :all]
@@ -29,30 +28,21 @@
   (GET "/config"                   []        (res/response conf))
   (GET "/listeners"                [:as req] (res/response (a/listeners conf req)))
   (GET "/tasks"                    [:as req] (res/response (a/tasks     conf req)))
-  (GET "/:mp/meta"              [mp :as req] (res/response (a/mp-meta   conf req mp)))
+  (GET "/:mp/meta"              [mp :as req] (res/response (a/mp-meta   conf req)))
   
   (GET "/ui/listeners"             [:as req] (uil/view conf (a/listeners conf req)))
 
-  (GET "/ui/:mp/meta"           [mp :as req] (uim/view conf (a/mp-meta conf req mp) mp))
-  (GET "/ui/:mp/docs"           [mp :as req] (uid/view conf (a/doc-info conf req mp) mp))
-
+  (GET "/ui/:mp/meta"           [mp :as req] (uim/view conf (a/mp-meta conf req) mp))
+  
   (POST "/:mp/container"           [:as req] (res/response (a/set-val! conf req)))
   
-  (GET "/ui/:mp/container/ctrl"                  [mp :as req] (uic/view-ctrl  conf (a/container-ctrl conf req mp) mp))
-  (GET "/ui/:mp/container/state"                 [mp :as req] (uic/view-state conf (a/container-state conf req mp) mp))
-  (GET "/ui/:mp/container/definition"            [mp :as req] (uic/view       conf (a/container-definition conf req mp) mp))
-  (GET "/ui/:mp/container/state/:idx"        [idx mp :as req] (uic/view-state conf (a/container-state conf req mp idx) mp))
-  (GET "/ui/:mp/container/ctrl/:idx"         [idx mp :as req] (uic/view-ctrl  conf (a/container-ctrl conf req mp idx) mp))
-  (GET "/ui/:mp/container/definition/:idx"   [idx mp :as req] (uic/view       conf (a/container-definition conf req mp idx) mp))
-  
-  (GET "/ui/:mp/definitions/ctrl"                [mp :as req] (uic/view-ctrl  conf (a/definitions-ctrl conf req mp) mp))
-  (GET "/ui/:mp/definitions/state"               [mp :as req] (uic/view-state conf (a/definitions-state conf req mp) mp))
-  (GET "/ui/:mp/definitions/definition"          [mp :as req] (uic/view       conf (a/definitions-definition conf req mp) mp))
-  (GET "/ui/:mp/definitions/state/:idx"      [idx mp :as req] (uic/view-state conf (a/definitions-state conf req mp idx) mp))
-  (GET "/ui/:mp/definitions/ctrl/:idx"       [idx mp :as req] (uic/view-ctrl  conf (a/definitions-ctrl conf req mp idx) mp))
-  (GET "/ui/:mp/definitions/definition/:idx" [idx mp :as req] (uic/view       conf (a/definitions-definition conf req mp idx) mp))
-
-  
+  (GET "/ui/:mp/container/ctrl"                  [mp :as req] (uic/view-ctrl  conf (a/container-ctrl conf req) mp))
+  (GET "/ui/:mp/container/state"                 [mp :as req] (uic/view-state conf (a/container-state conf req) mp))
+  (GET "/ui/:mp/container/definition"            [mp :as req] (uic/view       conf (a/container-definition conf req) mp))
+  (GET "/ui/:mp/container/state/:idx"        [idx mp :as req] (uic/view-state conf (a/container-state conf req) mp))
+  (GET "/ui/:mp/container/ctrl/:idx"         [idx mp :as req] (uic/view-ctrl  conf (a/container-ctrl conf req) mp))
+  (GET "/ui/:mp/container/definition/:idx"   [idx mp :as req] (uic/view       conf (a/container-definition conf req) mp))
+    
   (GET "/ws"                     [:as req] (ws/main  conf req))
   
   (route/resources "/")
