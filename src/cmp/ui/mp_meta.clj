@@ -6,29 +6,21 @@
   [conf m]
   [:div {:class "card-content"}
    [:div {:class "content"}
-    [:p {:class " is-8"} [:b "Measurement Prog.: "] (:mp-id m)]
-    [:p {:class " is-8"} [:b "Standard: "] (:std m)]
-    [:p {:class " is-8"} [:b "Description: "] (:descr m)]
-    [:p {:class " is-8"} [:b "No of definitions: " [:span {:class "tag"} (:ndefins m)]]]
-    [:p {:class " is-8"} [:b "No of containers: " [:span {:class "tag"}  (:ncont m)]]]
+    [:p {:class "is-8"} [:b "Measurement Prog.: "] (:mp-id m)]
+    [:p {:class "is-8"} [:b "Standard: "]          (:std m)]
+    [:p {:class "is-8"} [:b "Description: "]       (:descr m)]
+    [:p {:class "is-8"} [:b "No of definitions: " [:span {:class "tag"} (:ndefins m)]]]
+    [:p {:class "is-8"} [:b "No of containers: " [:span {:class "tag"}  (:ncont m)]]]
     (when-not (empty? (:docs m))
-      [:p {:class " is-8"}
-       (into [:b "Dociments: "]
+      [:p {:class "is-8"}
+       (into [:b "Documents: "]
              (mapv (fn [d] [:i (:doc-id d) "/" (:doc-version d)] ) (:docs m)))])]])
 
 (defn card-footer
   [conf m]
   [:footer {:class "card-footer"}
-     [:span {:class "card-footer-item"}
-      [:b "Container"
-      (ui/state-link (assoc m :struct "container"))
-      (ui/ctrl-link (assoc m :struct "container"))
-      (ui/definition-link (assoc m :struct "container"))]]
-     [:span {:class "card-footer-item"}
-      [:b "Definitions"
-       (ui/state-link (assoc m :struct "definitions"))
-       (ui/ctrl-link (assoc m :struct "definitions"))
-       (ui/definition-link (assoc m :struct "definitions"))]]])
+   [:span {:class "card-footer-item"}
+    (ui/ctrl-link (assoc m :struct "container"))]])
 
 (defn card
   [conf m]
