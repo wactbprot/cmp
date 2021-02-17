@@ -46,9 +46,10 @@
   [m kw cls]
   (let [ds "button is-small is-light setter "
         cs (condp = cls
-             :ok    "is-success"
-             :warn  "is-warning"
-             :error "is-danger"
+             :ok      "is-info"
+             :success "is-success"
+             :warn    "is-warning"
+             :error   "is-danger"
              "is-primary")]
     [:button {:class (str ds cs)
               :data-value (kw m)
@@ -62,6 +63,8 @@
 (defmulti td-value  (fn [m kw] kw))
 
 (defmethod td-value :mp-id [m kw] [:b (mp-id-link m)])
+
+(defmethod td-value :title [m kw] [:div {:class "is-size-6"} (kw m)])
 
 (defmethod td-value :no-idx 
   [m kw]
@@ -80,7 +83,7 @@
 
 (defmethod td-value :working [m kw] (button m kw :warn))
 
-(defmethod td-value :executed [m kw] (button m kw :ok))
+(defmethod td-value :executed [m kw] (button m kw :success))
 
 (defmethod td-value :par-idx [m kw] [:i (kw m)])
 
