@@ -7,7 +7,7 @@ ws.onopen = function (event) {
 var set_value_and_class = function(k, v){
     var $k = $("#"+k);
     $k.removeClass();
-    $k.addClass("tag " + v);
+    $k.addClass("is-size-6 " + v);
     $k.text(v);
 }
 

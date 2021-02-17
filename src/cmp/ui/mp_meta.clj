@@ -6,11 +6,15 @@
   [conf m]
   [:div {:class "card-content"}
    [:div {:class "content"}
-    [:p {:class " is-8"} [:b "Measurement Prog.: "] ]
+    [:p {:class " is-8"} [:b "Measurement Prog.: "] (:mp-id m)]
     [:p {:class " is-8"} [:b "Standard: "] (:std m)]
     [:p {:class " is-8"} [:b "Description: "] (:descr m)]
     [:p {:class " is-8"} [:b "No of definitions: " [:span {:class "tag"} (:ndefins m)]]]
-    [:p {:class " is-8"} [:b "No of containers: " [:span {:class "tag"}  (:ncont m)]]]]])
+    [:p {:class " is-8"} [:b "No of containers: " [:span {:class "tag"}  (:ncont m)]]]
+    (when-not (empty? (:docs m))
+      [:p {:class " is-8"}
+       (into [:b "Dociments: "]
+             (mapv (fn [d] [:i (:doc-id d) "/" (:doc-version d)] ) (:docs m)))])]])
 
 (defn card-footer
   [conf m]
@@ -38,5 +42,4 @@
 
 (defn view
   [conf data mp]
-   (prn data)
   (ui/index conf (card conf data) mp))

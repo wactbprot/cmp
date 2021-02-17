@@ -114,7 +114,7 @@
     (cond
       (boolean? x) [:div {:class "tag"} x]
       (number? x)  [:div {:class "tag"} x]
-      (string? x)  [:div {:class "tag" :id (make-selectable (:key m))} x]
+      (string? x)  [:div {:class (str "is-size-6 "x) :id (make-selectable (:key m))} x]
       (map?    x)  (into [:ul] (mapv (fn [[k v]] [:li [:span (td-value v k)]]) x)))
     [:span  {:class "tag"} "::"]))
 
@@ -158,9 +158,9 @@
 (defn index-head-top
   [conf mp-id]
   [:div {:class "hero-head"}
-   [:a {:class "navbar-item is-link fas fa-link is-small" :href "http://localhost:8009"} "DevProxy"]
-   [:a {:class "navbar-item is-link fas fa-link is-small" :href "http://localhost:8081"} "Redis"]
-   [:a {:class "navbar-item is-link fas fa-link is-small" :href "http://localhost:5601/app/discover"} "Kibana"]])
+   [:a {:class "navbar-item is-link fas fa-external-link-alt" :href "http://localhost:8009"} "DevProxy"]
+   [:a {:class "navbar-item is-link fas fa-external-link-alt" :href "http://localhost:8081"} "Redis"]
+   [:a {:class "navbar-item is-link fas fa-external-link-alt" :href "http://localhost:5601/app/discover"} "Kibana"]])
 
 (defn index-head-body
   [conf mp-id]
@@ -171,13 +171,17 @@
 
 (defn index-head-bottom
   [conf mp-id]
-  [:nav {:class "tabs is-boxed is-fullwidth"}
-   [:div {:class "navbar-end"}
-    [:a {:class "is-link navbar-item" :href "/ui/listeners"} "Listeners"]]])
+  [:div {:class "hero-foot"}
+   [:nav {:class "tabs"}
+    [:div {:class "container"}
+     [:ul
+      [:li [:a {:class "navbar-item is-link"   :href "/ui/listeners"} "Listeners"]]
+      (when mp-id
+        [:li [:a {:class "navbar-item is-link" :href (str "/ui/" mp-id "/meta")} (str mp-id " Info")]])]]]])
 
 (defn index-title
   [conf mp-id]
-  [:section {:class "hero is-info"}
+  [:section {:class "hero is-dark"}
    (index-head-top conf mp-id)
    (index-head-body conf mp-id)
    (index-head-bottom  conf mp-id)])

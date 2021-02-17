@@ -56,7 +56,7 @@
    :ncont   (st/key->val (ku/meta-ncont-key   mp-id))
    :ndefins (st/key->val (ku/meta-ndefins-key mp-id))
    :std     (st/key->val (ku/meta-std-key     mp-id))
-   })
+   :docs    (mapv st/key->val (st/key->keys (ku/id-prefix mp-id)))})
 
 ;;------------------------------
 ;; container
@@ -66,15 +66,23 @@
    (container-ctrl conf req mp-id "*"))
   ([conf req mp-id no-idx]
    (mapv
-    (fn [k] (kv k {:run "run" :mon "mon" :stop "stop"}))
-    (st/pat->keys (ku/cont-ctrl-key mp-id no-idx)))))
+    (fn [ck tk] (kv ck {:run "run"
+                          :mon "mon"
+                          :stop "stop"
+                          :title (st/key->val tk)}))
+    (st/pat->keys (ku/cont-ctrl-key mp-id no-idx))
+    (st/pat->keys (ku/cont-title-key mp-id no-idx))
+    )))
 
 (defn container-state
   ([conf req mp-id]
    (container-state conf req mp-id "*"))
   ([conf req mp-id no-idx]
    (mapv
-    (fn [k] (kv k {:ready "ready" :working "working" :executed "executed"}))
+    (fn [k] (kv k {:ready "ready"
+                   :working "working"
+                   :executed "executed"
+                   :title (st/key->val (ku/cont-title-key mp-id no-idx))}))
     (st/pat->keys (ku/cont-state-key mp-id no-idx "*" "*" )))))
 
 (defn container-definition

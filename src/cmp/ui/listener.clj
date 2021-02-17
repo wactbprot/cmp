@@ -32,11 +32,10 @@
      (label conf m)]]]]])
 
 (defn view [conf data]
-  (let [a (filter (fn [d] (= "ctrl" (:func d))) data)
-        b (filter (fn [d] (= "state" (:func d))) data)
-        c (filter (fn [d] (= "c" (:level d))) data)]
+  (let [a (filter (fn [d] (and (= "a" (:level d)) (= "ctrl"  (:func d)))) data)
+        b (filter (fn [d] (and (= "a" (:level d)) (= "state" (:func d)))) data)
+        c (filter (fn [d] (or  (= "b" (:level d)) (= "c"     (:level d)))) data)]
     (ui/index conf (into [:div {:class "columns"}]
-                         [(into [:div {:class "column"}] (map (fn [l] (card conf l)) a))
-                          (into [:div {:class "column"}] (map (fn [l] (card conf l)) b))
-                          (into [:div {:class "column"}] (map (fn [l] (card conf l)) c))
-                          ]))))
+                         [(into [:div {:class "column"} [:h5 "Listener for ctrl (a)"]] (map (fn [l] (card conf l)) a))
+                          (into [:div {:class "column"} [:h5 "Listener for state (a)"]] (map (fn [l] (card conf l)) b))
+                          (into [:div {:class "column"} [:h5 "Listener (b/c)"]] (map (fn [l] (card conf l)) c))]))))

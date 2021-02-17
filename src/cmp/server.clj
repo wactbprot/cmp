@@ -9,6 +9,7 @@
             [cmp.ui.listener          :as uil]
             [cmp.ui.container         :as uic]
             [cmp.ui.mp-meta           :as uim]
+            [cmp.ui.docs              :as uid]
             [cmp.ui.ws                :as ws]
             [cmp.st-mem               :as st] 
             [compojure.core           :refer :all]
@@ -31,7 +32,9 @@
   (GET "/:mp/meta"              [mp :as req] (res/response (a/mp-meta   conf req mp)))
   
   (GET "/ui/listeners"             [:as req] (uil/view conf (a/listeners conf req)))
+
   (GET "/ui/:mp/meta"           [mp :as req] (uim/view conf (a/mp-meta conf req mp) mp))
+  (GET "/ui/:mp/docs"           [mp :as req] (uid/view conf (a/doc-info conf req mp) mp))
 
   (POST "/:mp/container"           [:as req] (res/response (a/set-val! conf req)))
   
