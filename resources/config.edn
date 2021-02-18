@@ -28,7 +28,7 @@
  :ui {:page-title "UI-CMP"
       :main-title "UI-CMP"
       :trans {:struct "Structure (container/definitions)"
-              :func "Function (state/ctrl)"
+              :func "Function"
               :mp-id "Meas.-Prog."
               :no-idx "Container No."
               :run ""

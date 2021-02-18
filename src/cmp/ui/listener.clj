@@ -7,7 +7,7 @@
   {:class (condp = (:level m)
             "a" "tag is-primary"
             "b" "tag is-info"
-            "c" "tag is-info is-light")})
+            "tag is-info is-light")})
 
 (defn func-class
   [conf m]
@@ -29,20 +29,22 @@
 (defn card
   [conf m]
   [:div {:class "content"}
-  [:div {:class "card"}
-   [:div {:class "card-image"}
-    [:figure {:class "image is-3by1"}
-     (ui/img conf m "../")]
-    [:div {:class "card-content"}
-     [:div {:class "content"}
-      [:p {:class " is-8"}  [:b "Measurement Prog.: "] (ui/mp-id-link m)]
-     (label conf m)]]]]])
+   [:div {:class "card"}
+    [:div {:class "card-image"}
+     [:figure {:class "image is-3by1"}
+      (ui/img conf m "../")]
+     [:div {:class "card-content"}
+      [:div {:class "content"}
+       [:p [:b "Measurement Prog.: "] (ui/mp-id-link m)]
+       (label conf m)]]]
+    (ui/card-footer conf m)]])
 
 (defn view [conf req data]
-  (let [a (filter (fn [d] (and (= "a" (:level d)) (= "ctrl"  (:func d)))) data)
-        b (filter (fn [d] (and (= "a" (:level d)) (= "state" (:func d)))) data)]
+  (let [a (filter (fn [d] (and (= "a" (:level d))
+                               (= "ctrl"  (:func d)))) data)
+        b (filter (fn [d] (= "state" (:func d))) data)]
     (ui/index conf req (into [:div {:class "columns"}]
-                         [(into [:div {:class "column"}
-                                 [:h5 "Listener for ctrl (a)"]] (map (fn [l] (card conf l)) a))
-                          (into [:div {:class "column"}
-                                 [:h5 "Listener for state (a)"]] (map (fn [l] (card conf l)) b))]))))
+                             [(into [:div {:class "column"}
+                                     [:h5 "Listener for ctrl (a)"]] (map (fn [l] (card conf l)) a))
+                              (into [:div {:class "column"}
+                                     [:h5 "Listener for state (a/b)"]] (map (fn [l] (card conf l)) b))]))))
