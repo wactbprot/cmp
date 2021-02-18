@@ -43,6 +43,7 @@
             :se3-cmp_valves "valve.jpg"
             :se3-cmp_state "state.jpg"
             :se3-cmp_calib "se3-calib.jpg"
+            :se3-cmp_direct "se3-direct.jpg"
             :ref "ref.jpg"
             }
       }

@@ -245,3 +245,19 @@
           (outer-replace-map from-map))
      :MpName    mp-id
      :StateKey  state-key)))
+
+
+(defn get-task
+  "Returns the assembled `task` for the given key `k` related to the
+  `proto-task`. Since the functions in the `cmp.task` namespace are
+  (kept) independent from the tasks position, this info (`:StateKey`
+  holds the position of the task) have to be `assoc`ed
+  (done in `tsk/assemble`)." 
+  [k]
+  (let [state-key (ku/key->state-key k)]
+    (try (let [proto-task (st/key->val k)
+               meta-task  (gen-meta-task proto-task)
+               mp-id      (ku/key->mp-id k)]
+           (assemble meta-task mp-id state-key))
+         (catch Exception e
+           (st/set-state! state-key :error (.getMessage e))))))

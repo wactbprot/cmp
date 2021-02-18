@@ -159,7 +159,7 @@
   [conf req]
   (let [mp-id   (au/req->mp-id req)
         no-idx  (au/req->no-idx req)]
-    (mapv au/key-value-map (st/pat->keys (ku/cont-defin-key mp-id no-idx "*" "*" )))))
+    (mapv (au/key-value-map k {:task } (st/pat->keys (ku/cont-defin-key mp-id no-idx "*" "*" )))))
 
 ;;------------------------------
 ;; set value to st-mem

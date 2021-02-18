@@ -218,6 +218,17 @@
   (when (string? k)
     (vec->key [(key->mp-id k) (key->struct k) (key->no-idx k) "message"])))
 
+
+;;------------------------------
+;; state-key
+;;------------------------------
+(defn key->state-key
+  "Returns the `state`-key for a given key `k`.
+  ```" 
+  [k]
+  (when (string? k)
+    (vec->key [(key->mp-id k) (key->struct k) (key->no-idx k) "state" (key->seq-idx k) (key->par-idx k)])))
+
 ;;------------------------------
 ;; ctrl-key
 ;;------------------------------

@@ -22,24 +22,6 @@
             [cmp.worker.write-exchange :refer [write-exchange!]]))
 
 ;;------------------------------
-;; task 
-;;------------------------------
-(defn get-task
-  "Returns the assembled `task` for the given key `k` related to the
-  `proto-task`. Since the functions in the `cmp.task` namespace are
-  (kept) independent from the tasks position, this info (`:StateKey`
-  holds the position of the task) have to be `assoc`ed
-  (done in `tsk/assemble`)." 
-  [k]
-  (let [state-key (ku/replace-key-at-level 3 k "state")]
-    (try (let [proto-task (st/key->val k)
-               meta-task  (tsk/gen-meta-task proto-task)
-               mp-id      (ku/key->mp-id k)]
-           (tsk/assemble meta-task mp-id state-key))
-         (catch Exception e
-           (st/set-state! state-key :error (.getMessage e))))))
-
-;;------------------------------
 ;;  future registry 
 ;;------------------------------
 (defonce future-reg (atom {}))
@@ -83,14 +65,11 @@
 ;; check-in
 ;;------------------------------
 (defn check
-  "Gets the task. Handles the `:RunIf` case. The `:StopIf` case is
-  handeled by the workers after processing the task.
-
-  Example: ```clojure
-  (dispatch {:Action \"wait\" :WaitTime 1000 :StateKey \"testpath\"})
-  ```"  
-  [x]
-  (let [task (if (string? x) (get-task x) x)]
+  "Gets the `task` from the key `k` and calls the `dispach` function on
+  it. Handles the `:RunIf` case. The `:StopIf` case is handeled by the
+  `workers` after processing the task."  
+  [k]
+  (let [task (tsk/get-task k)]
     (if (exch/run-if task)
       (dispatch task)
       (do
