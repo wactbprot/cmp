@@ -247,12 +247,12 @@
      :StateKey  state-key)))
 
 
-(defn get-task
-  "Returns the assembled `task` for the given key `k` related to the
-  `proto-task`. Since the functions in the `cmp.task` namespace are
-  (kept) independent from the tasks position, this info (`:StateKey`
-  holds the position of the task) have to be `assoc`ed
-  (done in `tsk/assemble`)." 
+(defn build
+  "Builds and returns the assembled `task` for the given key `k` related
+  to the `proto-task`. Since the functions in the `cmp.task` namespace
+  are (kept) independent from the tasks position, this
+  info (`:StateKey` holds the position of the task) have to
+  be`assoc`ed (done in `tsk/assemble`)." 
   [k]
   (let [state-key (ku/key->state-key k)]
     (try (let [proto-task (st/key->val k)

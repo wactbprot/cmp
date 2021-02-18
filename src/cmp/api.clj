@@ -9,6 +9,7 @@
             [cmp.lt-mem              :as lt]
             [cmp.st-mem              :as st]
             [cmp.state               :as state]
+            [cmp.task                :as tsk]
             [cmp.utils               :as u]
             [cmp.api-utils           :as au]
             [cmp.key-utils           :as ku]
@@ -159,7 +160,8 @@
   [conf req]
   (let [mp-id   (au/req->mp-id req)
         no-idx  (au/req->no-idx req)]
-    (mapv (au/key-value-map k {:task } (st/pat->keys (ku/cont-defin-key mp-id no-idx "*" "*" )))))
+    (mapv (fn [k] (au/key-value-map k {:task (tsk/build k)}))
+          (st/pat->keys (ku/cont-defin-key mp-id no-idx "*" "*" )))))
 
 ;;------------------------------
 ;; set value to st-mem

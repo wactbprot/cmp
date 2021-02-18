@@ -89,6 +89,8 @@
 
 (defmethod td-value :func     [m kw] [:span {:class "tag"} (kw m)])
 
+(defmethod td-value :task     [m kw] [:i (str (kw m))])
+
 (defmethod td-value :TaskName [m kw] [:span {:class "tag"} m])
 
 (defmethod td-value :Replace  [m kw] [:pre (che/encode m {:pretty true})])

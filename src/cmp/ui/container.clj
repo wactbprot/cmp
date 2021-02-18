@@ -17,4 +17,4 @@
 (defn view
   [conf req data]
   (ui/index conf req
-            (ui/table conf data [:key  :struct :func :no-idx :value])))
+            (ui/table conf data [:key  :struct :func :no-idx :task])))

@@ -69,7 +69,7 @@
   it. Handles the `:RunIf` case. The `:StopIf` case is handeled by the
   `workers` after processing the task."  
   [k]
-  (let [task (tsk/get-task k)]
+  (let [task (tsk/build k)]
     (if (exch/run-if task)
       (dispatch task)
       (do

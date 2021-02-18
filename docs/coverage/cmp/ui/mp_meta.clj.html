@@ -11,22 +11,91 @@
                 002&nbsp;&nbsp;&nbsp;&nbsp;(:require
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.ui.core&nbsp;:as&nbsp;ui]))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                004&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                005&nbsp;&nbsp;(defn&nbsp;view
+                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.ui.core&nbsp;&nbsp;&nbsp;:as&nbsp;ui]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                006&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;data]
+                004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.api-utils&nbsp;:as&nbsp;au]))
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                007&nbsp;&nbsp;&nbsp;&nbsp;(prn&nbsp;data)
+<span class="blank" title="0 out of 0 forms covered">
+                005&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                006&nbsp;&nbsp;(defn&nbsp;card-content
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                007&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;m]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                008&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;card-content&quot;}&nbsp;&nbsp;
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;columns&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;column&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:figure&nbsp;{:class&nbsp;&quot;image&nbsp;is-3by1&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ui&#x2F;img&nbsp;conf&nbsp;m&nbsp;&quot;..&#x2F;..&#x2F;&quot;)]]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;column&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:p&nbsp;[:b&nbsp;&quot;Measurement&nbsp;Prog.:&nbsp;&quot;&nbsp;(:mp-id&nbsp;m)]]
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:p&nbsp;[:b&nbsp;&quot;Standard:&nbsp;&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:std&nbsp;m)]]
+                </span><br/>
+<span class="not-covered" title="0 out of 10 forms covered">
+                016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:p&nbsp;[:b&nbsp;&quot;Description:&nbsp;&quot;]&nbsp;[:i&nbsp;(:descr&nbsp;m)]]]]
                 </span><br/>
 <span class="not-covered" title="0 out of 13 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;(ui&#x2F;index&nbsp;conf&nbsp;(ui&#x2F;table&nbsp;conf&nbsp;data&nbsp;[:key&nbsp;:mp-id&nbsp;:struct&nbsp;:no-idx&nbsp;:value])))
+                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:p&nbsp;[:i&nbsp;&quot;No&nbsp;of&nbsp;definitions:&nbsp;&quot;&nbsp;[:span&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;(:ndefins&nbsp;m)]]]
+                </span><br/>
+<span class="not-covered" title="0 out of 13 forms covered">
+                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:p&nbsp;[:i&nbsp;&quot;No&nbsp;of&nbsp;containers:&nbsp;&quot;&nbsp;&nbsp;[:span&nbsp;{:class&nbsp;&quot;tag&quot;}&nbsp;&nbsp;(:ncont&nbsp;m)]]]
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when-not&nbsp;(empty?&nbsp;(:docs&nbsp;m))
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:p
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;[:b&nbsp;&quot;Documents:&nbsp;&quot;]
+                </span><br/>
+<span class="not-covered" title="0 out of 15 forms covered">
+                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;(fn&nbsp;[d]&nbsp;[:i&nbsp;(:doc-id&nbsp;d)&nbsp;&quot;&#x2F;&quot;&nbsp;(:doc-version&nbsp;d)]&nbsp;)&nbsp;(:docs&nbsp;m)))])])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                023&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                024&nbsp;&nbsp;(defn&nbsp;card
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;m]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;content&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;card&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(card-content&nbsp;conf&nbsp;m)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ui&#x2F;card-footer&nbsp;conf&nbsp;m)]])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                030&nbsp;&nbsp;
+                </span><br/>
+<span class="partial" title="1 out of 9 forms covered">
+                031&nbsp;&nbsp;(defn&nbsp;view&nbsp;[conf&nbsp;req&nbsp;data]&nbsp;(ui&#x2F;index&nbsp;conf&nbsp;req&nbsp;(card&nbsp;conf&nbsp;data)))
                 </span><br/>
  </body>
 </html>
