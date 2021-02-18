@@ -178,9 +178,9 @@
 (defn index-head-top
   [conf req]
   [:div {:class "hero-head"}
-   [:a {:class "navbar-item is-link fas fa-external-link-alt" :href "http://localhost:8009"} "DevProxy"]
-   [:a {:class "navbar-item is-link fas fa-external-link-alt" :href "http://localhost:8081"} "Redis"]
-   [:a {:class "navbar-item is-link fas fa-external-link-alt" :href "http://localhost:5601/app/discover"} "Kibana"]])
+   [:a {:class "" :href "http://localhost:8009"} "DevProxy"]
+   [:a {:class "" :href "http://localhost:8081"} "Redis"]
+   [:a {:class "" :href "http://localhost:5601/app/discover"} "Kibana"]])
 
 (defn index-head-body
   [conf req]
