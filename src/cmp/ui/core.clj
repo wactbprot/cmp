@@ -11,7 +11,9 @@
 
 (defn make-selectable [k] (when (string? k) (string/replace k ku/re-sep "_")))
 
-(defn img [conf m rel] [:img {:src (str rel "img/" (get-in conf [:ui :img (keyword (:mp-id m))] "default.jpg"))}])
+(defn img
+  [conf m rel]
+  [:img {:src (str rel "img/" (get-in conf [:ui :img (keyword (:mp-id m))] "default.jpg"))}])
 
 ;;------------------------------
 ;; links
@@ -24,19 +26,19 @@
   ([m]
    (state-link m false))
   ([m i]
-  [:span {:class "icon"} [:a  {:class "is-link fas fa-cogs" :href (href m "/state" i)}]]))
+   [:a  {:class "tag is-link is-light" :href (href m "/state" i)} "state"]))
 
 (defn ctrl-link
   ([m]
    (ctrl-link m false))
   ([m i]
-   [:span {:class "icon"} [:a  {:class "far fa-play-circle" :href (href m "/ctrl" i)}]]))
+   [:a  {:class "tag is-link is-light" :href (href m "/ctrl" i)} "ctrl"]))
 
 (defn definition-link
   ([m]
    (definition-link m false))
   ([m i]
-   [:span {:class "icon"} [:a {:class "is-link far fa-folder" :href (href m "/definition" i)}]]))
+   [:a {:class "tag is-link is-light" :href (href m "/definition" i)} "def"]))
 
 ;;------------------------------
 ;; return data from client
@@ -45,7 +47,7 @@
 
 (defn button
   [m kw cls]
-  (let [ds "button is-small is-light setter "
+  (let [ds "button is-small setter "
         cs (condp = cls
              :info    "is-info"
              :success "is-success"
@@ -62,7 +64,6 @@
 ;; table cell funs
 ;;------------------------------
 (defmulti td-value  (fn [m kw] kw))
-
 
 (defmethod td-value :mp-id    [m kw] [:b (mp-id-link m)])
 
@@ -149,6 +150,20 @@
    (if (empty? data) (empty-msg "no table data")
        (into (t-base conf head) (t-row data head)))))
 
+
+;;------------------------------
+;; card funs
+;;------------------------------
+(defn card-footer
+  [conf m]
+  [:footer {:class "card-footer"}
+   [:span {:class "card-footer-item"}
+    (ctrl-link (assoc m :struct "container"))]
+   [:span {:class "card-footer-item"}
+    (state-link (assoc m :struct "container"))]
+   [:span {:class "card-footer-item"}
+    (definition-link (assoc m :struct "container"))]])
+
 ;;------------------------------
 ;; page funs
 ;;------------------------------
@@ -161,42 +176,44 @@
    (hp/include-css "/css/ui.css")])
 
 (defn index-head-top
-  [conf mp-id]
+  [conf req]
   [:div {:class "hero-head"}
    [:a {:class "navbar-item is-link fas fa-external-link-alt" :href "http://localhost:8009"} "DevProxy"]
    [:a {:class "navbar-item is-link fas fa-external-link-alt" :href "http://localhost:8081"} "Redis"]
    [:a {:class "navbar-item is-link fas fa-external-link-alt" :href "http://localhost:5601/app/discover"} "Kibana"]])
 
 (defn index-head-body
-  [conf mp-id]
-  [:div {:class "hero-body"}
-   [:div {:class "container"}
-    [:h1 {:class "title"} (:main-title conf)]
-    [:h2 {:class "subtitle"} (when mp-id (str "Programm: " mp-id))]]])
-
+  [conf req]
+  (let [mp-id (au/req->mp-id req)]
+    [:div {:class "hero-body"}
+     [:div {:class "container"}
+      [:h1 {:class "title"} (:main-title conf)]
+      [:h2 {:class "subtitle"} (when mp-id (str "Programm: " mp-id))]]]))
+  
 (defn index-head-bottom
-  [conf mp-id]
-  [:div {:class "hero-foot"}
-   [:nav {:class "tabs"}
-    [:div {:class "container"}
-     [:ul
-      [:li [:a {:class "navbar-item is-link"   :href "/ui/listeners"} "Listeners"]]
-      (when mp-id
-        [:li [:a {:class "navbar-item is-link" :href (str "/ui/" mp-id "/meta")} (str mp-id " Info")]])]]]])
+  [conf req]
+  (let [mp-id (au/req->mp-id req)]
+    [:div {:class "hero-foot"}
+     [:nav {:class "tabs"}
+      [:div {:class "container"}
+       [:ul
+        [:li [:a {:class "navbar-item is-link"   :href "/ui/listeners"} "Listeners"]]
+        (when mp-id
+          [:li [:a {:class "navbar-item is-link" :href (str "/ui/" mp-id "/meta")} "Info"]])]]]]))
 
 (defn index-title
-  [conf mp-id]
+  [conf req]
   [:section {:class "hero is-dark"}
-   (index-head-top conf mp-id)
-   (index-head-body conf mp-id)
-   (index-head-bottom  conf mp-id)])
+   (index-head-top    conf req)
+   (index-head-body   conf req)
+   (index-head-bottom conf req)])
 
 (defn index
   [{conf :ui} req body]
   (let [mp-id (au/req->mp-id req)]
     (hp/html5 (page-header conf)
               [:body
-               (index-title conf mp-id)
+               (index-title conf req)
                [:section {:class "section"}
                 [:div {:class "container content"}
                  [:div {:class "box"}

@@ -21,6 +21,7 @@
                  [clj-http                             "3.10.0"]]
   :main ^:skip-aot cmp.core
   :target-path "target/%s"
+  :repl-options {:init-ns cmp.server}
   :plugins [[lein-cloverage  "1.1.2"]
             [lein-codox      "0.10.7"]
 	    [lein-marginalia "0.9.1"]]
