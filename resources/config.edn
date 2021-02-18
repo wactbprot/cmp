@@ -17,6 +17,7 @@
                       }]}
  ;; rest api server
  :api {:port 8010}
+ :build-delay 500
  :build-on-start ["se3-servo"
                   "se3-cmp_valves"
                   "se3-cmp_state"

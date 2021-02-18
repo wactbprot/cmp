@@ -15,13 +15,16 @@
             [com.brunobonacci.mulog  :as mu]))
 
 
+(comment
+  (def conf (config/config)))
+
 ;;------------------------------
 ;; start observing mp
 ;;------------------------------
 (defn m-start
   "Registers a listener for the `ctrl` interface of a
   `mp-id` (see [[workon!]])."
-  [mp-id]
+  [conf mp-id]
   (state/start mp-id))
 
 ;;------------------------------
@@ -30,7 +33,7 @@
 (defn m-stop
   "De-registers the listener for the `ctrl` interface of the given
   `mp-id` (see [[workon!]])."
-  [mp-id]
+  [conf mp-id]
   (state/stop mp-id))
 
 ;;------------------------------
@@ -43,14 +46,13 @@
 
   Example:
   ```clojure
-  (m-build mpid)
+  (m-build {} mpid)
   ```"
   ([conf mp-id]
-   (m-stop mp-id)
+   (m-stop conf mp-id)
    (st/clear! mp-id)
    (->> mp-id u/compl-main-path lt/get-doc u/doc->safe-doc build/store)
-   (m-start mp-id)))
-
+   (m-start conf mp-id)))
 
 ;;------------------------------
 ;; build ref mpd
@@ -61,13 +63,10 @@
   [conf]
   (let [doc (-> (config/ref-mpd conf) slurp read-string)
         mp-id (u/extr-main-path (:_id doc))]
-    (m-stop mp-id)
+    (m-stop conf mp-id)
     (st/clear! mp-id)
     (build/store doc)
-    (m-start mp-id)))
-
-(comment
-  (def conf (config/config)))
+    (m-start conf mp-id)))
 
 ;;------------------------------
 ;; listeners 
@@ -94,7 +93,29 @@
   (tasks {} {})
   ```"
   [conf req]
-  (mapv kv (st/key->keys (ku/task-prefix))))
+  (mapv au/key-value-map (st/key->keys (ku/task-prefix))))
+
+(defn t-build
+  "Builds the `tasks` endpoint. At runtime all `tasks` are provided by
+  `st-mem`. The advantage is: tasks can be modified at runtime."
+  [conf]
+  (build/store-tasks (lt/all-tasks)))
+
+(defn t-clear
+  "Function removes all keys starting with `tasks`."
+  [conf]
+  (st/clear! (ku/task-prefix)))
+
+(defn t-refresh
+  "Refreshs the `tasks` endpoint.
+
+  Example:
+  ```clojure
+  (t-refresh {})
+  ```"
+  [conf]
+  (t-clear conf)
+  (t-build conf))
 
 ;;------------------------------
 ;; mp info
@@ -139,7 +160,7 @@
   [conf req]
   (let [mp-id   (au/req->mp-id req)
         no-idx  (au/req->no-idx req)]
-    (mapv kv (st/pat->keys (ku/cont-defin-key mp-id no-idx "*" "*" )))))
+    (mapv au/key-value-map (st/pat->keys (ku/cont-defin-key mp-id no-idx "*" "*" )))))
 
 ;;------------------------------
 ;; set value to st-mem

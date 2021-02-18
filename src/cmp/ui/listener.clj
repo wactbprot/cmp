@@ -38,10 +38,10 @@
       [:p {:class " is-8"}  [:b "Measurement Prog.: "] (ui/mp-id-link m)]
      (label conf m)]]]]])
 
-(defn view [conf data]
+(defn view [conf req data]
   (let [a (filter (fn [d] (and (= "a" (:level d)) (= "ctrl"  (:func d)))) data)
         b (filter (fn [d] (and (= "a" (:level d)) (= "state" (:func d)))) data)]
-    (ui/index conf (into [:div {:class "columns"}]
+    (ui/index conf req (into [:div {:class "columns"}]
                          [(into [:div {:class "column"}
                                  [:h5 "Listener for ctrl (a)"]] (map (fn [l] (card conf l)) a))
                           (into [:div {:class "column"}

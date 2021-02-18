@@ -1,6 +1,8 @@
 (ns cmp.ui.mp-meta
   (:require
-     [cmp.ui.core :as ui]))
+   [cmp.ui.core   :as ui]
+   [cmp.api-utils :as au]
+   ))
 
 (defn card-content
   [conf m]
@@ -35,6 +37,4 @@
      (card-content conf m)
      (card-footer conf m)]])
 
-(defn view
-  [conf data mp]
-  (ui/index conf (card conf data) mp))
+(defn view [conf req data] (ui/index conf req (card conf data)))

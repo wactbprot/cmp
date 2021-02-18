@@ -3,17 +3,18 @@
      [cmp.ui.core :as ui]))
 
 (defn view-ctrl
-  [conf data mp]
-  (ui/index conf
-            (ui/table conf data [:key  :struct :func :no-idx :title :value :run :stop :mon]) mp))
+  [conf req data]
+  (ui/index conf req
+            (ui/table conf data [:key  :struct :func :no-idx :title :value :run :stop :mon])))
 
 (defn view-state
-  [conf data mp]
-  (ui/index conf
+  [conf req data]
+  (ui/index conf req
             (into [:div]
                   [[:h3 {:class "title"} (:title (first data))]
-                   (ui/table conf data [:key  :struct :func :no-idx :value :ready :working :executed])]) mp))
+                   (ui/table conf data [:key  :struct :func :no-idx :value :ready :working :executed])])))
 
 (defn view
-  [conf data mp]
-  (ui/index conf (ui/table conf data [:key  :struct :func :no-idx :value]) mp))
+  [conf req data]
+  (ui/index conf req
+            (ui/table conf data [:key  :struct :func :no-idx :value])))

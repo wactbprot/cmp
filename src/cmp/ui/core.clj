@@ -2,6 +2,7 @@
   (:require
      [hiccup.form    :as hf]
      [hiccup.page    :as hp]
+     [cmp.api-utils  :as au]
      [cmp.key-utils  :as ku]
      [clojure.string :as string]
      [cheshire.core  :as che]))
@@ -191,16 +192,16 @@
    (index-head-bottom  conf mp-id)])
 
 (defn index
-  ([conf body]
-   (index conf body nil)) 
-  ([{conf :ui} body mp-id]
-   (hp/html5
-    (page-header conf)
-    [:body
-     (index-title conf mp-id)
-     [:section {:class "section"}
-      [:div {:class "container content"}
-       [:div {:class "box"} body]]]
-     (hp/include-js "/js/jquery-3.5.1.min.js")
-     (hp/include-js "/js/ws.js")
-     (hp/include-js "/js/main.js")])))
+  [{conf :ui} req body]
+  (let [mp-id (au/req->mp-id req)]
+    (hp/html5 (page-header conf)
+              [:body
+               (index-title conf mp-id)
+               [:section {:class "section"}
+                [:div {:class "container content"}
+                 [:div {:class "box"}
+                  body]]]
+               (hp/include-js "/js/jquery-3.5.1.min.js")
+               (hp/include-js "/js/ws.js")
+               (hp/include-js "/js/main.js")])))
+  

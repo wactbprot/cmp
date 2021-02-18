@@ -15,8 +15,8 @@
             [compojure.handler        :as handler]
             [org.httpkit.server       :refer [run-server]]
             [ring.middleware.json     :as middleware]
-            [ring.util.response       :as res]
-            ))
+            [ring.util.response       :as res])
+    (:use    [clojure.repl]))
 
 (def conf (c/config))
 
@@ -25,25 +25,27 @@
 (defonce logger (atom nil))
 
 (defroutes app-routes
-  (GET "/config"                   []        (res/response conf))
-  (GET "/listeners"                [:as req] (res/response (a/listeners conf req)))
-  (GET "/tasks"                    [:as req] (res/response (a/tasks     conf req)))
-  (GET "/:mp/meta"              [mp :as req] (res/response (a/mp-meta   conf req)))
-  
-  (GET "/ui/listeners"             [:as req] (uil/view conf (a/listeners conf req)))
+  (GET "/config"                             [:as req] (res/response conf))
+  (GET "/listeners"                          [:as req] (res/response (a/listeners conf req)))
+  (GET "/tasks"                              [:as req] (res/response (a/tasks     conf req)))
+  (GET "/:mp/meta"                           [:as req] (res/response (a/mp-meta   conf req)))
 
-  (GET "/ui/:mp/meta"           [mp :as req] (uim/view conf (a/mp-meta conf req) mp))
-  
-  (POST "/:mp/container"           [:as req] (res/response (a/set-val! conf req)))
-  
-  (GET "/ui/:mp/container/ctrl"                  [mp :as req] (uic/view-ctrl  conf (a/container-ctrl conf req) mp))
-  (GET "/ui/:mp/container/state"                 [mp :as req] (uic/view-state conf (a/container-state conf req) mp))
-  (GET "/ui/:mp/container/definition"            [mp :as req] (uic/view       conf (a/container-definition conf req) mp))
-  (GET "/ui/:mp/container/state/:idx"        [idx mp :as req] (uic/view-state conf (a/container-state conf req) mp))
-  (GET "/ui/:mp/container/ctrl/:idx"         [idx mp :as req] (uic/view-ctrl  conf (a/container-ctrl conf req) mp))
-  (GET "/ui/:mp/container/definition/:idx"   [idx mp :as req] (uic/view       conf (a/container-definition conf req) mp))
+  (GET "/ui/listeners"                       [:as req] (uil/view conf req (a/listeners conf req)))
+  (GET "/ui"                                 [:as req] (uil/view conf req (a/listeners conf req)))
+
+  (GET "/ui/:mp/meta"                        [:as req] (uim/view conf req (a/mp-meta conf req)))
+  (GET "/ui/:mp"                             [:as req] (uim/view conf req (a/mp-meta conf req)))
+
+  (POST "/:mp/container"                     [:as req] (res/response (a/set-val! conf req)))
+
+  (GET "/ui/:mp/container/ctrl"              [:as req] (uic/view-ctrl  conf req (a/container-ctrl       conf req)))
+  (GET "/ui/:mp/container/state"             [:as req] (uic/view-state conf req (a/container-state      conf req)))
+  (GET "/ui/:mp/container/definition"        [:as req] (uic/view       conf req (a/container-definition conf req)))
+  (GET "/ui/:mp/container/state/:idx"        [:as req] (uic/view-state conf req (a/container-state      conf req)))
+  (GET "/ui/:mp/container/ctrl/:idx"         [:as req] (uic/view-ctrl  conf req (a/container-ctrl       conf req)))
+  (GET "/ui/:mp/container/definition/:idx"   [:as req] (uic/view       conf req (a/container-definition conf req)))
     
-  (GET "/ws"                     [:as req] (ws/main  conf req))
+  (GET "/ws"                                 [:as req] (ws/main  conf req))
   
   (route/resources "/")
   (route/not-found (res/response {:error "not found"})))
@@ -68,15 +70,28 @@
 
 (defn stop []
   (stop-ws! conf)
+  (run! (fn [mp-id]
+          (mu/log ::stop :message "stop mpd" :mp-id mp-id)
+          (a/m-stop conf mp-id))
+        (:build-on-start conf))
   (when @server (@server :timeout 100)
+        (mu/log ::stop :message "stop server")
+        (reset! server nil)
+        (mu/log ::stop :message "stop logger")
         (@logger)
-        (reset! logger nil)
-        (reset! server nil)))
+        (reset! logger nil)))
 
 (defn start []
-  (start-ws! conf)
   (reset! logger (init-log! conf))
-  (mu/log ::start :message "start cmp rest api")
+  (mu/log ::start :message "start ws listener")
+  (start-ws! conf)
+  (mu/log ::start :message "refresh tasks")
+  (a/t-refresh conf)
+  (run! (fn [mp-id]
+          (mu/log ::start :message "build mpd" :mp-id mp-id)
+          (a/m-build-ltm conf mp-id))
+        (:build-on-start conf))
+  (mu/log ::start :message "start server")
   (reset! server (run-server #'app (:api conf))))
 
 
