@@ -26,18 +26,17 @@
     [:span (level-class conf m) "level: "  (:level m)]
     [:span (no-idx-class conf m) "no: "  (:no-idx m)]]])
 
+(defn card-content
+  [conf m]
+  [:div {:class "card-image"}
+   [:figure {:class "image is-3by1"}
+    (ui/img conf m "../")]
+   [:p [:b "Measurement Prog.: "] (ui/mp-id-link m)]
+   (label conf m)])
+
 (defn card
   [conf m]
-  [:div {:class "content"}
-   [:div {:class "card"}
-    [:div {:class "card-image"}
-     [:figure {:class "image is-3by1"}
-      (ui/img conf m "../")]
-     [:div {:class "card-content"}
-      [:div {:class "content"}
-       [:p [:b "Measurement Prog.: "] (ui/mp-id-link m)]
-       (label conf m)]]]
-    (ui/card-footer conf m)]])
+  (ui/card-template conf m (card-content conf m) (ui/card-footer conf m)))
 
 (defn view [conf req data]
   (let [a (filter (fn [d] (and (= "a" (:level d))

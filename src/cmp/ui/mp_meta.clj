@@ -23,9 +23,6 @@
 
 (defn card
   [conf m]
-  [:div {:class "content"}
-   [:div {:class "card"}
-    (card-content conf m)
-    (ui/card-footer conf m)]])
+  (ui/card-template conf m (card-content conf m) (ui/card-footer conf m)))
 
 (defn view [conf req data] (ui/index conf req (card conf data)))

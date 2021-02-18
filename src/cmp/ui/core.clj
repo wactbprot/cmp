@@ -61,63 +61,113 @@
      (kw m)]))
 
 ;;------------------------------
+;; card funs
+;;------------------------------
+(defn card-footer
+  [conf m]
+  [:footer {:class "card-footer"}
+   [:span {:class "card-footer-item"}
+    (ctrl-link (assoc m :struct "container"))]
+   [:span {:class "card-footer-item"}
+    (state-link (assoc m :struct "container"))]
+   [:span {:class "card-footer-item"}
+    (definition-link (assoc m :struct "container"))]])
+
+(defn card-template
+  ([conf m content]
+   (card-template conf m content nil))
+  ([conf m content footer]
+   [:div {:class "content"}
+    [:div {:class "card"}
+     [:div {:class "card-content"}
+      content]
+     footer]]))
+
+;;------------------------------
+;; tasks
+;;------------------------------
+(defn task-label
+  [conf t]
+  [:div {:class "control"}
+   [:div {:class "tags has-addons"}
+    [:span {:class"tag is-primary"} (:Action t)]
+    [:span {:class"tag is-light"} (:TaskName t)]]])
+
+(defn task-section
+  [conf t]
+  [:section
+   [:p {:title (che/encode t)}
+    (task-label conf t)
+    [:i {:class "is-size-7"} (:Comment t)]]])
+
+(defmulti task  (fn [conf m] (-> m :task :Action keyword)))
+
+(defmethod task :MODBUS
+  [conf {t :task :as m}]
+  (card-template conf m (task-section conf t)))
+
+(defmethod task :default 
+  [conf {t :task :as m}]
+  (card-template conf m (task-section conf t)))
+
+;;------------------------------
 ;; table cell funs
 ;;------------------------------
-(defmulti td-value  (fn [m kw] kw))
+(defmulti td-value  (fn [conf m kw] kw))
 
-(defmethod td-value :mp-id    [m kw] [:b (mp-id-link m)])
+(defmethod td-value :mp-id    [conf m kw] [:b (mp-id-link m)])
 
-(defmethod td-value :title    [m kw] [:div {:class "is-size-6"} (kw m)])
+(defmethod td-value :title    [conf m kw] [:div {:class "is-size-6"} (kw m)])
 
-(defmethod td-value :run      [m kw] (button m kw :info))
+(defmethod td-value :run      [conf m kw] (button m kw :info))
 
-(defmethod td-value :stop     [m kw] (button m kw :warn))
+(defmethod td-value :stop     [conf m kw] (button m kw :warn))
 
-(defmethod td-value :mon      [m kw] (button m kw :warn))
+(defmethod td-value :mon      [conf m kw] (button m kw :warn))
 
-(defmethod td-value :ready    [m kw] (button m kw :info))
+(defmethod td-value :ready    [conf m kw] (button m kw :info))
 
-(defmethod td-value :working  [m kw] (button m kw :warn))
+(defmethod td-value :working  [conf m kw] (button m kw :warn))
 
-(defmethod td-value :executed [m kw] (button m kw :success))
+(defmethod td-value :executed [conf m kw] (button m kw :success))
 
-(defmethod td-value :par-idx  [m kw] [:i (kw m)])
+(defmethod td-value :par-idx  [conf m kw] [:i (kw m)])
 
-(defmethod td-value :seq-idx  [m kw] [:i (kw m)])
+(defmethod td-value :seq-idx  [conf m kw] [:i (kw m)])
 
-(defmethod td-value :level    [m kw] [:i (kw m)])
+(defmethod td-value :level    [conf m kw] [:i (kw m)])
 
-(defmethod td-value :func     [m kw] [:span {:class "tag"} (kw m)])
+(defmethod td-value :func     [conf m kw] [:span {:class "tag"} (kw m)])
 
-(defmethod td-value :task     [m kw] [:i (str (kw m))])
+(defmethod td-value :task     [conf m kw] (task conf m))
 
-(defmethod td-value :TaskName [m kw] [:span {:class "tag"} m])
+(defmethod td-value :TaskName [conf m kw] [:span {:class "tag"} m])
 
-(defmethod td-value :Replace  [m kw] [:pre (che/encode m {:pretty true})])
+(defmethod td-value :Replace  [conf m kw] [:pre (che/encode m {:pretty true})])
 
-(defmethod td-value :Use      [m kw] [:pre (che/encode m {:pretty true})])
+(defmethod td-value :Use      [conf m kw] [:pre (che/encode m {:pretty true})])
 
 (defmethod td-value :key
-  [m kw]
+  [conf m kw]
   [:span {:class "icon"}
    [:a  {:class "copy is-link fas fa-key" :data-copy (kw m) :title (str "click to console.log: " (kw m))}]])
 
 (defmethod td-value :no-idx 
-  [m kw]
+  [conf m kw]
   [:span   {:class "tag"} (:no-idx m)
    [:span  {:class "tag"} (definition-link m (:no-idx m))]
    [:span  {:class "tag"} (state-link m (:no-idx m))]
    [:span  {:class "tag"} (ctrl-link m (:no-idx m))]])
 
 (defmethod td-value :struct
-  [m kw]
+  [conf m kw]
   [:span   {:class "tag"} (:struct m)
    [:span  {:class "tag"} (definition-link m)]
    [:span  {:class "tag"} (state-link m)]
    [:span  {:class "tag"} (ctrl-link m)]])
 
 (defmethod td-value :default
-  [m kw]
+  [conf m kw]
   (if-let [x (kw m)]
     (cond
       (boolean? x) [:div {:class "tag"} x]
@@ -137,9 +187,9 @@
    (into [:thead] (mapv (fn [x] [:col {:class (name x)}]) kws))
    (mapv (fn [x] [:th (or (get-in conf [:ui :trans x]) x)]) kws)))
 
-(defn td [m kws] (mapv (fn [kw] [:td (td-value m kw)]) kws))
+(defn td [conf m kws] (mapv (fn [kw] [:td (td-value conf m kw)]) kws))
 
-(defn t-row [m kws] (mapv (fn [x] (into [:tr ] (td x kws))) m))
+(defn t-row [conf m kws] (mapv (fn [x] (into [:tr ] (td conf x kws))) m))
 
 (defn t-base [conf kws]
   [:table {:class "table is-hoverable is-fullwidth fixed"}
@@ -150,21 +200,8 @@
    (table conf data (kw-head data))) 
   ([conf data head]
    (if (empty? data) (empty-msg "no table data")
-       (into (t-base conf head) (t-row data head)))))
+       (into (t-base conf head) (t-row conf data head)))))
 
-
-;;------------------------------
-;; card funs
-;;------------------------------
-(defn card-footer
-  [conf m]
-  [:footer {:class "card-footer"}
-   [:span {:class "card-footer-item"}
-    (ctrl-link (assoc m :struct "container"))]
-   [:span {:class "card-footer-item"}
-    (state-link (assoc m :struct "container"))]
-   [:span {:class "card-footer-item"}
-    (definition-link (assoc m :struct "container"))]])
 
 ;;------------------------------
 ;; page funs
