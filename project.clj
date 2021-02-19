@@ -15,6 +15,7 @@
                  [ring/ring-core                       "1.7.1"]
                  [ring/ring-devel                      "1.7.1"]
                  [ring/ring-json                       "0.5.0"]
+                 [ring/ring-codec                      "1.1.3"]
                  [com.brunobonacci/mulog               "0.6.0"]
                  [com.brunobonacci/mulog-elasticsearch "0.6.0"]
                  [djblue/portal                        "0.9.0"]

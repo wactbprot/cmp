@@ -110,8 +110,16 @@
                                       [:p 
                                        [:ul {:class "is-size-7"}
                                         [:li  "Host: " (:Host t)]
-                                        [:li "Address: " (:Address t)]
-                                        ]])))
+                                        [:li "Address: " (:Address t)]]])))
+
+(defmethod task :TCP
+  [conf {t :task :as m}]
+  (card-template conf m (task-section conf t
+                                      [:p 
+                                       [:ul {:class "is-size-7"}
+                                        [:li "Host: " (:Host t)]
+                                        [:li "Port: " (:Port t)]
+                                        [:li "Value: " (:Value t)]]])))
 
 (defmethod task :runMp
   [conf {t :task :as m}]
@@ -120,11 +128,9 @@
         txt    (str mp "/state/" title)
         href   (str "/ui/" mp "/container/state/" title)]
     (card-template conf m
-                   (task-section conf t [:p {:class "is-size-7"}
-                                         [:ul
-                                          [:li "Mp: "    mp]
-                                          [:li "Tilte: " title]]
-                                         [:a {:href href} txt ]]))))
+                   (task-section conf t [:p 
+                                         [:ul {:class "is-size-7"}
+                                          [:li [:a {:href href} txt ]]]]))))
 
 (defmethod task :default 
   [conf {t :task :as m}]
