@@ -1,3 +1,5 @@
+(comment
+  --> api tests
 (ns cmp.core-test
   (:require [clojure.test :refer :all]
             [cmp.core :refer :all]
@@ -74,3 +76,4 @@
     (is (= "ready" (st/key->val (ku/cont-ctrl-key "ref" 3))))))
 
 (stop-log!)
+)
