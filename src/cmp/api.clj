@@ -134,6 +134,7 @@
 ;;------------------------------
 ;; container
 ;;------------------------------
+
 (defn container-ctrl 
   [conf req]
   (let [mp-id   (au/req->mp-id req)
@@ -160,7 +161,7 @@
   [conf req]
   (let [mp-id   (au/req->mp-id req)
         no-idx  (au/req->no-idx req)]
-    (mapv (fn [k] (au/key-value-map k {:task (tsk/build k)}))
+    (mapv (fn [k] (au/key-value-map k {:task  (tsk/build k)}))
           (st/pat->keys (ku/cont-defin-key mp-id no-idx "*" "*" )))))
 
 ;;------------------------------

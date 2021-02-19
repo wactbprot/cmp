@@ -65,3 +65,15 @@ col.struct {
 col.no-idx {
     width:100px;
 }
+
+col.no-idx {
+    width:100px;
+}
+
+col.seq-idx {
+    width:10px;
+}
+
+col.par-idx {
+    width:10px;
+}

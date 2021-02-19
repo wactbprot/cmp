@@ -7,6 +7,14 @@
             [cmp.st-mem              :as st]
             [cmp.utils               :as u]))
 
+(defn title->no-idx
+  [mp title]
+  (let [mp     (u/extr-main-path mp)
+        ks     (st/pat->keys (ku/cont-title-key mp "*" ))
+        title? (fn [k] (= title (st/key->val k)))]
+    (ku/key->no-idx (first (filter title? ks)))))
+
+
 (defn exec-index
   "Registers a level b callback for the `i`th container of the mpd `mp`."
   [{mp :Mp i :Container state-key :StateKey cmd :Cmd}]
@@ -36,12 +44,9 @@
   "Searches for the given  `:ContainerTitle`. Extracts the `no-idx`
   and uses the `exec-index` function to register a callback."
   [{mp :Mp cont-title :ContainerTitle state-key :StateKey cmd :Cmd}]
-  (let [mp     (u/extr-main-path mp)
-        ks     (st/pat->keys (ku/cont-title-key mp "*" ))
-        title? (fn [k] (= cont-title (st/key->val k)))]
-    (if-let [k (first (filter title? ks))]
-      (exec-index {:Mp mp :Container (ku/key->no-idx k) :StateKey state-key :Cmd cmd}) 
-      (st/set-state! state-key :error (str "no container with title: >"cont-title "<")))))
+  (if-let [no-idx (title->no-idx mp cont-title )]
+    (exec-index {:Mp mp :Container no-idx :StateKey state-key :Cmd cmd}) 
+    (st/set-state! state-key :error (str "no container with title: >"cont-title "<"))))
 
 (defn run-mp!
   "Runs a certain container of a `mpd`. `:ContainerTitle` is prefered

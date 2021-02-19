@@ -1,7 +1,13 @@
 (ns cmp.ui.mp-meta
   (:require
+   [cmp.config    :as config]
    [cmp.ui.core   :as ui]
    [cmp.api-utils :as au]))
+
+(defn doc-link
+  [conf id]
+  [:a {:href (str (config/lt-url conf) "/_utils/#database/"
+                  (:lt-db conf) "/" id) }  id])
 
 (defn card-content
   [conf m]
@@ -17,10 +23,9 @@
    [:p [:i "No of definitions: " [:span {:class "tag"} (:ndefins m)]]]
    [:p [:i "No of containers: "  [:span {:class "tag"}  (:ncont m)]]]
    (when-not (empty? (:docs m))
-     [:p
-      (into [:b "Documents: "]
-            (mapv (fn [d] [:i (:doc-id d) "/" (:doc-version d)] ) (:docs m)))])])
-
+     (into [:p [:b"Documents: "]]
+           (mapv (fn [d]  (doc-link conf (:doc-id d))) (:docs m))))])
+  
 (defn card
   [conf m]
   (ui/card-template conf m (card-content conf m) (ui/card-footer conf m)))

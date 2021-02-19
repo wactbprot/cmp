@@ -31,6 +31,8 @@
               :func "Function"
               :mp-id "Meas.-Prog."
               :no-idx "Container No."
+              :seq-idx "Seq."
+              :par-idx "Par."
               :run ""
               :mon ""
               :ready ""

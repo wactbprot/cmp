@@ -4,6 +4,7 @@
      [hiccup.page    :as hp]
      [cmp.api-utils  :as au]
      [cmp.key-utils  :as ku]
+     [cmp.utils  :as u]
      [clojure.string :as string]
      [cheshire.core  :as che]))
 
@@ -94,21 +95,30 @@
     [:span {:class"tag is-light"} (:TaskName t)]]])
 
 (defn task-section
-  [conf t]
-  [:section
-   [:p {:title (che/encode t)}
+  [conf t body]
+  [:section {:title (che/encode t)}
+   [:p 
     (task-label conf t)
-    [:i {:class "is-size-7"} (:Comment t)]]])
+    [:i {:class "is-size-7"} (:Comment t)]]
+   body])
 
 (defmulti task  (fn [conf m] (-> m :task :Action keyword)))
 
 (defmethod task :MODBUS
   [conf {t :task :as m}]
-  (card-template conf m (task-section conf t)))
+  (card-template conf m (task-section conf t [:div])))
+
+(defmethod task :runMp
+  [conf {t :task :as m}]
+  (let [mp (u/extr-main-path  (:Mp t))
+        title (:ContainerTitle t)]
+    (card-template conf m
+                   (task-section conf t
+                                 [:div [:a {:href (str "/ui/" mp "/container/state/" title)} (str mp "/" title) ]]))))
 
 (defmethod task :default 
   [conf {t :task :as m}]
-  (card-template conf m (task-section conf t)))
+  (card-template conf m (task-section conf t [:div])))
 
 ;;------------------------------
 ;; table cell funs
@@ -131,9 +141,9 @@
 
 (defmethod td-value :executed [conf m kw] (button m kw :success))
 
-(defmethod td-value :par-idx  [conf m kw] [:i (kw m)])
+(defmethod td-value :par-idx  [conf m kw] [:span {:class "tag"} (kw m)])
 
-(defmethod td-value :seq-idx  [conf m kw] [:i (kw m)])
+(defmethod td-value :seq-idx  [conf m kw] [:span {:class "tag"} (kw m)])
 
 (defmethod td-value :level    [conf m kw] [:i (kw m)])
 
@@ -155,16 +165,16 @@
 (defmethod td-value :no-idx 
   [conf m kw]
   [:span   {:class "tag"} (:no-idx m)
-   [:span  {:class "tag"} (definition-link m (:no-idx m))]
+   [:span  {:class "tag"} (ctrl-link m (:no-idx m))]
    [:span  {:class "tag"} (state-link m (:no-idx m))]
-   [:span  {:class "tag"} (ctrl-link m (:no-idx m))]])
+   [:span  {:class "tag"} (definition-link m (:no-idx m))]])
 
 (defmethod td-value :struct
   [conf m kw]
   [:span   {:class "tag"} (:struct m)
-   [:span  {:class "tag"} (definition-link m)]
+   [:span  {:class "tag"} (ctrl-link m)]
    [:span  {:class "tag"} (state-link m)]
-   [:span  {:class "tag"} (ctrl-link m)]])
+   [:span  {:class "tag"} (definition-link m)]])
 
 (defmethod td-value :default
   [conf m kw]
@@ -181,7 +191,7 @@
 ;;------------------------------
 (defn kw-head [m] (keys (first m)))
 
-(defn t-head
+(defn table-head
   [conf kws]
   (into
    (into [:thead] (mapv (fn [x] [:col {:class (name x)}]) kws))
@@ -189,18 +199,18 @@
 
 (defn td [conf m kws] (mapv (fn [kw] [:td (td-value conf m kw)]) kws))
 
-(defn t-row [conf m kws] (mapv (fn [x] (into [:tr ] (td conf x kws))) m))
+(defn table-row [conf m kws] (mapv (fn [x] (into [:tr ] (td conf x kws))) m))
 
-(defn t-base [conf kws]
+(defn table-base [conf kws]
   [:table {:class "table is-hoverable is-fullwidth fixed"}
-   (t-head conf kws)])
+   (table-head conf kws)])
 
 (defn table
   ([conf data]
    (table conf data (kw-head data))) 
   ([conf data head]
    (if (empty? data) (empty-msg "no table data")
-       (into (t-base conf head) (t-row conf data head)))))
+       (into (table-base conf head) (table-row conf data head)))))
 
 
 ;;------------------------------
