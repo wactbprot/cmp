@@ -24,8 +24,7 @@
   `run-mp/title->no-idx` if the idx rout-param is not `[0-9]*`"
   [req]
   (let [s (get-in req [:route-params :idx])]
-    (prn s)
     (cond
-      (nil? s)                  "*"
+      (nil? s) "*"
       (re-matches #"[0-9]*" s)  s
-      :title                    (encode-sting (run-mp/title->no-idx (req->mp-id req) s)))))
+      :title (encode-string (run-mp/title->no-idx (req->mp-id req) s)))))

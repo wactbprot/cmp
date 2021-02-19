@@ -91,8 +91,8 @@
   [conf t]
   [:div {:class "control"}
    [:div {:class "tags has-addons"}
-    [:span {:class"tag is-primary"} (:Action t)]
-    [:span {:class"tag is-light"} (:TaskName t)]]])
+    [:span {:class"tag is-info"} (:Action t)]
+    [:span {:class"tag is-dark"} (:TaskName t)]]])
 
 (defn task-section
   [conf t body]
@@ -126,7 +126,7 @@
   (let [mp     (u/extr-main-path  (:Mp t))
         title  (:ContainerTitle t)
         txt    (str mp "/state/" title)
-        href   (str "/ui/" mp "/container/state/" title)]
+        href   (str "/ui/" mp "/container/state/" (au/encode-string title))]
     (card-template conf m
                    (task-section conf t [:p 
                                          [:ul {:class "is-size-7"}
