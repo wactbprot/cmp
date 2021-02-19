@@ -106,15 +106,25 @@
 
 (defmethod task :MODBUS
   [conf {t :task :as m}]
-  (card-template conf m (task-section conf t [:div])))
+  (card-template conf m (task-section conf t
+                                      [:p 
+                                       [:ul {:class "is-size-7"}
+                                        [:li  "Host: " (:Host t)]
+                                        [:li "Address: " (:Address t)]
+                                        ]])))
 
 (defmethod task :runMp
   [conf {t :task :as m}]
-  (let [mp (u/extr-main-path  (:Mp t))
-        title (:ContainerTitle t)]
+  (let [mp     (u/extr-main-path  (:Mp t))
+        title  (:ContainerTitle t)
+        txt    (str mp "/state/" title)
+        href   (str "/ui/" mp "/container/state/" title)]
     (card-template conf m
-                   (task-section conf t
-                                 [:div [:a {:href (str "/ui/" mp "/container/state/" title)} (str mp "/" title) ]]))))
+                   (task-section conf t [:p {:class "is-size-7"}
+                                         [:ul
+                                          [:li "Mp: "    mp]
+                                          [:li "Tilte: " title]]
+                                         [:a {:href href} txt ]]))))
 
 (defmethod task :default 
   [conf {t :task :as m}]

@@ -177,4 +177,20 @@
         {:error "on attempt to set value"}) 
       {:error "missing key or value"})))
 
+;;------------------------------
+;; documents
+;;------------------------------
+(defn d-add
+  "Adds a doc to the api to store the resuls in."
+  [conf mp-id doc-id]
+  (d/add mp-id doc-id))
 
+(defn d-rm
+  "Removes a doc from the api."
+  [conf mp-id doc-id]
+  (d/rm mp-id doc-id)))
+
+(defn d-ids
+  "Gets a list of ids added."
+  [conf mp-id]
+  (d/ids mp-id))
