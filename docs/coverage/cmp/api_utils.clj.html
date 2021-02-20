@@ -14,46 +14,85 @@
                 003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:doc&nbsp;&quot;api&nbsp;utils&nbsp;for&nbsp;cmp&nbsp;info&nbsp;and&nbsp;ctrl.&quot;}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]
+                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.key-utils&nbsp;:as&nbsp;ku]
+                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.key-utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;ku]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;st]))
+                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.worker.run-mp&nbsp;&nbsp;:as&nbsp;run-mp]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;st]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ring.util.codec&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;codec]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                007&nbsp;&nbsp;
+                009&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                008&nbsp;&nbsp;(defn&nbsp;key-value-map
+                010&nbsp;&nbsp;(defn&nbsp;key-value-map
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                009&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;a&nbsp;map&nbsp;consisting&nbsp;of&nbsp;`k`ey&nbsp;and&nbsp;`v`alue.&nbsp;The&nbsp;result&nbsp;is
+                011&nbsp;&nbsp;&nbsp;&nbsp;&quot;Generates&nbsp;a&nbsp;map&nbsp;consisting&nbsp;of&nbsp;`k`ey&nbsp;and&nbsp;`v`alue.&nbsp;The&nbsp;result&nbsp;is
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                010&nbsp;&nbsp;&nbsp;&nbsp;merged&nbsp;with&nbsp;`m`.&quot;
+                012&nbsp;&nbsp;&nbsp;&nbsp;merged&nbsp;with&nbsp;`m`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                011&nbsp;&nbsp;&nbsp;&nbsp;([k]
+                013&nbsp;&nbsp;&nbsp;&nbsp;([k]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(key-value-map&nbsp;k&nbsp;nil))
+                014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(key-value-map&nbsp;k&nbsp;nil))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                013&nbsp;&nbsp;&nbsp;&nbsp;([k&nbsp;m]
+                015&nbsp;&nbsp;&nbsp;&nbsp;([k&nbsp;m]
                 </span><br/>
 <span class="not-covered" title="0 out of 14 forms covered">
-                014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(merge&nbsp;(assoc&nbsp;(ku&#x2F;key-&gt;info-map&nbsp;k)&nbsp;:value&nbsp;(st&#x2F;key-&gt;val&nbsp;k)&nbsp;:key&nbsp;k)&nbsp;m)))
+                016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(merge&nbsp;(assoc&nbsp;(ku&#x2F;key-&gt;info-map&nbsp;k)&nbsp;:value&nbsp;(st&#x2F;key-&gt;val&nbsp;k)&nbsp;:key&nbsp;k)&nbsp;m)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                015&nbsp;&nbsp;
+                017&nbsp;&nbsp;
+                </span><br/>
+<span class="partial" title="1 out of 4 forms covered">
+                018&nbsp;&nbsp;(defn&nbsp;encode-string&nbsp;[s]&nbsp;(codec&#x2F;url-encode&nbsp;s))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                019&nbsp;&nbsp;
                 </span><br/>
 <span class="partial" title="1 out of 8 forms covered">
-                016&nbsp;&nbsp;(defn&nbsp;req-&gt;mp-id&nbsp;&nbsp;[req]&nbsp;(get-in&nbsp;req&nbsp;[:route-params&nbsp;:mp]&nbsp;&quot;*&quot;))
+                020&nbsp;&nbsp;(defn&nbsp;req-&gt;mp-id&nbsp;&nbsp;[req]&nbsp;(get-in&nbsp;req&nbsp;[:route-params&nbsp;:mp]&nbsp;&quot;*&quot;))
                 </span><br/>
-<span class="partial" title="1 out of 8 forms covered">
-                017&nbsp;&nbsp;(defn&nbsp;req-&gt;no-idx&nbsp;[req]&nbsp;(get-in&nbsp;req&nbsp;[:route-params&nbsp;:idx]&nbsp;&quot;*&quot;))
+<span class="blank" title="0 out of 0 forms covered">
+                021&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                022&nbsp;&nbsp;(defn&nbsp;req-&gt;no-idx
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                023&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;`no-idx`&nbsp;(container&nbsp;number).&nbsp;Uses
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                024&nbsp;&nbsp;&nbsp;&nbsp;`run-mp&#x2F;title-&gt;no-idx`&nbsp;if&nbsp;the&nbsp;idx&nbsp;rout-param&nbsp;is&nbsp;not&nbsp;`[0-9]*`&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;[req]
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[s&nbsp;(get-in&nbsp;req&nbsp;[:route-params&nbsp;:idx])]
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nil?&nbsp;s)&nbsp;&quot;*&quot;
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(re-matches&nbsp;#&quot;[0-9]*&quot;&nbsp;s)&nbsp;&nbsp;s
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:title&nbsp;(encode-string&nbsp;(run-mp&#x2F;title-&gt;no-idx&nbsp;(req-&gt;mp-id&nbsp;req)&nbsp;s)))))
                 </span><br/>
  </body>
 </html>

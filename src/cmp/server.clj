@@ -3,14 +3,15 @@
       :doc "Provides a REST api for cmp info and ctrl."}
   (:require [compojure.route          :as route]
             [com.brunobonacci.mulog   :as mu]
-            [cmp.config               :as c]
+            [cmp.config               :as config] 
+            [cmp.cli                  :as cli]
             [cmp.api                  :as a]
             [cmp.ui.core              :as ui]
             [cmp.ui.listener          :as uil]
             [cmp.ui.container         :as uic]
             [cmp.ui.mp-meta           :as uim]
             [cmp.ui.ws                :as ws]
-            [cmp.st-mem               :as st] 
+            [cmp.st-mem               :as st]
             [compojure.core           :refer :all]
             [compojure.handler        :as handler]
             [org.httpkit.server       :refer [run-server]]
@@ -18,11 +19,9 @@
             [ring.util.response       :as res])
     (:use    [clojure.repl]))
 
-(def conf (c/config))
+(def conf (config/config))
 
 (defonce server (atom nil))
-
-(defonce logger (atom nil))
 
 (defroutes app-routes
   (GET "/config"                             [:as req] (res/response conf))
@@ -59,41 +58,35 @@
   [conf]
   (st/register! "*" "*" "*" "*"  (fn [msg]
                                    (when-let [k (st/msg->key msg)]
-                                     (ws/send-to-ws-clients conf {:key (ui/make-selectable k) :value (st/key->val k)}))) "c"))
+                                     (ws/send-to-ws-clients conf {:key (ui/make-selectable k)
+                                                                  :value (st/key->val k)}))) "c"))
   
 (defn stop-ws! [conf] (st/de-register! "*" "*" "*" "*"  "c"))
-
-(defn init-log!
-  [{conf :mulog }]
-  (mu/set-global-context! {:app-name "cmp"})
-  (mu/start-publisher! conf))
 
 (defn stop []
   (stop-ws! conf)
   (run! (fn [mp-id]
           (mu/log ::stop :message "stop mpd" :mp-id mp-id)
-          (a/m-stop conf mp-id))
+          (cli/m-stop conf mp-id))
         (:build-on-start conf))
   (when @server (@server :timeout 100)
         (mu/log ::stop :message "stop server")
         (reset! server nil)
         (mu/log ::stop :message "stop logger")
-        (@logger)
-        (reset! logger nil)))
+        (cli/stop-log! conf)))
 
 (defn start []
-  (reset! logger (init-log! conf))
+  (cli/start-log! conf)
   (mu/log ::start :message "start ws listener")
   (start-ws! conf)
   (mu/log ::start :message "refresh tasks")
-  (a/t-refresh conf)
+  (cli/t-refresh conf)
   (run! (fn [mp-id]
           (mu/log ::start :message "build mpd" :mp-id mp-id)
-          (a/m-build-ltm conf mp-id))
+          (cli/m-build-ltm conf mp-id))
         (:build-on-start conf))
   (mu/log ::start :message "start server")
   (reset! server (run-server #'app (:api conf))))
-
 
 (defn -main [& args]
   (mu/log ::start :message "call -main")
