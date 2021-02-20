@@ -173,115 +173,88 @@
                 056&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                057&nbsp;&nbsp;(defn&nbsp;start-ws!
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                058&nbsp;&nbsp;&nbsp;&nbsp;[conf]
-                </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
-                059&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&nbsp;(fn&nbsp;[msg]
-                </span><br/>
-<span class="not-covered" title="0 out of 9 forms covered">
-                060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[k&nbsp;(st&#x2F;msg-&gt;key&nbsp;msg)]
-                </span><br/>
-<span class="not-covered" title="0 out of 9 forms covered">
-                061&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ws&#x2F;send-to-ws-clients&nbsp;conf&nbsp;{:key&nbsp;(ui&#x2F;make-selectable&nbsp;k)
+                057&nbsp;&nbsp;(defn&nbsp;stop&nbsp;[]
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                062&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:value&nbsp;(st&#x2F;key-&gt;val&nbsp;k)})))&nbsp;&quot;c&quot;))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                063&nbsp;&nbsp;&nbsp;&nbsp;
-                </span><br/>
-<span class="partial" title="1 out of 8 forms covered">
-                064&nbsp;&nbsp;(defn&nbsp;stop-ws!&nbsp;[conf]&nbsp;(st&#x2F;de-register!&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&nbsp;&quot;c&quot;))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                065&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                066&nbsp;&nbsp;(defn&nbsp;stop&nbsp;[]
+                058&nbsp;&nbsp;&nbsp;&nbsp;(ws&#x2F;stop!&nbsp;conf)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                067&nbsp;&nbsp;&nbsp;&nbsp;(stop-ws!&nbsp;conf)
-                </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
-                068&nbsp;&nbsp;&nbsp;&nbsp;(run!&nbsp;(fn&nbsp;[mp-id]
+                059&nbsp;&nbsp;&nbsp;&nbsp;(run!&nbsp;(fn&nbsp;[mp-id]
                 </span><br/>
 <span class="not-covered" title="0 out of 14 forms covered">
-                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;stop&nbsp;mpd&quot;&nbsp;:mp-id&nbsp;mp-id)
+                060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;stop&nbsp;mpd&quot;&nbsp;:mp-id&nbsp;mp-id)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;m-stop&nbsp;conf&nbsp;mp-id))
+                061&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;m-stop&nbsp;conf&nbsp;mp-id))
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:build-on-start&nbsp;conf))
+                062&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:build-on-start&nbsp;conf))
                 </span><br/>
 <span class="not-covered" title="0 out of 11 forms covered">
-                072&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;@server&nbsp;(@server&nbsp;:timeout&nbsp;100)
+                063&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;@server&nbsp;(@server&nbsp;:timeout&nbsp;100)
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                073&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;stop&nbsp;server&quot;)
+                064&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;stop&nbsp;server&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;server&nbsp;nil)
+                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;server&nbsp;nil)
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                075&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;stop&nbsp;logger&quot;)
+                066&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;stop&nbsp;logger&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;stop-log!&nbsp;conf)))
+                067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;stop-log!&nbsp;conf)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                077&nbsp;&nbsp;
+                068&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                078&nbsp;&nbsp;(defn&nbsp;start&nbsp;[]
+                069&nbsp;&nbsp;(defn&nbsp;start&nbsp;[]
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                079&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;start-log!&nbsp;conf)
+                070&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;start-log!&nbsp;conf)
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                080&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;start&nbsp;ws&nbsp;listener&quot;)
+                071&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;start&nbsp;ws&nbsp;listener&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                081&nbsp;&nbsp;&nbsp;&nbsp;(start-ws!&nbsp;conf)
+                072&nbsp;&nbsp;&nbsp;&nbsp;(ws&#x2F;start!&nbsp;conf)
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                082&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;refresh&nbsp;tasks&quot;)
+                073&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;refresh&nbsp;tasks&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                083&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;t-refresh&nbsp;conf)
+                074&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;t-refresh&nbsp;conf)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                084&nbsp;&nbsp;&nbsp;&nbsp;(run!&nbsp;(fn&nbsp;[mp-id]
+                075&nbsp;&nbsp;&nbsp;&nbsp;(run!&nbsp;(fn&nbsp;[mp-id]
                 </span><br/>
 <span class="not-covered" title="0 out of 14 forms covered">
-                085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;build&nbsp;mpd&quot;&nbsp;:mp-id&nbsp;mp-id)
+                076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;build&nbsp;mpd&quot;&nbsp;:mp-id&nbsp;mp-id)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;m-build-ltm&nbsp;conf&nbsp;mp-id))
+                077&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;m-build-ltm&nbsp;conf&nbsp;mp-id))
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                087&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:build-on-start&nbsp;conf))
+                078&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:build-on-start&nbsp;conf))
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                088&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;start&nbsp;server&quot;)
+                079&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;start&nbsp;server&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 9 forms covered">
-                089&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;server&nbsp;(run-server&nbsp;#&#x27;app&nbsp;(:api&nbsp;conf))))
+                080&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;server&nbsp;(run-server&nbsp;#&#x27;app&nbsp;(:api&nbsp;conf))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                090&nbsp;&nbsp;
+                081&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                091&nbsp;&nbsp;(defn&nbsp;-main&nbsp;[&amp;&nbsp;args]
+                082&nbsp;&nbsp;(defn&nbsp;-main&nbsp;[&amp;&nbsp;args]
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                092&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;call&nbsp;-main&quot;)
+                083&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;call&nbsp;-main&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                093&nbsp;&nbsp;&nbsp;&nbsp;(start))
+                084&nbsp;&nbsp;&nbsp;&nbsp;(start))
                 </span><br/>
  </body>
 </html>

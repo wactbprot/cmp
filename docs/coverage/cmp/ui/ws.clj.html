@@ -26,73 +26,112 @@
                 007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on-close
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;send!]]))
+                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;send!]]
                 </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                009&nbsp;&nbsp;
+<span class="not-tracked" title="0 out of 0 forms covered">
+                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;st]
                 </span><br/>
-<span class="partial" title="9 out of 10 forms covered">
-                010&nbsp;&nbsp;(defonce&nbsp;ws-clients&nbsp;(atom&nbsp;{}))
+<span class="not-tracked" title="0 out of 0 forms covered">
+                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.ui.core&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;ui]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 011&nbsp;&nbsp;
                 </span><br/>
+<span class="partial" title="9 out of 10 forms covered">
+                012&nbsp;&nbsp;(defonce&nbsp;ws-clients&nbsp;(atom&nbsp;{}))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                013&nbsp;&nbsp;
+                </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                012&nbsp;&nbsp;(defn&nbsp;msg-received
+                014&nbsp;&nbsp;(defn&nbsp;msg-received
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                013&nbsp;&nbsp;&nbsp;&nbsp;[msg]
+                015&nbsp;&nbsp;&nbsp;&nbsp;[msg]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                014&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[data&nbsp;(che&#x2F;decode&nbsp;msg)]
+                016&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[data&nbsp;(che&#x2F;decode&nbsp;msg)]
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::msg-received&nbsp;:message&nbsp;&quot;msg&#x2F;data&nbsp;received&quot;)))
+                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::msg-received&nbsp;:message&nbsp;&quot;msg&#x2F;data&nbsp;received&quot;)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                016&nbsp;&nbsp;
+                018&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                017&nbsp;&nbsp;(defn&nbsp;main
+                019&nbsp;&nbsp;(defn&nbsp;main
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                018&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;req]
+                020&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;req]
                 </span><br/>
 <span class="not-covered" title="0 out of 34 forms covered">
-                019&nbsp;&nbsp;&nbsp;&nbsp;(with-channel&nbsp;req&nbsp;channel
+                021&nbsp;&nbsp;&nbsp;&nbsp;(with-channel&nbsp;req&nbsp;channel
                 </span><br/>
 <span class="not-covered" title="0 out of 24 forms covered">
-                020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::ws&nbsp;:message&nbsp;&quot;connected&quot;)
+                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::ws&nbsp;:message&nbsp;&quot;connected&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;ws-clients&nbsp;assoc&nbsp;channel&nbsp;true)
+                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;ws-clients&nbsp;assoc&nbsp;channel&nbsp;true)
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(on-receive&nbsp;channel&nbsp;#&#x27;msg-received)
+                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(on-receive&nbsp;channel&nbsp;#&#x27;msg-received)
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(on-close&nbsp;channel&nbsp;(fn&nbsp;[status]
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(on-close&nbsp;channel&nbsp;(fn&nbsp;[status]
                 </span><br/>
 <span class="not-covered" title="0 out of 10 forms covered">
-                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;ws-clients&nbsp;dissoc&nbsp;channel)
+                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(swap!&nbsp;ws-clients&nbsp;dissoc&nbsp;channel)
                 </span><br/>
 <span class="not-covered" title="0 out of 28 forms covered">
-                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::ws&nbsp;:message&nbsp;&quot;closed,&nbsp;status&quot;&nbsp;:status&nbsp;status)))))
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::ws&nbsp;:message&nbsp;&quot;closed,&nbsp;status&quot;&nbsp;:status&nbsp;status)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                026&nbsp;&nbsp;
+                028&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                027&nbsp;&nbsp;(defn&nbsp;send-to-ws-clients
+                029&nbsp;&nbsp;(defn&nbsp;send-to-ws-clients
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                028&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;m]
+                030&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;m]
                 </span><br/>
 <span class="not-covered" title="0 out of 35 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;(doseq&nbsp;[client&nbsp;(keys&nbsp;@ws-clients)]
+                031&nbsp;&nbsp;&nbsp;&nbsp;(doseq&nbsp;[client&nbsp;(keys&nbsp;@ws-clients)]
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(send!&nbsp;client&nbsp;(che&#x2F;encode&nbsp;m))))
+                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(send!&nbsp;client&nbsp;(che&#x2F;encode&nbsp;m))))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                033&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                034&nbsp;&nbsp;(defn&nbsp;start!
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;[conf]
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[msg]
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when-let&nbsp;[k&nbsp;(st&#x2F;msg-&gt;key&nbsp;msg)]
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(send-to-ws-clients&nbsp;conf&nbsp;{:key&nbsp;(ui&#x2F;make-selectable&nbsp;k)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:value&nbsp;(st&#x2F;key-&gt;val&nbsp;k)})))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;c&quot;))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                042&nbsp;&nbsp;
+                </span><br/>
+<span class="partial" title="1 out of 8 forms covered">
+                043&nbsp;&nbsp;(defn&nbsp;stop!&nbsp;[conf]&nbsp;(st&#x2F;de-register!&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;*&quot;&nbsp;&quot;c&quot;))
                 </span><br/>
  </body>
 </html>

@@ -5,7 +5,9 @@
    [org.httpkit.server      :refer [with-channel
                                     on-receive
                                     on-close
-                                    send!]]))
+                                    send!]]
+   [cmp.st-mem               :as st]
+   [cmp.ui.core              :as ui]))
 
 (defonce ws-clients (atom {}))
 
@@ -28,3 +30,14 @@
   [conf m]
   (doseq [client (keys @ws-clients)]
     (send! client (che/encode m))))
+
+(defn start!
+  [conf]
+  (st/register! "*" "*" "*" "*"
+                (fn [msg]
+                  (when-let [k (st/msg->key msg)]
+                    (send-to-ws-clients conf {:key (ui/make-selectable k)
+                                              :value (st/key->val k)})))
+                "c"))
+
+(defn stop! [conf] (st/de-register! "*" "*" "*" "*" "c"))

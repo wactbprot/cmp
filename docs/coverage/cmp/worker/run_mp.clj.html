@@ -37,16 +37,16 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 011&nbsp;&nbsp;&nbsp;&nbsp;[mp&nbsp;title]
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 012&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[mp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;extr-main-path&nbsp;mp)
                 </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
+<span class="covered" title="6 out of 6 forms covered">
                 013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ks&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;pat-&gt;keys&nbsp;(ku&#x2F;cont-title-key&nbsp;mp&nbsp;&quot;*&quot;&nbsp;))
                 </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
+<span class="covered" title="6 out of 6 forms covered">
                 014&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title?&nbsp;(fn&nbsp;[k]&nbsp;(=&nbsp;title&nbsp;(st&#x2F;key-&gt;val&nbsp;k)))]
                 </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
+<span class="covered" title="8 out of 8 forms covered">
                 015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;key-&gt;no-idx&nbsp;(first&nbsp;(filter&nbsp;title?&nbsp;ks)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -64,13 +64,13 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 020&nbsp;&nbsp;&nbsp;&nbsp;[{mp&nbsp;:Mp&nbsp;i&nbsp;:Container&nbsp;state-key&nbsp;:StateKey&nbsp;cmd&nbsp;:Cmd}]
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
+<span class="covered" title="7 out of 7 forms covered">
                 021&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[mp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;extr-main-path&nbsp;mp)
                 </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
+<span class="partial" title="7 out of 8 forms covered">
                 022&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(keyword&nbsp;(or&nbsp;cmd&nbsp;&quot;run&quot;))
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl-key&nbsp;(ku&#x2F;cont-ctrl-key&nbsp;mp&nbsp;i)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
@@ -82,31 +82,31 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;level&nbsp;&nbsp;&nbsp;&nbsp;&quot;b&quot;
                 </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
+<span class="covered" title="1 out of 1 forms covered">
                 027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[msg]
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(st&#x2F;msg-&gt;key&nbsp;msg)
                 </span><br/>
-<span class="not-covered" title="0 out of 17 forms covered">
+<span class="covered" title="17 out of 17 forms covered">
                 029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(keyword&nbsp;(st&#x2F;key-&gt;val&nbsp;ctrl-key))
                 </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
+<span class="covered" title="1 out of 1 forms covered">
                 030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:ready&nbsp;(do
                 </span><br/>
-<span class="not-covered" title="0 out of 14 forms covered">
+<span class="covered" title="14 out of 14 forms covered">
                 031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::exec-index&nbsp;:message&nbsp;&quot;ready&nbsp;callback&nbsp;for&quot;&nbsp;:key&nbsp;ctrl-key)
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:executed)
                 </span><br/>
-<span class="not-covered" title="0 out of 14 forms covered">
+<span class="covered" title="14 out of 14 forms covered">
                 033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::exec-index&nbsp;:message&nbsp;&quot;set&nbsp;executed&quot;&nbsp;:key&nbsp;state-key)
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
+<span class="covered" title="7 out of 7 forms covered">
                 034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;de-register!&nbsp;mp&nbsp;struct&nbsp;i&nbsp;func&nbsp;level)
                 </span><br/>
-<span class="not-covered" title="0 out of 12 forms covered">
+<span class="covered" title="12 out of 12 forms covered">
                 035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::exec-index&nbsp;:message&nbsp;&quot;de-registered&quot;))
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
@@ -118,13 +118,13 @@
 <span class="not-covered" title="0 out of 4 forms covered">
                 038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error))
                 </span><br/>
-<span class="not-covered" title="0 out of 14 forms covered">
+<span class="covered" title="14 out of 14 forms covered">
                 039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::exec-index&nbsp;:message&nbsp;&quot;run&nbsp;callback&nbsp;not&nbsp;:ready&nbsp;no&nbsp;:error&quot;&nbsp;:key&nbsp;ctrl-key))))]
                 </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
+<span class="covered" title="8 out of 8 forms covered">
                 040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;mp&nbsp;struct&nbsp;i&nbsp;func&nbsp;f&nbsp;level)
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;ctrl-key&nbsp;cmd)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -142,10 +142,10 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 046&nbsp;&nbsp;&nbsp;&nbsp;[{mp&nbsp;:Mp&nbsp;cont-title&nbsp;:ContainerTitle&nbsp;state-key&nbsp;:StateKey&nbsp;cmd&nbsp;:Cmd}]
                 </span><br/>
-<span class="not-covered" title="0 out of 9 forms covered">
+<span class="covered" title="9 out of 9 forms covered">
                 047&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[no-idx&nbsp;(title-&gt;no-idx&nbsp;mp&nbsp;cont-title&nbsp;)]
                 </span><br/>
-<span class="not-covered" title="0 out of 11 forms covered">
+<span class="covered" title="11 out of 11 forms covered">
                 048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(exec-index&nbsp;{:Mp&nbsp;mp&nbsp;:Container&nbsp;no-idx&nbsp;:StateKey&nbsp;state-key&nbsp;:Cmd&nbsp;cmd})&nbsp;
                 </span><br/>
 <span class="not-covered" title="0 out of 9 forms covered">
@@ -169,16 +169,16 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 055&nbsp;&nbsp;&nbsp;&nbsp;[task]
                 </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
+<span class="covered" title="2 out of 2 forms covered">
                 056&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[{title&nbsp;:ContainerTitle&nbsp;index&nbsp;:Container&nbsp;state-key&nbsp;:StateKey}&nbsp;task]
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 057&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:working)
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
+<span class="partial" title="1 out of 5 forms covered">
                 058&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;(exec-title&nbsp;task)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">

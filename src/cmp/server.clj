@@ -54,17 +54,8 @@
       (middleware/wrap-json-body {:keywords? true})
       middleware/wrap-json-response))
 
-(defn start-ws!
-  [conf]
-  (st/register! "*" "*" "*" "*"  (fn [msg]
-                                   (when-let [k (st/msg->key msg)]
-                                     (ws/send-to-ws-clients conf {:key (ui/make-selectable k)
-                                                                  :value (st/key->val k)}))) "c"))
-  
-(defn stop-ws! [conf] (st/de-register! "*" "*" "*" "*"  "c"))
-
 (defn stop []
-  (stop-ws! conf)
+  (ws/stop! conf)
   (run! (fn [mp-id]
           (mu/log ::stop :message "stop mpd" :mp-id mp-id)
           (cli/m-stop conf mp-id))
@@ -78,7 +69,7 @@
 (defn start []
   (cli/start-log! conf)
   (mu/log ::start :message "start ws listener")
-  (start-ws! conf)
+  (ws/start! conf)
   (mu/log ::start :message "refresh tasks")
   (cli/t-refresh conf)
   (run! (fn [mp-id]
