@@ -4,15 +4,17 @@
      [hiccup.page    :as hp]
      [cmp.api-utils  :as au]
      [cmp.key-utils  :as ku]
-     [cmp.utils  :as u]
+     [cmp.utils      :as u]
      [clojure.string :as string]
-     [cheshire.core  :as che]))
+
+     ))
 
 (defn empty-msg [s] [:span {:class "tag is-info"} s])
 
 (defn make-selectable [k] (when (string? k) (string/replace k ku/re-sep "_")))
 
 (defn img
+  "FIXME: The function name is more general than the function itself."
   [conf m rel]
   [:img {:src (str rel "img/" (get-in conf [:ui :img (keyword (:mp-id m))] "default.jpg"))}])
 
@@ -85,151 +87,6 @@
      footer]]))
 
 ;;------------------------------
-;; tasks
-;;------------------------------
-(defn task-label
-  [conf t]
-  [:div {:class "control"}
-   [:div {:class "tags has-addons"}
-    [:span {:class"tag is-info"} (:Action t)]
-    [:span {:class"tag is-dark"} (:TaskName t)]]])
-
-(defn task-section
-  [conf t body]
-  [:section {:title (che/encode t)}
-   [:p 
-    (task-label conf t)
-    [:i {:class "is-size-7"} (:Comment t)]]
-   body])
-
-(defmulti task  (fn [conf m] (-> m :task :Action keyword)))
-
-(defmethod task :MODBUS
-  [conf {t :task :as m}]
-  (card-template conf m (task-section conf t
-                                      [:p 
-                                       [:ul {:class "is-size-7"}
-                                        [:li  "Host: " (:Host t)]
-                                        [:li "Address: " (:Address t)]]])))
-
-(defmethod task :TCP
-  [conf {t :task :as m}]
-  (card-template conf m (task-section conf t
-                                      [:p 
-                                       [:ul {:class "is-size-7"}
-                                        [:li "Host: " (:Host t)]
-                                        [:li "Port: " (:Port t)]
-                                        [:li "Value: " (:Value t)]]])))
-
-(defmethod task :runMp
-  [conf {t :task :as m}]
-  (let [mp     (u/extr-main-path  (:Mp t))
-        title  (:ContainerTitle t)
-        txt    (str mp "/state/" title)
-        href   (str "/ui/" mp "/container/state/" (au/encode-string title))]
-    (card-template conf m
-                   (task-section conf t [:p 
-                                         [:ul {:class "is-size-7"}
-                                          [:li [:a {:href href} txt ]]]]))))
-
-(defmethod task :default 
-  [conf {t :task :as m}]
-  (card-template conf m (task-section conf t [:div])))
-
-;;------------------------------
-;; table cell funs
-;;------------------------------
-(defmulti td-value  (fn [conf m kw] kw))
-
-(defmethod td-value :mp-id    [conf m kw] [:b (mp-id-link m)])
-
-(defmethod td-value :title    [conf m kw] [:div {:class "is-size-6"} (kw m)])
-
-(defmethod td-value :run      [conf m kw] (button m kw :info))
-
-(defmethod td-value :stop     [conf m kw] (button m kw :warn))
-
-(defmethod td-value :mon      [conf m kw] (button m kw :warn))
-
-(defmethod td-value :ready    [conf m kw] (button m kw :info))
-
-(defmethod td-value :working  [conf m kw] (button m kw :warn))
-
-(defmethod td-value :executed [conf m kw] (button m kw :success))
-
-(defmethod td-value :par-idx  [conf m kw] [:span {:class "tag"} (kw m)])
-
-(defmethod td-value :seq-idx  [conf m kw] [:span {:class "tag"} (kw m)])
-
-(defmethod td-value :level    [conf m kw] [:i (kw m)])
-
-(defmethod td-value :func     [conf m kw] [:span {:class "tag"} (kw m)])
-
-(defmethod td-value :task     [conf m kw] (task conf m))
-
-(defmethod td-value :TaskName [conf m kw] [:span {:class "tag"} m])
-
-(defmethod td-value :Replace  [conf m kw] [:pre (che/encode m {:pretty true})])
-
-(defmethod td-value :Use      [conf m kw] [:pre (che/encode m {:pretty true})])
-
-(defmethod td-value :key
-  [conf m kw]
-  [:span {:class "icon"}
-   [:a  {:class "copy is-link fas fa-key" :data-copy (kw m) :title (str "click to console.log: " (kw m))}]])
-
-(defmethod td-value :no-idx 
-  [conf m kw]
-  [:span   {:class "tag"} (:no-idx m)
-   [:span  {:class "tag"} (ctrl-link m (:no-idx m))]
-   [:span  {:class "tag"} (state-link m (:no-idx m))]
-   [:span  {:class "tag"} (definition-link m (:no-idx m))]])
-
-(defmethod td-value :struct
-  [conf m kw]
-  [:span   {:class "tag"} (:struct m)
-   [:span  {:class "tag"} (ctrl-link m)]
-   [:span  {:class "tag"} (state-link m)]
-   [:span  {:class "tag"} (definition-link m)]])
-
-(defmethod td-value :default
-  [conf m kw]
-  (if-let [x (kw m)]
-    (cond
-      (boolean? x) [:div {:class "tag"} x]
-      (number? x)  [:div {:class "tag"} x]
-      (string? x)  [:div {:class (str "is-size-6 "x) :id (make-selectable (:key m))} x]
-      (map?    x)  (into [:ul] (mapv (fn [[k v]] [:li [:span (td-value v k)]]) x)))
-    [:span  {:class "tag"} "::"]))
-
-;;------------------------------
-;; table funs
-;;------------------------------
-(defn kw-head [m] (keys (first m)))
-
-(defn table-head
-  [conf kws]
-  (into
-   (into [:thead] (mapv (fn [x] [:col {:class (name x)}]) kws))
-   (mapv (fn [x] [:th (or (get-in conf [:ui :trans x]) x)]) kws)))
-
-(defn td [conf m kws] (mapv (fn [kw] [:td (td-value conf m kw)]) kws))
-
-(defn table-row [conf m kws] (mapv (fn [x] (into [:tr ] (td conf x kws))) m))
-
-(defn table-base [conf kws]
-  [:table {:class "table is-hoverable is-fullwidth fixed"}
-   (table-head conf kws)])
-
-(defn table
-  ([conf data]
-   (table conf data (kw-head data))) 
-  ([conf data head]
-   (if (empty? data) (empty-msg "no table data")
-       (into (table-base conf head) (table-row conf data head)))))
-
-
-;;------------------------------
 ;; page funs
 ;;------------------------------
 (defn page-header
@@ -254,11 +111,10 @@
 
 (defn index-head-body
   [conf req]
-  (let [mp-id (au/req->mp-id req)]
     [:div {:class "hero-body"}
      [:div {:class "container"}
       [:h1 {:class "title"} (:main-title conf)]
-      [:h2 {:class "subtitle"} (when mp-id (str "Programm: " mp-id))]]]))
+      [:h2 {:class "subtitle"} (au/req->mp-id req)]]])
   
 (defn index-head-bottom
   [conf req]

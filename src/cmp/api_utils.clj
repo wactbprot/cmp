@@ -15,8 +15,6 @@
   ([k m]
    (merge (assoc (ku/key->info-map k) :value (st/key->val k) :key k) m)))
 
-(defn encode-string [s] (codec/url-encode s))
-
 (defn req->mp-id  [req] (get-in req [:route-params :mp] "*"))
 
 (defn req->no-idx
@@ -27,4 +25,4 @@
     (cond
       (nil? s) "*"
       (re-matches #"[0-9]*" s)  s
-      :title (encode-string (run-mp/title->no-idx (req->mp-id req) s)))))
+      :title  (codec/url-encode (run-mp/title->no-idx (req->mp-id req) s)))))

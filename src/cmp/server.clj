@@ -1,6 +1,6 @@
 (ns cmp.server
     ^{:author "wactbprot"
-      :doc "Provides a REST api for cmp info and ctrl."}
+      :doc "Provides a server for cmp info and ctrl. Starts up the configured mpds."}
   (:require [compojure.route          :as route]
             [com.brunobonacci.mulog   :as mu]
             [cmp.config               :as config] 
@@ -55,6 +55,7 @@
       middleware/wrap-json-response))
 
 (defn stop []
+  (mu/log ::stop :message "stop ui web socket listener")
   (ws/stop! conf)
   (run! (fn [mp-id]
           (mu/log ::stop :message "stop mpd" :mp-id mp-id)
@@ -68,7 +69,7 @@
 
 (defn start []
   (cli/start-log! conf)
-  (mu/log ::start :message "start ws listener")
+  (mu/log ::start :message "start ui web socket listener")
   (ws/start! conf)
   (mu/log ::start :message "refresh tasks")
   (cli/t-refresh conf)
@@ -80,5 +81,5 @@
   (reset! server (run-server #'app (:api conf))))
 
 (defn -main [& args]
-  (mu/log ::start :message "call -main")
+  (mu/log ::main :message "call -main")
   (start))
