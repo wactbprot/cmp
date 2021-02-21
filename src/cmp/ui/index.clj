@@ -1,4 +1,4 @@
-(ns cmp.ui.core
+(ns cmp.ui.index
   (:require
      [hiccup.form    :as hf]
      [hiccup.page    :as hp]

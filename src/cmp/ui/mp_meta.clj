@@ -1,7 +1,7 @@
 (ns cmp.ui.mp-meta
   (:require
    [cmp.config    :as config]
-   [cmp.ui.core   :as ui]
+   [cmp.ui.index  :as ui]
    [cmp.api-utils :as au]))
 
 (defn doc-link

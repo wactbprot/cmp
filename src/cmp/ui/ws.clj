@@ -7,7 +7,7 @@
                                     on-close
                                     send!]]
    [cmp.st-mem               :as st]
-   [cmp.ui.core              :as ui]))
+   [cmp.ui.index             :as ui]))
 
 (defonce ws-clients (atom {}))
 

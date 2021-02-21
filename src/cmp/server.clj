@@ -6,7 +6,7 @@
             [cmp.config               :as config] 
             [cmp.cli                  :as cli]
             [cmp.api                  :as a]
-            [cmp.ui.core              :as ui]
+            [cmp.ui.index             :as ui]
             [cmp.ui.listener          :as uil]
             [cmp.ui.container         :as uic]
             [cmp.ui.mp-meta           :as uim]

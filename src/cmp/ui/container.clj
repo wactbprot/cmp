@@ -1,6 +1,6 @@
 (ns cmp.ui.container
-  (:require [cmp.ui.task :as tsk]
-            [cmp.ui.core :as ui]))
+  (:require [cmp.ui.task  :as tsk]
+            [cmp.ui.index :as ui]))
 
 ;;------------------------------
 ;; table cell funs
@@ -94,7 +94,7 @@
 (defn view-ctrl
   [conf req data]
   (let [cols [:key  :struct :func :no-idx :title :value :run :stop :mon]]
-  (ui/index conf req (ui/table conf data cols))))
+  (ui/index conf req (table conf data cols))))
 
 (defn view-state
   [conf req data]
@@ -102,9 +102,9 @@
   (ui/index conf req
             (into [:div]
                   [[:h3 {:class "title"} (:title (first data))]
-                   (ui/table conf data cols)]))))
+                   (table conf data cols)]))))
 
 (defn view
   [conf req data]
   (let [cols [:key  :struct :func :no-idx :seq-idx :par-idx :task]]
-    (ui/index conf req (ui/table conf data cols))))
+    (ui/index conf req (table conf data cols))))

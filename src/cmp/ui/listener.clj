@@ -1,6 +1,6 @@
 (ns cmp.ui.listener
   (:require
-     [cmp.ui.core :as ui]))
+     [cmp.ui.index :as ui]))
 
 (defn level-class
   [conf m]
