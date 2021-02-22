@@ -4,9 +4,9 @@
   (:require [cheshire.core           :as che]
             [cmp.exchange            :as exch]
             [cmp.doc                 :as doc]
-            [cmp.key-utils           :as ku]
             [cmp.lt-mem              :as lt]
             [cmp.st-mem              :as st]
+            [cmp.st-utils            :as stu]
             [cmp.utils               :as u]
             [com.brunobonacci.mulog  :as mu]))
 
@@ -23,7 +23,7 @@
   "
   [body task state-key]
   (mu/log ::dispatch :message "try to write response" :key state-key )
-  (st/set-val! (ku/key->response-key state-key) body)
+  (st/set-val! (stu/key->response-key state-key) body)
   (if-let [err (:error body)]
     (st/set-state! state-key :error err)
     (let [to-exch  (:ToExchange body)

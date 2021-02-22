@@ -1,17 +1,17 @@
 (ns cmp.state
   ^{:author "wactbprot"
     :doc "Finds and starts the up comming tasks of a certain container."}
-  (:require [com.brunobonacci.mulog   :as mu]
-            [cmp.st-mem :as st]
-            [cmp.work :as work]            
-            [cmp.key-utils :as ku]
-            [cmp.utils :as u]))
+  (:require [com.brunobonacci.mulog :as mu]
+            [cmp.st-mem             :as st]
+            [cmp.st-utils           :as stu]
+            [cmp.utils              :as u]
+            [cmp.work               :as work]))
 
 (defn state-key->state-map  
   "Builds a `state-map` by means of the `info-map`.
   The state value is `assoc`ed afet getting it with `st/key->val`. "
   [state-key]
-  (assoc (ku/key->info-map state-key)
+  (assoc (stu/key->info-map state-key)
          :state (keyword (st/key->val state-key))))
 
 (defn ks->state-vec
@@ -36,7 +36,7 @@
   (when k
     (sort
      (st/key->keys
-      (ku/struct-state-key (ku/key->mp-id k) (ku/key->struct k) (ku/key->no-idx k))))))
+      (stu/struct-state-key (stu/key->mp-id k) (stu/key->struct k) (stu/key->no-idx k))))))
 
 (defn ctrl-k->cmd
   "Gets the `cmd` from the `ctrl-k`. Extracts the `next-ctrl-cmd` and
@@ -66,7 +66,7 @@
 
   Example:
   ```clojure
-    (all-executed (ku/seq-idx->all-par
+    (all-executed (stu/seq-idx->all-par
                       [{:seq-idx 0 :par-idx 0 :state :executed}
                        {:seq-idx 0 :par-idx 0 :state :ready}]
                      0))
@@ -99,7 +99,7 @@
   (let [i (u/ensure-int i)]
     (if (pos? i)
       (every? true? (map
-                     (fn [j] (all-executed? (ku/seq-idx->all-par v j)))
+                     (fn [j] (all-executed? (stu/seq-idx->all-par v j)))
                      (range i)))
       true)))
 
@@ -121,7 +121,7 @@
   `ctrl-key` or `state-key`).  Resets the state interface afterwards."
   [k]
   (mu/log ::de-observe! :message "de-observe" :key k)
-  (st/de-register! (ku/key->mp-id k) (ku/key->struct k) (ku/key->no-idx k) "state"))
+  (st/de-register! (stu/key->mp-id k) (stu/key->struct k) (stu/key->no-idx k) "state"))
 
 ;;------------------------------
 ;; set value at ctrl-path 
@@ -130,7 +130,7 @@
   "Sets the `ctrl` interface to `\"error\"`. Function does not de-observe!."
   [k]
   (mu/log ::error! :error "will set ctrl interface to error" :key k)
-  (st/set-val! (ku/key->ctrl-key k) "error"))
+  (st/set-val! (stu/key->ctrl-key k) "error"))
 
 (defn nop! [k] (mu/log ::nop! :message "no operation" :key k))
 
@@ -138,7 +138,7 @@
   "Handles the case where all `state` interfaces are
   `executed`. Proceeds demanding on the value of the `ctrl` interface"
   [k]
-  (let [ctrl-k   (ku/key->ctrl-key k)
+  (let [ctrl-k   (stu/key->ctrl-key k)
         cmd      (ctrl-k->cmd ctrl-k)]
     (mu/log ::all-exec! :message "all tasks executed" :key k :command cmd)
     (condp = cmd
@@ -188,8 +188,8 @@
   the `v`."
   [v]
   (let [m      (next-map v)
-        ctrl-k (ku/info-map->ctrl-key (first v))
-        defi-k (ku/info-map->definition-key m)]
+        ctrl-k (stu/info-map->ctrl-key (first v))
+        defi-k (stu/info-map->definition-key m)]
     (cond
       (errors?       v) {:what :error    :key ctrl-k}
       (all-executed? v) {:what :all-exec :key ctrl-k}
@@ -221,7 +221,7 @@
   `k` (`ctrl-key`)."
   [k]
   (mu/log ::observe! :message "register, callback and start-next!" :key k)
-  (st/register! (ku/key->mp-id k) (ku/key->struct k) (ku/key->no-idx k) "state"
+  (st/register! (stu/key->mp-id k) (stu/key->struct k) (stu/key->no-idx k) "state"
                 (fn [msg]
                   (when-let [msg-k (st/msg->key msg)]                   
                     (start-next! (ks->state-vec (k->state-ks msg-k))))))
@@ -234,12 +234,12 @@
 (defn cont-status
   "Return the `state-vec` for the `i`th container."
   [mp-id i]
-  (ks->state-vec (k->state-ks (ku/cont-state-key mp-id i))))
+  (ks->state-vec (k->state-ks (stu/cont-state-key mp-id i))))
 
 (defn defins-status
   "Return the `state-vec` for the `i`th definition*s* structure."
   [mp-id i]
-  (ks->state-vec (k->state-ks (ku/defins-state-key mp-id i))))
+  (ks->state-vec (k->state-ks (stu/defins-state-key mp-id i))))
 
 ;;------------------------------
 ;; ctrl interface

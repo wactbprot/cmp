@@ -2,9 +2,9 @@
   ^{:author "wactbprot"
     :doc "message worker."}
   (:require [cmp.config              :as cfg]
-            [cmp.key-utils           :as ku]
             [com.brunobonacci.mulog  :as mu]
             [cmp.st-mem              :as st]
+            [cmp.st-utils            :as stu]
             [cmp.utils               :as u]))
 
 (defn message!
@@ -19,10 +19,10 @@
     ```"
   [{msg :Message mp-id :MpName state-key :StateKey}]
   (st/set-state! state-key :working)
-  (let [struct   (ku/key->struct state-key)
-        no-idx   (ku/key->no-idx state-key)
-        msg-key  (ku/key->message-path state-key)
-        func     (ku/key->func msg-key)
+  (let [struct   (stu/key->struct state-key)
+        no-idx   (stu/key->no-idx state-key)
+        msg-key  (stu/key->message-path state-key)
+        func     (stu/key->func msg-key)
         level    "a"
         callback (fn [_]
                    (when (contains? u/ok-set (st/key->val msg-key))

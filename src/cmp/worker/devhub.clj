@@ -3,10 +3,10 @@
     :doc "The devhub worker."}
   (:require [cmp.config              :as cfg]
             [clj-http.client         :as http]
-            [cmp.key-utils           :as ku]
             [com.brunobonacci.mulog  :as mu]
             [cmp.resp                :as resp]
             [cmp.st-mem              :as st]
+            [cmp.st-utils            :as stu]
             [cmp.utils               :as u]))
  
 (defn devhub!
@@ -19,7 +19,7 @@
   [task]
   (let [state-key (:StateKey task)]
     (st/set-state! state-key :working)
-    (let [request-key (ku/key->request-key state-key)
+    (let [request-key (stu/key->request-key state-key)
           json-task   (u/map->json task)
           req         (assoc (cfg/json-post-header (cfg/config)) :body json-task)
           url         (cfg/dev-hub-url (cfg/config))]

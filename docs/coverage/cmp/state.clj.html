@@ -14,19 +14,19 @@
                 003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:doc&nbsp;&quot;Finds&nbsp;and&nbsp;starts&nbsp;the&nbsp;up&nbsp;comming&nbsp;tasks&nbsp;of&nbsp;a&nbsp;certain&nbsp;container.&quot;}
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[com.brunobonacci.mulog&nbsp;&nbsp;&nbsp;:as&nbsp;mu]
+                004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[com.brunobonacci.mulog&nbsp;:as&nbsp;mu]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;:as&nbsp;st]
+                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;st]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.work&nbsp;:as&nbsp;work]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;stu]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.key-utils&nbsp;:as&nbsp;ku]
+                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;:as&nbsp;u]))
+                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.work&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;work]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 009&nbsp;&nbsp;
@@ -44,7 +44,7 @@
                 013&nbsp;&nbsp;&nbsp;&nbsp;[state-key]
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                014&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;(ku&#x2F;key-&gt;info-map&nbsp;state-key)
+                014&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;(stu&#x2F;key-&gt;info-map&nbsp;state-key)
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
                 015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:state&nbsp;(keyword&nbsp;(st&#x2F;key-&gt;val&nbsp;state-key))))
@@ -119,7 +119,7 @@
                 038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;keys
                 </span><br/>
 <span class="covered" title="11 out of 11 forms covered">
-                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;struct-state-key&nbsp;(ku&#x2F;key-&gt;mp-id&nbsp;k)&nbsp;(ku&#x2F;key-&gt;struct&nbsp;k)&nbsp;(ku&#x2F;key-&gt;no-idx&nbsp;k))))))
+                039&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(stu&#x2F;struct-state-key&nbsp;(stu&#x2F;key-&gt;mp-id&nbsp;k)&nbsp;(stu&#x2F;key-&gt;struct&nbsp;k)&nbsp;(stu&#x2F;key-&gt;no-idx&nbsp;k))))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 040&nbsp;&nbsp;
@@ -209,7 +209,7 @@
                 068&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(all-executed&nbsp;(ku&#x2F;seq-idx-&gt;all-par
+                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(all-executed&nbsp;(stu&#x2F;seq-idx-&gt;all-par
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[{:seq-idx&nbsp;0&nbsp;:par-idx&nbsp;0&nbsp;:state&nbsp;:executed}
@@ -308,7 +308,7 @@
                 101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(every?&nbsp;true?&nbsp;(map
                 </span><br/>
 <span class="covered" title="7 out of 7 forms covered">
-                102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[j]&nbsp;(all-executed?&nbsp;(ku&#x2F;seq-idx-&gt;all-par&nbsp;v&nbsp;j)))
+                102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[j]&nbsp;(all-executed?&nbsp;(stu&#x2F;seq-idx-&gt;all-par&nbsp;v&nbsp;j)))
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
                 103&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(range&nbsp;i)))
@@ -374,7 +374,7 @@
                 123&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::de-observe!&nbsp;:message&nbsp;&quot;de-observe&quot;&nbsp;:key&nbsp;k)
                 </span><br/>
 <span class="covered" title="12 out of 12 forms covered">
-                124&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;de-register!&nbsp;(ku&#x2F;key-&gt;mp-id&nbsp;k)&nbsp;(ku&#x2F;key-&gt;struct&nbsp;k)&nbsp;(ku&#x2F;key-&gt;no-idx&nbsp;k)&nbsp;&quot;state&quot;))
+                124&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;de-register!&nbsp;(stu&#x2F;key-&gt;mp-id&nbsp;k)&nbsp;(stu&#x2F;key-&gt;struct&nbsp;k)&nbsp;(stu&#x2F;key-&gt;no-idx&nbsp;k)&nbsp;&quot;state&quot;))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 125&nbsp;&nbsp;
@@ -401,7 +401,7 @@
                 132&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::error!&nbsp;:error&nbsp;&quot;will&nbsp;set&nbsp;ctrl&nbsp;interface&nbsp;to&nbsp;error&quot;&nbsp;:key&nbsp;k)
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                133&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(ku&#x2F;key-&gt;ctrl-key&nbsp;k)&nbsp;&quot;error&quot;))
+                133&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(stu&#x2F;key-&gt;ctrl-key&nbsp;k)&nbsp;&quot;error&quot;))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 134&nbsp;&nbsp;
@@ -425,7 +425,7 @@
                 140&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                141&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ctrl-k&nbsp;&nbsp;&nbsp;(ku&#x2F;key-&gt;ctrl-key&nbsp;k)
+                141&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ctrl-k&nbsp;&nbsp;&nbsp;(stu&#x2F;key-&gt;ctrl-key&nbsp;k)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
                 142&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ctrl-k-&gt;cmd&nbsp;ctrl-k)]
@@ -575,10 +575,10 @@
                 190&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(next-map&nbsp;v)
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                191&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl-k&nbsp;(ku&#x2F;info-map-&gt;ctrl-key&nbsp;(first&nbsp;v))
+                191&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl-k&nbsp;(stu&#x2F;info-map-&gt;ctrl-key&nbsp;(first&nbsp;v))
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                192&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defi-k&nbsp;(ku&#x2F;info-map-&gt;definition-key&nbsp;m)]
+                192&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defi-k&nbsp;(stu&#x2F;info-map-&gt;definition-key&nbsp;m)]
                 </span><br/>
 <span class="partial" title="5 out of 6 forms covered">
                 193&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
@@ -674,7 +674,7 @@
                 223&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::observe!&nbsp;:message&nbsp;&quot;register,&nbsp;callback&nbsp;and&nbsp;start-next!&quot;&nbsp;:key&nbsp;k)
                 </span><br/>
 <span class="covered" title="12 out of 12 forms covered">
-                224&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;(ku&#x2F;key-&gt;mp-id&nbsp;k)&nbsp;(ku&#x2F;key-&gt;struct&nbsp;k)&nbsp;(ku&#x2F;key-&gt;no-idx&nbsp;k)&nbsp;&quot;state&quot;
+                224&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;(stu&#x2F;key-&gt;mp-id&nbsp;k)&nbsp;(stu&#x2F;key-&gt;struct&nbsp;k)&nbsp;(stu&#x2F;key-&gt;no-idx&nbsp;k)&nbsp;&quot;state&quot;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
                 225&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[msg]
@@ -713,7 +713,7 @@
                 236&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                237&nbsp;&nbsp;&nbsp;&nbsp;(ks-&gt;state-vec&nbsp;(k-&gt;state-ks&nbsp;(ku&#x2F;cont-state-key&nbsp;mp-id&nbsp;i))))
+                237&nbsp;&nbsp;&nbsp;&nbsp;(ks-&gt;state-vec&nbsp;(k-&gt;state-ks&nbsp;(stu&#x2F;cont-state-key&nbsp;mp-id&nbsp;i))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 238&nbsp;&nbsp;
@@ -728,7 +728,7 @@
                 241&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;i]
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                242&nbsp;&nbsp;&nbsp;&nbsp;(ks-&gt;state-vec&nbsp;(k-&gt;state-ks&nbsp;(ku&#x2F;defins-state-key&nbsp;mp-id&nbsp;i))))
+                242&nbsp;&nbsp;&nbsp;&nbsp;(ks-&gt;state-vec&nbsp;(k-&gt;state-ks&nbsp;(stu&#x2F;defins-state-key&nbsp;mp-id&nbsp;i))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 243&nbsp;&nbsp;

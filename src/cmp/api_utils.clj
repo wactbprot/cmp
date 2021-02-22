@@ -2,9 +2,9 @@
       ^{:author "wactbprot"
         :doc "api utils for cmp info and ctrl."}
   (:require [cmp.utils          :as u]
-            [cmp.key-utils      :as ku]
             [cmp.worker.run-mp  :as run-mp]
             [cmp.st-mem         :as st]
+            [cmp.st-utils       :as stu]
             [ring.util.codec    :as codec]))
 
 (defn key-value-map
@@ -13,7 +13,7 @@
   ([k]
    (key-value-map k nil))
   ([k m]
-   (merge (assoc (ku/key->info-map k) :value (st/key->val k) :key k) m)))
+   (merge (assoc (stu/key->info-map k) :value (st/key->val k) :key k) m)))
 
 (defn req->mp-id  [req] (get-in req [:route-params :mp] "*"))
 

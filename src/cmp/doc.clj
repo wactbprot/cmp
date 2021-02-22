@@ -4,11 +4,11 @@
           in.  This may be calibration documents but also measurement
           docs."}
   (:require [cmp.lt-mem              :as lt]
-            [cmp.key-utils           :as ku]
-            [cmp.st-mem              :as st]
             [cmp.utils               :as u]
             [vl-data-insert.core     :as insert]
             [clojure.string          :as string]
+            [cmp.st-mem              :as st]
+            [cmp.st-utils            :as stu]
             [com.brunobonacci.mulog  :as mu]))
 
 (defn doc->id [{id :_id}] id)
@@ -50,7 +50,7 @@
   "Adds a info map to the short term memory."
   [mpd-id id]
   (if-let [doc (lt/get-doc id)]
-    (let [k    (ku/id-key mpd-id id)
+    (let [k    (stu/id-key mpd-id id)
           info (doc-info doc (base-info doc))]
       (mu/log ::add :message "will add doc info" :doc-id id :key k)
       (st/set-val! k info))
@@ -63,7 +63,7 @@
   "Removes the info map from the short term memory."
   [mpd-id id]
   (mu/log ::rm :message "will rm doc info from st-mem" :doc-id id)
-  (st/del-key! (ku/id-key mpd-id id)))
+  (st/del-key! (stu/id-key mpd-id id)))
 
 ;;------------------------------
 ;; ids
@@ -81,8 +81,8 @@
   ;; (cal-2018-ce3-kk-75003_0002)
   ```"
   [mp-id]
-  (mapv (fn [k] (ku/key-at-level k 2))
-        (st/key->keys (ku/id-prefix mp-id))))
+  (mapv (fn [k] (stu/key-at-level k 2))
+        (st/key->keys (stu/id-prefix mp-id))))
 
 ;;------------------------------
 ;; renew

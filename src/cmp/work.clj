@@ -7,7 +7,6 @@
             [cmp.task                  :as tsk]
             [cmp.config                :as cfg]
             [cmp.utils                 :as u]
-            [cmp.key-utils             :as ku]
             [cmp.worker.anselm         :refer [anselm!]]
             [cmp.worker.devhub         :refer [devhub!]]
             [cmp.worker.gen-db-doc     :refer [gen-db-doc!]]

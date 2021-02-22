@@ -3,10 +3,10 @@
     :doc "Worker to interact with a json api."}
   (:require [cmp.config             :as cfg]
             [clj-http.client        :as http]
-            [cmp.key-utils           :as ku]
             [com.brunobonacci.mulog :as mu]
             [cmp.resp               :as resp]
             [cmp.st-mem             :as st]
+            [cmp.st-utils           :as stu]
             [cmp.utils              :as u]))
 
 (defn url
@@ -33,7 +33,7 @@
   ```"
   [task]
   (let [{value :Value state-key :StateKey} task
-        request-key (ku/key->request-key state-key)]
+        request-key (stu/key->request-key state-key)]
     (st/set-state! state-key :working)
     (st/set-val! request-key task)
     (mu/log ::anselm! :message "stored request, send request" :key request-key)

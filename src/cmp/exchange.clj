@@ -1,10 +1,10 @@
 (ns cmp.exchange
   ^{:author "wactbprot"
     :doc "Handles the access to the exchange interface."}
-  (:require [cmp.key-utils          :as ku]
-            [com.brunobonacci.mulog :as mu]
+  (:require [com.brunobonacci.mulog :as mu]
             [clojure.string         :as string]
             [cmp.st-mem             :as st]
+            [cmp.st-utils           :as stu]
             [cmp.utils              :as u]))
 
 (defn exch-key
@@ -19,7 +19,7 @@
   "
   [mp-id s]
   {:pre [(not (nil? s))]}
-  (ku/exch-key mp-id (first (string/split s #"\."))))
+  (stu/exch-key mp-id (first (string/split s #"\."))))
 
 (defn key->second-kw
   "Returns the keyword or nil.
@@ -60,7 +60,7 @@
   ;; [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]
   ```"
   [mp-id p]
-  (if-let [val-p (st/key->val (ku/exch-key mp-id p))]
+  (if-let [val-p (st/key->val (stu/exch-key mp-id p))]
     val-p
     (let [val-k (st/key->val (exch-key mp-id p))]
       (if-let [kw (key->second-kw p)]
@@ -145,7 +145,7 @@
     (if (map? m)
       (let [res (map
                  (fn [[k v]]
-                   (keyword (st/set-val! (ku/exch-key mp-id (name k)) v)))
+                   (keyword (st/set-val! (stu/exch-key mp-id (name k)) v)))
                  m)]
         (if (= (count m) (:OK (frequencies res)))
           {:ok true}

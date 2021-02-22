@@ -7,12 +7,12 @@
             [cmp.exchange            :as exch]
             [cmp.doc                 :as doc]
             [cmp.lt-mem              :as lt]
-            [cmp.st-mem              :as st]
             [cmp.state               :as state]
             [cmp.task                :as tsk]
             [cmp.utils               :as u]
             [cmp.api-utils           :as au]
-            [cmp.key-utils           :as ku]
+            [cmp.st-mem              :as st]
+            [cmp.st-utils           :as stu]
             [com.brunobonacci.mulog  :as mu]))
 
 
@@ -28,7 +28,7 @@
   ```"
   [conf req]
   (let [ls @st/listeners]
-    (mapv (fn [k] (assoc (ku/key->reg-map k) :key k :listener-id (get-in ls [k :id]))) (keys ls))))
+    (mapv (fn [k] (assoc (stu/key->reg-map k) :key k :listener-id (get-in ls [k :id]))) (keys ls))))
 
 ;;------------------------------
 ;; tasks
@@ -41,7 +41,7 @@
   (tasks {} {})
   ```"
   [conf req]
-  (mapv au/key-value-map (st/key->keys (ku/task-prefix))))
+  (mapv au/key-value-map (st/key->keys (stu/task-prefix))))
 
 ;;------------------------------
 ;; mp info
@@ -50,12 +50,12 @@
   [conf req]
   (let [mp-id (au/req->mp-id req)]
     {:mp-id mp-id
-     :descr   (st/key->val (ku/meta-descr-key   mp-id))
-     :name    (st/key->val (ku/meta-name-key    mp-id))
-     :ncont   (st/key->val (ku/meta-ncont-key   mp-id))
-     :ndefins (st/key->val (ku/meta-ndefins-key mp-id))
-     :std     (st/key->val (ku/meta-std-key     mp-id))
-     :docs    (mapv st/key->val (st/key->keys (ku/id-prefix mp-id)))}))
+     :descr   (st/key->val (stu/meta-descr-key   mp-id))
+     :name    (st/key->val (stu/meta-name-key    mp-id))
+     :ncont   (st/key->val (stu/meta-ncont-key   mp-id))
+     :ndefins (st/key->val (stu/meta-ndefins-key mp-id))
+     :std     (st/key->val (stu/meta-std-key     mp-id))
+     :docs    (mapv st/key->val (st/key->keys (stu/id-prefix mp-id)))}))
 
 ;;------------------------------
 ;; container
@@ -68,8 +68,8 @@
                                             :mon   "mon"
                                             :stop  "stop"
                                             :title (st/key->val tk)}))
-          (st/pat->keys (ku/cont-ctrl-key mp-id no-idx))
-          (st/pat->keys (ku/cont-title-key mp-id no-idx)))))
+          (st/pat->keys (stu/cont-ctrl-key mp-id no-idx))
+          (st/pat->keys (stu/cont-title-key mp-id no-idx)))))
 
 (defn container-state
   [conf req]
@@ -79,15 +79,15 @@
      (fn [k] (au/key-value-map k {:ready    "ready"
                                   :working  "working"
                                   :executed "executed"
-                                  :title    (st/key->val (ku/cont-title-key mp-id no-idx))}))
-     (st/pat->keys (ku/cont-state-key mp-id no-idx "*" "*" )))))
+                                  :title    (st/key->val (stu/cont-title-key mp-id no-idx))}))
+     (st/pat->keys (stu/cont-state-key mp-id no-idx "*" "*" )))))
 
 (defn container-definition
   [conf req]
   (let [mp-id   (au/req->mp-id req)
         no-idx  (au/req->no-idx req)]
     (mapv (fn [k] (au/key-value-map k {:task  (tsk/build k)}))
-          (st/pat->keys (ku/cont-defin-key mp-id no-idx "*" "*" )))))
+          (st/pat->keys (stu/cont-defin-key mp-id no-idx "*" "*" )))))
 
 ;;------------------------------
 ;; set value to st-mem

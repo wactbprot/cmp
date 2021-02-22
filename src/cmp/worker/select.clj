@@ -4,9 +4,9 @@
           by evaluating the related conditions."}
   (:require [cmp.config              :as cfg]
             [cmp.exchange            :as exch]
-            [cmp.key-utils           :as ku]
             [com.brunobonacci.mulog  :as mu]
             [cmp.st-mem              :as st]
+            [cmp.st-utils            :as stu]
             [clojure.string          :as string]
             [cmp.utils               :as u]))
 
@@ -43,7 +43,7 @@
   a level b callback. Sets the state of the calling element to `executed`
   if the `ctrl`  turns to ready (or error if error)."          
   [{mp-id :mp-id  no-idx :no-idx state-key :StateKey}]
-  (let [ctrl-key (ku/defins-ctrl-key mp-id no-idx)
+  (let [ctrl-key (stu/defins-ctrl-key mp-id no-idx)
         struct   "definitions"
         func     "ctrl"
         level    "b"
@@ -84,7 +84,7 @@
   ;; {:Unit \"Pa\", :Value 100}
   ``` "
   [k]
-  (let [key-map   (ku/key->info-map k)
+  (let [key-map   (stu/key->info-map k)
         val-map   (st/key->val k)
         left-val  (exch/read! (:mp-id key-map) (:ExchangePath val-map))
         meth      (:Methode val-map)
@@ -95,13 +95,13 @@
   "Turns a `class-key` into `cond-keys`."
   [k]
   (when k
-    (let [m (ku/key->info-map k)]
-      (st/key->keys (ku/defins-cond-key (:mp-id m) (:no-idx m))))))
+    (let [m (stu/key->info-map k)]
+      (st/key->keys (stu/defins-cond-key (:mp-id m) (:no-idx m))))))
 
 (defn class-keys
   "Returns the keys where the class is `cls`."
   [mp-id cls]
-  (let [pat (ku/defins-class-key mp-id "*")]
+  (let [pat (stu/defins-class-key mp-id "*")]
     (st/filter-keys-where-val pat cls)))
 
 (defn select-definition!

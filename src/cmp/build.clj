@@ -1,9 +1,9 @@
 (ns cmp.build
   ^{:author "wactbprot"
     :doc "Builds up the short term memory with given the `mpd`."}
-  (:require [cmp.key-utils           :as ku]
-            [com.brunobonacci.mulog  :as mu]
+  (:require [com.brunobonacci.mulog  :as mu]
             [cmp.st-mem              :as st]
+            [cmp.key-utils           :as stu]
             [cmp.utils               :as u]))
 
 ;;------------------------------
@@ -13,7 +13,7 @@
   "Stores the exchange data."
   [p {exchange :Exchange}]
   (doseq [[k v] exchange]
-    (st/set-val! (ku/exch-key p (name k)) v)))
+    (st/set-val! (stu/exch-key p (name k)) v)))
 
 ;;------------------------------
 ;; container
@@ -27,8 +27,8 @@
       (doall
        (map-indexed
         (fn [kdx ptsk]
-          (st/set-val! (ku/cont-defin-key p idx jdx kdx)  ptsk)
-          (st/set-val! (ku/cont-state-key p idx jdx kdx) "ready"))
+          (st/set-val! (stu/cont-defin-key p idx jdx kdx)  ptsk)
+          (st/set-val! (stu/cont-state-key p idx jdx kdx) "ready"))
         s)))
     defin)))
 
@@ -39,10 +39,10 @@
           ctrl  :Ctrl
           elem  :Element
           defin :Definition}]
-  (st/set-val! (ku/cont-title-key p idx) title)
-  (st/set-val! (ku/cont-descr-key p idx) descr)
-  (st/set-val! (ku/cont-ctrl-key p idx) ctrl)
-  (st/set-val! (ku/cont-elem-key p idx) elem)
+  (st/set-val! (stu/cont-title-key p idx) title)
+  (st/set-val! (stu/cont-descr-key p idx) descr)
+  (st/set-val! (stu/cont-ctrl-key p idx) ctrl)
+  (st/set-val! (stu/cont-elem-key p idx) elem)
   (store-defin p idx defin))
 
 (defn store-all-container
@@ -66,8 +66,8 @@
       (doall
        (map-indexed
         (fn [kdx ptsk]
-          (st/set-val! (ku/defins-defin-key p idx jdx kdx) ptsk)
-          (st/set-val! (ku/defins-state-key p idx jdx kdx) "ready"))
+          (st/set-val! (stu/defins-defin-key p idx jdx kdx) ptsk)
+          (st/set-val! (stu/defins-state-key p idx jdx kdx) "ready"))
         s)))
     defin)))
 
@@ -77,7 +77,7 @@
   (doall
    (map-indexed
     (fn [jdx c]
-      (st/set-val! (ku/defins-cond-key p idx jdx) c))
+      (st/set-val! (stu/defins-cond-key p idx jdx) c))
         conds)))
 
 (defn store-definitions
@@ -89,11 +89,11 @@
          descr :ShortDescr
          conds :Condition
          defin :Definition} ds]
-    (st/set-val! (ku/defins-descr-key p idx) descr)
-    (st/set-val! (ku/defins-class-key p idx) cls)
+    (st/set-val! (stu/defins-descr-key p idx) descr)
+    (st/set-val! (stu/defins-class-key p idx) cls)
     (store-conds p idx conds)
     (store-defins p idx defin)
-    (st/set-val! (ku/defins-ctrl-key p idx) "ready")))
+    (st/set-val! (stu/defins-ctrl-key p idx) "ready")))
 
 (defn store-all-definitions
   "Triggers the storing of the definition section."
@@ -120,11 +120,11 @@
       descr    :Description
       cont     :Container
       defins   :Definitions}]
-  (st/set-val! (ku/meta-std-key p) standard)
-  (st/set-val! (ku/meta-name-key p) name)
-  (st/set-val! (ku/meta-descr-key p) descr)
-  (st/set-val! (ku/meta-ndefins-key p) (count defins))
-  (st/set-val! (ku/meta-ncont-key p) (count cont)))
+  (st/set-val! (stu/meta-std-key p) standard)
+  (st/set-val! (stu/meta-name-key p) name)
+  (st/set-val! (stu/meta-descr-key p) descr)
+  (st/set-val! (stu/meta-ndefins-key p) (count defins))
+  (st/set-val! (stu/meta-ncont-key p) (count cont)))
 
 ;;------------------------------
 ;; all
@@ -145,7 +145,7 @@
 (defn store-task
   "Stores the given `task` unter the path `tasks@<TaskName>`."
   [task]
-  (st/set-val! (ku/task-key (:TaskName task)) (u/doc->safe-doc task)))
+  (st/set-val! (stu/task-key (:TaskName task)) (u/doc->safe-doc task)))
 
 (defn store-tasks
   "Stores the `task-list` as received

@@ -1,11 +1,11 @@
 (ns cmp.st-mem
-  (:require [taoensso.carmine        :as car :refer (wcar)]
-            [cmp.key-utils           :as ku]
+  (:require [cmp.config              :as cfg]
+            [taoensso.carmine        :as car :refer (wcar)]
             [cheshire.core           :as che]
             [com.brunobonacci.mulog  :as mu]
             [clojure.string          :as string]
             [cmp.utils               :as u]
-            [cmp.config              :as cfg]))
+            [cmp.st-utils            :as stu]))
 
 (def conn (cfg/st-conn (cfg/config)))
 (def db (cfg/st-db (cfg/config)))
@@ -55,7 +55,7 @@
 (defn key->keys
   "Get all keys matching  `k*`."
   [k]
-  (pat->keys (ku/vec->key [k "*"])))
+  (pat->keys (stu/vec->key [k "*"])))
 
 ;;------------------------------
 ;; del
@@ -71,10 +71,10 @@
   (run! del-key! ks))
 
 (defn clear!
-  "Clears the key `x`. If `x` is a vector the function `ku/vec->key` is
+  "Clears the key `x`. If `x` is a vector the function `stu/vec->key` is
   used for the conversion of `x` to a string."
   [x]
-  (-> (if (vector? x) (ku/vec->key x) x)
+  (-> (if (vector? x) (stu/vec->key x) x)
       key->keys
       del-keys!))
 
@@ -149,9 +149,9 @@
   "
   [mp-id l2 l3 l4]
   (str "__keyspace@" db "*__:" mp-id
-       ku/sep l2
-       ku/sep l3
-       ku/sep l4 "*"))
+       stu/sep l2
+       stu/sep l3
+       stu/sep l4 "*"))
 
 (defn gen-listener
   "Returns a listener for published keyspace notifications. Don't forget
@@ -194,7 +194,7 @@
   The `level` param allows to register more than one listener for one
   pattern."
   [mp-id struct no func level]
-  (ku/vec->key  [mp-id struct no func level]))
+  (stu/vec->key  [mp-id struct no func level]))
 
 (defn registered?
   "Checks if a `listener` is registered under

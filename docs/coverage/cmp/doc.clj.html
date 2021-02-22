@@ -23,19 +23,19 @@
                 006&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[cmp.lt-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;lt]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.key-utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;ku]
+                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;st]
+                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[vl-data-insert.core&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;insert]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]
+                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;string]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[vl-data-insert.core&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;insert]
+                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;st]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;string]
+                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;stu]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[com.brunobonacci.mulog&nbsp;&nbsp;:as&nbsp;mu]))
@@ -161,7 +161,7 @@
                 052&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[doc&nbsp;(lt&#x2F;get-doc&nbsp;id)]
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[k&nbsp;&nbsp;&nbsp;&nbsp;(ku&#x2F;id-key&nbsp;mpd-id&nbsp;id)
+                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[k&nbsp;&nbsp;&nbsp;&nbsp;(stu&#x2F;id-key&nbsp;mpd-id&nbsp;id)
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
                 054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info&nbsp;(doc-info&nbsp;doc&nbsp;(base-info&nbsp;doc))]
@@ -200,7 +200,7 @@
                 065&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::rm&nbsp;:message&nbsp;&quot;will&nbsp;rm&nbsp;doc&nbsp;info&nbsp;from&nbsp;st-mem&quot;&nbsp;:doc-id&nbsp;id)
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                066&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;del-key!&nbsp;(ku&#x2F;id-key&nbsp;mpd-id&nbsp;id)))
+                066&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;del-key!&nbsp;(stu&#x2F;id-key&nbsp;mpd-id&nbsp;id)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 067&nbsp;&nbsp;
@@ -254,10 +254,10 @@
                 083&nbsp;&nbsp;&nbsp;&nbsp;[mp-id]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                084&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;(fn&nbsp;[k]&nbsp;(ku&#x2F;key-at-level&nbsp;k&nbsp;2))
+                084&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;(fn&nbsp;[k]&nbsp;(stu&#x2F;key-at-level&nbsp;k&nbsp;2))
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;keys&nbsp;(ku&#x2F;id-prefix&nbsp;mp-id))))
+                085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;keys&nbsp;(stu&#x2F;id-prefix&nbsp;mp-id))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 086&nbsp;&nbsp;

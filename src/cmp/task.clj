@@ -3,10 +3,10 @@
     :doc "Task handling."}
   (:require [cmp.exchange            :as exch]
             [cmp.lt-mem              :as lt]
-            [cmp.key-utils           :as ku]
             [com.brunobonacci.mulog  :as mu]
             [clojure.string          :as string]
             [cmp.st-mem              :as st]
+            [cmp.st-utils            :as stu]
             [cmp.utils               :as u]))
 
 (defn action=
@@ -189,7 +189,7 @@
          task-name  (:TaskName proto)
          db-task    (merge
                      (->> ["tasks" task-name]
-                          ku/vec->key
+                          stu/vec->key
                           st/key->val)
                      proto)]
     {:Task          (dissoc db-task :Defaults) 
@@ -255,10 +255,10 @@
   info (`:StateKey` holds the position of the task) have to
   be`assoc`ed (done in `tsk/assemble`)." 
   [k]
-  (let [state-key (ku/key->state-key k)]
+  (let [state-key (stu/key->state-key k)]
     (try (let [proto-task (st/key->val k)
                meta-task  (gen-meta-task proto-task)
-               mp-id      (ku/key->mp-id k)]
+               mp-id      (stu/key->mp-id k)]
            (assemble meta-task mp-id state-key))
          (catch Exception e
            (st/set-state! state-key :error (.getMessage e))))))

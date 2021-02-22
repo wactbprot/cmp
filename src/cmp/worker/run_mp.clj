@@ -2,17 +2,17 @@
   ^{:author "wactbprot"
     :doc "run-mp worker."}
   (:require [cmp.config              :as cfg]
-            [cmp.key-utils           :as ku]
             [com.brunobonacci.mulog  :as mu]
             [cmp.st-mem              :as st]
+            [cmp.st-utils            :as stu]
             [cmp.utils               :as u]))
 
 (defn title->no-idx
   [mp title]
   (let [mp     (u/extr-main-path mp)
-        ks     (st/pat->keys (ku/cont-title-key mp "*" ))
+        ks     (st/pat->keys (stu/cont-title-key mp "*" ))
         title? (fn [k] (= title (st/key->val k)))]
-    (ku/key->no-idx (first (filter title? ks)))))
+    (stu/key->no-idx (first (filter title? ks)))))
 
 
 (defn exec-index
@@ -20,7 +20,7 @@
   [{mp :Mp i :Container state-key :StateKey cmd :Cmd}]
   (let [mp       (u/extr-main-path mp)
         cmd      (keyword (or cmd "run"))
-        ctrl-key (ku/cont-ctrl-key mp i)
+        ctrl-key (stu/cont-ctrl-key mp i)
         func     "ctrl"
         struct   "container"
         level    "b"

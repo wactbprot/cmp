@@ -6,7 +6,7 @@
             [cmp.doc                 :as doc]
             [cmp.lt-mem              :as lt]
             [cmp.st-mem              :as st]
-            [cmp.key-utils           :as ku]
+            [cmp.st-utils            :as stu]
             [com.brunobonacci.mulog   :as mu]
             [cmp.state               :as state]
             [cmp.utils               :as u])
@@ -95,7 +95,7 @@
 (defn t-clear
   "Function removes all keys starting with `tasks`."
   [conf]
-  (st/clear! (ku/task-prefix)))
+  (st/clear! (stu/task-prefix)))
 
 (defn t-refresh
   "Refreshs the `tasks` endpoint.
@@ -153,7 +153,7 @@
   user."
 
   [conf mp-id i cmd]
-  (st/set-val! (ku/cont-ctrl-key mp-id (u/lp i)) cmd))
+  (st/set-val! (stu/cont-ctrl-key mp-id (u/lp i)) cmd))
 
 (defn c-run
   "Shortcut to push a `run` to the control interface of mp container

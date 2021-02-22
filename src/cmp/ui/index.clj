@@ -3,15 +3,13 @@
      [hiccup.form    :as hf]
      [hiccup.page    :as hp]
      [cmp.api-utils  :as au]
-     [cmp.key-utils  :as ku]
      [cmp.utils      :as u]
-     [clojure.string :as string]
-
-     ))
+     [cmp.st-utils      :as stu]
+     [clojure.string :as string]))
 
 (defn empty-msg [s] [:span {:class "tag is-info"} s])
 
-(defn make-selectable [k] (when (string? k) (string/replace k ku/re-sep "_")))
+(defn make-selectable [k] (when (string? k) (string/replace k stu/re-sep "_")))
 
 (defn img
   "FIXME: The function name is more general than the function itself."
