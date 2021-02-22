@@ -5,9 +5,11 @@
    [cmp.api-utils :as au]))
 
 (defn doc-link
-  [conf id]
-  [:a {:href (str (config/lt-url conf) "/_utils/#database/"
-                  (:lt-db conf) "/" id) }  id])
+  [conf m]
+  (when-let [id  (:doc-id m)]
+    [:p  [:a {:href (str (config/lt-url conf) "/_utils/#database/"
+                         (:lt-db conf) "/" id) }
+          [:b  id ]] [:span {:class "tag is-info"} (:doc-version m)]]))
 
 (defn card-content
   [conf m]
@@ -23,8 +25,9 @@
    [:p [:i "No of definitions: " [:span {:class "tag"} (:ndefins m)]]]
    [:p [:i "No of containers: "  [:span {:class "tag"}  (:ncont m)]]]
    (when-not (empty? (:docs m))
-     (into [:p [:b"Documents: "]]
-           (mapv (fn [d]  (doc-link conf (:doc-id d))) (:docs m))))])
+     (into [:p [:b "Documents: "]]
+          
+           (mapv (fn [d]  (doc-link conf d)) (:docs m))))])
   
 (defn card
   [conf m]
