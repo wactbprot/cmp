@@ -87,7 +87,7 @@
 ;;------------------------------
 ;; renew
 ;;------------------------------
-(defn renew
+(defn renew!
   "Renew the id interface with the give ids-vector `v`."
   [mpd-id v]
   (when (vector? v)

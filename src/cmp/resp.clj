@@ -20,21 +20,29 @@
   
   It's maybe a good idea to save the respons body to a key associated
   to the state key (done).
-  "
+  TODO: detect missing values that should be measured again."
   [body task state-key]
   (mu/log ::dispatch :message "try to write response" :key state-key )
   (st/set-val! (stu/key->response-key state-key) body)
   (if-let [err (:error body)]
     (st/set-state! state-key :error err)
-    (let [to-exch  (:ToExchange body)
+    (let [raw-res  (:_x         body)
+          noreply  (:NoReply    body)
+          to-exch  (:ToExchange body)
           results  (:Result     body)
           ids      (:ids        body)
           doc-path (:DocPath    task)
-          mp-id    (:MpName     task)]
-      (let [res-ids   (doc/renew  mp-id ids)
+          mp-id    (:MpName     task)]  
+      (let [res-ids   (doc/renew! mp-id ids)
             res-exch  (exch/to!   mp-id to-exch)
             res-doc   (doc/store! mp-id results doc-path)]
         (cond
+          (and
+           (not  noreply)
+           (nil? raw-res)
+           (nil? ids)
+           (nil? results)
+           (nil? to-exch))  (st/set-state! state-key :ready "measure again, empty response")
           (:error res-exch) (st/set-state! state-key :error "error at exchange")
           (:error res-doc)  (st/set-state! state-key :error "error at document")
           (and
