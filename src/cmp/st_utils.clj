@@ -209,6 +209,13 @@
   [k]
   (replace-key-at-level 3 k "request"))
 
+
+(defn key->retry-key
+  "Turns the given `*-key` into a `retry-key` This key is used to
+  store the number of retries."
+  [k]
+  (replace-key-at-level 3 k "retry"))
+
 ;;------------------------------
 ;; message
 ;;------------------------------

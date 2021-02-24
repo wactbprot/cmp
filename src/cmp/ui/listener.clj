@@ -1,6 +1,6 @@
 (ns cmp.ui.listener
-  (:require
-     [cmp.ui.index :as ui]))
+  (:require [cmp.ui.index :as ui]
+            [cmp.utils    :as u]))
 
 (defn level-class
   [conf m]
@@ -24,7 +24,7 @@
    [:div {:class "tags has-addons"}
     [:span (func-class conf m) "funtion: " (:func m)]
     [:span (level-class conf m) "level: "  (:level m)]
-    [:span (no-idx-class conf m) "no: "  (:no-idx m)]]])
+    [:span (no-idx-class conf m) "no: "    (:no-idx m)]]])
 
 (defn card-content
   [conf m]
@@ -36,7 +36,7 @@
 
 (defn card
   [conf m]
-  (ui/card-template conf m (card-content conf m) (ui/card-footer conf m)))
+  (ui/card-template conf m (card-content conf m) (ui/card-footer conf (assoc m :no-idx (u/lp 0)))))
 
 (defn view [conf req data]
   (let [a (filter (fn [d] (and (= "a" (:level d))

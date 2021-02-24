@@ -21,25 +21,21 @@
 ;;------------------------------
 (defn mp-id-link [m] [:a {:href (str  "/ui/" (:mp-id m) "/meta")} (:mp-id m)])
 
-(defn href [m p i] (str  "/ui/" (:mp-id m) "/" (:struct m) p (when i (str "/" i))))
+(defn href [m p]
+  (str  "/ui/" (:mp-id m) "/" (:struct m) p
+        (when (:no-idx m) (str "/" (:no-idx m)))))
 
-(defn state-link
-  ([m]
-   (state-link m false))
-  ([m i]
-   [:a  {:class "tag is-link is-light" :href (href m "/state" i)} "state"]))
+(defn state-link [m]
+  [:a  {:class "tag is-link is-light"
+        :href (href m "/state")} "state"])
 
-(defn ctrl-link
-  ([m]
-   (ctrl-link m false))
-  ([m i]
-   [:a  {:class "tag is-link is-light" :href (href m "/ctrl" i)} "ctrl"]))
+(defn ctrl-link [m]
+  [:a  {:class "tag is-link is-light"
+        :href (href m "/ctrl")} "ctrl"])
 
-(defn definition-link
-  ([m]
-   (definition-link m false))
-  ([m i]
-   [:a {:class "tag is-link is-light" :href (href m "/definition" i)} "def"]))
+(defn definition-link [m]
+  [:a {:class "tag is-link is-light"
+       :href (href m "/definition")} "def"])
 
 ;;------------------------------
 ;; return data from client

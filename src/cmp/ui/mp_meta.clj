@@ -2,7 +2,8 @@
   (:require
    [cmp.config    :as config]
    [cmp.ui.index  :as ui]
-   [cmp.api-utils :as au]))
+   [cmp.api-utils :as au]
+   [cmp.utils :as u]))
 
 (defn doc-link
   [conf m]
@@ -29,8 +30,7 @@
           
            (mapv (fn [d]  (doc-link conf d)) (:docs m))))])
   
-(defn card
-  [conf m]
-  (ui/card-template conf m (card-content conf m) (ui/card-footer conf m)))
+(defn card [conf m]
+  (ui/card-template conf m (card-content conf m) (ui/card-footer conf (assoc m :no-idx (u/lp 0)))))
 
 (defn view [conf req data] (ui/index conf req (card conf data)))
