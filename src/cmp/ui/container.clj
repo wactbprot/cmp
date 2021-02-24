@@ -42,16 +42,17 @@
 (defmethod td-value :no-idx 
   [conf m kw]
   [:span   {:class "tag"} (:no-idx m)
-   [:span  {:class "tag"} (ui/ctrl-link m (:no-idx m))]
-   [:span  {:class "tag"} (ui/state-link m (:no-idx m))]
-   [:span  {:class "tag"} (ui/definition-link m (:no-idx m))]])
-
-(defmethod td-value :struct
-  [conf m kw]
-  [:span   {:class "tag"} (:struct m)
    [:span  {:class "tag"} (ui/ctrl-link m)]
    [:span  {:class "tag"} (ui/state-link m)]
    [:span  {:class "tag"} (ui/definition-link m)]])
+
+(defmethod td-value :struct
+  [conf m kw]
+  (let [m (dissoc m :no-idx)]
+    [:span   {:class "tag"} (:struct m)
+     [:span  {:class "tag"} (ui/ctrl-link m)]
+     [:span  {:class "tag"} (ui/state-link m)]
+     [:span  {:class "tag"} (ui/definition-link m)]]))
 
 (defmethod td-value :default
   [conf m kw]

@@ -2,6 +2,7 @@
   ^{:author "wactbprot"
     :doc "Catches responses and dispatchs."}
   (:require [cheshire.core           :as che]
+            [cmp.config              :as config]
             [cmp.exchange            :as exch]
             [cmp.doc                 :as doc]
             [cmp.lt-mem              :as lt]
@@ -9,6 +10,25 @@
             [cmp.st-utils            :as stu]
             [cmp.utils               :as u]
             [com.brunobonacci.mulog  :as mu]))
+
+
+
+(defn retry!
+  [state-key]
+  (let [retry-key (stu/key->retry-key state-key)
+        n         (u/ensure-int (st/key->val retry-key))
+        n-max     (config/max-retry (config/config))]
+    (if (>= n n-max)
+      (do
+        (mu/log ::retry! :error "reached max-retry"  :key state-key)
+        (st/set-val! retry-key 0)
+        {:error "max retry"})
+      (do
+        (mu/log ::retry! :message (str "retry " n "/" n-max) :key state-key)
+        (st/set-val! retry-key (inc n))
+        {:ok "retry"}))))
+
+        
 
 (defn dispatch
   "Dispatches responds from outer space. Expected responses are:
@@ -36,7 +56,10 @@
           doc-path (:DocPath    task)
           mp-id    (:MpName     task)]  
       (if retry
-        (st/set-state! state-key :ready "retry measurement")
+        (let [res-retry (retry! state-key)]
+          (cond
+            (:error res-retry) (st/set-state! state-key :error)
+            (:ok    res-retry) (st/set-state! state-key :ready)))
         (let [res-ids   (doc/renew! mp-id ids)
               res-exch  (exch/to!   mp-id to-exch)
               res-doc   (doc/store! mp-id results doc-path)]

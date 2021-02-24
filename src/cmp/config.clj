@@ -35,3 +35,5 @@
 (defn anselm-url [c] (:anselm-url c))
 
 (defn stop-if-delay [c] (:stop-if-delay c))
+
+(defn max-retry [c] (:max-retry c))
