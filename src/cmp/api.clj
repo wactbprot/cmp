@@ -74,20 +74,22 @@
 (defn container-state
   [conf req]
   (let [mp-id   (au/req->mp-id req)
-        no-idx  (au/req->no-idx req)]
+        no-idx  (au/req->no-idx req)
+        seq-idx (au/req->seq-idx req)]
     (mapv
      (fn [k] (au/key-value-map k {:ready    "ready"
                                   :working  "working"
                                   :executed "executed"
                                   :title    (st/key->val (stu/cont-title-key mp-id no-idx))}))
-     (st/pat->keys (stu/cont-state-key mp-id no-idx "*" "*" )))))
+     (st/pat->keys (stu/cont-state-key mp-id no-idx seq-idx "*" )))))
 
 (defn container-definition
   [conf req]
   (let [mp-id   (au/req->mp-id req)
-        no-idx  (au/req->no-idx req)]
+        no-idx  (au/req->no-idx req)
+        seq-idx (au/req->seq-idx req)]
     (mapv (fn [k] (au/key-value-map k {:task  (tsk/build k)}))
-          (st/pat->keys (stu/cont-defin-key mp-id no-idx "*" "*" )))))
+          (st/pat->keys (stu/cont-defin-key mp-id no-idx seq-idx "*" )))))
 
 ;;------------------------------
 ;; set value to st-mem

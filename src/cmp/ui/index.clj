@@ -23,7 +23,8 @@
 
 (defn href [m p]
   (str  "/ui/" (:mp-id m) "/" (:struct m) p
-        (when (:no-idx m) (str "/" (:no-idx m)))))
+        (when (:no-idx m) (str "/" (:no-idx m)))
+        (when (:seq-idx m) (str "/" (:seq-idx m)))))
 
 (defn state-link [m]
   [:a  {:class "tag is-link is-light"

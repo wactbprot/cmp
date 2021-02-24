@@ -40,9 +40,12 @@
   (GET "/ui/:mp/container/ctrl"              [:as req] (uic/view-ctrl  conf req (a/container-ctrl       conf req)))
   (GET "/ui/:mp/container/state"             [:as req] (uic/view-state conf req (a/container-state      conf req)))
   (GET "/ui/:mp/container/definition"        [:as req] (uic/view       conf req (a/container-definition conf req)))
-  (GET "/ui/:mp/container/state/:idx"        [:as req] (uic/view-state conf req (a/container-state      conf req)))
   (GET "/ui/:mp/container/ctrl/:idx"         [:as req] (uic/view-ctrl  conf req (a/container-ctrl       conf req)))
+  (GET "/ui/:mp/container/state/:idx"        [:as req] (uic/view-state conf req (a/container-state      conf req)))
   (GET "/ui/:mp/container/definition/:idx"   [:as req] (uic/view       conf req (a/container-definition conf req)))
+  
+  (GET "/ui/:mp/container/state/:idx/:seq"      [:as req] (uic/view-state conf req (a/container-state      conf req)))
+  (GET "/ui/:mp/container/definition/:idx/:seq" [:as req] (uic/view       conf req (a/container-definition conf req)))
     
   (GET "/ws"                                 [:as req] (ws/main  conf req))
   

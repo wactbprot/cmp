@@ -39,20 +39,27 @@
   [:span {:class "icon"}
    [:a  {:class "copy is-link fas fa-key" :data-copy (kw m) :title (str "click to console.log: " (kw m))}]])
 
-(defmethod td-value :no-idx 
-  [conf m kw]
-  [:span   {:class "tag"} (:no-idx m)
-   [:span  {:class "tag"} (ui/ctrl-link m)]
-   [:span  {:class "tag"} (ui/state-link m)]
-   [:span  {:class "tag"} (ui/definition-link m)]])
-
 (defmethod td-value :struct
   [conf m kw]
-  (let [m (dissoc m :no-idx)]
+  (let [m (dissoc m :no-idx :seq-idx)]
     [:span   {:class "tag"} (:struct m)
      [:span  {:class "tag"} (ui/ctrl-link m)]
      [:span  {:class "tag"} (ui/state-link m)]
      [:span  {:class "tag"} (ui/definition-link m)]]))
+
+(defmethod td-value :no-idx 
+  [conf m kw]
+  (let [m (dissoc m :seq-idx)]
+    [:span   {:class "tag"} (:no-idx m)
+     [:span  {:class "tag"} (ui/ctrl-link m)]
+     [:span  {:class "tag"} (ui/state-link m)]
+     [:span  {:class "tag"} (ui/definition-link m)]]))
+
+(defmethod td-value :seq-idx
+  [conf m kw]
+    [:span   {:class "tag"} (:seq-idx m)
+     [:span  {:class "tag"} (ui/state-link m)]
+     [:span  {:class "tag"} (ui/definition-link m)]])
 
 (defmethod td-value :default
   [conf m kw]
@@ -99,7 +106,7 @@
 
 (defn view-state
   [conf req data]
-  (let [cols [:key :struct :func :no-idx :seq-idx :par-idx :value :ready :working :executed]]
+  (let [cols [:key :struct :func :no-idx :seq-idx :value :ready :working :executed]]
   (ui/index conf req
             (into [:div]
                   [[:h3 {:class "title"} (:title (first data))]
@@ -107,5 +114,5 @@
 
 (defn view
   [conf req data]
-  (let [cols [:key  :struct :func :no-idx :seq-idx :par-idx :task]]
+  (let [cols [:key  :struct :func :no-idx :seq-idx :task]]
     (ui/index conf req (table conf data cols))))

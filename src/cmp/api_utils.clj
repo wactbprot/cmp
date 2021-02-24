@@ -17,6 +17,8 @@
 
 (defn req->mp-id  [req] (get-in req [:route-params :mp] "*"))
 
+(defn req->seq-idx  [req] (get-in req [:route-params :seq] "*"))
+
 (defn req->no-idx
   "Returns the `no-idx` (container number). Uses
   `run-mp/title->no-idx` if the idx rout-param is not `[0-9]*`"
