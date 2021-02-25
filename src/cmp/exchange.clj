@@ -174,3 +174,11 @@
   (if k
     (ok? mp-id k)
     true))
+
+(defn only-if-not
+  "Runs the task `only-if-not` the exchange path given with `:MpName`
+  and `:OnlyIfNot` evaluates to true."
+  [{mp-id :MpName k :OnlyIfNot}]
+  (if-not k
+    true
+    (not (ok? mp-id k))))
