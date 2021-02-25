@@ -4,7 +4,7 @@
      [hiccup.page    :as hp]
      [cmp.api-utils  :as au]
      [cmp.utils      :as u]
-     [cmp.st-utils      :as stu]
+     [cmp.st-utils   :as stu]
      [clojure.string :as string]))
 
 (defn empty-msg [s] [:span {:class "tag is-info"} s])

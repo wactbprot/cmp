@@ -26,17 +26,17 @@
         level    "b"
         f        (fn [msg]
                    (when (st/msg->key msg)
-                      (condp = (keyword (st/key->val ctrl-key))
-                        :ready (do
-                                 (mu/log ::exec-index :message "ready callback for" :key ctrl-key)
-                                 (st/set-state! state-key :executed)
-                                 (mu/log ::exec-index :message "set executed" :key state-key)
-                                 (st/de-register! mp struct i func level)
-                                 (mu/log ::exec-index :message "de-registered"))
-                        :error (do
-                                 (mu/log ::exec-index :error "error callback for" :key ctrl-key)
-                                 (st/set-state! state-key :error))
-                        (mu/log ::exec-index :message "run callback not :ready no :error" :key ctrl-key))))]
+                     (condp = (keyword (st/key->val ctrl-key))
+                       :ready (do
+                                (st/set-state! state-key :executed)
+                                (st/de-register! mp struct i func level))
+                       :stop  (do
+                                (st/set-state! state-key :executed)
+                                (st/de-register! mp struct i func level))
+                       :error (do
+                                (mu/log ::exec-index :error "error callback for" :key ctrl-key)
+                                (st/set-state! state-key :error))
+                       (mu/log ::exec-index :message "run callback not :ready no :error" :key ctrl-key))))]
     (st/register! mp struct i func f level)
     (st/set-state! ctrl-key cmd)))
 
@@ -62,15 +62,20 @@
 
 (defn stop-mp!
   "Stops a certain container of a `mpd`. `:ContainerTitle` is prefered
-  over `:Container` if both are given."
-  [task]
-  (let [{mp :Mp title :ContainerTitle index :Container state-key :StateKey} task]
-    (st/set-state! state-key :working)
-    (let [ctrl-key (cond
-                     title (stu/cont-ctrl-key mp (title->no-idx mp title))
-                     index (stu/cont-ctrl-key mp index))]
-      (prn ctrl-key)
-      (if (st/key->val ctrl-key)
-        (st/set-val! ctrl-key "stop" "will stop mp")
-        (st/set-state! state-key :error "ctrl key seems not to exist" :key ctrl-key)))))
+  over `:Container` if both are given. Checks if the container to stop
+  is the `same?` as the task runs in:
+
+  * If so: the `ctrl` interface is set to `stop` (and nothing
+  else). The stop process turns all states to `ready`.
+  * If not: the task (resp. the :value of `:StateKey`) is set to
+  `:executed` after  stopping."
+  [{mp :Mp title :ContainerTitle index :Container state-key :StateKey :as task}]
+  (st/set-state! state-key :working)
+  (let [ctrl-key (cond
+                   title (stu/cont-ctrl-key mp (title->no-idx mp title))
+                   index (stu/cont-ctrl-key mp index))
+        same?    (= ctrl-key (stu/key->ctrl-key state-key))]
+    (st/set-val! ctrl-key "stop")
+    (when-not same? (st/set-state! state-key :executed))))
+
 
