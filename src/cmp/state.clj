@@ -37,12 +37,6 @@
     (sort
      (st/key->keys
       (stu/struct-state-key (stu/key->mp-id k) (stu/key->struct k) (stu/key->no-idx k))))))
-
-(defn ctrl-k->cmd
-  "Gets the `cmd` from the `ctrl-k`. Extracts the `next-ctrl-cmd` and
-  make a keyword out of it."
-  [k]
-  (->> k st/key->val u/next-ctrl-cmd keyword))
   
 (defn filter-state
   "Returns a vector of maps where state is `s`."
@@ -124,10 +118,16 @@
   (st/de-register! (stu/key->mp-id k) (stu/key->struct k) (stu/key->no-idx k) "state"))
 
 ;;------------------------------
-;; set value at ctrl-path 
+;; set value at ctrl-key 
 ;;------------------------------
+(defn ctrl-key->cmd-kw
+  "Gets the `cmd` from the `ctrl-k`. Extracts the `next-ctrl-cmd` and
+  make a keyword out of it."
+  [k]
+  (->> k st/key->val u/next-ctrl-cmd keyword))
+
 (defn error!
-  "Sets the `ctrl` interface to `\"error\"`. Function does not de-observe!."
+  "Sets the `ctrl` interface to `\"error\"`. Function does not [[de-observe!]]."
   [k]
   (mu/log ::error! :error "will set ctrl interface to error" :key k)
   (st/set-val! (stu/key->ctrl-key k) "error"))
@@ -135,21 +135,16 @@
 (defn nop! [k] (mu/log ::nop! :message "no operation" :key k))
 
 (defn all-exec!
-  "Handles the case where all `state` interfaces are
-  `executed`. Proceeds demanding on the value of the `ctrl` interface"
+  "Handles the case where all `state` interfaces in a container are
+  `:executed`. Proceeds depending on the old value of the `ctrl` interface."
   [k]
   (let [ctrl-k   (stu/key->ctrl-key k)
-        cmd      (ctrl-k->cmd ctrl-k)]
-    (mu/log ::all-exec! :message "all tasks executed" :key k :command cmd)
-    (condp = cmd
-      :mon   (do
-               (de-observe! ctrl-k)
-               (ready! ctrl-k)
-               (st/set-val! ctrl-k "mon"))
-      (do (de-observe! ctrl-k)
-          (ready! ctrl-k)
-          (st/set-val! ctrl-k "ready")
-          (mu/log ::all-exec! :message "default branch in all-exec" :key k)))))
+        old-cmd  (ctrl-key->cmd-kw ctrl-k)
+        new-cmd  (if (= old-cmd :mon) "mon" "ready")]
+    (mu/log ::all-exec! :message "all tasks executed, set new cmd" :key k :command new-cmd)
+    (de-observe! ctrl-k)
+    (ready! ctrl-k)
+    (st/set-val! ctrl-k new-cmd)))
 
 ;;------------------------------
 ;; choose and start next task
@@ -228,18 +223,6 @@
   (mu/log ::observe :message "will call start-next first trigger" :key k)
   (start-next! (ks->state-vec (k->state-ks k))))
 
-;;------------------------------
-;; status 
-;;------------------------------
-(defn cont-status
-  "Return the `state-vec` for the `i`th container."
-  [mp-id i]
-  (ks->state-vec (k->state-ks (stu/cont-state-key mp-id i))))
-
-(defn defins-status
-  "Return the `state-vec` for the `i`th definition*s* structure."
-  [mp-id i]
-  (ks->state-vec (k->state-ks (stu/defins-state-key mp-id i))))
 
 ;;------------------------------
 ;; ctrl interface

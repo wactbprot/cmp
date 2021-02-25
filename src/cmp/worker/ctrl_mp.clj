@@ -62,14 +62,23 @@
 
 (defn stop-mp!
   "Stops a certain container of a `mpd`. `:ContainerTitle` is prefered
-  over `:Container` if both are given."
+  over `:Container` if both are given. Checks if the container to stop
+  is the same as the task runs in:
+
+  * If so: the `ctrl` interface is set to `stop` (and nothing
+  else). The stop process turns all states to `ready`.
+  * If not: the task (resp. the :value of `:StateKey`) is set to
+  `:executed` after  stopping."
   [task]
   (let [{mp :Mp title :ContainerTitle index :Container state-key :StateKey} task]
     (st/set-state! state-key :working)
-    (let [ctrl-key (cond
-                     title (stu/cont-ctrl-key mp (title->no-idx mp title))
-                     index (stu/cont-ctrl-key mp index))]
+    (let [ctrl-key        (cond
+                            title (stu/cont-ctrl-key mp (title->no-idx mp title))
+                            index (stu/cont-ctrl-key mp index))
+          this-container? (= ctrl-key (stu/key->ctrl-key state-key))]
       (if (st/key->val ctrl-key)
-        (st/set-val! ctrl-key "stop" "will stop mp")
+        (do
+          (st/set-val! ctrl-key "stop" "will stop mp")
+          (when-not this-container? (st/set-state! state-key :executed)))
         (st/set-state! state-key :error "ctrl key seems not to exist" :key ctrl-key)))))
 
