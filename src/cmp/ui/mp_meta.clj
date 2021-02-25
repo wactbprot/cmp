@@ -20,14 +20,11 @@
      [:figure {:class "image is-3by1"}
       (ui/img conf m "../../")]]
     [:div {:class "column"}
-     [:p [:b "Measurement Prog.: " (:mp-id m)]]
+     (ui/mp-id-link conf m)
      [:p [:b "Standard: "          (:std m)]]
-     [:p [:b "Description: "] [:i (:descr m)]]]]
-   [:p [:i "No of definitions: " [:span {:class "tag"} (:ndefins m)]]]
-   [:p [:i "No of containers: "  [:span {:class "tag"}  (:ncont m)]]]
+     [:p [:b "Beschreibung: "] [:i (:descr m)]]]]
    (when-not (empty? (:docs m))
-     (into [:p [:b "Documents: "]]
-          
+     (into [:p [:b "CAL-Dokumente: "]]
            (mapv (fn [d]  (doc-link conf d)) (:docs m))))])
   
 (defn card [conf m]

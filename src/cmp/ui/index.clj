@@ -19,24 +19,32 @@
 ;;------------------------------
 ;; links
 ;;------------------------------
-(defn mp-id-link [m] [:a {:href (str  "/ui/" (:mp-id m) "/meta")} (:mp-id m)])
+(defn mp-id-link [conf m]
+  (let [mp (:mp-id m)]
+    [:p "Messung/Steuerung: "
+     [:a {:href (str  "/ui/" mp "/meta")}
+      (get-in conf [:ui :mp-alias (keyword mp)] mp)]]))
 
 (defn href [m p]
   (str  "/ui/" (:mp-id m) "/" (:struct m) p
         (when (:no-idx m) (str "/" (:no-idx m)))
         (when (:seq-idx m) (str "/" (:seq-idx m)))))
 
-(defn state-link [m]
+(defn state-link [conf m]
   [:a  {:class "tag is-link is-light"
-        :href (href m "/state")} "state"])
+        :href (href m "/state")} (get-in conf [:ui :trans :state] "state")])
 
-(defn ctrl-link [m]
+(defn ctrl-link [conf m]
   [:a  {:class "tag is-link is-light"
-        :href (href m "/ctrl")} "ctrl"])
+        :href (href m "/ctrl")} (get-in conf [:ui :trans :ctrl] "ctrl")])
 
-(defn definition-link [m]
+(defn definition-link [conf m]
   [:a {:class "tag is-link is-light"
-       :href (href m "/definition")} "def"])
+       :href (href m "/definition")} (get-in conf [:ui :trans :ctrl] "ctrl")])
+
+(defn definition-link [conf m]
+  [:a {:class "tag is-link is-light"
+       :href (href m "/definition")} (get-in conf [:ui :trans :def] "def")])
 
 ;;------------------------------
 ;; return data from client
@@ -65,11 +73,11 @@
   [conf m]
   [:footer {:class "card-footer"}
    [:span {:class "card-footer-item"}
-    (ctrl-link (assoc m :struct "container"))]
+    (ctrl-link conf (assoc m :struct "container"))]
    [:span {:class "card-footer-item"}
-    (state-link (assoc m :struct "container"))]
+    (state-link conf (assoc m :struct "container"))]
    [:span {:class "card-footer-item"}
-    (definition-link (assoc m :struct "container"))]])
+    (definition-link conf (assoc m :struct "container"))]])
 
 (defn card-template
   ([conf m content]
@@ -97,19 +105,20 @@
   [:div {:class "hero-head"}
    [:div  {:class "navbar-menu"}
     [:div  {:class "navbar-start"}
-     [:a {:class "navbar-item" :href "http://localhost:8009"} "DevProxy"]
-     [:a {:class "navbar-item" :href "http://localhost:8081"} "Redis"]
-     [:a {:class "navbar-item" :href "http://localhost:5601/app/discover"} "Kibana"]]
+     [:a {:class "navbar-item" :href "http://localhost:8009"} "Kundengeräte"]]
     [:div  {:class "navbar-end"}
+     [:a {:class "navbar-item" :href "http://localhost:8081"} "Redis"]
+     [:a {:class "navbar-item" :href "http://localhost:5601/app/discover"} "Logging"]
      [:a {:class "navbar-item" :href "https://a75436.berlin.ptb.de/vaclab/cmp"} "GitLab"]
      [:a {:class "navbar-item" :href "https://github.com/wactbprot/cmp"} "GitHub"]]]])
 
 (defn index-head-body
   [conf req]
+  (let [mp (au/req->mp-id req)]
     [:div {:class "hero-body"}
      [:div {:class "container"}
       [:h1 {:class "title"} (:main-title conf)]
-      [:h2 {:class "subtitle"} (au/req->mp-id req)]]])
+      [:h2 {:class "subtitle"}  (get-in conf [:mp-alias (keyword mp)] mp)]]]))
   
 (defn index-head-bottom
   [conf req]
@@ -118,7 +127,7 @@
      [:nav {:class "tabs"}
       [:div {:class "container"}
        [:ul
-        [:li [:a {:class "navbar-item is-link"   :href "/ui/listeners"} "Listeners"]]
+        [:li [:a {:class "navbar-item is-link"   :href "/ui/listeners"} "Aktive Abläufe"]]
         (when mp-id
           [:li [:a {:class "navbar-item is-link" :href (str "/ui/" mp-id "/meta")} "Info"]])]]]]))
 

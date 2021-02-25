@@ -10,7 +10,7 @@
 
 (defmethod td-value :task     [conf m kw] (tsk/card conf m))
 
-(defmethod td-value :mp-id    [conf m kw] [:b (ui/mp-id-link m)])
+(defmethod td-value :mp-id    [conf m kw] [:b (ui/mp-id-link conf m)])
 
 (defmethod td-value :title    [conf m kw] [:div {:class "is-size-6"} (kw m)])
 
@@ -43,23 +43,23 @@
   [conf m kw]
   (let [m (dissoc m :no-idx :seq-idx)]
     [:span   {:class "tag"} (:struct m)
-     [:span  {:class "tag"} (ui/ctrl-link m)]
-     [:span  {:class "tag"} (ui/state-link m)]
-     [:span  {:class "tag"} (ui/definition-link m)]]))
+     [:span  {:class "tag"} (ui/ctrl-link conf m)]
+     [:span  {:class "tag"} (ui/state-link conf m)]
+     [:span  {:class "tag"} (ui/definition-link conf m)]]))
 
 (defmethod td-value :no-idx 
   [conf m kw]
   (let [m (dissoc m :seq-idx)]
     [:span   {:class "tag"} (:no-idx m)
-     [:span  {:class "tag"} (ui/ctrl-link m)]
-     [:span  {:class "tag"} (ui/state-link m)]
-     [:span  {:class "tag"} (ui/definition-link m)]]))
+     [:span  {:class "tag"} (ui/ctrl-link conf m)]
+     [:span  {:class "tag"} (ui/state-link conf m)]
+     [:span  {:class "tag"} (ui/definition-link conf m)]]))
 
 (defmethod td-value :seq-idx
   [conf m kw]
     [:span   {:class "tag"} (:seq-idx m)
-     [:span  {:class "tag"} (ui/state-link m)]
-     [:span  {:class "tag"} (ui/definition-link m)]])
+     [:span  {:class "tag"} (ui/state-link conf m)]
+     [:span  {:class "tag"} (ui/definition-link conf m)]])
 
 (defmethod td-value :default
   [conf m kw]

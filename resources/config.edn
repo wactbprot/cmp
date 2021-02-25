@@ -27,19 +27,22 @@
  ;; integrated ui
  :ui {:page-title "UI-CMP"
       :main-title "UI-CMP"
-      :trans {:struct "Structure (container/definitions)"
-              :func "Function"
-              :mp-id "Meas.-Prog."
-              :no-idx "Container No."
-              :seq-idx "Seq."
-              :par-idx "Par."
+      :trans {:state "Zust."
+              :ctrl "Strg."
+              :def "Def."
+              :struct ""
+              :func ""
+              :mp-id "Name Messabläufe"
+              :no-idx "Ablauf #"
+              :seq-idx "seq. Schritt #"
+              :par-idx "par. Schritt #"
               :run ""
               :mon ""
               :ready ""
               :stop ""
               :executed ""
               :working ""
-              :value "current value"}
+              :value "derz. Wert"}
       ;; place images in resources/public/img
       :img {:se3-servo "servo.jpg"
             :se3-cmp_valves "valve.jpg"
@@ -48,6 +51,12 @@
             :se3-cmp_direct "se3-direct.jpg"
             :ref "ref.jpg"
             }
+      :mp-alias {:se3-servo "SE3 Servomotoren"
+                 :se3-cmp_valves "SE3 Ventilstellungen"
+                 :se3-cmp_state "SE3 Zusatzvolumenbestimmung, Ausgasrate etc."
+                 :se3-cmp_calib "SE3 Kalibrierung Expansion"
+                 :se3-cmp_direct "SE3 Kalibrierung Direktvergleich"
+                 :ref "Referenz MP"}
       }
  ;; long term memory: couchdb
  :lt-srv "127.0.0.1"

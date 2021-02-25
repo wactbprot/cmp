@@ -31,7 +31,7 @@
   [:div {:class "card-image"}
    [:figure {:class "image is-3by1"}
     (ui/img conf m "../")]
-   [:p [:b "Measurement Prog.: "] (ui/mp-id-link m)]
+   (ui/mp-id-link conf m)
    (label conf m)])
 
 (defn card
