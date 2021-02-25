@@ -159,6 +159,8 @@
   [mp-id k]
   (contains? u/ok-set (read! mp-id k)))
 
+(defn exists? [mp-id k] (some? (read! mp-id k)))
+
 (defn stop-if
   "Checks if the exchange path given with `:MpName` and `:StopIf`
   evaluates to true."
@@ -179,6 +181,7 @@
   "Runs the task `only-if-not` the exchange path given with `:MpName`
   and `:OnlyIfNot` evaluates to true."
   [{mp-id :MpName k :OnlyIfNot}]
-  (if-not k
-    true
-    (not (ok? mp-id k))))
+  (cond
+    (nil? k)                true
+    (not (exists? mp-id k)) false
+    (not (ok? mp-id k))     true))

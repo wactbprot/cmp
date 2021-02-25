@@ -2,7 +2,7 @@
       ^{:author "wactbprot"
         :doc "api utils for cmp info and ctrl."}
   (:require [cmp.utils          :as u]
-            [cmp.worker.run-mp  :as run-mp]
+            [cmp.worker.ctrl-mp :as ctrl-mp]
             [cmp.st-mem         :as st]
             [cmp.st-utils       :as stu]
             [ring.util.codec    :as codec]))
@@ -27,4 +27,4 @@
     (cond
       (nil? s) "*"
       (re-matches #"[0-9]*" s)  s
-      :title  (codec/url-encode (run-mp/title->no-idx (req->mp-id req) s)))))
+      :title  (codec/url-encode (ctrl-mp/title->no-idx (req->mp-id req) s)))))

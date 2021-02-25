@@ -69,6 +69,7 @@
     (let [ctrl-key (cond
                      title (stu/cont-ctrl-key mp (title->no-idx mp title))
                      index (stu/cont-ctrl-key mp index))]
+      (prn ctrl-key)
       (if (st/key->val ctrl-key)
         (st/set-val! ctrl-key "stop" "will stop mp")
         (st/set-state! state-key :error "ctrl key seems not to exist" :key ctrl-key)))))
