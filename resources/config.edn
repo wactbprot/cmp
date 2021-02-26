@@ -75,8 +75,10 @@
  ;; in order to give the keyspace notification listener
  ;; a chance to find the `next-to-start` task
  :min-task-period 500
- ;; number of retries before task stete is set to error
- :max-retry 10
+ ;; number of retries before task state is set to error
+ ;; the device should be reseted and the retry key must
+ ;; be deleted manualy
+ :max-retry 20
  ;; If the stop-if flag is false the next attempt is triggert
  ;; by writing a `:ready`-state. Delaying this relaxes the system  
  :stop-if-delay 1000

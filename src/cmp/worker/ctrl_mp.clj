@@ -71,11 +71,13 @@
   `:executed` after  stopping."
   [{mp :Mp title :ContainerTitle index :Container state-key :StateKey :as task}]
   (st/set-state! state-key :working)
-  (let [ctrl-key (cond
-                   title (stu/cont-ctrl-key mp (title->no-idx mp title))
-                   index (stu/cont-ctrl-key mp index))
+  (let [mp-id    (u/extr-main-path mp)
+        ctrl-key (cond
+                   title (stu/cont-ctrl-key mp-id (title->no-idx mp-id title))
+                   index (stu/cont-ctrl-key mp-id index))
         same?    (= ctrl-key (stu/key->ctrl-key state-key))]
     (st/set-val! ctrl-key "stop")
+    (Thread/sleep 100)
     (when-not same? (st/set-state! state-key :executed))))
 
 
