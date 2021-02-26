@@ -8,10 +8,10 @@
                 001&nbsp;&nbsp;(ns&nbsp;cmp.ui.listener
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                002&nbsp;&nbsp;&nbsp;&nbsp;(:require
+                002&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[cmp.ui.index&nbsp;:as&nbsp;ui]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.ui.index&nbsp;:as&nbsp;ui]))
+                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 004&nbsp;&nbsp;
@@ -83,7 +83,7 @@
                 026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;(level-class&nbsp;conf&nbsp;m)&nbsp;&quot;level:&nbsp;&quot;&nbsp;&nbsp;(:level&nbsp;m)]
                 </span><br/>
 <span class="not-covered" title="0 out of 10 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;(no-idx-class&nbsp;conf&nbsp;m)&nbsp;&quot;no:&nbsp;&quot;&nbsp;&nbsp;(:no-idx&nbsp;m)]]])
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:span&nbsp;(no-idx-class&nbsp;conf&nbsp;m)&nbsp;&quot;no:&nbsp;&quot;&nbsp;&nbsp;&nbsp;&nbsp;(:no-idx&nbsp;m)]]])
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 028&nbsp;&nbsp;
@@ -103,8 +103,8 @@
 <span class="not-covered" title="0 out of 5 forms covered">
                 033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ui&#x2F;img&nbsp;conf&nbsp;m&nbsp;&quot;..&#x2F;&quot;)]
                 </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
-                034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:p&nbsp;[:b&nbsp;&quot;Measurement&nbsp;Prog.:&nbsp;&quot;]&nbsp;(ui&#x2F;mp-id-link&nbsp;m)]
+<span class="not-covered" title="0 out of 4 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ui&#x2F;mp-id-link&nbsp;conf&nbsp;m)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
                 035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(label&nbsp;conf&nbsp;m)])
@@ -118,8 +118,8 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 038&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;m]
                 </span><br/>
-<span class="not-covered" title="0 out of 12 forms covered">
-                039&nbsp;&nbsp;&nbsp;&nbsp;(ui&#x2F;card-template&nbsp;conf&nbsp;m&nbsp;(card-content&nbsp;conf&nbsp;m)&nbsp;(ui&#x2F;card-footer&nbsp;conf&nbsp;m)))
+<span class="not-covered" title="0 out of 18 forms covered">
+                039&nbsp;&nbsp;&nbsp;&nbsp;(ui&#x2F;card-template&nbsp;conf&nbsp;m&nbsp;(card-content&nbsp;conf&nbsp;m)&nbsp;(ui&#x2F;card-footer&nbsp;conf&nbsp;(assoc&nbsp;m&nbsp;:no-idx&nbsp;(u&#x2F;lp&nbsp;0)))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 040&nbsp;&nbsp;

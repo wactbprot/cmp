@@ -17,7 +17,7 @@
                 004&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.worker.run-mp&nbsp;&nbsp;:as&nbsp;run-mp]
+                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.worker.ctrl-mp&nbsp;:as&nbsp;ctrl-mp]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
                 006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;st]
@@ -61,32 +61,38 @@
 <span class="blank" title="0 out of 0 forms covered">
                 019&nbsp;&nbsp;
                 </span><br/>
+<span class="partial" title="1 out of 8 forms covered">
+                020&nbsp;&nbsp;(defn&nbsp;req-&gt;seq-idx&nbsp;&nbsp;[req]&nbsp;(get-in&nbsp;req&nbsp;[:route-params&nbsp;:seq]&nbsp;&quot;*&quot;))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                021&nbsp;&nbsp;
+                </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                020&nbsp;&nbsp;(defn&nbsp;req-&gt;no-idx
+                022&nbsp;&nbsp;(defn&nbsp;req-&gt;no-idx
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                021&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;`no-idx`&nbsp;(container&nbsp;number).&nbsp;Uses
+                023&nbsp;&nbsp;&nbsp;&nbsp;&quot;Returns&nbsp;the&nbsp;`no-idx`&nbsp;(container&nbsp;number).&nbsp;Uses
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                022&nbsp;&nbsp;&nbsp;&nbsp;`run-mp&#x2F;title-&gt;no-idx`&nbsp;if&nbsp;the&nbsp;idx&nbsp;rout-param&nbsp;is&nbsp;not&nbsp;`[0-9]*`&quot;
+                024&nbsp;&nbsp;&nbsp;&nbsp;`run-mp&#x2F;title-&gt;no-idx`&nbsp;if&nbsp;the&nbsp;idx&nbsp;rout-param&nbsp;is&nbsp;not&nbsp;`[0-9]*`&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                023&nbsp;&nbsp;&nbsp;&nbsp;[req]
+                025&nbsp;&nbsp;&nbsp;&nbsp;[req]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                024&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[s&nbsp;(get-in&nbsp;req&nbsp;[:route-params&nbsp;:idx])]
+                026&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[s&nbsp;(get-in&nbsp;req&nbsp;[:route-params&nbsp;:idx])]
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
+                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nil?&nbsp;s)&nbsp;&quot;*&quot;
+                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nil?&nbsp;s)&nbsp;&quot;*&quot;
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(re-matches&nbsp;#&quot;[0-9]*&quot;&nbsp;s)&nbsp;&nbsp;s
+                029&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(re-matches&nbsp;#&quot;[0-9]*&quot;&nbsp;s)&nbsp;&nbsp;s
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:title&nbsp;&nbsp;(codec&#x2F;url-encode&nbsp;(run-mp&#x2F;title-&gt;no-idx&nbsp;(req-&gt;mp-id&nbsp;req)&nbsp;s)))))
+                030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:title&nbsp;&nbsp;(codec&#x2F;url-encode&nbsp;(ctrl-mp&#x2F;title-&gt;no-idx&nbsp;(req-&gt;mp-id&nbsp;req)&nbsp;s)))))
                 </span><br/>
  </body>
 </html>

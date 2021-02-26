@@ -152,7 +152,6 @@
      :seq-idx (key->seq-idx k)
      :par-idx (key->par-idx k)}))
 
-
 (defn info-map->definition-key
   "Converts a `state-map` into the related `definition` key."
   [m]
