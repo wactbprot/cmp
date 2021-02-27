@@ -1,8 +1,7 @@
 (ns cmp.worker.ctrl-mp
   ^{:author "wactbprot"
-    :doc "run-mp worker."}
-  (:require [cmp.config              :as cfg]
-            [com.brunobonacci.mulog  :as mu]
+    :doc "run-mp worker."} 
+  (:require [com.brunobonacci.mulog  :as mu]
             [cmp.st-mem              :as st]
             [cmp.st-utils            :as stu]
             [cmp.utils               :as u]))
@@ -14,30 +13,32 @@
         title? (fn [k] (= title (st/key->val k)))]
     (stu/key->no-idx (first (filter title? ks)))))
 
+(defn gen-callback
+  [{mp :Mp no-idx :Container state-key :StateKey cmd :Cmd}]
+  (let [mp       (u/extr-main-path mp)
+        ctrl-key (stu/cont-ctrl-key mp no-idx)]
+    (fn [msg]
+      (when (st/msg->key msg)
+        (let [cmd (keyword (st/key->val ctrl-key))]  
+          (cond
+            (or 
+             (= cmd :ready)
+             (= cmd :stop)) (do
+                              (st/set-state! state-key :executed)
+                              (st/de-register! mp "container" no-idx "ctrl" "b"))
+            (= cmd :error)  (do
+                              (mu/log ::exec-index :error "error callback for" :key ctrl-key)
+                              (st/set-state! state-key :error))
+            :default        (mu/log ::exec-index :message "run callback not :ready no :error"
+                                    :key ctrl-key)))))))
 
 (defn exec-index
   "Registers a level b callback for the `i`th container of the mpd `mp`."
-  [{mp :Mp i :Container state-key :StateKey cmd :Cmd}]
+  [{mp :Mp no-idx :Container state-key :StateKey cmd :Cmd :as task}]
   (let [mp       (u/extr-main-path mp)
         cmd      (keyword (or cmd "run"))
-        ctrl-key (stu/cont-ctrl-key mp i)
-        func     "ctrl"
-        struct   "container"
-        level    "b"
-        f        (fn [msg]
-                   (when (st/msg->key msg)
-                     (condp = (keyword (st/key->val ctrl-key))
-                       :ready (do
-                                (st/set-state! state-key :executed)
-                                (st/de-register! mp struct i func level))
-                       :stop  (do
-                                (st/set-state! state-key :executed)
-                                (st/de-register! mp struct i func level))
-                       :error (do
-                                (mu/log ::exec-index :error "error callback for" :key ctrl-key)
-                                (st/set-state! state-key :error))
-                       (mu/log ::exec-index :message "run callback not :ready no :error" :key ctrl-key))))]
-    (st/register! mp struct i func f level)
+        ctrl-key (stu/cont-ctrl-key mp no-idx)]
+    (st/register! mp "container" no-idx "ctrl" (gen-callback task) "b")
     (st/set-state! ctrl-key cmd)))
 
 (defn exec-title
@@ -52,13 +53,12 @@
   "Runs a certain container of a `mpd`. `:ContainerTitle` is prefered
   over `:Container` if both are given. The `task` is marked as
   `:executed` if all tasks in the container are executed."
-  [task]
-  (let [{title :ContainerTitle index :Container state-key :StateKey} task]
-    (st/set-state! state-key :working)
-    (cond
-      title (exec-title task)
-      index (exec-index task)
-      :not-found (st/set-state! state-key :error "neither title nor index"))))
+  [{title :ContainerTitle index :Container state-key :StateKey :as task}]
+  (st/set-state! state-key :working)
+  (cond
+    title (exec-title task)
+    index (exec-index task)
+    :not-found (st/set-state! state-key :error "neither title nor index")))
 
 (defn stop-mp!
   "Stops a certain container of a `mpd`. `:ContainerTitle` is prefered

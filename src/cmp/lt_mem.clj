@@ -63,4 +63,3 @@
   (if-let [db-doc (get-doc (:_id doc))] 
     (assoc doc :_rev (:_rev db-doc))
     doc))
-
