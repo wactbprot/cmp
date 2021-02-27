@@ -8,8 +8,8 @@ See documentation on [wactbprot.github.io](https://wactbprot.github.io/cmp/)
 
 ## Configuration
 
-Softlink your special configuration (here `ce3-conf.edn`) to `conf.edn`.
+Softlink your special configuration (here `ce3-conf.edn`) to `config.edn`.
 
 ```shell
-ln -s /<path-to-devproxy>/devproxy/resources/ce3-conf.edn /<path-to-devproxy>/devproxy/resources/conf.edn
+ln -s /<path-to-devproxy>/devproxy/resources/ce3-conf.edn /<path-to-devproxy>/devproxy/resources/config.edn
 ```
