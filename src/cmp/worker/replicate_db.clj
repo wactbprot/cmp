@@ -26,9 +26,8 @@
   }
   ```
   to the `/_replicate` endpoint."
-  [task]
-  (let [{state-key :StateKey} task]
-    (st/set-state! state-key :working)
-    (try
-      (resp/check (http/post (gen-url) (gen-req task)) task state-key)
-      (catch Exception e (st/set-state! state-key :error (.getMessage e))))))
+  [{state-key :StateKey :as task}]
+  (st/set-state! state-key :working)
+  (try
+    (resp/check (http/post (gen-url) (gen-req task)) task state-key)
+    (catch Exception e (st/set-state! state-key :error (.getMessage e)))))

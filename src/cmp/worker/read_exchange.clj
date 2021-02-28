@@ -15,11 +15,10 @@
   ```clojure
   (read-exchange! {})
   ```"
-  [task]
-  (let [{doc-path :DocPath exch-path :ExchangePath mp-id :MpName state-key :StateKey} task]
-    (st/set-state! state-key :working)
-    (let [exch-val (exch/read! mp-id exch-path)
-          res-doc  (doc/store! mp-id [exch-val] doc-path)]
-      (if (:ok res-doc)
-        (st/set-state! state-key (if (exch/stop-if task) :executed :ready) "res doc ok")
-        (st/set-state! state-key :error)))))
+  [{doc-path :DocPath exch-path :ExchangePath mp-id :MpName state-key :StateKey :as task}]
+  (st/set-state! state-key :working)
+  (let [exch-val (exch/read! mp-id exch-path)
+        res-doc  (doc/store! mp-id [exch-val] doc-path)]
+    (if (:ok res-doc)
+      (st/set-state! state-key (if (exch/stop-if task) :executed :ready) "res doc ok")
+      (st/set-state! state-key :error))))
