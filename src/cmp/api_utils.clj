@@ -15,9 +15,9 @@
   ([k m]
    (merge (assoc (stu/key->info-map k) :value (st/key->val k) :key k) m)))
 
-(defn req->mp-id  [req] (get-in req [:route-params :mp] "*"))
+(defn req->mp-id [req] (get-in req [:route-params :mp] "*"))
 
-(defn req->seq-idx  [req] (get-in req [:route-params :seq] "*"))
+(defn req->seq-idx [req] (get-in req [:route-params :seq] "*"))
 
 (defn req->no-idx
   "Returns the `no-idx` (container number). Uses
