@@ -12,8 +12,16 @@ var post = (path, data, callback) => {
 }
 
 $(".copy").click( e => {
+
+    // https://stackoverflow.com/questions/33855641/copy-output-of-a-javascript-variable-to-the-clipboard
     var $this = $(e.currentTarget);
-    console.log($this.data("copy"));
+    var k = $this.data("copy");
+    var d = document.createElement("textarea");
+    document.body.appendChild(d);
+    d.value = k;
+    d.select();
+    document.execCommand("copy");
+    document.body.removeChild(d);  
 });
 
 $(".setter").click( e => {
