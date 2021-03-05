@@ -9,7 +9,7 @@
                      ;;  :filename "/tmp/mulog/events.log"}
                      ;; send events to ELS
                      {:type :elasticsearch
-                      :url  "http://localhost:9200/"
+                      :url  "http://a75438:9200/"
                       :els-version  :v7.x
                       :publish-delay 1000
                       :data-stream  "vl-log-stream"
@@ -19,6 +19,7 @@
  :api {:port 8010}
  :build-delay 500
  :build-on-start ["ce3-cmp_calib"
+                  "ce3-sputter"
                   ]
  ;; integrated ui
  :ui {:page-title "UI-CMP"
@@ -43,6 +44,7 @@
       :img {:ref "ref.jpg"
             }
       :mp-alias {:ce3-cmp_calib "The CE3 Measurement Program"
+                 :ce3-sputter "The CE3 Sputter Program"
                  :ref "Referenz MP"}
       }
  ;; long term memory: couchdb

@@ -3,6 +3,7 @@
     :doc "Runs the upcomming tasks of a certain container."}
   (:require [com.brunobonacci.mulog    :as mu]
             [cmp.st-mem                :as st]
+            [cmp.st-utils              :as stu]
             [cmp.exchange              :as exch]
             [cmp.task                  :as tsk]
             [cmp.config                :as cfg]
@@ -69,7 +70,8 @@
   it. Handles the `:RunIf` case. The `:StopIf` case is handeled by the
   `workers` after processing the task."  
   [k]
-  (let [task (tsk/build k)]
+  (let [k (stu/key->definition-key k)
+        task (tsk/build k)]
     (if (exch/run-if task)
       (if (exch/only-if-not task)
         (dispatch task)

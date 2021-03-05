@@ -37,7 +37,7 @@
 (defmethod td-value :key
   [conf m kw]
   [:span {:class "icon"}
-   [:a  {:class "copy is-link fas fa-key" :data-copy (kw m) :title (str "click to console.log: " (kw m))}]])
+   [:a  {:class "copy is-link fas fa-key" :data-copy (kw m) :title "click to copy key to clipboard"}]])
 
 (defmethod td-value :struct
   [conf m kw]
