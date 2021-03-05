@@ -7,9 +7,10 @@
             [cmp.lt-mem              :as lt]
             [cmp.st-mem              :as st]
             [cmp.st-utils            :as stu]
-            [com.brunobonacci.mulog   :as mu]
-            [cmp.state               :as state]
-            [cmp.utils               :as u])
+            [com.brunobonacci.mulog  :as mu]
+            [cmp.state               :as s]
+            [cmp.utils               :as u]
+            [cmp.work                :as w])
   (:use    [clojure.repl]))
 
 (comment
@@ -43,7 +44,7 @@
   "Registers a listener for the `ctrl` interface of a
   `mp-id` (see [[workon!]])."
   [conf mp-id]
-  (state/start mp-id))
+  (s/start mp-id))
 
 ;;------------------------------
 ;; stop observing
@@ -52,7 +53,7 @@
   "De-registers the listener for the `ctrl` interface of the given
   `mp-id` (see [[workon!]])."
   [conf mp-id]
-  (state/stop mp-id))
+  (s/stop mp-id))
 
 ;;------------------------------
 ;; build mpd from lt mem
@@ -86,6 +87,9 @@
     (build/store doc)
     (m-start conf mp-id)))
 
+;;------------------------------
+;; build tasks
+;;------------------------------
 (defn t-build
   "Builds the `tasks` endpoint. At runtime all `tasks` are provided by
   `st-mem`. The advantage is: tasks can be modified at runtime."
@@ -108,6 +112,15 @@
   (t-clear conf)
   (t-build conf))
 
+(defn t-run-by-key
+  "Runs the task the key is related to.
+
+  Example:
+  ```clojure
+  (t-run-by-key {} \"ce3-cmp_calib@container@000@state@000@000\")
+  ```"
+  [conf k]
+  (w/check k))  
 ;;------------------------------
 ;; documents
 ;;------------------------------
