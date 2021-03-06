@@ -21,10 +21,9 @@
   ;; :MpName \"core\",
   ;; :StateKey \"core@test@0@state@0@0\"}
   ```"
-  [task]
-  (let [{type :Type doc-path :DocPath state-key :StateKey mp-id :MpName} task]
-    (st/set-state! state-key :working)
-    (let [ret (doc/store! mp-id [{:Type type :Value (u/get-date)}] doc-path)]
-      (if (:ok ret)
-        (st/set-state! state-key :executed  "get date executed")
-        (st/set-state! state-key :error "failed to write date")))))
+  [{type :Type doc-path :DocPath state-key :StateKey mp-id :MpName :as task}]
+  (st/set-state! state-key :working)
+  (let [ret (doc/store! mp-id [{:Type type :Value (u/get-date)}] doc-path)]
+    (if (:ok ret)
+      (st/set-state! state-key :executed  "get date executed")
+      (st/set-state! state-key :error "failed to write date"))))

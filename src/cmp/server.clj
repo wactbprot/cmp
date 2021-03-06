@@ -24,10 +24,6 @@
 (defonce server (atom nil))
 
 (defroutes app-routes
-  (GET "/config"                                [:as req] (res/response conf))
-  (GET "/listeners"                             [:as req] (res/response (a/listeners conf req)))
-  (GET "/tasks"                                 [:as req] (res/response (a/tasks     conf req)))
-  (GET "/:mp/meta"                              [:as req] (res/response (a/mp-meta   conf req)))
   (GET "/ui/listeners"                          [:as req] (uil/view conf req (a/listeners conf req)))
   (GET "/ui"                                    [:as req] (uil/view conf req (a/listeners conf req)))
   (GET "/ui/:mp/meta"                           [:as req] (uim/view conf req (a/mp-meta conf req)))

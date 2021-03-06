@@ -32,544 +32,583 @@
                 009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;stu]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[com.brunobonacci.mulog&nbsp;&nbsp;&nbsp;:as&nbsp;mu]
+                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[com.brunobonacci.mulog&nbsp;&nbsp;:as&nbsp;mu]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.state&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;state]
+                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.state&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;s]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u])
+                012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                013&nbsp;&nbsp;&nbsp;&nbsp;(:use&nbsp;&nbsp;&nbsp;&nbsp;[clojure.repl]))
+                013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.work&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;w])
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                014&nbsp;&nbsp;&nbsp;&nbsp;(:use&nbsp;&nbsp;&nbsp;&nbsp;[clojure.repl]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                014&nbsp;&nbsp;
+                015&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                015&nbsp;&nbsp;(comment
+                016&nbsp;&nbsp;(comment
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                016&nbsp;&nbsp;&nbsp;&nbsp;(def&nbsp;conf&nbsp;(config&#x2F;config)))
+                017&nbsp;&nbsp;&nbsp;&nbsp;(def&nbsp;conf&nbsp;(config&#x2F;config)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                017&nbsp;&nbsp;
+                018&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                018&nbsp;&nbsp;;;------------------------------
+                019&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                019&nbsp;&nbsp;;;&nbsp;logging&nbsp;system
+                020&nbsp;&nbsp;;;&nbsp;logging&nbsp;system
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                020&nbsp;&nbsp;;;------------------------------
+                021&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="partial" title="9 out of 10 forms covered">
-                021&nbsp;&nbsp;(defonce&nbsp;logger&nbsp;(atom&nbsp;nil))
+                022&nbsp;&nbsp;(defonce&nbsp;logger&nbsp;(atom&nbsp;nil))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                022&nbsp;&nbsp;
+                023&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                023&nbsp;&nbsp;(defn&nbsp;init-log!
+                024&nbsp;&nbsp;(defn&nbsp;init-log!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                024&nbsp;&nbsp;&nbsp;&nbsp;[{conf&nbsp;:mulog&nbsp;}]
+                025&nbsp;&nbsp;&nbsp;&nbsp;[{conf&nbsp;:mulog&nbsp;}]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                025&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;set-global-context!&nbsp;{:app-name&nbsp;&quot;cmp&quot;})
+                026&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;set-global-context!&nbsp;{:app-name&nbsp;&quot;cmp&quot;})
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                026&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;start-publisher!&nbsp;conf))
+                027&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;start-publisher!&nbsp;conf))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                027&nbsp;&nbsp;
+                028&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                028&nbsp;&nbsp;(defn&nbsp;stop-log!
+                029&nbsp;&nbsp;(defn&nbsp;stop-log!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                029&nbsp;&nbsp;&nbsp;&nbsp;[conf]
+                030&nbsp;&nbsp;&nbsp;&nbsp;[conf]
                 </span><br/>
 <span class="covered" title="10 out of 10 forms covered">
-                030&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop)
+                031&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;(@logger)
+                032&nbsp;&nbsp;&nbsp;&nbsp;(@logger)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                032&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;logger&nbsp;nil))
+                033&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;logger&nbsp;nil))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                033&nbsp;&nbsp;
+                034&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                034&nbsp;&nbsp;(defn&nbsp;start-log!
+                035&nbsp;&nbsp;(defn&nbsp;start-log!
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                035&nbsp;&nbsp;&nbsp;&nbsp;[conf]
+                036&nbsp;&nbsp;&nbsp;&nbsp;[conf]
                 </span><br/>
 <span class="covered" title="10 out of 10 forms covered">
-                036&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start)
+                037&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start)
                 </span><br/>
 <span class="covered" title="6 out of 6 forms covered">
-                037&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;logger&nbsp;(init-log!&nbsp;conf)))
+                038&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;logger&nbsp;(init-log!&nbsp;conf)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                038&nbsp;&nbsp;
+                039&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                039&nbsp;&nbsp;;;------------------------------
+                040&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                040&nbsp;&nbsp;;;&nbsp;start&nbsp;observing&nbsp;mp
+                041&nbsp;&nbsp;;;&nbsp;start&nbsp;observing&nbsp;mp
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                041&nbsp;&nbsp;;;------------------------------
+                042&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                042&nbsp;&nbsp;(defn&nbsp;m-start
+                043&nbsp;&nbsp;(defn&nbsp;m-start
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                043&nbsp;&nbsp;&nbsp;&nbsp;&quot;Registers&nbsp;a&nbsp;listener&nbsp;for&nbsp;the&nbsp;`ctrl`&nbsp;interface&nbsp;of&nbsp;a
+                044&nbsp;&nbsp;&nbsp;&nbsp;&quot;Registers&nbsp;a&nbsp;listener&nbsp;for&nbsp;the&nbsp;`ctrl`&nbsp;interface&nbsp;of&nbsp;a
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                044&nbsp;&nbsp;&nbsp;&nbsp;`mp-id`&nbsp;(see&nbsp;[[workon!]]).&quot;
+                045&nbsp;&nbsp;&nbsp;&nbsp;`mp-id`&nbsp;(see&nbsp;[[workon!]]).&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                045&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id]
+                046&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                046&nbsp;&nbsp;&nbsp;&nbsp;(state&#x2F;start&nbsp;mp-id))
+                047&nbsp;&nbsp;&nbsp;&nbsp;(s&#x2F;start&nbsp;mp-id))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                047&nbsp;&nbsp;
+                048&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                048&nbsp;&nbsp;;;------------------------------
+                049&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                049&nbsp;&nbsp;;;&nbsp;stop&nbsp;observing
+                050&nbsp;&nbsp;;;&nbsp;stop&nbsp;observing
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                050&nbsp;&nbsp;;;------------------------------
+                051&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                051&nbsp;&nbsp;(defn&nbsp;m-stop
+                052&nbsp;&nbsp;(defn&nbsp;m-stop
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                052&nbsp;&nbsp;&nbsp;&nbsp;&quot;De-registers&nbsp;the&nbsp;listener&nbsp;for&nbsp;the&nbsp;`ctrl`&nbsp;interface&nbsp;of&nbsp;the&nbsp;given
+                053&nbsp;&nbsp;&nbsp;&nbsp;&quot;De-registers&nbsp;the&nbsp;listener&nbsp;for&nbsp;the&nbsp;`ctrl`&nbsp;interface&nbsp;of&nbsp;the&nbsp;given
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                053&nbsp;&nbsp;&nbsp;&nbsp;`mp-id`&nbsp;(see&nbsp;[[workon!]]).&quot;
+                054&nbsp;&nbsp;&nbsp;&nbsp;`mp-id`&nbsp;(see&nbsp;[[workon!]]).&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                054&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id]
+                055&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                055&nbsp;&nbsp;&nbsp;&nbsp;(state&#x2F;stop&nbsp;mp-id))
+                056&nbsp;&nbsp;&nbsp;&nbsp;(s&#x2F;stop&nbsp;mp-id))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                056&nbsp;&nbsp;
+                057&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                057&nbsp;&nbsp;;;------------------------------
+                058&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                058&nbsp;&nbsp;;;&nbsp;build&nbsp;mpd&nbsp;from&nbsp;lt&nbsp;mem
+                059&nbsp;&nbsp;;;&nbsp;build&nbsp;mpd&nbsp;from&nbsp;lt&nbsp;mem
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                059&nbsp;&nbsp;;;------------------------------
+                060&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                060&nbsp;&nbsp;(defn&nbsp;m-build-ltm
+                061&nbsp;&nbsp;(defn&nbsp;m-build-ltm
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                061&nbsp;&nbsp;&nbsp;&nbsp;&quot;Loads&nbsp;a&nbsp;mpd&nbsp;from&nbsp;long&nbsp;term&nbsp;memory&nbsp;and&nbsp;builds&nbsp;up&nbsp;a&nbsp;`st-mem`&nbsp;version&nbsp;of
+                062&nbsp;&nbsp;&nbsp;&nbsp;&quot;Loads&nbsp;a&nbsp;mpd&nbsp;from&nbsp;long&nbsp;term&nbsp;memory&nbsp;and&nbsp;builds&nbsp;up&nbsp;a&nbsp;`st-mem`&nbsp;version&nbsp;of
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                062&nbsp;&nbsp;&nbsp;&nbsp;it.&nbsp;The&nbsp;`mp-id`&nbsp;may&nbsp;be&nbsp;set&nbsp;with&nbsp;[[workon!]].&nbsp;[[m-start]]&nbsp;is&nbsp;called
+                063&nbsp;&nbsp;&nbsp;&nbsp;it.&nbsp;The&nbsp;`mp-id`&nbsp;may&nbsp;be&nbsp;set&nbsp;with&nbsp;[[workon!]].&nbsp;[[m-start]]&nbsp;is&nbsp;called
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                063&nbsp;&nbsp;&nbsp;&nbsp;after&nbsp;mp&nbsp;is&nbsp;build.
+                064&nbsp;&nbsp;&nbsp;&nbsp;after&nbsp;mp&nbsp;is&nbsp;build.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                064&nbsp;&nbsp;
+                065&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                065&nbsp;&nbsp;&nbsp;&nbsp;Example:
+                066&nbsp;&nbsp;&nbsp;&nbsp;Example:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                066&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                067&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                067&nbsp;&nbsp;&nbsp;&nbsp;(m-build&nbsp;{}&nbsp;mpid)
+                068&nbsp;&nbsp;&nbsp;&nbsp;(m-build&nbsp;{}&nbsp;mpid)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                068&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                069&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                069&nbsp;&nbsp;&nbsp;&nbsp;([conf&nbsp;mp-id]
+                070&nbsp;&nbsp;&nbsp;&nbsp;([conf&nbsp;mp-id]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(m-stop&nbsp;conf&nbsp;mp-id)
+                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(m-stop&nbsp;conf&nbsp;mp-id)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clear!&nbsp;mp-id)
+                072&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clear!&nbsp;mp-id)
                 </span><br/>
 <span class="not-covered" title="0 out of 9 forms covered">
-                072&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;mp-id&nbsp;u&#x2F;compl-main-path&nbsp;lt&#x2F;get-doc&nbsp;u&#x2F;doc-&gt;safe-doc&nbsp;build&#x2F;store)
+                073&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&gt;&nbsp;mp-id&nbsp;u&#x2F;compl-main-path&nbsp;lt&#x2F;get-doc&nbsp;u&#x2F;doc-&gt;safe-doc&nbsp;build&#x2F;store)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                073&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(m-start&nbsp;conf&nbsp;mp-id)))
+                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(m-start&nbsp;conf&nbsp;mp-id)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                074&nbsp;&nbsp;
+                075&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                075&nbsp;&nbsp;;;------------------------------
+                076&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                076&nbsp;&nbsp;;;&nbsp;build&nbsp;ref&nbsp;mpd
+                077&nbsp;&nbsp;;;&nbsp;build&nbsp;ref&nbsp;mpd
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                077&nbsp;&nbsp;;;------------------------------
+                078&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                078&nbsp;&nbsp;(defn&nbsp;m-build-ref
+                079&nbsp;&nbsp;(defn&nbsp;m-build-ref
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                079&nbsp;&nbsp;&nbsp;&nbsp;&quot;Builds&nbsp;up&nbsp;the&nbsp;`ref`erence&nbsp;mpd&nbsp;provided&nbsp;in&nbsp;`edn`&nbsp;format&nbsp;in&nbsp;the
+                080&nbsp;&nbsp;&nbsp;&nbsp;&quot;Builds&nbsp;up&nbsp;the&nbsp;`ref`erence&nbsp;mpd&nbsp;provided&nbsp;in&nbsp;`edn`&nbsp;format&nbsp;in&nbsp;the
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                080&nbsp;&nbsp;&nbsp;&nbsp;resources&nbsp;folder.&quot;
+                081&nbsp;&nbsp;&nbsp;&nbsp;resources&nbsp;folder.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                081&nbsp;&nbsp;&nbsp;&nbsp;[conf]
+                082&nbsp;&nbsp;&nbsp;&nbsp;[conf]
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                082&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[doc&nbsp;(-&gt;&nbsp;(config&#x2F;ref-mpd&nbsp;conf)&nbsp;slurp&nbsp;read-string)
+                083&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[doc&nbsp;(-&gt;&nbsp;(config&#x2F;ref-mpd&nbsp;conf)&nbsp;slurp&nbsp;read-string)
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                083&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id&nbsp;(u&#x2F;extr-main-path&nbsp;(:_id&nbsp;doc))]
+                084&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id&nbsp;(u&#x2F;extr-main-path&nbsp;(:_id&nbsp;doc))]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                084&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(m-stop&nbsp;conf&nbsp;mp-id)
+                085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(m-stop&nbsp;conf&nbsp;mp-id)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clear!&nbsp;mp-id)
+                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clear!&nbsp;mp-id)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(build&#x2F;store&nbsp;doc)
+                087&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(build&#x2F;store&nbsp;doc)
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                087&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(m-start&nbsp;conf&nbsp;mp-id)))
+                088&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(m-start&nbsp;conf&nbsp;mp-id)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                088&nbsp;&nbsp;
+                089&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                090&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                091&nbsp;&nbsp;;;&nbsp;build&nbsp;tasks
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                092&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                089&nbsp;&nbsp;(defn&nbsp;t-build
+                093&nbsp;&nbsp;(defn&nbsp;t-build
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                090&nbsp;&nbsp;&nbsp;&nbsp;&quot;Builds&nbsp;the&nbsp;`tasks`&nbsp;endpoint.&nbsp;At&nbsp;runtime&nbsp;all&nbsp;`tasks`&nbsp;are&nbsp;provided&nbsp;by
+                094&nbsp;&nbsp;&nbsp;&nbsp;&quot;Builds&nbsp;the&nbsp;`tasks`&nbsp;endpoint.&nbsp;At&nbsp;runtime&nbsp;all&nbsp;`tasks`&nbsp;are&nbsp;provided&nbsp;by
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                091&nbsp;&nbsp;&nbsp;&nbsp;`st-mem`.&nbsp;The&nbsp;advantage&nbsp;is:&nbsp;tasks&nbsp;can&nbsp;be&nbsp;modified&nbsp;at&nbsp;runtime.&quot;
+                095&nbsp;&nbsp;&nbsp;&nbsp;`st-mem`.&nbsp;The&nbsp;advantage&nbsp;is:&nbsp;tasks&nbsp;can&nbsp;be&nbsp;modified&nbsp;at&nbsp;runtime.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                092&nbsp;&nbsp;&nbsp;&nbsp;[conf]
+                096&nbsp;&nbsp;&nbsp;&nbsp;[conf]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                093&nbsp;&nbsp;&nbsp;&nbsp;(build&#x2F;store-tasks&nbsp;(lt&#x2F;all-tasks)))
+                097&nbsp;&nbsp;&nbsp;&nbsp;(build&#x2F;store-tasks&nbsp;(lt&#x2F;all-tasks)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                094&nbsp;&nbsp;
+                098&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                095&nbsp;&nbsp;(defn&nbsp;t-clear
+                099&nbsp;&nbsp;(defn&nbsp;t-clear
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                096&nbsp;&nbsp;&nbsp;&nbsp;&quot;Function&nbsp;removes&nbsp;all&nbsp;keys&nbsp;starting&nbsp;with&nbsp;`tasks`.&quot;
+                100&nbsp;&nbsp;&nbsp;&nbsp;&quot;Function&nbsp;removes&nbsp;all&nbsp;keys&nbsp;starting&nbsp;with&nbsp;`tasks`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                097&nbsp;&nbsp;&nbsp;&nbsp;[conf]
+                101&nbsp;&nbsp;&nbsp;&nbsp;[conf]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                098&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clear!&nbsp;(stu&#x2F;task-prefix)))
+                102&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;clear!&nbsp;(stu&#x2F;task-prefix)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                099&nbsp;&nbsp;
+                103&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                100&nbsp;&nbsp;(defn&nbsp;t-refresh
+                104&nbsp;&nbsp;(defn&nbsp;t-refresh
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                101&nbsp;&nbsp;&nbsp;&nbsp;&quot;Refreshs&nbsp;the&nbsp;`tasks`&nbsp;endpoint.
+                105&nbsp;&nbsp;&nbsp;&nbsp;&quot;Refreshs&nbsp;the&nbsp;`tasks`&nbsp;endpoint.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                102&nbsp;&nbsp;
+                106&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                103&nbsp;&nbsp;&nbsp;&nbsp;Example:
+                107&nbsp;&nbsp;&nbsp;&nbsp;Example:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                104&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                108&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                105&nbsp;&nbsp;&nbsp;&nbsp;(t-refresh&nbsp;{})
+                109&nbsp;&nbsp;&nbsp;&nbsp;(t-refresh&nbsp;{})
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                106&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                110&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                107&nbsp;&nbsp;&nbsp;&nbsp;[conf]
+                111&nbsp;&nbsp;&nbsp;&nbsp;[conf]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                108&nbsp;&nbsp;&nbsp;&nbsp;(t-clear&nbsp;conf)
+                112&nbsp;&nbsp;&nbsp;&nbsp;(t-clear&nbsp;conf)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                109&nbsp;&nbsp;&nbsp;&nbsp;(t-build&nbsp;conf))
+                113&nbsp;&nbsp;&nbsp;&nbsp;(t-build&nbsp;conf))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                110&nbsp;&nbsp;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                111&nbsp;&nbsp;;;------------------------------
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                112&nbsp;&nbsp;;;&nbsp;documents
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                113&nbsp;&nbsp;;;------------------------------
+                114&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                114&nbsp;&nbsp;(defn&nbsp;d-add
+                115&nbsp;&nbsp;(defn&nbsp;t-run-by-key
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                115&nbsp;&nbsp;&nbsp;&nbsp;&quot;Adds&nbsp;a&nbsp;doc&nbsp;to&nbsp;the&nbsp;api&nbsp;to&nbsp;store&nbsp;the&nbsp;resuls&nbsp;in.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                116&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;doc-id]
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                117&nbsp;&nbsp;&nbsp;&nbsp;(doc&#x2F;add&nbsp;mp-id&nbsp;doc-id))
+                116&nbsp;&nbsp;&nbsp;&nbsp;&quot;Runs&nbsp;the&nbsp;task&nbsp;the&nbsp;key&nbsp;is&nbsp;related&nbsp;to.
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                118&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                119&nbsp;&nbsp;(defn&nbsp;d-rm
+                117&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                120&nbsp;&nbsp;&nbsp;&nbsp;&quot;Removes&nbsp;a&nbsp;doc&nbsp;from&nbsp;the&nbsp;api.&quot;
+                118&nbsp;&nbsp;&nbsp;&nbsp;Example:
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                121&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;doc-id]
-                </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
-                122&nbsp;&nbsp;&nbsp;&nbsp;(doc&#x2F;rm&nbsp;mp-id&nbsp;doc-id))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                123&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                124&nbsp;&nbsp;(defn&nbsp;d-ids
+                119&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                125&nbsp;&nbsp;&nbsp;&nbsp;&quot;Gets&nbsp;a&nbsp;list&nbsp;of&nbsp;ids&nbsp;added.&quot;
+                120&nbsp;&nbsp;&nbsp;&nbsp;(t-run-by-key&nbsp;{}&nbsp;\&quot;ce3-cmp_calib@container@000@state@000@000\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                126&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id]
+                121&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                122&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;k]
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                127&nbsp;&nbsp;&nbsp;&nbsp;(doc&#x2F;ids&nbsp;mp-id))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                128&nbsp;&nbsp;
+                123&nbsp;&nbsp;&nbsp;&nbsp;(w&#x2F;check&nbsp;k))&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                129&nbsp;&nbsp;;;------------------------------
+                124&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                130&nbsp;&nbsp;;;&nbsp;push&nbsp;ctrl&nbsp;commands
+                125&nbsp;&nbsp;;;&nbsp;documents
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                131&nbsp;&nbsp;;;------------------------------
+                126&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                132&nbsp;&nbsp;(defn&nbsp;set-ctrl
+                127&nbsp;&nbsp;(defn&nbsp;d-add
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                133&nbsp;&nbsp;&nbsp;&nbsp;&quot;Writes&nbsp;the&nbsp;command&nbsp;string&nbsp;(`cmd`)&nbsp;to&nbsp;the&nbsp;control&nbsp;interface&nbsp;of&nbsp;a
+                128&nbsp;&nbsp;&nbsp;&nbsp;&quot;Adds&nbsp;a&nbsp;doc&nbsp;to&nbsp;the&nbsp;api&nbsp;to&nbsp;store&nbsp;the&nbsp;resuls&nbsp;in.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                134&nbsp;&nbsp;&nbsp;&nbsp;`mpd`.&nbsp;If&nbsp;the&nbsp;`mpd`&nbsp;is&nbsp;already&nbsp;started&nbsp;(see&nbsp;[[m-start]])&nbsp;the&nbsp;next
+                129&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;doc-id]
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                135&nbsp;&nbsp;&nbsp;&nbsp;steps&nbsp;work&nbsp;as&nbsp;follows:&nbsp;`cmd`&nbsp;is&nbsp;written&nbsp;to&nbsp;the&nbsp;short&nbsp;term&nbsp;memory&nbsp;by
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                136&nbsp;&nbsp;&nbsp;&nbsp;means&nbsp;of&nbsp;[[cmp.st-mem.set-val!]].&nbsp;&nbsp;The&nbsp;writing&nbsp;process&nbsp;triggers&nbsp;the
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                137&nbsp;&nbsp;&nbsp;&nbsp;`registered`&nbsp;`callback`&nbsp;(registered&nbsp;by&nbsp;[[m-start]]).&nbsp;The&nbsp;`callback`
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                138&nbsp;&nbsp;&nbsp;&nbsp;cares&nbsp;about&nbsp;the&nbsp;`cmd`.&nbsp;&nbsp;`cmd`s&nbsp;are:
+<span class="not-covered" title="0 out of 4 forms covered">
+                130&nbsp;&nbsp;&nbsp;&nbsp;(doc&#x2F;add&nbsp;mp-id&nbsp;doc-id))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                139&nbsp;&nbsp;
+                131&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                132&nbsp;&nbsp;(defn&nbsp;d-rm
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                140&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`\&quot;run\&quot;`
+                133&nbsp;&nbsp;&nbsp;&nbsp;&quot;Removes&nbsp;a&nbsp;doc&nbsp;from&nbsp;the&nbsp;api.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                141&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`\&quot;stop\&quot;`
+                134&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;doc-id]
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                142&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`\&quot;mon\&quot;`
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                143&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`\&quot;suspend\&quot;`
+<span class="not-covered" title="0 out of 4 forms covered">
+                135&nbsp;&nbsp;&nbsp;&nbsp;(doc&#x2F;rm&nbsp;mp-id&nbsp;doc-id))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                144&nbsp;&nbsp;
+                136&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                137&nbsp;&nbsp;(defn&nbsp;d-ids
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                145&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                138&nbsp;&nbsp;&nbsp;&nbsp;&quot;Gets&nbsp;a&nbsp;list&nbsp;of&nbsp;ids&nbsp;added.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                146&nbsp;&nbsp;&nbsp;&nbsp;(set-ctrl&nbsp;{}&nbsp;\&quot;ref\&quot;&nbsp;0\&quot;run\&quot;)
+                139&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id]
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                147&nbsp;&nbsp;&nbsp;&nbsp;```
+<span class="not-covered" title="0 out of 3 forms covered">
+                140&nbsp;&nbsp;&nbsp;&nbsp;(doc&#x2F;ids&nbsp;mp-id))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                148&nbsp;&nbsp;
+                141&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                149&nbsp;&nbsp;&nbsp;&nbsp;**NOTE:**
+                142&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                143&nbsp;&nbsp;;;&nbsp;push&nbsp;ctrl&nbsp;commands
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                144&nbsp;&nbsp;;;------------------------------
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                145&nbsp;&nbsp;(defn&nbsp;set-ctrl
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                146&nbsp;&nbsp;&nbsp;&nbsp;&quot;Writes&nbsp;the&nbsp;command&nbsp;string&nbsp;(`cmd`)&nbsp;to&nbsp;the&nbsp;control&nbsp;interface&nbsp;of&nbsp;a
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                147&nbsp;&nbsp;&nbsp;&nbsp;`mpd`.&nbsp;If&nbsp;the&nbsp;`mpd`&nbsp;is&nbsp;already&nbsp;started&nbsp;(see&nbsp;[[m-start]])&nbsp;the&nbsp;next
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                148&nbsp;&nbsp;&nbsp;&nbsp;steps&nbsp;work&nbsp;as&nbsp;follows:&nbsp;`cmd`&nbsp;is&nbsp;written&nbsp;to&nbsp;the&nbsp;short&nbsp;term&nbsp;memory&nbsp;by
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                149&nbsp;&nbsp;&nbsp;&nbsp;means&nbsp;of&nbsp;[[cmp.st-mem.set-val!]].&nbsp;&nbsp;The&nbsp;writing&nbsp;process&nbsp;triggers&nbsp;the
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                150&nbsp;&nbsp;&nbsp;&nbsp;`registered`&nbsp;`callback`&nbsp;(registered&nbsp;by&nbsp;[[m-start]]).&nbsp;The&nbsp;`callback`
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                151&nbsp;&nbsp;&nbsp;&nbsp;cares&nbsp;about&nbsp;the&nbsp;`cmd`.&nbsp;&nbsp;`cmd`s&nbsp;are:
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                150&nbsp;&nbsp;
+                152&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                151&nbsp;&nbsp;&nbsp;&nbsp;`set-ctrl`&nbsp;only&nbsp;writes&nbsp;to&nbsp;the&nbsp;`container`&nbsp;structure.&nbsp;&nbsp;The
+                153&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`\&quot;run\&quot;`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                152&nbsp;&nbsp;&nbsp;&nbsp;`definitions`&nbsp;struct&nbsp;should&nbsp;not&nbsp;be&nbsp;started&nbsp;by&nbsp;a
+                154&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`\&quot;stop\&quot;`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                153&nbsp;&nbsp;&nbsp;&nbsp;user.&quot;
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                154&nbsp;&nbsp;
+                155&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`\&quot;mon\&quot;`
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                155&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;i&nbsp;cmd]
-                </span><br/>
-<span class="covered" title="9 out of 9 forms covered">
-                156&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(stu&#x2F;cont-ctrl-key&nbsp;mp-id&nbsp;(u&#x2F;lp&nbsp;i))&nbsp;cmd))
+                156&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;`\&quot;suspend\&quot;`
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 157&nbsp;&nbsp;
                 </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                158&nbsp;&nbsp;(defn&nbsp;c-run
+<span class="not-tracked" title="0 out of 0 forms covered">
+                158&nbsp;&nbsp;&nbsp;&nbsp;```clojure
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                159&nbsp;&nbsp;&nbsp;&nbsp;&quot;Shortcut&nbsp;to&nbsp;push&nbsp;a&nbsp;`run`&nbsp;to&nbsp;the&nbsp;control&nbsp;interface&nbsp;of&nbsp;mp&nbsp;container
+                159&nbsp;&nbsp;&nbsp;&nbsp;(set-ctrl&nbsp;{}&nbsp;\&quot;ref\&quot;&nbsp;0\&quot;run\&quot;)
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                160&nbsp;&nbsp;&nbsp;&nbsp;`i`.&quot;
+                160&nbsp;&nbsp;&nbsp;&nbsp;```
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                161&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                161&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;i]
-                </span><br/>
-<span class="covered" title="6 out of 6 forms covered">
-                162&nbsp;&nbsp;&nbsp;&nbsp;(set-ctrl&nbsp;conf&nbsp;mp-id&nbsp;i&nbsp;&quot;run&quot;))
+                162&nbsp;&nbsp;&nbsp;&nbsp;**NOTE:**
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 163&nbsp;&nbsp;
                 </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                164&nbsp;&nbsp;(defn&nbsp;c-mon
+<span class="not-tracked" title="0 out of 0 forms covered">
+                164&nbsp;&nbsp;&nbsp;&nbsp;`set-ctrl`&nbsp;only&nbsp;writes&nbsp;to&nbsp;the&nbsp;`container`&nbsp;structure.&nbsp;&nbsp;The
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                165&nbsp;&nbsp;&nbsp;&nbsp;&quot;Shortcut&nbsp;to&nbsp;push&nbsp;a&nbsp;`mon`&nbsp;to&nbsp;the&nbsp;control&nbsp;interface&nbsp;of&nbsp;mp&nbsp;container
+                165&nbsp;&nbsp;&nbsp;&nbsp;`definitions`&nbsp;struct&nbsp;should&nbsp;not&nbsp;be&nbsp;started&nbsp;by&nbsp;a
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                166&nbsp;&nbsp;&nbsp;&nbsp;`i`.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                167&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;i]
-                </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
-                168&nbsp;&nbsp;&nbsp;&nbsp;(set-ctrl&nbsp;conf&nbsp;mp-id&nbsp;i&nbsp;&quot;mon&quot;))
+                166&nbsp;&nbsp;&nbsp;&nbsp;user.&quot;
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                169&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                170&nbsp;&nbsp;(defn&nbsp;c-stop
+                167&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                171&nbsp;&nbsp;&nbsp;&nbsp;&quot;Shortcut&nbsp;to&nbsp;push&nbsp;a&nbsp;`stop`&nbsp;to&nbsp;the&nbsp;control&nbsp;interface&nbsp;of&nbsp;mp&nbsp;container
+                168&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;i&nbsp;cmd]
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                172&nbsp;&nbsp;&nbsp;&nbsp;`i`.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                173&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;i]
-                </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
-                174&nbsp;&nbsp;&nbsp;&nbsp;(set-ctrl&nbsp;conf&nbsp;mp-id&nbsp;i&nbsp;&quot;stop&quot;))
+<span class="covered" title="9 out of 9 forms covered">
+                169&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-val!&nbsp;(stu&#x2F;cont-ctrl-key&nbsp;mp-id&nbsp;(u&#x2F;lp&nbsp;i))&nbsp;cmd))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                175&nbsp;&nbsp;
+                170&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                176&nbsp;&nbsp;(defn&nbsp;c-reset
+                171&nbsp;&nbsp;(defn&nbsp;c-run
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                177&nbsp;&nbsp;&nbsp;&nbsp;&quot;Shortcut&nbsp;to&nbsp;push&nbsp;a&nbsp;`reset`&nbsp;to&nbsp;the&nbsp;control&nbsp;interface&nbsp;of&nbsp;mp&nbsp;container
+                172&nbsp;&nbsp;&nbsp;&nbsp;&quot;Shortcut&nbsp;to&nbsp;push&nbsp;a&nbsp;`run`&nbsp;to&nbsp;the&nbsp;control&nbsp;interface&nbsp;of&nbsp;mp&nbsp;container
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                178&nbsp;&nbsp;&nbsp;&nbsp;`i`.&nbsp;The&nbsp;`reset`&nbsp;cmd&nbsp;**don&#x27;t**&nbsp;de-register&nbsp;the&nbsp;`state`&nbsp;listener&nbsp;so
+                173&nbsp;&nbsp;&nbsp;&nbsp;`i`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                179&nbsp;&nbsp;&nbsp;&nbsp;that&nbsp;the&nbsp;container&nbsp;starts&nbsp;from&nbsp;the&nbsp;beginning.&nbsp;&nbsp;**reset&nbsp;is&nbsp;a
+                174&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;i]
                 </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                180&nbsp;&nbsp;&nbsp;&nbsp;container&nbsp;restart**&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                181&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;i]
-                </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
-                182&nbsp;&nbsp;&nbsp;&nbsp;(set-ctrl&nbsp;conf&nbsp;mp-id&nbsp;i&nbsp;&quot;reset&quot;))
+<span class="covered" title="6 out of 6 forms covered">
+                175&nbsp;&nbsp;&nbsp;&nbsp;(set-ctrl&nbsp;conf&nbsp;mp-id&nbsp;i&nbsp;&quot;run&quot;))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                183&nbsp;&nbsp;
+                176&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                184&nbsp;&nbsp;(defn&nbsp;c-suspend
+                177&nbsp;&nbsp;(defn&nbsp;c-mon
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                185&nbsp;&nbsp;&nbsp;&nbsp;&quot;Shortcut&nbsp;to&nbsp;push&nbsp;a&nbsp;`suspend`&nbsp;to&nbsp;the&nbsp;control&nbsp;interface&nbsp;of&nbsp;mp&nbsp;container
+                178&nbsp;&nbsp;&nbsp;&nbsp;&quot;Shortcut&nbsp;to&nbsp;push&nbsp;a&nbsp;`mon`&nbsp;to&nbsp;the&nbsp;control&nbsp;interface&nbsp;of&nbsp;mp&nbsp;container
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                186&nbsp;&nbsp;&nbsp;&nbsp;`i`.&nbsp;The&nbsp;`suspend`&nbsp;cmd&nbsp;de-register&nbsp;the&nbsp;`state`&nbsp;listener&nbsp;and&nbsp;leaves
+                179&nbsp;&nbsp;&nbsp;&nbsp;`i`.&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                187&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;state&nbsp;as&nbsp;it&nbsp;is.&quot;
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                188&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;i]
+                180&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;i]
                 </span><br/>
 <span class="not-covered" title="0 out of 6 forms covered">
-                189&nbsp;&nbsp;&nbsp;&nbsp;(set-ctrl&nbsp;conf&nbsp;mp-id&nbsp;i&nbsp;&quot;suspend&quot;))
+                181&nbsp;&nbsp;&nbsp;&nbsp;(set-ctrl&nbsp;conf&nbsp;mp-id&nbsp;i&nbsp;&quot;mon&quot;))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                182&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                183&nbsp;&nbsp;(defn&nbsp;c-stop
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                184&nbsp;&nbsp;&nbsp;&nbsp;&quot;Shortcut&nbsp;to&nbsp;push&nbsp;a&nbsp;`stop`&nbsp;to&nbsp;the&nbsp;control&nbsp;interface&nbsp;of&nbsp;mp&nbsp;container
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                185&nbsp;&nbsp;&nbsp;&nbsp;`i`.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                186&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;i]
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                187&nbsp;&nbsp;&nbsp;&nbsp;(set-ctrl&nbsp;conf&nbsp;mp-id&nbsp;i&nbsp;&quot;stop&quot;))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                188&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                189&nbsp;&nbsp;(defn&nbsp;c-reset
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                190&nbsp;&nbsp;&nbsp;&nbsp;&quot;Shortcut&nbsp;to&nbsp;push&nbsp;a&nbsp;`reset`&nbsp;to&nbsp;the&nbsp;control&nbsp;interface&nbsp;of&nbsp;mp&nbsp;container
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                191&nbsp;&nbsp;&nbsp;&nbsp;`i`.&nbsp;The&nbsp;`reset`&nbsp;cmd&nbsp;**don&#x27;t**&nbsp;de-register&nbsp;the&nbsp;`state`&nbsp;listener&nbsp;so
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                192&nbsp;&nbsp;&nbsp;&nbsp;that&nbsp;the&nbsp;container&nbsp;starts&nbsp;from&nbsp;the&nbsp;beginning.&nbsp;&nbsp;**reset&nbsp;is&nbsp;a
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                193&nbsp;&nbsp;&nbsp;&nbsp;container&nbsp;restart**&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                194&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;i]
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                195&nbsp;&nbsp;&nbsp;&nbsp;(set-ctrl&nbsp;conf&nbsp;mp-id&nbsp;i&nbsp;&quot;reset&quot;))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                196&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                197&nbsp;&nbsp;(defn&nbsp;c-suspend
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                198&nbsp;&nbsp;&nbsp;&nbsp;&quot;Shortcut&nbsp;to&nbsp;push&nbsp;a&nbsp;`suspend`&nbsp;to&nbsp;the&nbsp;control&nbsp;interface&nbsp;of&nbsp;mp&nbsp;container
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                199&nbsp;&nbsp;&nbsp;&nbsp;`i`.&nbsp;The&nbsp;`suspend`&nbsp;cmd&nbsp;de-register&nbsp;the&nbsp;`state`&nbsp;listener&nbsp;and&nbsp;leaves
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                200&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;state&nbsp;as&nbsp;it&nbsp;is.&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                201&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;mp-id&nbsp;i]
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                202&nbsp;&nbsp;&nbsp;&nbsp;(set-ctrl&nbsp;conf&nbsp;mp-id&nbsp;i&nbsp;&quot;suspend&quot;))
                 </span><br/>
  </body>
 </html>

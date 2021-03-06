@@ -15,10 +15,9 @@
   (st/key->val \"ref@exchange@b\")
   ;; 2
   ```"
-  [task]
-  (let [{val :Value mp-id :MpName state-key :StateKey exch-path :ExchangePath} task]
+  [{val :Value mp-id :MpName state-key :StateKey exch-path :ExchangePath :as task}]
   (st/set-state! state-key :working)
   (let [ret (exch/to! mp-id val exch-path)]
     (if (:ok ret)
       (st/set-state! state-key (if (exch/stop-if task) :executed :ready) "wrote to exchange")
-      (st/set-state! state-key :error "error on attempt to write exchange")))))
+      (st/set-state! state-key :error "error on attempt to write exchange"))))
