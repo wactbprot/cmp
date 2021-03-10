@@ -230,20 +230,21 @@
   [meta-task mp-id state-key]
   (let [db-task   (:Task         meta-task)
         use-map   (:Use          meta-task)
-        replace   (:Replace      meta-task)
-        defaults  (:Defaults     meta-task)
-        globals   (:Globals      meta-task)
+        rep-map   (:Replace      meta-task)
+        def-map   (:Defaults     meta-task)
+        glo-map   (:Globals      meta-task)
         exch-map  (:FromExchange db-task)
         from-map  (exch/from! mp-id exch-map)]
     (assoc 
-     (->> db-task
+     (->> (dissoc db-task :Use :Replace)
           (merge-use-map     use-map)
           (inner-replace-map from-map)
-          (outer-replace-map replace)
-          (outer-replace-map defaults)
-          (outer-replace-map globals)
-          (outer-replace-map from-map)
-          )
+          (outer-replace-map rep-map)
+          (outer-replace-map def-map)
+          (outer-replace-map glo-map)
+          (outer-replace-map from-map))
+     :Use       use-map
+     :Replace   rep-map
      :MpName    mp-id
      :StateKey  state-key)))
 
