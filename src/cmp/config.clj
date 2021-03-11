@@ -1,11 +1,12 @@
 
 (ns cmp.config
-  (:require [clojure.edn :as edn]))
+  (:require [clojure.edn     :as edn]
+            [clojure.java.io :as io]))
 
 (defn config
   "Reads a `edn` configuration in file `f`." 
   ([]
-   (config "resources/config.edn"))
+   (config (io/resource "config.edn")))
    ([f]
     (-> f slurp edn/read-string)))
 

@@ -11,115 +11,118 @@
                 002&nbsp;&nbsp;(ns&nbsp;cmp.config
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                003&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[clojure.edn&nbsp;:as&nbsp;edn]))
+                003&nbsp;&nbsp;&nbsp;&nbsp;(:require&nbsp;[clojure.edn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;edn]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[clojure.java.io&nbsp;:as&nbsp;io]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                004&nbsp;&nbsp;
+                005&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                005&nbsp;&nbsp;(defn&nbsp;config
+                006&nbsp;&nbsp;(defn&nbsp;config
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                006&nbsp;&nbsp;&nbsp;&nbsp;&quot;Reads&nbsp;a&nbsp;`edn`&nbsp;configuration&nbsp;in&nbsp;file&nbsp;`f`.&quot;&nbsp;
+                007&nbsp;&nbsp;&nbsp;&nbsp;&quot;Reads&nbsp;a&nbsp;`edn`&nbsp;configuration&nbsp;in&nbsp;file&nbsp;`f`.&quot;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                007&nbsp;&nbsp;&nbsp;&nbsp;([]
-                </span><br/>
-<span class="covered" title="3 out of 3 forms covered">
-                008&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(config&nbsp;&quot;resources&#x2F;config.edn&quot;))
-                </span><br/>
-<span class="not-tracked" title="0 out of 0 forms covered">
-                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;([f]
+                008&nbsp;&nbsp;&nbsp;&nbsp;([]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&nbsp;f&nbsp;slurp&nbsp;edn&#x2F;read-string)))
+                009&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(config&nbsp;(io&#x2F;resource&nbsp;&quot;config.edn&quot;)))
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;([f]
+                </span><br/>
+<span class="covered" title="5 out of 5 forms covered">
+                011&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&nbsp;f&nbsp;slurp&nbsp;edn&#x2F;read-string)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                011&nbsp;&nbsp;
+                012&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                012&nbsp;&nbsp;(defn&nbsp;lt-url
+                013&nbsp;&nbsp;(defn&nbsp;lt-url
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                013&nbsp;&nbsp;&nbsp;&nbsp;[c]
+                014&nbsp;&nbsp;&nbsp;&nbsp;[c]
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                014&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[usr&nbsp;&nbsp;(System&#x2F;getenv&nbsp;&quot;CAL_USR&quot;)
+                015&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[usr&nbsp;&nbsp;(System&#x2F;getenv&nbsp;&quot;CAL_USR&quot;)
                 </span><br/>
 <span class="covered" title="2 out of 2 forms covered">
-                015&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pwd&nbsp;&nbsp;(System&#x2F;getenv&nbsp;&quot;CAL_PWD&quot;)
+                016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pwd&nbsp;&nbsp;(System&#x2F;getenv&nbsp;&quot;CAL_PWD&quot;)
                 </span><br/>
 <span class="partial" title="13 out of 14 forms covered">
-                016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cred&nbsp;(when&nbsp;(and&nbsp;usr&nbsp;pwd)&nbsp;(str&nbsp;usr&nbsp;&quot;:&quot;&nbsp;pwd&nbsp;&quot;@&quot;))]
+                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cred&nbsp;(when&nbsp;(and&nbsp;usr&nbsp;pwd)&nbsp;(str&nbsp;usr&nbsp;&quot;:&quot;&nbsp;pwd&nbsp;&quot;@&quot;))]
                 </span><br/>
 <span class="covered" title="14 out of 14 forms covered">
-                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;(:lt-prot&nbsp;c)&nbsp;&quot;:&#x2F;&#x2F;&quot;&nbsp;cred&nbsp;&nbsp;(:lt-srv&nbsp;c)&quot;:&quot;(:lt-port&nbsp;c)))&nbsp;)&nbsp;
+                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(str&nbsp;(:lt-prot&nbsp;c)&nbsp;&quot;:&#x2F;&#x2F;&quot;&nbsp;cred&nbsp;&nbsp;(:lt-srv&nbsp;c)&quot;:&quot;(:lt-port&nbsp;c)))&nbsp;)&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                018&nbsp;&nbsp;&nbsp;&nbsp;
+                019&nbsp;&nbsp;&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="10 out of 10 forms covered">
-                019&nbsp;&nbsp;(defn&nbsp;lt-conn&nbsp;[c]&nbsp;(str&nbsp;(lt-url&nbsp;c)&nbsp;&quot;&#x2F;&quot;(:lt-db&nbsp;c)))
+                020&nbsp;&nbsp;(defn&nbsp;lt-conn&nbsp;[c]&nbsp;(str&nbsp;(lt-url&nbsp;c)&nbsp;&quot;&#x2F;&quot;(:lt-db&nbsp;c)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                020&nbsp;&nbsp;
+                021&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                021&nbsp;&nbsp;(defn&nbsp;st-conn&nbsp;[c](:st-conn&nbsp;c))
+                022&nbsp;&nbsp;(defn&nbsp;st-conn&nbsp;[c](:st-conn&nbsp;c))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                022&nbsp;&nbsp;
+                023&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                023&nbsp;&nbsp;(defn&nbsp;key-pad-length&nbsp;[c]&nbsp;(:key-pad-length&nbsp;c))
+                024&nbsp;&nbsp;(defn&nbsp;key-pad-length&nbsp;[c]&nbsp;(:key-pad-length&nbsp;c))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                024&nbsp;&nbsp;
+                025&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="8 out of 8 forms covered">
-                025&nbsp;&nbsp;(defn&nbsp;st-db&nbsp;[c]&nbsp;(get-in&nbsp;c&nbsp;[:st-conn&nbsp;:spec&nbsp;:db]))
+                026&nbsp;&nbsp;(defn&nbsp;st-db&nbsp;[c]&nbsp;(get-in&nbsp;c&nbsp;[:st-conn&nbsp;:spec&nbsp;:db]))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                026&nbsp;&nbsp;
+                027&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                027&nbsp;&nbsp;(defn&nbsp;ref-mpd&nbsp;[c]&nbsp;(:ref-mpd&nbsp;c))
+                028&nbsp;&nbsp;(defn&nbsp;ref-mpd&nbsp;[c]&nbsp;(:ref-mpd&nbsp;c))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                028&nbsp;&nbsp;
+                029&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                029&nbsp;&nbsp;(defn&nbsp;min-task-period&nbsp;[c]&nbsp;(:min-task-period&nbsp;c))
+                030&nbsp;&nbsp;(defn&nbsp;min-task-period&nbsp;[c]&nbsp;(:min-task-period&nbsp;c))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                030&nbsp;&nbsp;
+                031&nbsp;&nbsp;
                 </span><br/>
 <span class="partial" title="1 out of 4 forms covered">
-                031&nbsp;&nbsp;(defn&nbsp;json-post-header&nbsp;[c]&nbsp;(:json-post-header&nbsp;c))
+                032&nbsp;&nbsp;(defn&nbsp;json-post-header&nbsp;[c]&nbsp;(:json-post-header&nbsp;c))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                032&nbsp;&nbsp;
+                033&nbsp;&nbsp;
                 </span><br/>
 <span class="partial" title="1 out of 4 forms covered">
-                033&nbsp;&nbsp;(defn&nbsp;dev-hub-url&nbsp;[c]&nbsp;(:dev-hub-url&nbsp;c))
+                034&nbsp;&nbsp;(defn&nbsp;dev-hub-url&nbsp;[c]&nbsp;(:dev-hub-url&nbsp;c))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                034&nbsp;&nbsp;
+                035&nbsp;&nbsp;
                 </span><br/>
 <span class="partial" title="1 out of 4 forms covered">
-                035&nbsp;&nbsp;(defn&nbsp;anselm-url&nbsp;[c]&nbsp;(:anselm-url&nbsp;c))
+                036&nbsp;&nbsp;(defn&nbsp;anselm-url&nbsp;[c]&nbsp;(:anselm-url&nbsp;c))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                036&nbsp;&nbsp;
+                037&nbsp;&nbsp;
                 </span><br/>
 <span class="partial" title="1 out of 4 forms covered">
-                037&nbsp;&nbsp;(defn&nbsp;stop-if-delay&nbsp;[c]&nbsp;(:stop-if-delay&nbsp;c))
+                038&nbsp;&nbsp;(defn&nbsp;stop-if-delay&nbsp;[c]&nbsp;(:stop-if-delay&nbsp;c))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                038&nbsp;&nbsp;
+                039&nbsp;&nbsp;
                 </span><br/>
 <span class="partial" title="1 out of 4 forms covered">
-                039&nbsp;&nbsp;(defn&nbsp;max-retry&nbsp;[c]&nbsp;(:max-retry&nbsp;c))
+                040&nbsp;&nbsp;(defn&nbsp;max-retry&nbsp;[c]&nbsp;(:max-retry&nbsp;c))
                 </span><br/>
  </body>
 </html>
