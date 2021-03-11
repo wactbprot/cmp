@@ -8,7 +8,7 @@
             [cmp.task                  :as tsk]
             [cmp.config                :as cfg]
             [cmp.utils                 :as u]
-            [cmp.worker.anselm         :refer [anselm!]]
+            [cmp.worker.devproxy       :refer [devproxy!]]
             [cmp.worker.devhub         :refer [devhub!]]
             [cmp.worker.gen-db-doc     :refer [gen-db-doc!]]
             [cmp.worker.get-date       :refer [get-date!]]
@@ -55,7 +55,8 @@
       :message        (start! message!           task)
       :genDbDoc       (start! gen-db-doc!        task)
       :replicateDB    (start! replicate!         task)
-      :Anselm         (start! anselm!            task)
+      :Anselm         (start! devproxy!          task)
+      :DevProxy       (start! devproxy!          task)
       :MODBUS         (start! devhub!            task)
       :TCP            (start! devhub!            task)
       :VXI11          (start! devhub!            task)
