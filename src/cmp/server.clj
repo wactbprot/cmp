@@ -17,7 +17,8 @@
             [org.httpkit.server       :refer [run-server]]
             [ring.middleware.json     :as middleware]
             [ring.util.response       :as res])
-    (:use   [clojure.repl]))
+    (:use   [clojure.repl])
+    (:gen-class))
 
 (def conf (config/config))
 

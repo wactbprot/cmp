@@ -20,8 +20,6 @@
                  [com.brunobonacci/mulog-elasticsearch "0.6.0"]
                  [djblue/portal                        "0.9.0"]
                  [clj-http                             "3.10.0"]]
-  :main ^:skip-aot cmp.core
-  :target-path "target/%s"
   :repl-options {:init-ns cmp.server}
   :plugins [[lein-cloverage  "1.1.2"]
             [lein-codox      "0.10.7"]
@@ -30,7 +28,12 @@
               :high-watermark 60}
   :codox {:metadata {:doc/format :markdown}
           :source-uri "https://github.com/wactbprot/cmp/blob/master/{filepath}#L{line}"}
+  :resource-paths ["resources"]
   :ns-graph {:name "cmp"
              :abbrev-ns false
              :source-paths ["src/"]
-             :exclude ["java.*" "clojure.*"]})
+             :exclude ["java.*" "clojure.*"]}
+  :main cmp.server
+  :aot [cmp.server]
+  :target-path "target/%s"
+  :profiles {:uberjar {:aot :all}})
