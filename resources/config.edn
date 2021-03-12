@@ -18,7 +18,7 @@
  ;; rest api server
  :api {:port 8010}
  :build-delay 500
- :build-on-start ["ppc-gas_dosing"]
+ :build-on-start []
  ;; integrated ui
  :ui {:page-title "UI-CMP"
       :main-title "UI-CMP"
@@ -39,15 +39,15 @@
               :working ""
               :value "cur. val."}
       ;; place images in resources/public/img
-      :img {:ref "ref.jpg"
-            }
-      :mp-alias {:ce3-cmp_calib "The CE3 Measurement Program"
+      :img {:ref "ref.jpg"}
+      :mp-alias {:ppc-gas_dosing "PPC gas dosing"
+                 :ce3-cmp_calib "The CE3 Measurement Program"
                  :ce3-sputter "The CE3 Sputter Program"
                  :ref "Referenz MP"}
       }
  ;; long term memory: couchdb
- ;;:lt-srv "127.0.0.1"
- :lt-srv "a73434"
+ :lt-srv "127.0.0.1"
+ ;;:lt-srv "a73434"
  :lt-port 5984
  :lt-db "vl_db_work"
  :lt-prot "http"
@@ -57,7 +57,7 @@
  ;; for order or sorting reasons
  ;; idx, jdx and kdx are padded
  :key-pad-length 3
- :ref-mpd "resources/mpd-ref.edn"
+ :ref-mpd "mpd-ref.edn"
  ;; a task should at least take 10ms
  ;; in order to give the keyspace notification listener
  ;; a chance to find the `next-to-start` task

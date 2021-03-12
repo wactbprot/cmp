@@ -118,7 +118,7 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 038&nbsp;&nbsp;&nbsp;&nbsp;[v]
                 </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
+<span class="covered" title="8 out of 8 forms covered">
                 039&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(conds-match?&nbsp;v)&nbsp;(first&nbsp;v)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -130,25 +130,25 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 042&nbsp;&nbsp;&nbsp;&nbsp;[{mp-id&nbsp;:mp-id&nbsp;&nbsp;no-idx&nbsp;:no-idx&nbsp;state-key&nbsp;:StateKey}]
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 043&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ctrl-key&nbsp;(stu&#x2F;defins-ctrl-key&nbsp;mp-id&nbsp;no-idx)]
                 </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
+<span class="covered" title="1 out of 1 forms covered">
                 044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[msg]
                 </span><br/>
-<span class="not-covered" title="0 out of 28 forms covered">
+<span class="partial" title="17 out of 28 forms covered">
                 045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(keyword&nbsp;(st&#x2F;key-&gt;val&nbsp;ctrl-key))
                 </span><br/>
-<span class="not-covered" title="0 out of 14 forms covered">
+<span class="covered" title="14 out of 14 forms covered">
                 046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:run&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start-defins!&nbsp;:message&nbsp;&quot;run&nbsp;callback&nbsp;for&quot;&nbsp;:key&nbsp;ctrl-key)
                 </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
+<span class="covered" title="1 out of 1 forms covered">
                 047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:ready&nbsp;(do
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:executed&nbsp;&quot;ready&nbsp;callback&quot;)&nbsp;
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
+<span class="covered" title="7 out of 7 forms covered">
                 049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;de-register!&nbsp;mp-id&nbsp;&quot;definitions&quot;&nbsp;no-idx&nbsp;&quot;ctrl&quot;&nbsp;&quot;b&quot;))
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
@@ -172,13 +172,13 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 056&nbsp;&nbsp;&nbsp;&nbsp;[{mp-id&nbsp;:mp-id&nbsp;&nbsp;no-idx&nbsp;:no-idx&nbsp;state-key&nbsp;:StateKey&nbsp;:as&nbsp;task}]
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 057&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ctrl-key&nbsp;(stu&#x2F;defins-ctrl-key&nbsp;mp-id&nbsp;no-idx)]
                 </span><br/>
-<span class="not-covered" title="0 out of 10 forms covered">
+<span class="covered" title="10 out of 10 forms covered">
                 058&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;register!&nbsp;mp-id&nbsp;&quot;definitions&quot;&nbsp;no-idx&nbsp;&quot;ctrl&quot;&nbsp;(gen-callback&nbsp;task)&nbsp;&quot;b&quot;)
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;ctrl-key&nbsp;:run)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -265,22 +265,22 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 087&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 088&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[key-map&nbsp;&nbsp;&nbsp;(stu&#x2F;key-&gt;info-map&nbsp;k)
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
+<span class="covered" title="3 out of 3 forms covered">
                 089&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val-map&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;k)
                 </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
+<span class="covered" title="8 out of 8 forms covered">
                 090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left-val&nbsp;&nbsp;(exch&#x2F;read!&nbsp;(:mp-id&nbsp;key-map)&nbsp;(:ExchangePath&nbsp;val-map))
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
+<span class="covered" title="3 out of 3 forms covered">
                 091&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meth&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:Methode&nbsp;val-map)
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
+<span class="covered" title="3 out of 3 forms covered">
                 092&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right-val&nbsp;(:Value&nbsp;val-map)]
                 </span><br/>
-<span class="not-covered" title="0 out of 9 forms covered">
+<span class="covered" title="9 out of 9 forms covered">
                 093&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assoc&nbsp;key-map&nbsp;:cond-match&nbsp;(cond-match?&nbsp;left-val&nbsp;meth&nbsp;right-val))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -295,13 +295,13 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 097&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
+<span class="covered" title="3 out of 3 forms covered">
                 098&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;k
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 099&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[m&nbsp;(stu&#x2F;key-&gt;info-map&nbsp;k)]
                 </span><br/>
-<span class="not-covered" title="0 out of 10 forms covered">
+<span class="covered" title="10 out of 10 forms covered">
                 100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;keys&nbsp;(stu&#x2F;defins-cond-key&nbsp;(:mp-id&nbsp;m)&nbsp;(:no-idx&nbsp;m))))))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -316,10 +316,10 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 104&nbsp;&nbsp;&nbsp;&nbsp;[mp-id&nbsp;cls]
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 105&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[pat&nbsp;(stu&#x2F;defins-class-key&nbsp;mp-id&nbsp;&quot;*&quot;)]
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 106&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;filter-keys-where-val&nbsp;pat&nbsp;cls)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
@@ -412,25 +412,25 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 136&nbsp;&nbsp;&nbsp;&nbsp;[{mp-id&nbsp;:MpName&nbsp;cls&nbsp;:DefinitionClass&nbsp;state-key&nbsp;:StateKey}]
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 137&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:working)
                 </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
+<span class="covered" title="8 out of 8 forms covered">
                 138&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[cond-keys&nbsp;(mapv&nbsp;class-key-&gt;cond-keys&nbsp;(class-keys&nbsp;mp-id&nbsp;cls))
                 </span><br/>
-<span class="not-covered" title="0 out of 3 forms covered">
+<span class="covered" title="3 out of 3 forms covered">
                 139&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cond-vec&nbsp;&nbsp;(mapv&nbsp;(fn&nbsp;[ks]
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 140&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;cond-key-&gt;cond-map&nbsp;ks))
                 </span><br/>
-<span class="not-covered" title="0 out of 1 forms covered">
+<span class="covered" title="1 out of 1 forms covered">
                 141&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cond-keys)]
                 </span><br/>
-<span class="not-covered" title="0 out of 14 forms covered">
+<span class="covered" title="14 out of 14 forms covered">
                 142&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if-let&nbsp;[match-map&nbsp;(first&nbsp;(remove&nbsp;nil?&nbsp;(map&nbsp;filter-match&nbsp;cond-vec)))]
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
+<span class="covered" title="7 out of 7 forms covered">
                 143&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(start-defins!&nbsp;(assoc&nbsp;match-map&nbsp;:StateKey&nbsp;state-key))
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">

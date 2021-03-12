@@ -103,3 +103,6 @@
         {:ok true}
         {:error "on attempt to set value"}) 
       {:error "missing key or value"})))
+
+(defn cmd [conf req] {(keyword (get-in req [:body :key])) (get-in req [:body :value])})
+
