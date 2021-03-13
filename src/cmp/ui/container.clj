@@ -14,6 +14,18 @@
 
 (defmethod td-value :title    [conf m kw] [:div {:class "is-size-6"} (kw m)])
 
+(defmethod td-value :struct  [conf m kw] [:span {:class "tag"} (:struct m)])
+
+(defmethod td-value :no-idx  [conf m kw] [:span {:class "tag"} (:no-idx m)])
+
+(defmethod td-value :seq-idx [conf m kw] [:span   {:class "tag"} (:seq-idx m)])
+
+(defmethod td-value :par-idx [conf m kw] [:span {:class "tag"} (kw m)])
+
+(defmethod td-value :level   [conf m kw] [:i (kw m)])
+
+(defmethod td-value :func    [conf m kw] [:span {:class "tag"} (kw m)])
+
 (defmethod td-value :run
   [conf m kw]
   (ui/button (assoc m :key (:ctrl-key m)) kw :info))
@@ -38,14 +50,6 @@
   [conf m kw]
   (ui/button (assoc m :key (:state-key m)) kw :success))
 
-(defmethod td-value :par-idx  [conf m kw] [:span {:class "tag"} (kw m)])
-
-(defmethod td-value :seq-idx  [conf m kw] [:span {:class "tag"} (kw m)])
-
-(defmethod td-value :level    [conf m kw] [:i (kw m)])
-
-(defmethod td-value :func     [conf m kw] [:span {:class "tag"} (kw m)])
-
 (defmethod td-value :state
   [conf m kw]
   (let [state (kw m)]
@@ -60,28 +64,6 @@
   [conf m kw]
   [:span {:class "icon"}
    [:a  {:class "copy is-link fas fa-key" :data-copy (kw m) :title "click to copy key to clipboard"}]])
-
-(defmethod td-value :struct
-  [conf m kw]
-  (let [m (dissoc m :no-idx :seq-idx)]
-    [:span   {:class "tag"} (:struct m)
-     [:span  {:class "tag"} (ui/ctrl-link conf m)]
-     [:span  {:class "tag"} (ui/state-link conf m)]
-     [:span  {:class "tag"} (ui/definition-link conf m)]]))
-
-(defmethod td-value :no-idx 
-  [conf m kw]
-  (let [m (dissoc m :seq-idx)]
-    [:span   {:class "tag"} (:no-idx m)
-     [:span  {:class "tag"} (ui/ctrl-link conf m)]
-     [:span  {:class "tag"} (ui/state-link conf m)]
-     [:span  {:class "tag"} (ui/definition-link conf m)]]))
-
-(defmethod td-value :seq-idx
-  [conf m kw]
-    [:span   {:class "tag"} (:seq-idx m)
-     [:span  {:class "tag"} (ui/state-link conf m)]
-     [:span  {:class "tag"} (ui/definition-link conf m)]])
 
 (defmethod td-value :default
   [conf m kw]
@@ -136,5 +118,5 @@
 
 (defn view
   [conf req data]
-  (let [cols [:key  :title :ctrl :run :stop :mon :struct :func  :no-idx :seq-idx :par-idx :state :ready :working :executed :task]]
+  (let [cols [:key  :title :ctrl :run :stop :mon :state :ready :working :executed :task]]
     (ui/index conf req (table conf data cols))))

@@ -91,7 +91,7 @@
                :working  "working"
                :executed "executed"
                :state    (st/key->val sk)
-               :task     (st/key->val dk)}))
+               :task     (tsk/build dk)}))
           state-keys defin-keys)))
    
 

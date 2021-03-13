@@ -56,11 +56,11 @@
   (when-let [value (kw m)]
     (let [ds "button is-small setter "
           cs (condp = cls
-               :info    "is-info"
-               :success "is-success"
-               :warn    "is-warning"
-               :error   "is-danger"
-               "is-primary")]
+               :info    "is-outlined is-light is-info"
+               :success "is-outlined is-light is-success"
+               :warn    "is-outlined is-light is-warning"
+               :error   "is-outlined is-light is-danger"
+               "is-light is-outlined is-primary")]
       [:button {:class (str ds cs)
                 :data-value (kw m)
                 :data-url (post-url m)
@@ -146,13 +146,10 @@
               [:body
                (index-title conf req)
                [:section {:class "section"}
-                ;[:div {:class "container content"}
-                 ;[:div {:class "box"}
-                 body
-                ; ]
-                ; ]
-                ]
-               (hp/include-js "/js/jquery-3.5.1.min.js")
+                [:div {:class "container content"}
+                 [:div {:class "box"}
+                  body]]]
+                  (hp/include-js "/js/jquery-3.5.1.min.js")
                (hp/include-js "/js/ws.js")
                (hp/include-js "/js/main.js")])))
   
