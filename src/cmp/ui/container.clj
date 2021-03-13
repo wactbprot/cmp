@@ -90,7 +90,7 @@
 
 (defn table-base
   [conf kws]
-  [:table {:class "table is-hoverable is-fullwidth fixed"}
+  [:table {:class "table is-bordered is-hoverable is-fullwidth"}
    (table-head conf kws)])
 
 (defn table
@@ -118,5 +118,5 @@
 
 (defn view
   [conf req data]
-  (let [cols [:key  :title :ctrl :run :stop :mon :state :ready :working :executed :task]]
+  (let [cols [:title :ctrl :run :stop :mon :state :ready :working :executed :key :task]]
     (ui/index conf req (table conf data cols))))

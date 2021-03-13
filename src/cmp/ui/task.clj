@@ -17,27 +17,25 @@
   [conf t body]
   [:div {:title (che/encode t)}
    (label conf t)
-   [:i {:class "is-size-7"} (:Comment t)]
+   [:i (:Comment t)]
    body])
 
 (defmulti card  (fn [conf m] (-> m :task :Action keyword)))
 
 (defmethod card :MODBUS
   [conf {t :task :as m}]
-  (section conf t
-           [:p 
-            [:ul {:class "is-size-7"}
-             [:li  "Host: " (:Host t)]
-             [:li "Address: " (:Address t)]]]))
+  (div conf t
+       [:ul 
+        [:li  "Host: " (:Host t)]
+        [:li "Address: " (:Address t)]]))
 
 (defmethod card :TCP
   [conf {t :task :as m}]
-  (section conf t
-           [:p 
-            [:ul {:class "is-size-7"}
-             [:li "Host: " (:Host t)]
-             [:li "Port: " (:Port t)]
-             [:li "Value: " (:Value t)]]]))
+  (div conf t
+       [:ul
+        [:li "Host: " (:Host t)]
+        [:li "Port: " (:Port t)]
+        [:li "Value: " (:Value t)]]))
 
 (defmethod card :runMp
   [conf {t :task :as m}]
@@ -45,9 +43,8 @@
         title  (:ContainerTitle t)
         txt    (str mp "/state/" title)
         href   (str "/ui/" mp "/container/state/" (codec/url-encode title))]
-    (section conf t [:p 
-                     [:ul {:class "is-size-7"}
-                      [:li [:a {:href href} txt ]]]])))
+    (div conf t [:ul 
+                 [:li [:a {:href href} txt ]]])))
 
 (defmethod card :default 
   [conf {t :task :as m}]
