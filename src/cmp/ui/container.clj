@@ -14,17 +14,29 @@
 
 (defmethod td-value :title    [conf m kw] [:div {:class "is-size-6"} (kw m)])
 
-(defmethod td-value :run      [conf m kw] (ui/button m kw :info))
+(defmethod td-value :run
+  [conf m kw]
+  (ui/button (assoc m :key (:ctrl-key m)) kw :info))
 
-(defmethod td-value :stop     [conf m kw] (ui/button m kw :warn))
+(defmethod td-value :stop
+  [conf m kw]
+  (ui/button (assoc m :key (:ctrl-key m)) kw :warn))
 
-(defmethod td-value :mon      [conf m kw] (ui/button m kw :warn))
+(defmethod td-value :mon
+  [conf m kw]
+  (ui/button (assoc m :key (:ctrl-key m)) kw :warn))
 
-(defmethod td-value :ready    [conf m kw] (ui/button m kw :info))
+(defmethod td-value :ready
+  [conf m kw]
+  (ui/button (assoc m :key (:state-key m)) kw :info))
 
-(defmethod td-value :working  [conf m kw] (ui/button m kw :warn))
+(defmethod td-value :working
+  [conf m kw]
+  (ui/button (assoc m :key (:state-key m)) kw :warn))
 
-(defmethod td-value :executed [conf m kw] (ui/button m kw :success))
+(defmethod td-value :executed
+  [conf m kw]
+  (ui/button (assoc m :key (:state-key m)) kw :success))
 
 (defmethod td-value :par-idx  [conf m kw] [:span {:class "tag"} (kw m)])
 
@@ -33,6 +45,16 @@
 (defmethod td-value :level    [conf m kw] [:i (kw m)])
 
 (defmethod td-value :func     [conf m kw] [:span {:class "tag"} (kw m)])
+
+(defmethod td-value :state
+  [conf m kw]
+  (let [state (kw m)]
+    [:div {:class (str "is-size-6 " state) :id (ui/make-selectable (:state-key m))} state]))
+
+(defmethod td-value :ctrl
+  [conf m kw]
+  (let [ctrl (kw m)]
+    [:div {:class (str "is-size-6 " ctrl) :id (ui/make-selectable (:ctrl-key m))} ctrl]))
 
 (defmethod td-value :key
   [conf m kw]
@@ -114,5 +136,5 @@
 
 (defn view
   [conf req data]
-  (let [cols [:key  :struct :func :no-idx :seq-idx :task]]
+  (let [cols [:key  :title :ctrl :run :stop :mon :struct :func  :no-idx :seq-idx :par-idx :state :ready :working :executed :task]]
     (ui/index conf req (table conf data cols))))

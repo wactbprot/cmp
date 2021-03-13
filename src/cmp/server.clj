@@ -29,6 +29,7 @@
   (GET "/ui"                                    [:as req] (uil/view conf req (a/listeners conf req)))
   (GET "/ui/:mp/meta"                           [:as req] (uim/view conf req (a/mp-meta conf req)))
   (GET "/ui/:mp"                                [:as req] (uim/view conf req (a/mp-meta conf req)))
+  (GET "/ui/:mp/container/all"                  [:as req] (uic/view  conf req (a/container       conf req)))
   (GET "/ui/:mp/container/ctrl"                 [:as req] (uic/view-ctrl  conf req (a/container-ctrl       conf req)))
   (GET "/ui/:mp/container/state"                [:as req] (uic/view-state conf req (a/container-state      conf req)))
   (GET "/ui/:mp/container/definition"           [:as req] (uic/view       conf req (a/container-definition conf req)))
