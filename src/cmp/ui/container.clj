@@ -12,7 +12,11 @@
 
 (defmethod td-value :mp-id    [conf m kw] [:b (ui/mp-id-link conf m)])
 
-(defmethod td-value :title    [conf m kw] [:div {:class "is-size-6"} (kw m)])
+(defmethod td-value :title
+  [conf m kw]
+  [:a {:class "is-link is-light"
+       :href (ui/href m "/container")} (kw m)])
+
 
 (defmethod td-value :struct  [conf m kw] [:span {:class "tag"} (:struct m)])
 
