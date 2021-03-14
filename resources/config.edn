@@ -23,8 +23,8 @@
  ;; integrated ui
  :ui {:page-title "UI-CMP"
       :main-title "UI-CMP"
-      :trans {:state "state"
-              :ctrl "ctrl"
+      :trans {:state "state&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+              :ctrl "ctrl&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
               :container "cont."
               :def "def"
               :struct ""
