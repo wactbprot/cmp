@@ -30,7 +30,8 @@
           :source-uri "https://github.com/wactbprot/cmp/blob/master/{filepath}#L{line}"}
   :resource-paths ["resources"]
   :repositories [["snapshots" "https://repo.repsy.io/mvn/wactbprot/cmp"]
-                 ["releases" "https://repo.repsy.io/mvn/wactbprot/cmp"]]  :main cmp.server
+                 ["releases" "https://repo.repsy.io/mvn/wactbprot/cmp"]]
+  :main cmp.server
   :aot [cmp.server]
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
