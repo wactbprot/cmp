@@ -26,7 +26,7 @@
       (get-in conf [:ui :mp-alias (keyword mp)] mp)]]))
 
 (defn href [m p]
-  (str  "/ui/" (:mp-id m) "/" (:struct m) p
+  (str  "/ui/" (:mp-id m)  p
         (when (:no-idx m) (str "/" (:no-idx m)))
         (when (:seq-idx m) (str "/" (:seq-idx m)))))
 
