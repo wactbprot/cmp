@@ -25,6 +25,7 @@
       :main-title "UI-CMP"
       :trans {:state "state"
               :ctrl "ctrl"
+              :container "cont."
               :def "def"
               :struct ""
               :func ""

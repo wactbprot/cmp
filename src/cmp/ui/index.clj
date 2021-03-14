@@ -30,21 +30,9 @@
         (when (:no-idx m) (str "/" (:no-idx m)))
         (when (:seq-idx m) (str "/" (:seq-idx m)))))
 
-(defn state-link [conf m]
-  [:a  {:class "tag is-link is-light"
-        :href (href m "/state")} (get-in conf [:ui :trans :state] "state")])
-
-(defn ctrl-link [conf m]
-  [:a  {:class "tag is-link is-light"
-        :href (href m "/ctrl")} (get-in conf [:ui :trans :ctrl] "ctrl")])
-
-(defn definition-link [conf m]
+(defn container-link [conf m]
   [:a {:class "tag is-link is-light"
-       :href (href m "/definition")} (get-in conf [:ui :trans :ctrl] "ctrl")])
-
-(defn definition-link [conf m]
-  [:a {:class "tag is-link is-light"
-       :href (href m "/definition")} (get-in conf [:ui :trans :def] "def")])
+       :href (href m "/container")} (get-in conf [:ui :trans :container] "container")])
 
 ;;------------------------------
 ;; return data from client
@@ -74,11 +62,7 @@
   [conf m]
   [:footer {:class "card-footer"}
    [:span {:class "card-footer-item"}
-    (ctrl-link conf (assoc m :struct "container"))]
-   [:span {:class "card-footer-item"}
-    (state-link conf (assoc m :struct "container"))]
-   [:span {:class "card-footer-item"}
-    (definition-link conf (assoc m :struct "container"))]])
+    (container-link conf m)]])
 
 (defn card-template
   ([conf m content]
