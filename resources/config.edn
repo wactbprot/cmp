@@ -9,8 +9,8 @@
                      ;;  :filename "/tmp/mulog/events.log"}
                      ;; send events to ELS
                      {:type :elasticsearch
-                      ;; :url  "http://a75438:9200/"
-                      :url  "http://localhost:9200/"
+                      :url  "http://a75438:9200/"
+                      ;;:url  "http://localhost:9200/"
                       :els-version  :v7.x
                       :publish-delay 1000
                       :data-stream  "vl-log-stream"
@@ -63,6 +63,7 @@
  ;; long term memory: couchdb
  :lt-srv "127.0.0.1"
  ;;:lt-srv "a73434"
+
  :lt-port 5984
  :lt-db "vl_db_work"
  :lt-prot "http"

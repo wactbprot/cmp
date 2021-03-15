@@ -92,7 +92,7 @@
      [:a {:class "navbar-item" :href "http://localhost:8009"} "DevProxy"]]
     [:div  {:class "navbar-end"}
      [:a {:class "navbar-item" :href "http://localhost:8081"} "Redis"]
-     [:a {:class "navbar-item" :href "http://localhost:5601/app/discover"} "Logging"]
+     [:a {:class "navbar-item" :href "http://a75438.berlin.ptb.de:5601/app/discover"} "Logging"]
      [:a {:class "navbar-item" :href "https://a75436.berlin.ptb.de/vaclab/cmp"} "GitLab"]
      [:a {:class "navbar-item" :href "https://github.com/wactbprot/cmp"} "GitHub"]]]])
 
