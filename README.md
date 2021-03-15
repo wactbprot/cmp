@@ -9,5 +9,6 @@ measurement program definitions
 
 * `CMP_LT_SRV` ... CouchDB server Bsp.:  "127.0.0.1" oder "a73434"
 * `CMP_BUILD_ON_START` ... mpds to build on Start Bsp.:  "ppc-gas_dosing" or "se3-servo,se3-cmp_valves,se3-cmp_state"
+* `CMP_DEVHUB_URL` ... url for device requests (Action: TCP, VXI11, MODBUS EXECUTE) Bsp.: http://localhost:9009, http://a73434:55555
 
 See documentation on [wactbprot.github.io](https://wactbprot.github.io/cmp/)
