@@ -95,205 +95,187 @@
                 030&nbsp;&nbsp;(defroutes&nbsp;app-routes
                 </span><br/>
 <span class="partial" title="5 out of 16 forms covered">
-                031&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;setup&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uis&#x2F;view&nbsp;conf&nbsp;req&nbsp;(a&#x2F;listeners&nbsp;conf&nbsp;req)))
+                031&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;setup&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uis&#x2F;view&nbsp;conf&nbsp;req&nbsp;&nbsp;(a&#x2F;listeners&nbsp;conf&nbsp;req)))
                 </span><br/>
 <span class="partial" title="5 out of 16 forms covered">
-                032&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;listeners&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uil&#x2F;view&nbsp;conf&nbsp;req&nbsp;(a&#x2F;listeners&nbsp;conf&nbsp;req)))
+                032&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;listeners&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uil&#x2F;view&nbsp;conf&nbsp;req&nbsp;&nbsp;(a&#x2F;listeners&nbsp;conf&nbsp;req)))
                 </span><br/>
 <span class="partial" title="5 out of 16 forms covered">
-                033&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uil&#x2F;view&nbsp;conf&nbsp;req&nbsp;(a&#x2F;listeners&nbsp;conf&nbsp;req)))
+                033&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uil&#x2F;view&nbsp;conf&nbsp;req&nbsp;&nbsp;(a&#x2F;listeners&nbsp;conf&nbsp;req)))
                 </span><br/>
 <span class="partial" title="5 out of 16 forms covered">
-                034&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;meta&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uim&#x2F;view&nbsp;conf&nbsp;req&nbsp;(a&#x2F;mp-meta&nbsp;conf&nbsp;req)))
+                034&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;meta&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uim&#x2F;view&nbsp;conf&nbsp;req&nbsp;&nbsp;(a&#x2F;mp-meta&nbsp;&nbsp;&nbsp;conf&nbsp;req)))
                 </span><br/>
 <span class="partial" title="5 out of 16 forms covered">
-                035&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uim&#x2F;view&nbsp;conf&nbsp;req&nbsp;(a&#x2F;mp-meta&nbsp;conf&nbsp;req)))
+                035&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uim&#x2F;view&nbsp;conf&nbsp;req&nbsp;&nbsp;(a&#x2F;mp-meta&nbsp;&nbsp;&nbsp;conf&nbsp;req)))
                 </span><br/>
 <span class="partial" title="5 out of 16 forms covered">
-                036&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;container&#x2F;ctrl&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uic&#x2F;view-ctrl&nbsp;&nbsp;conf&nbsp;req&nbsp;(a&#x2F;container-ctrl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conf&nbsp;req)))
+                036&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;container&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uic&#x2F;view&nbsp;&nbsp;conf&nbsp;req&nbsp;(a&#x2F;container&nbsp;conf&nbsp;req)))
                 </span><br/>
 <span class="partial" title="5 out of 16 forms covered">
-                037&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;container&#x2F;state&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uic&#x2F;view-state&nbsp;conf&nbsp;req&nbsp;(a&#x2F;container-state&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conf&nbsp;req)))
-                </span><br/>
-<span class="partial" title="5 out of 16 forms covered">
-                038&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;container&#x2F;definition&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uic&#x2F;view&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conf&nbsp;req&nbsp;(a&#x2F;container-definition&nbsp;conf&nbsp;req)))
-                </span><br/>
-<span class="partial" title="5 out of 16 forms covered">
-                039&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;container&#x2F;ctrl&#x2F;:idx&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uic&#x2F;view-ctrl&nbsp;&nbsp;conf&nbsp;req&nbsp;(a&#x2F;container-ctrl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conf&nbsp;req)))
-                </span><br/>
-<span class="partial" title="5 out of 16 forms covered">
-                040&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;container&#x2F;state&#x2F;:idx&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uic&#x2F;view-state&nbsp;conf&nbsp;req&nbsp;(a&#x2F;container-state&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conf&nbsp;req)))
-                </span><br/>
-<span class="partial" title="5 out of 16 forms covered">
-                041&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;container&#x2F;definition&#x2F;:idx&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uic&#x2F;view&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conf&nbsp;req&nbsp;(a&#x2F;container-definition&nbsp;conf&nbsp;req)))
-                </span><br/>
-<span class="partial" title="5 out of 16 forms covered">
-                042&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;container&#x2F;state&#x2F;:idx&#x2F;:seq&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uic&#x2F;view-state&nbsp;conf&nbsp;req&nbsp;(a&#x2F;container-state&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conf&nbsp;req)))
-                </span><br/>
-<span class="partial" title="5 out of 16 forms covered">
-                043&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;container&#x2F;definition&#x2F;:idx&#x2F;:seq&quot;&nbsp;[:as&nbsp;req]&nbsp;(uic&#x2F;view&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conf&nbsp;req&nbsp;(a&#x2F;container-definition&nbsp;conf&nbsp;req)))
+                037&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;container&#x2F;:idx&quot;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uic&#x2F;view&nbsp;&nbsp;conf&nbsp;req&nbsp;(a&#x2F;container&nbsp;conf&nbsp;req)))
                 </span><br/>
 <span class="partial" title="5 out of 14 forms covered">
-                044&nbsp;&nbsp;&nbsp;&nbsp;(POST&nbsp;&quot;&#x2F;:mp&#x2F;container&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(res&#x2F;response&nbsp;(a&#x2F;set-val!&nbsp;conf&nbsp;req)))
+                038&nbsp;&nbsp;&nbsp;&nbsp;(POST&nbsp;&quot;&#x2F;:mp&#x2F;container&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(res&#x2F;response&nbsp;(a&#x2F;set-val!&nbsp;conf&nbsp;req)))
                 </span><br/>
 <span class="partial" title="5 out of 10 forms covered">
-                045&nbsp;&nbsp;&nbsp;&nbsp;(POST&nbsp;&quot;&#x2F;cmd&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(res&#x2F;response
+                039&nbsp;&nbsp;&nbsp;&nbsp;(POST&nbsp;&quot;&#x2F;cmd&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(res&#x2F;response
                 </span><br/>
 <span class="not-covered" title="0 out of 14 forms covered">
-                046&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(a&#x2F;cmd&nbsp;conf&nbsp;req)
+                040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(condp&nbsp;=&nbsp;(a&#x2F;cmd&nbsp;conf&nbsp;req)
                 </span><br/>
 <span class="not-covered" title="0 out of 10 forms covered">
-                047&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:restart&nbsp;&quot;server&quot;}&nbsp;((fn&nbsp;[](future&nbsp;(restart))
+                041&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:restart&nbsp;&quot;server&quot;}&nbsp;((fn&nbsp;[](future&nbsp;(restart))
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                048&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true}))
+                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true}))
                 </span><br/>
 <span class="not-covered" title="0 out of 11 forms covered">
-                049&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:rebuild&nbsp;&quot;tasks&quot;}&nbsp;&nbsp;((fn&nbsp;[]&nbsp;(future&nbsp;(cli&#x2F;t-refresh&nbsp;conf))
+                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:rebuild&nbsp;&quot;tasks&quot;}&nbsp;&nbsp;((fn&nbsp;[]&nbsp;(future&nbsp;(cli&#x2F;t-refresh&nbsp;conf))
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true}))
+                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true}))
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:nil&nbsp;(prn&nbsp;(a&#x2F;cmd&nbsp;conf&nbsp;req))})))
+                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:nil&nbsp;(prn&nbsp;(a&#x2F;cmd&nbsp;conf&nbsp;req))})))
                 </span><br/>
 <span class="partial" title="5 out of 12 forms covered">
-                052&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ws&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(ws&#x2F;main&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conf&nbsp;req))
+                046&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ws&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(ws&#x2F;main&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conf&nbsp;req))
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                053&nbsp;&nbsp;&nbsp;&nbsp;(route&#x2F;resources&nbsp;&quot;&#x2F;&quot;)
+                047&nbsp;&nbsp;&nbsp;&nbsp;(route&#x2F;resources&nbsp;&quot;&#x2F;&quot;)
                 </span><br/>
 <span class="covered" title="7 out of 7 forms covered">
-                054&nbsp;&nbsp;&nbsp;&nbsp;(route&#x2F;not-found&nbsp;(res&#x2F;response&nbsp;{:error&nbsp;&quot;not&nbsp;found&quot;})))
+                048&nbsp;&nbsp;&nbsp;&nbsp;(route&#x2F;not-found&nbsp;(res&#x2F;response&nbsp;{:error&nbsp;&quot;not&nbsp;found&quot;})))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                055&nbsp;&nbsp;
+                049&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                056&nbsp;&nbsp;(def&nbsp;app
+                050&nbsp;&nbsp;(def&nbsp;app
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                057&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&nbsp;(handler&#x2F;site&nbsp;app-routes)
+                051&nbsp;&nbsp;&nbsp;&nbsp;(-&gt;&nbsp;(handler&#x2F;site&nbsp;app-routes)
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                058&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(middleware&#x2F;wrap-json-body&nbsp;{:keywords?&nbsp;true})
+                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(middleware&#x2F;wrap-json-body&nbsp;{:keywords?&nbsp;true})
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;middleware&#x2F;wrap-json-response))
+                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;middleware&#x2F;wrap-json-response))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                060&nbsp;&nbsp;
+                054&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                061&nbsp;&nbsp;(defn&nbsp;stop&nbsp;[]
+                055&nbsp;&nbsp;(defn&nbsp;stop&nbsp;[]
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                062&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;stop&nbsp;ui&nbsp;web&nbsp;socket&nbsp;listener&quot;)
+                056&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;stop&nbsp;ui&nbsp;web&nbsp;socket&nbsp;listener&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                063&nbsp;&nbsp;&nbsp;&nbsp;(ws&#x2F;stop!&nbsp;conf)
+                057&nbsp;&nbsp;&nbsp;&nbsp;(ws&#x2F;stop!&nbsp;conf)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                064&nbsp;&nbsp;&nbsp;&nbsp;(run!&nbsp;(fn&nbsp;[mp-id]
+                058&nbsp;&nbsp;&nbsp;&nbsp;(run!&nbsp;(fn&nbsp;[mp-id]
                 </span><br/>
 <span class="not-covered" title="0 out of 14 forms covered">
-                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;stop&nbsp;mpd&quot;&nbsp;:mp-id&nbsp;mp-id)
+                059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;stop&nbsp;mpd&quot;&nbsp;:mp-id&nbsp;mp-id)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                066&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;m-stop&nbsp;conf&nbsp;mp-id))
+                060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;m-stop&nbsp;conf&nbsp;mp-id))
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:build-on-start&nbsp;conf))
+                061&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:build-on-start&nbsp;conf))
                 </span><br/>
 <span class="not-covered" title="0 out of 11 forms covered">
-                068&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;@server&nbsp;(@server&nbsp;:timeout&nbsp;100)
+                062&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;@server&nbsp;(@server&nbsp;:timeout&nbsp;100)
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;stop&nbsp;server&quot;)
+                063&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;stop&nbsp;server&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;server&nbsp;nil)
+                064&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;server&nbsp;nil)
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;stop&nbsp;logger&quot;)
+                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::stop&nbsp;:message&nbsp;&quot;stop&nbsp;logger&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                072&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;stop-log!&nbsp;conf))
+                066&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;stop-log!&nbsp;conf))
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                073&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true})
+                067&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true})
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                074&nbsp;&nbsp;
+                068&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                075&nbsp;&nbsp;(defn&nbsp;start&nbsp;[]
+                069&nbsp;&nbsp;(defn&nbsp;start&nbsp;[]
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                076&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;start-log!&nbsp;conf)
+                070&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;start-log!&nbsp;conf)
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                077&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;start&nbsp;ui&nbsp;web&nbsp;socket&nbsp;listener&quot;)
+                071&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;start&nbsp;ui&nbsp;web&nbsp;socket&nbsp;listener&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                078&nbsp;&nbsp;&nbsp;&nbsp;(ws&#x2F;start!&nbsp;conf)
+                072&nbsp;&nbsp;&nbsp;&nbsp;(ws&#x2F;start!&nbsp;conf)
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                079&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;refresh&nbsp;tasks&quot;)
+                073&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;refresh&nbsp;tasks&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                080&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;t-refresh&nbsp;conf)
+                074&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;t-refresh&nbsp;conf)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                081&nbsp;&nbsp;&nbsp;&nbsp;(run!&nbsp;(fn&nbsp;[mp-id]
+                075&nbsp;&nbsp;&nbsp;&nbsp;(run!&nbsp;(fn&nbsp;[mp-id]
                 </span><br/>
 <span class="not-covered" title="0 out of 14 forms covered">
-                082&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;build&nbsp;mpd&quot;&nbsp;:mp-id&nbsp;mp-id)
+                076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;build&nbsp;mpd&quot;&nbsp;:mp-id&nbsp;mp-id)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                083&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;m-build-ltm&nbsp;conf&nbsp;mp-id))
+                077&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cli&#x2F;m-build-ltm&nbsp;conf&nbsp;mp-id))
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                084&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(config&#x2F;build-on-start&nbsp;conf))
+                078&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(config&#x2F;build-on-start&nbsp;conf))
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                085&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;start&nbsp;server&quot;)
+                079&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::start&nbsp;:message&nbsp;&quot;start&nbsp;server&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 9 forms covered">
-                086&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;server&nbsp;(run-server&nbsp;#&#x27;app&nbsp;(:api&nbsp;conf)))
+                080&nbsp;&nbsp;&nbsp;&nbsp;(reset!&nbsp;server&nbsp;(run-server&nbsp;#&#x27;app&nbsp;(:api&nbsp;conf)))
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                087&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true})
+                081&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true})
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                082&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                083&nbsp;&nbsp;(defn&nbsp;restart&nbsp;[]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                084&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;100)
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                085&nbsp;&nbsp;&nbsp;&nbsp;(stop)
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                086&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;1000)
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                087&nbsp;&nbsp;&nbsp;&nbsp;(start))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
                 088&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                089&nbsp;&nbsp;(defn&nbsp;restart&nbsp;[]
-                </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
-                090&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;100)
-                </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
-                091&nbsp;&nbsp;&nbsp;&nbsp;(stop)
-                </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
-                092&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;1000)
-                </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
-                093&nbsp;&nbsp;&nbsp;&nbsp;(start))
-                </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                094&nbsp;&nbsp;
-                </span><br/>
-<span class="covered" title="1 out of 1 forms covered">
-                095&nbsp;&nbsp;(defn&nbsp;-main&nbsp;[&amp;&nbsp;args]
+                089&nbsp;&nbsp;(defn&nbsp;-main&nbsp;[&amp;&nbsp;args]
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                096&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::main&nbsp;:message&nbsp;&quot;call&nbsp;-main&quot;)
+                090&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::main&nbsp;:message&nbsp;&quot;call&nbsp;-main&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                097&nbsp;&nbsp;&nbsp;&nbsp;(start))
+                091&nbsp;&nbsp;&nbsp;&nbsp;(start))
                 </span><br/>
  </body>
 </html>

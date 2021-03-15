@@ -29,10 +29,8 @@
   :codox {:metadata {:doc/format :markdown}
           :source-uri "https://github.com/wactbprot/cmp/blob/master/{filepath}#L{line}"}
   :resource-paths ["resources"]
-  :ns-graph {:name "cmp"
-             :abbrev-ns false
-             :source-paths ["src/"]
-             :exclude ["java.*" "clojure.*"]}
+  :repositories [["snapshots" "https://repo.repsy.io/mvn/wactbprot/cmp"]
+                 ["releases" "https://repo.repsy.io/mvn/wactbprot/cmp"]]
   :main cmp.server
   :aot [cmp.server]
   :target-path "target/%s"

@@ -26,25 +26,12 @@
       (get-in conf [:ui :mp-alias (keyword mp)] mp)]]))
 
 (defn href [m p]
-  (str  "/ui/" (:mp-id m) "/" (:struct m) p
-        (when (:no-idx m) (str "/" (:no-idx m)))
-        (when (:seq-idx m) (str "/" (:seq-idx m)))))
+  (str  "/ui/" (:mp-id m)  p
+        (when (:no-idx m) (str "/" (:no-idx m)))))
 
-(defn state-link [conf m]
-  [:a  {:class "tag is-link is-light"
-        :href (href m "/state")} (get-in conf [:ui :trans :state] "state")])
-
-(defn ctrl-link [conf m]
-  [:a  {:class "tag is-link is-light"
-        :href (href m "/ctrl")} (get-in conf [:ui :trans :ctrl] "ctrl")])
-
-(defn definition-link [conf m]
+(defn container-link [conf m]
   [:a {:class "tag is-link is-light"
-       :href (href m "/definition")} (get-in conf [:ui :trans :ctrl] "ctrl")])
-
-(defn definition-link [conf m]
-  [:a {:class "tag is-link is-light"
-       :href (href m "/definition")} (get-in conf [:ui :trans :def] "def")])
+       :href (href m "/container")} (get-in conf [:ui :trans :container] "container")])
 
 ;;------------------------------
 ;; return data from client
@@ -53,18 +40,19 @@
 
 (defn button
   [m kw cls]
-  (let [ds "button is-small setter "
-        cs (condp = cls
-             :info    "is-info"
-             :success "is-success"
-             :warn    "is-warning"
-             :error   "is-danger"
-             "is-primary")]
-    [:button {:class (str ds cs)
-              :data-value (kw m)
-              :data-url (post-url m)
-              :data-key (:key m)}
-     (kw m)]))
+  (when-let [value (kw m)]
+    (let [ds "button is-small setter "
+          cs (condp = cls
+               :info    "is-outlined is-light is-info"
+               :success "is-outlined is-light is-success"
+               :warn    "is-outlined is-light is-warning"
+               :error   "is-outlined is-light is-danger"
+               "is-light is-outlined is-primary")]
+      [:button {:class (str ds cs)
+                :data-value (kw m)
+                :data-url (post-url m)
+                :data-key (:key m)}
+       value])))
 
 ;;------------------------------
 ;; card funs
@@ -73,11 +61,7 @@
   [conf m]
   [:footer {:class "card-footer"}
    [:span {:class "card-footer-item"}
-    (ctrl-link conf (assoc m :struct "container"))]
-   [:span {:class "card-footer-item"}
-    (state-link conf (assoc m :struct "container"))]
-   [:span {:class "card-footer-item"}
-    (definition-link conf (assoc m :struct "container"))]])
+    (container-link conf m)]])
 
 (defn card-template
   ([conf m content]
@@ -105,7 +89,7 @@
   [:div {:class "hero-head"}
    [:div  {:class "navbar-menu"}
     [:div  {:class "navbar-start"}
-     [:a {:class "navbar-item" :href "http://localhost:8009"} "Kundengeräte"]]
+     [:a {:class "navbar-item" :href "http://localhost:8009"} "DevProxy"]]
     [:div  {:class "navbar-end"}
      [:a {:class "navbar-item" :href "http://localhost:8081"} "Redis"]
      [:a {:class "navbar-item" :href "http://localhost:5601/app/discover"} "Logging"]
@@ -127,9 +111,9 @@
      [:nav {:class "tabs"}
       [:div {:class "container"}
        [:ul
-        [:li [:a {:class "navbar-item is-link"   :href "/ui/listeners"} "Aktive Abläufe"]]
-        (when mp-id
-          [:li [:a {:class "navbar-item is-link" :href (str "/ui/" mp-id "/meta")} "Info"]])]]]]))
+        [:li [:a {:class "navbar-item is-link"   :href "/ui/listeners"} "Listener"]]
+        [:li [:a {:class "navbar-item is-link" :href (str "/ui/" mp-id "/meta")} "MP-Info"]]
+        [:li [:a {:class "navbar-item is-link" :href (str "/ui/" mp-id "/container")} "Container"]]]]]]))
 
 (defn index-title
   [conf req]
@@ -148,7 +132,7 @@
                 [:div {:class "container content"}
                  [:div {:class "box"}
                   body]]]
-               (hp/include-js "/js/jquery-3.5.1.min.js")
+                  (hp/include-js "/js/jquery-3.5.1.min.js")
                (hp/include-js "/js/ws.js")
                (hp/include-js "/js/main.js")])))
   

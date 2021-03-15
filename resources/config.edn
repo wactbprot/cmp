@@ -9,7 +9,8 @@
                      ;;  :filename "/tmp/mulog/events.log"}
                      ;; send events to ELS
                      {:type :elasticsearch
-                      :url  "http://a75438:9200/"
+                      ;; :url  "http://a75438:9200/"
+                      :url  "http://localhost:9200/"
                       :els-version  :v7.x
                       :publish-delay 1000
                       :data-stream  "vl-log-stream"
@@ -22,13 +23,16 @@
  ;; integrated ui
  :ui {:page-title "UI-CMP"
       :main-title "UI-CMP"
-      :trans {:state "state"
-              :ctrl "ctrl"
+      :trans {:state "State&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+              :ctrl "Ctrl&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+              :title "Title"
+              :task "Task"
+              :container "Container"
               :def "def"
               :struct ""
               :func ""
               :mp-id "mp-id"
-              :no-idx "Ablauf #"
+              :no-idx "Cont. #"
               :seq-idx "seq."
               :par-idx "par."
               :run ""
@@ -37,7 +41,7 @@
               :stop ""
               :executed ""
               :working ""
-              :value "cur. val."}
+              :value "Current Value"}
       ;; place images in resources/public/img
       :img {:ref "ref.jpg"
             :se3-servo "servo.jpg"
@@ -85,8 +89,8 @@
                     :connection-timeout 600000
                     :accept :json}
  ;; :dev-hub-url "http://e75455:55555"
- ;; :dev-hub-url "http://localhost:9009"
- :dev-hub-url "http://a73434:55555"
+ :dev-hub-url "http://localhost:9009"
+ ;; :dev-hub-url "http://a73434:55555"
  ;; :dev-hub-url "http://localhost:55555"
  ;; :anselm-url "http://localhost:50005"
  :anselm-url "http://localhost:8009"
