@@ -80,7 +80,7 @@
   "Builds up the `ref`erence mpd provided in `edn` format in the
   resources folder."
   [conf]
-  (let [doc (-> (config/ref-mpd conf) slurp read-string)
+  (let [doc   (config/ref-mpd conf) 
         mp-id (u/extr-main-path (:_id doc))]
     (m-stop conf mp-id)
     (st/clear! mp-id)

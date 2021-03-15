@@ -9,6 +9,7 @@
                      ;;  :filename "/tmp/mulog/events.log"}
                      ;; send events to ELS
                      {:type :elasticsearch
+                      ;; :url  "http://a75438:9200/"
                       :url  "http://localhost:9200/"
                       :els-version  :v7.x
                       :publish-delay 1000
@@ -18,44 +19,45 @@
  ;; rest api server
  :api {:port 8010}
  :build-delay 500
- :build-on-start ["se3-servo"
-                  "se3-cmp_valves"
-                  "se3-cmp_state"
-                  "se3-cmp_direct"
-                  "se3-cmp_calib"
-                  ]
+ :build-on-start []
  ;; integrated ui
  :ui {:page-title "UI-CMP"
       :main-title "UI-CMP"
-      :trans {:state "Zust."
-              :ctrl "Strg."
-              :def "Def."
+      :trans {:state "State&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+              :ctrl "Ctrl&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+              :title "Title"
+              :task "Task"
+              :container "Container"
+              :def "def"
               :struct ""
               :func ""
-              :mp-id "Name Messabläufe"
-              :no-idx "Ablauf #"
-              :seq-idx "seq. Schritt #"
-              :par-idx "par. Schritt #"
+              :mp-id "mp-id"
+              :no-idx "Cont. #"
+              :seq-idx "seq."
+              :par-idx "par."
               :run ""
               :mon ""
               :ready ""
               :stop ""
               :executed ""
               :working ""
-              :value "derz. Wert"}
+              :value "Current Value"}
       ;; place images in resources/public/img
-      :img {:se3-servo "servo.jpg"
+      :img {:ref "ref.jpg"
+            :se3-servo "servo.jpg"
             :se3-cmp_valves "valve.jpg"
             :se3-cmp_state "state.jpg"
             :se3-cmp_calib "se3-calib.jpg"
             :se3-cmp_direct "se3-direct.jpg"
-            :ref "ref.jpg"
-            }
+            :ppc-gas_dosing "ppc-gas_dosing.jpg"}
       :mp-alias {:se3-servo "SE3 Servomotoren"
                  :se3-cmp_valves "SE3 Ventilstellungen"
                  :se3-cmp_state "SE3 Zusatzvolumenbestimmung, Ausgasrate etc."
                  :se3-cmp_calib "SE3 Kalibrierung Expansion"
                  :se3-cmp_direct "SE3 Kalibrierung Direktvergleich"
+                 :ce3-cmp_calib "The CE3 Measurement Program"
+                 :ce3-sputter "The CE3 Sputter Program"
+                 :ppc-gas_dosing "Set PPC filling pressure"
                  :ref "Referenz MP"}
       }
  ;; long term memory: couchdb
@@ -70,7 +72,7 @@
  ;; for order or sorting reasons
  ;; idx, jdx and kdx are padded
  :key-pad-length 3
- :ref-mpd "resources/mpd-ref.edn"
+ :ref-mpd "mpd-ref.edn"
  ;; a task should at least take 10ms
  ;; in order to give the keyspace notification listener
  ;; a chance to find the `next-to-start` task
@@ -88,7 +90,7 @@
                     :accept :json}
  ;; :dev-hub-url "http://e75455:55555"
  :dev-hub-url "http://localhost:9009"
- ;; :dev-hub-url "http://a73436:55555"
+ ;; :dev-hub-url "http://a73434:55555"
  ;; :dev-hub-url "http://localhost:55555"
  ;; :anselm-url "http://localhost:50005"
  :anselm-url "http://localhost:8009"

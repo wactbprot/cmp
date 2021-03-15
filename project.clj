@@ -1,4 +1,4 @@
-(defproject cmp "0.21.0"
+(defproject cmp "0.21.3"
   :description "A study of an interpreter for measurement 
   program definitions (mpd) written in clojure."
   :url "https://github.com/wactbprot/cmp"
@@ -20,8 +20,6 @@
                  [com.brunobonacci/mulog-elasticsearch "0.6.0"]
                  [djblue/portal                        "0.9.0"]
                  [clj-http                             "3.10.0"]]
-  :main ^:skip-aot cmp.core
-  :target-path "target/%s"
   :repl-options {:init-ns cmp.server}
   :plugins [[lein-cloverage  "1.1.2"]
             [lein-codox      "0.10.7"]
@@ -30,7 +28,10 @@
               :high-watermark 60}
   :codox {:metadata {:doc/format :markdown}
           :source-uri "https://github.com/wactbprot/cmp/blob/master/{filepath}#L{line}"}
-  :ns-graph {:name "cmp"
-             :abbrev-ns false
-             :source-paths ["src/"]
-             :exclude ["java.*" "clojure.*"]})
+  :resource-paths ["resources"]
+  :repositories [["snapshots" "https://repo.repsy.io/mvn/wactbprot/cmp"]
+                 ["releases" "https://repo.repsy.io/mvn/wactbprot/cmp"]]
+  :main cmp.server
+  :aot [cmp.server]
+  :target-path "target/%s"
+  :profiles {:uberjar {:aot :all}})
