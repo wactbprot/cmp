@@ -39,6 +39,12 @@
      url
      (:dev-hub-url c)))
 
+(defn dev-proxy-url
+  [c]
+   (if-let [url (System/getenv "CMP_DEVPROXY_URL")]
+     url
+     (:dev-proxy-url c)))
+
 (defn lt-url
   [c]
   (let [lt-srv (System/getenv "CMP_LT_SRV")
