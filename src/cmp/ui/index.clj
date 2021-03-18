@@ -111,9 +111,12 @@
      [:nav {:class "tabs"}
       [:div {:class "container"}
        [:ul
-        [:li [:a {:class "navbar-item is-link"   :href "/ui/listeners"} "Listener"]]
-        [:li [:a {:class "navbar-item is-link" :href (str "/ui/" mp-id "/meta")} "MP-Info"]]
-        [:li [:a {:class "navbar-item is-link" :href (str "/ui/" mp-id "/container")} "Container"]]]]]]))
+        [:li [:a {:class "navbar-item is-link" :href "/ui/setup"} "Setup"]]
+        [:li [:a {:class "navbar-item is-link" :href "/ui/listeners"} "Listener"]]
+        (when-not (= mp-id "*")
+          [:li [:a {:class "navbar-item is-link" :href (str "/ui/" mp-id "/meta")} "MP-Info"]])
+        (when-not (= mp-id "*")
+          [:li [:a {:class "navbar-item is-link" :href (str "/ui/" mp-id "/container")} "Container"]])]]]]))
 
 (defn index-title
   [conf req]

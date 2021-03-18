@@ -1,6 +1,6 @@
-(ns cmp.key-utils-test
+(ns cmp.st-utils-test
   (:require [clojure.test  :refer :all]
-            [cmp.key-utils :refer :all]
+            [cmp.st-utils :refer :all]
             [cmp.utils     :as u]))
 
 (deftest info-map->definition-key-i

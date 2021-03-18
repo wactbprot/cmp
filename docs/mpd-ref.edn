@@ -69,7 +69,7 @@
     :Definition
     [[{:TaskName "Common-select_definition",
        :Replace {:%definitionclass "wait"}}]]}
-   ;; fourth container
+   ;; 4. container
    {:Description "Run a mpd (first container of ref).",
     :Ctrl "void",
     :Title "run 1st container",
@@ -78,6 +78,7 @@
     [[{:TaskName "Common-run_mp",
        :Replace {:%conttitle "multiple wait tasks"
                  :%mpdef "ref" }}]]}
+   ;; 5. container
    {:Description "Test read_exchange action."
     :Ctrl "void"
     :Title "read exchange."
@@ -85,6 +86,7 @@
     :Definition [[{:TaskName "Common-simple_read_element"
                    :Replace {:%docpath "Measurement.Values.Pressure"
                              :%exchpath "A"}}]]}
+   ;; 6. container
    {:Description "Test anselm request."
     :Ctrl "void"
     :Title "anselm."
@@ -92,6 +94,7 @@
     :Definition [
                  [{:TaskName "Common-anselm_get_dut_max"}]
                  ]}
+   ;; 7. container
    {:Description "Test date and time and the ability to parallel write to database docs."
     :Ctrl "void"
     :Title "date & time"
@@ -103,16 +106,29 @@
                    :Replace {:%docpath "Calibration.Measurement.AuxValues.Time"
                              :%type "cmp-test"}}]
                  ]}
+   ;; 8. container
    {:Description "Message test."
     :Ctrl "void"
     :Title "message"
     :Element ["*"]
     :Definition [[{:TaskName "Common-message"
-                   :Replace {:%message "cmp"}}]
-                 ]}]
-  ;; -------------------------------------------------------
-  ;; Definitions section
-  ;; -------------------------------------------------------
+                   :Replace {:%message "Lorem ipsum dolor sit amet,
+                 consetetur sadipscing elitr, sed diam nonumy eirmod
+                 tempor invidunt ut labore et dolore magna aliquyam
+                 erat, sed diam voluptua. At vero eos et accusam et
+                 justo duo dolores et ea rebum. Stet clita kasd
+                 gubergren, no sea takimata sanctus est Lorem ipsum
+                 dolor sit amet. Lorem ipsum dolor sit amet,
+                 consetetur sadipscing elitr, sed diam nonumy eirmod
+                 tempor invidunt ut labore et dolore magna aliquyam
+                 erat, sed diam voluptua. At vero eos et accusam et
+                 justo duo dolores et ea rebum. Stet clita kasd
+                 gubergren, no sea takimata sanctus est Lorem ipsum
+                 dolor sit amet."}}]  ]}] ;;
+
+  -------------------------------------------------------
+  ;; Definitions section ;;
+  -------------------------------------------------------
   :Definitions
   [;; Several definitions with the same
    ;; class (here wait) are possible.

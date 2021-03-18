@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [cmp.cli :refer :all]
             [cmp.config     :as config]
-            [cmp.key-utils  :as ku]
+            [cmp.st-utils   :as stu]
             [cmp.st-mem     :as st]))
 
 (def conf (config/config))
@@ -12,12 +12,12 @@
 (deftest task-refresh-clear-refresh-test
   (testing "refresh and clear tasks"
     (t-refresh conf)
-    (is (pos? (count (st/pat->keys (ku/task-key "*")))))
+    (is (pos? (count (st/pat->keys (stu/task-key "*")))))
     (t-clear conf)
     (Thread/sleep 100)
-    (is (zero? (count (st/pat->keys (ku/task-key "*")))))
+    (is (zero? (count (st/pat->keys (stu/task-key "*")))))
     (t-refresh conf)
-    (is (pos? (count (st/pat->keys (ku/task-key "*")))))))
+    (is (pos? (count (st/pat->keys (stu/task-key "*")))))))
 
 (deftest mpd-ref-build-clear-build-test
   (testing "clear ref-mpd"
@@ -40,9 +40,9 @@
     (Thread/sleep 100)
     (c-run conf "ref" 0)
     (Thread/sleep 100)
-    (is (= "run" (st/key->val (ku/cont-ctrl-key "ref" 0))))
+    (is (= "run" (st/key->val (stu/cont-ctrl-key "ref" 0))))
     (Thread/sleep 3000)
-    (is (= "ready" (st/key->val (ku/cont-ctrl-key "ref" 0))))))
+    (is (= "ready" (st/key->val (stu/cont-ctrl-key "ref" 0))))))
 
 (deftest mpd-ref-container-1-test
   (testing "clear ref-mpd"
@@ -50,9 +50,9 @@
     (Thread/sleep 100)
     (c-run conf "ref" 1)
     (Thread/sleep 100)
-    (is (= "run" (st/key->val (ku/cont-ctrl-key "ref" 1))))
+    (is (= "run" (st/key->val (stu/cont-ctrl-key "ref" 1))))
     (Thread/sleep 2000)
-    (is (= "ready" (st/key->val (ku/cont-ctrl-key "ref" 1))))))
+    (is (= "ready" (st/key->val (stu/cont-ctrl-key "ref" 1))))))
 
 (deftest mpd-ref-container-2-test
   (testing "select ref-mpd"
@@ -60,9 +60,9 @@
     (Thread/sleep 100)
     (c-run conf "ref" 2)
     (Thread/sleep 100)
-    (is (= "run" (st/key->val (ku/cont-ctrl-key "ref" 2))))
+    (is (= "run" (st/key->val (stu/cont-ctrl-key "ref" 2))))
     (Thread/sleep 2000)
-    (is (= "ready" (st/key->val (ku/cont-ctrl-key "ref" 2))))))
+    (is (= "ready" (st/key->val (stu/cont-ctrl-key "ref" 2))))))
 
 (deftest mpd-ref-container-3-test
   (testing "runMp ref-mpd"
@@ -70,8 +70,21 @@
     (Thread/sleep 100)
     (c-run conf "ref" 3)
     (Thread/sleep 100)
-    (is (= "run" (st/key->val (ku/cont-ctrl-key "ref" 3))))
+    (is (= "run" (st/key->val (stu/cont-ctrl-key "ref" 3))))
     (Thread/sleep 3000)
-    (is (= "ready" (st/key->val (ku/cont-ctrl-key "ref" 3))))))
+    (is (= "ready" (st/key->val (stu/cont-ctrl-key "ref" 3))))))
+
+(deftest mpd-ref-container-7-test
+  (testing "message ref-mpd"
+    (m-build-ref conf)
+    (Thread/sleep 100)
+    (c-run conf "ref" 7)
+    (Thread/sleep 100)
+    (is (= "run" (st/key->val (stu/cont-ctrl-key "ref" 7))))
+    (Thread/sleep 3000)
+    (is (= "run" (st/key->val (stu/cont-ctrl-key "ref" 7))))
+    (st/set-val!  "ref@container@007@message" "ok") 
+    (Thread/sleep 1000)
+    (is (= "ready" (st/key->val (stu/cont-ctrl-key "ref" 7))))))
 
 (stop-log! conf)

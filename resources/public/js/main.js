@@ -24,10 +24,44 @@ $(".copy").click( e => {
     document.body.removeChild(d);  
 });
 
-$(".setter").click( e => {
+
+var get_url = (e) => {
     var $this = $(e.currentTarget);
-    var path = $this.data("url");
-    var data = {"key": $this.data("key"),
-		"value": $this.data("value")};
-    post(path, data);
+    return $this.data("url");
+}
+
+var get_data = (e) => {
+    var $this = $(e.currentTarget);
+    return {"key": $this.data("key"),
+	    "value": $this.data("value")}
+}
+
+$(".setter").click( e => {
+    post(get_url(e), get_data(e));
 });
+
+
+$(".message_ok").click( e => {
+    $(e.currentTarget).closest(".modal").removeClass("is-active");
+    console.log(get_url(e));
+    post(get_url(e), get_data(e));
+    
+});
+
+$(".restart").click( e => {
+    post(get_url(e), get_data(e));
+    var $this = $(e.currentTarget);
+    
+    $this.after( "<progress class='progress is-danger' max='100'>30%</progress>")
+    setTimeout(()=> { location.reload(); }, 2000); 
+});
+
+
+$(".rebuild").click( e => {
+    post(get_url(e), get_data(e));
+    var $this = $(e.currentTarget);
+    
+    $this.after( "<progress class='progress is-warning' max='100'>30%</progress>")
+    setTimeout(()=> { location.reload(); }, 2000); 
+});
+

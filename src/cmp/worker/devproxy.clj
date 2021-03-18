@@ -12,7 +12,7 @@
 (defn url
   "Builds up the url for a `anselm` request."
   [{path :RequestPath}]
-  (str (cfg/anselm-url (cfg/config)) "/" path))
+  (str (cfg/dev-proxy-url (cfg/config)) "/" path))
   
 (defn req
   "Builds up the `req`est map for a `devproxy` request."

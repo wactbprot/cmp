@@ -1,3 +1,4 @@
+/target
 /classes
 /checkouts
 pom.xml
@@ -7,3 +8,4 @@ pom.xml.asc
 /.nrepl-port
 .vscode
 *cider-error*
+*.jar

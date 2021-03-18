@@ -3,7 +3,7 @@
     :doc "Builds up the short term memory with given the `mpd`."}
   (:require [com.brunobonacci.mulog  :as mu]
             [cmp.st-mem              :as st]
-            [cmp.key-utils           :as stu]
+            [cmp.st-utils            :as stu]
             [cmp.utils               :as u]))
 
 ;;------------------------------
