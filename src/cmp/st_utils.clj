@@ -97,7 +97,8 @@
   * `elem`
   * `decr`
   * `title`
-  * `definition`"
+  * `definition`
+  * `messsage`"
   [k]
   (when (string? k) (nth (string/split k re-sep) 3 nil)))
 

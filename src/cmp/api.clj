@@ -129,15 +129,15 @@
 ;;------------------------------
 ;; set value to st-mem
 ;;------------------------------
-(defn set-val!
-  [conf req]
-  (let [k (get-in req [:body :key])
-        v (get-in req [:body :value])]
+(defn set-val! [conf req]
+  (let [k (get-in req [:body :key]) 
+        v (get-in req [:body :value])] 
     (if (and k v)
       (if (= "OK" (st/set-val! k v))
         {:ok true}
         {:error "on attempt to set value"}) 
       {:error "missing key or value"})))
 
-(defn cmd [conf req] {(keyword (get-in req [:body :key])) (get-in req [:body :value])})
+(defn cmd [conf req]
+  {(keyword (get-in req [:body :key])) (get-in req [:body :value])})
 

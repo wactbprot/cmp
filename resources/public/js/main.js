@@ -40,6 +40,14 @@ $(".setter").click( e => {
     post(get_url(e), get_data(e));
 });
 
+
+$(".message_ok").click( e => {
+    $(e.currentTarget).closest(".modal").removeClass("is-active");
+    console.log(get_url(e));
+    post(get_url(e), get_data(e));
+    
+});
+
 $(".restart").click( e => {
     post(get_url(e), get_data(e));
     var $this = $(e.currentTarget);
@@ -56,3 +64,4 @@ $(".rebuild").click( e => {
     $this.after( "<progress class='progress is-warning' max='100'>30%</progress>")
     setTimeout(()=> { location.reload(); }, 2000); 
 });
+
