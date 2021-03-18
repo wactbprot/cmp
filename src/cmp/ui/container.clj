@@ -1,6 +1,7 @@
 (ns cmp.ui.container
   (:require [cmp.ui.task  :as tsk]
-            [cmp.ui.index :as ui]))
+            [cmp.ui.index :as ui]
+            [cmp.st-utils :as stu]))
 
 ;;------------------------------
 ;; table cell funs
@@ -104,9 +105,35 @@
        (into (table-base conf head) (table-row conf data head)))))
 
 ;;------------------------------
+;; modal message
+;;------------------------------
+(defn message-id
+  [conf m]
+  (ui/make-selectable (stu/key->message-key (:state-key m))))
+  
+(defn message
+  [conf m]
+  [:div {:class "modal" :id (message-id conf m)} 
+   [:div {:class "modal-background"}]
+   [:div {:class "modal-content"}
+    [:div {:class "notification is-light is-info"}]
+    [:button {:class "message_ok button is-light is-success"
+              :data-url (ui/post-url m)
+              :data-key (stu/key->message-key (:state-key m))
+              :data-value "ok"} "ok"]]])
+
+(defn messages [conf data] (into [:div] (mapv (fn [m] (message conf m)) data)))
+
+;;------------------------------
 ;; view-*
 ;;------------------------------
 (defn view
   [conf req data]
-  (let [cols [:title :ctrl :run :stop :mon :state :ready :working :executed :key :task]]
-    (ui/index conf req (table conf data cols))))
+  (let [cols [:title
+              :ctrl :run :stop :mon
+              :state :ready :working :executed
+              :key :task]]
+    (ui/index conf req
+              [:div {:class "content"}
+               (table conf data cols)
+               (messages conf data)])))

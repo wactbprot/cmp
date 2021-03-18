@@ -97,7 +97,8 @@
   * `elem`
   * `decr`
   * `title`
-  * `definition`"
+  * `definition`
+  * `messsage`"
   [k]
   (when (string? k) (nth (string/split k re-sep) 3 nil)))
 
@@ -218,8 +219,8 @@
 ;;------------------------------
 ;; message
 ;;------------------------------
-(defn key->message-path
-  "Returns the `message` path."
+(defn key->message-key
+  "Returns the `message` key."
   [k]
   (when (string? k)
     (vec->key [(key->mp-id k) (key->struct k) (key->no-idx k) "message"])))
