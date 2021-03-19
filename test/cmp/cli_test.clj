@@ -74,4 +74,17 @@
     (Thread/sleep 3000)
     (is (= "ready" (st/key->val (stu/cont-ctrl-key "ref" 3))))))
 
+(deftest mpd-ref-container-7-test
+  (testing "message ref-mpd"
+    (m-build-ref conf)
+    (Thread/sleep 100)
+    (c-run conf "ref" 7)
+    (Thread/sleep 100)
+    (is (= "run" (st/key->val (stu/cont-ctrl-key "ref" 7))))
+    (Thread/sleep 3000)
+    (is (= "run" (st/key->val (stu/cont-ctrl-key "ref" 7))))
+    (st/set-val!  "ref@container@007@message" "ok") 
+    (Thread/sleep 1000)
+    (is (= "ready" (st/key->val (stu/cont-ctrl-key "ref" 7))))))
+
 (stop-log! conf)

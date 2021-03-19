@@ -19,7 +19,8 @@
  ;; rest api server
  :api {:port 8010}
  :build-delay 500
- :build-on-start ["frs5-cmp_calib"]
+
+ :build-on-start []
  ;; integrated ui
  :ui {:page-title "UI-CMP"
       :main-title "UI-CMP"

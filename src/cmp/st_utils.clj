@@ -19,8 +19,8 @@
 
 (defn vec->key
   "Joins the vec to a key."
-  [p]
-  (string/join sep p))
+  [v]
+  (string/join sep v))
 
 (defn key-at-level
   "Returns the value of the key `k` at the level `l`."
