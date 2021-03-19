@@ -11,7 +11,8 @@ var set_value_and_class = (k, v) => {
     $k.text(v);
 }
 
-var get_func = (k) => {return k.split("_")[3];}
+var check_message = (k) => {
+    return k.includes("message");}
 
 var show_message = (k, v) => {
     // ok is already the answer of
@@ -30,7 +31,8 @@ ws.onmessage = function (event) {
     if(data.key && data.value) {
 	var k = data.key;
 	var v = data.value;
-	if(get_func(k) == "message"){
+
+	if(check_message(k)){
 	    show_message(k, v);
 	}else{
 	    set_value_and_class(k, v);
