@@ -37,6 +37,12 @@
         [:li "Port: " (:Port t)]
         [:li "Value: " (:Value t)]]))
 
+(defmethod card :select
+  [conf {t :task :as m}]
+  (div conf t
+       [:ul
+        [:li "DefinitionClass: " (:DefinitionClass t)]]))
+
 (defmethod card :runMp
   [conf {t :task :as m}]
   (let [mp     (u/extr-main-path  (:Mp t))

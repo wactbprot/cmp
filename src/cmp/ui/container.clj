@@ -1,7 +1,8 @@
 (ns cmp.ui.container
   (:require [cmp.ui.task  :as tsk]
             [cmp.ui.index :as ui]
-            [cmp.st-utils :as stu]))
+            [cmp.st-utils :as stu]
+            [cmp.utils :as u]))
 
 ;;------------------------------
 ;; table cell funs
@@ -122,7 +123,11 @@
               :data-key (stu/key->message-key (:state-key m))
               :data-value "ok"} "ok"]]])
 
-(defn messages [conf data] (into [:div] (mapv (fn [m] (message conf m)) data)))
+(defn messages [conf data]
+  (into [:div] (mapv (fn [m]
+                       (when (= 0 (+ (u/ensure-int (:seq-idx m))
+                                     (u/ensure-int (:par-idx m))))
+                         (message conf m))) data)))
 
 ;;------------------------------
 ;; view-*

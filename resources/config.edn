@@ -19,6 +19,7 @@
  ;; rest api server
  :api {:port 8010}
  :build-delay 500
+
  :build-on-start []
  ;; integrated ui
  :ui {:page-title "UI-CMP"
