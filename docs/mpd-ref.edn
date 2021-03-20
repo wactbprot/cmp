@@ -126,9 +126,9 @@
                  gubergren, no sea takimata sanctus est Lorem ipsum
                  dolor sit amet."}}]  ]}] ;;
 
-  -------------------------------------------------------
+  ;; -------------------------------------------------------
   ;; Definitions section ;;
-  -------------------------------------------------------
+  ;; -------------------------------------------------------
   :Definitions
   [;; Several definitions with the same
    ;; class (here wait) are possible.

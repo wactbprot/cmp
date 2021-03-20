@@ -113,10 +113,10 @@
                 036&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uim&#x2F;view&nbsp;conf&nbsp;req&nbsp;&nbsp;(a&#x2F;mp-meta&nbsp;&nbsp;&nbsp;conf&nbsp;req)))
                 </span><br/>
 <span class="partial" title="5 out of 16 forms covered">
-                037&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;container&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uic&#x2F;view&nbsp;&nbsp;conf&nbsp;req&nbsp;(a&#x2F;container&nbsp;conf&nbsp;req)))
+                037&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;container&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uic&#x2F;view&nbsp;conf&nbsp;req&nbsp;(a&#x2F;container&nbsp;conf&nbsp;req)))
                 </span><br/>
 <span class="partial" title="5 out of 16 forms covered">
-                038&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;container&#x2F;:idx&quot;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uic&#x2F;view&nbsp;&nbsp;conf&nbsp;req&nbsp;(a&#x2F;container&nbsp;conf&nbsp;req)))
+                038&nbsp;&nbsp;&nbsp;&nbsp;(GET&nbsp;&quot;&#x2F;ui&#x2F;:mp&#x2F;container&#x2F;:idx&quot;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(uic&#x2F;view&nbsp;conf&nbsp;req&nbsp;(a&#x2F;container&nbsp;conf&nbsp;req)))
                 </span><br/>
 <span class="partial" title="5 out of 14 forms covered">
                 039&nbsp;&nbsp;&nbsp;&nbsp;(POST&nbsp;&quot;&#x2F;:mp&#x2F;container&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:as&nbsp;req]&nbsp;(res&#x2F;response&nbsp;(a&#x2F;set-val!&nbsp;conf&nbsp;req)))
@@ -263,28 +263,25 @@
                 086&nbsp;&nbsp;(defn&nbsp;restart&nbsp;[]
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                087&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;100)
+                087&nbsp;&nbsp;&nbsp;&nbsp;(stop)
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                088&nbsp;&nbsp;&nbsp;&nbsp;(stop)
+                088&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;1000)
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                089&nbsp;&nbsp;&nbsp;&nbsp;(Thread&#x2F;sleep&nbsp;1000)
-                </span><br/>
-<span class="not-covered" title="0 out of 2 forms covered">
-                090&nbsp;&nbsp;&nbsp;&nbsp;(start))
+                089&nbsp;&nbsp;&nbsp;&nbsp;(start))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                091&nbsp;&nbsp;
+                090&nbsp;&nbsp;
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                092&nbsp;&nbsp;(defn&nbsp;-main&nbsp;[&amp;&nbsp;args]
+                091&nbsp;&nbsp;(defn&nbsp;-main&nbsp;[&amp;&nbsp;args]
                 </span><br/>
 <span class="not-covered" title="0 out of 12 forms covered">
-                093&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::main&nbsp;:message&nbsp;&quot;call&nbsp;-main&quot;)
+                092&nbsp;&nbsp;&nbsp;&nbsp;(mu&#x2F;log&nbsp;::main&nbsp;:message&nbsp;&quot;call&nbsp;-main&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                094&nbsp;&nbsp;&nbsp;&nbsp;(start))
+                093&nbsp;&nbsp;&nbsp;&nbsp;(start))
                 </span><br/>
  </body>
 </html>

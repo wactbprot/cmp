@@ -17,7 +17,7 @@
   [conf t body]
   [:div {:title (che/encode t)}
    (label conf t)
-   [:div {:class "mb-0 notification"} (:Comment t)]
+   [:div {:class "mb-0 notification is-light is-info"} (:Comment t)]
    body])
 
 (defmulti card  (fn [conf m] (-> m :task :Action keyword)))

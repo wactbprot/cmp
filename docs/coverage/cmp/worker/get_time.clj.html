@@ -43,22 +43,22 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 013&nbsp;&nbsp;&nbsp;&nbsp;[{type&nbsp;:Type&nbsp;doc-path&nbsp;:DocPath&nbsp;exch-path&nbsp;:ExchangePath&nbsp;state-key&nbsp;:StateKey&nbsp;mp-id&nbsp;:MpName&nbsp;:as&nbsp;task}]
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 014&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:working)
                 </span><br/>
-<span class="not-covered" title="0 out of 7 forms covered">
+<span class="covered" title="7 out of 7 forms covered">
                 015&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[val&nbsp;&nbsp;{:Type&nbsp;type&nbsp;:Value&nbsp;(u&#x2F;get-time)}
                 </span><br/>
-<span class="not-covered" title="0 out of 6 forms covered">
+<span class="covered" title="6 out of 6 forms covered">
                 016&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ret&nbsp;&nbsp;(doc&#x2F;store!&nbsp;mp-id&nbsp;[val]&nbsp;doc-path)]
                 </span><br/>
-<span class="not-covered" title="0 out of 8 forms covered">
+<span class="covered" title="8 out of 8 forms covered">
                 017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;exch-path&nbsp;(exch&#x2F;to!&nbsp;mp-id&nbsp;val&nbsp;exch-path))
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(:ok&nbsp;ret)
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;&nbsp;:executed&nbsp;&nbsp;&quot;get&nbsp;time&nbsp;executed&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
