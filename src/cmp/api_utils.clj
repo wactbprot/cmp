@@ -1,7 +1,6 @@
-
 (ns cmp.api-utils
-      ^{:author "wactbprot"
-        :doc "api utils for cmp info and ctrl."}
+  ^{:author "wactbprot"
+    :doc "api utils for cmp info and ctrl."}
   (:require [cmp.utils          :as u]
             [cmp.worker.ctrl-mp :as ctrl-mp]
             [cmp.st-mem         :as st]

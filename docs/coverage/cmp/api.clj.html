@@ -191,145 +191,169 @@
                 062&nbsp;&nbsp;(defn&nbsp;container
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                063&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;req]
+                063&nbsp;&nbsp;&nbsp;&nbsp;&quot;Gets&nbsp;all&nbsp;(ok&nbsp;most)&nbsp;informaton&nbsp;about&nbsp;a&nbsp;container&nbsp;out&nbsp;of&nbsp;the&nbsp;`st-mem`.
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                064&nbsp;&nbsp;&nbsp;&nbsp;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                065&nbsp;&nbsp;&nbsp;&nbsp;Example:
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                066&nbsp;&nbsp;&nbsp;&nbsp;```clojure
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                067&nbsp;&nbsp;&nbsp;&nbsp;(a&#x2F;container&nbsp;(config&#x2F;config)&nbsp;{:route-params&nbsp;&nbsp;{:mp&nbsp;\&quot;ref\&quot;}})
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                068&nbsp;&nbsp;&nbsp;&nbsp;```&quot;
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                069&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;req]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                064&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(au&#x2F;req-&gt;mp-id&nbsp;req)
+                070&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(au&#x2F;req-&gt;mp-id&nbsp;req)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                065&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no-idx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(au&#x2F;req-&gt;no-idx&nbsp;req)
+                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no-idx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(au&#x2F;req-&gt;no-idx&nbsp;req)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                066&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq-idx&nbsp;&nbsp;&nbsp;&nbsp;(au&#x2F;req-&gt;seq-idx&nbsp;req)
+                072&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq-idx&nbsp;&nbsp;&nbsp;&nbsp;(au&#x2F;req-&gt;seq-idx&nbsp;req)
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-keys&nbsp;(st&#x2F;pat-&gt;keys&nbsp;(stu&#x2F;cont-state-key&nbsp;mp-id&nbsp;no-idx&nbsp;seq-idx&nbsp;&quot;*&quot;&nbsp;))
+                073&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-keys&nbsp;(st&#x2F;pat-&gt;keys&nbsp;(stu&#x2F;cont-state-key&nbsp;mp-id&nbsp;no-idx&nbsp;seq-idx&nbsp;&quot;*&quot;&nbsp;))
                 </span><br/>
 <span class="not-covered" title="0 out of 8 forms covered">
-                068&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defin-keys&nbsp;(st&#x2F;pat-&gt;keys&nbsp;(stu&#x2F;cont-defin-key&nbsp;mp-id&nbsp;no-idx&nbsp;seq-idx&nbsp;&quot;*&quot;&nbsp;))]
+                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defin-keys&nbsp;(st&#x2F;pat-&gt;keys&nbsp;(stu&#x2F;cont-defin-key&nbsp;mp-id&nbsp;no-idx&nbsp;seq-idx&nbsp;&quot;*&quot;&nbsp;))]
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                069&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;(fn&nbsp;[sk&nbsp;dk]
+                075&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;(fn&nbsp;[sk&nbsp;dk]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[no-idx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(stu&#x2F;key-&gt;no-idx&nbsp;sk)
+                076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[no-idx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(stu&#x2F;key-&gt;no-idx&nbsp;sk)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                071&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq-idx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(stu&#x2F;key-&gt;seq-idx&nbsp;sk)
+                077&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq-idx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(stu&#x2F;key-&gt;seq-idx&nbsp;sk)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                072&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;par-idx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(stu&#x2F;key-&gt;par-idx&nbsp;sk)
+                078&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;par-idx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(stu&#x2F;key-&gt;par-idx&nbsp;sk)
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                079&nbsp;&nbsp;
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                073&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq-par-sum&nbsp;(+&nbsp;(u&#x2F;ensure-int&nbsp;seq-idx)
+                080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq-par-sum&nbsp;(+&nbsp;(u&#x2F;ensure-int&nbsp;seq-idx)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                074&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;ensure-int&nbsp;par-idx))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                081&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(u&#x2F;ensure-int&nbsp;par-idx))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                082&nbsp;&nbsp;
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                075&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl-key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(stu&#x2F;cont-ctrl-key&nbsp;mp-id&nbsp;no-idx)
+                083&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctrl-key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(stu&#x2F;cont-ctrl-key&nbsp;mp-id&nbsp;no-idx)
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title-key&nbsp;&nbsp;&nbsp;&nbsp;(stu&#x2F;cont-title-key&nbsp;mp-id&nbsp;no-idx)]
+                084&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title-key&nbsp;&nbsp;&nbsp;&nbsp;(stu&#x2F;cont-title-key&nbsp;mp-id&nbsp;no-idx)]
                 </span><br/>
 <span class="not-covered" title="0 out of 22 forms covered">
-                077&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id
+                085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                078&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:no-idx&nbsp;&nbsp;&nbsp;&nbsp;no-idx
+                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:no-idx&nbsp;&nbsp;&nbsp;&nbsp;no-idx
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                079&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:seq-idx&nbsp;&nbsp;&nbsp;seq-idx
+                087&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:seq-idx&nbsp;&nbsp;&nbsp;seq-idx
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:par-idx&nbsp;&nbsp;&nbsp;par-idx
+                088&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:par-idx&nbsp;&nbsp;&nbsp;par-idx
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                081&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dk
+                089&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:key&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dk
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                082&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:state-key&nbsp;sk
+                090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:state-key&nbsp;sk
                 </span><br/>
 <span class="not-covered" title="0 out of 1 forms covered">
-                083&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:ctrl-key&nbsp;&nbsp;ctrl-key
+                091&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:ctrl-key&nbsp;&nbsp;ctrl-key
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                084&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:run&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(zero?&nbsp;seq-par-sum)&nbsp;&quot;run&quot;)
+                092&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:run&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(zero?&nbsp;seq-par-sum)&nbsp;&quot;run&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                085&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(zero?&nbsp;seq-par-sum)&nbsp;&quot;mon&quot;)
+                093&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:mon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(zero?&nbsp;seq-par-sum)&nbsp;&quot;mon&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                086&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:stop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(zero?&nbsp;seq-par-sum)&nbsp;&quot;stop&quot;)
+                094&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:stop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(zero?&nbsp;seq-par-sum)&nbsp;&quot;stop&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                087&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:ctrl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(zero?&nbsp;seq-par-sum)&nbsp;(st&#x2F;key-&gt;val&nbsp;ctrl-key))
+                095&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:ctrl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(zero?&nbsp;seq-par-sum)&nbsp;(st&#x2F;key-&gt;val&nbsp;ctrl-key))
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                088&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(zero?&nbsp;seq-par-sum)&nbsp;(st&#x2F;key-&gt;val&nbsp;title-key))
+                096&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when&nbsp;(zero?&nbsp;seq-par-sum)&nbsp;(st&#x2F;key-&gt;val&nbsp;title-key))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                089&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:ready&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;ready&quot;
+                097&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:ready&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;ready&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:working&nbsp;&nbsp;&nbsp;&quot;working&quot;
+                098&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:working&nbsp;&nbsp;&nbsp;&quot;working&quot;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                091&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:executed&nbsp;&nbsp;&quot;executed&quot;
+                099&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:executed&nbsp;&nbsp;&quot;executed&quot;
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                092&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:state&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;sk)
+                100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:state&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;key-&gt;val&nbsp;sk)
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                093&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(tsk&#x2F;build&nbsp;dk)}))
+                101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(tsk&#x2F;build&nbsp;dk)}))
                 </span><br/>
 <span class="not-covered" title="0 out of 2 forms covered">
-                094&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-keys&nbsp;defin-keys)))
+                102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state-keys&nbsp;defin-keys)))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                095&nbsp;&nbsp;
+                103&nbsp;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                096&nbsp;&nbsp;;;------------------------------
+                104&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                097&nbsp;&nbsp;;;&nbsp;set&nbsp;value&nbsp;to&nbsp;st-mem
+                105&nbsp;&nbsp;;;&nbsp;set&nbsp;value&nbsp;to&nbsp;st-mem
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                098&nbsp;&nbsp;;;------------------------------
+                106&nbsp;&nbsp;;;------------------------------
                 </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                099&nbsp;&nbsp;(defn&nbsp;set-val!&nbsp;[conf&nbsp;req]
+                107&nbsp;&nbsp;(defn&nbsp;set-val!&nbsp;[conf&nbsp;req]
                 </span><br/>
 <span class="not-covered" title="0 out of 4 forms covered">
-                100&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[k&nbsp;(au&#x2F;req-&gt;key&nbsp;req)&nbsp;
+                108&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[k&nbsp;(au&#x2F;req-&gt;key&nbsp;req)&nbsp;
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v&nbsp;(au&#x2F;req-&gt;value&nbsp;req)]
+                109&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v&nbsp;(au&#x2F;req-&gt;value&nbsp;req)]
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;k&nbsp;v)
+                110&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(and&nbsp;k&nbsp;v)
                 </span><br/>
 <span class="not-covered" title="0 out of 7 forms covered">
-                103&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(=&nbsp;&quot;OK&quot;&nbsp;(st&#x2F;set-val!&nbsp;k&nbsp;v))
+                111&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(=&nbsp;&quot;OK&quot;&nbsp;(st&#x2F;set-val!&nbsp;k&nbsp;v))
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                104&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true}
+                112&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:ok&nbsp;true}
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                105&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:error&nbsp;&quot;on&nbsp;attempt&nbsp;to&nbsp;set&nbsp;value&quot;})&nbsp;
+                113&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:error&nbsp;&quot;on&nbsp;attempt&nbsp;to&nbsp;set&nbsp;value&quot;})&nbsp;
                 </span><br/>
 <span class="not-covered" title="0 out of 3 forms covered">
-                106&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:error&nbsp;&quot;missing&nbsp;key&nbsp;or&nbsp;value&quot;})))
+                114&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{:error&nbsp;&quot;missing&nbsp;key&nbsp;or&nbsp;value&quot;})))
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                107&nbsp;&nbsp;
+                115&nbsp;&nbsp;
                 </span><br/>
 <span class="partial" title="1 out of 12 forms covered">
-                108&nbsp;&nbsp;(defn&nbsp;cmd&nbsp;[conf&nbsp;req]&nbsp;{(keyword&nbsp;(au&#x2F;req-&gt;key&nbsp;req))&nbsp;(keyword&nbsp;(au&#x2F;req-&gt;value&nbsp;req))})
+                116&nbsp;&nbsp;(defn&nbsp;cmd&nbsp;[conf&nbsp;req]&nbsp;{(keyword&nbsp;(au&#x2F;req-&gt;key&nbsp;req))&nbsp;(keyword&nbsp;(au&#x2F;req-&gt;value&nbsp;req))})
                 </span><br/>
 <span class="blank" title="0 out of 0 forms covered">
-                109&nbsp;&nbsp;
+                117&nbsp;&nbsp;
                 </span><br/>
  </body>
 </html>

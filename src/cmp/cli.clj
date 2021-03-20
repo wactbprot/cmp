@@ -1,16 +1,18 @@
 (ns cmp.cli
   ^{:author "wactbprot"
     :doc "Frequently needed cli funcions."}
+  
   (:require [cmp.build               :as build]
             [cmp.config              :as config]
             [cmp.doc                 :as doc]
             [cmp.lt-mem              :as lt]
+            [clojure.pprint          :as pp]
             [cmp.st-mem              :as st]
             [cmp.st-utils            :as stu]
             [com.brunobonacci.mulog  :as mu]
-            [cmp.state               :as s]
-            [cmp.utils               :as u]
-            [cmp.work                :as w])
+            [cmp.state               :as state]
+            [cmp.utils               :as utils]
+            [cmp.work                :as work])
   (:use    [clojure.repl]))
 
 (comment
@@ -44,7 +46,7 @@
   "Registers a listener for the `ctrl` interface of a
   `mp-id` (see [[workon!]])."
   [conf mp-id]
-  (s/start mp-id))
+  (state/start mp-id))
 
 ;;------------------------------
 ;; stop observing
@@ -53,7 +55,7 @@
   "De-registers the listener for the `ctrl` interface of the given
   `mp-id` (see [[workon!]])."
   [conf mp-id]
-  (s/stop mp-id))
+  (state/stop mp-id))
 
 ;;------------------------------
 ;; build mpd from lt mem
@@ -70,7 +72,7 @@
   ([conf mp-id]
    (m-stop conf mp-id)
    (st/clear! mp-id)
-   (->> mp-id u/compl-main-path lt/get-doc u/doc->safe-doc build/store)
+   (->> mp-id utils/compl-main-path lt/get-doc utils/doc->safe-doc build/store)
    (m-start conf mp-id)))
 
 ;;------------------------------
@@ -81,7 +83,7 @@
   resources folder."
   [conf]
   (let [doc   (config/ref-mpd conf) 
-        mp-id (u/extr-main-path (:_id doc))]
+        mp-id (utils/extr-main-path (:_id doc))]
     (m-stop conf mp-id)
     (st/clear! mp-id)
     (build/store doc)
@@ -120,7 +122,7 @@
   (t-run-by-key {} \"ce3-cmp_calib@container@000@state@000@000\")
   ```"
   [conf k]
-  (w/check k))  
+  (work/check k))  
 ;;------------------------------
 ;; documents
 ;;------------------------------
@@ -166,7 +168,7 @@
   user."
 
   [conf mp-id i cmd]
-  (st/set-val! (stu/cont-ctrl-key mp-id (u/lp i)) cmd))
+  (st/set-val! (stu/cont-ctrl-key mp-id (utils/lp i)) cmd))
 
 (defn c-run
   "Shortcut to push a `run` to the control interface of mp container
@@ -200,3 +202,4 @@
   the state as it is."
   [conf mp-id i]
   (set-ctrl conf mp-id i "suspend"))
+  

@@ -60,6 +60,12 @@
 ;; container
 ;;------------------------------
 (defn container
+  "Gets all (ok most) informaton about a container out of the `st-mem`.
+  
+  Example:
+  ```clojure
+  (a/container (config/config) {:route-params  {:mp \"ref\"}})
+  ```"
   [conf req]
   (let [mp-id      (au/req->mp-id req)
         no-idx     (au/req->no-idx req)
@@ -70,8 +76,10 @@
             (let [no-idx       (stu/key->no-idx sk)
                   seq-idx      (stu/key->seq-idx sk)
                   par-idx      (stu/key->par-idx sk)
+
                   seq-par-sum (+ (u/ensure-int seq-idx)
-                                  (u/ensure-int par-idx))                  
+                                 (u/ensure-int par-idx))                  
+
                   ctrl-key     (stu/cont-ctrl-key mp-id no-idx)
                   title-key    (stu/cont-title-key mp-id no-idx)]
               {:mp-id     mp-id
