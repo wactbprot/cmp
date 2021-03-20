@@ -16,6 +16,10 @@
   ([k m]
    (merge (assoc (stu/key->info-map k) :value (st/key->val k) :key k) m)))
 
+(defn req->key [req]  (get-in req [:body :key]))
+
+(defn req->value [req]  (get-in req [:body :value]))
+
 (defn req->mp-id [req] (get-in req [:route-params :mp] "*"))
 
 (defn req->seq-idx [req] (get-in req [:route-params :seq] "*"))

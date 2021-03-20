@@ -28,6 +28,7 @@
 (declare restart)
 
 (defroutes app-routes
+  (GET "/ws"                       [:as req] (ws/main        conf req))
   (GET "/ui/setup"                 [:as req] (uis/view conf req  (a/listeners conf req)))
   (GET "/ui/listeners"             [:as req] (uil/view conf req  (a/listeners conf req)))
   (GET "/ui"                       [:as req] (uil/view conf req  (a/listeners conf req)))
@@ -38,12 +39,12 @@
   (POST "/:mp/container"           [:as req] (res/response (a/set-val! conf req)))
   (POST "/cmd"                     [:as req] (res/response
                                               (condp = (a/cmd conf req)
-                                                {:restart "server"} ((fn [](future (restart))
-                                                                       {:ok true}))
-                                                {:rebuild "tasks"}  ((fn [] (future (cli/t-refresh conf))
-                                                                       {:ok true}))
+                                                {:restart :server} ((fn [](future (restart))
+                                                                      {:ok true}))
+                                                {:rebuild :tasks}  ((fn [] (future (cli/t-refresh conf))
+                                                                      {:ok true}))
                                                 {:nil (prn (a/cmd conf req))})))
-  (GET "/ws"                                    [:as req] (ws/main        conf req))
+  
   (route/resources "/")
   (route/not-found (res/response {:error "not found"})))
 
@@ -57,8 +58,10 @@
   (ws/stop! conf)
   (run! (fn [mp-id]
           (mu/log ::stop :message "stop mpd" :mp-id mp-id)
-          (cli/m-stop conf mp-id))
-        (:build-on-start conf))
+          (cli/m-stop conf mp-id)
+          (mu/log ::stop :message "clear mpd" :mp-id mp-id)
+          (st/clear! mp-id))
+        (config/build-on-start conf))
   (when @server (@server :timeout 100)
         (mu/log ::stop :message "stop server")
         (reset! server nil)
