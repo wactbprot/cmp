@@ -60,7 +60,7 @@
 ;; container
 ;;------------------------------
 (defn container
-  "Gets all (ok most) informaton about a container out of the `st-mem`.
+  "Gets informaton about a container out of the `st-mem`.
   
   Example:
   ```clojure
@@ -79,7 +79,6 @@
 
                   seq-par-sum (+ (u/ensure-int seq-idx)
                                  (u/ensure-int par-idx))                  
-
                   ctrl-key     (stu/cont-ctrl-key mp-id no-idx)
                   title-key    (stu/cont-title-key mp-id no-idx)]
               {:mp-id     mp-id

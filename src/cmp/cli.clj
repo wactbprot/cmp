@@ -44,7 +44,7 @@
 ;;------------------------------
 (defn m-start
   "Registers a listener for the `ctrl` interface of a
-  `mp-id` (see [[workon!]])."
+  `mp-id`."
   [conf mp-id]
   (state/start mp-id))
 
