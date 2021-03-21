@@ -38,6 +38,7 @@
               :par-idx "par."
               :run ""
               :mon ""
+              :suspend ""
               :ready ""
               :stop ""
               :executed ""

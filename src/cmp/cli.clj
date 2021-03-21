@@ -2,7 +2,7 @@
   ^{:author "wactbprot"
     :doc "Frequently needed cli funcions."}
   
-  (:require [cmp.build               :as build]
+  (:require [cmp.st-build               :as build]
             [cmp.config              :as config]
             [cmp.doc                 :as doc]
             [cmp.lt-mem              :as lt]

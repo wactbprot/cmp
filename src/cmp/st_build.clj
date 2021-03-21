@@ -1,4 +1,4 @@
-(ns cmp.build
+(ns cmp.st-build
   ^{:author "wactbprot"
     :doc "Builds up the short term memory with given the `mpd`."}
   (:require [com.brunobonacci.mulog  :as mu]

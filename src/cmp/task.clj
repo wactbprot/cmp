@@ -248,7 +248,6 @@
      :MpName    mp-id
      :StateKey  state-key)))
 
-
 (defn build
   "Builds and returns the assembled `task` for the given key `k` related
   to the `proto-task`. Since the functions in the `cmp.task` namespace

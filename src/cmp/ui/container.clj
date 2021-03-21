@@ -33,6 +33,10 @@
 
 (defmethod td-value :run
   [conf m kw]
+  (ui/button (assoc m :key (:ctrl-key m)) kw :success))
+
+(defmethod td-value :suspend
+  [conf m kw]
   (ui/button (assoc m :key (:ctrl-key m)) kw :info))
 
 (defmethod td-value :stop
@@ -41,7 +45,7 @@
 
 (defmethod td-value :mon
   [conf m kw]
-  (ui/button (assoc m :key (:ctrl-key m)) kw :warn))
+  (ui/button (assoc m :key (:ctrl-key m)) kw :success))
 
 (defmethod td-value :ready
   [conf m kw]
@@ -135,7 +139,7 @@
 (defn view
   [conf req data]
   (let [cols [:title
-              :ctrl :run :stop :mon
+              :ctrl :run :suspend :stop :mon
               :state :ready :working :executed
               :key :task]]
     (ui/index conf req

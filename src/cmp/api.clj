@@ -1,18 +1,12 @@
 (ns cmp.api
       ^{:author "wactbprot"
         :doc "api for cmp info and ctrl."}
-  (:require [cmp.build               :as build]
-            [cheshire.core           :as che]
-            [cmp.config              :as config]
-            [cmp.exchange            :as exch]
-            [cmp.doc                 :as doc]
-            [cmp.lt-mem              :as lt]
-            [cmp.state               :as state]
+  (:require [cmp.config              :as config]
             [cmp.task                :as tsk]
             [cmp.utils               :as u]
             [cmp.api-utils           :as au]
             [cmp.st-mem              :as st]
-            [cmp.st-utils           :as stu]
+            [cmp.st-utils            :as stu]
             [com.brunobonacci.mulog  :as mu]))
 
 ;;------------------------------
@@ -89,6 +83,7 @@
                :state-key sk
                :ctrl-key  ctrl-key
                :run       (when (zero? seq-par-sum) "run")
+               :suspend   (when (zero? seq-par-sum) "suspend")
                :mon       (when (zero? seq-par-sum) "mon")
                :stop      (when (zero? seq-par-sum) "stop")
                :ctrl      (when (zero? seq-par-sum) (st/key->val ctrl-key))

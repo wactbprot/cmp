@@ -754,50 +754,47 @@
 <span class="blank" title="0 out of 0 forms covered">
                 250&nbsp;&nbsp;
                 </span><br/>
-<span class="blank" title="0 out of 0 forms covered">
-                251&nbsp;&nbsp;
-                </span><br/>
 <span class="covered" title="1 out of 1 forms covered">
-                252&nbsp;&nbsp;(defn&nbsp;build
+                251&nbsp;&nbsp;(defn&nbsp;build
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                253&nbsp;&nbsp;&nbsp;&nbsp;&quot;Builds&nbsp;and&nbsp;returns&nbsp;the&nbsp;assembled&nbsp;`task`&nbsp;for&nbsp;the&nbsp;given&nbsp;key&nbsp;`k`&nbsp;related
+                252&nbsp;&nbsp;&nbsp;&nbsp;&quot;Builds&nbsp;and&nbsp;returns&nbsp;the&nbsp;assembled&nbsp;`task`&nbsp;for&nbsp;the&nbsp;given&nbsp;key&nbsp;`k`&nbsp;related
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                254&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;the&nbsp;`proto-task`.&nbsp;Since&nbsp;the&nbsp;functions&nbsp;in&nbsp;the&nbsp;`cmp.task`&nbsp;namespace
+                253&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;the&nbsp;`proto-task`.&nbsp;Since&nbsp;the&nbsp;functions&nbsp;in&nbsp;the&nbsp;`cmp.task`&nbsp;namespace
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                255&nbsp;&nbsp;&nbsp;&nbsp;are&nbsp;(kept)&nbsp;independent&nbsp;from&nbsp;the&nbsp;tasks&nbsp;position,&nbsp;this
+                254&nbsp;&nbsp;&nbsp;&nbsp;are&nbsp;(kept)&nbsp;independent&nbsp;from&nbsp;the&nbsp;tasks&nbsp;position,&nbsp;this
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                256&nbsp;&nbsp;&nbsp;&nbsp;info&nbsp;(`:StateKey`&nbsp;holds&nbsp;the&nbsp;position&nbsp;of&nbsp;the&nbsp;task)&nbsp;have&nbsp;to
+                255&nbsp;&nbsp;&nbsp;&nbsp;info&nbsp;(`:StateKey`&nbsp;holds&nbsp;the&nbsp;position&nbsp;of&nbsp;the&nbsp;task)&nbsp;have&nbsp;to
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                257&nbsp;&nbsp;&nbsp;&nbsp;be`assoc`ed&nbsp;(done&nbsp;in&nbsp;`tsk&#x2F;assemble`).&quot;&nbsp;
+                256&nbsp;&nbsp;&nbsp;&nbsp;be`assoc`ed&nbsp;(done&nbsp;in&nbsp;`tsk&#x2F;assemble`).&quot;&nbsp;
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                258&nbsp;&nbsp;&nbsp;&nbsp;[k]
+                257&nbsp;&nbsp;&nbsp;&nbsp;[k]
                 </span><br/>
 <span class="covered" title="4 out of 4 forms covered">
-                259&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[state-key&nbsp;(stu&#x2F;key-&gt;state-key&nbsp;k)]
+                258&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[state-key&nbsp;(stu&#x2F;key-&gt;state-key&nbsp;k)]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                260&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try&nbsp;(let&nbsp;[proto-task&nbsp;(st&#x2F;key-&gt;val&nbsp;k)
+                259&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(try&nbsp;(let&nbsp;[proto-task&nbsp;(st&#x2F;key-&gt;val&nbsp;k)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                261&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta-task&nbsp;&nbsp;(gen-meta-task&nbsp;proto-task)
+                260&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta-task&nbsp;&nbsp;(gen-meta-task&nbsp;proto-task)
                 </span><br/>
 <span class="covered" title="3 out of 3 forms covered">
-                262&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(stu&#x2F;key-&gt;mp-id&nbsp;k)]
+                261&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mp-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(stu&#x2F;key-&gt;mp-id&nbsp;k)]
                 </span><br/>
 <span class="covered" title="5 out of 5 forms covered">
-                263&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assemble&nbsp;meta-task&nbsp;mp-id&nbsp;state-key))
+                262&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assemble&nbsp;meta-task&nbsp;mp-id&nbsp;state-key))
                 </span><br/>
 <span class="not-tracked" title="0 out of 0 forms covered">
-                264&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
+                263&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(catch&nbsp;Exception&nbsp;e
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
-                265&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;(.getMessage&nbsp;e))))))
+                264&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:error&nbsp;(.getMessage&nbsp;e))))))
                 </span><br/>
  </body>
 </html>

@@ -76,16 +76,16 @@
 <span class="not-tracked" title="0 out of 0 forms covered">
                 024&nbsp;&nbsp;&nbsp;&nbsp;[{type&nbsp;:Type&nbsp;doc-path&nbsp;:DocPath&nbsp;state-key&nbsp;:StateKey&nbsp;mp-id&nbsp;:MpName&nbsp;:as&nbsp;task}]
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 025&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:working)
                 </span><br/>
-<span class="not-covered" title="0 out of 12 forms covered">
+<span class="covered" title="12 out of 12 forms covered">
                 026&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ret&nbsp;(doc&#x2F;store!&nbsp;mp-id&nbsp;[{:Type&nbsp;type&nbsp;:Value&nbsp;(u&#x2F;get-date)}]&nbsp;doc-path)]
                 </span><br/>
-<span class="not-covered" title="0 out of 4 forms covered">
+<span class="covered" title="4 out of 4 forms covered">
                 027&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(if&nbsp;(:ok&nbsp;ret)
                 </span><br/>
-<span class="not-covered" title="0 out of 5 forms covered">
+<span class="covered" title="5 out of 5 forms covered">
                 028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(st&#x2F;set-state!&nbsp;state-key&nbsp;:executed&nbsp;&nbsp;&quot;get&nbsp;date&nbsp;executed&quot;)
                 </span><br/>
 <span class="not-covered" title="0 out of 5 forms covered">
