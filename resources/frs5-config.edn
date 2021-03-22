@@ -1,0 +1,99 @@
+{
+ :mulog {:type :multi
+         :publishers[
+                     ;; send events to the stdout
+                     ;; {:type :console
+                     ;;  :pretty? true}
+                     ;; send events to a file
+                     ;; {:type :simple-file
+                     ;;  :filename "/tmp/mulog/events.log"}
+                     ;; send events to ELS
+                     {:type :elasticsearch
+                      ;; :url  "http://a75438:9200/"
+                      :url  "http://localhost:9200/"
+                      :els-version  :v7.x
+                      :publish-delay 1000
+                      :data-stream  "vl-log-stream"
+                      :name-mangling false
+                      }]}
+ ;; rest api server
+ :api {:port 8010}
+ :build-delay 500
+
+ :build-on-start ["frs5-cmp_calib"]
+ ;; integrated ui
+ :ui {:page-title "UI-CMP"
+      :main-title "UI-CMP"
+      :trans {:state "State&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+              :ctrl "Ctrl&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+              :title "Title"
+              :task "Task"
+              :container "Container"
+              :def "def"
+              :struct ""
+              :func ""
+              :mp-id "mp-id"
+              :no-idx "Cont. #"
+              :seq-idx "seq."
+              :par-idx "par."
+              :run ""
+              :mon ""
+              :suspend ""
+              :ready ""
+              :stop ""
+              :executed ""
+              :working ""
+              :value "Current Value"}
+      ;; place images in resources/public/img
+      :img {:ref "ref.jpg"
+            :se3-servo "servo.jpg"
+            :se3-cmp_valves "valve.jpg"
+            :se3-cmp_state "state.jpg"
+            :se3-cmp_calib "se3-calib.jpg"
+            :se3-cmp_direct "se3-direct.jpg"
+            :ppc-gas_dosing "ppc-gas_dosing.jpg"}
+      :mp-alias {:se3-servo "SE3 Servomotoren"
+                 :se3-cmp_valves "SE3 Ventilstellungen"
+                 :se3-cmp_state "SE3 Zusatzvolumenbestimmung, Ausgasrate etc."
+                 :se3-cmp_calib "SE3 Kalibrierung Expansion"
+                 :se3-cmp_direct "SE3 Kalibrierung Direktvergleich"
+                 :ce3-cmp_calib "The CE3 Measurement Program"
+                 :ce3-sputter "The CE3 Sputter Program"
+                 :ppc-gas_dosing "Set PPC filling pressure"
+                 :ref "Referenz MP"}
+      }
+ ;; long term memory: couchdb
+ :lt-srv "127.0.0.1"
+ ;;:lt-srv "a73434"
+ :lt-port 5984
+ :lt-db "vl_db_work"
+ :lt-prot "http"
+ ;; short term memory: redis
+ :st-conn {:pool {}
+           :spec {:host "127.0.0.1" :port 6379 :db 0}}
+ ;; for order or sorting reasons
+ ;; idx, jdx and kdx are padded
+ :key-pad-length 3
+ :ref-mpd "mpd-ref.edn"
+ ;; a task should at least take 10ms
+ ;; in order to give the keyspace notification listener
+ ;; a chance to find the `next-to-start` task
+ :min-task-period 500
+ ;; number of retries before task state is set to error
+ ;; the device should be reseted and the retry key must
+ ;; be deleted manualy
+ :max-retry 20
+ ;; If the stop-if flag is false the next attempt is triggert
+ ;; by writing a `:ready`-state. Delaying this relaxes the system  
+ :stop-if-delay 1000
+ :json-post-header {:content-type :json
+                    :socket-timeout 600000 ;; 10 min
+                    :connection-timeout 600000
+                    :accept :json}
+ ;; :dev-hub-url "http://e75455:55555"
+ :dev-hub-url "http://localhost:9009"
+ ;; :dev-hub-url "http://a73434:55555"
+ ;; :dev-hub-url "http://localhost:55555"
+ ;; :anselm-url "http://localhost:50005"
+ :dev-proxy-url "http://localhost:8009"
+ }
