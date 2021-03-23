@@ -53,7 +53,7 @@ $(".restart").click( e => {
     var $this = $(e.currentTarget);
     
     $this.after( "<progress class='progress is-danger' max='100'>30%</progress>")
-    setTimeout(()=> { location.reload(); }, 2000); 
+    setTimeout(()=> { location.reload(); }, 4000); 
 });
 
 
@@ -62,6 +62,6 @@ $(".rebuild").click( e => {
     var $this = $(e.currentTarget);
     
     $this.after( "<progress class='progress is-warning' max='100'>30%</progress>")
-    setTimeout(()=> { location.reload(); }, 2000); 
+    setTimeout(()=> { location.reload(); }, 4000); 
 });
 

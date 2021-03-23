@@ -60,7 +60,8 @@
           (mu/log ::stop :message "stop mpd" :mp-id mp-id)
           (cli/m-stop conf mp-id)
           (mu/log ::stop :message "clear mpd" :mp-id mp-id)
-          (st/clear! mp-id))
+          (st/clear! mp-id)
+          (Thread/sleep 100))
         (config/build-on-start conf))
   (when @server (@server :timeout 100)
         (mu/log ::stop :message "stop server")
@@ -84,6 +85,7 @@
   {:ok true})
 
 (defn restart []
+  (Thread/sleep 1000)
   (stop)
   (Thread/sleep 1000)
   (start))
