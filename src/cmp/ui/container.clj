@@ -2,7 +2,7 @@
   (:require [cmp.ui.task  :as tsk]
             [cmp.ui.index :as ui]
             [cmp.st-utils :as stu]
-            [cmp.utils :as u]))
+            [cmp.utils    :as u]))
 
 ;;------------------------------
 ;; table cell funs

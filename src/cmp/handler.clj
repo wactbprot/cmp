@@ -1,4 +1,4 @@
-(ns cmp.api
+(ns cmp.handler
       ^{:author "wactbprot"
         :doc "api for cmp info and ctrl."}
   (:require [cmp.config              :as config]

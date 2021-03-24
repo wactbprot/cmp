@@ -1,10 +1,8 @@
 (ns cmp.ui.setup
   (:require
-   [cmp.config     :as config]
-   [cmp.ui.index   :as ui]
-   [cmp.api-utils  :as au]
-   [clojure.pprint :as pp]
-   [cmp.utils :as u]))
+   [cmp.config        :as config]
+   [cmp.ui.index      :as ui]
+   [cmp.utils         :as u]))
   
 (defn content
   [conf]

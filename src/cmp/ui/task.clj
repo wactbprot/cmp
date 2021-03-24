@@ -1,10 +1,9 @@
 (ns cmp.ui.task
   (:require
-   [cmp.api-utils   :as au]
-   [cheshire.core   :as che]
-   [ring.util.codec :as codec]
-   [cmp.utils       :as u]
-   [cmp.ui.index    :as ui]))
+   [cheshire.core       :as che]
+   [ring.util.codec     :as codec]
+   [cmp.utils           :as u]
+   [cmp.ui.index        :as ui]))
 
 (defn label
   [conf t]

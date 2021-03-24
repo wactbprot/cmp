@@ -5,7 +5,7 @@
             [com.brunobonacci.mulog   :as mu]
             [cmp.config               :as config] 
             [cmp.cli                  :as cli]
-            [cmp.api                  :as a]
+            [cmp.handler              :as a]
             [cmp.ui.index             :as ui]
             [cmp.ui.listener          :as uil]
             [cmp.ui.container         :as uic]

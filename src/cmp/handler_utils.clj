@@ -1,4 +1,4 @@
-(ns cmp.api-utils
+(ns cmp.handler-utils
   ^{:author "wactbprot"
     :doc "api utils for cmp info and ctrl."}
   (:require [cmp.utils          :as u]
