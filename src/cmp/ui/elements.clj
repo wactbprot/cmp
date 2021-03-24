@@ -6,4 +6,8 @@
    [clojure.pprint :as pp]
    [cmp.utils :as u]))
 
-(defn view [conf req data] (ui/index conf req [:h1 "Elements"))
+(defn content
+  [conf req data]
+  (prn data))
+
+(defn view [conf req data] (ui/index conf req (content conf req data)))

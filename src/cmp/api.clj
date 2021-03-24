@@ -2,12 +2,24 @@
       ^{:author "wactbprot"
         :doc "api for cmp info and ctrl."}
   (:require [cmp.config              :as config]
+            [cmp.exchange            :as exch]
             [cmp.task                :as tsk]
             [cmp.utils               :as u]
             [cmp.api-utils           :as au]
             [cmp.st-mem              :as st]
             [cmp.st-utils            :as stu]
             [com.brunobonacci.mulog  :as mu]))
+;;------------------------------
+;; elements (ux)
+;;------------------------------
+(defn elements
+  "Returns the elements (-> elements from the exchange interface which should be
+  accessible to the user) related to the given container."
+  [conf req]
+  (let [mp-id  (au/req->mp-id req)
+        no-idx (au/req->no-idx req)
+        v      (stu/cont-elem-key mp-id no-id)]
+    (mapv (fn [e] (exch/read! mp-id e) v))))
 
 ;;------------------------------
 ;; listeners 
