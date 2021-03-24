@@ -11,6 +11,7 @@
             [cmp.ui.container         :as uic]
             [cmp.ui.mp-meta           :as uim]
             [cmp.ui.setup             :as uis]
+            [cmp.ui.elements          :as uie]
             [cmp.ui.ws                :as ws]
             [cmp.st-mem               :as st]
             [compojure.core           :refer :all]
@@ -36,6 +37,7 @@
   (GET "/ui/:mp"                   [:as req] (uim/view conf req  (a/mp-meta   conf req)))
   (GET "/ui/:mp/container"         [:as req] (uic/view conf req (a/container conf req)))
   (GET "/ui/:mp/container/:idx"    [:as req] (uic/view conf req (a/container conf req)))
+  (GET "/ui/:mp/elements/:idx"     [:as req] (uie/view conf req (a/container conf req)))
   (POST "/:mp/container"           [:as req] (res/response (a/set-val! conf req)))
   (POST "/cmd"                     [:as req] (res/response
                                               (condp = (a/cmd conf req)
