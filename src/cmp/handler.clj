@@ -5,7 +5,7 @@
             [cmp.exchange            :as exch]
             [cmp.task                :as tsk]
             [cmp.utils               :as u]
-            [cmp.api-utils           :as au]
+            [cmp.handler-utils       :as hu]
             [cmp.st-mem              :as st]
             [cmp.st-utils            :as stu]
             [com.brunobonacci.mulog  :as mu]))
@@ -16,10 +16,9 @@
   "Returns the elements (-> elements from the exchange interface which should be
   accessible to the user) related to the given container."
   [conf req]
-  (let [mp-id  (au/req->mp-id req)
-        no-idx (au/req->no-idx req)
-        v      (stu/cont-elem-key mp-id no-id)]
-    (mapv (fn [e] (exch/read! mp-id e) v))))
+  (let [mp-id (hu/req->mp-id req)
+        ks    (st/key->keys (stu/cont-elem-key mp-id))]
+    (mapv prn ks)))
 
 ;;------------------------------
 ;; listeners 
@@ -46,14 +45,14 @@
   (tasks {} {})
   ```"
   [conf req]
-  (mapv au/key-value-map (st/key->keys (stu/task-prefix))))
+  (mapv hu/key-value-map (st/key->keys (stu/task-prefix))))
 
 ;;------------------------------
 ;; mp info
 ;;------------------------------
 (defn mp-meta
   [conf req]
-  (let [mp-id (au/req->mp-id req)]
+  (let [mp-id (hu/req->mp-id req)]
     {:mp-id mp-id
      :descr   (st/key->val (stu/meta-descr-key   mp-id))
      :name    (st/key->val (stu/meta-name-key    mp-id))
@@ -73,9 +72,9 @@
   (a/container (config/config) {:route-params  {:mp \"ref\"}})
   ```"
   [conf req]
-  (let [mp-id      (au/req->mp-id req)
-        no-idx     (au/req->no-idx req)
-        seq-idx    (au/req->seq-idx req)
+  (let [mp-id      (hu/req->mp-id req)
+        no-idx     (hu/req->no-idx req)
+        seq-idx    (hu/req->seq-idx req)
         state-keys (st/pat->keys (stu/cont-state-key mp-id no-idx seq-idx "*" ))
         defin-keys (st/pat->keys (stu/cont-defin-key mp-id no-idx seq-idx "*" ))]
     (mapv (fn [sk dk]
@@ -111,13 +110,13 @@
 ;; set value to st-mem
 ;;------------------------------
 (defn set-val! [conf req]
-  (let [k (au/req->key req) 
-        v (au/req->value req)]
+  (let [k (hu/req->key req) 
+        v (hu/req->value req)]
     (if (and k v)
       (if (= "OK" (st/set-val! k v))
         {:ok true}
         {:error "on attempt to set value"}) 
       {:error "missing key or value"})))
 
-(defn cmd [conf req] {(keyword (au/req->key req)) (keyword (au/req->value req))})
+(defn cmd [conf req] {(keyword (hu/req->key req)) (keyword (hu/req->value req))})
 

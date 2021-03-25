@@ -5,7 +5,7 @@
             [com.brunobonacci.mulog   :as mu]
             [cmp.config               :as config] 
             [cmp.cli                  :as cli]
-            [cmp.handler              :as a]
+            [cmp.handler              :as h]
             [cmp.ui.index             :as ui]
             [cmp.ui.listener          :as uil]
             [cmp.ui.container         :as uic]
@@ -30,22 +30,22 @@
 
 (defroutes app-routes
   (GET "/ws"                       [:as req] (ws/main        conf req))
-  (GET "/ui/setup"                 [:as req] (uis/view conf req (a/listeners conf req)))
-  (GET "/ui/listeners"             [:as req] (uil/view conf req (a/listeners conf req)))
-  (GET "/ui"                       [:as req] (uil/view conf req (a/listeners conf req)))
-  (GET "/ui/:mp/meta"              [:as req] (uim/view conf req (a/mp-meta   conf req)))
-  (GET "/ui/:mp"                   [:as req] (uim/view conf req (a/mp-meta   conf req)))
-  (GET "/ui/:mp/container"         [:as req] (uic/view conf req (a/container conf req)))
-  (GET "/ui/:mp/container/:idx"    [:as req] (uic/view conf req (a/container conf req)))
-  (GET "/ui/:mp/elements/:idx"     [:as req] (uie/view conf req (a/elements conf req)))
-  (POST "/:mp/container"           [:as req] (res/response (a/set-val! conf req)))
+  (GET "/ui/setup"                 [:as req] (uis/view conf req (h/listeners conf req)))
+  (GET "/ui/listeners"             [:as req] (uil/view conf req (h/listeners conf req)))
+  (GET "/ui"                       [:as req] (uil/view conf req (h/listeners conf req)))
+  (GET "/ui/:mp/meta"              [:as req] (uim/view conf req (h/mp-meta   conf req)))
+  (GET "/ui/:mp"                   [:as req] (uim/view conf req (h/mp-meta   conf req)))
+  (GET "/ui/:mp/container"         [:as req] (uic/view conf req (h/container conf req)))
+  (GET "/ui/:mp/container/:idx"    [:as req] (uic/view conf req (h/container conf req)))
+  (GET "/ui/:mp/elements"          [:as req] (uie/view conf req (h/elements  conf req)))
+  (POST "/:mp/container"           [:as req] (res/response (h/set-val! conf req)))
   (POST "/cmd"                     [:as req] (res/response
-                                              (condp = (a/cmd conf req)
+                                              (condp = (h/cmd conf req)
                                                 {:restart :server} ((fn [](future (restart))
                                                                       {:ok true}))
                                                 {:rebuild :tasks}  ((fn [] (future (cli/t-refresh conf))
                                                                       {:ok true}))
-                                                {:nil (prn (a/cmd conf req))})))
+                                                {:nil (prn (h/cmd conf req))})))
   
   (route/resources "/")
   (route/not-found (res/response {:error "not found"})))
