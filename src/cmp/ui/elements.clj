@@ -15,20 +15,22 @@
   [:div {:class "field-body"}
     [:div {:class "field"}
      [:p {:class "control"}
-      [:input {:class "input is-info"  :value x}]]]])
+      [:input {:class "input is-info exchange"  :value x}]]]])
 
 (defn type-unit-value
 [conf k m]
   [:div {:class "field is-horizontal"}
    (label conf k "Type") (input conf k (:Type m))
-   (label conf k "Value")(input conf k  (:Value m))
+   (label conf k "Value")(input conf k (:Value m))
    (label conf k "Unit") (input conf k (:Unit m))])
 
 (defn selected
   [conf k m]
-  [:div {:class "select"}
-   (into [:select] 
-         (mapv (fn [e] [:option {:value (:value e)} (:display e)]) (:Select m)))])
+  [:div {:class "field is-horizontal"}
+   [:div {:class "select exchange"}
+    (into [:select] 
+          (mapv (fn [e] [:option {:value (:value e)} (:display e)]) (:Select m)))]
+   [:button {:class "button is-info exchange"} "ok"]])
 
 
 (defn elem
