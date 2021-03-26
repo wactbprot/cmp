@@ -58,7 +58,7 @@
  ;; for order or sorting reasons
  ;; idx, jdx and kdx are padded
  :key-pad-length 3
- :ref-mpd "resources/mpd-ref.edn"
+ :ref-mpd "mpd-ref.edn"
  ;; a task should at least take 10ms
  ;; in order to give the keyspace notification listener
  ;; a chance to find the `next-to-start` task

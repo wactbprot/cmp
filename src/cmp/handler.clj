@@ -17,8 +17,19 @@
   accessible to the user) related to the given container."
   [conf req]
   (let [mp-id (hu/req->mp-id req)
-        ks    (st/key->keys (stu/cont-elem-key mp-id))]
-    (mapv prn ks)))
+        n     (st/key->val (stu/meta-ncont-key mp-id))]
+    (mapv (fn [no-idx]
+            (let [elem-keys-vec (st/key->val (stu/cont-elem-key mp-id no-idx))
+                  elem-values   (mapv
+                                 (fn [k]
+                                   (exch/read! mp-id k))
+                                 elem-keys-vec)]
+              {:mp-id         mp-id
+               :no-idx        no-idx
+               :title         (st/key->val (stu/cont-title-key mp-id no-idx))
+               :elem-keys-vec elem-keys-vec
+               :elem-values   elem-values}))
+          (range n))))
 
 ;;------------------------------
 ;; listeners 
