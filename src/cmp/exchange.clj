@@ -55,9 +55,6 @@
   ```clojure
   (read! \"ref\" \"A.Unit\")
   ;; \"Pa\"
-  ;; or:
-  (read! \"devhub\" \"Vraw_block1\")
-  ;; [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]
   ```"
   [mp-id p]
   (if-let [val-p (st/key->val (stu/exch-key mp-id p))]
@@ -69,33 +66,21 @@
 
 (defn from!
   "Builds a map by replacing the values of the input map `m`.
-  The replacements are gathered from the `exchange` interface with the
-  keys: `<mp-id>@exchange@<input-map-value>`
+  The replacements are gathered `from!` the `exchange` interface with
+  the keys: `<mp-id>@exchange@<input-map-value>`
 
-  The example key: `ref@exchange@Vraw_block1` with the example value:
-  `[1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]` should return:
-  `{:%stateblock1 [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]}`
-
-  
+  Example:
   ```clojure
-  (from! \"ref\" {:%stateblock1 \"Vraw_block1\"})
+  (from! \"ref\" {:%check \"A\"})
   ;; =>
-  ;; {:%stateblock1 [1 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]}
-  ```
-  
-  **Todo**
-
-  Check for non trivial `<input-map-value>` like
-  `{:%aaa \"bbb.ccc\"}`
-  "
+  ;; {:%check {:Type \"ref\" :Unit \"Pa\" :Value 100.0}}
+  ```"
   [mp-id m]
   (when (and (string? mp-id) (map? m))
-    (u/apply-to-map-values
-     (fn [v] (read! mp-id v))
-     m)))
+    (u/apply-to-map-values #(read! mp-id %) m)))
 
 (defn enclose-map
-  "Encloses the given map `m` with respect to the path `p`.
+  "Encloses the given map `m` with respect to the key `k`.
 
   Example:
   ```clojure
@@ -111,13 +96,12 @@
   ;; gives:
   ;; {:gg \"ff\"}
   ```"
-  [m p]
-  (if-not p
-    m
-    (let [a (key->first-kw p)]
-      (if-let [b (key->second-kw p)]
-        {a {b m}}
-        {a m}))))
+  [m k]
+  (if-not k m
+          (let [a (key->first-kw k)]
+            (if-let [b (key->second-kw k)]
+              {a {b m}}
+              {a m}))))
 
 (defn to!
   "Writes `m` to the exchange interface.  The first level keys of `m`
