@@ -1,10 +1,14 @@
 (ns cmp.ui.elements
   (:require
    [cmp.config        :as config]
+   [cheshire.core     :as che]
    [cmp.ui.index      :as ui]
    [cmp.handler-utils :as au]
    [cmp.st-utils      :as stu]
    [cmp.utils         :as u]))
+
+
+(defn post-url [m] (str (:mp-id m) "/exchange"))
 
 (defn label
   [conf k s]
@@ -16,7 +20,7 @@
   [:div {:class "field-body"}
     [:div {:class "field"}
      [:p {:class "control"}
-      [:input {:class "input is-info setter"  :value x}]]]])
+      [:input {:class "input is-info exchange"  :value x}]]]])
 
 (defn type-unit-value
 [conf k g m]
@@ -28,13 +32,13 @@
 (defn selected-ready
   [conf k g m]
   [:div {:class "field is-horizontal"}
-   [:div {:class "select exchange"}
+   [:div {:class "select"}
     (into [:select] 
           (mapv (fn [e] [:option {:value (:value e)} (:display e)]) (:Select m)))]
    [:button {:class "button is-info setter"
-             :data-value {:Ready "ok"}
-             :data-url (ui/post-url g)
-             :data-key (stu/exch-key (:mp-id g) k)} "ok"]])
+             :data-value (che/encode {:Ready "ok"})
+             :data-url (post-url g)
+             :data-key  k} "ok"]])
 
 (defn elem
   [conf k g m]

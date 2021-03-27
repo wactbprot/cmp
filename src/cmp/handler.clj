@@ -2,6 +2,7 @@
       ^{:author "wactbprot"
         :doc "api for cmp info and ctrl."}
   (:require [cmp.config              :as config]
+            [cheshire.core           :as che]
             [cmp.exchange            :as exch]
             [cmp.task                :as tsk]
             [cmp.utils               :as u]
@@ -130,13 +131,10 @@
 ;; set value to exchange
 ;;------------------------------
 (defn exch-val! [conf req]
-  (let [k (hu/req->key req) 
-        v (hu/req->value req)]
-    (if (and k v)
-      (if (= "OK" (exch/to! k v))
-        {:ok true}
-        {:error "on attempt to set value"}) 
-      {:error "missing key or value"})))
-
+  (let [mp-id (hu/req->mp-id req)
+        m     (hu/req->value req)
+        k     (hu/req->key req)]
+    (exch/to! mp-id m k)))
+    
 (defn cmd [conf req] {(keyword (hu/req->key req)) (keyword (hu/req->value req))})
 
