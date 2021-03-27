@@ -18,9 +18,7 @@
  ;; rest api server
  :api {:port 8010}
  :build-delay 500
- :build-on-start ["ce3-cmp_calib"
-                  "ce3-sputter"
-                  "ce3-bake_out"]
+ :build-on-start []
  ;; integrated ui
  :ui {:page-title "UI-CMP"
       :main-title "UI-CMP"

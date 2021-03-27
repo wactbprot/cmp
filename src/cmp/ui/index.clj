@@ -36,7 +36,7 @@
 ;;------------------------------
 ;; return data from client
 ;;------------------------------
-(defn post-url [m] (str (:mp-id m) "/container"))
+(defn post-url [m] (str (:mp-id m) "/setter"))
 
 (defn button
   [m kw cls]

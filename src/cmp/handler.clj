@@ -115,13 +115,25 @@
           state-keys defin-keys)))
 
 ;;------------------------------
-;; set value to st-mem
+;; simple set value to st-mem
 ;;------------------------------
 (defn set-val! [conf req]
   (let [k (hu/req->key req) 
         v (hu/req->value req)]
     (if (and k v)
       (if (= "OK" (st/set-val! k v))
+        {:ok true}
+        {:error "on attempt to set value"}) 
+      {:error "missing key or value"})))
+
+;;------------------------------
+;; set value to exchange
+;;------------------------------
+(defn exch-val! [conf req]
+  (let [k (hu/req->key req) 
+        v (hu/req->value req)]
+    (if (and k v)
+      (if (= "OK" (exch/to! k v))
         {:ok true}
         {:error "on attempt to set value"}) 
       {:error "missing key or value"})))

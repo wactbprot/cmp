@@ -3,6 +3,7 @@
    [cmp.config        :as config]
    [cmp.ui.index      :as ui]
    [cmp.handler-utils :as au]
+   [cmp.st-utils      :as stu]
    [cmp.utils         :as u]))
 
 (defn label
@@ -11,34 +12,36 @@
    [:label {:class "label"} s]])
 
 (defn input
-  [conf k x]
+  [conf k g x]
   [:div {:class "field-body"}
     [:div {:class "field"}
      [:p {:class "control"}
-      [:input {:class "input is-info exchange"  :value x}]]]])
+      [:input {:class "input is-info setter"  :value x}]]]])
 
 (defn type-unit-value
-[conf k m]
+[conf k g m]
   [:div {:class "field is-horizontal"}
-   (label conf k "Type") (input conf k (:Type m))
-   (label conf k "Value")(input conf k (:Value m))
-   (label conf k "Unit") (input conf k (:Unit m))])
+   (label conf k "Type") (input conf k g (:Type m))
+   (label conf k "Value")(input conf k g (:Value m))
+   (label conf k "Unit") (input conf k g (:Unit m))])
 
-(defn selected
-  [conf k m]
+(defn selected-ready
+  [conf k g m]
   [:div {:class "field is-horizontal"}
    [:div {:class "select exchange"}
     (into [:select] 
           (mapv (fn [e] [:option {:value (:value e)} (:display e)]) (:Select m)))]
-   [:button {:class "button is-info exchange"} "ok"]])
-
+   [:button {:class "button is-info setter"
+             :data-value {:Ready "ok"}
+             :data-url (ui/post-url g)
+             :data-key (stu/exch-key (:mp-id g) k)} "ok"]])
 
 (defn elem
-  [conf k m]
+  [conf k g m]
   (let [ks (keys m)]
     (cond 
-      (every? #{:Type :Unit :Value} ks)       (type-unit-value  conf k m)
-      (every? #{:Selected :Select :Ready} ks) (selected  conf k m)
+      (every? #{:Type :Unit :Value} ks)       (type-unit-value  conf k g m)
+      (every? #{:Selected :Select :Ready} ks) (selected-ready   conf k g m)
       :default [:div k m])))
 
 (defn content
@@ -51,7 +54,7 @@
               [:h1 (:title m)]
               (into [:p]
                     (mapv (fn [k v]
-                            (elem conf k v))
+                            (elem conf k m v))
                           (:elem-keys-vec m)
                           (:elem-values m)))]))
          data)))

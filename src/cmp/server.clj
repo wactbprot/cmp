@@ -38,7 +38,8 @@
   (GET "/ui/:mp/container"         [:as req] (uic/view conf req (h/container conf req)))
   (GET "/ui/:mp/container/:idx"    [:as req] (uic/view conf req (h/container conf req)))
   (GET "/ui/:mp/elements"          [:as req] (uie/view conf req (h/elements  conf req)))
-  (POST "/:mp/container"           [:as req] (res/response (h/set-val! conf req)))
+  (POST "/:mp/setter"              [:as req] (res/response (h/set-val! conf req)))
+  (POST "/:mp/exchange"            [:as req] (res/response (h/exch-val! conf req)))
   (POST "/cmd"                     [:as req] (res/response
                                               (condp = (h/cmd conf req)
                                                 {:restart :server} ((fn [](future (restart))

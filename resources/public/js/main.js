@@ -1,6 +1,6 @@
-var post = (path, data, callback) => { 
+var post = (path, data, callback) => {
     if(! callback){callback = () => {console.log(data)}}
-    
+
     $.ajax( {
 	type: "POST",
 	url: "/" + path,
@@ -21,7 +21,7 @@ $(".copy").click( e => {
     d.value = k;
     d.select();
     document.execCommand("copy");
-    document.body.removeChild(d);  
+    document.body.removeChild(d);
 });
 
 
@@ -40,28 +40,25 @@ $(".setter").click( e => {
     post(get_url(e), get_data(e));
 });
 
-
 $(".message_ok").click( e => {
     $(e.currentTarget).closest(".modal").removeClass("is-active");
     console.log(get_url(e));
     post(get_url(e), get_data(e));
-    
+
 });
 
 $(".restart").click( e => {
     post(get_url(e), get_data(e));
     var $this = $(e.currentTarget);
-    
-    $this.after( "<progress class='progress is-danger' max='100'>30%</progress>")
-    setTimeout(()=> { location.reload(); }, 4000); 
-});
 
+    $this.after( "<progress class='progress is-danger' max='100'>30%</progress>")
+    setTimeout(()=> { location.reload(); }, 4000);
+});
 
 $(".rebuild").click( e => {
     post(get_url(e), get_data(e));
     var $this = $(e.currentTarget);
-    
-    $this.after( "<progress class='progress is-warning' max='100'>30%</progress>")
-    setTimeout(()=> { location.reload(); }, 4000); 
-});
 
+    $this.after( "<progress class='progress is-warning' max='100'>30%</progress>")
+    setTimeout(()=> { location.reload(); }, 4000);
+});
