@@ -34,17 +34,21 @@
   (testing "to! with simple path"
     (to! "test" {:B "aaa"} "dd")
     (is (=  "aaa"  (:B (st/key->val (stu/exch-key "test" "dd"))))
-        "stores string under path "))
+        "stores string under path ")))
+
+(deftest to-iii
   (testing "to! with double path"
-    (to! "test" {:B "aaa"} "dd.ff")
-    (is (= {:ff {:B "aaa"}}  (st/key->val (stu/exch-key "test" "dd")))
-        "stores string under path "))
+    (to! "test" {:C "aaa"} "ee.ff")
+    (is (= {:ff {:C "aaa"}} (st/key->val (stu/exch-key "test" "ee")))
+        "stores string under path ")))
+
+(deftest to-iv
   (testing "to! with nil path"
     (to! "test" {:B "aaa"} nil)
     (is (= "aaa"  (st/key->val (stu/exch-key "test" "B")))
         "don't crash ")))
 
-(deftest to-iii
+(deftest to-v
   (testing "to! with map"
     (to! "test" {:C {:D "aaa"}})
     (is (= {:D "aaa"} (st/key->val (stu/exch-key "test" "C")))

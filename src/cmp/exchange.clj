@@ -110,8 +110,7 @@
   (enclose-map {:gg \"ff\"} nil)
   ;; gives:
   ;; {:gg \"ff\"}
-  ```
-  "
+  ```"
   [m p]
   (if-not p
     m
@@ -143,14 +142,16 @@
   ([mp-id m]
    (if (string? mp-id)
     (if (map? m)
-      (let [res (map
-                 (fn [[k v]]
-                   (keyword (st/set-val! (stu/exch-key mp-id (name k)) v)))
-                 m)]
-        (if (= (count m) (:OK (frequencies res)))
-          {:ok true}
-          {:error "not all write processes succeed"}))
-      {:ok true})
+      (let [res     (map (fn [[k new-val]]
+                           (let [exch-key  (stu/exch-key mp-id (name k))
+                                 curr-val  (st/key->val exch-key)
+                                 both-map? (and (map? new-val) (map? curr-val))]
+                             (st/set-val! exch-key (if both-map? (merge curr-val new-val) new-val))))
+                         m)
+            res-kw  (map keyword res)
+            res-ok? (= (count m) (:OK (frequencies res-kw)))]
+        (if res-ok? {:ok true} {:error "not all write processes succeed"}))
+      {:error "second arg mus be a map"})
     {:error "mp-id must be a string"})))
 
 (defn ok?
