@@ -1,0 +1,194 @@
+<html>
+ <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="../../coverage.css"/>  <title> cmp/ui/elements.clj </title>
+ </head>
+ <body>
+<span class="covered" title="1 out of 1 forms covered">
+                001&nbsp;&nbsp;(ns&nbsp;cmp.ui.elements
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                002&nbsp;&nbsp;&nbsp;&nbsp;(:require
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.config&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;config]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                004&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.ui.index&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;ui]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.handler-utils&nbsp;:as&nbsp;au]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                006&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.st-utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;stu]
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                007&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cmp.utils&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:as&nbsp;u]))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                008&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                009&nbsp;&nbsp;(defn&nbsp;label
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                010&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;k&nbsp;s]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                011&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;field-label&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:label&nbsp;{:class&nbsp;&quot;label&quot;}&nbsp;s]])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                013&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                014&nbsp;&nbsp;(defn&nbsp;input
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                015&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;k&nbsp;g&nbsp;x]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                016&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;field-body&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                017&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;field&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                018&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:p&nbsp;{:class&nbsp;&quot;control&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 7 forms covered">
+                019&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:input&nbsp;{:class&nbsp;&quot;input&nbsp;is-info&nbsp;setter&quot;&nbsp;&nbsp;:value&nbsp;x}]]]])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                020&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                021&nbsp;&nbsp;(defn&nbsp;type-unit-value
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                022&nbsp;&nbsp;[conf&nbsp;k&nbsp;g&nbsp;m]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                023&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;field&nbsp;is-horizontal&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 13 forms covered">
+                024&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(label&nbsp;conf&nbsp;k&nbsp;&quot;Type&quot;)&nbsp;(input&nbsp;conf&nbsp;k&nbsp;g&nbsp;(:Type&nbsp;m))
+                </span><br/>
+<span class="not-covered" title="0 out of 13 forms covered">
+                025&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(label&nbsp;conf&nbsp;k&nbsp;&quot;Value&quot;)(input&nbsp;conf&nbsp;k&nbsp;g&nbsp;(:Value&nbsp;m))
+                </span><br/>
+<span class="not-covered" title="0 out of 13 forms covered">
+                026&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(label&nbsp;conf&nbsp;k&nbsp;&quot;Unit&quot;)&nbsp;(input&nbsp;conf&nbsp;k&nbsp;g&nbsp;(:Unit&nbsp;m))])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                027&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                028&nbsp;&nbsp;(defn&nbsp;selected-ready
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                029&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;k&nbsp;g&nbsp;m]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                030&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;field&nbsp;is-horizontal&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;select&nbsp;exchange&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                032&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;[:select]&nbsp;
+                </span><br/>
+<span class="not-covered" title="0 out of 16 forms covered">
+                033&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;(fn&nbsp;[e]&nbsp;[:option&nbsp;{:value&nbsp;(:value&nbsp;e)}&nbsp;(:display&nbsp;e)])&nbsp;(:Select&nbsp;m)))]
+                </span><br/>
+<span class="not-covered" title="0 out of 9 forms covered">
+                034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:button&nbsp;{:class&nbsp;&quot;button&nbsp;is-info&nbsp;setter&quot;
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:data-value&nbsp;{:Ready&nbsp;&quot;ok&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                036&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:data-url&nbsp;(ui&#x2F;post-url&nbsp;g)
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                037&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:data-key&nbsp;(stu&#x2F;exch-key&nbsp;(:mp-id&nbsp;g)&nbsp;k)}&nbsp;&quot;ok&quot;]])
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                038&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                039&nbsp;&nbsp;(defn&nbsp;elem
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                040&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;k&nbsp;g&nbsp;m]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                041&nbsp;&nbsp;&nbsp;&nbsp;(let&nbsp;[ks&nbsp;(keys&nbsp;m)]
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                042&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(cond&nbsp;
+                </span><br/>
+<span class="not-covered" title="0 out of 13 forms covered">
+                043&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(every?&nbsp;#{:Type&nbsp;:Unit&nbsp;:Value}&nbsp;ks)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(type-unit-value&nbsp;&nbsp;conf&nbsp;k&nbsp;g&nbsp;m)
+                </span><br/>
+<span class="not-covered" title="0 out of 13 forms covered">
+                044&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(every?&nbsp;#{:Selected&nbsp;:Select&nbsp;:Ready}&nbsp;ks)&nbsp;(selected-ready&nbsp;&nbsp;&nbsp;conf&nbsp;k&nbsp;g&nbsp;m)
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                045&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:default&nbsp;[:div&nbsp;k&nbsp;m])))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                046&nbsp;&nbsp;
+                </span><br/>
+<span class="covered" title="1 out of 1 forms covered">
+                047&nbsp;&nbsp;(defn&nbsp;content
+                </span><br/>
+<span class="not-tracked" title="0 out of 0 forms covered">
+                048&nbsp;&nbsp;&nbsp;&nbsp;[conf&nbsp;req&nbsp;data]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                049&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;[:section]
+                </span><br/>
+<span class="not-covered" title="0 out of 2 forms covered">
+                050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapv
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                051&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fn&nbsp;[m]
+                </span><br/>
+<span class="not-covered" title="0 out of 8 forms covered">
+                052&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(when-not&nbsp;(empty?&nbsp;(:elem-values&nbsp;m))
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                053&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:div&nbsp;{:class&nbsp;&quot;box&quot;}
+                </span><br/>
+<span class="not-covered" title="0 out of 5 forms covered">
+                054&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[:h1&nbsp;(:title&nbsp;m)]
+                </span><br/>
+<span class="not-covered" title="0 out of 4 forms covered">
+                055&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(into&nbsp;[:p]
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                056&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(mapv&nbsp;(fn&nbsp;[k&nbsp;v]
+                </span><br/>
+<span class="not-covered" title="0 out of 6 forms covered">
+                057&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(elem&nbsp;conf&nbsp;k&nbsp;m&nbsp;v))
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                058&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:elem-keys-vec&nbsp;m)
+                </span><br/>
+<span class="not-covered" title="0 out of 3 forms covered">
+                059&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(:elem-values&nbsp;m)))]))
+                </span><br/>
+<span class="not-covered" title="0 out of 1 forms covered">
+                060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data)))
+                </span><br/>
+<span class="blank" title="0 out of 0 forms covered">
+                061&nbsp;&nbsp;
+                </span><br/>
+<span class="partial" title="1 out of 10 forms covered">
+                062&nbsp;&nbsp;(defn&nbsp;view&nbsp;[conf&nbsp;req&nbsp;data]&nbsp;(ui&#x2F;index&nbsp;conf&nbsp;req&nbsp;(content&nbsp;conf&nbsp;req&nbsp;data)))
+                </span><br/>
+ </body>
+</html>
