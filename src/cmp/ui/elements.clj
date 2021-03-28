@@ -22,6 +22,20 @@
      [:p {:class "control"}
       [:input {:class "input is-info exchange"  :value x}]]]])
 
+(defn ready-button
+  [conf k g m]
+  [:button {:class "button is-info setter"
+            :data-value (che/encode {:Ready true})
+            :data-url (post-url g)
+            :data-key  k} "ok"])
+
+(defn select
+  [conf k g m]
+  [:div {:class "select"}
+   (into [:select] 
+         (mapv (fn [e] [:option {:value (:value e)} (:display e)])
+               (:Select m)))])
+
 (defn type-unit-value
 [conf k g m]
   [:div {:class "field is-horizontal"}
@@ -32,13 +46,8 @@
 (defn selected-ready
   [conf k g m]
   [:div {:class "field is-horizontal"}
-   [:div {:class "select"}
-    (into [:select] 
-          (mapv (fn [e] [:option {:value (:value e)} (:display e)]) (:Select m)))]
-   [:button {:class "button is-info setter"
-             :data-value (che/encode {:Ready "ok"})
-             :data-url (post-url g)
-             :data-key  k} "ok"]])
+   (select conf k g m)
+   (ready-button conf k g m)])
 
 (defn elem
   [conf k g m]
