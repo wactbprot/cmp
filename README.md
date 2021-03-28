@@ -25,6 +25,8 @@ An interpreter handling measurement program definitions
 
 # documentation
 
+[![buddy pipeline](https://app.buddy.works/iotwact/cmp/pipelines/pipeline/318507/badge.svg?token=9e0c482379defbc27466cbd36d635e93d6c670f970c8896e54ba09e103062281 "buddy pipeline")](https://app.buddy.works/iotwact/cmp/pipelines/pipeline/318507)
+
 * [API](./docs/api)
 * [coverage](./docs/coverage)
 * [config.edn](./resources/config.edn.html)
