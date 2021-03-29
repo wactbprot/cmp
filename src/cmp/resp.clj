@@ -54,7 +54,8 @@
           results  (:Result     body)
           ids      (:ids        body)
           doc-path (:DocPath    task)
-          mp-id    (:MpName     task)]  
+          mp-id    (:MpName     task)]
+
       (if retry
         (let [res-retry (retry! state-key)]
           (cond

@@ -32,10 +32,11 @@
   :RequestPath \"dut_max\"})
   ```"
   [{value :Value state-key :StateKey :as task}]
+  (prn value)
   (let [request-key (stu/key->request-key state-key)]
     (st/set-state! state-key :working)
     (st/set-val! request-key task)
-    (mu/log ::anselm! :message "stored request, send request" :key request-key)
+    (mu/log ::devproxy! :message "stored request, send request" :key request-key)
     (if-not value
       (try ; get
         (resp/check (http/get (url task)) task state-key)

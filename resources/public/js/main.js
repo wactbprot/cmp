@@ -32,11 +32,18 @@ var get_url = (e) => {
 
 var get_data = (e) => {
     var $this = $(e.currentTarget);
+
+    var val = $this.data("value") || $this.val(); 
+    
     return {"key": $this.data("key"),
-	    "value": $this.data("value")}
+	    "value": val}
 }
 
 $(".setter").click( e => {
+    post(get_url(e), get_data(e));
+});
+
+$(".value").change( e => {
     post(get_url(e), get_data(e));
 });
 

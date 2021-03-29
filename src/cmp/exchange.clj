@@ -135,7 +135,7 @@
             res-kw  (map keyword res)
             res-ok? (= (count m) (:OK (frequencies res-kw)))]
         (if res-ok? {:ok true} {:error "not all write processes succeed"}))
-      {:error "second arg mus be a map"})
+      {:ok true :warn "nothing to write"})
     {:error "mp-id must be a string"})))
 
 (defn ok?

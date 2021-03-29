@@ -20,7 +20,10 @@
   [:div {:class "field-body"}
     [:div {:class "field"}
      [:p {:class "control"}
-      [:input {:class "input is-info exchange"  :value x}]]]])
+      [:input {:class "input is-info value"
+               :value x
+               :data-url (post-url g)
+               :data-key  k}]]]])
 
 (defn ready-button
   [conf k g m]
@@ -43,6 +46,14 @@
    (label conf k "Value")(input conf k g (:Value m))
    (label conf k "Unit") (input conf k g (:Unit m))])
 
+(defn caption-type-unit-value
+[conf k g m]
+  [:div {:class "field is-horizontal"}
+   [:h3 (:Caption m)]
+   (label conf k "Type") (input conf k g (:Type m))
+   (label conf k "Value")(input conf k g (:Value m))
+   (label conf k "Unit") (input conf k g (:Unit m))])
+
 (defn selected-ready
   [conf k g m]
   [:div {:class "field is-horizontal"}
@@ -53,8 +64,9 @@
   [conf k g m]
   (let [ks (keys m)]
     (cond 
-      (every? #{:Type :Unit :Value} ks)       (type-unit-value  conf k g m)
-      (every? #{:Selected :Select :Ready} ks) (selected-ready   conf k g m)
+      (every? #{:Type :Unit :Value} ks)          (caption-type-unit-value-ready  conf k g m)
+      (every? #{:Caption :Type :Unit :Value} ks) (type-unit-value  conf k g m)
+      (every? #{:Selected :Select :Ready} ks)    (selected-ready   conf k g m)
       :default [:div k m])))
 
 (defn content
