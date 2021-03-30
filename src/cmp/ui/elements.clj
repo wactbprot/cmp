@@ -10,67 +10,57 @@
 
 (defn post-url [m] (str (:mp-id m) "/exchange"))
 
-(defn label
-  [conf k s]
+(defn label [conf k s]
   [:div {:class "field-label"}
    [:label {:class "label"} s]])
 
-(defn input
-  [conf k g x]
+(defn input [conf k g kw m]
   [:div {:class "field-body"}
     [:div {:class "field"}
      [:p {:class "control"}
       [:input {:class "input is-info value"
-               :value x
+               :value (kw m)
                :data-url (post-url g)
-               :data-key  k}]]]])
+               :data-key  (str k "." (name kw))}]]]])
 
-(defn ready-button
-  [conf k g m]
+(defn ready-button [conf k g m]
   [:button {:class "button is-info setter"
             :data-value (che/encode {:Ready true})
             :data-url (post-url g)
             :data-key  k} "ok"])
 
-(defn select
-  [conf k g m]
+(defn select [conf k g m]
   [:div {:class "select"}
    (into [:select] 
          (mapv (fn [e] [:option {:value (:value e)} (:display e)])
                (:Select m)))])
 
-(defn type-unit-value
-[conf k g m]
+(defn type-unit-value [conf k g m]
   [:div {:class "field is-horizontal"}
-   (label conf k "Type") (input conf k g (:Type m))
-   (label conf k "Value")(input conf k g (:Value m))
-   (label conf k "Unit") (input conf k g (:Unit m))])
+   (label conf k "Type") (input conf k g :Type m)
+   (label conf k "Value")(input conf k g :Value m)
+   (label conf k "Unit") (input conf k g :Unit m)])
 
-(defn caption-type-unit-value
-[conf k g m]
+(defn caption-type-unit-value [conf k g m]
   [:div {:class "field is-horizontal"}
-   [:h3 (:Caption m)]
-   (label conf k "Type") (input conf k g (:Type m))
-   (label conf k "Value")(input conf k g (:Value m))
-   (label conf k "Unit") (input conf k g (:Unit m))])
+   (label conf k "Type") (input conf k g :Type m)
+   (label conf k "Value")(input conf k g :Value m)
+   (label conf k "Unit") (input conf k g :Unit m)])
 
-(defn selected-ready
-  [conf k g m]
+(defn selected-ready [conf k g m]
   [:div {:class "field is-horizontal"}
    (select conf k g m)
    (ready-button conf k g m)])
 
-(defn elem
-  [conf k g m]
+(defn elem [conf k g m]
   (let [ks (keys m)]
     (cond 
-      (every? #{:Type :Unit :Value} ks)          (caption-type-unit-value-ready  conf k g m)
-      (every? #{:Caption :Type :Unit :Value} ks) (type-unit-value  conf k g m)
+      (every? #{:Caption :Type :Unit :Value} ks) (caption-type-unit-value  conf k g m)
+      (every? #{:Type :Unit :Value} ks) (type-unit-value  conf k g m)
       (every? #{:Selected :Select :Ready} ks)    (selected-ready   conf k g m)
       :default [:div k m])))
 
-(defn content
-  [conf req data]
+(defn content [conf req data]
   (into [:section]
         (mapv
          (fn [m]

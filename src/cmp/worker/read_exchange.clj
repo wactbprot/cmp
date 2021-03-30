@@ -16,6 +16,10 @@
   (read-exchange! {})
   ```"
   [{doc-path :DocPath exch-path :ExchangePath mp-id :MpName state-key :StateKey :as task}]
+  (prn exch-path)
+  (prn doc-path)
+  (prn mp-id)
+(prn  (exch/read! mp-id exch-path))
   (st/set-state! state-key :working)
   (let [exch-val (exch/read! mp-id exch-path)
         res-doc  (doc/store! mp-id [exch-val] doc-path)]
